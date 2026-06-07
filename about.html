@@ -1,1 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Astraa — Our Mission & Vision</title>
 
+    <!-- Global Stylesheet -->
+    <link rel="stylesheet" href="assets/css/global.css">
+
+    <!-- Page‑Specific Styles -->
+    <style>
+        .about-header {
+            text-align: center;
+            padding: 120px 0 60px 0;
+            background: radial-gradient(circle at top, rgba(0,229,255,0.15), transparent),
+                        linear-gradient(135deg, #0A0A0F, #11131A);
+        }
+
+        .about-header h1 {
+            font-size: 3rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .about-header p {
+            max-width: 700px;
+            margin: auto;
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+        }
+
+        .about-section {
+            max-width: 900px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .about-section h2 {
+            color: var(--cyan);
+            margin-bottom: 15px;
+        }
+
+        .about-section p {
+            margin-bottom: 20px;
+            color: var(--text-body);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+            margin-top: 40px;
+        }
+
+        .value-card {
+            padding: 24px;
+            border-radius: var(--radius);
+            background: var(--card-surface);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+        }
+
+        .value-card:hover {
+            border: var(--border-glow);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-4px);
+        }
+
+        .value-card h3 {
+            color: var(--cyan);
+            margin-bottom: 10px;
+        }
+
+        .roadmap {
+            margin-top: 60px;
+            padding: 40px;
+            border-radius: var(--radius);
+            background: var(--gradient-secondary);
+            color: white;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .roadmap h2 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html" style="color: var(--cyan); font-weight: 700; font-size: 1.2rem;">Astraa Systems</a>
+            </div>
+            <div class="links">
+                <a href="engines.html">Engines</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="trial.html">Trial</a>
+                <a href="payment.html">Payment</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="about-header">
+        <h1>About Astraa Systems</h1>
+        <p>
+            Astraa Systems is building the next generation of operational intelligence — a unified ecosystem 
+            that automates business, finance, construction, commerce, inference, and real‑time data.
+        </p>
+    </section>
+
+    <!-- Mission -->
+    <section class="section">
+        <div class="container about-section">
+            <h2>Our Mission</h2>
+            <p>
+                To empower organizations with intelligent automation that adapts, learns, and scales across 
+                every operational layer. Astraa is designed to eliminate inefficiency, reduce complexity, 
+                and unlock new levels of precision in decision‑making.
+            </p>
+
+            <h2>Our Vision</h2>
+            <p>
+                We envision a world where businesses operate with seamless intelligence — where data, 
+                automation, and real‑time inference work together to create a fully optimized ecosystem. 
+                Astraa is the foundation of that future.
+            </p>
+        </div>
+    </section>
+
+    <!-- Core Values -->
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center">Our Core Values</h2>
+
+            <div class="values-grid mt-40">
+
+                <div class="value-card">
+                    <h3>Precision</h3>
+                    <p>Every engine is engineered for accuracy, reliability, and operational clarity.</p>
+                </div>
+
+                <div class="value-card">
+                    <h3>Automation</h3>
+                    <p>We believe automation should empower people — not replace them.</p>
+                </div>
+
+                <div class="value-card">
+                    <h3>Scalability</h3>
+                    <p>Astraa grows with your business, from small operations to enterprise systems.</p>

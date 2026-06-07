@@ -1,1 +1,141 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astraa Engines — Operational Intelligence Suite</title>
+
+    <!-- Global Stylesheet -->
+    <link rel="stylesheet" href="assets/css/global.css">
+
+    <!-- Page‑Specific Styles -->
+    <style>
+        .engines-header {
+            text-align: center;
+            padding: 120px 0 60px 0;
+            background: radial-gradient(circle at top, rgba(0,229,255,0.15), transparent),
+                        linear-gradient(135deg, #0A0A0F, #11131A);
+        }
+
+        .engines-header h1 {
+            font-size: 3rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .engines-header p {
+            max-width: 700px;
+            margin: auto;
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+        }
+
+        .engines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .engine-card {
+            padding: 28px;
+            border-radius: var(--radius);
+            background: var(--card-surface);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+        }
+
+        .engine-card:hover {
+            border: var(--border-glow);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-4px);
+        }
+
+        .engine-card h3 {
+            color: var(--cyan);
+            margin-bottom: 12px;
+        }
+
+        .engine-card p {
+            color: var(--text-body);
+            margin-bottom: 20px;
+        }
+
+        .engine-card .btn {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html" style="color: var(--cyan); font-weight: 700; font-size: 1.2rem;">Astraa Systems</a>
+            </div>
+            <div class="links">
+                <a href="engines.html">Engines</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="trial.html">Trial</a>
+                <a href="payment.html">Payment</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="engines-header">
+        <h1>The Astraa Engines</h1>
+        <p>
+            Six specialized engines powering the Astraa ecosystem — each engineered for precision, 
+            automation, and multi‑industry intelligence.
+        </p>
+    </section>
+
+    <!-- Engines Grid -->
+    <section class="section">
+        <div class="container engines-grid">
+
+            <!-- Engine 1 -->
+            <div class="engine-card">
+                <h3>Business Operation Engine</h3>
+                <p>
+                    Automates workflows, logistics, scheduling, and operational intelligence across 
+                    multi‑department environments.
+                </p>
+                <a href="pricing.html" class="btn btn-primary">Add to Plan</a>
+                <a href="trial.html" class="btn btn-outline">Try Now</a>
+            </div>
+
+            <!-- Engine 2 -->
+            <div class="engine-card">
+                <h3>Financial Engine</h3>
+                <p>
+                    Real‑time FinOps, tax styling, reconciliation, multi‑entity accounting, and 
+                    automated financial intelligence.
+                </p>
+                <a href="pricing.html" class="btn btn-primary">Add to Plan</a>
+                <a href="trial.html" class="btn btn-outline">Try Now</a>
+            </div>
+
+            <!-- Engine 3 -->
+            <div class="engine-card">
+                <h3>Construction Engine</h3>
+                <p>
+                    Material matrices, geometry inference, cost modeling, blueprint analysis, and 
+                    project automation for construction workflows.
+                </p>
+                <a href="pricing.html" class="btn btn-primary">Add to Plan</a>
+                <a href="trial.html" class="btn btn-outline">Try Now</a>
+            </div>
+
+            <!-- Engine 4 -->
+            <div class="engine-card">
+                <h3>Arkastra Commerce Engine</h3>
+                <p>
+                    Inventory intelligence, pricing automation, product analytics

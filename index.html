@@ -146,6 +146,46 @@
 <footer>
     <p>© 2026 Astraa Systems. All rights reserved.</p>
 </footer>
+<!-- Hidden form that sends the token to your backend -->
+<form id="tokenForm" action="http://127.0.0.1:8000/moneris/token-receiver" method="POST">
+    <input type="hidden" name="payment_token" id="payment_token">
+</form>
+
+<script>
+    // Called when the Moneris iframe loads
+    function paymentFormLoad() {
+        console.log("Moneris iframe loaded");
+    }
+
+    // Called when Moneris returns the token
+    function paymentFormSubmit(data) {
+        console.log("Token received:", data.dataKey);
+
+        // Put token into hidden form field
+        document.getElementById("payment_token").value = data.dataKey;
+
+        // Submit form to FastAPI backend
+        document.getElementById("tokenForm").submit();
+    }
+</script>
+
+<!-- Moneris iframe -->
+<script src="https://gateway.moneris.com/chkt/js/chkt_v1.00.js"></script>
+
+<div id="monerisCheckout"></div>
+
+<script>
+    var checkout = new monerisCheckout();
+    checkout.setMode("qa"); // sandbox mode
+    checkout.setCheckoutDiv("monerisCheckout");
+    checkout.startCheckout({
+        "checkoutId": "ht38PL4OSLADGYX",
+        "callback": {
+            "onLoad": "paymentFormLoad",
+            "onComplete": "paymentFormSubmit"
+        }
+    });
+</script>
 
 </body>
 </html>

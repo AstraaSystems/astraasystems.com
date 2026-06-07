@@ -1,1 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Astraa — Get in Touch</title>
 
+    <!-- Global Stylesheet -->
+    <link rel="stylesheet" href="assets/css/global.css">
+
+    <!-- Page‑Specific Styles -->
+    <style>
+        .contact-header {
+            text-align: center;
+            padding: 120px 0 60px 0;
+            background: radial-gradient(circle at top, rgba(0,229,255,0.15), transparent),
+                        linear-gradient(135deg, #0A0A0F, #11131A);
+        }
+
+        .contact-header h1 {
+            font-size: 3rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .contact-header p {
+            max-width: 700px;
+            margin: auto;
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+        }
+
+        .contact-container {
+            max-width: 900px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .contact-card {
+            padding: 28px;
+            border-radius: var(--radius);
+            background: var(--card-surface);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+        }
+
+        .contact-card:hover {
+            border: var(--border-glow);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-4px);
+        }
+
+        .contact-card h3 {
+            color: var(--cyan);
+            margin-bottom: 10px;
+        }
+
+        .contact-card p {
+            color: var(--text-body);
+        }
+
+        .contact-form {
+            margin-top: 60px;
+            padding: 40px;
+            border-radius: var(--radius);
+            background: var(--card-surface);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 20px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0F1117;
+            color: var(--text-body);
+        }
+
+        .contact-form textarea {
+            height: 160px;
+            resize: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html" style="color: var(--cyan); font-weight: 700; font-size: 1.2rem;">Astraa Systems</a>
+            </div>
+            <div class="links">
+                <a href="engines.html">Engines</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="trial.html">Trial</a>
+                <a href="payment.html">Payment</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="contact-header">
+        <h1>Contact Astraa Systems</h1>
+        <p>
+            Whether you have questions, need support, or want to explore enterprise solutions, 
+            we’re here to help you every step of the way.
+        </p>
+    </section>
+
+    <!-- Contact Info -->
+    <section class="section">
+        <div class="container contact-container">
+
+            <h2 class="text-center">How to Reach Us</h2>
+
+            <div class="contact-grid mt-40">
+
+                <div class="contact-card">
+                    <h3>Email Support</h3>
+                    <p>support@astraasystems.com</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Business Inquiries</h3>
+                    <p>business@astraasystems.com</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Technical Assistance</h3>
+                    <p>tech@astraasystems.com</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Location</h3>
+                    <p>Burnaby, British Columbia, Canada</p>
+                </div>
+
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form mt-60">
+                <h2>Send Us a Message</h2>
+
+                <label>Your Name</label>
+                <input type="text" placeholder="Enter your name">
+
+                <label>Your Email</label>
+                <input type="email" placeholder="Enter your email">
+
+                <label>Your Message</label>
+                <textarea placeholder="Write your message here..."></textarea>
+
+                <a href="#" class="btn btn-primary">Send Message</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        Astraa Systems © 2026 — All Rights Reserved
+    </footer>
+
+</body>
+</html>

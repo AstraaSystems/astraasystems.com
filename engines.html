@@ -1,17 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astraa Engines — Operational Intelligence Suite</title>
-    
+    <title>Astraa Engines</title>
 
-    <!-- Global Stylesheet -->
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="icon" type="image/png" href="assets/images/favicon_neon.png">
 
-    <!-- Page‑Specific Styles -->
     <style>
         .engines-header {
             text-align: center;
@@ -34,10 +30,10 @@
             font-size: 1.15rem;
         }
 
-        .engines-grid {
+        .engine-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
             margin-top: 40px;
         }
 
@@ -47,6 +43,7 @@
             background: var(--card-surface);
             border: 1px solid rgba(255,255,255,0.05);
             transition: var(--transition);
+            text-align: center;
         }
 
         .engine-card:hover {
@@ -55,18 +52,20 @@
             transform: translateY(-4px);
         }
 
+        .engine-card img {
+            height: 60px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 6px rgba(0,229,255,0.4));
+        }
+
         .engine-card h3 {
             color: var(--cyan);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .engine-card p {
             color: var(--text-body);
-            margin-bottom: 20px;
-        }
-
-        .engine-card .btn {
-            margin-top: 10px;
+            font-size: 0.95rem;
         }
     </style>
 </head>
@@ -77,11 +76,10 @@
     <nav>
         <div class="nav-container">
             <div class="logo">
-    <a href="index.html">
-        <img src="assets/images/astraa_header_logo.png" alt="Astraa Systems Logo" style="height:45px; vertical-align:middle;">
-    </a>
-</div>
-
+                <a href="index.html">
+                    <img src="assets/images/astraa_header_logo.png" alt="Astraa Systems Logo" style="height:45px;">
+                </a>
+            </div>
 
             <div class="links">
                 <a href="engines.html">Engines</a>
@@ -96,52 +94,61 @@
 
     <!-- Header -->
     <section class="engines-header">
-        <h1>The Astraa Engines</h1>
+        <h1>Astraa Engines</h1>
         <p>
-            Six specialized engines powering the Astraa ecosystem — each engineered for precision, 
-            automation, and multi‑industry intelligence.
+            The Astraa ecosystem is powered by six intelligent engines — each engineered to automate,
+            optimize, and accelerate a different operational layer of your business.
         </p>
     </section>
 
     <!-- Engines Grid -->
     <section class="section">
-        <div class="container engines-grid">
+        <div class="container engine-grid">
 
-            <!-- Engine 1 -->
             <div class="engine-card">
-                <h3>Business Operation Engine</h3>
-                <p>
-                    Automates workflows, logistics, scheduling, and operational intelligence across 
-                    multi‑department environments.
-                </p>
-                <a href="pricing.html" class="btn btn-primary">Add to Plan</a>
-                <a href="trial.html" class="btn btn-outline">Try Now</a>
+                <img src="assets/images/icons/business.png" alt="Business Engine">
+                <h3>Business Engine</h3>
+                <p>Automates workflows, operations, and organizational intelligence with precision.</p>
             </div>
 
-            <!-- Engine 2 -->
             <div class="engine-card">
-                <h3>Financial Engine</h3>
-                <p>
-                    Real‑time FinOps, tax styling, reconciliation, multi‑entity accounting, and 
-                    automated financial intelligence.
-                </p>
-                <a href="pricing.html" class="btn btn-primary">Add to Plan</a>
-                <a href="trial.html" class="btn btn-outline">Try Now</a>
+                <img src="assets/images/icons/finance.png" alt="Finance Engine">
+                <h3>Finance Engine</h3>
+                <p>Real‑time financial automation, forecasting, reconciliation, and compliance.</p>
             </div>
 
-            <!-- Engine 3 -->
             <div class="engine-card">
+                <img src="assets/images/icons/construction.png" alt="Construction Engine">
                 <h3>Construction Engine</h3>
-                <p>
-                    Material matrices, geometry inference, cost modeling, blueprint analysis, and 
-                    project automation for construction workflows.
-                </p>
-                <a href="pricing.html" class="btn btn-primary">Add to Plan</a>
-                <a href="trial.html" class="btn btn-outline">Try Now</a>
+                <p>Project automation, material tracking, scheduling, and site intelligence.</p>
             </div>
 
-            <!-- Engine 4 -->
             <div class="engine-card">
-                <h3>Arkastra Commerce Engine</h3>
-                <p>
-                    Inventory intelligence, pricing automation, product analytics
+                <img src="assets/images/icons/commerce.png" alt="Commerce Engine">
+                <h3>Commerce Engine</h3>
+                <p>Inventory, sales, logistics, and customer intelligence — fully automated.</p>
+            </div>
+
+            <div class="engine-card">
+                <img src="assets/images/icons/inference.png" alt="Inference Engine">
+                <h3>Inference Engine</h3>
+                <p>Real‑time decision automation powered by adaptive AI inference models.</p>
+            </div>
+
+            <div class="engine-card">
+                <img src="assets/images/icons/data.png" alt="Data Engine">
+                <h3>Data Engine</h3>
+                <p>Unified data ingestion, transformation, and analytics across your ecosystem.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <img src="assets/images/astraa_footer_logo.png" alt="Astraa Systems Footer Logo" style="height:50px; margin-bottom:15px;">
+        <p>© 2026 Astraa Systems. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

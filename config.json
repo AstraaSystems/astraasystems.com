@@ -1,0 +1,15 @@
+{
+    "ecosystem_name": "Astraa Ecosystem",
+    "log_file": "logs/ecosystem.log",
+    "log_level": "INFO",
+    "engine_states": {
+        "ops": "ready",
+        "fin": "ready",
+        "ora": "ready",
+        "ark": "ready",
+        "api": "ready",
+        "lux": "ready",
+        "con": "ready"
+    },
+    "stabilization_cycle_hours": 24
+}

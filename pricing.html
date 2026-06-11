@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astraa Pricing — Plans for Every Operation</title>
+
+    <!-- Global Stylesheet -->
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon_neon.png">
+
+    <!-- Page‑Specific Styles -->
+    <style>
+        .pricing-header {
+            text-align: center;
+            padding: 120px 0 60px 0;
+            background: radial-gradient(circle at top, rgba(0,229,255,0.15), transparent),
+                        linear-gradient(135deg, #0A0A0F, #11131A);
+        }
+
+        .pricing-header h1 {
+            font-size: 3rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pricing-header p {
+            max-width: 700px;
+            margin: auto;
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            padding: 32px;
+            border-radius: var(--radius);
+            background: var(--card-surface);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .pricing-card:hover {
+            border: var(--border-glow);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-4px);
+        }
+
+        .pricing-card h3 {
+            color: var(--cyan);
+            margin-bottom: 10px;
+            font-size: 1.6rem;
+        }
+
+        .price {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: var(--text-primary);
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin-top: 20px;
+            text-align: left;
+            padding: 0 10px;
+        }
+
+        .pricing-card ul li {
+            margin-bottom: 10px;
+            color: var(--text-body);
+        }
+
+        .pricing-card .btn {
+            margin-top: 20px;
+        }
+
+        .highlight {
+            border: 2px solid var(--cyan);
+            box-shadow: var(--shadow-glow);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+    <a href="index.html">
+        <img src="assets/images/astraa_header_logo.png" alt="Astraa Systems Logo" style="height:45px; vertical-align:middle;">
+    </a>
+</div>
+
+
+            <div class="links">
+                <a href="engines.html">Engines</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="trial.html">Trial</a>
+                <a href="payment.html">Payment</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="pricing-header">
+        <h1>Choose Your Astraa Plan</h1>
+        <p>
+            Whether you're a small business, a growing operation, or a full enterprise, Astraa has a plan 
+            designed to scale with your needs.
+        </p>
+    </section>
+
+    <!-- Pricing Grid -->
+    <section class="section">
+        <div class="container pricing-grid">
+
+            <!-- Starter -->
+            <div class="pricing-card">
+                <h3>Starter</h3>
+                <div class="price">$19<span style="font-size:1rem;">/mo</span></div>
+                <ul>
+                    <li>✔ 1 Engine of Your Choice</li>
+                    <li>✔ Basic Automation</li>
+                    <li>✔ Email Support</li>
+                    <li>✔ 5GB Data Stream</li>
+                </ul>
+                <a href="payment.html" class="btn btn-primary">Get Starter</a>
+                <a href="trial.html" class="btn btn-outline">Try Free</a>
+            </div>
+
+            <!-- Professional -->
+            <div class="pricing-card highlight">
+                <h3>Professional</h3>
+                <div class="price">$49<span style="font-size:1rem;">/mo</span></div>
+                <ul>
+                    <li>✔ Any 2 Engines</li>
+                    <li>✔ Advanced Automation</li>
+                    <li>✔ Priority Support</li>
+                    <li>✔ 25GB Data Stream</li>
+                </ul>
+                <a href="payment.html" class="btn btn-primary">Get Professional</a>
+                <a href="trial.html" class="btn btn-outline">Try Free</a>
+            </div>
+
+            <!-- Prestige -->
+            <div class="pricing-card">
+                <h3>Prestige</h3>
+                <div class="price">$99<span style="font-size:1rem;">/mo</span></div>
+                <ul>
+                    <li>✔ All 6 Engines</li>
+                    <li>✔ Full Automation Suite</li>
+                    <li>✔ Multi‑Tenant Intelligence</li>
+                    <li>✔ 100GB Data Stream</li>
+                    <li>✔ Early Access Features</li>
+                </ul>
+                <a href="payment.html" class="btn btn-primary">Get Prestige</a>
+                <a href="trial.html" class="btn btn-outline">Try Free</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        Astraa Systems © 2026 — All Rights Reserved
+    </footer>
+
+</body>
+</html>

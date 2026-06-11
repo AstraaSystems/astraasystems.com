@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astraa Engines</title>
+
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon_neon.png">
+
+    <style>
+        .engines-header {
+            text-align: center;
+            padding: 120px 0 60px 0;
+            background: radial-gradient(circle at top, rgba(0,229,255,0.15), transparent),
+                        linear-gradient(135deg, #0A0A0F, #11131A);
+        }
+
+        .engines-header h1 {
+            font-size: 3rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .engines-header p {
+            max-width: 700px;
+            margin: auto;
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+        }
+
+        .engine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+            margin-top: 40px;
+        }
+
+        .engine-card {
+            padding: 28px;
+            border-radius: var(--radius);
+            background: var(--card-surface);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .engine-card:hover {
+            border: var(--border-glow);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-4px);
+        }
+
+        .engine-card img {
+            height: 60px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 6px rgba(0,229,255,0.4));
+        }
+
+        .engine-card h3 {
+            color: var(--cyan);
+            margin-bottom: 10px;
+        }
+
+        .engine-card p {
+            color: var(--text-body);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/images/astraa_header_logo.png" alt="Astraa Systems Logo" style="height:45px;">
+                </a>
+            </div>
+
+            <div class="links">
+                <a href="engines.html">Engines</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="trial.html">Trial</a>
+                <a href="payment.html">Payment</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="engines-header">
+        <h1>Astraa Engines</h1>
+        <p>
+            The Astraa ecosystem is powered by six intelligent engines — each engineered to automate,
+            optimize, and accelerate a different operational layer of your business.
+        </p>
+    </section>
+
+    <!-- Engines Grid -->
+    <section class="section">
+        <div class="container engine-grid">
+
+            <div class="engine-card">
+                <img src="assets/images/icons/business.png" alt="Business Engine">
+                <h3>Business Engine</h3>
+                <p>Automates workflows, operations, and organizational intelligence with precision.</p>
+            </div>
+
+            <div class="engine-card">
+                <img src="assets/images/icons/finance.png" alt="Finance Engine">
+                <h3>Finance Engine</h3>
+                <p>Real‑time financial automation, forecasting, reconciliation, and compliance.</p>
+            </div>
+
+            <div class="engine-card">
+                <img src="assets/images/icons/construction.png" alt="Construction Engine">
+                <h3>Construction Engine</h3>
+                <p>Project automation, material tracking, scheduling, and site intelligence.</p>
+            </div>
+
+            <div class="engine-card">
+                <img src="assets/images/icons/commerce.png" alt="Commerce Engine">
+                <h3>Commerce Engine</h3>
+                <p>Inventory, sales, logistics, and customer intelligence — fully automated.</p>
+            </div>
+
+            <div class="engine-card">
+                <img src="assets/images/icons/inference.png" alt="Inference Engine">
+                <h3>Inference Engine</h3>
+                <p>Real‑time decision automation powered by adaptive AI inference models.</p>
+            </div>
+
+            <div class="engine-card">
+                <img src="assets/images/icons/data.png" alt="Data Engine">
+                <h3>Data Engine</h3>
+                <p>Unified data ingestion, transformation, and analytics across your ecosystem.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <img src="assets/images/astraa_footer_logo.png" alt="Astraa Systems Footer Logo" style="height:50px; margin-bottom:15px;">
+        <p>© 2026 Astraa Systems. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

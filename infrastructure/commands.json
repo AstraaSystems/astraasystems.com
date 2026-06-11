@@ -1,0 +1,12 @@
+{
+  "task": "deploy_estimator",
+  "steps": [
+    "git add .",
+    "git commit -m 'Astraa update'",
+    "git push origin main"
+  ],
+  "validation": [
+    "git status",
+    "git remote -v"
+  ]
+}

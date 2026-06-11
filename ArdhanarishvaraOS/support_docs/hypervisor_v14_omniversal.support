@@ -1,0 +1,79 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Hypervisor v14 — Omniversal Compute Fabric
+#  File: hypervisor_v14_omniversal.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS Hypervisor v14:
+#      • omniversal compute execution
+#      • cross-brane VM migration
+#      • timeline-consistent state propagation
+#      • reality-invariant CPU model
+#      • omniversal memory fabric
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Omniversal Execution Graph](ca://s?q=Explain_Omniversal_Execution_Graph)
+#    - [Reality-Invariant CPU](ca://s?q=Explain_Reality_Invariant_CPU)
+#    - [Omniversal Memory Fabric](ca://s?q=Explain_Omniversal_Memory_Fabric)
+#    - [Causality-Safe Migration](ca://s?q=Explain_Causality_Safe_Migration)
+#    - [Cross-Brane Execution](ca://s?q=Explain_Cross_Brane_Execution)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_reality(rid, brane, timeline, laws)
+#         Registers a compute reality.
+#
+#    - connect_realities(a, b, stability, causality, divergence)
+#         Creates a cross-reality execution link.
+#
+#    - create_vm(name, reality, memory_size)
+#         Creates a VM in a specific reality.
+#
+#    - execute_vm(vm_id, instructions)
+#         Executes instructions using reality-invariant CPU semantics.
+#
+#    - migrate_vm(vm_id, target_reality)
+#         Performs causality-safe cross-reality migration.
+#
+#    - hypervisor_snapshot()
+#         Returns omniversal compute state.
+#
+#===============================================================================
+#  REALITY FORMAT:
+#
+#    {
+#      "id": "R-OMEGA",
+#      "brane": "BRANE-∞",
+#      "timeline": "T∞",
+#      "laws": "PHYSICS-VARIANT-7"
+#    }
+#
+#===============================================================================
+#  VM FORMAT:
+#
+#    {
+#      "id": "VM-ABC123",
+#      "name": "ComputeNode",
+#      "reality": "R-OMEGA",
+#      "cpu_state": {...}
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Storage Engine v14 Omniversal](ca://s?q=Build_SovereignOS_Storage_Engine_v14_Omniversal)
+#    - [Block Router v14 Omniversal](ca://s?q=Build_SovereignOS_Block_Router_Omniversal)
+#    - [Storage Engine v13 Multiversal](ca://s?q=Build_SovereignOS_Storage_Engine_v13_Multiversal)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/hypervisor_v14_omniversal.py
+#
+#===============================================================================
+#  END OF FILE — hypervisor_v14_omniversal.support
+#===============================================================================

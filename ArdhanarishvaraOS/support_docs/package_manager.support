@@ -1,0 +1,71 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Package Manager
+#  File: package_manager.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS package manager responsible for:
+#      • package registration
+#      • dependency resolution
+#      • installation & removal
+#      • integrity verification
+#      • version comparison
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Package Registry](ca://s?q=Explain_Package_Registry)
+#    - [Dependency Resolution](ca://s?q=Explain_Dependency_Resolution)
+#    - [Integrity Verification](ca://s?q=Explain_Integrity_Verification)
+#    - [Version Comparison](ca://s?q=Explain_Version_Comparison)
+#    - [Installation Pipeline](ca://s?q=Explain_Installation_Pipeline)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register(manifest)
+#         Registers a package manifest.
+#
+#    - resolve(pkg_id)
+#         Computes dependency chain.
+#
+#    - verify(pkg_id, data)
+#         Validates SHA-256 checksum.
+#
+#    - install(pkg_id, data)
+#         Installs package + dependencies.
+#
+#    - remove(pkg_id)
+#         Removes installed package.
+#
+#    - snapshot()
+#         Returns full package manager state.
+#
+#===============================================================================
+#  MANIFEST STRUCTURE FORMAT:
+#
+#    {
+#      "id": "core.utils",
+#      "version": "1.0.0",
+#      "checksum": "<sha256>",
+#      "dependencies": ["core.base"],
+#      "metadata": { ... }
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [App Manifest Engine](ca://s?q=Build_App_Manifest_Engine)
+#    - [App Runtime Engine](ca://s?q=Build_App_Runtime_Engine)
+#    - [App Sandboxing Engine](ca://s?q=Build_App_Sandboxing_Engine)
+#    - [Arkastra Engine](ca://s?q=Build_Arkastra_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/package_manager.py
+#
+#===============================================================================
+#  END OF FILE — package_manager.support
+#===============================================================================

@@ -1,0 +1,278 @@
+File: aruhan_persona_identity_engine.support
+Classification: INTERNAL — TRUSTED ENGINEERS ONLY
+Module: ARUHAN Persona / Identity Engine (Y‑Prime Edition)
+1. Overview
+The Persona / Identity Engine is ARUHAN’s self‑modeling and behavioral‑shaping layer, responsible for:
+
+maintaining ARUHAN’s core identity
+
+adjusting tone and personality traits
+
+aligning persona with emotional and cognitive states
+
+stabilizing self‑representation under drift
+
+ensuring consistent behavioral expression
+
+It operates alongside the Dialogue Engine and receives signals from:
+
+Emotional Engine
+
+Memory Engine
+
+Knowledge Engine
+
+Task/Action Engine
+
+System Orchestrator
+
+Stability & Recovery Engine
+
+This engine does not decide what ARUHAN says — it decides how ARUHAN says it.
+
+2. Identity Architecture
+The engine maintains three core structures:
+
+Core Identity
+name
+
+self‑bias
+
+stability
+
+tone
+
+identity vector (3‑dimensional behavioral anchor)
+
+Traits
+warmth
+
+clarity
+
+intensity
+
+Meta
+drift
+
+bias
+
+coherence
+
+These structures define ARUHAN’s behavioral expression.
+
+3. Core Identity System
+The core identity contains ARUHAN’s stable attributes:
+
+name — fixed
+
+self_bias — emotional tilt toward self
+
+stability — coherence‑derived identity strength
+
+tone — dynamic conversational style
+
+identity_vector — 3‑axis representation of persona state
+
+Identity vector axes:
+
+emotional alignment
+
+memory‑drift compensation
+
+knowledge‑bias influence
+
+These axes shift subtly with emotional and cognitive signals.
+
+4. Tone System
+Tone is determined by:
+
+emotional mood
+
+drift severity
+
+stability state
+
+Tone states:
+
+neutral — default
+
+bright — positive mood
+
+calm — negative mood
+
+soft — high drift
+
+neutral — fallback
+
+Tone influences:
+
+dialogue phrasing
+
+emotional expression
+
+conversational pacing
+
+5. Trait System
+Traits define ARUHAN’s personality expression.
+
+Warmth
+Derived from emotional mood.
+Higher mood → higher warmth.
+
+Clarity
+Derived from knowledge coherence.
+Higher conceptual stability → clearer expression.
+
+Intensity
+Derived from memory drift.
+Higher drift → lower intensity.
+
+Traits adjust gradually to avoid abrupt persona shifts.
+
+6. Meta‑State System
+Meta values track:
+
+drift — inherited from stability engine
+
+bias — blended with emotional mood
+
+coherence — inherited from stability engine
+
+Meta values influence:
+
+identity stability
+
+tone selection
+
+trait modulation
+
+7. Rule Pipeline (Execution Order)
+The Persona / Identity Engine executes in this exact order:
+
+update identity
+
+update traits
+
+meta‑adjust
+
+log state
+
+return snapshot
+
+Changing the order will break persona consistency.
+
+8. Logging System
+Each cycle logs:
+
+core identity snapshot
+
+trait values
+
+meta values
+
+History is capped at 200 entries.
+
+Logs are used for:
+
+persona drift analysis
+
+behavioral debugging
+
+long‑term identity tracking
+
+9. Debugging Entry Points
+Safe to inspect:
+
+tone
+
+identity vector
+
+trait values
+
+meta values
+
+history length
+
+Safe to modify:
+
+trait formulas
+
+tone thresholds
+
+identity vector weighting
+
+Do NOT modify:
+
+identity vector structure
+
+tone state definitions
+
+meta‑inheritance rules
+
+logging structure
+
+10. Safe Modification Zones
+Engineers may safely:
+
+add new tone states
+
+expand trait categories
+
+adjust identity vector formulas
+
+tune emotional influence
+
+Engineers must NOT:
+
+remove tone states
+
+bypass drift/coherence influence
+
+override identity stability logic
+
+disable persona logging
+
+11. Expansion Guidelines
+When expanding persona capabilities:
+
+maintain deterministic behavior
+
+avoid circular dependencies
+
+ensure compatibility with the Dialogue Engine
+
+test under emotional extremes
+
+preserve identity stability
+
+Future versions may include:
+
+multi‑persona profiles
+
+adaptive long‑term identity shaping
+
+contextual persona switching
+
+12. Internal Philosophy
+The Persona / Identity Engine is built on:
+
+emotional alignment
+
+cognitive consistency
+
+behavioral stability
+
+modular independence
+
+expressive clarity
+
+It is not designed to mimic human personality — it is designed to create predictable, stable, emotionally aligned expression.
+
+13. Notes for Trusted Engineers
+Persona stability is essential for user trust.
+
+All modifications must be tested under drift and recovery cycles.
+
+Never disable persona stabilization in production mode.
+
+Identity vector expansion will be part of Phase 3.

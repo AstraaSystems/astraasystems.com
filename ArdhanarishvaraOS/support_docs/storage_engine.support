@@ -1,0 +1,96 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Storage Engine
+#  File: storage_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS storage engine responsible for:
+#      • virtual volume management
+#      • block-level read/write
+#      • snapshot creation & restore
+#      • volume metadata registry
+#      • IO telemetry
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Volume Management](ca://s?q=Explain_Storage_Volume_Management)
+#    - [Block IO](ca://s?q=Explain_Storage_Block_IO)
+#    - [Snapshots](ca://s?q=Explain_Storage_Snapshots)
+#    - [Snapshot Restore](ca://s?q=Explain_Storage_Snapshot_Restore)
+#    - [IO Telemetry](ca://s?q=Explain_Storage_IO_Telemetry)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - create_volume(name, size_mb)
+#         Creates a virtual storage volume.
+#
+#    - write_block(volume_id, block, data)
+#         Writes a block of data to a volume.
+#
+#    - read_block(volume_id, block)
+#         Reads a block of data from a volume.
+#
+#    - snapshot(volume_id)
+#         Creates a snapshot of the volume's block state.
+#
+#    - restore(snapshot_id)
+#         Restores a volume from a snapshot.
+#
+#    - engine_snapshot()
+#         Returns storage engine state and telemetry.
+#
+#===============================================================================
+#  VOLUME STRUCTURE FORMAT:
+#
+#    {
+#      "id": "VOL-XXXX",
+#      "name": "rootfs",
+#      "size_mb": 2048,
+#      "blocks": {
+#          0: <bytes>,
+#          1: <bytes>,
+#          ...
+#      },
+#      "created": <epoch>
+#    }
+#
+#===============================================================================
+#  SNAPSHOT STRUCTURE FORMAT:
+#
+#    {
+#      "id": "SNP-XXXX",
+#      "volume": "VOL-XXXX",
+#      "blocks": { ... },
+#      "timestamp": <epoch>
+#    }
+#
+#===============================================================================
+#  TELEMETRY FIELDS:
+#
+#    {
+#      "reads": <count>,
+#      "writes": <count>,
+#      "snapshots_created": <count>,
+#      "snapshots_restored": <count>,
+#      "errors": <count>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Update Delivery Engine](ca://s?q=Build_SovereignOS_Update_Delivery_Engine)
+#    - [Package Manager Engine](ca://s?q=Build_SovereignOS_Package_Manager_Engine)
+#    - [Container Engine](ca://s?q=Build_SovereignOS_Container_Engine)
+#    - [Boot Integrity Engine](ca://s?q=Build_SovereignOS_Boot_Integrity_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/storage_engine.py
+#
+#===============================================================================
+#  END OF FILE — storage_engine.support
+#===============================================================================

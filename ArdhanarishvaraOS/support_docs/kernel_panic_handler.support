@@ -1,0 +1,67 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Kernel Panic Handler
+#  File: kernel_panic_handler.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS panic handler responsible for:
+#      • panic event capture
+#      • stack trace extraction
+#      • crash signature generation
+#      • safe-mode escalation
+#      • persistent panic logging
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Panic Capture](ca://s?q=Explain_Kernel_Panic_Capture)
+#    - [Stack Trace](ca://s?q=Explain_Kernel_Stack_Trace)
+#    - [Crash Signatures](ca://s?q=Explain_Kernel_Crash_Signatures)
+#    - [Safe Mode](ca://s?q=Explain_Kernel_Safe_Mode)
+#    - [Panic Snapshot](ca://s?q=Explain_Kernel_Panic_Snapshot)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - panic(subsystem, message, meta)
+#         Captures panic event.
+#
+#    - clear()
+#         Clears panic + exits safe mode.
+#
+#    - last()
+#         Returns last panic entry.
+#
+#    - snapshot()
+#         Returns panic handler state.
+#
+#===============================================================================
+#  PANIC ENTRY FORMAT:
+#
+#    {
+#      "id": "PNC-XXXX",
+#      "subsystem": "scheduler",
+#      "message": "null pointer",
+#      "meta": { ... },
+#      "stack": [ ... ],
+#      "signature": "<crash-hash>",
+#      "timestamp": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Kernel Debugger](ca://s?q=Build_SovereignOS_Kernel_Debugger)
+#    - [Kernel Telemetry Engine](ca://s?q=Build_SovereignOS_Kernel_Telemetry_Engine)
+#    - [Interrupt Controller](ca://s?q=Build_SovereignOS_Interrupt_Controller)
+#    - [Virtualization Engine](ca://s?q=Build_SovereignOS_Virtualization_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/kernel_panic_handler.py
+#
+#===============================================================================
+#  END OF FILE — kernel_panic_handler.support
+#===============================================================================

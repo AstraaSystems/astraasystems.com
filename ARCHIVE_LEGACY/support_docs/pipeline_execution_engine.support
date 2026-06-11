@@ -1,0 +1,14 @@
+# ============================================================
+# PIPELINE EXECUTION ENGINE — SUPPORT DOCUMENT
+# ============================================================
+# This engine executes multi-step pipelines. Each pipeline is a
+# deterministic sequence of tasks executed in order.
+#
+# RESPONSIBILITIES:
+#   - Register pipelines
+#   - Execute steps sequentially
+#   - Track pipeline history
+#
+# Used by:
+#   - Orchestrator
+#   - Logistics Layer

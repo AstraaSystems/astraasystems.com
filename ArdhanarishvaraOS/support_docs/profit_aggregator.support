@@ -1,0 +1,51 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Profit Aggregator
+#  File: profit_aggregator.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the multi‑engine profit collection system that
+#    consolidates all ARKA engine profits into a unified packet for the
+#    Lux Profit Allocator.
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    • Registers profit‑producing engines
+#    • Ingests profit from each engine
+#    • Applies stochastic smoothing to reduce volatility
+#    • Consolidates all profits into a single packet
+#    • Stores historical aggregation packets
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    register_source(name)
+#       → Registers an engine as a profit source.
+#
+#    ingest(engine, amount)
+#       → Adds profit from a specific engine.
+#
+#    consolidate()
+#       → Produces unified profit packet for allocation.
+#
+#    get_history()
+#       → Returns all past aggregation packets.
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    [Lux Profit Allocator](ca://s?q=Build_Lux_Profit_Allocator)
+#    [Ledger](ca://s?q=Explain_Ledger)
+#    [Math Engine](ca://s?q=Explain_Math_Engine)
+#    [OS Routing Rules](ca://s?q=Build_OS_Routing_Rules)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/profit_aggregator.py
+#
+#===============================================================================
+#  END OF FILE — profit_aggregator.support
+#===============================================================================

@@ -1,0 +1,76 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Storage Engine v5 — Reed-Solomon GF(2^8)
+#  File: storage_engine_v5_reed_solomon.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS Storage Engine v5:
+#      • GF(256) arithmetic (log/antilog tables)
+#      • Reed-Solomon encoding (generator polynomial)
+#      • Reed-Solomon decoding (syndromes, BM, Chien, Forney)
+#      • distributed shard placement
+#      • fault-tolerant reads + repair
+#      • distributed snapshots
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [GF256 Arithmetic](ca://s?q=Explain_GF256_Arithmetic)
+#    - [RS Generator Polynomial](ca://s?q=Explain_RS_Generator_Polynomial)
+#    - [Syndromes](ca://s?q=Explain_RS_Syndromes)
+#    - [Berlekamp-Massey](ca://s?q=Explain_Berlekamp_Massey)
+#    - [Chien Search](ca://s?q=Explain_Chien_Search)
+#    - [Forney Algorithm](ca://s?q=Explain_Forney_Algorithm)
+#    - [Distributed Sharding](ca://s?q=Explain_Distributed_Shards)
+#    - [Fault-Tolerant Reads](ca://s?q=Explain_RS_Fault_Tolerance)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - create_volume(name, size_mb, nodes)
+#         Creates RS(K+M) erasure-coded volume.
+#
+#    - write(volume_id, data)
+#         Encodes data into K+M shards and distributes them.
+#
+#    - read(volume_id, shard_ids)
+#         Reads shards and reconstructs missing ones using RS decoding.
+#
+#    - snapshot(volume_id)
+#         Creates distributed snapshot.
+#
+#    - restore(snapshot_id)
+#         Restores shard map from snapshot.
+#
+#    - engine_snapshot()
+#         Returns engine state.
+#
+#===============================================================================
+#  SHARD MAP FORMAT:
+#
+#    {
+#      "RSVOL-XXXX": {
+#          "SHR-A": "NODE-1",
+#          "SHR-B": "NODE-2",
+#          "SHR-C": "NODE-3",
+#          ...
+#      }
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Storage Engine v4 Erasure Coding](ca://s?q=Build_SovereignOS_Storage_Engine_v4_Erasure_Coding)
+#    - [Distributed Node Engine](ca://s?q=Build_SovereignOS_Distributed_Node_Engine)
+#    - [Network Orchestration Engine](ca://s?q=Build_SovereignOS_Network_Orchestration_Engine)
+#    - [Observability & Metrics Engine](ca://s?q=Build_SovereignOS_Observability_and_Metrics_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/storage_engine_v5_reed_solomon.py
+#
+#===============================================================================
+#  END OF FILE — storage_engine_v5_reed_solomon.support
+#===============================================================================

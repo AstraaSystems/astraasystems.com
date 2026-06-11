@@ -1,0 +1,12 @@
+# ============================================================
+# DYNAMIC REGISTRY SERVICE — SUPPORT DOCUMENT
+# ============================================================
+# This service stores dynamic runtime values used by multiple
+# cognitive modules. It provides:
+#
+#   - shared memory
+#   - cross‑module state
+#   - dynamic configuration
+#   - timestamped updates
+#
+# It is the backbone of meta‑cognitive coordination.

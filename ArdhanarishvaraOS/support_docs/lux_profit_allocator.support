@@ -1,0 +1,49 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Lux Profit Allocator
+#  File: lux_profit_allocator.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the autonomous profit distribution engine used
+#    by Lux Trading AI and all ARKA income engines.
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    • Multi‑engine profit distribution
+#    • Weight normalization + stochastic drift
+#    • High‑dimensional allocation logic
+#    • Autonomous rebalancing
+#    • Used by:
+#         - Lux Trading AI
+#         - Distribution AI
+#         - GEO Visibility AI
+#         - Construction Estimator
+#         - Astraa FinOps
+#         - ArkastraEngine
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    allocate(total_profit)
+#       → Returns allocation map with stochastic adjustments.
+#
+#    rebalance(new_weights)
+#       → Updates engine weights and normalizes them.
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    [Ledger](ca://s?q=Explain_Ledger)
+#    [Math Engine](ca://s?q=Explain_Math_Engine)
+#    [Circuit Breaker](ca://s?q=Explain_Circuit_Breaker)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/lux_profit_allocator.py
+#
+#===============================================================================
+#  END OF FILE — lux_profit_allocator.support
+#===============================================================================

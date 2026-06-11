@@ -1,0 +1,71 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Hardware Abstraction Layer (HAL)
+#  File: hardware_abstraction_layer.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS HAL responsible for:
+#      • device registration
+#      • driver binding
+#      • hardware capability mapping
+#      • IO request dispatch
+#      • hardware event routing
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Device Registration](ca://s?q=Explain_HAL_Device_Registration)
+#    - [Driver Binding](ca://s?q=Explain_HAL_Driver_Binding)
+#    - [Hardware Capabilities](ca://s?q=Explain_HAL_Capabilities)
+#    - [IO Dispatch](ca://s?q=Explain_HAL_IO_Dispatch)
+#    - [HAL Snapshot](ca://s?q=Explain_HAL_Snapshot)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_device(name, type, capabilities)
+#         Registers a hardware device.
+#
+#    - register_driver(name, device_type, handler)
+#         Registers a driver for a device type.
+#
+#    - bind(device_id, driver_name)
+#         Binds driver to device.
+#
+#    - register_io(device_type, handler)
+#         Registers IO handler for device type.
+#
+#    - io(device_id, payload)
+#         Executes IO request.
+#
+#    - snapshot()
+#         Returns HAL state.
+#
+#===============================================================================
+#  DEVICE STRUCTURE FORMAT:
+#
+#    {
+#      "id": "DEV-XXXX",
+#      "name": "keyboard0",
+#      "type": "input",
+#      "capabilities": { "keys": 104 },
+#      "driver": "kbd.driver"
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Process Scheduler](ca://s?q=Build_SovereignOS_Process_Scheduler)
+#    - [Storage Engine](ca://s?q=Build_SovereignOS_Storage_Engine)
+#    - [Security Engine](ca://s?q=Build_SovereignOS_Security_Engine)
+#    - [Kernel Bootloader](ca://s?q=Build_SovereignOS_Kernel_Bootloader)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/hardware_abstraction_layer.py
+#
+#===============================================================================
+#  END OF FILE — hardware_abstraction_layer.support
+#===============================================================================

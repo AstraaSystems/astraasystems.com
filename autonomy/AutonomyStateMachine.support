@@ -1,0 +1,80 @@
+============================================================
+AUTONOMY STATE MACHINE v17 — SUPPORT DOCUMENT
+Arka Pillai Holdings Ltd
+============================================================
+
+1. PURPOSE
+----------
+Controls the autonomy level of the entire ecosystem:
+- observation mode
+- partial autonomy
+- full autonomy
+- revoked autonomy
+- cooldown mode
+- safe mode
+
+2. LOCATION
+-----------
+/home/keshanth/ARKA/ardhanarishvara/autonomy/AutonomyStateMachine.py
+
+3. STATES
+---------
+OBSERVATION:
+    System watches but does not act.
+
+PARTIAL_AUTONOMY:
+    Engines act with Supervisor approval.
+
+FULL_AUTONOMY:
+    Engines act independently.
+
+REVOKED:
+    Autonomy disabled due to risk.
+
+COOLDOWN:
+    Triggered after 3 failures.
+
+SAFE_MODE:
+    Minimal operations only.
+
+4. FAILURE HANDLING
+-------------------
+- Each engine failure increments failure_count.
+- After 3 failures → COOLDOWN for 5 minutes.
+- After cooldown → returns to PARTIAL_AUTONOMY.
+
+5. SUPERVISOR OVERRIDE
+----------------------
+Supervisor can force:
+- autonomy reduction
+- autonomy restoration
+- safe mode
+- revoked mode
+
+6. LEDGER INTEGRATION
+---------------------
+All state transitions are logged to:
+    /ledger/transactions.json
+
+7. AUTONOMY RULES
+-----------------
+Engines may act only when:
+- state is PARTIAL_AUTONOMY
+- state is FULL_AUTONOMY
+
+Engines are blocked when:
+- state is REVOKED
+- state is SAFE_MODE
+- state is COOLDOWN
+
+8. NIGHTLY + WEEKLY INTEGRATION
+-------------------------------
+Nightly Reflection:
+- adjusts autonomy based on performance
+
+Weekly Audit:
+- resets autonomy if system is stable
+
+============================================================
+END OF DOCUMENT
+============================================================

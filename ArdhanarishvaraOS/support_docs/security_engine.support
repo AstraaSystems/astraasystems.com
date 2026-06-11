@@ -1,0 +1,80 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Security Engine
+#  File: security_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS security engine responsible for:
+#      • authentication tokens
+#      • cryptographic hashing & HMAC
+#      • permission enforcement
+#      • audit logging
+#      • threat classification
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Auth Tokens](ca://s?q=Explain_Security_Auth_Tokens)
+#    - [Cryptographic Hashing](ca://s?q=Explain_Cryptographic_Hashing)
+#    - [HMAC Signatures](ca://s?q=Explain_HMAC_Signatures)
+#    - [Permission Model](ca://s?q=Explain_Permission_Model)
+#    - [Audit Logging](ca://s?q=Explain_Audit_Logging)
+#    - [Threat Classification](ca://s?q=Explain_Threat_Classification)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - generate_token(subject, ttl)
+#         Issues authentication token.
+#
+#    - validate_token(token)
+#         Validates token expiration.
+#
+#    - hash(data)
+#         Computes SHA‑256 hash.
+#
+#    - sign(key, data)
+#         Computes HMAC signature.
+#
+#    - register_permissions(subject, perms)
+#         Assigns permissions.
+#
+#    - check_permission(subject, perm)
+#         Validates permission access.
+#
+#    - audit(subject, action, meta)
+#         Records audit event.
+#
+#    - classify_threat(event)
+#         Assigns threat level.
+#
+#    - snapshot()
+#         Returns security engine state.
+#
+#===============================================================================
+#  THREAT EVENT FORMAT:
+#
+#    {
+#      "unauthorized": true/false,
+#      "integrity_failure": true/false,
+#      "rate_limit_exceeded": true/false,
+#      "sandbox_violation": true/false
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [App Sandboxing Engine](ca://s?q=Build_App_Sandboxing_Engine)
+#    - [Update Engine](ca://s?q=Build_SovereignOS_Update_Engine)
+#    - [System Services Engine](ca://s?q=Build_SovereignOS_System_Services_Engine)
+#    - [Kernel Bootloader](ca://s?q=Build_SovereignOS_Kernel_Bootloader)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/security_engine.py
+#
+#===============================================================================
+#  END OF FILE — security_engine.support
+#===============================================================================

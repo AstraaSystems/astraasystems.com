@@ -1,0 +1,78 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Storage Engine v3 — Distributed Replication
+#  File: storage_engine_v3_distributed.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS Storage Engine v3:
+#      • distributed block replication
+#      • quorum-based write commits
+#      • replica health tracking
+#      • distributed snapshots
+#      • cluster-aware restore
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Distributed Volumes](ca://s?q=Explain_Distributed_Volumes)
+#    - [Quorum Writes](ca://s?q=Explain_Quorum_Writes)
+#    - [Replica Health](ca://s?q=Explain_Replica_Health)
+#    - [Distributed Snapshots](ca://s?q=Explain_Distributed_Snapshots)
+#    - [Cluster Restore](ca://s?q=Explain_Cluster_Restore)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - create_volume(name, size_mb, replicas)
+#         Creates distributed volume with replica nodes.
+#
+#    - write_block(volume_id, block, data)
+#         Writes block with quorum replication.
+#
+#    - read_block(volume_id, block)
+#         Reads block locally.
+#
+#    - snapshot(volume_id)
+#         Creates distributed snapshot.
+#
+#    - restore(snapshot_id)
+#         Restores snapshot across cluster.
+#
+#    - engine_snapshot()
+#         Returns distributed storage engine state.
+#
+#===============================================================================
+#  DISTRIBUTED VOLUME FORMAT:
+#
+#    {
+#      "id": "DVOL-XXXX",
+#      "name": "rootfs",
+#      "size_mb": 2048,
+#      "blocks": { ... },
+#      "created": <epoch>
+#    }
+#
+#===============================================================================
+#  REPLICA SET FORMAT:
+#
+#    {
+#      "DVOL-XXXX": ["NODE-A", "NODE-B", "NODE-C"]
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Distributed Node Engine](ca://s?q=Build_SovereignOS_Distributed_Node_Engine)
+#    - [Storage Engine v2](ca://s?q=Build_SovereignOS_Storage_Engine_v2)
+#    - [Network Orchestration Engine](ca://s?q=Build_SovereignOS_Network_Orchestration_Engine)
+#    - [Observability & Metrics Engine](ca://s?q=Build_SovereignOS_Observability_and_Metrics_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/storage_engine_v3_distributed.py
+#
+#===============================================================================
+#  END OF FILE — storage_engine_v3_distributed.support
+#===============================================================================

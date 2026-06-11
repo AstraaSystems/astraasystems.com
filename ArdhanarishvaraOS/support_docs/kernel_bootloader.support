@@ -1,0 +1,67 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Kernel Bootloader
+#  File: kernel_bootloader.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS kernel bootloader responsible for:
+#      • stage‑0 hardware probing
+#      • stage‑1 kernel module loading
+#      • integrity verification
+#      • init‑chain execution
+#      • boot telemetry generation
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Module Registration](ca://s?q=Explain_Kernel_Module_Registration)
+#    - [Integrity Verification](ca://s?q=Explain_Kernel_Integrity_Verification)
+#    - [Boot Sequence](ca://s?q=Explain_Kernel_Boot_Sequence)
+#    - [Init Chain](ca://s?q=Explain_Kernel_Init_Chain)
+#    - [Boot Telemetry](ca://s?q=Explain_Kernel_Boot_Telemetry)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_module(name, checksum, entrypoint)
+#         Registers a kernel module for boot.
+#
+#    - verify(name, data)
+#         Validates SHA‑256 checksum.
+#
+#    - load(name, data)
+#         Loads module into boot sequence.
+#
+#    - init_chain()
+#         Executes ordered module entrypoints.
+#
+#    - snapshot()
+#         Returns full bootloader state.
+#
+#===============================================================================
+#  MODULE STRUCTURE FORMAT:
+#
+#    {
+#      "name": "kernel.health",
+#      "checksum": "<sha256>",
+#      "entrypoint": "main",
+#      "loaded": true/false
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Package Manager](ca://s?q=Build_SovereignOS_Package_Manager)
+#    - [App Runtime Engine](ca://s?q=Build_App_Runtime_Engine)
+#    - [Arkastra Engine](ca://s?q=Build_Arkastra_Engine)
+#    - [Kernel Health Monitor](ca://s?q=Build_Kernel_Health_Monitor)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/kernel_bootloader.py
+#
+#===============================================================================
+#  END OF FILE — kernel_bootloader.support
+#===============================================================================

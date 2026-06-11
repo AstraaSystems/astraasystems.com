@@ -1,0 +1,16 @@
+# ============================================================
+# TASK ROUTING ENGINE — SUPPORT DOCUMENT
+# ============================================================
+# This engine maps task types to the modules responsible for
+# executing them. It ensures deterministic routing across the
+# entire Ardhanarishvara ecosystem.
+#
+# RESPONSIBILITIES:
+#   - Register task → module mappings
+#   - Resolve which module should handle a given task
+#   - Maintain routing history
+#
+# Used by:
+#   - Job Scheduling Engine
+#   - Pipeline Execution Engine
+#   - Orchestrator

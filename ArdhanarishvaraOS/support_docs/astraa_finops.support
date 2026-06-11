@@ -1,0 +1,72 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Astraa FinOps Engine
+#  File: astraa_finops.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the autonomous financial operations engine used
+#    for:
+#      • usage-based billing
+#      • invoice generation
+#      • tax computation
+#      • surcharge modeling
+#      • financial record storage
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Usage Tracking](ca://s?q=Explain_Usage_Tracking)
+#    - [Billing Engine](ca://s?q=Explain_Billing_Engine)
+#    - [Tax Computation](ca://s?q=Explain_Tax_Computation)
+#    - [Invoice Generation](ca://s?q=Explain_Invoice_Generation)
+#    - [Stochastic Surcharge](ca://s?q=Explain_Stochastic_Surcharge)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - record_usage(client, units, rate)
+#         Records usage for billing.
+#
+#    - generate_invoice(client)
+#         Produces invoice with subtotal, tax, and total.
+#
+#    - get_invoice(invoice_id)
+#         Retrieves stored invoice.
+#
+#===============================================================================
+#  DATABASE STRUCTURE:
+#
+#    Table: usage_records
+#      record_id        TEXT PRIMARY KEY
+#      client           TEXT
+#      units            REAL
+#      rate             REAL
+#      cost             REAL
+#      timestamp_epoch  REAL
+#
+#    Table: invoices
+#      invoice_id       TEXT PRIMARY KEY
+#      client           TEXT
+#      subtotal         REAL
+#      tax              REAL
+#      total            REAL
+#      metadata_json    TEXT
+#      timestamp_epoch  REAL
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Ledger](ca://s?q=Explain_Ledger)
+#    - [Profit Aggregator](ca://s?q=Build_Profit_Aggregator)
+#    - [Lux Profit Allocator](ca://s?q=Build_Lux_Profit_Allocator)
+#    - [Supervisor Bridge](ca://s?q=Build_Supervisor_Bridge)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/astraa_finops.py
+#
+#===============================================================================
+#  END OF FILE — astraa_finops.support
+#===============================================================================

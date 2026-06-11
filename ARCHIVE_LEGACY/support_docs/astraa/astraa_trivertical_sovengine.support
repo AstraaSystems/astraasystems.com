@@ -1,0 +1,44 @@
+# ============================================================
+# ASTRAA TRI‑VERTICAL SOVEREIGN ENGINE — CHEAT SHEET
+# ============================================================
+
+# FILE:
+#   /entities/astraa_trivertical_sovengine.py
+
+# ROLE:
+#   Unified Business + Finance + Construction Sovereign Engine
+#   Single‑file extreme‑complexity AI kernel
+
+# PUBLIC API:
+#   await engine.run_vertical(domain, context, mutation_ast="")
+
+# DOMAINS:
+#   Domain.BUSINESS
+#   Domain.FINANCE
+#   Domain.CONSTRUCTION
+
+# TIERS:
+#   BASIC → Manual workflows
+#   PREMIUM → NLP / OCR pipelines
+#   TRIAL → 15‑day decay logic
+#   PRESTIGE → Autonomous sovereign workflows
+
+# ENVELOPE:
+#   tx_id
+#   epoch
+#   entropy
+#   mutation_ast
+#   context
+
+# SECURITY:
+#   - AST validation
+#   - Compute semaphore
+#   - Ledger persistence
+#   - Nonce‑driven hashing
+
+# VAULT:
+#   ~/.astraa_vault/sovengine/ledger/
+
+# NOTES:
+#   This is a fully self‑contained sovereign engine.
+#   No external dependencies. No wrapper required.

@@ -1,0 +1,71 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Networking Engine
+#  File: networking_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS networking engine responsible for:
+#      • routing table management
+#      • TCP/UDP service hosting
+#      • async socket handling
+#      • protocol dispatch
+#      • network event orchestration
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Routing Table](ca://s?q=Explain_Routing_Table)
+#    - [TCP Services](ca://s?q=Explain_TCP_Services)
+#    - [UDP Services](ca://s?q=Explain_UDP_Services)
+#    - [Protocol Dispatch](ca://s?q=Explain_Protocol_Dispatch)
+#    - [Network Snapshot](ca://s?q=Explain_Network_Snapshot)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - add_route(destination, gateway)
+#         Adds routing entry.
+#
+#    - resolve(destination)
+#         Resolves gateway for destination.
+#
+#    - register_service(name, port, protocol, handler)
+#         Registers a network service.
+#
+#    - start_service(name)
+#         Starts TCP/UDP service.
+#
+#    - stop_service(name)
+#         Stops running service.
+#
+#    - snapshot()
+#         Returns full networking engine state.
+#
+#===============================================================================
+#  SERVICE STRUCTURE FORMAT:
+#
+#    {
+#      "name": "net.echo",
+#      "port": 9000,
+#      "protocol": "tcp",
+#      "handler": <async callable>,
+#      "active": true/false
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [System Services Engine](ca://s?q=Build_SovereignOS_System_Services_Engine)
+#    - [Security Engine](ca://s?q=Build_SovereignOS_Security_Engine)
+#    - [Update Engine](ca://s?q=Build_SovereignOS_Update_Engine)
+#    - [Kernel Bootloader](ca://s?q=Build_SovereignOS_Kernel_Bootloader)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/networking_engine.py
+#
+#===============================================================================
+#  END OF FILE — networking_engine.support
+#===============================================================================

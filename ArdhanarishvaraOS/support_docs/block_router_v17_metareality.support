@@ -1,0 +1,68 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Block Router v17 — Metareality Routing Layer
+#  File: block_router_v17_metareality.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for Block Router v17:
+#      • metareality-aware routing
+#      • cross-reality path scoring
+#      • divergence-safe routing
+#      • meta-adaptive route weighting
+#      • integration with Storage Engine v17
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Metareality Routing Fabric](ca://s?q=Explain_Metareality_Routing_Fabric)
+#    - [Cross-Reality Path Scoring](ca://s?q=Explain_Cross_Reality_Path_Scoring)
+#    - [Self-Correcting Divergence](ca://s?q=Explain_Route_Divergence_Correction)
+#    - [Meta-Adaptive Weights](ca://s?q=Explain_Meta_Adaptive_Routing_Weights)
+#    - [Block Routing](ca://s?q=Explain_Block_Routing_v17)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_reality(rid)
+#         Registers a reality in the routing fabric.
+#
+#    - connect_realities(a, b, stability, divergence, latency)
+#         Creates a metareality routing link.
+#
+#    - route_block(source_reality, target_realities)
+#         Computes the best cross-reality route.
+#
+#    - correct_divergence(a, b)
+#         Repairs divergence on a routing link.
+#
+#    - router_snapshot()
+#         Returns full router state.
+#
+#===============================================================================
+#  ROUTE FORMAT:
+#
+#    {
+#      "id": "ROUTE17-XYZ",
+#      "source": "R-ALPHA",
+#      "target": "R-OMEGA",
+#      "timestamp": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Storage Engine v17](ca://s?q=Build_Storage_Engine_v17)
+#    - [Hypervisor v17](ca://s?q=Build_Hypervisor_v17)
+#    - [SovereignFS v17](ca://s?q=Build_SovereignFS_v17)
+#    - [Userland v17](ca://s?q=Build_Userland_v17)
+#    - [Kernel v17](ca://s?q=Build_Kernel_v17)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/block_router_v17_metareality.py
+#
+#===============================================================================
+#  END OF FILE — block_router_v17_metareality.support
+#===============================================================================

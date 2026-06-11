@@ -1,0 +1,191 @@
+# ============================================================
+# ORCHESTRATION GUARDRAILS ENGINE — SUPPORT DOCUMENT
+# ============================================================
+# Classification: INTERNAL — TRUSTED ENGINEERS ONLY
+# System: Ardhanarishvara Infrastructure Layer
+# Module: Orchestration Guardrails Engine (Y‑Prime Edition)
+#
+# This document describes the purpose, behavior, and safety
+# responsibilities of the Orchestration Guardrails Engine.
+# It is written in shell‑style format for compatibility with
+# system scripts, installers, and internal tooling.
+# ============================================================
+
+
+# ============================================================
+# SECTION 1 — OVERVIEW
+# ============================================================
+# The Orchestration Guardrails Engine is the supervisory safety
+# layer that prevents runaway autonomous behavior inside the
+# Ardhanarishvara ecosystem.
+#
+# It monitors:
+#   - module-to-module interactions
+#   - repeated communication loops
+#   - task age (TTL)
+#   - deadlock patterns
+#
+# It enforces:
+#   - loop detection thresholds
+#   - TTL expiration
+#   - forced task termination
+#
+# All AI entities (Arka, Astra, Aruhan, Arkastra, Lux, Disturition)
+# rely on this engine to maintain deterministic orchestration safety.
+
+
+# ============================================================
+# SECTION 2 — PURPOSE & RESPONSIBILITIES
+# ============================================================
+# PRIMARY RESPONSIBILITIES:
+#
+#   1. Track module-to-module interactions.
+#      - Every time Module A communicates with Module B, the engine
+#        increments an interaction counter.
+#
+#   2. Register autonomous tasks with timestamps.
+#      - Each task receives a creation timestamp.
+#      - Used to enforce TTL (Time-To-Live).
+#
+#   3. Maintain active task counts.
+#      - Prevents runaway task spawning.
+#
+#   4. Provide data for loop detection.
+#      - Detects repeated cycles between modules.
+#
+#   5. Provide data for TTL enforcement.
+#      - Flags tasks that exceed their allowed lifespan.
+#
+# Without this tracking layer, the system would have no visibility
+# into module behavior or task lifecycle boundaries.
+
+
+# ============================================================
+# SECTION 3 — LOOP DETECTION LOGIC
+# ============================================================
+# The engine monitors repeated interactions between module pairs.
+#
+# Example:
+#   Module A → Module B → Module A → Module B
+#
+# If this pattern exceeds the configured loop threshold:
+#   ttl_limits["loop"] = 3
+#
+# The engine flags the pair as a loop.
+#
+# LOOP DETECTION PURPOSE:
+#   - Prevent infinite conversational cycles.
+#   - Prevent modules from bouncing tasks endlessly.
+#   - Prevent runaway autonomous reasoning loops.
+#
+# When a loop is detected:
+#   - The event is logged.
+#   - The orchestrator may intervene.
+#   - Tasks may be terminated depending on severity.
+
+
+# ============================================================
+# SECTION 4 — TTL (TIME‑TO‑LIVE) ENFORCEMENT
+# ============================================================
+# Every task registered with the engine receives a timestamp.
+#
+# The TTL limit:
+#   ttl_limits["task"] = 10 seconds
+#
+# If a task exceeds this lifespan:
+#   - It is marked as expired.
+#   - The orchestrator may kill the task.
+#
+# TTL PURPOSE:
+#   - Prevent long‑running tasks from blocking the system.
+#   - Prevent deadlocks.
+#   - Ensure predictable execution windows.
+#   - Maintain system responsiveness.
+
+
+# ============================================================
+# SECTION 5 — FORCED TERMINATION LOGIC
+# ============================================================
+# The engine can forcibly kill tasks when:
+#   - TTL expires
+#   - Loop detection triggers
+#   - The orchestrator issues a kill signal
+#   - A module becomes unresponsive
+#
+# KILL EFFECTS:
+#   - Task timestamp removed
+#   - Active task count decremented
+#   - Kill event logged
+#
+# This mechanism ensures that no module can monopolize system
+# resources or create deadlock conditions.
+
+
+# ============================================================
+# SECTION 6 — LOGGING & TELEMETRY
+# ============================================================
+# The engine logs:
+#   - loops detected
+#   - kills performed
+#   - active task count
+#   - timestamps
+#
+# HISTORY LIMIT:
+#   limits["history"] = 200 entries
+#
+# Logs are used by:
+#   - Stability & Recovery Engine
+#   - System Orchestrator
+#   - Meta‑Cognitive Reflection Engine
+#
+# Logging ensures traceability and post‑incident analysis.
+
+
+# ============================================================
+# SECTION 7 — FAILURE MODES & RECOVERY
+# ============================================================
+# 1. LOOP OVERFLOW
+#    - Too many repeated interactions.
+#    - Recovery: orchestrator resets interaction counters.
+#
+# 2. TTL EXPIRATION
+#    - Task exceeds lifespan.
+#    - Recovery: kill task.
+#
+# 3. DEADLOCK BETWEEN MODULES
+#    - Two modules wait on each other.
+#    - Recovery: kill both tasks.
+#
+# 4. RUNAWAY TASK SPAWNING
+#    - Active task count grows abnormally.
+#    - Recovery: orchestrator throttles module activity.
+
+
+# ============================================================
+# SECTION 8 — EXPANSION GUIDELINES
+# ============================================================
+# SAFE TO MODIFY:
+#   - loop thresholds
+#   - TTL values
+#   - logging verbosity
+#   - interaction pruning logic
+#
+# DO NOT MODIFY:
+#   - core loop detection algorithm
+#   - TTL expiration mechanism
+#   - forced termination logic
+#   - logging structure
+#
+# These components are foundational to system safety.
+
+
+# ============================================================
+# SECTION 9 — NOTES FOR TRUSTED ENGINEERS
+# ============================================================
+# - All autonomous modules must register tasks through this engine.
+# - Never bypass guardrails for "quick tests".
+# - Loop thresholds should be tuned carefully.
+# - TTL values must reflect real hardware performance.
+# - Logs should be reviewed during stabilization cycles.
+#
+# This engine is mandatory for safe multi‑agent orchestration.

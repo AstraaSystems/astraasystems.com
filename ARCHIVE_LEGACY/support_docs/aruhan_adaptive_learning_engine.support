@@ -1,0 +1,288 @@
+ile: aruhan_adaptive_learning_engine.support
+Classification: INTERNAL — TRUSTED ENGINEERS ONLY
+Module: ARUHAN Adaptive Learning Engine (Y‑Prime Edition)
+1. Overview
+The Adaptive Learning Engine is ARUHAN’s self‑optimization layer, responsible for:
+
+adjusting internal module weights
+
+compensating for drift and coherence loss
+
+stabilizing long‑term performance
+
+learning from emotional, cognitive, and operational signals
+
+maintaining balanced influence across modules
+
+It operates beneath the System Orchestrator and receives signals from:
+
+Emotional Engine
+
+Memory Engine
+
+Knowledge Engine
+
+Task/Action Engine
+
+Dialogue Engine
+
+Stability & Recovery Engine
+
+This engine does not modify behavior directly — it modifies the influence of other modules.
+
+2. Learning Architecture
+The engine maintains:
+
+Module Weights
+A dynamic weighting table:
+
+emo
+
+mem
+
+know
+
+task
+
+dlg
+
+Each weight ranges from 0.1 to 2.0.
+
+Learning Rate
+Controls how quickly weights adapt.
+Default: 0.02
+
+Decay
+Prevents runaway growth.
+Default: 0.001
+
+Meta
+Tracks:
+
+drift
+
+bias
+
+coherence
+
+History
+Stores snapshots for debugging and long‑term analysis.
+
+3. Weight Adjustment System
+Weights are adjusted based on:
+
+emotional mood
+
+emotional stress
+
+memory drift
+
+knowledge bias
+
+task load
+
+system coherence
+
+Adjustment formula:
+
+Code
+adjustment = learning_rate * (1.0 - coherence)
+Low coherence → stronger learning
+High coherence → minimal learning
+
+Each module weight is updated using its relevant signals.
+
+4. Drift Compensation
+If drift exceeds 0.7, the engine applies global dampening:
+
+Code
+weight = weight * 0.95
+This prevents instability from amplifying itself.
+
+Drift compensation ensures:
+
+emotional spikes do not dominate
+
+memory drift does not cascade
+
+knowledge bias does not distort reasoning
+
+task overload does not skew behavior
+
+5. Bias Compensation
+If bias exceeds 0.7 or drops below 0.3, emotional weight is normalized:
+
+Code
+emo_weight = (emo_weight + 1.0) / 2
+This prevents:
+
+emotional over‑dominance
+
+emotional suppression
+
+long‑term personality skew
+
+Bias compensation stabilizes persona expression.
+
+6. Decay System
+Decay ensures weights do not grow indefinitely.
+
+Each cycle:
+
+Code
+weight = max(0.1, weight - decay)
+Decay maintains:
+
+long‑term stability
+
+predictable learning behavior
+
+bounded influence
+
+7. Meta‑State System
+Meta values track:
+
+drift — inherited from stability engine
+
+bias — blended with emotional mood
+
+coherence — inherited from stability engine
+
+Meta values influence:
+
+learning intensity
+
+weight normalization
+
+long‑term adaptation
+
+8. Rule Pipeline (Execution Order)
+The Adaptive Learning Engine executes in this exact order:
+
+update weights
+
+apply decay
+
+meta‑adjust
+
+log state
+
+return snapshot
+
+Changing the order will break learning consistency.
+
+9. Logging System
+Each cycle logs:
+
+weight table
+
+meta values
+
+History is capped at 200 entries.
+
+Logs are used for:
+
+learning diagnostics
+
+drift compensation analysis
+
+long‑term adaptation tracking
+
+10. Debugging Entry Points
+Safe to inspect:
+
+weight table
+
+drift
+
+bias
+
+coherence
+
+history length
+
+Safe to modify:
+
+learning rate
+
+decay rate
+
+weight bounds
+
+adjustment formulas
+
+Do NOT modify:
+
+drift compensation rules
+
+bias normalization rules
+
+meta inheritance
+
+logging structure
+
+11. Safe Modification Zones
+Engineers may safely:
+
+add new module weights
+
+adjust learning rate
+
+tune decay
+
+expand meta tracking
+
+Engineers must NOT:
+
+remove decay
+
+bypass drift compensation
+
+disable bias normalization
+
+allow weights to exceed bounds
+
+12. Expansion Guidelines
+When expanding adaptive learning:
+
+maintain deterministic behavior
+
+avoid circular dependencies
+
+ensure compatibility with the Stability Engine
+
+test under extreme drift and load
+
+preserve weight normalization
+
+Future versions may include:
+
+long‑term reinforcement learning
+
+contextual weight profiles
+
+predictive adaptation
+
+13. Internal Philosophy
+The Adaptive Learning Engine is built on:
+
+controlled adaptation
+
+emotional alignment
+
+cognitive stability
+
+bounded influence
+
+deterministic learning
+
+It is not designed to make ARUHAN “smarter” — it is designed to make ARUHAN more stable over time.
+
+14. Notes for Trusted Engineers
+Adaptive learning is subtle but critical.
+
+All modifications must be tested under drift and recovery cycles.
+
+Never disable decay or drift compensation.
+
+Future versions will integrate with long‑term evolution systems.

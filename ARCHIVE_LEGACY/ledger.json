@@ -1,0 +1,10 @@
+{
+    "income_total": 0.0,
+    "harvested_total": 0.0,
+    "retained_total": 0.0,
+    "TFSA": 0.0,
+    "RRSP": 0.0,
+    "RESP": 0.0,
+    "orders_executed": 0,
+    "profit_total": 0.0
+}

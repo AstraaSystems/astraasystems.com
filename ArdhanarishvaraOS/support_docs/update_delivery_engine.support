@@ -1,0 +1,71 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Update Delivery Engine
+#  File: update_delivery_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS update delivery engine:
+#      • update manifests
+#      • delta patch staging
+#      • signature verification
+#      • atomic commit
+#      • rollback checkpoints
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Manifests](ca://s?q=Explain_Update_Manifests)
+#    - [Delta Staging](ca://s?q=Explain_Delta_Staging)
+#    - [Signature Verification](ca://s?q=Explain_Update_Signature_Verification)
+#    - [Atomic Commit](ca://s?q=Explain_Atomic_Update_Commit)
+#    - [Rollback](ca://s?q=Explain_Update_Rollback)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_manifest(version, manifest)
+#         Registers update manifest.
+#
+#    - stage(version)
+#         Stages update for commit.
+#
+#    - commit(stage_id)
+#         Applies update atomically.
+#
+#    - checkpoint()
+#         Creates rollback point.
+#
+#    - rollback(checkpoint_id)
+#         Restores previous version.
+#
+#    - snapshot()
+#         Returns update engine state.
+#
+#===============================================================================
+#  MANIFEST FORMAT:
+#
+#    {
+#      "version": "2.1.0",
+#      "signature": "<hmac>",
+#      "key": "system.master",
+#      "data": <binary>,
+#      "patch": { ... }
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Package Manager Engine](ca://s?q=Build_SovereignOS_Package_Manager_Engine)
+#    - [Boot Integrity Engine](ca://s?q=Build_SovereignOS_Boot_Integrity_Engine)
+#    - [Cryptography Engine](ca://s?q=Build_SovereignOS_Cryptography_Engine)
+#    - [Distributed Node Engine](ca://s?q=Build_SovereignOS_Distributed_Node_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/update_delivery_engine.py
+#
+#===============================================================================
+#  END OF FILE — update_delivery_engine.support
+#===============================================================================

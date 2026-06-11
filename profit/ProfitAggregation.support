@@ -1,0 +1,67 @@
+============================================================
+PROFIT AGGREGATION ENGINE v17 — SUPPORT DOCUMENT
+Arka Pillai Holdings Ltd
+============================================================
+
+1. PURPOSE
+----------
+The Profit Aggregation Engine:
+- collects revenue from all engines
+- normalizes values
+- reconciles ledger entries
+- detects divergence
+- computes total profit
+- allocates 20% to Lux
+- stores profit snapshots
+
+2. LOCATION
+-----------
+/home/keshanth/ARKA/ardhanarishvara/profit/ProfitAggregationEngine.py
+
+3. HOW IT WORKS
+---------------
+SupervisorCore logs engine results into the ledger.
+ProfitAggregationEngine:
+- loads ledger
+- extracts revenue + cost
+- computes profit
+- allocates Lux share
+- saves snapshot
+
+4. SNAPSHOT FILE
+----------------
+/home/keshanth/ARKA/ardhanarishvara/profit/profit_snapshot.json
+
+Contains:
+- revenue
+- cost
+- profit
+- Lux allocation
+- engine breakdown
+- timestamp
+
+5. DIVERGENCE DETECTION
+-----------------------
+Flags:
+- missing revenue fields
+- malformed entries
+- inconsistent engine reports
+
+6. KERNEL DEPENDENCIES
+----------------------
+Uses:
+- Ledger
+- MathEngine
+- LuxAllocator
+
+7. AUTONOMY
+-----------
+This engine is required for:
+- nightly reflection
+- weekly audits
+- financial autonomy
+- Income AI cycle validation
+
+============================================================
+END OF DOCUMENT
+============================================================

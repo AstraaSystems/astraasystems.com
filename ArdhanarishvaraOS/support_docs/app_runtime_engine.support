@@ -1,0 +1,75 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  App Runtime Engine
+#  File: app_runtime_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS application runtime engine
+#    responsible for:
+#      • app lifecycle execution
+#      • async runtime sandbox
+#      • IPC messaging
+#      • app state persistence
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [App Execution](ca://s?q=Explain_App_Execution)
+#    - [Runtime Sandbox](ca://s?q=Explain_Runtime_Sandbox)
+#    - [IPC Messaging](ca://s?q=Explain_IPC_Messaging)
+#    - [App State](ca://s?q=Explain_App_State)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_executor(app_id, executor)
+#         Registers an app's execution handler.
+#
+#    - start(app_id, payload)
+#         Starts an app asynchronously.
+#
+#    - stop(app_id)
+#         Stops an app.
+#
+#    - set_state(app_id, key, value)
+#         Stores app state.
+#
+#    - get_state(app_id, key)
+#         Retrieves app state.
+#
+#    - register_ipc(channel, handler)
+#         Registers IPC channel.
+#
+#    - ipc(channel, payload)
+#         Sends IPC message.
+#
+#    - snapshot()
+#         Returns full runtime state.
+#
+#===============================================================================
+#  APP STRUCTURE FORMAT:
+#
+#    {
+#      "executor": <callable>,
+#      "state": { ... },
+#      "running": true/false,
+#      "last_run": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [App Manifest Engine](ca://s?q=Build_App_Manifest_Engine)
+#    - [App Sandboxing Engine](ca://s?q=Build_App_Sandboxing_Engine)
+#    - [UI Window Manager](ca://s?q=Build_UI_Window_Manager)
+#    - [Arkastra Engine](ca://s?q=Build_Arkastra_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/app_runtime_engine.py
+#
+#===============================================================================
+#  END OF FILE — app_runtime_engine.support
+#===============================================================================

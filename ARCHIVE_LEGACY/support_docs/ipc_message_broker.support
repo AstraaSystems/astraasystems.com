@@ -1,0 +1,303 @@
+File: ipc_message_broker.support
+Classification: INTERNAL — TRUSTED ENGINEERS ONLY
+System: Ardhanarishvara Infrastructure Layer
+Module: IPC Message Broker (Y‑Prime Edition)
+1. Overview
+The IPC Message Broker is the central communication backbone for the entire Ardhanarishvara ecosystem. It provides:
+
+ultra‑low‑latency inter‑process messaging
+
+cross‑language communication (Python, Rust, Node, Go, etc.)
+
+channel‑based publish/subscribe architecture
+
+deterministic message routing
+
+in‑memory event distribution
+
+zero external network dependency
+
+It is the primary communication layer for:
+
+Inference Concurrency Engine
+
+Orchestration Guardrails Engine
+
+Context Compaction Engine
+
+System Orchestrator
+
+Stability & Recovery Engine
+
+All AI entities (Arka, Astra, Aruhan, Arkastra, Lux, Disturition) communicate through this broker.
+
+2. Purpose
+The broker solves three critical problems:
+
+A. Cross‑Module Communication
+Modules must exchange:
+
+events
+
+telemetry
+
+inference requests
+
+state updates
+
+routing signals
+
+The broker ensures this happens instantly and locally.
+
+B. Language‑Agnostic Messaging
+Different modules may be written in:
+
+Python
+
+Rust
+
+Node.js
+
+Go
+
+C++
+
+The broker provides a unified communication layer.
+
+C. Zero‑Latency Event Bus
+Unlike HTTP REST APIs, the broker:
+
+avoids network overhead
+
+avoids serialization bottlenecks
+
+avoids port conflicts
+
+avoids latency spikes
+
+It is optimized for local, in‑memory, high‑frequency messaging.
+
+3. Core Components
+1. Channels
+Named message queues.
+Each channel is isolated and FIFO.
+
+2. Subscribers
+Modules that listen to a channel.
+A module may subscribe to multiple channels.
+
+3. Publisher
+Any module may publish messages to a channel.
+
+4. Broadcast System
+Sends a message to all channels simultaneously.
+
+5. Locking Mechanism
+Ensures:
+
+safe channel creation
+
+safe subscription updates
+
+safe metadata updates
+
+6. Metadata Tracker
+Tracks:
+
+number of channels
+
+number of subscribers
+
+total messages published
+
+7. Logging System
+Stores:
+
+channel count
+
+subscriber count
+
+message count
+
+timestamps
+
+Used for debugging and performance analysis.
+
+4. Execution Pipeline
+1. Channel Creation
+Modules request a channel.
+If it doesn’t exist, it is created.
+
+2. Subscription
+Modules subscribe to channels they want to listen to.
+
+3. Publishing
+Messages are pushed into the channel queue.
+
+4. Consumption
+Subscribers pull messages from the queue.
+
+5. Broadcast
+A message is pushed into every channel.
+
+6. Logging
+Every operation logs a snapshot.
+
+This pipeline ensures deterministic, low‑latency communication.
+
+5. Messaging Rules
+Rule 1 — FIFO Delivery
+Messages are consumed in the order they were published.
+
+Rule 2 — Channel Isolation
+Messages in one channel do not affect others.
+
+Rule 3 — Subscriber Validation
+Modules must subscribe before consuming.
+
+Rule 4 — No Message Duplication
+Each message is delivered once per subscriber.
+
+Rule 5 — Broadcast Is Global
+Broadcast messages go to all channels.
+
+6. Integration Points
+A. System Orchestrator
+Uses the broker to:
+
+dispatch tasks
+
+broadcast system‑wide events
+
+coordinate module activity
+
+B. Inference Concurrency Engine
+Sends:
+
+lock acquired
+
+lock released
+
+queue updates
+
+VRAM warnings
+
+C. Orchestration Guardrails Engine
+Monitors:
+
+repeated message loops
+
+deadlock patterns
+
+runaway modules
+
+D. Context Compaction Engine
+Receives:
+
+context overflow warnings
+
+compaction triggers
+
+E. Stability & Recovery Engine
+Consumes:
+
+drift alerts
+
+coherence warnings
+
+recovery signals
+
+7. Debugging Entry Points
+Safe to inspect:
+
+channel list
+
+subscriber list
+
+message count
+
+history length
+
+metadata snapshot
+
+Safe to modify:
+
+channel naming conventions
+
+subscriber registration logic
+
+broadcast behavior
+
+Do NOT modify:
+
+FIFO queue behavior
+
+locking mechanism
+
+message payload structure
+
+logging format
+
+8. Failure Modes & Recovery
+1. Channel Flooding
+Symptom: queue grows too large.
+Recovery: orchestrator throttles publishers.
+
+2. Subscriber Leak
+Symptom: modules subscribe but never consume.
+Recovery: guardrails remove stale subscribers.
+
+3. Message Storm
+Symptom: too many broadcasts.
+Recovery: orchestrator rate‑limits broadcast events.
+
+4. Dead Channel
+Symptom: channel exists but unused.
+Recovery: registry service prunes inactive channels.
+
+9. Expansion Guidelines
+Engineers may safely:
+
+add priority channels
+
+add message filtering
+
+add message TTL
+
+add multi‑broker clustering
+
+add persistent channels
+
+Engineers must NOT:
+
+allow cross‑channel contamination
+
+bypass locking
+
+modify FIFO semantics
+
+disable logging
+
+10. Internal Philosophy
+The IPC Message Broker is built on:
+
+speed
+
+determinism
+
+isolation
+
+modularity
+
+zero‑latency communication
+
+It is not designed to be a network service — it is designed to be a local, in‑memory, ultra‑fast event bus for a multi‑agent AI ecosystem.
+
+11. Notes for Trusted Engineers
+All modules must use the broker for communication.
+
+Never use HTTP for internal messaging.
+
+Channel names must be deterministic.
+
+Logs should be reviewed during load testing.

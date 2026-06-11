@@ -1,0 +1,11 @@
+# ============================================================
+# CODE SANDBOX ENGINE — SUPPORT DOCUMENT
+# ============================================================
+# This engine executes restricted code snippets in a controlled
+# environment. It is used for:
+#
+#   - internal reasoning tests
+#   - safe evaluation of generated logic
+#   - micro‑simulation of decisions
+#
+# The sandbox is intentionally minimal to ensure safety.

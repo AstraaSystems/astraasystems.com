@@ -1,0 +1,53 @@
+# === PART 3: SUPERVISORCORE + INTEGRATION (MAX-COMPRESSED) ===
+
+class Core:
+    def __init__(s):
+        s.k=K()
+        s.a=A(s.k)
+        s.p=PFX(s.k)
+        s.w=WFX(s)
+        s.n=NFX(s)
+        s.u=AFX(s)
+        s.eng=ENGINES
+        s.route={
+            "finance":["finance","deep"],
+            "business_intake":["intake","finance"],
+            "geo":["geo","dist"],
+            "distribution":["dist","geo"],
+            "construction":["cons","finance"],
+            "deep_reasoning":["deep","finance"],
+            "income":["income","finance"]
+        }
+
+    def classify(s,i):
+        t=i.lower()
+        if"invoice"in t:return"finance"
+        if"client"in t:return"business_intake"
+        if"geo"in t:return"geo"
+        if"deliver"in t:return"distribution"
+        if"construct"in t:return"construction"
+        if"reason"in t:return"deep_reasoning"
+        if"income"in t:return"income"
+        return"deep_reasoning"
+
+    def exec_engine(s,d,i):
+        p,f=s.route[d]
+        if s.k.blocked(p):p,f=f,p
+        try:return s.eng[p].run(i,s.k.load(d))
+        except:
+            s.k.failrec(p);s.a.rec()
+            try:return s.eng[f].run(i,s.k.load(d))
+            except:
+                s.k.failrec(f);s.a.rec()
+                return{"err":"both failed"}
+
+    def execute(s,i):
+        s.a.tick()
+        if not s.a.allow():return{"blocked":s.a.state}
+        d=s.classify(i)
+        r=s.exec_engine(d,i)
+        s.k.log(d,"core",r)
+        return r
+
+core=Core()
+def handle(i):return core.execute(i)

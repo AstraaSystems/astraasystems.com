@@ -1,0 +1,81 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Desktop Shell
+#  File: sovereign_desktop_shell.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS desktop shell responsible for:
+#      • workspace management
+#      • wallpaper engine
+#      • dock & panel orchestration
+#      • window manager integration
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Workspaces](ca://s?q=Explain_SovereignOS_Workspaces)
+#    - [Panels](ca://s?q=Explain_SovereignOS_Panels)
+#    - [Dock](ca://s?q=Explain_SovereignOS_Dock)
+#    - [Wallpaper Engine](ca://s?q=Explain_SovereignOS_Wallpaper_Engine)
+#    - [Shell Snapshot](ca://s?q=Explain_SovereignOS_Shell_Snapshot)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - set_wallpaper(color_or_path)
+#         Sets desktop wallpaper.
+#
+#    - register_panel(name, config)
+#         Registers a top/bottom/side panel.
+#
+#    - dock_add(app_id)
+#         Adds an app to the dock.
+#
+#    - dock_remove(app_id)
+#         Removes an app from the dock.
+#
+#    - create_workspace(index)
+#         Creates a new workspace.
+#
+#    - switch_workspace(index)
+#         Switches active workspace.
+#
+#    - open_window(title, x, y, w, h)
+#         Opens a window in the active workspace.
+#
+#    - close_window(wid)
+#         Closes a window.
+#
+#    - snapshot()
+#         Returns full desktop shell state.
+#
+#===============================================================================
+#  DESKTOP SHELL STRUCTURE:
+#
+#    {
+#      "active_workspace": 1,
+#      "workspaces": { 1: ["WIN-..."], 2: [] },
+#      "wallpaper": "#000000",
+#      "panels": { "top": {...}, "bottom": {...} },
+#      "dock": ["app.browser", "app.terminal"]
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [UI Window Manager](ca://s?q=Build_UI_Window_Manager)
+#    - [UI Rendering Engine](ca://s?q=Build_UI_Rendering_Engine)
+#    - [UI Layout Engine](ca://s?q=Build_UI_Layout_Engine)
+#    - [UI Theme Engine](ca://s?q=Build_UI_Theme_Engine)
+#    - [UI Interaction Engine](ca://s?q=Build_UI_Interaction_Engine)
+#    - [Arkastra Engine](ca://s?q=Build_Arkastra_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/sovereign_desktop_shell.py
+#
+#===============================================================================
+#  END OF FILE — sovereign_desktop_shell.support
+#===============================================================================

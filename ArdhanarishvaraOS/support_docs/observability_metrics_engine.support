@@ -1,0 +1,78 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Observability & Metrics Engine
+#  File: observability_metrics_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS observability engine:
+#      • metrics
+#      • traces
+#      • event streams
+#      • anomaly flags
+#      • export pipelines
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Metrics](ca://s?q=Explain_Observability_Metrics)
+#    - [Tracing](ca://s?q=Explain_Distributed_Tracing)
+#    - [Event Streams](ca://s?q=Explain_Event_Streams)
+#    - [Anomaly Detection](ca://s?q=Explain_Anomaly_Detection)
+#    - [Export Pipelines](ca://s?q=Explain_Observability_Export_Pipelines)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - gauge(name, value)
+#         Sets metric gauge.
+#
+#    - increment(name, amount)
+#         Increments metric counter.
+#
+#    - start_trace(name)
+#         Begins trace span.
+#
+#    - end_trace(trace_id, meta)
+#         Ends trace span.
+#
+#    - event(subsystem, message, meta)
+#         Records event.
+#
+#    - anomaly(category, details)
+#         Flags anomaly.
+#
+#    - export()
+#         Returns recent observability data.
+#
+#    - snapshot()
+#         Returns full observability state.
+#
+#===============================================================================
+#  TRACE STRUCTURE FORMAT:
+#
+#    {
+#      "id": "TRC-XXXX",
+#      "name": "scheduler.tick",
+#      "start": <epoch>,
+#      "end": <epoch>,
+#      "duration": <seconds>,
+#      "meta": { ... }
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Kernel Telemetry Engine](ca://s?q=Build_SovereignOS_Kernel_Telemetry_Engine)
+#    - [Distributed Node Engine](ca://s?q=Build_SovereignOS_Distributed_Node_Engine)
+#    - [Network Orchestration Engine](ca://s?q=Build_SovereignOS_Network_Orchestration_Engine)
+#    - [Container Engine](ca://s?q=Build_SovereignOS_Container_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/observability_metrics_engine.py
+#
+#===============================================================================
+#  END OF FILE — observability_metrics_engine.support
+#===============================================================================

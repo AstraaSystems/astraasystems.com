@@ -1,0 +1,61 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Arkastra Engine
+#  File: arkastra_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the multi‑domain orchestration engine that
+#    coordinates all ARKA subsystems into unified workflows.
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Workflow Orchestration](ca://s?q=Explain_Workflow_Orchestration)
+#    - [Parallel Execution](ca://s?q=Explain_Parallel_Execution)
+#    - [Supervisor Integration](ca://s?q=Explain_Supervisor_Integration)
+#    - [Multi‑Engine Coordination](ca://s?q=Explain_Multi_Engine_Coordination)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_module(name, handler)
+#         Registers an engine or subsystem.
+#
+#    - attach_supervisor(handler)
+#         Links Supervisor Bridge for escalation.
+#
+#    - execute(workflow)
+#         Executes workflow steps sequentially.
+#
+#    - execute_parallel(tasks)
+#         Executes workflow steps concurrently.
+#
+#===============================================================================
+#  WORKFLOW FORMAT:
+#
+#    Each workflow step:
+#      {
+#        "module": "engine_name",
+#        "command": "operation",
+#        "payload": { ... }
+#      }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Dispatch Engine](ca://s?q=Build_Dispatch_Engine)
+#    - [Supervisor Bridge](ca://s?q=Build_Supervisor_Bridge)
+#    - [Profit Aggregator](ca://s?q=Build_Profit_Aggregator)
+#    - [Lux Profit Allocator](ca://s?q=Build_Lux_Profit_Allocator)
+#    - [Astraa FinOps](ca://s?q=Build_Astraa_FinOps)
+#    - [GEO Visibility Engine](ca://s?q=Build_GEO_Visibility_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/arkastra_engine.py
+#
+#===============================================================================
+#  END OF FILE — arkastra_engine.support
+#===============================================================================

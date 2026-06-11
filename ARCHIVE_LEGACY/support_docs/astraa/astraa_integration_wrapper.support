@@ -1,0 +1,45 @@
+# ============================================================
+# ASTRAA INTEGRATION WRAPPER — CHEAT SHEET
+# ============================================================
+
+# FILE:
+#   /entities/astraa_integration_wrapper.py
+
+# ROLE:
+#   Bridge between Astraa Kernel and Tri‑Vertical HyperEngine
+#   Provides unified API for Business / Finance / Construction execution
+
+# PUBLIC API:
+#   await wrapper.run_vertical(domain, context, mutation_ast="")
+
+# DOMAINS:
+#   Domain.BUSINESS
+#   Domain.FINANCE
+#   Domain.CONSTRUCTION
+
+# ENVELOPE FORMAT:
+#   tx_id
+#   epoch
+#   entropy
+#   mutation_ast
+#   context
+
+# TELEMETRY (inside Astraa):
+#   asstraa.trivertical_telemetry = {
+#       last_domain,
+#       last_envelope,
+#       last_output,
+#       cycles,
+#       last_runtime
+#   }
+
+# PURPOSE:
+#   - Allows Astraa to call HyperEngine verticals
+#   - Handles envelope creation
+#   - Handles async routing
+#   - Updates Astraa telemetry
+#   - Keeps HyperEngine isolated and safe
+
+# NOTES:
+#   This wrapper does NOT modify Astraa Kernel internals.
+#   It mounts the HyperEngine cleanly and safely.

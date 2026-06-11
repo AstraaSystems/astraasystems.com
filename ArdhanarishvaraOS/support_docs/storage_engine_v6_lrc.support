@@ -1,0 +1,73 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Storage Engine v6 — Local Reconstruction Codes (LRC)
+#  File: storage_engine_v6_lrc.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS Storage Engine v6:
+#      • Local Reconstruction Codes (LRC)
+#      • local parity groups
+#      • global parity
+#      • fast local repair
+#      • distributed sharding
+#      • cluster-aware healing
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Local Parity Groups](ca://s?q=Explain_LRC_Local_Parity_Groups)
+#    - [Global Parity](ca://s?q=Explain_LRC_Global_Parity)
+#    - [Local Repair](ca://s?q=Explain_LRC_Local_Repair)
+#    - [Distributed Sharding](ca://s?q=Explain_LRC_Distributed_Shards)
+#    - [Cluster Healing](ca://s?q=Explain_LRC_Cluster_Healing)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - create_volume(name, size_mb, nodes)
+#         Creates LRC(K,G,M) volume.
+#
+#    - write(volume_id, data)
+#         Encodes into groups, local parity, global parity, distributes shards.
+#
+#    - read(volume_id, shard_ids)
+#         Reads shards and repairs missing ones using local or global parity.
+#
+#    - snapshot(volume_id)
+#         Creates distributed snapshot.
+#
+#    - restore(snapshot_id)
+#         Restores shard map from snapshot.
+#
+#    - engine_snapshot()
+#         Returns engine state.
+#
+#===============================================================================
+#  SHARD MAP FORMAT:
+#
+#    {
+#      "LRCVOL-XXXX": {
+#          "SHR-A": "NODE-1",
+#          "SHR-B": "NODE-2",
+#          "SHR-C": "NODE-3",
+#          ...
+#      }
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Storage Engine v5 Reed-Solomon](ca://s?q=Build_SovereignOS_Storage_Engine_v5_Reed_Solomon_GF256)
+#    - [Storage Engine v4 Erasure Coding](ca://s?q=Build_SovereignOS_Storage_Engine_v4_Erasure_Coding)
+#    - [Distributed Node Engine](ca://s?q=Build_SovereignOS_Distributed_Node_Engine)
+#    - [Network Orchestration Engine](ca://s?q=Build_SovereignOS_Network_Orchestration_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/storage_engine_v6_lrc.py
+#
+#===============================================================================
+#  END OF FILE — storage_engine_v6_lrc.support
+#===============================================================================

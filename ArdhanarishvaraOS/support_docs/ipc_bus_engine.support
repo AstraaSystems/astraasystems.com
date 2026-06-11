@@ -1,0 +1,67 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS IPC Bus Engine
+#  File: ipc_bus_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS IPC bus responsible for:
+#      • channel registration
+#      • async message routing
+#      • request/response IPC
+#      • broadcast messaging
+#      • IPC telemetry
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Channel Registration](ca://s?q=Explain_IPC_Channel_Registration)
+#    - [Message Routing](ca://s?q=Explain_IPC_Message_Routing)
+#    - [Async Dispatch](ca://s?q=Explain_IPC_Async_Dispatch)
+#    - [Broadcast Messaging](ca://s?q=Explain_IPC_Broadcast_Messaging)
+#    - [IPC Telemetry](ca://s?q=Explain_IPC_Telemetry)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_channel(name, handler)
+#         Creates IPC channel.
+#
+#    - send(channel, payload)
+#         Sends message to channel.
+#
+#    - broadcast(payload)
+#         Sends message to all channels.
+#
+#    - remove_channel(name)
+#         Removes IPC channel.
+#
+#    - snapshot()
+#         Returns IPC bus state.
+#
+#===============================================================================
+#  CHANNEL STRUCTURE FORMAT:
+#
+#    {
+#      "id": "CHN-XXXX",
+#      "name": "system.events",
+#      "handler": <async callable>,
+#      "timestamp": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [System Services Engine](ca://s?q=Build_SovereignOS_System_Services_Engine)
+#    - [Kernel Telemetry Engine](ca://s?q=Build_SovereignOS_Kernel_Telemetry_Engine)
+#    - [Interrupt Controller](ca://s?q=Build_SovereignOS_Interrupt_Controller)
+#    - [Clock & Timing Engine](ca://s?q=Build_SovereignOS_Clock_and_Timing_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/ipc_bus_engine.py
+#
+#===============================================================================
+#  END OF FILE — ipc_bus_engine.support
+#===============================================================================

@@ -1,0 +1,55 @@
+# ============================================================
+# ARDHANARISHVARA OS — CHEAT SHEET (EXTREME EDITION)
+# ============================================================
+
+# ROLE:
+#   Master Operating System
+#   Shared Memory Fabric
+#   Inter-Engine Router
+#   Hardware Regulator
+#   AST Safety Layer
+#   Self-Healing Kernel
+
+# FILE:
+#   /arka_core/ardhanarishvara_os.py
+
+# STATE MACHINE:
+#   - Packet Dispatch
+#   - AST Validation
+#   - Hardware Lock
+#   - Memory Mutation
+#   - State Commit
+#   - Ledger Snapshot
+
+# ENGINE ENVELOPES:
+#   ARKA
+#   ARUHAN
+#   ASTRAA
+#   ARKASTRA
+#   LUX
+#   DISTRIBUTION
+
+# IPC PACKET FORMAT:
+#   {
+#     id,
+#     timestamp,
+#     sender,
+#     receiver,
+#     payload: {
+#         code_block,
+#         state_mutation
+#     }
+#   }
+
+# SECURITY:
+#   Banned calls: eval, exec, compile
+#   Syntax validation
+#   Fault signatures
+
+# COMMIT PATHS:
+#   ~/.ardhanarishvara_vault/secure_os/self_modules/
+#   ~/.ardhanarishvara_vault/secure_os/shared_ledger/
+
+# DEPENDENCIES:
+#   All sovereign engines
+#   ArkaUltimateSupervisor

@@ -1,0 +1,69 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Kernel Telemetry Engine
+#  File: kernel_telemetry_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS telemetry engine responsible for:
+#      • kernel metrics
+#      • event logging
+#      • subsystem health scoring
+#      • telemetry packet export
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Metrics](ca://s?q=Explain_Kernel_Metrics)
+#    - [Event Logging](ca://s?q=Explain_Kernel_Event_Logging)
+#    - [Health Scoring](ca://s?q=Explain_Kernel_Health_Scoring)
+#    - [Telemetry Export](ca://s?q=Explain_Kernel_Telemetry_Export)
+#    - [Snapshot System](ca://s?q=Explain_Kernel_Telemetry_Snapshots)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - metric(name, value)
+#         Sets metric gauge.
+#
+#    - increment(name, amount)
+#         Increments metric counter.
+#
+#    - event(subsystem, message, meta)
+#         Records kernel event.
+#
+#    - set_health(subsystem, status)
+#         Assigns subsystem health.
+#
+#    - export()
+#         Exports telemetry packet.
+#
+#    - snapshot()
+#         Returns full telemetry state.
+#
+#===============================================================================
+#  TELEMETRY PACKET FORMAT:
+#
+#    {
+#      "packet_id": "TLM-XXXX",
+#      "metrics": { "cpu.load": 0.42 },
+#      "events": [ ... ],
+#      "health": { "network": "ok" }
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Interrupt Controller](ca://s?q=Build_SovereignOS_Interrupt_Controller)
+#    - [Power Management Engine](ca://s?q=Build_SovereignOS_Power_Management_Engine)
+#    - [Memory Manager](ca://s?q=Build_SovereignOS_Memory_Manager)
+#    - [Hardware Abstraction Layer](ca://s?q=Build_SovereignOS_Hardware_Abstraction_Layer)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/kernel_telemetry_engine.py
+#
+#===============================================================================
+#  END OF FILE — kernel_telemetry_engine.support
+#===============================================================================

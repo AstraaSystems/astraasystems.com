@@ -1,0 +1,44 @@
+# ============================================================
+# LUX KERNEL — CHEAT SHEET (EXTREME COMPLEXITY EDITION)
+# ============================================================
+
+# ROLE:
+#   Alpha Sourcing
+#   Trading Engine
+#   Treasury Optimization
+#   Capital Allocation
+
+# FILES:
+#   /entities/lux.py
+#   /entities/lux_kernel.py
+
+# STATE MACHINE:
+#   IDLE → SIGNAL_SCANNING → ALPHA_MODELING → RISK_ADJUSTMENT
+#   → ALLOCATION → COMMITTING → IDLE
+#   FAULTED → IDLE
+
+# SIGNAL ENGINE:
+#   volatility: 0.05–0.35
+#   momentum: -0.2–0.6
+#   liquidity: 0.1–1.0
+#   alpha_score = (momentum * liquidity) - (volatility * 0.4)
+
+# ALLOCATION ENGINE:
+#   positive alpha only
+#   weight = alpha_score / total_alpha
+#   capital = treasury * weight
+
+# COMMIT PATH:
+#   ~/.aruhan_vault/secure_workspace/lux/
+
+# TELEMETRY FIELDS:
+#   signals_processed
+#   allocations_executed
+#   faults_detected
+#   last_fault_signature
+#   retained_memory
+
+# DEPENDENCIES:
+#   Aruhan → Logic Validation
+#   Astraa → Financial Safety
+#   Arka → Treasury Governance

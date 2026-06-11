@@ -1,0 +1,320 @@
+File: aruhan_dialogue_engine.support
+Classification: INTERNAL — TRUSTED ENGINEERS ONLY
+Module: ARUHAN Dialogue Engine (Y‑Prime Edition)
+1. Overview
+The Dialogue Engine is the linguistic and conversational layer of ARUHAN.
+It interprets user messages, tracks context, detects intent, manages conversational flow, and generates responses shaped by the emotional engine.
+
+It sits between:
+
+Emotional Engine (affective state)
+
+System Orchestrator (pipeline control)
+
+It is not a language model — it is a rule‑driven conversational controller.
+
+2. Core Responsibilities
+The Dialogue Engine performs six primary functions:
+
+Context Tracking — short‑term and long‑term memory of conversation
+
+Intent Detection — maps user input to conversational intent
+
+Topic Tracking — identifies the active subject
+
+Flow Adjustment — shapes tone and pacing
+
+Meta‑Shift Processing — adjusts internal drift and bias
+
+Response Generation — produces the final conversational output
+
+Each subsystem influences the next in a deterministic pipeline.
+
+3. Context System
+The context system stores two layers:
+
+short‑term context — last 8 messages
+
+long‑term context — last 200 messages
+
+Short‑term context is used for:
+
+coherence
+
+immediate topic continuity
+
+Long‑term context is used for:
+
+narrative consistency
+
+emotional pattern recognition
+
+meta‑learning
+
+Context is append‑only and pruned by size.
+
+4. Intent Detection
+Intent detection is rule‑based, not statistical.
+
+The engine maps user messages to intents using keyword sets:
+
+greet
+
+sad
+
+ang
+
+ask
+
+need
+
+close
+
+misc
+
+Intent influences:
+
+response templates
+
+flow mode
+
+topic selection
+
+emotional alignment
+
+Engineers may expand the intent map, but must maintain:
+
+lowercase keys
+
+non‑overlapping keyword sets
+
+deterministic matching
+
+5. Topic Tracking
+Topic tracking determines the conversational subject.
+
+Rules:
+
+emotional intents override all
+
+“you” → AI‑topic
+
+“I” → self‑topic
+
+otherwise → general
+
+Topic influences:
+
+response depth
+
+flow shaping
+
+emotional alignment
+
+Topic is persistent until overwritten.
+
+6. Flow System
+Flow determines how ARUHAN speaks.
+
+Flow variables:
+
+mode (soft, calm, bright, neutral)
+
+depth (0.1–1.0)
+
+coherence (0.3–1.0)
+
+Flow is influenced by:
+
+mood
+
+stress
+
+energy
+
+intent
+
+meta‑shift
+
+Flow mode affects:
+
+capitalization
+
+punctuation
+
+pacing
+
+emotional tone
+
+7. Meta‑Shift System
+Meta‑shift introduces subtle long‑term conversational drift.
+
+Variables:
+
+shift — emotional influence
+
+drift — stability influence
+
+bias — positivity/negativity tilt
+
+Meta‑shift is influenced by:
+
+mood
+
+stress
+
+energy
+
+High drift triggers redirect behavior, preventing runaway emotional loops.
+
+8. Flag System
+Flags modify response behavior:
+
+escalate — grounding behavior
+
+soothe — calming behavior
+
+redirect — topic stabilization
+
+Flags are triggered by:
+
+high stress
+
+low mood
+
+high drift
+
+Flags modify the final response string.
+
+9. Response Generation
+Response generation is template‑driven.
+
+Pipeline:
+
+Base template selected by intent
+
+Emotional modifiers applied
+
+Flow mode applied
+
+Flags applied
+
+Final string returned
+
+Response generation is deterministic and reproducible.
+
+10. Rule Pipeline (Execution Order)
+The Dialogue Engine executes in this exact order:
+
+update context
+
+detect intent
+
+update topic
+
+adjust flow
+
+meta‑shift
+
+update flags
+
+generate response
+
+Changing the order will break conversational consistency.
+
+11. Debugging Entry Points
+Safe to inspect:
+
+context (ctx)
+
+flow (flow)
+
+meta (meta)
+
+flags (flags)
+
+intent (ctx["intent"])
+
+topic (ctx["topic"])
+
+Safe to modify:
+
+intent map
+
+flow defaults
+
+meta defaults
+
+Do NOT modify:
+
+rule order
+
+flag thresholds
+
+flow mode logic
+
+meta‑shift formulas
+
+12. Safe Modification Zones
+Engineers may safely:
+
+add new intents
+
+add new response templates
+
+adjust flow depth ranges
+
+adjust drift thresholds
+
+expand topic rules
+
+Engineers must NOT:
+
+remove existing intents
+
+bypass flow mode logic
+
+bypass meta‑shift
+
+modify flag logic
+
+alter context pruning rules
+
+13. Expansion Guidelines
+When adding new conversational behaviors:
+
+keep them modular
+
+add new intents rather than modifying existing ones
+
+ensure templates remain short and deterministic
+
+avoid emotional contradictions with the Emotional Engine
+
+test in sandbox mode
+
+14. Internal Philosophy
+The Dialogue Engine is built on:
+
+deterministic conversational logic
+
+emotional alignment
+
+context continuity
+
+safety‑first behavior
+
+modular extensibility
+
+It is not meant to be creative — it is meant to be consistent.
+
+15. Notes for Trusted Engineers
+The Dialogue Engine is intentionally simple on the surface and complex underneath.
+
+It is tightly coupled with the Emotional Engine.
+
+All modifications must be tested with emotional feedback loops.
+
+Never modify the engine while ARUHAN is running live.
+
+Future versions will integrate with the Security AI once Phase 3 begins

@@ -1,0 +1,12 @@
+# ============================================================
+# ABSTRACT SYNTHESIS ENGINE — SUPPORT DOCUMENT
+# ============================================================
+# This engine compresses multiple reasoning blocks into a single
+# abstract representation. It is used to:
+#
+#   - reduce cognitive load
+#   - unify multi‑agent reasoning
+#   - maintain conceptual continuity
+#   - generate high‑level summaries
+#
+# It is a core component of the meta‑cognitive layer.

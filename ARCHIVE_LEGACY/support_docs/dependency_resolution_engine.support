@@ -1,0 +1,15 @@
+# ============================================================
+# DEPENDENCY RESOLUTION ENGINE — SUPPORT DOCUMENT
+# ============================================================
+# This engine resolves module dependencies and determines a safe
+# execution order. It prevents circular dependencies and ensures
+# deterministic startup sequences.
+#
+# RESPONSIBILITIES:
+#   - Register dependencies
+#   - Resolve execution order
+#   - Detect dependency cycles
+#
+# Used by:
+#   - Orchestrator
+#   - Pipeline Execution Engine

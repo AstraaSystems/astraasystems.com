@@ -1,0 +1,53 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Construction Estimator
+#  File: construction_estimator.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the autonomous construction cost estimator used
+#    for:
+#      • material cost modeling
+#      • labor hour prediction
+#      • regional cost adjustments
+#      • stochastic market drift simulation
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Material Cost Modeling](ca://s?q=Explain_Material_Cost_Model)
+#    - [Labor Cost Modeling](ca://s?q=Explain_Labor_Cost_Model)
+#    - [Regional Multipliers](ca://s?q=Explain_Regional_Multipliers)
+#    - [Stochastic Drift](ca://s?q=Explain_Stochastic_Drift)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - [estimate](ca://s?q=Explain_Construction_Estimate)
+#         Computes full construction estimate.
+#
+#    - [material_cost](ca://s?q=Explain_Material_Cost)
+#         Weighted material cost model.
+#
+#    - [labor_cost](ca://s?q=Explain_Labor_Cost)
+#         Labor hour × rate × drift.
+#
+#    - [batch](ca://s?q=Explain_Construction_Batch)
+#         Computes multiple estimates at once.
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Math Engine](ca://s?q=Explain_Math_Engine)
+#    - [Profit Aggregator](ca://s?q=Build_Profit_Aggregator)
+#    - [Dispatch Engine](ca://s?q=Build_Dispatch_Engine)
+#    - [Supervisor Bridge](ca://s?q=Build_Supervisor_Bridge)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/construction_estimator.py
+#
+#===============================================================================
+#  END OF FILE — construction_estimator.support
+#===============================================================================

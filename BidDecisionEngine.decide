@@ -1,0 +1,17 @@
+class BidDecisionEngine:
+    def decide(self, evaluation, mode: StrategyMode):
+        risk = evaluation["execution_risk_score"]
+        
+        # Tolerance based on strategy
+        tolerance = {
+            StrategyMode.PRESERVATION: 0.3,
+            StrategyMode.BALANCED: 0.5,
+            StrategyMode.GROWTH: 0.7
+        }
+        
+        limit = tolerance.get(mode, 0.5)
+        
+        if risk > limit:
+            return {"recommendation": "NO_BID", "risk_rating": "CRITICAL"}
+        
+        return {"recommendation": "BID_AGGRESSIVE", "risk_rating": "ACCEPTABLE"}

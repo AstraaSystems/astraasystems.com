@@ -1,0 +1,56 @@
+============================================================
+KERNEL SERVICES v17 — SUPPORT DOCUMENT
+Arka Pillai Holdings Ltd
+============================================================
+
+1. PURPOSE
+----------
+Kernel Services provide the backbone for:
+- context management
+- financial logging
+- math + normalization
+- engine stability
+- profit allocation
+
+2. FILES
+--------
+context_bus.py
+ledger.py
+math_engine.py
+circuit_breaker.py
+lux_allocator.py
+
+3. CONTEXT BUS
+--------------
+Handles:
+- domain context
+- summarization
+- JIT loading
+- offloading
+
+4. LEDGER
+---------
+Immutable financial event log.
+Used by:
+- Profit Aggregation Engine
+- Weekly Audit Engine
+
+5. MATH ENGINE
+--------------
+Handles:
+- rounding
+- normalization
+- profit calculations
+
+6. CIRCUIT BREAKER
+-------------------
+Protects system from failing engines.
+Cooldown: 5 minutes after 3 failures.
+
+7. LUX ALLOCATOR
+----------------
+Automatically allocates 20% of profit.
+
+============================================================
+END OF DOCUMENT
+============================================================

@@ -1,0 +1,60 @@
+============================================================
+ENGINE INTEGRATION v17 — SUPPORT DOCUMENT
+Arka Pillai Holdings Ltd
+============================================================
+
+1. PURPOSE
+----------
+This document explains how each engine integrates with:
+- SupervisorCore.py
+- Kernel Services
+- Ledger
+- ContextBus
+- CircuitBreaker
+
+2. ENGINE REQUIREMENTS
+----------------------
+Each engine MUST implement:
+
+    def run(self, user_input, context):
+        return dict
+
+3. ENGINE DIRECTORY
+-------------------
+/home/keshanth/ARKA/ardhanarishvara/engines/
+
+4. ENGINE LIST
+--------------
+astraa_finops.py
+sovereign_finance.py
+geo_visibility.py
+distribution_ai.py
+business_intake.py
+spatial_estimator.py
+arkastra_engine.py
+income_ai.py
+
+5. SUPERVISOR INTERACTION
+-------------------------
+SupervisorCore:
+- loads engine class
+- injects context
+- executes .run()
+- logs result to ledger
+- applies fallback if needed
+
+6. CIRCUIT BREAKER
+------------------
+After 3 failures:
+- engine enters 5‑minute cooldown
+
+7. INCOME AI
+------------
+Handles:
+- 15‑day cycles
+- revenue generation
+- payout preparation
+
+============================================================
+END OF DOCUMENT
+============================================================

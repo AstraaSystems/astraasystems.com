@@ -1,0 +1,25 @@
+class GovernanceEngine:
+    # ... existing init ...
+
+    def route_prediction(self, result: Dict[str, Any], payload: Dict[str, Any]) -> Dict[str, Any]:
+        confidence = float(result.get("confidence", 0.0))
+        signals = payload.get("signals", {})
+        
+        # Risk-based VSV Checkpoint
+        # If bid_competitiveness is extreme (e.g., > 0.95), force a peer-review regardless of confidence.
+        is_high_stakes = signals.get("bid_competitiveness", 0) > 0.95
+        
+        if is_high_stakes:
+            return {
+                "route": "cross_validate",
+                "action": "force_senior_review",
+                "reason": "high_stakes_bid_competitiveness"
+            }
+
+        # Standard Confidence Routing
+        if confidence >= self.auto_execute_threshold:
+            return {"route": "auto_execute", "action": "approve_estimate", "reason": "high_confidence"}
+        elif confidence >= self.cross_validate_threshold:
+            return {"route": "cross_validate", "action": "run_secondary_validation", "reason": "medium_confidence"}
+        else:
+            return {"route": "escalate", "action": "manual_intervention", "reason": "low_confidence"}

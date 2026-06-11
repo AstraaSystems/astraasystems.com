@@ -1,0 +1,16 @@
+# ============================================================
+# JOB SCHEDULING ENGINE — SUPPORT DOCUMENT
+# ============================================================
+# This engine manages the global job queue for the system. It
+# ensures fair, deterministic scheduling of tasks across modules.
+#
+# RESPONSIBILITIES:
+#   - Accept new jobs
+#   - Timestamp jobs
+#   - Maintain FIFO execution order
+#   - Track scheduled and executed counts
+#
+# Used by:
+#   - Load Balancer Engine
+#   - Pipeline Execution Engine
+#   - Orchestrator

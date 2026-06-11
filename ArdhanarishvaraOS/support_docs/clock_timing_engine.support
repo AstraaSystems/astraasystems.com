@@ -1,0 +1,73 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Clock & Timing Engine
+#  File: clock_timing_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS timing engine responsible for:
+#      • system clock access
+#      • high‑precision timers
+#      • repeating intervals
+#      • scheduler tick generation
+#      • timing telemetry
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [System Clock](ca://s?q=Explain_System_Clock)
+#    - [One‑Shot Timers](ca://s?q=Explain_One_Shot_Timers)
+#    - [Interval Timers](ca://s?q=Explain_Interval_Timers)
+#    - [Scheduler Tick](ca://s?q=Explain_Scheduler_Tick)
+#    - [Timing Telemetry](ca://s?q=Explain_Timing_Telemetry)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - now()
+#         Returns system time.
+#
+#    - monotonic()
+#         Returns monotonic clock.
+#
+#    - timer(delay, handler)
+#         Creates one‑shot timer.
+#
+#    - interval(every, handler)
+#         Creates repeating interval.
+#
+#    - cancel(timer_id)
+#         Cancels timer or interval.
+#
+#    - run()
+#         Executes timing loop.
+#
+#    - snapshot()
+#         Returns timing engine state.
+#
+#===============================================================================
+#  TIMER STRUCTURE FORMAT:
+#
+#    {
+#      "id": "TMR-XXXX",
+#      "delay": 1.5,
+#      "fires_at": <epoch>,
+#      "handler": <async callable>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Process Scheduler](ca://s?q=Build_SovereignOS_Process_Scheduler)
+#    - [Kernel Telemetry Engine](ca://s?q=Build_SovereignOS_Kernel_Telemetry_Engine)
+#    - [Interrupt Controller](ca://s?q=Build_SovereignOS_Interrupt_Controller)
+#    - [Power Management Engine](ca://s?q=Build_SovereignOS_Power_Management_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/clock_timing_engine.py
+#
+#===============================================================================
+#  END OF FILE — clock_timing_engine.support
+#===============================================================================

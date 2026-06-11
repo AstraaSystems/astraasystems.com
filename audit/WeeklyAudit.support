@@ -1,0 +1,73 @@
+============================================================
+WEEKLY AUDIT ENGINE v17 — SUPPORT DOCUMENT
+Arka Pillai Holdings Ltd
+============================================================
+
+1. PURPOSE
+----------
+Weekly Audit Engine performs full-system macro correction:
+- financial audit
+- engine reliability audit
+- routing audit
+- workflow audit
+- context audit
+- divergence audit
+- optimization audit
+- autonomy verification
+
+2. LOCATION
+-----------
+/home/keshanth/ARKA/ardhanarishvara/audit/WeeklyAuditEngine.py
+
+3. DEPENDENCIES
+---------------
+- [SupervisorCore](ca://s?q=Build_Supervisor_Core)
+- [Kernel Services](ca://s?q=Build_Kernel_Services)
+- [Workflow Executor](ca://s?q=Build_Workflow_Executor)
+- [Profit Aggregation Engine](ca://s?q=Build_Profit_Aggregation_Engine)
+- [Autonomy State Machine](ca://s?q=Build_Autonomy_State_Machine)
+
+4. OUTPUT
+---------
+Weekly results stored in:
+/home/keshanth/ARKA/ardhanarishvara/audit/weekly_history.json
+
+5. FINANCIAL AUDIT
+------------------
+- scans ledger
+- checks revenue fields
+- generates profit snapshot
+- flags missing or malformed entries
+
+6. ENGINE RELIABILITY AUDIT
+---------------------------
+- checks failure counts
+- identifies unstable engines
+
+7. ROUTING AUDIT
+----------------
+Flags:
+- identical primary/fallback engines
+- missing workflow chains
+
+8. WORKFLOW AUDIT
+-----------------
+Flags:
+- empty workflows
+- workflows > 8 steps
+
+9. CONTEXT AUDIT
+----------------
+Flags:
+- context files > 100 KB
+
+10. AUTONOMY VERIFICATION
+-------------------------
+Checks:
+- revoked state
+- cooldown state
+- stability
+
+============================================================
+END OF DOCUMENT
+============================================================

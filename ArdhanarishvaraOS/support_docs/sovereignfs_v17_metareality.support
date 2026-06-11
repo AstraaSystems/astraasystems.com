@@ -1,0 +1,60 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignFS v17 — Metareality Filesystem
+#  File: sovereignfs_v17_metareality.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for SovereignFS v17:
+#      • metareality-aware filesystem
+#      • cross-reality file coherence
+#      • self-correcting metadata
+#      • meta-adaptive directory structure
+#      • integration with Storage Engine v17
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Metareality Metadata Fabric](ca://s?q=Explain_Metareality_Metadata_Fabric)
+#    - [Cross-Reality File Coherence](ca://s?q=Explain_Cross_Reality_File_Coherence_v17)
+#    - [Self-Correcting Metadata](ca://s?q=Explain_Self_Correcting_Consistency_v17)
+#    - [Meta-Adaptive Placement](ca://s?q=Explain_Meta_Adaptive_File_Placement_v17)
+#    - [Directory Model](ca://s?q=Explain_Reality_Aware_Directory_Model_v17)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - create_file(path, data)
+#    - read_file(path, reality)
+#    - write_file(path, data)
+#    - replicate_file(path, target_reality)
+#    - fs_snapshot()
+#
+#===============================================================================
+#  FILE FORMAT:
+#
+#    {
+#      "id": "FS17-XYZ",
+#      "path": "/example.txt",
+#      "reality": "R-OMEGA",
+#      "block_id": "BLK17-ABC",
+#      "created": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Storage Engine v17](ca://s?q=Build_Storage_Engine_v17)
+#    - [Block Router v17](ca://s?q=Build_Block_Router_v17)
+#    - [Hypervisor v17](ca://s?q=Build_Hypervisor_v17)
+#    - [Userland v17](ca://s?q=Build_Userland_v17)
+#    - [Kernel v17](ca://s?q=Build_Kernel_v17)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/sovereignfs_v17_metareality.py
+#
+#===============================================================================
+#  END OF FILE — sovereignfs_v17_metareality.support
+#===============================================================================

@@ -1,0 +1,70 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Kernel v15 — Unified Omniversal Operating Substrate
+#  File: kernel_v15_omniversal.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for SovereignOS Kernel v15:
+#      • unified omniversal substrate
+#      • cross-reality syscall layer
+#      • omniversal scheduler
+#      • integration with all v14 subsystems
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Omniversal Substrate Graph](ca://s?q=Explain_Omniversal_Substrate_Graph)
+#    - [Omniversal Syscalls](ca://s?q=Explain_Omniversal_Syscalls)
+#    - [Omniversal Scheduler](ca://s?q=Explain_Omniversal_Scheduler)
+#    - [Cross-Reality Integration](ca://s?q=Explain_Cross_Reality_Integration)
+#    - [Unified OS Layer](ca://s?q=Explain_Unified_Omniversal_OS)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_reality(rid, brane, timeline, laws)
+#         Registers a reality in the omniversal substrate.
+#
+#    - connect_realities(a, b, stability, causality, divergence)
+#         Creates a substrate link between realities.
+#
+#    - syscall(reality, syscall, args)
+#         Executes a brane-safe, causality-consistent syscall.
+#
+#    - schedule_process(pid, reality, priority)
+#         Schedules a process in a specific reality.
+#
+#    - execute_next()
+#         Executes the next scheduled process.
+#
+#    - kernel_snapshot()
+#         Returns omniversal kernel state.
+#
+#===============================================================================
+#  REALITY FORMAT:
+#
+#    {
+#      "id": "R-OMEGA",
+#      "brane": "BRANE-∞",
+#      "timeline": "T∞",
+#      "laws": "PHYSICS-VARIANT-7"
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Userland v1 Omniversal](ca://s?q=Build_SovereignOS_Userland_v1)
+#    - [SovereignFS v14 Omniversal](ca://s?q=Build_SovereignOS_Filesystem_Layer)
+#    - [Storage Engine v14 Omniversal](ca://s?q=Build_SovereignOS_Storage_Engine_v14_Omniversal)
+#    - [Block Router v14 Omniversal](ca://s?q=Build_SovereignOS_Block_Router_Omniversal)
+#    - [Hypervisor v14 Omniversal](ca://s?q=Build_SovereignOS_Hypervisor_Omniversal)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/kernel_v15_omniversal.py
+#
+#===============================================================================
+#  END OF FILE — kernel_v15_omniversal.support
+#===============================================================================

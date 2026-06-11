@@ -1,0 +1,83 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  UI Window Manager
+#  File: ui_window_manager.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS window manager responsible for:
+#      • window creation & destruction
+#      • stacking order (z-index)
+#      • focus control
+#      • movement & resizing
+#      • window state transitions
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Window Creation](ca://s?q=Explain_Window_Creation)
+#    - [Z-Index Stacking](ca://s?q=Explain_Z_Index_Stacking)
+#    - [Focus Engine](ca://s?q=Explain_Focus_Engine)
+#    - [Window States](ca://s?q=Explain_Window_States)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - create(title, x, y, w, h)
+#         Creates a new window.
+#
+#    - close(wid)
+#         Closes a window.
+#
+#    - focus(wid)
+#         Brings window to front.
+#
+#    - move(wid, x, y)
+#         Moves window.
+#
+#    - resize(wid, w, h)
+#         Resizes window.
+#
+#    - minimize(wid)
+#         Minimizes window.
+#
+#    - maximize(wid)
+#         Maximizes window.
+#
+#    - restore(wid)
+#         Restores window to normal state.
+#
+#    - snapshot()
+#         Returns full window manager state.
+#
+#===============================================================================
+#  WINDOW STRUCTURE FORMAT:
+#
+#    {
+#      "id": "WIN-XXXX",
+#      "title": "My Window",
+#      "x": 100,
+#      "y": 100,
+#      "width": 800,
+#      "height": 600,
+#      "z": 12,
+#      "state": "normal"
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [UI Rendering Engine](ca://s?q=Build_UI_Rendering_Engine)
+#    - [UI Layout Engine](ca://s?q=Build_UI_Layout_Engine)
+#    - [UI Interaction Engine](ca://s?q=Build_UI_Interaction_Engine)
+#    - [UI Theme Engine](ca://s?q=Build_UI_Theme_Engine)
+#    - [Arkastra Engine](ca://s?q=Build_Arkastra_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/ui_window_manager.py
+#
+#===============================================================================
+#  END OF FILE — ui_window_manager.support
+#===============================================================================

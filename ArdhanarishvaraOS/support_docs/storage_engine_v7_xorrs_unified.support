@@ -1,0 +1,73 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Storage Engine v7 — XorRS Unified (Automatic Mode)
+#  File: storage_engine_v7_xorrs_unified.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS Storage Engine v7:
+#      • Unified XorRS hybrid (Classic + Advanced + Tiered)
+#      • Local XOR parity
+#      • Secondary local parity
+#      • Global Reed-Solomon parity
+#      • Automatic repair path selection
+#      • Distributed shard placement
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Local Parity](ca://s?q=Explain_XorRS_Local_Parity)
+#    - [Secondary Local Parity](ca://s?q=Explain_XorRS_Secondary_Parity)
+#    - [Global RS Parity](ca://s?q=Explain_XorRS_Global_RS)
+#    - [Automatic Repair](ca://s?q=Explain_XorRS_Automatic_Repair)
+#    - [Distributed Sharding](ca://s?q=Explain_XorRS_Distributed_Shards)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - create_volume(name, size_mb, nodes)
+#         Creates XorRS Unified volume.
+#
+#    - write(volume_id, data)
+#         Encodes data into groups, local parity, secondary parity, global RS.
+#
+#    - read(volume_id, shard_ids)
+#         Automatically selects best repair path.
+#
+#    - snapshot(volume_id)
+#         Creates distributed snapshot.
+#
+#    - restore(snapshot_id)
+#         Restores shard map from snapshot.
+#
+#    - engine_snapshot()
+#         Returns engine state.
+#
+#===============================================================================
+#  SHARD MAP FORMAT:
+#
+#    {
+#      "XRSVOL-XXXX": {
+#          "SHR-A": "NODE-1",
+#          "SHR-B": "NODE-2",
+#          "SHR-C": "NODE-3",
+#          ...
+#      }
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Storage Engine v6 LRC](ca://s?q=Build_SovereignOS_Storage_Engine_v6_LRC)
+#    - [Storage Engine v5 Reed-Solomon](ca://s?q=Build_SovereignOS_Storage_Engine_v5_Reed_Solomon_GF256)
+#    - [Distributed Node Engine](ca://s?q=Build_SovereignOS_Distributed_Node_Engine)
+#    - [Network Orchestration Engine](ca://s?q=Build_SovereignOS_Network_Orchestration_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/storage_engine_v7_xorrs_unified.py
+#
+#===============================================================================
+#  END OF FILE — storage_engine_v7_xorrs_unified.support
+#===============================================================================

@@ -1,0 +1,37 @@
+# ============================================================
+# ASTRAA TRI‑VERTICAL HYPERENGINE — CHEAT SHEET
+# ============================================================
+
+# FILE:
+#   /entities/astraa_trivertical_hyperengine.py
+
+# ROLE:
+#   Unified Business + Finance + Construction Sovereign Engine
+#   Mounted inside Astraa as Tri‑Vertical Engine Pack
+
+# DOMAINS:
+#   BUSINESS
+#   FINANCE
+#   CONSTRUCTION
+
+# TIERS:
+#   BASIC → Manual workflows
+#   PREMIUM → NLP / OCR pipelines
+#   TRIAL → 15‑day decay logic
+#   PRESTIGE → Autonomous sovereign workflows
+
+# ENVELOPE FORMAT:
+#   tx_id
+#   epoch
+#   entropy
+#   mutation_ast
+#   context
+
+# PUBLIC API:
+#   await engine.run_vertical(domain, envelope)
+
+# OUTPUT:
+#   engine.registry[domain].retained["last_output"]
+
+# VAULT:
+#   ~/.astraa_vault/trivertical/ledger/

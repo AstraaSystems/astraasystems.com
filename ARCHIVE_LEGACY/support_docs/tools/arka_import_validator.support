@@ -1,0 +1,40 @@
+# ============================================================
+# ARKA IMPORT VALIDATOR — CHEAT SHEET
+# ============================================================
+
+# FILE:
+#   /tools/arka_import_validator.py
+
+# PURPOSE:
+#   - Validate all engine imports
+#   - Validate OS + Supervisor
+#   - Validate Astraa Sovereign Engine
+#   - Validate folder structure
+#   - Validate class existence
+#   - Validate file integrity (SHA-256)
+
+# RUN:
+#   python3 tools/arka_import_validator.py
+
+# OUTPUT:
+#   {
+#     "folders": {...},
+#     "modules": {...},
+#     "integrity": {...}
+#   }
+
+# MODULES VALIDATED:
+#   - arka_core.ardhanarishvara_os
+#   - arka_core.arka_ultimate_supervisor
+#   - entities.aruhan
+#   - entities.astraa
+#   - entities.arkastra
+#   - entities.lux
+#   - entities.disturition
+#   - entities.astraa_trivertical_sovengine
+
+# NOTES:
+#   - Missing modules are flagged
+#   - Missing classes are flagged
+#   - Missing files show SHA256 = "MISSING"
+#   - Perfect for pre‑boot validation

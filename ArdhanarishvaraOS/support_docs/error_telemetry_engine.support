@@ -1,0 +1,59 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Error Telemetry Engine
+#  File: error_telemetry_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the autonomous error capture and analytics engine
+#    used across all ARKA subsystems.
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Error Capture](ca://s?q=Explain_Error_Capture)
+#    - [Severity Modeling](ca://s?q=Explain_Severity_Model)
+#    - [Anomaly Detection](ca://s?q=Explain_Anomaly_Detection)
+#    - [Telemetry Storage](ca://s?q=Explain_Telemetry_Storage)
+#    - [Analytics Reporting](ca://s?q=Explain_Telemetry_Analytics)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - record(source, category, message, metadata)
+#         Records an error with severity scoring.
+#
+#    - query(source=None, category=None)
+#         Retrieves filtered telemetry.
+#
+#    - severity_report()
+#         Returns aggregate severity analytics.
+#
+#===============================================================================
+#  DATABASE STRUCTURE:
+#
+#    Table: telemetry
+#      error_id         TEXT PRIMARY KEY
+#      source           TEXT
+#      category         TEXT
+#      message          TEXT
+#      severity         REAL
+#      metadata_json    TEXT
+#      timestamp_epoch  REAL
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Supervisor Bridge](ca://s?q=Build_Supervisor_Bridge)
+#    - [Dispatch Engine](ca://s?q=Build_Dispatch_Engine)
+#    - [OS Routing Rules](ca://s?q=Build_OS_Routing_Rules)
+#    - [Arkastra Engine](ca://s?q=Build_Arkastra_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/error_telemetry_engine.py
+#
+#===============================================================================
+#  END OF FILE — error_telemetry_engine.support
+#===============================================================================

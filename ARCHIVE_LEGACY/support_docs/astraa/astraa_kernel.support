@@ -1,0 +1,42 @@
+# ============================================================
+# ASTRAA KERNEL — CHEAT SHEET (EXTREME COMPLEXITY EDITION)
+# ============================================================
+
+# ROLE:
+#   Finance AI
+#   B2B Contract Validator
+#   Margin Engine
+#   Treasury Logic
+#   Risk-Adjusted Yield Modeling
+
+# FILES:
+#   /entities/astraa.py
+#   /entities/astraa_kernel.py
+
+# STATE MACHINE:
+#   IDLE → ANALYZING → VALIDATING → COMPUTING → COMMITTING → IDLE
+#   FAULTED → IDLE
+
+# VALIDATION LAYERS:
+#   1. Margin Threshold (>= 55%)
+#   2. Risk Exposure (<= 35%)
+#   3. Price/Cost Sanity Checks
+#   4. Yield Modeling
+
+# OUTPUTS:
+#   projected_yield
+#   risk_adjusted_yield
+#   margin
+
+# COMMIT PATH:
+#   ~/.aruhan_vault/secure_workspace/astraa_finance/
+
+# TELEMETRY FIELDS:
+#   contracts_processed
+#   financial_faults
+#   last_fault_signature
+#   retained_memory
+
+# DEPENDENCIES:
+#   Aruhan → Logic Validation
+#   Arka → Treasury Governance

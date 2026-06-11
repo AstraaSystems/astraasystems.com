@@ -1,0 +1,267 @@
+File: aruhan_task_action_engine.support
+Classification: INTERNAL — TRUSTED ENGINEERS ONLY
+Module: ARUHAN Task/Action Engine (Y‑Prime Edition)
+1. Overview
+The Task/Action Engine is ARUHAN’s execution and operational layer, responsible for:
+
+task detection
+
+task prioritization
+
+task selection
+
+task execution
+
+task history tracking
+
+meta‑load management
+
+It sits between the Knowledge Engine and the System Orchestrator, enabling ARUHAN to perform structured actions based on user intent and internal state.
+
+This engine is deterministic, rule‑driven, and designed for stable task execution under emotional modulation.
+
+2. Task Architecture
+The Task/Action Engine contains four core subsystems:
+
+queue — pending tasks
+
+active — currently executing task
+
+history — completed tasks
+
+meta — load, drift, bias
+
+Each subsystem is updated in a fixed order to maintain deterministic behavior.
+
+3. Task Detection
+Task detection is rule‑based and triggered by command‑like language.
+
+Keywords include:
+
+do
+
+make
+
+help
+
+fix
+
+find
+
+explain
+
+When detected, a task object is created:
+
+Code
+{"cmd": <string>, "prio": <float>, "state": "pending"}
+Tasks exceeding the queue limit (50) are pruned FIFO.
+
+4. Priority System
+Priority scoring determines which task is executed first.
+
+Priority is influenced by:
+
+emotional state
+
+urgency keywords
+
+command structure
+
+Formula components:
+
+base score
+
+mood weighting
+
+stress weighting
+
+energy weighting
+
+Priority range: 0.1 – 1.0
+
+Higher priority tasks are executed first.
+
+5. Task Selection
+Task selection follows strict rules:
+
+If a task is already running → continue
+
+If queue is empty → no active task
+
+Otherwise → sort queue by priority
+
+Pop highest priority task
+
+Set state to “running”
+
+This ensures deterministic task ordering.
+
+6. Task Execution
+Execution is template‑driven and deterministic.
+
+Supported task types:
+
+explain — concept explanation
+
+find — memory/knowledge lookup
+
+help — emotional stabilization
+
+ack — fallback acknowledgement
+
+Execution pipeline:
+
+detect task type
+
+run corresponding handler
+
+store result
+
+mark task as done
+
+push to history
+
+clear active task
+
+History is capped at 300 entries.
+
+7. Task Types (Internal Behavior)
+Explain Tasks
+Used for conceptual clarification.
+Pulls from the Knowledge Engine’s graph.
+
+Find Tasks
+Used for locating concepts in memory or knowledge frequency tables.
+
+Help Tasks
+Used for emotional stabilization.
+Behavior depends on mood polarity.
+
+Ack Tasks
+Fallback for unsupported commands.
+
+8. Meta‑Adjustment System
+Meta‑adjustment modifies:
+
+load
+
+drift
+
+bias
+
+Based on:
+
+queue size
+
+mood
+
+stress
+
+energy
+
+Load is proportional to queue length.
+Drift and bias follow the same emotional modulation rules as other modules.
+
+9. Rule Pipeline (Execution Order)
+The Task/Action Engine executes in this exact order:
+
+detect tasks
+
+select task
+
+execute task
+
+meta‑adjust
+
+return snapshot
+
+Changing the order will break task consistency.
+
+10. Debugging Entry Points
+Safe to inspect:
+
+queue length
+
+active task
+
+history length
+
+meta values
+
+Safe to modify:
+
+priority formula
+
+queue limits
+
+history limits
+
+keyword triggers
+
+Do NOT modify:
+
+task state transitions
+
+execution order
+
+meta‑adjust formulas
+
+fallback logic
+
+11. Safe Modification Zones
+Engineers may safely:
+
+add new task types
+
+expand keyword detection
+
+adjust priority scoring
+
+tune meta‑load behavior
+
+Engineers must NOT:
+
+remove existing task types
+
+bypass priority sorting
+
+alter state machine logic
+
+disable meta‑adjustment
+
+12. Expansion Guidelines
+When adding new task behaviors:
+
+keep handlers modular
+
+maintain deterministic output
+
+avoid circular dependencies
+
+ensure compatibility with the System Orchestrator
+
+test under emotional extremes
+
+13. Internal Philosophy
+The Task/Action Engine is built on:
+
+deterministic execution
+
+emotional modulation
+
+priority‑driven behavior
+
+operational stability
+
+modular extensibility
+
+It is not designed to be creative — it is designed to be reliable.
+
+14. Notes for Trusted Engineers
+Task execution is central to ARUHAN’s autonomy.
+
+All modifications must be tested with emotional feedback loops.
+
+Never modify the engine while ARUHAN is running live.
+
+Future integration with the Security AI will restrict access.

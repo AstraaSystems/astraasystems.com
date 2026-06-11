@@ -1,0 +1,91 @@
+# === PART 2: WORKFLOW + PROFIT + REFLECTION + AUDIT (MAX-COMPRESSED) ===
+
+class WFX:
+    def __init__(s,core):s.c=core
+    def run(s,chain,i,d):
+        o=[]
+        for st in chain:
+            try:o.append(getattr(s,st)(i,d))
+            except Exception as e:o.append({"err":str(e)});break
+        return o
+    def step_primary(s,i,d):return s.c.exec_engine(d,i)
+    def step_finance(s,i,d):return{"profit":0}
+    def step_log(s,i,d):return{"log":"ok"}
+
+class PFX:
+    def __init__(s,k):
+        s.k=k
+        s.p="/home/keshanth/ARKA/ardhanarishvara/profit/snap.json"
+        os.makedirs("/home/keshanth/ARKA/ardhanarishvara/profit/",exist_ok=True)
+        if not os.path.exists(s.p):open(s.p,"w").write('{"h":[]}')
+    def agg(s):
+        L=json.load(open(s.k.ledger))
+        R=C=0;B={}
+        for e in L:
+            r=e["r"].get("revenue_generated")or e["r"].get("cycle_revenue")or 0
+            r=s.k.norm(r);R+=r
+            eng=e["e"];B.setdefault(eng,0);B[eng]+=r
+        pr=s.k.profit(R,0)
+        snap={"t":str(datetime.now()),"rev":R,"p":pr,"b":B}
+        x=json.load(open(s.p));x["h"].append(snap);json.dump(x,open(s.p,"w"),indent=2)
+        return snap
+
+class NFX:
+    def __init__(s,core):s.c=core
+    def run(s):
+        k=s.c.k
+        L=json.load(open(k.ledger))
+        today=str(datetime.now()).split(" ")[0]
+        T=[e for e in L if today in e["t"]]
+        summ={"events":len(T),"eng":list({e["e"] for e in T}),"dom":list({e["d"] for e in T})}
+        fails=k.fail
+        pat={e:f"high:{c}"for e,c in fails.items()if c>=2}
+        upd=[]
+        for d,(p,f) in s.c.route.items():
+            if k.fail.get(p,0)>=3:
+                s.c.route[d]=[f,p]
+                upd.append(d)
+        ctx="/home/keshanth/ARKA/ardhanarishvara/context/"
+        clean=[]
+        for f in os.listdir(ctx):
+            p=os.path.join(ctx,f)
+            if os.path.getsize(p)>50000:
+                x=json.load(open(p))
+                y={"summary":list(x)[:10]}
+                json.dump(y,open(p,"w"),indent=2)
+                clean.append(f)
+        snap=s.c.p.agg()
+        if sum(fails.values())==0:aut="FULL"
+        elif sum(fails.values())>=10:aut="REV"
+        elif sum(fails.values())>=5:aut="PART"
+        else:aut="NO"
+        return{"sum":summ,"pat":pat,"upd":upd,"clean":clean,"snap":snap,"aut":aut}
+
+class AFX:
+    def __init__(s,core):s.c=core
+    def run(s):
+        k=s.c.k
+        L=json.load(open(k.ledger))
+        issues=[]
+        for e in L:
+            r=e["r"]
+            if"revenue_generated"not in r and"cycle_revenue"not in r:
+                issues.append({"t":e["t"],"e":e["e"]})
+        snap=s.c.p.agg()
+        rel={e:{"f":c,"s":"bad"if c>=3 else"ok"}for e,c in k.fail.items()}
+        rout=[]
+        for d,(p,f) in s.c.route.items():
+            if p==f:rout.append(d)
+        wf=[]
+        for d,(p,f) in s.c.route.items():
+            pass
+        ctx="/home/keshanth/ARKA/ardhanarishvara/context/"
+        ciss=[f for f in os.listdir(ctx)if os.path.getsize(os.path.join(ctx,f))>100000]
+        div=[]
+        for e in L:
+            r=e["r"]
+            if"revenue_generated"not in r and"cycle_revenue"not in r:
+                div.append(e)
+        opt=[e for e,c in k.fail.items()if c>=3]
+        st=s.c.a.state
+        return{"fin":issues,"snap":snap,"rel":rel,"rout":rout,"ctx":ciss,"div":div,"opt":opt,"aut":st}

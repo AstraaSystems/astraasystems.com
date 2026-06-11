@@ -1,0 +1,14 @@
+# ============================================================
+# METACOGNITIVE REFLECTION ENGINE — SUPPORT DOCUMENT
+# ============================================================
+# This engine performs self‑reflection on generated outputs to
+# maintain reasoning quality, reduce drift, and enforce internal
+# consistency across long‑running sessions.
+#
+# RESPONSIBILITIES:
+#   - Summarize outputs for internal review
+#   - Maintain reflection history
+#   - Enforce minimum reflection intervals
+#   - Provide meta‑awareness signals to orchestrator
+#
+# This engine is mandatory for stable multi‑agent cognition.

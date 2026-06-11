@@ -1,0 +1,57 @@
+============================================================
+NIGHTLY REFLECTION ENGINE v17 — SUPPORT DOCUMENT
+Arka Pillai Holdings Ltd
+============================================================
+
+1. PURPOSE
+----------
+Nightly Reflection Engine performs daily self-correction:
+- summarizes daily activity
+- detects failure patterns
+- optimizes routing
+- refines workflow chains
+- cleans context
+- updates profit snapshot
+- adjusts autonomy level
+
+2. LOCATION
+-----------
+/home/keshanth/ARKA/ardhanarishvara/reflection/NightlyReflectionEngine.py
+
+3. HOW IT WORKS
+---------------
+Triggered once per night via:
+- cron (Linux)
+- Task Scheduler (Windows 11 Pro HQ)
+
+4. DEPENDENCIES
+---------------
+Requires:
+- SupervisorCore
+- Kernel Services
+- Workflow Executor
+- Profit Aggregation Engine
+- Autonomy State Machine
+
+5. OUTPUT
+---------
+Nightly results stored in:
+/home/keshanth/ARKA/ardhanarishvara/reflection/nightly_history.json
+
+6. AUTONOMY ADJUSTMENT RULES
+-----------------------------
+0 failures → escalate to FULL_AUTONOMY  
+5 failures → reduce to PARTIAL_AUTONOMY  
+10 failures → REVOKE_AUTONOMY  
+
+7. CONTEXT CLEANUP
+------------------
+Auto-summarizes context files > 50 KB.
+
+8. PROFIT SNAPSHOT
+------------------
+Calls ProfitAggregationEngine.aggregate()
+
+============================================================
+END OF DOCUMENT
+============================================================

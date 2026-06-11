@@ -1,0 +1,74 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Userland v1 — Omniversal Shell & Process Model
+#  File: userland_v1_omniversal.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for SovereignOS Userland v1:
+#      • omniversal shell (OShell)
+#      • omniversal process model (OPM)
+#      • cross-reality execution contexts
+#      • brane-safe syscalls
+#      • timeline-consistent scheduling
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Omniversal Shell](ca://s?q=Explain_Omniversal_Shell)
+#    - [Process Model](ca://s?q=Explain_Omniversal_Process_Model)
+#    - [Execution Contexts](ca://s?q=Explain_Execution_Context)
+#    - [Omniversal IPC](ca://s?q=Explain_Omniversal_IPC)
+#    - [Filesystem Integration](ca://s?q=Explain_Userland_FS_Integration)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - execute(volume_id, context, command)
+#         Runs an omniversal shell command.
+#
+#    - send_ipc(pid, message)
+#         Sends a cross-reality IPC message.
+#
+#    - read_ipc(pid)
+#         Reads IPC messages for a process.
+#
+#    - userland_snapshot()
+#         Returns userland state.
+#
+#===============================================================================
+#  EXECUTION CONTEXT FORMAT:
+#
+#    {
+#      "reality": "R-OMEGA",
+#      "timeline": "T∞",
+#      "brane": "BRANE-∞"
+#    }
+#
+#===============================================================================
+#  PROCESS FORMAT:
+#
+#    {
+#      "id": "PROC-ABC123",
+#      "name": "worker",
+#      "context": <OmniversalExecutionContext>,
+#      "state": "running",
+#      "messages": [...]
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [SovereignFS v14 Omniversal](ca://s?q=Build_SovereignOS_Filesystem_Layer)
+#    - [Storage Engine v14 Omniversal](ca://s?q=Build_SovereignOS_Storage_Engine_v14_Omniversal)
+#    - [Block Router v14 Omniversal](ca://s?q=Build_SovereignOS_Block_Router_Omniversal)
+#    - [Hypervisor v14 Omniversal](ca://s?q=Build_SovereignOS_Hypervisor_Omniversal)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/userland_v1_omniversal.py
+#
+#===============================================================================
+#  END OF FILE — userland_v1_omniversal.support
+#===============================================================================

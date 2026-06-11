@@ -1,0 +1,56 @@
+# ============================================================
+# ARUHAN KERNEL — CHEAT SHEET (EXTREME COMPLEXITY EDITION)
+# ============================================================
+
+# ROLE:
+#   Deterministic Logic Validator
+#   Multi-Agent Backend Staff Orchestrator
+#   AST Security Gateway
+#   Memory-Isolated Commit Engine
+
+# FILES:
+#   /entities/aruhan.py
+#   /entities/aruhan_kernel.py
+
+# STATE MACHINE:
+#   IDLE → THINKING → VALIDATING → COMMITTING → IDLE
+#   FAULTED → RECOVERING → IDLE
+
+# VALIDATION LAYERS:
+#   1. AST Structural Parsing
+#   2. Banned Import Detection
+#   3. Dangerous Call Detection
+#   4. Threat Scoring Heuristics
+
+# BANNED IMPORTS:
+#   os, sys, subprocess, socket, requests, urllib
+
+# BANNED CALLS:
+#   eval, exec, compile, open, getattr, setattr
+
+# THREAT SCORE:
+#   try/except      +0.10
+#   with            +0.05
+#   lambda          +0.20
+
+# COMMIT PATH:
+#   ~/.aruhan_vault/secure_workspace/<filename>
+
+# TELEMETRY FIELDS:
+#   validations_passed
+#   faults_detected
+#   last_fault_signature
+#   memory_snapshot
+
+# IPC HOOKS:
+#   Aruhan receives validated logic from:
+#       - Astraa
+#       - Arkastra
+#       - Distribution AI
+#       - Lux
+#       - Arka OS
+
+# RECOVERY:
+#   Automatic micro-cycle stabilization
+#   Fault signature logged
+#   State reset to IDLE

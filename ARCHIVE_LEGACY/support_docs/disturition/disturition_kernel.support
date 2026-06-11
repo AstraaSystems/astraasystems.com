@@ -1,0 +1,40 @@
+# ============================================================
+# DISTRIBUTION AI KERNEL — CHEAT SHEET (EXTREME COMPLEXITY EDITION)
+# ============================================================
+
+# ROLE:
+#   Zero-Inventory Logistics Engine
+#   Freight Router
+#   Capital-Efficient Contract Evaluator
+#   Aruhan Staff Inheritance Layer
+
+# FILES:
+#   /entities/disturition.py
+#   /entities/disturition_kernel.py
+
+# STATE MACHINE:
+#   IDLE → CONTRACT_EVAL → CAPITAL_CHECK → ROUTE_OPTIMIZATION
+#   → COMMITTING → IDLE
+#   FAULTED → IDLE
+
+# LOGISTICS ENGINE:
+#   lane_efficiency: 0.65–0.98
+#   adjusted_yield = projected_yield * lane_efficiency
+
+# ZERO-INVENTORY RULE:
+#   If capital_required > 0 AND warehouse_needed → REJECT
+
+# COMMIT PATH:
+#   ~/.aruhan_vault/secure_workspace/distribution_ai/
+
+# TELEMETRY FIELDS:
+#   contracts_processed
+#   faults_detected
+#   last_fault_signature
+#   retained_memory
+
+# DEPENDENCIES:
+#   Aruhan → Logic Validation
+#   Astraa → Financial Safety
+#   Lux → Capital Exposure
+#   Arka → Governance & Approval

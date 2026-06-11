@@ -1,0 +1,279 @@
+File: aruhan_knowledge_engine.support
+Classification: INTERNAL — TRUSTED ENGINEERS ONLY
+Module: ARUHAN Knowledge Engine (Y‑Prime Edition)
+1. Overview
+The Knowledge Engine is ARUHAN’s conceptual reasoning layer, responsible for:
+
+concept frequency tracking
+
+knowledge graph construction
+
+relational link mapping
+
+decay‑based knowledge pruning
+
+meta‑adjustment for stability
+
+It sits between the Memory Engine and the Task/Action Engine, providing structured conceptual signals to both.
+
+The engine is deterministic, rule‑driven, and designed to maintain conceptual stability under emotional drift.
+
+2. Knowledge Architecture
+The Knowledge Engine contains four core subsystems:
+
+graph — concept nodes with usage counts
+
+freq — raw frequency table
+
+links — bidirectional relational map
+
+meta — drift, bias, coherence
+
+Each subsystem is independent and updated in a fixed order.
+
+3. Tokenization
+Tokenization is minimal and deterministic:
+
+lowercase
+
+whitespace split
+
+no stemming
+
+no stopword removal
+
+This ensures:
+
+reproducibility
+
+predictable concept formation
+
+compatibility with semantic memory
+
+Tokenization is intentionally simple to avoid ambiguity.
+
+4. Frequency System
+The frequency table (freq) tracks how often each concept appears.
+
+Characteristics:
+
+grows with usage
+
+decays slowly
+
+pruned when frequency reaches zero
+
+Frequency influences:
+
+concept importance
+
+graph weighting
+
+relational strength
+
+Engineers may adjust decay rate but must maintain deterministic behavior.
+
+5. Knowledge Graph
+The graph stores:
+
+concept nodes
+
+usage counts
+
+relational references
+
+Each concept has:
+
+Code
+{"count": <float>, "links": {}}
+Graph count decays over time to prevent runaway growth.
+
+Graph is used for:
+
+conceptual grounding
+
+topic inference
+
+reasoning support
+
+6. Relational Links
+Relational links (links) store bidirectional adjacency between concepts.
+
+Example:
+
+Code
+a → b
+b → a
+Links are strengthened by repeated adjacency and weakened by decay.
+
+Links influence:
+
+conceptual clustering
+
+topic transitions
+
+inference pathways
+
+Engineers must not break bidirectionality.
+
+7. Decay System
+Decay prevents conceptual overload.
+
+Decay applies to:
+
+frequency table
+
+graph counts
+
+relational links
+
+Decay rate: 0.002
+
+Decay ensures:
+
+stability
+
+freshness
+
+controlled growth
+
+Decay is applied by subtracting a fixed amount and pruning zeros.
+
+8. Meta‑Adjustment System
+Meta‑adjustment modifies:
+
+drift
+
+bias
+
+coherence
+
+Based on:
+
+mood
+
+stress
+
+energy
+
+Drift influences:
+
+relational redirection
+
+conceptual stability
+
+Bias influences:
+
+positive/negative conceptual weighting
+
+Coherence influences:
+
+graph consistency
+
+relational clarity
+
+9. Rule Pipeline (Execution Order)
+The Knowledge Engine executes in this exact order:
+
+tokenize message
+
+update frequency
+
+update graph
+
+update relational links
+
+apply decay
+
+meta‑adjust
+
+return snapshot
+
+Changing the order will break conceptual consistency.
+
+10. Debugging Entry Points
+Safe to inspect:
+
+graph size
+
+frequency table
+
+relational link count
+
+meta values
+
+Safe to modify:
+
+decay rate
+
+weighting multipliers
+
+tokenization rules
+
+Do NOT modify:
+
+relational bidirectionality
+
+decay order
+
+meta‑adjust formulas
+
+graph structure
+
+11. Safe Modification Zones
+Engineers may safely:
+
+adjust decay rate
+
+adjust weighting multipliers
+
+add token filters
+
+expand relational logic
+
+Engineers must NOT:
+
+remove decay
+
+break bidirectional links
+
+bypass meta‑adjustment
+
+alter graph node structure
+
+12. Expansion Guidelines
+When expanding conceptual reasoning:
+
+maintain deterministic behavior
+
+avoid circular dependencies
+
+ensure compatibility with the System Orchestrator
+
+test under emotional extremes
+
+preserve graph integrity
+
+13. Internal Philosophy
+The Knowledge Engine is built on:
+
+conceptual grounding
+
+relational mapping
+
+deterministic decay
+
+emotional modulation
+
+stability under drift
+
+It is not designed to mimic human reasoning — it is designed for predictable conceptual intelligence.
+
+14. Notes for Trusted Engineers
+The Knowledge Engine is the backbone of ARUHAN’s reasoning.
+
+All modifications must be tested with emotional feedback loops.
+
+Never modify the engine while ARUHAN is running live.
+
+Future integration with the Security AI will restrict access.

@@ -1,0 +1,103 @@
+# ============================================================
+# ARUHAN CORE MANIFEST — Y‑PRIME EDITION
+# Dense, deterministic, AI‑maintainable, outsider‑confusing.
+# ============================================================
+
+aruhan_core_manifest:
+
+  identity:
+    name: "Aruhan"
+    version: "Y-Prime"
+    architecture: "Modular Cognitive Stack"
+    integrity_level: "Tier-0 Root"
+
+  modules:
+    emotional_engine:
+      path: "aruhan_emotional_engine.py"
+      state: "active"
+      weight: 1.0
+
+    memory_engine:
+      path: "aruhan_memory_engine.py"
+      state: "active"
+      weight: 1.0
+
+    knowledge_engine:
+      path: "aruhan_knowledge_engine.py"
+      state: "active"
+      weight: 1.0
+
+    task_action_engine:
+      path: "aruhan_task_action_engine.py"
+      state: "active"
+      weight: 1.0
+
+    dialogue_engine:
+      path: "aruhan_dialogue_engine.py"
+      state: "active"
+      weight: 1.0
+
+    system_orchestrator:
+      path: "aruhan_system_orchestrator.py"
+      state: "active"
+      priority: "root"
+
+    logging_telemetry_engine:
+      path: "aruhan_logging_telemetry_engine.py"
+      state: "active"
+
+    stability_recovery_engine:
+      path: "aruhan_stability_recovery_engine.py"
+      state: "active"
+
+    security_ai_module:
+      path: "aruhan_security_ai_module.py"
+      state: "active"
+      enforcement: "strict"
+
+    persona_identity_engine:
+      path: "aruhan_persona_identity_engine.py"
+      state: "active"
+
+    adaptive_learning_engine:
+      path: "aruhan_adaptive_learning_engine.py"
+      state: "active"
+
+    long_term_evolution_engine:
+      path: "aruhan_long_term_evolution_engine.py"
+      state: "active"
+
+  meta:
+    drift: 0.0
+    bias: 0.5
+    coherence: 1.0
+    sync: 1.0
+    load: 0.0
+
+  pipeline_order:
+    - emotional_engine
+    - memory_engine
+    - knowledge_engine
+    - task_action_engine
+    - dialogue_engine
+    - system_orchestrator
+    - logging_telemetry_engine
+    - stability_recovery_engine
+    - security_ai_module
+    - persona_identity_engine
+    - adaptive_learning_engine
+    - long_term_evolution_engine
+
+  constraints:
+    deterministic_execution: true
+    strict_module_boundaries: true
+    no_cross_write_access: true
+    orchestrator_root_control: true
+    security_enforcement: "always"
+
+  history:
+    manifest_updates: 0
+    last_update: "initial"
+
+  checksum:
+    manifest_hash: "YPRIME-ROOT-7F2A9C1E"

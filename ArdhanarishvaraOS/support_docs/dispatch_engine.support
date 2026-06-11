@@ -1,0 +1,50 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Dispatch Engine
+#  File: dispatch_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the autonomous dispatch layer that distributes
+#    tasks and workloads across all ARKA engines.
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    • Weighted engine selection
+#    • Latency‑aware load balancing
+#    • Stochastic dispatching
+#    • Supervisor‑linked failure escalation
+#    • Bulk dispatch support
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    register_engine(name, handler, weight)
+#       → Registers an engine for dispatching.
+#
+#    attach_supervisor(handler)
+#       → Links Supervisor Bridge for escalation.
+#
+#    dispatch(task, payload)
+#       → Routes a single task to the best engine.
+#
+#    dispatch_bulk(tasks)
+#       → Dispatches multiple tasks sequentially.
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    [Supervisor Bridge](ca://s?q=Build_Supervisor_Bridge)
+#    [OS Routing Rules](ca://s?q=Build_OS_Routing_Rules)
+#    [Profit Aggregator](ca://s?q=Build_Profit_Aggregator)
+#    [Lux Profit Allocator](ca://s?q=Build_Lux_Profit_Allocator)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/dispatch_engine.py
+#
+#===============================================================================
+#  END OF FILE — dispatch_engine.support
+#===============================================================================

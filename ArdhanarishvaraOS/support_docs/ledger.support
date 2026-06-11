@@ -1,0 +1,65 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Sovereign Ledger Engine
+#  File: ledger.support
+#===============================================================================
+#  PURPOSE:
+#    Provides engineering reference for the immutable financial ledger used by
+#    all ARKA income engines and Lux Trading AI.
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    • Immutable event store for all financial activity
+#    • Balance tracking for internal accounts
+#    • Used by:
+#         - Astraa FinOps
+#         - Distribution AI
+#         - GEO Visibility AI
+#         - Sovereign Finance Engine
+#         - Lux Trading AI (profit allocation)
+#         - ArkastraEngine
+#         - Construction Estimator
+#
+#===============================================================================
+#  DATABASE STRUCTURE:
+#
+#    Table: ledger_events
+#      entry_id          TEXT PRIMARY KEY
+#      source_engine     TEXT
+#      event_type        TEXT
+#      amount            REAL
+#      currency          TEXT
+#      metadata_json     TEXT
+#      timestamp_epoch   REAL
+#
+#    Table: ledger_balances
+#      account_key       TEXT PRIMARY KEY
+#      balance           REAL
+#      currency          TEXT
+#      last_update       REAL
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    record_event(source, event_type, amount, currency, metadata)
+#       → Writes immutable ledger entry.
+#
+#    update_balance(account, delta, currency)
+#       → Adjusts account balance.
+#
+#    get_balance(account)
+#       → Returns current balance.
+#
+#    query_events(source=None, event_type=None)
+#       → Returns filtered ledger events.
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/ledger.py
+#
+#===============================================================================
+#  END OF FILE — ledger.support
+#===============================================================================

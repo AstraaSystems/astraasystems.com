@@ -1,0 +1,74 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  App Sandboxing Engine
+#  File: app_sandboxing_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS sandboxing engine responsible for:
+#      • permission enforcement
+#      • syscall filtering
+#      • resource quota limits
+#      • isolation profiles
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Sandbox Profiles](ca://s?q=Explain_Sandbox_Profiles)
+#    - [Permission Enforcement](ca://s?q=Explain_Permission_Enforcement)
+#    - [Syscall Filtering](ca://s?q=Explain_Syscall_Filtering)
+#    - [Resource Quotas](ca://s?q=Explain_Resource_Quotas)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_profile(name, rules)
+#         Registers a sandbox profile.
+#
+#    - create(app_id, profile)
+#         Creates sandbox instance for an app.
+#
+#    - check(sandbox_id, permission)
+#         Checks permission access.
+#
+#    - syscall(sandbox_id, call)
+#         Validates syscall against profile.
+#
+#    - quota(sandbox_id, resource, amount)
+#         Enforces resource limits.
+#
+#    - destroy(sandbox_id)
+#         Destroys sandbox instance.
+#
+#    - snapshot()
+#         Returns full sandbox state.
+#
+#===============================================================================
+#  PROFILE STRUCTURE FORMAT:
+#
+#    {
+#      "permissions": ["network", "filesystem.read"],
+#      "syscalls": ["open", "read", "write"],
+#      "quotas": {
+#         "cpu": 0.25,
+#         "memory": 256,
+#         "disk": 1024
+#      }
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [App Manifest Engine](ca://s?q=Build_App_Manifest_Engine)
+#    - [App Runtime Engine](ca://s?q=Build_App_Runtime_Engine)
+#    - [UI Window Manager](ca://s?q=Build_UI_Window_Manager)
+#    - [Arkastra Engine](ca://s?q=Build_Arkastra_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/app_sandboxing_engine.py
+#
+#===============================================================================
+#  END OF FILE — app_sandboxing_engine.support
+#===============================================================================

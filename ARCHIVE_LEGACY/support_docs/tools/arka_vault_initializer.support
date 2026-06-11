@@ -1,0 +1,37 @@
+# ============================================================
+# ARKA VAULT INITIALIZER — CHEAT SHEET
+# ============================================================
+
+# FILE:
+#   /tools/arka_vault_initializer.py
+
+# PURPOSE:
+#   - Create all sovereign vault directories
+#   - Repair missing vaults
+#   - Generate structural integrity hashes
+#   - Produce diagnostic report
+
+# VAULTS CREATED:
+#   ~/.astraa_vault/sovengine/ledger
+#   ~/.astraa_vault/trivertical/ledger
+#   ~/.ardhanarishvara_vault/secure_os/self_modules
+#   ~/.ardhanarishvara_vault/secure_os/shared_ledger
+#   ~/.ardhanarishvara_vault/hyper_kernel
+
+# RUN:
+#   python3 tools/arka_vault_initializer.py
+
+# OUTPUT:
+#   {
+#     "epoch": ...,
+#     "vaults": {
+#         "astraa_sovengine": {...},
+#         "ardhanarishvara_os_self": {...},
+#         ...
+#     }
+#   }
+
+# NOTES:
+#   - Each vault receives a unique integrity hash
+#   - Missing vaults are automatically created
+#   - Perfect for pre‑boot system preparation

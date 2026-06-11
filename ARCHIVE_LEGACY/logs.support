@@ -1,0 +1,38 @@
+================================================================================
+SYSTEMD EXECUTION SERVICE — SUPPORT FILE
+================================================================================
+ROLE:
+    This service runs the Ardhanarishvara Autonomous Execution Engine as a
+    persistent system daemon. It ensures the engine starts on boot, restarts
+    on failure, and logs output to the /logs directory.
+
+SERVICE NAME:
+    ardhanarishvara-execution.service
+
+KEY FEATURES:
+    - Auto-starts on boot
+    - Auto-restarts on crash
+    - Uses DISPLAY=:2 for Xvfb
+    - Uses Python virtual environment
+    - Logs stdout and stderr to /logs
+    - Runs under user: keshanth
+
+FILES:
+    /etc/systemd/system/ardhanarishvara-execution.service
+    /home/keshanth/ARKA/ardhanarishvara/logs/execution.log
+    /home/keshanth/ARKA/ardhanarishvara/logs/execution.err
+
+COMMANDS:
+    sudo systemctl daemon-reload
+    sudo systemctl enable ardhanarishvara-execution.service
+    sudo systemctl start ardhanarishvara-execution.service
+    systemctl status ardhanarishvara-execution.service
+
+NOTES:
+    - Ensure Xvfb is running on :2 before starting the service.
+    - Ensure IB Gateway is running and authenticated.
+    - Ensure kill.switch file is absent unless intentionally halting the engine.
+
+================================================================================
+END OF SUPPORT FILE
+================================================================================

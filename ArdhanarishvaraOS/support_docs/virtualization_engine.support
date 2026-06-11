@@ -1,0 +1,75 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Virtualization Engine
+#  File: virtualization_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS virtualization engine responsible for:
+#      • VM lifecycle management
+#      • hypercall routing
+#      • virtual CPU scheduling
+#      • virtual memory mapping
+#      • isolation enforcement
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [VM Lifecycle](ca://s?q=Explain_VM_Lifecycle)
+#    - [Hypercall Routing](ca://s?q=Explain_Hypercall_Routing)
+#    - [vCPU Scheduling](ca://s?q=Explain_vCPU_Scheduling)
+#    - [Virtual Memory](ca://s?q=Explain_Virtual_Memory)
+#    - [Isolation Boundaries](ca://s?q=Explain_VM_Isolation)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - create_vm(name, vcpu, memory_mb)
+#         Creates VM instance.
+#
+#    - start_vm(vm_id)
+#         Starts VM.
+#
+#    - stop_vm(vm_id)
+#         Stops VM.
+#
+#    - destroy_vm(vm_id)
+#         Deletes VM.
+#
+#    - register_hypercall(name, handler)
+#         Registers hypercall.
+#
+#    - hypercall(name, payload)
+#         Executes hypercall.
+#
+#    - snapshot()
+#         Returns virtualization engine state.
+#
+#===============================================================================
+#  VM STRUCTURE FORMAT:
+#
+#    {
+#      "id": "VM-XXXX",
+#      "name": "sandbox.vm",
+#      "vcpu": 2,
+#      "memory_mb": 1024,
+#      "state": "running/stopped",
+#      "created": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Kernel Debugger](ca://s?q=Build_SovereignOS_Kernel_Debugger)
+#    - [IPC Bus Engine](ca://s?q=Build_SovereignOS_IPC_Bus_Engine)
+#    - [Memory Manager](ca://s?q=Build_SovereignOS_Memory_Manager)
+#    - [Hardware Abstraction Layer](ca://s?q=Build_SovereignOS_Hardware_Abstraction_Layer)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/virtualization_engine.py
+#
+#===============================================================================
+#  END OF FILE — virtualization_engine.support
+#===============================================================================

@@ -1,0 +1,12 @@
+# ============================================================
+# KARPATHY OPTIMIZATION LOOP — SUPPORT DOCUMENT
+# ============================================================
+# This engine tracks performance metrics and computes directional
+# trends to guide optimization decisions.
+#
+# PURPOSE:
+#   - detect improvement or degradation
+#   - provide feedback to orchestrator
+#   - maintain long‑term performance stability
+#
+# Inspired by iterative refinement loops used in modern LLM training.

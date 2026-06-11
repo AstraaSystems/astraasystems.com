@@ -1,0 +1,265 @@
+File: aruhan_system_orchestrator.support
+Classification: INTERNAL — TRUSTED ENGINEERS ONLY
+Module: ARUHAN System Orchestrator (Y‑Prime Edition)
+1. Overview
+The System Orchestrator is ARUHAN’s central coordination layer, responsible for:
+
+sequencing all cognitive modules
+
+synchronizing emotional, memory, knowledge, and task states
+
+maintaining global meta‑stability
+
+logging system‑level interactions
+
+ensuring deterministic pipeline execution
+
+It sits above all core modules:
+
+Emotional Engine
+
+Memory Engine
+
+Knowledge Engine
+
+Task/Action Engine
+
+Dialogue Engine
+
+The orchestrator is the “spine” of ARUHAN — nothing runs without it.
+
+2. Pipeline Architecture
+The orchestrator executes modules in a strict, deterministic order:
+
+Emotional Engine
+
+Memory Engine
+
+Knowledge Engine
+
+Task/Action Engine
+
+Dialogue Engine
+
+This order is non‑negotiable.
+
+Changing the pipeline order will break:
+
+emotional alignment
+
+memory consistency
+
+knowledge graph stability
+
+task prioritization
+
+conversational coherence
+
+3. Synchronization Layer
+The orchestrator computes global meta‑state values:
+
+load — system workload
+
+drift — emotional + cognitive instability
+
+bias — positivity/negativity tilt
+
+sync — alignment between modules
+
+Synchronization uses weighted averages from:
+
+emotional output
+
+memory meta
+
+knowledge meta
+
+task meta
+
+High drift reduces sync.
+High sync indicates stable system operation.
+
+4. Logging System
+The orchestrator logs:
+
+input message
+
+final output
+
+meta snapshot
+
+Each log entry contains:
+
+Code
+{"in": <msg>, "out": <response>, "meta": <meta_state>}
+History is capped at 300 entries.
+
+Logs are used for:
+
+debugging
+
+behavioral analysis
+
+drift detection
+
+system audits
+
+5. Meta‑State System
+The orchestrator maintains global meta values:
+
+load — queue pressure
+
+drift — cross‑module instability
+
+bias — emotional tilt
+
+sync — alignment score
+
+These values influence:
+
+future task prioritization
+
+emotional modulation
+
+conversational stability
+
+system recovery behavior
+
+6. Module Interfaces
+The orchestrator expects each module to expose a .process() method with deterministic output.
+
+Required signatures:
+
+Emotional Engine → process(msg)
+
+Memory Engine → process(msg, emo)
+
+Knowledge Engine → process(msg, mem, emo)
+
+Task Engine → process(msg, emo, mem, know)
+
+Dialogue Engine → process(msg, emo)
+
+Modules must not break these signatures.
+
+7. Rule Pipeline (Execution Order)
+The orchestrator executes in this exact order:
+
+emotional processing
+
+memory update
+
+knowledge update
+
+task processing
+
+dialogue generation
+
+synchronization
+
+logging
+
+return final output
+
+This order ensures:
+
+emotional state influences memory
+
+memory influences knowledge
+
+knowledge influences tasks
+
+tasks influence global meta
+
+dialogue reflects all upstream states
+
+8. Debugging Entry Points
+Safe to inspect:
+
+meta state
+
+pipeline order
+
+history length
+
+last output
+
+Safe to modify:
+
+history limit
+
+sync formula
+
+load weighting
+
+Do NOT modify:
+
+pipeline order
+
+module call signatures
+
+drift/bias formulas
+
+logging structure
+
+9. Safe Modification Zones
+Engineers may safely:
+
+adjust sync formula
+
+adjust load calculation
+
+expand logging metadata
+
+add pipeline hooks (pre/post)
+
+Engineers must NOT:
+
+reorder pipeline
+
+bypass emotional engine
+
+bypass meta‑sync
+
+disable logging
+
+modify module dependencies
+
+10. Expansion Guidelines
+When expanding orchestrator capabilities:
+
+maintain deterministic execution
+
+avoid circular dependencies
+
+ensure compatibility with all modules
+
+test under emotional extremes
+
+preserve sync stability
+
+Future integration with the Security AI will add access‑control hooks.
+
+11. Internal Philosophy
+The orchestrator is built on:
+
+strict sequencing
+
+deterministic behavior
+
+emotional alignment
+
+modular independence
+
+global stability
+
+It is not meant to be “smart” — it is meant to be reliable.
+
+12. Notes for Trusted Engineers
+The orchestrator is the most sensitive module in ARUHAN.
+
+Any modification must be tested across all modules.
+
+Never modify the orchestrator while ARUHAN is running live.
+
+Future versions will include system‑level recovery and watchdog layers.

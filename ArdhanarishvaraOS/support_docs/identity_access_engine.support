@@ -1,0 +1,77 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Identity & Access Engine
+#  File: identity_access_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS identity & access engine:
+#      • identity registry
+#      • authentication tokens
+#      • role-based access control
+#      • permission evaluation
+#      • session lifecycle
+#      • audit logging
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Identity Registry](ca://s?q=Explain_Identity_Registry)
+#    - [Authentication](ca://s?q=Explain_Kernel_Authentication)
+#    - [RBAC](ca://s?q=Explain_Role_Based_Access_Control)
+#    - [Permission Checks](ca://s?q=Explain_Permission_Checks)
+#    - [Audit Logging](ca://s?q=Explain_Audit_Logging)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - create_identity(name, secret, roles)
+#         Creates identity object.
+#
+#    - define_role(name, permissions)
+#         Defines RBAC role.
+#
+#    - authenticate(identity_id, secret)
+#         Creates session + token.
+#
+#    - validate(session_id, token)
+#         Validates session.
+#
+#    - check(session_id, token, permission)
+#         Evaluates permission.
+#
+#    - end_session(session_id)
+#         Ends session.
+#
+#    - log(event, meta)
+#         Writes audit log entry.
+#
+#    - snapshot()
+#         Returns IAE state.
+#
+#===============================================================================
+#  IDENTITY STRUCTURE FORMAT:
+#
+#    {
+#      "id": "ID-XXXX",
+#      "name": "admin",
+#      "roles": ["root", "system"],
+#      "secret": <bytes>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Cryptography Engine](ca://s?q=Build_SovereignOS_Cryptography_Engine)
+#    - [Package Manager Engine](ca://s?q=Build_SovereignOS_Package_Manager_Engine)
+#    - [Distributed Node Engine](ca://s?q=Build_SovereignOS_Distributed_Node_Engine)
+#    - [Container Engine](ca://s?q=Build_SovereignOS_Container_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/identity_access_engine.py
+#
+#===============================================================================
+#  END OF FILE — identity_access_engine.support
+#===============================================================================

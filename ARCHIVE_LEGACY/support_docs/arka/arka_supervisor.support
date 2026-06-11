@@ -1,0 +1,42 @@
+# ============================================================
+# ARKA ULTIMATE SUPERVISOR — CHEAT SHEET (EXTREME EDITION)
+# ============================================================
+
+# ROLE:
+#   Sovereign Governor
+#   Evolution Director
+#   Treasury Guardian
+#   Multi-Engine Coordinator
+#   System-Level Decision Maker
+
+# FILE:
+#   /arka_core/arka_ultimate_supervisor.py
+
+# STATE MACHINE:
+#   IDLE → GOVERNING → VALIDATING → OPTIMIZING → EVOLVING → IDLE
+#   FAULTED → IDLE
+
+# RESPONSIBILITIES:
+#   - Validate logic via Aruhan
+#   - Validate financial safety via Astraa
+#   - Optimize capital via Lux
+#   - Route logistics via Distribution AI
+#   - Generate commerce via Arkastra
+#   - Commit system snapshots
+#   - Maintain treasury balance
+#   - Detect anomalies
+
+# TELEMETRY FIELDS:
+#   cycles_completed
+#   faults_detected
+#   last_fault_signature
+#   treasury_balance
+#   retained_memory
+
+# DEPENDENCIES:
+#   Aruhan → Logic Validation
+#   Astraa → Financial Safety
+#   Lux → Capital Optimization
+#   Distribution → Logistics Routing
+#   Arkastra → Commerce Generation
+#   ArdhanarishvaraOS → Shared Memory & IPC

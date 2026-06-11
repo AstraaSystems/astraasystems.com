@@ -1,0 +1,156 @@
+# ============================================================
+# CONTEXT COMPACTION ENGINE — SUPPORT DOCUMENT
+# ============================================================
+# Classification: INTERNAL — TRUSTED ENGINEERS ONLY
+# System: Ardhanarishvara Infrastructure Layer
+# Module: Context Compaction Engine (Y‑Prime Edition)
+#
+# This document describes the purpose, behavior, and safety
+# responsibilities of the Context Compaction Engine. It is
+# written in shell‑style format for compatibility with internal
+# tooling and system scripts.
+# ============================================================
+
+
+# ============================================================
+# SECTION 1 — OVERVIEW
+# ============================================================
+# The Context Compaction Engine prevents context overflow in
+# multi‑agent LLM systems by reducing accumulated conversational
+# history when token limits are exceeded.
+#
+# It ensures:
+#   - predictable memory usage
+#   - stable inference performance
+#   - safe long‑running conversations
+#   - deterministic compaction behavior
+#
+# All AI entities (Arka, Astra, Aruhan, Arkastra, Lux, Disturition)
+# rely on this engine to maintain safe context boundaries.
+
+
+# ============================================================
+# SECTION 2 — PURPOSE & RESPONSIBILITIES
+# ============================================================
+# PRIMARY RESPONSIBILITIES:
+#
+#   1. Monitor total context token count.
+#   2. Detect when context exceeds safe thresholds.
+#   3. Remove low‑priority or older blocks of context.
+#   4. Preserve essential reasoning segments.
+#   5. Maintain deterministic compaction behavior.
+#
+# Without this engine, the system risks:
+#   - VRAM overload
+#   - inference slowdown
+#   - context corruption
+#   - model instability
+
+
+# ============================================================
+# SECTION 3 — THRESHOLDS & LIMITS
+# ============================================================
+# max_tokens:
+#   - The absolute maximum allowed context size.
+#   - Default: 32000 tokens.
+#
+# min_retain:
+#   - Minimum tokens to preserve after compaction.
+#   - Default: 8000 tokens.
+#
+# aggressive_cut:
+#   - Percentage of context to remove during compaction.
+#   - Default: 0.40 (40%).
+#
+# These values should be tuned based on hardware and model size.
+
+
+# ============================================================
+# SECTION 4 — COMPACTION LOGIC
+# ============================================================
+# The engine performs compaction when:
+#   total_tokens > max_tokens
+#
+# COMPACTION STRATEGY:
+#   - Remove oldest blocks first.
+#   - Continue removing until the target reduction is met.
+#   - Preserve the most recent and most relevant blocks.
+#
+# This ensures:
+#   - minimal loss of reasoning continuity
+#   - predictable memory reduction
+#   - stable inference performance
+
+
+# ============================================================
+# SECTION 5 — HARD RESET
+# ============================================================
+# The engine supports a full reset operation that:
+#   - clears compaction counters
+#   - clears removal totals
+#   - clears history logs
+#
+# This is used during:
+#   - system stabilization cycles
+#   - orchestrator resets
+#   - major context corruption events
+
+
+# ============================================================
+# SECTION 6 — LOGGING & TELEMETRY
+# ============================================================
+# The engine logs:
+#   - number of compactions
+#   - total tokens removed
+#   - timestamps
+#
+# HISTORY LIMIT:
+#   - 200 entries
+#
+# Logs are consumed by:
+#   - Stability & Recovery Engine
+#   - System Orchestrator
+#   - Meta‑Cognitive Reflection Engine
+
+
+# ============================================================
+# SECTION 7 — FAILURE MODES & RECOVERY
+# ============================================================
+# 1. CONTEXT OVERFLOW
+#    - Context exceeds max_tokens.
+#    - Recovery: compaction triggered.
+#
+# 2. AGGRESSIVE CUT TOO LOW
+#    - Not enough tokens removed.
+#    - Recovery: increase aggressive_cut.
+#
+# 3. CONTEXT CORRUPTION
+#    - Blocks malformed or missing.
+#    - Recovery: orchestrator triggers hard reset.
+
+
+# ============================================================
+# SECTION 8 — EXPANSION GUIDELINES
+# ============================================================
+# SAFE TO MODIFY:
+#   - thresholds
+#   - compaction strategy
+#   - block prioritization rules
+#
+# DO NOT MODIFY:
+#   - locking behavior
+#   - logging structure
+#   - snapshot format
+#
+# These components ensure deterministic behavior.
+
+
+# ============================================================
+# SECTION 9 — NOTES FOR TRUSTED ENGINEERS
+# ============================================================
+# - All modules must route context through this engine.
+# - Never bypass compaction for "quick tests".
+# - Thresholds must reflect real hardware limits.
+# - Logs should be reviewed during stabilization cycles.
+#
+# This engine is mandatory for safe multi‑agent context management.

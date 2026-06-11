@@ -1,0 +1,61 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Hypervisor v17 — Metareality Compute Fabric
+#  File: hypervisor_v17_metareality.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for Hypervisor v17:
+#      • metareality-aware compute orchestration
+#      • cross-reality VM placement
+#      • self-correcting divergence control
+#      • meta-adaptive load balancing
+#      • integration with Storage Engine v17 and Block Router v17
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Metareality Compute Fabric](ca://s?q=Explain_Metareality_Compute_Fabric)
+#    - [Cross-Reality VM Placement](ca://s?q=Explain_Cross_Reality_VM_Placement)
+#    - [Meta-Adaptive Load Balancing](ca://s?q=Explain_Meta_Adaptive_Load_Balancing)
+#    - [Divergence Correction](ca://s?q=Explain_Hypervisor_Divergence_Correction)
+#    - [VM Migration](ca://s?q=Explain_VM_Migration_v17)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_reality(rid)
+#    - create_vm(name, cpu, memory)
+#    - migrate_vm(vm_id)
+#    - correct_divergence(rid)
+#    - hypervisor_snapshot()
+#
+#===============================================================================
+#  VM FORMAT:
+#
+#    {
+#      "id": "VM17-XYZ",
+#      "name": "example",
+#      "cpu": 4,
+#      "memory": 8192,
+#      "reality": "R-OMEGA",
+#      "created": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Storage Engine v17](ca://s?q=Build_Storage_Engine_v17)
+#    - [Block Router v17](ca://s?q=Build_Block_Router_v17)
+#    - [SovereignFS v17](ca://s?q=Build_SovereignFS_v17)
+#    - [Userland v17](ca://s?q=Build_Userland_v17)
+#    - [Kernel v17](ca://s?q=Build_Kernel_v17)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/hypervisor_v17_metareality.py
+#
+#===============================================================================
+#  END OF FILE — hypervisor_v17_metareality.support
+#===============================================================================

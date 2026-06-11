@@ -1,0 +1,72 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignFS v14 — Omniversal Filesystem Layer
+#  File: sovereignfs_v14_omniversal.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for SovereignFS v14:
+#      • omniversal filesystem abstraction
+#      • cross-reality path resolution
+#      • brane-safe metadata
+#      • timeline-consistent file operations
+#      • integration with Storage Engine v14 + Block Router v14
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Omniversal Inodes](ca://s?q=Explain_Omniversal_Inodes)
+#    - [Cross-Reality Paths](ca://s?q=Explain_Cross_Reality_Paths)
+#    - [Brane-Safe Directories](ca://s?q=Explain_Brane_Safe_Directories)
+#    - [Causality-Safe Writes](ca://s?q=Explain_Causality_Safe_Writes)
+#    - [Omniversal Reads](ca://s?q=Explain_Omniversal_Reads)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - create_volume(name, realities)
+#         Creates an omniversal filesystem volume.
+#
+#    - create_file(path, reality)
+#         Creates a file bound to a specific reality.
+#
+#    - create_directory(path, reality)
+#         Creates a directory in a specific reality.
+#
+#    - write_file(volume_id, path, data)
+#         Writes data using omniversal block routing.
+#
+#    - read_file(volume_id, path)
+#         Reads data using omniversal storage engine.
+#
+#    - fs_snapshot()
+#         Returns filesystem state.
+#
+#===============================================================================
+#  INODE FORMAT:
+#
+#    {
+#      "id": "INODE-ABC123",
+#      "type": "file",
+#      "reality": "R-OMEGA",
+#      "size": 1024,
+#      "blocks": ["BLK-XYZ"],
+#      "created": <epoch>,
+#      "modified": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Storage Engine v14 Omniversal](ca://s?q=Build_SovereignOS_Storage_Engine_v14_Omniversal)
+#    - [Block Router v14 Omniversal](ca://s?q=Build_SovereignOS_Block_Router_Omniversal)
+#    - [Hypervisor v14 Omniversal](ca://s?q=Build_SovereignOS_Hypervisor_Omniversal)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/sovereignfs_v14_omniversal.py
+#
+#===============================================================================
+#  END OF FILE — sovereignfs_v14_omniversal.support
+#===============================================================================

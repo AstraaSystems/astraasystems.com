@@ -1,0 +1,72 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Storage Engine v17 — Metareality Fabric
+#  File: storage_engine_v17_metareality.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for Storage Engine v17:
+#      • metareality-aware block storage
+#      • cross-reality consistency
+#      • self-optimizing block placement
+#      • divergence-safe reads
+#      • meta-adaptive routing hints
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Metareality Fabric](ca://s?q=Explain_Metareality_Fabric)
+#    - [Cross-Reality Storage](ca://s?q=Explain_Cross_Reality_Storage)
+#    - [Self-Optimizing Placement](ca://s?q=Explain_Self_Optimizing_Block_Placement)
+#    - [Divergence Correction](ca://s?q=Explain_Divergence_Correction)
+#    - [Meta-Adaptive Bias](ca://s?q=Explain_Meta_Adaptive_Bias)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_reality(rid)
+#         Registers a reality in the metareality fabric.
+#
+#    - create_volume(name, realities)
+#         Creates a v17 storage volume.
+#
+#    - write(volume_id, data)
+#         Writes a block using metareality-aware placement.
+#
+#    - read(volume_id, block_ids, reality)
+#         Reads a block with divergence correction.
+#
+#    - replicate(block_id, target_reality)
+#         Replicates a block across realities.
+#
+#    - storage_snapshot()
+#         Returns full storage engine state.
+#
+#===============================================================================
+#  BLOCK FORMAT:
+#
+#    {
+#      "id": "BLK17-XYZ",
+#      "volume": "VOL17-ABC",
+#      "reality": "R-OMEGA",
+#      "data": <bytes>,
+#      "timestamp": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Block Router v17](ca://s?q=Build_Block_Router_v17)
+#    - [Hypervisor v17](ca://s?q=Build_Hypervisor_v17)
+#    - [SovereignFS v17](ca://s?q=Build_SovereignFS_v17)
+#    - [Userland v17](ca://s?q=Build_Userland_v17)
+#    - [Kernel v17](ca://s?q=Build_Kernel_v17)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/storage_engine_v17_metareality.py
+#
+#===============================================================================
+#  END OF FILE — storage_engine_v17_metareality.support
+#===============================================================================

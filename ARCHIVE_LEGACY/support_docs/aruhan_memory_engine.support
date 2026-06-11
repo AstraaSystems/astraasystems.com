@@ -1,0 +1,304 @@
+File: aruhan_memory_engine.support
+Classification: INTERNAL — TRUSTED ENGINEERS ONLY
+Module: ARUHAN Memory Engine (Y‑Prime Edition)
+1. Overview
+The Memory Engine is ARUHAN’s cognitive storage layer, responsible for:
+
+short‑term memory
+
+long‑term memory
+
+episodic memory
+
+semantic memory
+
+memory decay
+
+meta‑adjustment
+
+It sits between the Dialogue Engine and the Knowledge Engine, providing structured memory signals to both.
+
+The engine is deterministic, rule‑driven, and designed for stability under emotional fluctuation.
+
+2. Memory Architecture
+The Memory Engine contains four independent subsystems:
+
+STM (Short‑Term Memory) — immediate conversational buffer
+
+LTM (Long‑Term Memory) — emotionally weighted storage
+
+EP (Episodic Memory) — event‑tagged emotional snapshots
+
+SEM (Semantic Memory) — word‑frequency knowledge base
+
+Each subsystem has:
+
+its own decay rules
+
+its own storage limits
+
+its own weighting logic
+
+This prevents memory overload and ensures predictable behavior.
+
+3. Short‑Term Memory (STM)
+STM stores the last 12 messages.
+
+Characteristics:
+
+fast turnover
+
+high relevance
+
+no emotional weighting
+
+pruned by size only
+
+Used for:
+
+immediate context
+
+coherence
+
+short‑range topic tracking
+
+STM is always safe to inspect and modify.
+
+4. Long‑Term Memory (LTM)
+LTM stores emotionally significant messages.
+
+A message is stored if its emotional score exceeds 0.25:
+
+Score formula:
+
+|mood| × 0.4
+
+stress × 0.3
+
+energy × 0.1
+
+LTM is used for:
+
+emotional continuity
+
+long‑term narrative patterns
+
+meta‑learning
+
+LTM is pruned by decay and size (max 500 entries).
+
+5. Episodic Memory (EP)
+EP stores emotion‑tagged events.
+
+Each entry contains:
+
+message
+
+tag (pos / neg / neu)
+
+mood
+
+stress
+
+energy
+
+EP is used for:
+
+emotional pattern recognition
+
+narrative theme extraction
+
+behavioral prediction
+
+EP is pruned by decay and size (max 300 entries).
+
+6. Semantic Memory (SEM)
+SEM stores word frequencies across all interactions.
+
+Characteristics:
+
+dictionary‑like
+
+no decay
+
+grows indefinitely
+
+used for concept weighting
+
+SEM influences:
+
+topic detection
+
+knowledge inference
+
+conversational grounding
+
+Engineers may prune SEM manually if needed.
+
+7. Decay System
+Decay prevents memory overload.
+
+Decay rates:
+
+STM: 0.12
+
+LTM: 0.005
+
+EP: 0.01
+
+SEM: none
+
+Decay is applied by slicing off a percentage of the oldest entries.
+
+Decay ensures:
+
+stability
+
+freshness
+
+emotional relevance
+
+8. Meta‑Adjustment System
+Meta‑adjustment modifies:
+
+drift
+
+bias
+
+coherence
+
+Based on:
+
+mood
+
+stress
+
+energy
+
+Drift influences:
+
+redirection behavior
+
+memory weighting
+
+Bias influences:
+
+positivity/negativity tilt
+
+Coherence influences:
+
+memory stability
+
+retrieval consistency
+
+9. Rule Pipeline (Execution Order)
+The Memory Engine executes in this exact order:
+
+add to STM
+
+add to LTM
+
+add to EP
+
+update SEM
+
+apply decay
+
+meta‑adjust
+
+return snapshot
+
+Changing the order will break memory consistency.
+
+10. Debugging Entry Points
+Safe to inspect:
+
+STM
+
+LTM count
+
+EP count
+
+SEM size
+
+meta values
+
+Safe to modify:
+
+decay rates
+
+storage limits
+
+weighting formulas
+
+Do NOT modify:
+
+decay order
+
+emotional scoring logic
+
+episodic tagging rules
+
+meta‑adjust formulas
+
+11. Safe Modification Zones
+Engineers may safely:
+
+adjust STM size
+
+adjust LTM emotional threshold
+
+add new episodic tags
+
+tune decay rates
+
+expand semantic processing
+
+Engineers must NOT:
+
+remove memory subsystems
+
+bypass decay
+
+bypass meta‑adjustment
+
+alter scoring formulas
+
+modify pruning logic
+
+12. Expansion Guidelines
+When expanding memory capabilities:
+
+keep subsystems independent
+
+avoid circular dependencies
+
+maintain deterministic behavior
+
+test under emotional extremes
+
+ensure compatibility with the System Orchestrator
+
+13. Internal Philosophy
+The Memory Engine is built on:
+
+emotional weighting
+
+deterministic decay
+
+modular storage
+
+narrative continuity
+
+stability under drift
+
+It is not meant to mimic human memory — it is designed for predictable emotional intelligence.
+
+14. Notes for Trusted Engineers
+Memory is the backbone of ARUHAN’s continuity.
+
+All changes must be tested with emotional feedback loops.
+
+Never modify memory while ARUHAN is running live.
+
+Future integration with the Security AI will restrict access.

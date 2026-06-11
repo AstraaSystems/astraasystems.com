@@ -1,0 +1,46 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Sovereign Payment Gateway Engine
+#  File: payment_gateways.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the unified Moneris + Stripe async processor.
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    • Asynchronous payment processing
+#    • Moneris HPP API integration
+#    • Stripe charge API integration
+#    • SHA‑256 hashing for Moneris
+#    • HMAC‑SHA256 signing for Stripe
+#    • Unified charge router for all ARKA engines
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    moneris_charge(amount, card)
+#       → Sends charge request to Moneris.
+#
+#    stripe_charge(amount, token)
+#       → Sends charge request to Stripe.
+#
+#    charge(engine, amount, payload)
+#       → Unified router for both gateways.
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/payment_gateways.py
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    [Circuit Breaker](ca://s?q=Explain_Circuit_Breaker)
+#    [Ledger](ca://s?q=Explain_Ledger)
+#    [Math Engine](ca://s?q=Explain_Math_Engine)
+#
+#===============================================================================
+#  END OF FILE — payment_gateways.support
+#===============================================================================

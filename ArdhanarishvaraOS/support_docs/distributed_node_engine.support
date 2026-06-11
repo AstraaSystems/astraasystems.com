@@ -1,0 +1,76 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Distributed Node Engine
+#  File: distributed_node_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS distributed node engine responsible for:
+#      • cluster membership
+#      • distributed messaging
+#      • heartbeat monitoring
+#      • replication hooks
+#      • distributed telemetry
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Cluster Membership](ca://s?q=Explain_Cluster_Membership)
+#    - [Distributed Messaging](ca://s?q=Explain_Distributed_Messaging)
+#    - [Heartbeat System](ca://s?q=Explain_Heartbeat_System)
+#    - [Replication Hooks](ca://s?q=Explain_Replication_Hooks)
+#    - [Distributed Telemetry](ca://s?q=Explain_Distributed_Telemetry)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - join_cluster(address)
+#         Adds node to cluster.
+#
+#    - leave_cluster(node_id)
+#         Removes node.
+#
+#    - register_handler(name, handler)
+#         Registers distributed message handler.
+#
+#    - send(node_id, handler, payload)
+#         Sends message to node.
+#
+#    - broadcast(handler, payload)
+#         Sends message to all nodes.
+#
+#    - heartbeat(node_id)
+#         Updates heartbeat timestamp.
+#
+#    - heartbeat_loop()
+#         Sends periodic heartbeats.
+#
+#    - snapshot()
+#         Returns distributed engine state.
+#
+#===============================================================================
+#  NODE STRUCTURE FORMAT:
+#
+#    {
+#      "id": "ND-XXXX",
+#      "address": "10.0.0.5",
+#      "joined": <epoch>,
+#      "last_heartbeat": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [IPC Bus Engine](ca://s?q=Build_SovereignOS_IPC_Bus_Engine)
+#    - [Virtualization Engine](ca://s?q=Build_SovereignOS_Virtualization_Engine)
+#    - [Kernel Telemetry Engine](ca://s?q=Build_SovereignOS_Kernel_Telemetry_Engine)
+#    - [Container Engine](ca://s?q=Build_SovereignOS_Container_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/distributed_node_engine.py
+#
+#===============================================================================
+#  END OF FILE — distributed_node_engine.support
+#===============================================================================

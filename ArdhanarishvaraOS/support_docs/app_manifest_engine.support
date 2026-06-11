@@ -1,0 +1,71 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  App Manifest Engine
+#  File: app_manifest_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS manifest engine responsible for:
+#      • manifest validation
+#      • permission schema enforcement
+#      • metadata parsing
+#      • capability registration
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Manifest Validation](ca://s?q=Explain_Manifest_Validation)
+#    - [Permission Schema](ca://s?q=Explain_Permission_Schema)
+#    - [Capability Model](ca://s?q=Explain_Capability_Model)
+#    - [Manifest Export](ca://s?q=Explain_Manifest_Export)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - validate(manifest)
+#         Validates manifest against schema.
+#
+#    - register(manifest)
+#         Registers an app manifest.
+#
+#    - get(app_id)
+#         Retrieves manifest for an app.
+#
+#    - list()
+#         Lists all registered manifests.
+#
+#    - check_permission(app_id, permission)
+#         Checks if app has a permission.
+#
+#    - export(app_id)
+#         Exports manifest as JSON packet.
+#
+#===============================================================================
+#  MANIFEST STRUCTURE FORMAT:
+#
+#    {
+#      "id": "app.browser",
+#      "name": "Sovereign Browser",
+#      "version": "1.0.0",
+#      "entrypoint": "main.py",
+#      "permissions": ["network", "filesystem.read"],
+#      "capabilities": ["tabs", "rendering"],
+#      "metadata": { "author": "ARKA" }
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [App Runtime Engine](ca://s?q=Build_App_Runtime_Engine)
+#    - [App Sandboxing Engine](ca://s?q=Build_App_Sandboxing_Engine)
+#    - [UI Window Manager](ca://s?q=Build_UI_Window_Manager)
+#    - [Arkastra Engine](ca://s?q=Build_Arkastra_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/app_manifest_engine.py
+#
+#===============================================================================
+#  END OF FILE — app_manifest_engine.support
+#===============================================================================

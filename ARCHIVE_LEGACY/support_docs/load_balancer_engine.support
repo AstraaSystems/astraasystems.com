@@ -1,0 +1,15 @@
+# ============================================================
+# LOAD BALANCER ENGINE — SUPPORT DOCUMENT
+# ============================================================
+# This engine distributes tasks across modules based on current
+# load values. It ensures optimal resource utilization.
+#
+# RESPONSIBILITIES:
+#   - Track module load
+#   - Select lowest-load module
+#   - Maintain load history
+#
+# Used by:
+#   - Job Scheduling Engine
+#   - Pipeline Execution Engine
+#   - Orchestrator

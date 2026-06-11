@@ -1,0 +1,284 @@
+File: inference_concurrency_engine.support
+Classification: INTERNAL — TRUSTED ENGINEERS ONLY
+System: Ardhanarishvara Infrastructure Layer
+Module: Inference Concurrency & VRAM Locking Engine (Y‑Prime Edition)
+1. Overview
+The Inference Concurrency & VRAM Locking Engine is the GPU traffic controller for the entire Ardhanarishvara ecosystem. It ensures that:
+
+only one heavy inference job runs at a time
+
+VRAM usage never exceeds safe limits
+
+modules do not deadlock the GPU
+
+multi‑agent concurrency does not crash the system
+
+all AI entities (Arka, Astra, Aruhan, Arkastra, Lux, Disturition) share GPU resources safely
+
+This engine is mandatory for any local LLM ecosystem running multiple autonomous modules.
+
+It integrates with:
+
+System Orchestrator
+
+Orchestration Guardrails Engine
+
+IPC Message Broker
+
+Context Compaction Engine
+
+Stability & Recovery Engine
+
+2. Purpose
+The engine solves three critical problems:
+
+A. GPU Overload Prevention
+Local LLMs can easily exceed VRAM limits.
+This engine enforces a strict VRAM budget.
+
+B. Concurrency Control
+Multiple modules may attempt inference simultaneously.
+This engine enforces a mutex lock to serialize access.
+
+C. Queue Management
+Modules enter a FIFO queue when waiting for GPU access.
+
+This prevents:
+
+race conditions
+
+GPU thrashing
+
+inference starvation
+
+system freezes
+
+3. Core Components
+1. Lock Mechanism
+A non‑blocking mutex that ensures only one module can run inference at a time.
+
+2. VRAM Budget Manager
+Tracks:
+
+total VRAM
+
+used VRAM
+
+per‑request VRAM cost
+
+Prevents over‑allocation.
+
+3. Request Queue
+FIFO structure storing:
+
+module ID
+
+VRAM cost
+
+timestamp
+
+4. Active Session Tracker
+Stores the module currently holding the GPU lock.
+
+5. Safety Reset System
+Force‑clear mechanism to recover from:
+
+deadlocks
+
+stuck locks
+
+corrupted queue states
+
+6. Logging System
+Tracks:
+
+active module
+
+queue length
+
+VRAM usage
+
+timestamps
+
+Used for debugging and stability analysis.
+
+4. Execution Pipeline
+The engine follows a deterministic sequence:
+
+Module requests access
+
+Request enters queue
+
+Engine checks:
+
+lock availability
+
+VRAM availability
+
+If safe → lock granted
+
+Module performs inference
+
+Module releases lock
+
+VRAM is freed
+
+Next request is evaluated
+
+This pipeline ensures predictable, safe GPU usage.
+
+5. Locking Rules
+Rule 1 — One Active Module
+Only one module may hold the lock at any time.
+
+Rule 2 — VRAM Must Be Available
+If VRAM usage + request cost > budget → request denied.
+
+Rule 3 — FIFO Queue
+Requests are processed in order of arrival.
+
+Rule 4 — No Forced Preemption
+Active modules must release voluntarily unless a safety reset is triggered.
+
+Rule 5 — Safety Reset Conditions
+Triggered when:
+
+lock is stuck
+
+VRAM usage desyncs
+
+queue grows beyond safe limits
+
+orchestrator issues a kill signal
+
+6. Integration Points
+A. System Orchestrator
+Receives lock status and decides:
+
+when to retry
+
+when to defer tasks
+
+when to escalate to guardrails
+
+B. Orchestration Guardrails Engine
+Monitors for:
+
+infinite inference loops
+
+repeated lock failures
+
+excessive queue buildup
+
+C. IPC Message Broker
+Broadcasts:
+
+lock acquired
+
+lock released
+
+queue updates
+
+VRAM warnings
+
+D. Stability & Recovery Engine
+Uses logs to detect:
+
+drift spikes
+
+overload patterns
+
+inference bottlenecks
+
+7. Debugging Entry Points
+Safe to inspect:
+
+active module
+
+queue length
+
+VRAM usage
+
+history length
+
+last release timestamp
+
+Safe to modify:
+
+VRAM budget
+
+queue size limits
+
+lock timeout thresholds
+
+Do NOT modify:
+
+mutex behavior
+
+FIFO ordering
+
+safety reset logic
+
+VRAM accounting rules
+
+8. Failure Modes & Recovery
+1. Lock Stuck
+Symptom: active module never releases.
+Recovery: guardrails trigger force_clear.
+
+2. VRAM Desync
+Symptom: VRAM usage becomes negative or exceeds budget.
+Recovery: reset VRAM counters + clear queue.
+
+3. Queue Overflow
+Symptom: too many modules waiting.
+Recovery: orchestrator throttles module activity.
+
+4. Deadlock Between Modules
+Symptom: two modules wait on each other.
+Recovery: guardrails kill both processes.
+
+9. Expansion Guidelines
+Engineers may safely:
+
+add priority queues
+
+add per‑module VRAM profiles
+
+add inference timeouts
+
+add multi‑GPU support
+
+Engineers must NOT:
+
+allow parallel inference
+
+bypass VRAM checks
+
+override lock enforcement
+
+disable safety resets
+
+10. Internal Philosophy
+This engine is built on:
+
+determinism
+
+safety
+
+fairness
+
+resource discipline
+
+predictable concurrency
+
+It is not designed to maximize throughput — it is designed to prevent catastrophic failure in a multi‑agent local LLM ecosystem.
+
+11. Notes for Trusted Engineers
+Never bypass this engine for “quick tests.”
+
+All inference‑capable modules must route through it.
+
+VRAM budgets must match actual hardware.
+
+Logs should be reviewed weekly during early deployment.

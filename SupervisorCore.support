@@ -1,0 +1,81 @@
+============================================================
+SUPERVISOR CORE v17 — SUPPORT DOCUMENT
+Arka Pillai Holdings Ltd
+============================================================
+
+1. PURPOSE
+----------
+This document explains how to maintain, update, and extend
+the Supervisor Core that controls the entire ecosystem.
+
+2. FILE STRUCTURE
+-----------------
+/SupervisorCore.py
+/kernel/
+/engines/
+/workflows/
+/logs/
+/ledger/
+
+3. SUPERVISOR RESPONSIBILITIES
+------------------------------
+- Intent classification
+- Routing to correct engine
+- Fallback logic
+- Workflow execution
+- Context management
+- Ledger logging
+- Circuit breaker enforcement
+
+4. ENGINE INTEGRATION
+---------------------
+Each engine must expose:
+
+    def run(self, user_input, context):
+        return result_dict
+
+5. ROUTING TABLE
+----------------
+Located inside SupervisorCore.__init__()
+
+To add a new engine:
+- Add import
+- Add routing entry
+- Add workflow chain
+
+6. CONTEXT RULES
+----------------
+ContextBus handles:
+- filtering
+- summarization
+- offloading
+- JIT loading
+
+7. LEDGER
+---------
+Ledger logs:
+- engine used
+- domain
+- timestamp
+- result
+- revenue (if applicable)
+
+8. CIRCUIT BREAKER
+------------------
+Automatically disables failing engines.
+
+9. PROFIT + LUX
+---------------
+Handled by:
+- ProfitAggregationEngine
+- LuxAllocator
+
+10. NIGHTLY + WEEKLY JOBS
+-------------------------
+Cron or Windows Task Scheduler triggers:
+- nightly_reflection.py
+- weekly_audit.py
+
+============================================================
+END OF DOCUMENT
+============================================================

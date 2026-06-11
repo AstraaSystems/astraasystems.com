@@ -1,0 +1,83 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Storage Engine v2
+#  File: storage_engine_v2.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS Storage Engine v2:
+#      • extent-based volume storage
+#      • copy-on-write writes
+#      • journaling for crash safety
+#      • snapshot + rollback
+#      • IO telemetry
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Extent Storage](ca://s?q=Explain_Storage_Extents)
+#    - [Copy-on-Write](ca://s?q=Explain_Copy_On_Write)
+#    - [Journaling](ca://s?q=Explain_Storage_Journaling)
+#    - [Snapshots](ca://s?q=Explain_Storage_Snapshots)
+#    - [Rollback](ca://s?q=Explain_Storage_Rollback)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - create_volume(name, size_mb)
+#         Creates extent-based volume.
+#
+#    - write(volume_id, data)
+#         Writes via journal (CoW).
+#
+#    - commit(journal_id)
+#         Commits journal entry to extents.
+#
+#    - read(volume_id, extent_id)
+#         Reads extent data.
+#
+#    - snapshot(volume_id)
+#         Creates snapshot.
+#
+#    - restore(snapshot_id)
+#         Restores snapshot.
+#
+#    - engine_snapshot()
+#         Returns engine state.
+#
+#===============================================================================
+#  EXTENT STRUCTURE FORMAT:
+#
+#    {
+#      "id": "EXT-XXXX",
+#      "start": <block_index>,
+#      "length": <block_count>,
+#      "data": <bytes>
+#    }
+#
+#===============================================================================
+#  JOURNAL ENTRY FORMAT:
+#
+#    {
+#      "id": "JNL-XXXX",
+#      "volume": "VOL-XXXX",
+#      "data": <bytes>,
+#      "timestamp": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Storage Engine v1](ca://s?q=Build_SovereignOS_Storage_Engine)
+#    - [Update Delivery Engine](ca://s?q=Build_SovereignOS_Update_Delivery_Engine)
+#    - [Package Manager Engine](ca://s?q=Build_SovereignOS_Package_Manager_Engine)
+#    - [Boot Integrity Engine](ca://s?q=Build_SovereignOS_Boot_Integrity_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/storage_engine_v2.py
+#
+#===============================================================================
+#  END OF FILE — storage_engine_v2.support
+#===============================================================================

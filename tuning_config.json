@@ -1,0 +1,6 @@
+{
+  "min_multiplier": 0.9,
+  "max_multiplier": 2.5,
+  "instability_penalty": 1.2,
+  "high_error_bonus": 0.6
+}

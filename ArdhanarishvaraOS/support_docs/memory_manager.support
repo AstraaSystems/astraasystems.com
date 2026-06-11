@@ -1,0 +1,67 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Memory Manager
+#  File: memory_manager.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS memory manager responsible for:
+#      • virtual memory paging
+#      • allocation & deallocation
+#      • memory pool management
+#      • integrity verification
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Memory Pools](ca://s?q=Explain_Memory_Pools)
+#    - [Page Table](ca://s?q=Explain_Page_Table)
+#    - [Allocation Engine](ca://s?q=Explain_Allocation_Engine)
+#    - [Deallocation](ca://s?q=Explain_Memory_Deallocation)
+#    - [Integrity Verification](ca://s?q=Explain_Memory_Integrity_Verification)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - create_pool(name, size, page_size)
+#         Creates a memory pool.
+#
+#    - allocate(pool, bytes_needed)
+#         Allocates memory from pool.
+#
+#    - free(alloc_id)
+#         Frees allocated memory.
+#
+#    - verify(alloc_id)
+#         Validates allocation entry.
+#
+#    - snapshot()
+#         Returns memory manager state.
+#
+#===============================================================================
+#  ALLOCATION STRUCTURE FORMAT:
+#
+#    {
+#      "id": "ALC-XXXX",
+#      "pool": "system",
+#      "bytes": 8192,
+#      "pages": 2,
+#      "timestamp": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Process Scheduler](ca://s?q=Build_SovereignOS_Process_Scheduler)
+#    - [Hardware Abstraction Layer](ca://s?q=Build_SovereignOS_Hardware_Abstraction_Layer)
+#    - [Storage Engine](ca://s?q=Build_SovereignOS_Storage_Engine)
+#    - [Security Engine](ca://s?q=Build_SovereignOS_Security_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/memory_manager.py
+#
+#===============================================================================
+#  END OF FILE — memory_manager.support
+#===============================================================================

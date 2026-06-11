@@ -1,0 +1,76 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Block Router v14 — Omniversal Routing Layer
+#  File: block_router_v14_omniversal.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS Block Router v14:
+#      • omniversal routing across all realities
+#      • cross-brane, cross-timeline, cross-law traversal
+#      • causality-safe block delivery
+#      • divergence-aware routing
+#      • integration with Storage Engine v14
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Omniversal Routing Graph](ca://s?q=Explain_Omniversal_Routing_Graph)
+#    - [Cross-Brane Links](ca://s?q=Explain_Cross_Brane_Links)
+#    - [Causality Cost](ca://s?q=Explain_Causality_Cost)
+#    - [Divergence Cost](ca://s?q=Explain_Divergence_Cost)
+#    - [Omniversal Pathfinding](ca://s?q=Explain_Omniversal_Pathfinding)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_reality(rid, brane, timeline, laws)
+#         Registers a reality in the omniversal routing graph.
+#
+#    - connect_realities(a, b, stability, causality_cost, divergence_cost)
+#         Creates a cross-reality routing edge.
+#
+#    - route_block(block_id, data, origin, target)
+#         Computes a causality-safe route and transfers a block hop-by-hop.
+#
+#    - router_snapshot()
+#         Returns omniversal routing state.
+#
+#===============================================================================
+#  REALITY FORMAT:
+#
+#    {
+#      "id": "R-OMEGA",
+#      "brane": "BRANE-∞",
+#      "timeline": "T∞",
+#      "laws": "PHYSICS-VARIANT-7"
+#    }
+#
+#===============================================================================
+#  ROUTING EDGE FORMAT:
+#
+#    {
+#      "R-OMEGA": {
+#          "R-ALPHA": {
+#              "stability": 0.92,
+#              "causality": 0.03,
+#              "divergence": 0.12
+#          }
+#      }
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Storage Engine v14 Omniversal](ca://s?q=Build_SovereignOS_Storage_Engine_v14_Omniversal)
+#    - [Storage Engine v13 Multiversal](ca://s?q=Build_SovereignOS_Storage_Engine_v13_Multiversal)
+#    - [Storage Engine v12 Quantum Entangled](ca://s?q=Build_SovereignOS_Storage_Engine_v12_Quantum_Entangled)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/block_router_v14_omniversal.py
+#
+#===============================================================================
+#  END OF FILE — block_router_v14_omniversal.support
+#===============================================================================

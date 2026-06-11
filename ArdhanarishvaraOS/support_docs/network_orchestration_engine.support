@@ -1,0 +1,71 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Network Orchestration Engine
+#  File: network_orchestration_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS network orchestration engine:
+#      • topology management
+#      • link state tracking
+#      • routing orchestration
+#      • service discovery
+#      • network telemetry
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Topology](ca://s?q=Explain_Network_Topology)
+#    - [Link State](ca://s?q=Explain_Link_State_Tracking)
+#    - [Routing](ca://s?q=Explain_Network_Routing)
+#    - [Service Discovery](ca://s?q=Explain_Service_Discovery)
+#    - [Network Telemetry](ca://s?q=Explain_Network_Telemetry)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - add_node(name, address)
+#         Registers network node.
+#
+#    - add_link(node_a, node_b, cost)
+#         Creates network link.
+#
+#    - register_service(service, node_id)
+#         Registers service endpoint.
+#
+#    - discover(service)
+#         Returns nodes offering service.
+#
+#    - compute_route(start, end)
+#         Computes optimal route.
+#
+#    - snapshot()
+#         Returns orchestration state.
+#
+#===============================================================================
+#  ROUTE STRUCTURE FORMAT:
+#
+#    {
+#      "id": "RTE-XXXX",
+#      "start": "NETN-A",
+#      "end": "NETN-B",
+#      "path": ["NETN-A", "NETN-C", "NETN-B"],
+#      "cost": 12.5
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Distributed Node Engine](ca://s?q=Build_SovereignOS_Distributed_Node_Engine)
+#    - [Identity & Access Engine](ca://s?q=Build_SovereignOS_Identity_and_Access_Engine)
+#    - [IPC Bus Engine](ca://s?q=Build_SovereignOS_IPC_Bus_Engine)
+#    - [Container Engine](ca://s?q=Build_SovereignOS_Container_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/network_orchestration_engine.py
+#
+#===============================================================================
+#  END OF FILE — network_orchestration_engine.support
+#===============================================================================

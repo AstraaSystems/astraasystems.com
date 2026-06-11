@@ -1,0 +1,57 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Sovereign Math Engine
+#  File: math_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Provides engineering reference for the high‑dimensional computational core
+#    used across all ARKA income engines and Lux Trading AI.
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    • Stochastic churn modeling
+#    • Cost matrix generation for routing engines
+#    • VRP heuristic solver for Distribution AI
+#    • Weighted optimization for finance engines
+#    • Multi‑factor risk model for Lux Trading AI
+#    • Stochastic forecasting for demand and volatility
+#    • Matrix normalization for GEO and logistics
+#    • High‑dimensional dot product for vector scoring
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    stochastic_churn(base, volatility)
+#       → Adds Gaussian noise to a baseline value.
+#
+#    cost_matrix(nodes)
+#       → Generates NxN matrix of random costs.
+#
+#    vrp_route(matrix)
+#       → Greedy nearest‑neighbor VRP solver.
+#
+#    weighted_optimize(values, weights)
+#       → Weighted average for optimization tasks.
+#
+#    risk_model(series)
+#       → Returns volatility + mean.
+#
+#    forecast(current, drift, vol, steps)
+#       → Stochastic forward simulation.
+#
+#    normalize_matrix(matrix)
+#       → Row‑normalized matrix.
+#
+#    hd_dot(a, b)
+#       → High‑dimensional dot product.
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/math_engine.py
+#
+#===============================================================================
+#  END OF FILE — math_engine.support
+#===============================================================================

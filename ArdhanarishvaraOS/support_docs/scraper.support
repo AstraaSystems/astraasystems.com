@@ -1,0 +1,49 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Sovereign Scraper Engine
+#  File: scraper.support
+#===============================================================================
+#  PURPOSE:
+#    Provides engineering reference for the asynchronous scraper used for:
+#      • GEO citation audits
+#      • Market visibility scoring
+#      • Competitor keyword mapping
+#      • Multi‑source intelligence harvesting
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    • Asynchronous HTTP scraping (aiohttp)
+#    • Concurrency‑controlled bulk scraping
+#    • SHA‑256 fingerprinting for content change detection
+#    • GEO audit scoring based on business name presence
+#    • Competitor keyword frequency mapping
+#    • Automatic session lifecycle management
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    fetch(url)
+#       → Fetches a single page with fingerprint + metadata.
+#
+#    scrape_bulk(urls)
+#       → Concurrent scraping with semaphore control.
+#
+#    citation_audit(business_name, urls)
+#       → Scores visibility across citation sources.
+#
+#    competitor_map(keywords, urls)
+#       → Maps competitor keyword presence across pages.
+#
+#    fingerprint(content)
+#       → SHA‑256 hash for change detection.
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/scraper.py
+#
+#===============================================================================
+#  END OF FILE — scraper.support
+#===============================================================================

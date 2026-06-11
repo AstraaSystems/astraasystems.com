@@ -1,0 +1,40 @@
+# ============================================================
+# ARKA / ARDHANARISHVARA — BOOT SCRIPT CHEAT SHEET
+# ============================================================
+
+# FILE:
+#   /boot.py
+
+# PURPOSE:
+#   - Initialize ArdhanarishvaraOS
+#   - Launch ArkaUltimateSupervisor
+#   - Start unified sovereign AI runtime
+#   - Maintain async governance cycles
+#   - Handle graceful shutdown
+
+# START SYSTEM:
+python3 boot.py
+
+# STOP SYSTEM:
+CTRL + C
+# or
+kill <pid>
+
+# COMPONENTS INITIALIZED:
+#   - OS Kernel
+#   - Arka Supervisor
+#   - Aruhan Logic Engine
+#   - Astraa Finance Engine
+#   - Arkastra Commerce Engine
+#   - Lux Alpha Engine
+#   - Distribution AI Engine
+
+# LOOP TIMINGS:
+#   OS tick: 1.5s
+#   Supervisor cycle: 2.0s
+
+# SHUTDOWN:
+#   - SIGINT / SIGTERM caught
+#   - OS loop terminated
+#   - Supervisor halted
+#   - State committed

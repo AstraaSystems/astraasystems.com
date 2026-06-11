@@ -1,0 +1,54 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  GEO Visibility Engine
+#  File: geo_visibility_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the GEO visibility scoring engine used for:
+#      • citation audits
+#      • keyword saturation analysis
+#      • competitor density modeling
+#      • market visibility ranking
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Citation Density](ca://s?q=Explain_Citation_Density) — Measures presence across GEO sources.
+#    - [Keyword Saturation](ca://s?q=Explain_Keyword_Saturation) — Measures keyword frequency.
+#    - [Competitor Proximity](ca://s?q=Explain_Competitor_Proximity) — Measures competitive pressure.
+#    - [Stochastic Drift](ca://s?q=Explain_Stochastic_Drift) — Adds natural market fluctuation.
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - [score](ca://s?q=Explain_GEO_Score)
+#         Computes final visibility score using weighted factors.
+#
+#    - [batch](ca://s?q=Explain_GEO_Batch)
+#         Scores multiple GEO profiles at once.
+#
+#===============================================================================
+#  WEIGHT STRUCTURE:
+#
+#    citations   → 40%
+#    keywords    → 30%
+#    competitors → 20%
+#    stochastic  → 10%
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Scraper](ca://s?q=Build_Scraper)
+#    - [Profit Aggregator](ca://s?q=Build_Profit_Aggregator)
+#    - [Dispatch Engine](ca://s?q=Build_Dispatch_Engine)
+#    - [Supervisor Bridge](ca://s?q=Build_Supervisor_Bridge)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/geo_visibility_engine.py
+#
+#===============================================================================
+#  END OF FILE — geo_visibility_engine.support
+#===============================================================================

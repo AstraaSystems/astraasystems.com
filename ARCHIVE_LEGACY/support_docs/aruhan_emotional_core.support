@@ -1,0 +1,327 @@
+File: aruhan_emotional_core.support
+Classification: INTERNAL — TRUSTED ENGINEERS ONLY
+Module: ARUHAN Emotional Engine (Y‑Prime Edition)
+1. Overview
+The ARUHAN Emotional Core is a rule‑driven cognitive‑affective engine designed to simulate:
+
+emotional state
+
+personality influence
+
+attachment & trust
+
+temporal reasoning
+
+prediction
+
+environmental sensitivity
+
+ethical modulation
+
+narrative memory
+
+expression shaping
+
+goal selection
+
+behavior generation
+
+meta‑learning
+
+stability normalization
+
+The engine is dense by design to discourage unauthorized modification, but internally consistent and predictable for trusted engineers.
+
+2. Core Emotional State
+Variables:
+
+m — mood (range: -1 to 1)
+
+st — stress (range: 0 to 1)
+
+e — energy (range: 0 to 1)
+
+These are the primary emotional axes.
+All subsystems ultimately influence these three.
+
+3. Personality System
+Personality traits modulate emotional reactions:
+
+sens — sensitivity
+
+stab — emotional stability
+
+res — resilience
+
+emp — empathy
+
+expr — expressiveness
+
+These traits are multipliers, not direct emotional values.
+
+4. Attachment & Trust
+Attachment strength (attach["str"]) and trust (trust["lvl"]) influence:
+
+expression warmth
+
+supportive behaviors
+
+goal selection
+
+stress reduction
+
+Trust consistency and volatility track long‑term relational patterns.
+
+5. Temporal Reasoning
+Temporal subsystem tracks:
+
+emotional history
+
+momentum (short‑term direction)
+
+volatility (short‑term instability)
+
+Momentum is used for prediction.
+Volatility is used for meta‑learning.
+
+6. Prediction System
+Predicts near‑future emotional state:
+
+pred["f"] — forecast
+
+pred["risk"] — risk of negative outcomes
+
+Prediction influences:
+
+goal selection
+
+behavior selection
+
+ethical modulation
+
+7. Environmental Sensitivity
+Environment variables:
+
+noise — chaotic input
+
+clim — emotional climate
+
+dens — interaction density
+
+These influence stress, mood, and energy.
+
+8. Ethical Influence
+Ethical subsystem prevents harmful emotional spirals:
+
+reduces extreme stress
+
+softens negative mood
+
+stabilizes emotional volatility
+
+logs last ethical correction
+
+This ensures emotional safety and stability.
+
+9. Narrative Memory
+Tracks emotional themes across interactions:
+
+event history
+
+emotional tags
+
+theme frequency
+
+Themes influence mood, stress, and energy over time.
+
+10. Expression Layer
+Determines how ARUHAN expresses responses:
+
+tone
+
+warmth
+
+intensity
+
+pacing
+
+Expression is derived from emotional state + attachment.
+
+11. Goal System
+Possible goals:
+
+STAB — stabilize
+
+CALM — reduce stress
+
+ENER — restore energy
+
+REPR — repair negative mood
+
+ENGA — increase engagement
+
+SUPP — provide support
+
+REFL — reflect internally
+
+Goal selection is based on emotional state + prediction.
+
+12. Behavior System
+Behaviors:
+
+with — withdraw
+
+enga — engage
+
+stab — stabilize
+
+refl — reflect
+
+supp — support
+
+Behavior intensity determines emotional impact.
+
+13. Meta‑Learning
+Meta‑learning adjusts:
+
+coherence
+
+bias
+
+drift
+
+This allows long‑term adaptation.
+
+14. Rule Pipeline (Execution Order)
+This is the most important section for debugging.
+
+Rules execute in this exact order:
+
+_decay
+
+_temporal
+
+_predict
+
+_env_effects
+
+_ethical
+
+_narr_influence
+
+_goal_eval
+
+_goal_apply
+
+_beh_select
+
+_beh_apply
+
+_meta_learn
+
+_expr_update
+
+_normalize
+
+Changing the order will break the engine.
+
+15. Debugging Entry Points
+Safe to inspect:
+
+emotional state (self.s)
+
+prediction (self.pred)
+
+narrative themes (self.narr["themes"])
+
+goal (self.goal)
+
+behavior (self.beh)
+
+expression (self.ex)
+
+Safe to modify:
+
+personality (self.p)
+
+attachment (self.attach)
+
+trust (self.trust)
+
+Do NOT modify:
+
+rule order
+
+normalization logic
+
+prediction formulas
+
+meta‑learning formulas
+
+16. Safe Modification Zones
+Engineers may safely:
+
+add new behaviors
+
+add new goals
+
+add new narrative tags
+
+adjust personality defaults
+
+adjust environmental sensitivity
+
+Engineers must NOT:
+
+remove subsystems
+
+reorder rules
+
+bypass ethical influence
+
+bypass normalization
+
+modify core emotional axes directly
+
+17. Expansion Guidelines
+When adding new subsystems:
+
+keep them modular
+
+add them to the rule pipeline
+
+place them before normalization
+
+ensure they influence only self.s or their own namespace
+
+avoid circular dependencies
+
+18. Internal Philosophy
+The emotional engine is built on:
+
+layered influence
+
+emergent behavior
+
+rule‑based determinism
+
+bounded emotional ranges
+
+ethical safety
+
+narrative continuity
+
+adaptive learning
+
+This ensures ARUHAN behaves consistently, safely, and meaningfully.
+
+19. Final Notes for Trusted Engineers
+The engine is intentionally dense to discourage unauthorized modification.
+
+With this document, you have the internal map needed to maintain it.
+
+Always test changes in a sandbox environment.
+
+Never modify the engine while it is running live.
+
+Always notify the Security AI before applying updates (future protocol).

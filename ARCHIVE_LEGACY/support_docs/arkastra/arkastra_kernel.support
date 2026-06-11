@@ -1,0 +1,41 @@
+# ============================================================
+# ARKASTRA KERNEL — CHEAT SHEET (EXTREME COMPLEXITY EDITION)
+# ============================================================
+
+# ROLE:
+#   Autonomous Apparel Designer
+#   SKU Compiler
+#   Storefront Manifest Builder
+#   Zero-to-One Brand Generator
+
+# FILES:
+#   /entities/arkastra.py
+#   /entities/arkastra_kernel.py
+
+# STATE MACHINE:
+#   IDLE → TREND_SCANNING → DESIGN_GENERATION → SKU_COMPILATION
+#   → VALIDATION → MANIFEST_BUILD → DEPLOYMENT → IDLE
+#   FAULTED → IDLE
+
+# DESIGN ENGINE:
+#   Motifs: Minimalist, Botanical, Geometric, Organic, Silhouette
+#   Palettes: Sage, Clay, Oatmeal, Sand
+
+# SKU ENGINE:
+#   Product Types: bodysuit, joggers, sweater
+#   Retail Multiplier: 2.2–2.8x base cost
+
+# COMMIT PATH:
+#   ~/.aruhan_vault/secure_workspace/arkastra/
+
+# TELEMETRY FIELDS:
+#   designs_generated
+#   skus_compiled
+#   validation_faults
+#   last_fault_signature
+#   retained_memory
+
+# DEPENDENCIES:
+#   Aruhan → Logic Validation
+#   Astraa → Margin & Risk Validation
+#   Arka → Governance & Deployment Approval

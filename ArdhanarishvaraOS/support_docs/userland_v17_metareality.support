@@ -1,0 +1,61 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Userland v17 — Metareality Shell & Process Model
+#  File: userland_v17_metareality.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for Userland v17:
+#      • metareality-aware shell
+#      • cross-reality process model
+#      • self-correcting execution context
+#      • meta-adaptive priority system
+#      • integration with SovereignFS v17 and Hypervisor v17
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Metareality Process Fabric](ca://s?q=Explain_Metareality_Process_Fabric)
+#    - [Cross-Reality Process Model](ca://s?q=Explain_Cross_Reality_Process_Model_v17)
+#    - [Meta-Adaptive Priority System](ca://s?q=Explain_Meta_Adaptive_Priority_System_v17)
+#    - [Shell Execution Model](ca://s?q=Explain_Shell_Execution_Model_v17)
+#    - [Process Migration](ca://s?q=Explain_Process_Migration_v17)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - spawn_process(command, args)
+#    - migrate_process(pid)
+#    - execute(command, args)
+#    - correct_divergence(rid)
+#    - userland_snapshot()
+#
+#===============================================================================
+#  PROCESS FORMAT:
+#
+#    {
+#      "id": "PROC17-XYZ",
+#      "command": "example",
+#      "args": ["--flag"],
+#      "reality": "R-OMEGA",
+#      "created": <epoch>,
+#      "priority": 1.0
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [SovereignFS v17](ca://s?q=Build_SovereignFS_v17)
+#    - [Hypervisor v17](ca://s?q=Build_Hypervisor_v17)
+#    - [Storage Engine v17](ca://s?q=Build_Storage_Engine_v17)
+#    - [Block Router v17](ca://s?q=Build_Block_Router_v17)
+#    - [Kernel v17](ca://s?q=Build_Kernel_v17)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/userland_v17_metareality.py
+#
+#===============================================================================
+#  END OF FILE — userland_v17_metareality.support
+#===============================================================================

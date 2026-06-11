@@ -1,0 +1,53 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  OS Routing Rules
+#  File: os_routing_rules.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the autonomous routing layer that determines
+#    which ARKA engine handles each incoming request.
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    • Registers engines with routing weights
+#    • Routes requests based on:
+#         - request type
+#         - payload signature hashing
+#         - engine weights
+#         - manual overrides
+#    • Reports engine failures to Supervisor Bridge
+#    • Supports dynamic routing changes
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    register_engine(name, handler, weight)
+#       → Registers engine + routing weight.
+#
+#    attach_supervisor(handler)
+#       → Links Supervisor Bridge for escalation.
+#
+#    route(request_type, payload)
+#       → Routes request to correct engine.
+#
+#    override(request_type, engine)
+#       → Manual routing override.
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    [Supervisor Bridge](ca://s?q=Build_Supervisor_Bridge)
+#    [Circuit Breaker](ca://s?q=Explain_Circuit_Breaker)
+#    [Ledger](ca://s?q=Explain_Ledger)
+#    [Math Engine](ca://s?q=Explain_Math_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/os_routing_rules.py
+#
+#===============================================================================
+#  END OF FILE — os_routing_rules.support
+#===============================================================================

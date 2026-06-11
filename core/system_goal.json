@@ -1,0 +1,41 @@
+{
+  "version": "2.0",
+  "meta": {
+    "last_update": "auto",
+    "intent_priority": ["safety", "finance", "operations", "business"]
+  },
+
+  "safety": {
+    "kill_switch": true,
+    "human_required": ["fund_transfer", "logic_modification", "daemon_upgrade"],
+    "max_risk_score": 0.25
+  },
+
+  "finance": {
+    "target_margin": 0.25,
+    "min_margin": 0.18,
+    "max_daily_spend": 5000,
+    "weights": {
+      "margin": 0.6,
+      "risk": 0.4
+    }
+  },
+
+  "operations": {
+    "max_route_delay_min": 15,
+    "truck_turnover_target_hours": 2.0,
+    "weights": {
+      "delay": 0.5,
+      "turnover": 0.5
+    }
+  },
+
+  "business": {
+    "max_quote_latency_sec": 5,
+    "customer_satisfaction_target": 0.9,
+    "weights": {
+      "latency": 0.4,
+      "satisfaction": 0.6
+    }
+  }
+}

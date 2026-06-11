@@ -1,0 +1,66 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Process Scheduler
+#  File: process_scheduler.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS process scheduler responsible for:
+#      • priority-based scheduling
+#      • round-robin time slicing
+#      • async task execution
+#      • process lifecycle management
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Process Registration](ca://s?q=Explain_Process_Registration)
+#    - [Priority Scheduling](ca://s?q=Explain_Priority_Scheduling)
+#    - [Time Slicing](ca://s?q=Explain_Time_Slicing)
+#    - [Scheduler Loop](ca://s?q=Explain_Scheduler_Loop)
+#    - [Process Termination](ca://s?q=Explain_Process_Termination)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register(name, priority, handler)
+#         Registers a process with priority.
+#
+#    - run()
+#         Executes scheduler loop.
+#
+#    - kill(pid)
+#         Terminates a process.
+#
+#    - snapshot()
+#         Returns scheduler state.
+#
+#===============================================================================
+#  PROCESS STRUCTURE FORMAT:
+#
+#    {
+#      "id": "PRC-XXXX",
+#      "name": "network.daemon",
+#      "priority": 5,
+#      "handler": <async callable>,
+#      "state": "ready/running/error",
+#      "last_run": <epoch>,
+#      "created": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [System Services Engine](ca://s?q=Build_SovereignOS_System_Services_Engine)
+#    - [Security Engine](ca://s?q=Build_SovereignOS_Security_Engine)
+#    - [Storage Engine](ca://s?q=Build_SovereignOS_Storage_Engine)
+#    - [Kernel Bootloader](ca://s?q=Build_SovereignOS_Kernel_Bootloader)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/process_scheduler.py
+#
+#===============================================================================
+#  END OF FILE — process_scheduler.support
+#===============================================================================

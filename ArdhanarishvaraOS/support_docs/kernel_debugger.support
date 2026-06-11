@@ -1,0 +1,66 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Kernel Debugger
+#  File: kernel_debugger.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS kernel debugger responsible for:
+#      • breakpoint handling
+#      • stack trace capture
+#      • memory inspection
+#      • debug event logging
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Breakpoints](ca://s?q=Explain_Kernel_Breakpoints)
+#    - [Stack Tracing](ca://s?q=Explain_Kernel_Stack_Tracing)
+#    - [Memory Inspection](ca://s?q=Explain_Kernel_Memory_Inspection)
+#    - [Debug Logging](ca://s?q=Explain_Kernel_Debug_Logging)
+#    - [Debugger Snapshot](ca://s?q=Explain_Kernel_Debugger_Snapshot)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_breakpoint(name, handler)
+#         Registers a breakpoint.
+#
+#    - trigger(name, context)
+#         Triggers breakpoint handler.
+#
+#    - register_memory_hook(name, handler)
+#         Registers memory inspection hook.
+#
+#    - inspect(hook, payload)
+#         Executes memory inspection.
+#
+#    - snapshot()
+#         Returns debugger state.
+#
+#===============================================================================
+#  BREAKPOINT STRUCTURE FORMAT:
+#
+#    {
+#      "id": "BRK-XXXX",
+#      "name": "scheduler.tick",
+#      "handler": <async callable>,
+#      "timestamp": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [IPC Bus Engine](ca://s?q=Build_SovereignOS_IPC_Bus_Engine)
+#    - [Clock & Timing Engine](ca://s?q=Build_SovereignOS_Clock_and_Timing_Engine)
+#    - [Interrupt Controller](ca://s?q=Build_SovereignOS_Interrupt_Controller)
+#    - [Kernel Telemetry Engine](ca://s?q=Build_SovereignOS_Kernel_Telemetry_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/kernel_debugger.py
+#
+#===============================================================================
+#  END OF FILE — kernel_debugger.support
+#===============================================================================

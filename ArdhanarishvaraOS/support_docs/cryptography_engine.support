@@ -1,0 +1,73 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Cryptography Engine
+#  File: cryptography_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS cryptography engine responsible for:
+#      • hashing (SHA‑256, SHA‑512)
+#      • HMAC signatures
+#      • symmetric encryption/decryption
+#      • key generation & registry
+#      • integrity verification
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Key Management](ca://s?q=Explain_Crypto_Key_Management)
+#    - [Hashing](ca://s?q=Explain_Crypto_Hashing)
+#    - [HMAC Signatures](ca://s?q=Explain_Crypto_HMAC)
+#    - [Symmetric Encryption](ca://s?q=Explain_Crypto_Symmetric_Encryption)
+#    - [Integrity Verification](ca://s?q=Explain_Crypto_Integrity_Verification)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - generate_key(name, length)
+#         Creates cryptographic key.
+#
+#    - sha256(data), sha512(data)
+#         Computes cryptographic hashes.
+#
+#    - hmac_sign(key_name, data)
+#         Produces HMAC signature.
+#
+#    - encrypt(key_name, data)
+#         Encrypts data (XOR placeholder).
+#
+#    - decrypt(key_name, ciphertext)
+#         Decrypts data (XOR placeholder).
+#
+#    - verify_hmac(key_name, data, signature)
+#         Validates HMAC signature.
+#
+#    - snapshot()
+#         Returns cryptography engine state.
+#
+#===============================================================================
+#  KEY STRUCTURE FORMAT:
+#
+#    {
+#      "id": "KEY-XXXX",
+#      "name": "system.master",
+#      "length": 32,
+#      "timestamp": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Security Engine](ca://s?q=Build_SovereignOS_Security_Engine)
+#    - [Update Engine](ca://s?q=Build_SovereignOS_Update_Engine)
+#    - [Kernel Debugger](ca://s?q=Build_SovereignOS_Kernel_Debugger)
+#    - [Virtualization Engine](ca://s?q=Build_SovereignOS_Virtualization_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/cryptography_engine.py
+#
+#===============================================================================
+#  END OF FILE — cryptography_engine.support
+#===============================================================================

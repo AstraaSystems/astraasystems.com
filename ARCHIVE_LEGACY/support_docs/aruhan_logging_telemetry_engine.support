@@ -1,0 +1,251 @@
+File: aruhan_logging_telemetry_engine.support
+Classification: INTERNAL — TRUSTED ENGINEERS ONLY
+Module: ARUHAN Logging & Telemetry Engine (Y‑Prime Edition)
+1. Overview
+The Logging & Telemetry Engine is ARUHAN’s system‑level observability layer, responsible for:
+
+structured event logging
+
+telemetry signal aggregation
+
+module‑level performance tracking
+
+drift and anomaly detection
+
+system‑wide health monitoring
+
+It operates beneath the System Orchestrator and receives signals from:
+
+Emotional Engine
+
+Memory Engine
+
+Knowledge Engine
+
+Task/Action Engine
+
+Dialogue Engine
+
+This engine does not influence behavior — it observes, records, and reports.
+
+2. Logging Architecture
+The engine maintains three independent logging channels:
+
+event log — high‑level system events
+
+telemetry log — numeric and meta‑state signals
+
+anomaly log — drift, instability, or unexpected states
+
+Each channel has:
+
+fixed size limits
+
+FIFO pruning
+
+deterministic formatting
+
+Logs are designed for internal debugging and future audit systems.
+
+3. Event Logging
+Event logs capture:
+
+user messages
+
+module outputs
+
+orchestrator decisions
+
+task transitions
+
+emotional state changes
+
+Each entry contains:
+
+Code
+timestamp  
+event_type  
+payload  
+meta_snapshot  
+Event logs are used for:
+
+replaying system behavior
+
+debugging module interactions
+
+verifying pipeline order
+
+4. Telemetry Logging
+Telemetry logs capture numeric signals from all modules:
+
+mood, stress, energy
+
+memory drift, bias, coherence
+
+knowledge graph size
+
+task queue load
+
+orchestrator sync score
+
+Telemetry is stored as compact numeric snapshots for:
+
+trend analysis
+
+drift detection
+
+performance monitoring
+
+Telemetry logs are pruned aggressively to maintain efficiency.
+
+5. Anomaly Detection
+The engine monitors for anomalies such as:
+
+excessive drift
+
+low coherence
+
+high load
+
+rapid emotional swings
+
+unstable task cycling
+
+inconsistent module outputs
+
+When detected, an anomaly entry is created:
+
+Code
+{"type": <string>, "value": <float>, "context": <dict>}
+Anomalies do not trigger corrective action — they are recorded for higher‑level systems.
+
+Future integration with the Stability & Recovery Engine will allow automated responses.
+
+6. Telemetry Signals
+The engine tracks the following signals:
+
+emotional: mood, stress, energy
+
+memory: drift, bias, coherence
+
+knowledge: concept count, link count
+
+task: queue size, active state
+
+orchestrator: sync, load, bias
+
+Signals are normalized to 0.0–1.0 where possible.
+
+7. Rule Pipeline (Execution Order)
+The Logging & Telemetry Engine follows this strict order:
+
+receive module outputs
+
+extract telemetry signals
+
+write event log
+
+write telemetry log
+
+check for anomalies
+
+write anomaly log
+
+prune logs if needed
+
+Changing the order will break consistency across logs.
+
+8. Debugging Entry Points
+Safe to inspect:
+
+event log
+
+telemetry log
+
+anomaly log
+
+signal summaries
+
+Safe to modify:
+
+log size limits
+
+anomaly thresholds
+
+telemetry sampling frequency
+
+Do NOT modify:
+
+log structure
+
+anomaly detection rules
+
+timestamping logic
+
+pruning order
+
+9. Safe Modification Zones
+Engineers may safely:
+
+add new telemetry fields
+
+add new anomaly types
+
+adjust thresholds
+
+expand event categories
+
+Engineers must NOT:
+
+remove existing telemetry fields
+
+disable anomaly detection
+
+bypass timestamping
+
+alter log formatting
+
+10. Expansion Guidelines
+When expanding logging capabilities:
+
+maintain deterministic formatting
+
+avoid storing raw user data unnecessarily
+
+ensure compatibility with the System Orchestrator
+
+test under high‑load scenarios
+
+preserve FIFO pruning behavior
+
+Future versions will integrate with:
+
+external audit systems
+
+recovery subsystems
+
+long‑term analytics
+
+11. Internal Philosophy
+The Logging & Telemetry Engine is built on:
+
+transparency
+
+determinism
+
+modular observability
+
+minimal overhead
+
+system‑wide clarity
+
+It is not designed to influence ARUHAN — it is designed to observe ARUHAN.
+
+12. Notes for Trusted Engineers
+Logging is essential for debugging and long‑term evolution.
+
+Never disable logging in production mode.
+
+All modifications must be tested under stress conditions.
+
+Future integration with the Stability Engine will add automated responses.

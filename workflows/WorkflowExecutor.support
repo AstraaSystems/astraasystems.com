@@ -1,0 +1,72 @@
+============================================================
+WORKFLOW EXECUTOR v17 — SUPPORT DOCUMENT
+Arka Pillai Holdings Ltd
+============================================================
+
+1. PURPOSE
+----------
+The Workflow Executor is responsible for:
+- multi-step workflow execution
+- validation gates
+- context injection
+- kernel integration
+- ledger logging
+- fallback handling
+- domain-specific pipelines
+
+2. LOCATION
+-----------
+/home/keshanth/ARKA/ardhanarishvara/workflows/WorkflowExecutor.py
+
+3. HOW IT WORKS
+---------------
+SupervisorCore determines:
+- domain
+- primary engine
+- workflow chain
+
+WorkflowExecutor:
+- loads the chain
+- executes each step in order
+- injects context
+- logs events
+- handles errors gracefully
+
+4. ADDING A NEW WORKFLOW
+------------------------
+1. Add chain name to self.chains
+2. Add step functions inside WorkflowExecutor
+3. Ensure Supervisor routing table references the chain
+
+5. STEP TYPES
+-------------
+- validation steps
+- engine execution steps
+- profit computation
+- ledger logging
+- context updates
+
+6. ENGINE COMPATIBILITY
+-----------------------
+All engines must implement:
+
+    def run(self, user_input, context):
+        return dict
+
+7. KERNEL INTEGRATION
+---------------------
+WorkflowExecutor uses:
+- ContextBus
+- Ledger
+- MathEngine
+
+8. AUTONOMY
+-----------
+WorkflowExecutor is a core component of:
+- nightly reflection
+- weekly audits
+- profit aggregation
+
+============================================================
+END OF DOCUMENT
+============================================================

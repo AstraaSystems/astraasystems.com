@@ -1,0 +1,65 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  UI Theme Engine
+#  File: ui_theme_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS theme engine responsible for:
+#      • palette generation
+#      • theme activation
+#      • adaptive contrast
+#      • dynamic color blending
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Theme Registration](ca://s?q=Explain_UI_Theme_Registration)
+#    - [Palette Blending](ca://s?q=Explain_Palette_Blending)
+#    - [Adaptive Contrast](ca://s?q=Explain_Adaptive_Contrast)
+#    - [Theme Variants](ca://s?q=Explain_Theme_Variants)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_theme(name, data)
+#         Registers a theme definition.
+#
+#    - activate(name)
+#         Sets active theme.
+#
+#    - get_active()
+#         Returns active theme data.
+#
+#    - variant(base, intensity)
+#         Generates dynamic theme variant.
+#
+#    - export()
+#         Exports active theme as JSON packet.
+#
+#===============================================================================
+#  THEME STRUCTURE FORMAT:
+#
+#    {
+#      "primary": "#1A73E8",
+#      "secondary": "#FFFFFF",
+#      "accent": "#FF4081",
+#      "background": "#F5F5F5"
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [UI Modules](ca://s?q=Build_UI_Modules)
+#    - [UI Layout Engine](ca://s?q=Build_UI_Layout_Engine)
+#    - [UI Interaction Engine](ca://s?q=Build_UI_Interaction_Engine)
+#    - [Arkastra Engine](ca://s?q=Build_Arkastra_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/ui_theme_engine.py
+#
+#===============================================================================
+#  END OF FILE — ui_theme_engine.support
+#===============================================================================

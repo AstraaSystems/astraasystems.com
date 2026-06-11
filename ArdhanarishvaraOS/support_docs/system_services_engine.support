@@ -1,0 +1,75 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS System Services Engine
+#  File: system_services_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS system services engine responsible for:
+#      • daemon lifecycle management
+#      • dependency graph resolution
+#      • async service execution
+#      • IPC-based service invocation
+#      • service health tracking
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Service Registration](ca://s?q=Explain_Service_Registration)
+#    - [Dependency Graph](ca://s?q=Explain_Dependency_Graph)
+#    - [Daemon Lifecycle](ca://s?q=Explain_Daemon_Lifecycle)
+#    - [Service IPC](ca://s?q=Explain_Service_IPC)
+#    - [Service Health](ca://s?q=Explain_Service_Health)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register(name, handler, deps)
+#         Registers a system service.
+#
+#    - start(name)
+#         Starts service + dependencies.
+#
+#    - stop(name)
+#         Stops a running service.
+#
+#    - resolve(name)
+#         Computes dependency chain.
+#
+#    - register_ipc(channel, handler)
+#         Registers IPC channel.
+#
+#    - ipc(channel, payload)
+#         Sends IPC message.
+#
+#    - snapshot()
+#         Returns full system services state.
+#
+#===============================================================================
+#  SERVICE STRUCTURE FORMAT:
+#
+#    {
+#      "name": "network.daemon",
+#      "handler": <async callable>,
+#      "dependencies": ["core.init"],
+#      "running": true/false,
+#      "last_start": <epoch>,
+#      "health": "running"
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Kernel Bootloader](ca://s?q=Build_SovereignOS_Kernel_Bootloader)
+#    - [Package Manager](ca://s?q=Build_SovereignOS_Package_Manager)
+#    - [App Runtime Engine](ca://s?q=Build_App_Runtime_Engine)
+#    - [Arkastra Engine](ca://s?q=Build_Arkastra_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/system_services_engine.py
+#
+#===============================================================================
+#  END OF FILE — system_services_engine.support
+#===============================================================================

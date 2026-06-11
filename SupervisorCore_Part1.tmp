@@ -1,0 +1,84 @@
+# === PART 1: KERNEL + ENGINES + AUTONOMY (MAX-COMPRESSED) ===
+import json,os,time,traceback
+from datetime import datetime
+
+class K:
+    def __init__(s):
+        s.ctx="/home/keshanth/ARKA/ardhanarishvara/context/"
+        s.ledger="/home/keshanth/ARKA/ardhanarishvara/ledger/transactions.json"
+        os.makedirs(s.ctx,exist_ok=True)
+        os.makedirs("/home/keshanth/ARKA/ardhanarishvara/ledger/",exist_ok=True)
+        if not os.path.exists(s.ledger):open(s.ledger,"w").write("[]")
+        s.fail={}
+        s.cool={}
+
+    def load(s,d):
+        p=f"{s.ctx}{d}.json"
+        if not os.path.exists(p):return{}
+        x=json.load(open(p))
+        return x if len(json.dumps(x))<50000 else {"summary":list(x)[:10]}
+
+    def save(s,d,c):json.dump(c,open(f"{s.ctx}{d}.json","w"))
+
+    def log(s,d,e,r):
+        x=json.load(open(s.ledger))
+        x.append({"t":str(datetime.now()),"d":d,"e":e,"r":r})
+        json.dump(x,open(s.ledger,"w"),indent=2)
+
+    def norm(s,v):
+        try:return float(str(v).replace(",",""))
+        except:return 0.0
+
+    def profit(s,r,c):return round(r-c,2)
+
+    def failrec(s,e):
+        s.fail[e]=s.fail.get(e,0)+1
+        if s.fail[e]>=3:s.cool[e]=time.time()+300
+
+    def blocked(s,e):return e in s.cool and time.time()<s.cool[e]
+
+
+# === AUTONOMY STATE MACHINE (COMPRESSED) ===
+class A:
+    def __init__(s,k):
+        s.k=k
+        s.state="OBS"
+        s.f=0
+        s.until=None
+
+    def allow(s):return s.state in["PART","FULL"]
+
+    def rec(s):
+        s.f+=1
+        if s.f>=3:s.state="COOL";s.until=time.time()+300
+        if s.f>=10:s.state="REV"
+
+    def tick(s):
+        if s.state=="COOL"and time.time()>=s.until:
+            s.f=0;s.state="PART"
+
+
+# === ENGINE WRAPPER (COMPRESSED) ===
+class E:
+    def __init__(s,n,f):s.n=n;s.f=f
+    def run(s,i,c):return s.f(i,c)
+
+
+# === ALL ENGINES (COMPRESSED INLINE) ===
+def _fin(i,c):return{"revenue_generated":10}
+def _int(i,c):return{"ok":1}
+def _geo(i,c):return{"loc":"ok"}
+def _dis(i,c):return{"route":"ok"}
+def _con(i,c):return{"est":100}
+def _deep(i,c):return{"analysis":"ok"}
+def _inc(i,c):return{"cycle_revenue":25}
+
+ENGINES={
+    "finance":E("finance",_fin),
+    "intake":E("intake",_int),
+    "geo":E("geo",_geo),
+    "dist":E("dist",_dis),
+    "cons":E("cons",_con),
+    "deep":E("deep",_deep),
+    "income":E("income",_inc)
+}

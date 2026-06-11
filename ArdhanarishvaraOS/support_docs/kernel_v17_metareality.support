@@ -1,0 +1,59 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  Kernel v17 — Metareality Substrate
+#  File: kernel_v17_metareality.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for Kernel v17:
+#      • metareality substrate for all subsystems
+#      • cross-reality synchronization engine
+#      • meta-adaptive scheduler
+#      • unified telemetry fabric
+#      • self-correcting divergence model
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Metareality State Fabric](ca://s?q=Explain_Metareality_State_Fabric)
+#    - [Cross-Reality Synchronization](ca://s?q=Explain_Cross_Reality_Synchronization_v17)
+#    - [Meta-Adaptive Scheduling](ca://s?q=Explain_Meta_Adaptive_Scheduling_v17)
+#    - [Divergence Correction](ca://s?q=Explain_Kernel_Divergence_Correction_v17)
+#    - [Subsystem Integration](ca://s?q=Explain_Kernel_Subsystem_Orchestration_v17)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_reality(rid)
+#    - sync_state()
+#    - schedule_tick()
+#    - correct_divergence(rid)
+#    - kernel_snapshot()
+#
+#===============================================================================
+#  KERNEL FABRIC FORMAT:
+#
+#    {
+#      "realities": {...},
+#      "stability": {...},
+#      "divergence": {...},
+#      "meta_bias": {...}
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Storage Engine v17](ca://s?q=Build_Storage_Engine_v17)
+#    - [Block Router v17](ca://s?q=Build_Block_Router_v17)
+#    - [Hypervisor v17](ca://s?q=Build_Hypervisor_v17)
+#    - [SovereignFS v17](ca://s?q=Build_SovereignFS_v17)
+#    - [Userland v17](ca://s?q=Build_Userland_v17)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/kernel_v17_metareality.py
+#
+#===============================================================================
+#  END OF FILE — kernel_v17_metareality.support
+#===============================================================================

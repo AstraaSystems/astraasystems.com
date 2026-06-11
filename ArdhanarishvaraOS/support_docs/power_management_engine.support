@@ -1,0 +1,66 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Power Management Engine
+#  File: power_management_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS power engine responsible for:
+#      • system power states
+#      • thermal monitoring & throttling
+#      • battery tracking
+#      • power policy enforcement
+#      • energy telemetry
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Power States](ca://s?q=Explain_Power_States)
+#    - [Thermal Control](ca://s?q=Explain_Thermal_Control)
+#    - [Battery System](ca://s?q=Explain_Battery_System)
+#    - [Power Policies](ca://s?q=Explain_Power_Policies)
+#    - [Power Telemetry](ca://s?q=Explain_Power_Telemetry)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - set_state(new_state)
+#         Changes system power state.
+#
+#    - update_thermal(cpu, gpu)
+#         Updates thermal readings + throttling.
+#
+#    - update_battery(level, charging, health)
+#         Updates battery metrics.
+#
+#    - apply_policy(event)
+#         Applies power policy event.
+#
+#    - snapshot()
+#         Returns full power engine state.
+#
+#===============================================================================
+#  POWER STATE FORMAT:
+#
+#    {
+#      "state": "active/idle/sleep/hibernate/shutdown",
+#      "thermal": { "cpu_temp": 40.0, "gpu_temp": 38.0, "throttle": false },
+#      "battery": { "level": 100, "charging": false, "health": "good" }
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Memory Manager](ca://s?q=Build_SovereignOS_Memory_Manager)
+#    - [Interrupt Controller](ca://s?q=Build_SovereignOS_Interrupt_Controller)
+#    - [Hardware Abstraction Layer](ca://s?q=Build_SovereignOS_Hardware_Abstraction_Layer)
+#    - [Kernel Telemetry Engine](ca://s?q=Build_SovereignOS_Kernel_Telemetry_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/power_management_engine.py
+#
+#===============================================================================
+#  END OF FILE — power_management_engine.support
+#===============================================================================

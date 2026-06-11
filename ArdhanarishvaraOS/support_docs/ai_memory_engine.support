@@ -1,0 +1,57 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  AI Memory Engine
+#  File: ai_memory_engine.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the autonomous semantic memory engine used for:
+#      • contextual retention
+#      • semantic recall
+#      • temporal decay modeling
+#      • reinforcement learning drift
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Semantic Storage](ca://s?q=Explain_Semantic_Storage)
+#    - [Temporal Decay](ca://s?q=Explain_Temporal_Decay)
+#    - [Reinforcement Drift](ca://s?q=Explain_Reinforcement_Drift)
+#    - [Weighted Recall](ca://s?q=Explain_Weighted_Recall)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - store(topic, content, strength)
+#         Saves memory with initial strength.
+#
+#    - recall(topic)
+#         Retrieves memories sorted by relevance.
+#
+#    - delete(memory_id)
+#         Removes a memory entry.
+#
+#    - dump()
+#         Returns full memory table.
+#
+#===============================================================================
+#  MEMORY MODEL:
+#
+#    strength = exp(-age / 86400) + stochastic_noise
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Kernel Health Monitor](ca://s?q=Build_Kernel_Health_Monitor)
+#    - [Error Telemetry Engine](ca://s?q=Build_Error_Telemetry_Engine)
+#    - [Arkastra Engine](ca://s?q=Build_Arkastra_Engine)
+#    - [Supervisor Bridge](ca://s?q=Build_Supervisor_Bridge)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/ai_memory_engine.py
+#
+#===============================================================================
+#  END OF FILE — ai_memory_engine.support
+#===============================================================================

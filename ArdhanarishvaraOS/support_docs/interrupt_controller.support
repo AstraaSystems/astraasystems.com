@@ -1,0 +1,70 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Interrupt Controller
+#  File: interrupt_controller.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS interrupt controller responsible for:
+#      • IRQ registration
+#      • interrupt masking
+#      • ISR dispatch
+#      • priority-based interrupt handling
+#      • interrupt telemetry
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [IRQ Registration](ca://s?q=Explain_IRQ_Registration)
+#    - [Interrupt Masking](ca://s?q=Explain_Interrupt_Masking)
+#    - [ISR Dispatch](ca://s?q=Explain_ISR_Dispatch)
+#    - [Priority Handling](ca://s?q=Explain_Interrupt_Priority)
+#    - [Interrupt Telemetry](ca://s?q=Explain_Interrupt_Telemetry)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - register_irq(irq, handler, priority)
+#         Registers interrupt vector entry.
+#
+#    - mask(irq)
+#         Masks interrupt.
+#
+#    - unmask(irq)
+#         Unmasks interrupt.
+#
+#    - dispatch(irq, payload)
+#         Executes interrupt handler.
+#
+#    - highest_priority_irq()
+#         Returns highest priority IRQ.
+#
+#    - snapshot()
+#         Returns interrupt controller state.
+#
+#===============================================================================
+#  VECTOR TABLE FORMAT:
+#
+#    {
+#      "irq": 5,
+#      "handler": <async callable>,
+#      "priority": 3,
+#      "timestamp": <epoch>
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Power Management Engine](ca://s?q=Build_SovereignOS_Power_Management_Engine)
+#    - [Memory Manager](ca://s?q=Build_SovereignOS_Memory_Manager)
+#    - [Hardware Abstraction Layer](ca://s?q=Build_SovereignOS_Hardware_Abstraction_Layer)
+#    - [Kernel Telemetry Engine](ca://s?q=Build_SovereignOS_Kernel_Telemetry_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/interrupt_controller.py
+#
+#===============================================================================
+#  END OF FILE — interrupt_controller.support
+#===============================================================================

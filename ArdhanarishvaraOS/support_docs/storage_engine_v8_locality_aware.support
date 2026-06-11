@@ -1,0 +1,83 @@
+#!/bin/sh
+#===============================================================================
+#  ARDHANARISHVARA OS — ENGINEERING SUPPORT DOCUMENT
+#  SovereignOS Storage Engine v8 — Locality-Aware XorRS Unified
+#  File: storage_engine_v8_locality_aware.support
+#===============================================================================
+#  PURPOSE:
+#    Engineering reference for the SovereignOS Storage Engine v8:
+#      • locality-aware shard placement
+#      • rack/zone/region topology awareness
+#      • automatic repair path selection
+#      • unified XorRS hybrid parity
+#      • distributed snapshots
+#
+#===============================================================================
+#  MODULE SUMMARY:
+#
+#    - [Locality-Aware Placement](ca://s?q=Explain_Locality_Aware_Placement)
+#    - [Rack/Zone/Region Topology](ca://s?q=Explain_Storage_Topology)
+#    - [Local Repair](ca://s?q=Explain_XorRS_Local_Repair)
+#    - [Secondary Repair](ca://s?q=Explain_XorRS_Secondary_Repair)
+#    - [Global RS Repair](ca://s?q=Explain_XorRS_Global_RS)
+#    - [Automatic Repair Selection](ca://s?q=Explain_XorRS_Automatic_Repair)
+#
+#===============================================================================
+#  FUNCTION OVERVIEW:
+#
+#    - create_volume(name, size_mb, nodes)
+#         Creates locality-aware XorRS Unified volume.
+#
+#    - write(volume_id, data)
+#         Encodes data into groups, local parity, secondary parity, global RS.
+#         Places shards across racks/zones/regions.
+#
+#    - read(volume_id, shard_ids)
+#         Automatically selects best repair path based on locality.
+#
+#    - snapshot(volume_id)
+#         Creates distributed snapshot.
+#
+#    - restore(snapshot_id)
+#         Restores shard map from snapshot.
+#
+#    - engine_snapshot()
+#         Returns engine state.
+#
+#===============================================================================
+#  NODE FORMAT:
+#
+#    {
+#      "id": "NODE-1",
+#      "rack": "R1",
+#      "zone": "Z1",
+#      "region": "REG-A"
+#    }
+#
+#===============================================================================
+#  SHARD MAP FORMAT:
+#
+#    {
+#      "XRS8VOL-XXXX": {
+#          "SHR-A": {"node": "NODE-1", "rack": "R1", "zone": "Z1", "region": "REG-A"},
+#          "SHR-B": {"node": "NODE-2", "rack": "R2", "zone": "Z1", "region": "REG-A"},
+#          ...
+#      }
+#    }
+#
+#===============================================================================
+#  RELATED MODULES:
+#
+#    - [Storage Engine v7 XorRS Unified](ca://s?q=Build_SovereignOS_Storage_Engine_v7_XorRS_Unified)
+#    - [Storage Engine v6 LRC](ca://s?q=Build_SovereignOS_Storage_Engine_v6_LRC)
+#    - [Distributed Node Engine](ca://s?q=Build_SovereignOS_Distributed_Node_Engine)
+#    - [Network Orchestration Engine](ca://s?q=Build_SovereignOS_Network_Orchestration_Engine)
+#
+#===============================================================================
+#  IMPLEMENTATION LOCATION:
+#
+#    /home/keshanth/ARKA/ardhanarishvara/ArdhanarishvaraOS/kernel/storage_engine_v8_locality_aware.py
+#
+#===============================================================================
+#  END OF FILE — storage_engine_v8_locality_aware.support
+#===============================================================================

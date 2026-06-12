@@ -2,108 +2,56 @@
 <html>
 <head>
   <title>Astraa Systems</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body style="font-family: Arial; margin:0; background:#0b1220; color:#fff;">
+<body style="background:#0b1220; color:white; font-family:Arial;">
 
-<!-- HERO -->
-<section style="padding:60px 20px; text-align:center;">
-  <h1 style="font-size:42px;">Run your business without complexity.</h1>
+<h1 style="text-align:center;">One system to run your business</h1>
 
-  <p style="max-width:800px; margin:auto; color:#ccc;">
-    Astraa Systems simplifies your operations, finances, and workflows into one intelligent system designed to help you move faster and make better decisions.
-  </p>
+<p style="text-align:center;">
+No complexity. No fragmentation. No guesswork.
+</p>
 
-  <div style="margin-top:30px;">
-    <a href="#estimator">
-      <button style="padding:14px 24px; background:#2563eb; border:none; color:white; border-radius:8px;">
-        Try Estimator
-      </button>
-    </a>
-  </div>
-</section>
+<h2>Your Data Stays Yours. Always.</h2>
 
-<!-- PRIVACY -->
-<section style="padding:50px; background:#14213d; text-align:center;">
-  <h2>Your Data Stays Yours. Always.</h2>
+<p>
+We do not store or share your data without permission.
+</p>
 
-  <p style="max-width:800px; margin:auto;">
-    We do not store, share, or use your business or client data without your explicit permission.
-    Every interaction with Astraa Systems is designed to protect confidentiality and maintain full control in your hands.
-  </p>
+<h2>Estimator</h2>
 
-  <p>✔ No data reselling</p>
-  <p>✔ No hidden storage</p>
-  <p>✔ Full ownership and control</p>
+<button onclick="runEstimate()">Run Estimate</button>
 
-  <strong>Operate with confidence. We protect the system behind it.</strong>
-</section>
+<div id="result"></div>
 
-<!-- WHAT WE DO -->
-<section style="padding:60px;">
-  <h2 style="text-align:center;">What Astraa Can Do</h2>
-
-  <div style="max-width:900px; margin:auto;">
-    <p><b>Business Operations:</b> Manage workflows and processes.</p>
-    <p><b>Financial Intelligence:</b> Understand costs and margins clearly.</p>
-    <p><b>Commerce Systems:</b> Control transactions and execution.</p>
-    <p><b>Intelligent Decisions:</b> Systems that improve with use.</p>
-  </div>
-</section>
-
-<!-- ESTIMATOR -->
-<section id="estimator" style="padding:60px; text-align:center;">
-  <h2>Astraa Estimator</h2>
-  <p>Structured estimation with risk and confidence analysis.</p>
-
-  <div style="margin-top:20px;">
-    <button onclick="runEstimate()">Run Estimate</button>
-  </div>
-
-  <div id="result" style="margin-top:20px;"></div>
-</section>
-
-<!-- CUSTOM BUILD -->
-<section style="padding:50px; background:#081228; text-align:center;">
-  <h2>Need this tailored to your workflow?</h2>
-
-  <p style="max-width:700px; margin:auto;">
-    We build custom systems designed specifically for how your business operates.
-  </p>
-
-  <p style="margin-top:20px;">
-    📧 contact@astraasystems.com
-  </p>
-</section>
-
-<!-- SUPPORT -->
-<section style="padding:50px; text-align:center;">
-  <h2>Real Support. Not Just Software.</h2>
-
-  <p style="max-width:700px; margin:auto;">
-    We provide direct system support, fast issue resolution, and continuous refinement so your workflows run smoothly at all times.
-  </p>
-</section>
-
-<!-- FOOTER -->
-<footer style="text-align:center; padding:20px;">
-  <a href="terms.html">Privacy & Service Terms</a>
-</footer>
+<h2>Contact</h2>
+<p>contact@astraasystems.com</p>
 
 <script>
+
 async function runEstimate() {
-  const response = await fetch("http://127.0.0.1:5000/estimate", {
+
+  let res = await fetch("https://family-speed-outcome.ngrok-free.dev/estimate", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ sqft: 10000, material:1.1, labor:1.05, complexity:0.8 })
+    headers: {
+      "Content-Type": "application/json",
+      "X-API-KEY": "astraa_secure"
+    },
+    body: JSON.stringify({
+      sqft: 10000,
+      material: 1.1,
+      labor: 1.05,
+      complexity: 0.8
+    })
   });
 
-  const data = await response.json();
+  let data = await res.json();
 
   document.getElementById("result").innerHTML =
-    "Estimate: $" + Math.round(data.base_estimate);
+    "Estimated Cost: $" + Math.round(data.base_estimate) +
+    "<br><br>This is a baseline estimate. We can tailor this to your workflow.";
 }
+
 </script>
 
 </body>

@@ -1,52 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Astraa Estimator</title>
   <style>
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
       background: #071833;
       color: white;
+      font-family: Arial;
       padding: 40px;
     }
-
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 6px;
+      border: none;
     }
-
-    h1 {
-      font-size: 48px;
-      margin-bottom: 12px;
+    button {
+      background: #1e90ff;
+      color: white;
+      cursor: pointer;
     }
-
-    p {
-      font-size: 22px;
-      margin: 10px 0;
-      color: #d8e3f0;
-    }
-
-    .badge {
-      display: inline-block;
+    .box {
       margin-top: 20px;
-      padding: 10px 16px;
-      border-radius: 10px;
+      padding: 15px;
       background: #0c2b57;
-      color: #7fffd4;
-      font-weight: bold;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Astraa Estimator</h1>
-    <p>System is live ✅</p>
-    <p>Powered by CYS Intelligent Learning</p>
-    <div class="badge">Deployment active</div>
-  </div>
+
+<h1>Astraa Estimator</h1>
+<p>Powered by CYS Intelligent Learning</p>
+
+<h3>Project Input</h3>
+
+<input id="sqft" placeholder="Square Footage" value="12000">
+<input id="material" placeholder="Material Index" value="1.1">
+<input id="labor" placeholder="Labor Index" value="1.05">
+<input id="complexity" placeholder="Complexity" value="0.8">
+
+<br>
+
+<button onclick="runEstimate()">Run Estimate</button>
+
+<div class="box" id="output">
+  Results will appear here
+</div>
+
+<script>
+function runEstimate() {
+
+  // Simulated result (for now)
+  const estimate = 4000000 + Math.random()*50000;
+  const confidence = 0.85 + Math.random()*0.1;
+
+  document.getElementById("output").innerHTML = `
+    <h3>Estimate Result</h3>
+    <p><b>Estimate:</b> $${estimate.toFixed(0)}</p>
+    <p><b>Confidence:</b> ${(confidence*100).toFixed(1)}%</p>
+    <p><b>Status:</b> Simulated (API not connected yet)</p>
+  `;
+}
+</script>
+
 </body>
 </html>
-
+``

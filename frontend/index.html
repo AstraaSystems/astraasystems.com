@@ -35,12 +35,21 @@
 
 <h3>Project Input</h3>
 
-<input id="sqft" placeholder="Square Footage" value="12000">
-<input id="material" placeholder="Material Index" value="1.1">
-<input id="labor" placeholder="Labor Index" value="1.05">
-<input id="complexity" placeholder="Complexity" value="0.8">
+<label>Square Footage</label><br>
+<input id="sqft" value="12000">
+<small>Total size of the project in square feet</small><br><br>
 
-<br>
+<label>Material Cost Index</label><br>
+<input id="material" value="1.1">
+<small>1.0 = normal pricing, higher = more expensive region</small><br><br>
+
+<label>Labor Cost Index</label><br>
+<input id="labor" value="1.05">
+<small>Adjust based on local workforce cost</small><br><br>
+
+<label>Project Complexity</label><br>
+<input id="complexity" value="0.8">
+<small>0.3 = simple, 0.8 = complex, 1.0 = high complexity</small><br><br>
 
 <button onclick="runEstimate()">Run Estimate</button>
 
@@ -51,15 +60,49 @@
 <script>
 function runEstimate() {
 
-  // Simulated result (for now)
-  const estimate = 4000000 + Math.random()*50000;
+  const base = 4000000 + Math.random()*50000;
   const confidence = 0.85 + Math.random()*0.1;
+  const risk = 0.3 + Math.random()*0.1;
+
+  const low = base - 50000;
+  const high = base + 50000;
 
   document.getElementById("output").innerHTML = `
+
     <h3>Estimate Result</h3>
-    <p><b>Estimate:</b> $${estimate.toFixed(0)}</p>
+
+    <p><b>Base Estimate:</b> $${base.toFixed(0)}</p>
+    <p><b>Range:</b> $${low.toFixed(0)} - $${high.toFixed(0)}</p>
     <p><b>Confidence:</b> ${(confidence*100).toFixed(1)}%</p>
-    <p><b>Status:</b> Simulated (API not connected yet)</p>
+    <p><b>Risk Level:</b> ${(risk*100).toFixed(1)}%</p>
+
+    <hr>
+
+    <h4>Recommended Action</h4>
+    <p>Optimized Plan: reduce cost by adjusting material sourcing.</p>
+
+    <h4>Scenario Impact</h4>
+    <ul>
+      <li>Material spike: +$300,000</li>
+      <li>Labor shortage: +$200,000</li>
+      <li>Delay risk: +$250,000</li>
+      <li style="color:#7fffd4">Optimized plan: -$280,000</li>
+    </ul>
+
+    <h4>Cost Breakdown</h4>
+    <ul>
+      <li>Foundation: 15%</li>
+      <li>Framing: 20%</li>
+      <li>Electrical: 12%</li>
+      <li>Plumbing: 10%</li>
+      <li>Finishes: 18%</li>
+      <li>Mechanical: 10%</li>
+      <li>Overhead: 15%</li>
+    </ul>
+
+    <hr>
+
+    <small>Status: Simulated (API not connected yet)</small>
   `;
 }
 </script>

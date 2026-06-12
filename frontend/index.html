@@ -554,100 +554,70 @@
       document.getElementById("complexity").value = "0.8";
     }
 
-    function runEstimate() {
-      // Simulated result placeholder until backend API is connected
-      const sqft = parseFloat(document.getElementById("sqft").value || "12000");
-      const material = parseFloat(document.getElementById("material").value || "1.1");
-      const labor = parseFloat(document.getElementById("labor").value || "1.05");
-      const complexity = parseFloat(document.getElementById("complexity").value || "0.8");
+async function runEstimate() {
 
-      const base = (sqft * 220) * (1 + (material - 1) * 0.30 + (labor - 1) * 0.24 + complexity * 0.16);
-      const volatility = 12000 + Math.random() * 16000;
-      const low = base - volatility;
-      const high = base + volatility;
-      const confidence = 0.88 + Math.random() * 0.08;
-      const risk = 0.26 + Math.random() * 0.10;
-      const archetype = complexity > 0.75 ? "M_M_N" : "M_L_N";
+  const sqft = parseFloat(document.getElementById("sqft").value);
+  const material = parseFloat(document.getElementById("material").value);
+  const labor = parseFloat(document.getElementById("labor").value);
+  const complexity = parseFloat(document.getElementById("complexity").value);
 
-      const breakdown = {
-        foundation: base * 0.15,
-        framing: base * 0.20,
-        electrical: base * 0.12,
-        plumbing: base * 0.10,
-        finishes: base * 0.18,
-        mechanical: base * 0.10,
-        overhead: base * 0.15
-      };
+  try {
+    const response = await fetch("http://127.0.0.1:5000/estimate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        sqft,
+        material,
+        labor,
+        complexity
+      })
+    });
 
-      const scenarios = {
-        materialSpike: base * 0.08,
-        laborShortage: base * 0.05,
-        delayRisk: base * 0.06,
-        optimizedPlan: -base * 0.07
-      };
+    const data = await response.json();
 
-      document.getElementById("metricGrid").innerHTML = `
-        <div class="metric-card">
-          <div class="metric-label">Base Estimate</div>
-          <div class="metric-value">${fmtMoney(base)}</div>
-          <div class="metric-sub">Primary total estimate</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Estimate Range</div>
-          <div class="metric-value">${fmtMoney(low)} – ${fmtMoney(high)}</div>
-          <div class="metric-sub">Expected bid band</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Confidence</div>
-          <div class="metric-value">${(confidence * 100).toFixed(1)}%</div>
-          <div class="metric-sub">Model trust level</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Risk</div>
-          <div class="metric-value">${(risk * 100).toFixed(1)}%</div>
-          <div class="metric-sub">Projected volatility pressure</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Archetype</div>
-          <div class="metric-value">${archetype}</div>
-          <div class="metric-sub">Detected project pattern</div>
-        </div>
-      `;
+    const base = data.base_estimate;
+    const low = data.low;
+    const high = data.high;
 
-      document.getElementById("decisionTitle").innerText = "Optimized Plan";
-      document.getElementById("decisionReason").innerText =
-        "Recommendation favors a lower-impact strategy by reducing exposure to material escalation and schedule drag while maintaining a bid posture that remains competitive.";
+    document.getElementById("metricGrid").innerHTML = `
+      <div class="metric-card">
+        <div class="metric-label">Base Estimate</div>
+        <div class="metric-value">$${Math.round(base).toLocaleString()}</div>
+      </div>
 
-      document.getElementById("decisionList").innerHTML = `
-        <li>Current estimate supports an optimized delivery approach rather than a reactive or aggressive posture.</li>
-        <li>Material and labor pressure are elevated but manageable within the current confidence envelope.</li>
-        <li>Use this output as a bid-direction and internal review tool, not only as a single price number.</li>
-      `;
+      <div class="metric-card">
+        <div class="metric-label">Estimate Range</div>
+        <div class="metric-value">$${Math.round(low).toLocaleString()} - $${Math.round(high).toLocaleString()}</div>
+      </div>
 
-      document.getElementById("summaryList").innerHTML = `
-        <li><b>Estimate posture:</b> professional and competitive with moderate risk containment.</li>
-        <li><b>Confidence band:</b> strong enough for bid discussion, pending full backend-connected validation.</li>
-        <li><b>Key operational focus:</b> protect against material drift and avoid avoidable schedule friction.</li>
-      `;
+      <div class="metric-card">
+        <div class="metric-label">Confidence</div>
+        <div class="metric-value">${(data.confidence * 100).toFixed(1)}%</div>
+      </div>
 
-      document.getElementById("scenarioBlock").innerHTML = `
-        <div class="row"><span>Material Spike</span><span class="negative">+ ${fmtMoney(scenarios.materialSpike)}</span></div>
-        <div class="row"><span>Labor Shortage</span><span class="negative">+ ${fmtMoney(scenarios.laborShortage)}</span></div>
-        <div class="row"><span>Delay Risk</span><span class="negative">+ ${fmtMoney(scenarios.delayRisk)}</span></div>
-        <div class="row"><span>Optimized Plan</span><span class="positive">${fmtMoney(scenarios.optimizedPlan)}</span></div>
-      `;
+      <div class="metric-card">
+        <div class="metric-label">Risk</div>
+        <div class="metric-value">${(data.risk * 100).toFixed(1)}%</div>
+      </div>
 
-      document.getElementById("breakdownBlock").innerHTML = `
-        <div class="row"><span>Foundation</span><span>${fmtMoney(breakdown.foundation)}</span></div>
-        <div class="row"><span>Framing</span><span>${fmtMoney(breakdown.framing)}</span></div>
-        <div class="row"><span>Electrical</span><span>${fmtMoney(breakdown.electrical)}</span></div>
-        <div class="row"><span>Plumbing</span><span>${fmtMoney(breakdown.plumbing)}</span></div>
-        <div class="row"><span>Finishes</span><span>${fmtMoney(breakdown.finishes)}</span></div>
-        <div class="row"><span>Mechanical</span><span>${fmtMoney(breakdown.mechanical)}</span></div>
-        <div class="row"><span>Overhead</span><span>${fmtMoney(breakdown.overhead)}</span></div>
-      `;
-    }
+      <div class="metric-card">
+        <div class="metric-label">Archetype</div>
+        <div class="metric-value">M_M_N</div>
+      </div>
+    `;
 
+    document.getElementById("decisionTitle").innerText = "Optimized Plan";
+
+    document.getElementById("decisionReason").innerText =
+      "Live backend estimate suggests a balanced bid strategy with controlled risk exposure and stable cost structure.";
+
+  } catch (err) {
+    alert("Backend connection failed");
+    console.error(err);
+  }
+}
     function submitFeedback() {
       const actual = document.getElementById("actualCost").value;
       if (!actual) {

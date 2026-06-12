@@ -1,112 +1,662 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Astraa Estimator</title>
   <style>
+    :root {
+      --bg: #06152d;
+      --bg-2: #0a1f3f;
+      --panel: rgba(255,255,255,0.04);
+      --panel-2: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.09);
+      --text: #eef4ff;
+      --muted: #aab9d1;
+      --accent: #34d399;
+      --accent-2: #38bdf8;
+      --warning: #f59e0b;
+      --danger: #fb7185;
+      --radius: 18px;
+      --shadow: 0 24px 48px rgba(0,0,0,0.28);
+    }
+
+    * { box-sizing: border-box; }
+
     body {
-      background: #071833;
-      color: white;
-      font-family: Arial;
-      padding: 40px;
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(56,189,248,0.14), transparent 22%),
+        radial-gradient(circle at top left, rgba(52,211,153,0.10), transparent 18%),
+        linear-gradient(180deg, #071833 0%, #06152d 100%);
+      min-height: 100vh;
     }
-    input, button {
-      padding: 10px;
-      margin: 5px;
-      border-radius: 6px;
-      border: none;
+
+    .shell {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px;
     }
-    button {
-      background: #1e90ff;
-      color: white;
-      cursor: pointer;
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 24px;
     }
-    .box {
+
+    .brand h1 {
+      margin: 0;
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .brand p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      max-width: 900px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .status-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .pill.live { color: #93c5fd; }
+    .pill.learn { color: #86efac; }
+    .pill.mode { color: #fde68a; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 22px;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 20px 22px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .panel-header p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .panel-body {
+      padding: 20px 22px 24px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .field label {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .field-tag {
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: rgba(56,189,248,0.12);
+      color: #93c5fd;
+      border: 1px solid rgba(56,189,248,0.22);
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 14px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(2,12,27,0.6);
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+    }
+
+    .field small {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 12px;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
       margin-top: 20px;
-      padding: 15px;
-      background: #0c2b57;
-      border-radius: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .primary {
+      flex: 1;
+      background: linear-gradient(135deg, #2563eb, #0ea5e9);
+      color: white;
+    }
+
+    .secondary {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .results-layout {
+      display: grid;
+      gap: 18px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+
+    .metric-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    .metric-value {
+      margin-top: 10px;
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .metric-sub {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .decision-box {
+      background: linear-gradient(135deg, rgba(52,211,153,0.12), rgba(56,189,248,0.08));
+      border: 1px solid rgba(52,211,153,0.25);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .decision-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: #86efac;
+    }
+
+    .decision-reason {
+      margin-top: 8px;
+      color: #dbeafe;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .list {
+      margin: 0;
+      padding-left: 18px;
+      line-height: 1.65;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .list li {
+      margin-bottom: 8px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 14px;
+    }
+
+    .row:last-child {
+      border-bottom: none;
+    }
+
+    .positive { color: #86efac; }
+    .negative { color: #fda4af; }
+
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: end;
+      margin-top: 10px;
+    }
+
+    .feedback-grid input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(2,12,27,0.6);
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .callout {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 1200px) {
+      .layout { grid-template-columns: 1fr; }
+      .metric-grid { grid-template-columns: repeat(2, 1fr); }
+      .card-grid, .split { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .topbar { flex-direction: column; }
+      .metric-grid { grid-template-columns: 1fr; }
+      .brand h1 { font-size: 34px; }
     }
   </style>
 </head>
 <body>
+  <div class="shell">
+    <div class="topbar">
+      <div class="brand">
+        <h1>Astraa Estimator</h1>
+        <p>
+          Powered by CYS Intelligent Learning · A professional estimating and bid-intelligence interface designed to present not only the number, but the decision context around the number.
+        </p>
+      </div>
+      <div class="status-pills">
+        <div class="pill live">Live Site</div>
+        <div class="pill learn">Learning Active</div>
+        <div class="pill mode">Simulation Mode</div>
+      </div>
+    </div>
 
-<h1>Astraa Estimator</h1>
-<p>Powered by CYS Intelligent Learning</p>
+    <div class="layout">
+      <!-- LEFT SIDE -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Project Intake</h2>
+          <p>
+            Enter the same core drivers a contractor or estimator would use to understand project scale, regional cost pressure, labor conditions, and job complexity.
+          </p>
+        </div>
+        <div class="panel-body">
 
-<h3>Project Input</h3>
+          <div class="field">
+            <div class="field-top">
+              <label for="projectType">Project Type</label>
+              <span class="field-tag">Base cost posture</span>
+            </div>
+            <select id="projectType">
+              <option value="commercial" selected>Commercial</option>
+              <option value="residential">Residential</option>
+              <option value="mixed_use">Mixed Use</option>
+            </select>
+            <small>Choose the primary project type. This influences the cost profile and final recommendation framing.</small>
+          </div>
 
-<label>Square Footage</label><br>
-<input id="sqft" value="12000">
-<small>Total size of the project in square feet</small><br><br>
+          <div class="field">
+            <div class="field-top">
+              <label for="sqft">Square Footage</label>
+              <span class="field-tag">Project scale</span>
+            </div>
+            <input id="sqft" value="12000" />
+            <small>Total gross area of the project in square feet. Larger projects influence schedule, risk, and trade weighting.</small>
+          </div>
 
-<label>Material Cost Index</label><br>
-<input id="material" value="1.1">
-<small>1.0 = normal pricing, higher = more expensive region</small><br><br>
+          <div class="field">
+            <div class="field-top">
+              <label for="material">Material Cost Index</label>
+              <span class="field-tag">1.0 = standard</span>
+            </div>
+            <input id="material" value="1.1" />
+            <small>Represents today’s material market pressure. Higher values mean a more expensive material environment.</small>
+          </div>
 
-<label>Labor Cost Index</label><br>
-<input id="labor" value="1.05">
-<small>Adjust based on local workforce cost</small><br><br>
+          <div class="field">
+            <div class="field-top">
+              <label for="labor">Labor Cost Index</label>
+              <span class="field-tag">Regional labor burden</span>
+            </div>
+            <input id="labor" value="1.05" />
+            <small>Use this for local labor cost conditions, workforce shortage pressure, or union burden.</small>
+          </div>
 
-<label>Project Complexity</label><br>
-<input id="complexity" value="0.8">
-<small>0.3 = simple, 0.8 = complex, 1.0 = high complexity</small><br><br>
+          <div class="field">
+            <div class="field-top">
+              <label for="complexity">Project Complexity</label>
+              <span class="field-tag">0.3 simple · 1.0 high</span>
+            </div>
+            <input id="complexity" value="0.8" />
+            <small>Reflect scope complexity, design coordination, site difficulty, sequencing challenges, or systems integration.</small>
+          </div>
 
-<button onclick="runEstimate()">Run Estimate</button>
+          <div class="button-row">
+            <button class="primary" onclick="runEstimate()">Run Estimate</button>
+            <button class="secondary" onclick="resetForm()">Reset</button>
+          </div>
 
-<div class="box" id="output">
-  Results will appear here
-</div>
+          <div class="callout">
+            This intake structure is designed to feel closer to a professional estimating system than a simple calculator, with guided field logic and better preparation for proposal-quality outputs.
+          </div>
+        </div>
+      </div>
 
-<script>
-function runEstimate() {
+      <!-- RIGHT SIDE -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Estimate Intelligence Console</h2>
+          <p>
+            The result workspace is structured for owner review, bid framing, and operational decision support: estimate, risk, confidence, scenarios, trade visibility, and learning feedback.
+          </p>
+        </div>
+        <div class="panel-body">
+          <div class="results-layout">
 
-  const base = 4000000 + Math.random()*50000;
-  const confidence = 0.85 + Math.random()*0.1;
-  const risk = 0.3 + Math.random()*0.1;
+            <div class="metric-grid" id="metricGrid">
+              <div class="metric-card">
+                <div class="metric-label">Base Estimate</div>
+                <div class="metric-value">$—</div>
+                <div class="metric-sub">Primary total estimate</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Estimate Range</div>
+                <div class="metric-value">$—</div>
+                <div class="metric-sub">Expected bid band</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Confidence</div>
+                <div class="metric-value">—%</div>
+                <div class="metric-sub">Model trust level</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Risk</div>
+                <div class="metric-value">—%</div>
+                <div class="metric-sub">Projected volatility pressure</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Archetype</div>
+                <div class="metric-value">—</div>
+                <div class="metric-sub">Detected project pattern</div>
+              </div>
+            </div>
 
-  const low = base - 50000;
-  const high = base + 50000;
+            <div class="card-grid">
+              <div class="card">
+                <h3>Decision Guidance</h3>
+                <div class="decision-box">
+                  <div class="decision-title" id="decisionTitle">Awaiting estimate</div>
+                  <div class="decision-reason" id="decisionReason">
+                    Run the estimator to generate decision guidance and bid posture.
+                  </div>
+                </div>
+                <ul class="list" id="decisionList">
+                  <li>Recommendation will appear after estimate execution.</li>
+                  <li>Use this section to guide the next action — not just to view the number.</li>
+                </ul>
+              </div>
 
-  document.getElementById("output").innerHTML = `
+              <div class="card">
+                <h3>Executive Summary</h3>
+                <ul class="list" id="summaryList">
+                  <li>Estimate not yet generated.</li>
+                  <li>Risk and confidence interpretation pending.</li>
+                  <li>Scenario and breakdown visibility will appear after run.</li>
+                </ul>
+              </div>
+            </div>
 
-    <h3>Estimate Result</h3>
+            <div class="split">
+              <div class="card">
+                <h3>Scenario Impact</h3>
+                <div id="scenarioBlock">
+                  <div class="row"><span>Material Spike</span><span>—</span></div>
+                  <div class="row"><span>Labor Shortage</span><span>—</span></div>
+                  <div class="row"><span>Delay Risk</span><span>—</span></div>
+                  <div class="row"><span>Optimized Plan</span><span>—</span></div>
+                </div>
+              </div>
 
-    <p><b>Base Estimate:</b> $${base.toFixed(0)}</p>
-    <p><b>Range:</b> $${low.toFixed(0)} - $${high.toFixed(0)}</p>
-    <p><b>Confidence:</b> ${(confidence*100).toFixed(1)}%</p>
-    <p><b>Risk Level:</b> ${(risk*100).toFixed(1)}%</p>
+              <div class="card">
+                <h3>Trade Cost Breakdown</h3>
+                <div id="breakdownBlock">
+                  <div class="row"><span>Foundation</span><span>—</span></div>
+                  <div class="row"><span>Framing</span><span>—</span></div>
+                  <div class="row"><span>Electrical</span><span>—</span></div>
+                  <div class="row"><span>Plumbing</span><span>—</span></div>
+                  <div class="row"><span>Finishes</span><span>—</span></div>
+                  <div class="row"><span>Mechanical</span><span>—</span></div>
+                  <div class="row"><span>Overhead</span><span>—</span></div>
+                </div>
+              </div>
+            </div>
 
-    <hr>
+            <div class="card">
+              <h3>Feedback & Learning</h3>
+              <p style="margin-top:0; color: var(--muted); line-height: 1.5;">
+                Capture actual project cost later to improve trust, calibration, and future decision quality. This is where Astraa begins turning operational use into intelligence.
+              </p>
+              <div class="feedback-grid">
+                <input id="actualCost" placeholder="Enter actual final cost (optional for later learning)" />
+                <button class="secondary" onclick="submitFeedback()">Record Feedback</button>
+              </div>
+              <div class="callout">
+                Current mode is simulated until backend API connection is turned on. The interface is already structured to support real estimate output, recommendation logic, and learning capture.
+              </div>
+            </div>
 
-    <h4>Recommended Action</h4>
-    <p>Optimized Plan: reduce cost by adjusting material sourcing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <h4>Scenario Impact</h4>
-    <ul>
-      <li>Material spike: +$300,000</li>
-      <li>Labor shortage: +$200,000</li>
-      <li>Delay risk: +$250,000</li>
-      <li style="color:#7fffd4">Optimized plan: -$280,000</li>
-    </ul>
+  <script>
+    function fmtMoney(v) {
+      return "$" + Math.round(v).toLocaleString();
+    }
 
-    <h4>Cost Breakdown</h4>
-    <ul>
-      <li>Foundation: 15%</li>
-      <li>Framing: 20%</li>
-      <li>Electrical: 12%</li>
-      <li>Plumbing: 10%</li>
-      <li>Finishes: 18%</li>
-      <li>Mechanical: 10%</li>
-      <li>Overhead: 15%</li>
-    </ul>
+    function resetForm() {
+      document.getElementById("projectType").value = "commercial";
+      document.getElementById("sqft").value = "12000";
+      document.getElementById("material").value = "1.1";
+      document.getElementById("labor").value = "1.05";
+      document.getElementById("complexity").value = "0.8";
+    }
 
-    <hr>
+    function runEstimate() {
+      // Simulated result placeholder until backend API is connected
+      const sqft = parseFloat(document.getElementById("sqft").value || "12000");
+      const material = parseFloat(document.getElementById("material").value || "1.1");
+      const labor = parseFloat(document.getElementById("labor").value || "1.05");
+      const complexity = parseFloat(document.getElementById("complexity").value || "0.8");
 
-    <small>Status: Simulated (API not connected yet)</small>
-  `;
-}
-</script>
+      const base = (sqft * 220) * (1 + (material - 1) * 0.30 + (labor - 1) * 0.24 + complexity * 0.16);
+      const volatility = 12000 + Math.random() * 16000;
+      const low = base - volatility;
+      const high = base + volatility;
+      const confidence = 0.88 + Math.random() * 0.08;
+      const risk = 0.26 + Math.random() * 0.10;
+      const archetype = complexity > 0.75 ? "M_M_N" : "M_L_N";
 
+      const breakdown = {
+        foundation: base * 0.15,
+        framing: base * 0.20,
+        electrical: base * 0.12,
+        plumbing: base * 0.10,
+        finishes: base * 0.18,
+        mechanical: base * 0.10,
+        overhead: base * 0.15
+      };
+
+      const scenarios = {
+        materialSpike: base * 0.08,
+        laborShortage: base * 0.05,
+        delayRisk: base * 0.06,
+        optimizedPlan: -base * 0.07
+      };
+
+      document.getElementById("metricGrid").innerHTML = `
+        <div class="metric-card">
+          <div class="metric-label">Base Estimate</div>
+          <div class="metric-value">${fmtMoney(base)}</div>
+          <div class="metric-sub">Primary total estimate</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Estimate Range</div>
+          <div class="metric-value">${fmtMoney(low)} – ${fmtMoney(high)}</div>
+          <div class="metric-sub">Expected bid band</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Confidence</div>
+          <div class="metric-value">${(confidence * 100).toFixed(1)}%</div>
+          <div class="metric-sub">Model trust level</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Risk</div>
+          <div class="metric-value">${(risk * 100).toFixed(1)}%</div>
+          <div class="metric-sub">Projected volatility pressure</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Archetype</div>
+          <div class="metric-value">${archetype}</div>
+          <div class="metric-sub">Detected project pattern</div>
+        </div>
+      `;
+
+      document.getElementById("decisionTitle").innerText = "Optimized Plan";
+      document.getElementById("decisionReason").innerText =
+        "Recommendation favors a lower-impact strategy by reducing exposure to material escalation and schedule drag while maintaining a bid posture that remains competitive.";
+
+      document.getElementById("decisionList").innerHTML = `
+        <li>Current estimate supports an optimized delivery approach rather than a reactive or aggressive posture.</li>
+        <li>Material and labor pressure are elevated but manageable within the current confidence envelope.</li>
+        <li>Use this output as a bid-direction and internal review tool, not only as a single price number.</li>
+      `;
+
+      document.getElementById("summaryList").innerHTML = `
+        <li><b>Estimate posture:</b> professional and competitive with moderate risk containment.</li>
+        <li><b>Confidence band:</b> strong enough for bid discussion, pending full backend-connected validation.</li>
+        <li><b>Key operational focus:</b> protect against material drift and avoid avoidable schedule friction.</li>
+      `;
+
+      document.getElementById("scenarioBlock").innerHTML = `
+        <div class="row"><span>Material Spike</span><span class="negative">+ ${fmtMoney(scenarios.materialSpike)}</span></div>
+        <div class="row"><span>Labor Shortage</span><span class="negative">+ ${fmtMoney(scenarios.laborShortage)}</span></div>
+        <div class="row"><span>Delay Risk</span><span class="negative">+ ${fmtMoney(scenarios.delayRisk)}</span></div>
+        <div class="row"><span>Optimized Plan</span><span class="positive">${fmtMoney(scenarios.optimizedPlan)}</span></div>
+      `;
+
+      document.getElementById("breakdownBlock").innerHTML = `
+        <div class="row"><span>Foundation</span><span>${fmtMoney(breakdown.foundation)}</span></div>
+        <div class="row"><span>Framing</span><span>${fmtMoney(breakdown.framing)}</span></div>
+        <div class="row"><span>Electrical</span><span>${fmtMoney(breakdown.electrical)}</span></div>
+        <div class="row"><span>Plumbing</span><span>${fmtMoney(breakdown.plumbing)}</span></div>
+        <div class="row"><span>Finishes</span><span>${fmtMoney(breakdown.finishes)}</span></div>
+        <div class="row"><span>Mechanical</span><span>${fmtMoney(breakdown.mechanical)}</span></div>
+        <div class="row"><span>Overhead</span><span>${fmtMoney(breakdown.overhead)}</span></div>
+      `;
+    }
+
+    function submitFeedback() {
+      const actual = document.getElementById("actualCost").value;
+      if (!actual) {
+        alert("Enter an actual final cost when available.");
+        return;
+      }
+      alert("Feedback recorded for future learning flow.");
+      document.getElementById("actualCost").value = "";
+    }
+  </script>
 </body>
 </html>
-``

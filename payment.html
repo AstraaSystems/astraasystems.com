@@ -1,118 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astraa Payment — Secure Checkout</title>
-
-    <!-- Global Stylesheet -->
-    <link rel="stylesheet" href="assets/css/global.css">
-    <link rel="icon" type="image/png" href="assets/images/favicon_neon.png">
-
-    <!-- Page‑Specific Styles -->
-    <style>
-        .payment-header {
-            text-align: center;
-            padding: 120px 0 60px 0;
-            background: radial-gradient(circle at top, rgba(0,229,255,0.15), transparent),
-                        linear-gradient(135deg, #0A0A0F, #11131A);
-        }
-
-        .payment-header h1 {
-            font-size: 3rem;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .payment-header p {
-            max-width: 700px;
-            margin: auto;
-            color: var(--text-secondary);
-            font-size: 1.15rem;
-        }
-
-        .payment-box {
-            background: var(--card-surface);
-            padding: 40px;
-            border-radius: var(--radius);
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: var(--shadow-glow);
-            max-width: 700px;
-            margin: 40px auto;
-        }
-
-        iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-            border-radius: var(--radius);
-            background: #fff;
-        }
-
-        .secure-note {
-            text-align: center;
-            margin-top: 20px;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Astraa Systems — Start Trial</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: white;
+      text-align: center;
+    }
+    .wrap {
+      width: min(700px, 92%);
+      margin: 80px auto;
+      background: #14213d;
+      padding: 30px;
+      border-radius: 12px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #0d1728;
+      color: white;
+    }
+    button {
+      padding: 12px 22px;
+      border: none;
+      border-radius: 8px;
+      background: #00e5ff;
+      cursor: pointer;
+      font-weight: 600;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <h1>Start Your Astraa Trial</h1>
+    <p>Enter your email to begin your trial or subscription setup.</p>
 
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">
-    <a href="index.html">
-        <img src="assets/images/astraa_header_logo.png" alt="Astraa Systems Logo" style="height:45px; vertical-align:middle;">
-    </a>
-</div>
+    <input id="payEmail" type="email" placeholder="Your Email" />
+    <button onclick="startPayment()">Continue</button>
 
+    <div id="payStatus" style="margin-top:20px;"></div>
+  </div>
 
-            <div class="links">
-                <a href="engines.html">Engines</a>
-                <a href="pricing.html">Pricing</a>
-                <a href="trial.html">Trial</a>
-                <a href="payment.html">Payment</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
-            </div>
-        </div>
-    </nav>
+  <script>
+    async function startPayment() {
+      const email = document.getElementById("payEmail").value;
+      const payStatus = document.getElementById("payStatus");
 
-    <!-- Header -->
-    <section class="payment-header">
-        <h1>Secure Astraa Checkout</h1>
-        <p>
-            Complete your subscription using our secure Moneris payment gateway.  
-            Your data is encrypted and protected end‑to‑end.
-        </p>
-    </section>
+      if (!email) {
+        payStatus.innerHTML = "Please enter your email.";
+        return;
+      }
 
-    <!-- Payment Box -->
-    <section class="section">
-        <div class="container">
-            <div class="payment-box">
+      try {
+        const res = await fetch("https://family-speed-outcome.ngrok-free.dev/pay", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": "astraa_secure"
+          },
+          body: JSON.stringify({
+            email: email,
+            plan: "trial"
+          })
+        });
 
-                <!-- Replace this with your real Moneris iframe -->
-                <iframe src="https://gateway.moneris.com/example-placeholder">
-                </iframe>
+        const data = await res.json();
 
-                <p class="secure-note">
-                    Payments are securely processed by Moneris.  
-                    Astraa Systems does not store your credit card information.
-                </p>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        Astraa Systems © 2026 — All Rights Reserved
-    </footer>
-
+        if (data.status === "ready") {
+          payStatus.innerHTML =
+            "✅ Trial/payment flow initialized.<br><br>" +
+            "Moneris Store ID: " + data.moneris.store_id + "<br>" +
+            "Website Token: " + data.moneris.website_token + "<br><br>" +
+            "Next step: connect your Moneris hosted checkout/tokenization page.";
+        } else {
+          payStatus.innerHTML = data.message || "Payment setup is incomplete.";
+        }
+      } catch (error) {
+        console.error(error);
+        payStatus.innerHTML = "Payment setup error.";
+      }
+    }
+  </script>
 </body>
 </html>

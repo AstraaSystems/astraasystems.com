@@ -67,9 +67,7 @@
       color: var(--accent);
     }
 
-    section {
-      padding: 64px 0;
-    }
+    section { padding: 64px 0; }
 
     .hero {
       text-align: center;
@@ -92,9 +90,7 @@
       font-size: 1.1rem;
     }
 
-    .hero-actions {
-      margin-top: 28px;
-    }
+    .hero-actions { margin-top: 28px; }
 
     .btn {
       display: inline-block;
@@ -110,9 +106,7 @@
       margin: 8px;
     }
 
-    .btn:hover {
-      background: var(--accent-2);
-    }
+    .btn:hover { background: var(--accent-2); }
 
     .btn-outline {
       background: transparent;
@@ -231,16 +225,6 @@
       color: var(--muted);
     }
 
-    .lead-form {
-      display: none;
-      margin-top: 20px;
-      text-align: left;
-    }
-
-    .lead-form .field {
-      margin-bottom: 14px;
-    }
-
     .contact {
       text-align: center;
       background: var(--bg-2);
@@ -261,18 +245,14 @@
     }
 
     @media (max-width: 700px) {
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
+      .form-grid { grid-template-columns: 1fr; }
 
       .nav-inner {
         flex-direction: column;
         gap: 10px;
       }
 
-      .nav-links a {
-        margin: 0 8px;
-      }
+      .nav-links a { margin: 0 8px; }
     }
   </style>
 </head>
@@ -283,9 +263,10 @@
       <a class="logo" href="index.html">Astraa Systems</a>
       <div class="nav-links">
         <a href="#estimator">Estimator</a>
-        <a href="#features">What Astraa Can Do</a>
+        <a href="#features">Capabilities</a>
         <a href="#engines">Engines</a>
         <a href="#contact">Contact</a>
+        <a href="payment.html">Payment</a>
       </div>
     </div>
   </nav>
@@ -322,7 +303,7 @@
           <div class="field">
             <label for="sqft">Square Footage (Project Size)</label>
             <input id="sqft" type="number" value="10000" />
-            <small>Total size of the project.</small>
+            <small>Total project size.</small>
           </div>
 
           <div class="field">
@@ -340,7 +321,7 @@
           <div class="field">
             <label for="complexity">Project Complexity</label>
             <input id="complexity" type="number" step="0.1" value="0.8" />
-            <small>Higher values reflect more constraints or complexity.</small>
+            <small>Higher values reflect more complexity or more constraints.</small>
           </div>
         </div>
 
@@ -350,7 +331,6 @@
       </div>
 
       <div id="resultBox" class="result-box"></div>
-
       <div id="leadBox" class="lead-box"></div>
     </div>
   </section>
@@ -382,19 +362,19 @@
       <div class="features-grid">
         <div class="card">
           <h3>Operations</h3>
-          <p>Automate workflows, scheduling, and operational processes.</p>
+          <p>Automate workflows, scheduling, logistics, and daily processes.</p>
         </div>
         <div class="card">
           <h3>Finance</h3>
-          <p>Understand costs, margins, and financial dynamics with clarity.</p>
+          <p>Understand costs, margins, and financial dynamics.</p>
         </div>
         <div class="card">
           <h3>Commerce</h3>
-          <p>Control transactions, pricing, and execution systems.</p>
+          <p>Control pricing, transactions, and execution systems.</p>
         </div>
         <div class="card">
           <h3>Decisions</h3>
-          <p>Improve decision-making with intelligent models and structured outputs.</p>
+          <p>Improve decision-making with structured intelligent outputs.</p>
         </div>
       </div>
     </div>
@@ -411,7 +391,7 @@
       <div class="engines-grid">
         <div class="card">
           <h3>Business</h3>
-          <p>Workflow automation and operations.</p>
+          <p>Workflow automation and operational intelligence.</p>
         </div>
         <div class="card">
           <h3>Finance</h3>
@@ -445,6 +425,7 @@
         Tell us how your business operates and we’ll tailor Astraa specifically to your workflow.
       </p>
       <p><strong>Email:</strong> contact@astraasystems.com</p>
+      <p><a class="btn" href="payment.html">Start Trial / Payment</a></p>
     </div>
   </section>
 
@@ -473,10 +454,10 @@
             "X-API-KEY": "astraa_secure"
           },
           body: JSON.stringify({
-            sqft: sqft,
-            material: material,
-            labor: labor,
-            complexity: complexity
+            sqft,
+            material,
+            labor,
+            complexity
           })
         });
 
@@ -489,8 +470,8 @@
               Estimated Cost: <strong>$${Math.round(data.base_estimate).toLocaleString()}</strong>
             </p>
             <p>
-              Confidence: <strong>92%</strong><br>
-              Risk Level: <strong>Moderate</strong>
+              Confidence: <strong>${data.confidence ? Math.round(data.confidence * 100) : 92}%</strong><br>
+              Risk Level: <strong>${data.risk || "Moderate"}</strong>
             </p>
             <p>
               This is a baseline estimate. We can tailor this to your exact workflow.
@@ -536,7 +517,7 @@
       leadBox.scrollIntoView({ behavior: "smooth" });
     }
 
-    function submitLead() {
+    async function submitLead() {
       const name = document.getElementById("leadName").value;
       const email = document.getElementById("leadEmail").value;
       const leadStatus = document.getElementById("leadStatus");
@@ -546,11 +527,38 @@
         return;
       }
 
-      leadStatus.innerHTML = `
-        <p>✅ Thank you, ${name}. We will contact you shortly at ${email}.</p>
-      `;
+      const estimateContext = {
+        sqft: document.getElementById("sqft").value,
+        material: document.getElementById("material").value,
+        labor: document.getElementById("labor").value,
+        complexity: document.getElementById("complexity").value
+      };
 
-      console.log("LEAD CAPTURED:", { name, email });
+      try {
+        const res = await fetch("https://family-speed-outcome.ngrok-free.dev/lead", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": "astraa_secure"
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            estimate_context: estimateContext
+          })
+        });
+
+        const data = await res.json();
+
+        if (data.status === "ok") {
+          leadStatus.innerHTML = `<p>✅ Thank you, ${name}. We will contact you shortly at ${email}.</p>`;
+        } else {
+          leadStatus.innerHTML = `<p>Could not save your request. Please try again.</p>`;
+        }
+      } catch (error) {
+        console.error(error);
+        leadStatus.innerHTML = `<p>Error submitting your request.</p>`;
+      }
     }
   </script>
 

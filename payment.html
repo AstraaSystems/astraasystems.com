@@ -1,93 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Astraa Systems — Start Trial</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b1220;
-      color: white;
-      text-align: center;
-    }
-    .wrap {
-      width: min(700px, 92%);
-      margin: 80px auto;
-      background: #14213d;
-      padding: 30px;
-      border-radius: 12px;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: #0d1728;
-      color: white;
-    }
-    button {
-      padding: 12px 22px;
-      border: none;
-      border-radius: 8px;
-      background: #00e5ff;
-      cursor: pointer;
-      font-weight: 600;
-    }
-  </style>
+<title>Payment</title>
 </head>
-<body>
-  <div class="wrap">
-    <h1>Start Your Astraa Trial</h1>
-    <p>Enter your email to begin your trial or subscription setup.</p>
+<body style="background:#0b1220;color:white;text-align:center">
 
-    <input id="payEmail" type="email" placeholder="Your Email" />
-    <button onclick="startPayment()">Continue</button>
+<h1>Astraa Payment</h1>
 
-    <div id="payStatus" style="margin-top:20px;"></div>
-  </div>
+<input id="email" placeholder="Email"><br><br>
 
-  <script>
-    async function startPayment() {
-      const email = document.getElementById("payEmail").value;
-      const payStatus = document.getElementById("payStatus");
+<iframe id="monerisFrame"
+src="https://esqa.moneris.com/HPPtoken/index.php?id=YOUR_PROFILE_ID"
+style="width:300px;height:120px;border:none;"></iframe>
 
-      if (!email) {
-        payStatus.innerHTML = "Please enter your email.";
-        return;
-      }
+<br>
 
-      try {
-        const res = await fetch("https://family-speed-outcome.ngrok-free.dev/pay", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-KEY": "astraa_secure"
-          },
-          body: JSON.stringify({
-            email: email,
-            plan: "trial"
-          })
-        });
+<button onclick="pay()">Pay</button>
 
-        const data = await res.json();
+<div id="status"></div>
 
-        if (data.status === "ready") {
-          payStatus.innerHTML =
-            "✅ Trial/payment flow initialized.<br><br>" +
-            "Moneris Store ID: " + data.moneris.store_id + "<br>" +
-            "Website Token: " + data.moneris.website_token + "<br><br>" +
-            "Next step: connect your Moneris hosted checkout/tokenization page.";
-        } else {
-          payStatus.innerHTML = data.message || "Payment setup is incomplete.";
-        }
-      } catch (error) {
-        console.error(error);
-        payStatus.innerHTML = "Payment setup error.";
-      }
-    }
-  </script>
+<script>
+
+function pay() {
+  document.getElementById("monerisFrame").contentWindow.postMessage(
+    "tokenize",
+    "https://esqa.moneris.com"
+  );
+}
+
+window.addEventListener("message", async (event) => {
+  if (!event.origin.includes("moneris.com")) return;
+
+  let res = JSON.parse(event.data);
+
+  if (res.dataKey) {
+
+fetch("https://family-speed-outcome.ngrok-free.dev/charge", {      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": "astraa_secure"
+      },
+      body: JSON.stringify({
+        token: res.dataKey
+      })
+    });
+
+    let data = await r.json();
+
+    document.getElementById("status").innerHTML =
+      JSON.stringify(data);
+
+  }
+});
+
+</script>
+
 </body>
 </html>

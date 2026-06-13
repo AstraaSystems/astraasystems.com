@@ -1,40 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Astraa Systems</title>
 </head>
 
 <body style="margin:0; font-family:Arial; background:#0b1220; color:#fff; text-align:center;">
 
-<h1>Run your business without complexity.</h1>
+<!-- HERO -->
+<section style="padding:60px 20px;">
+  <h1>Run your business without complexity.</h1>
 
-<p>
-Astraa Systems simplifies operations, finances, and workflows into one intelligent system.
-</p>
-
-<hr>
-
-<h2>Astraa Estimator</h2>
-
-<p>This is a baseline estimation tool. We tailor it to your workflow.</p>
-
-<button onclick="runEstimate()" style="padding:10px 20px;">
-  Run Estimate
-</button>
-
-<div id="result" style="margin-top:20px;"></div>
+  <p style="max-width:700px; margin:auto;">
+    Astraa Systems simplifies operations, finances, and workflows into one intelligent system designed to improve speed, control, and decision accuracy.
+  </p>
+</section>
 
 <hr>
 
-<h2>Let’s build your system</h2>
+<!-- ESTIMATOR -->
+<section style="padding:60px 20px;">
+  <h2 style="color:#00e5ff;">Astraa Estimator</h2>
 
-<p>Email: contact@astraasystems.com</p>
+  <p>This is a baseline estimation tool. We tailor this to your workflow.</p>
 
+  <button onclick="runEstimate()" style="padding:12px 24px; font-size:16px;">
+    Run Estimate
+  </button>
+
+  <div id="result" style="margin-top:20px; font-size:18px;"></div>
+</section>
+
+<hr>
+
+<!-- TRUST -->
+<section style="padding:50px 20px; background:#14213d;">
+  <h2>Your Data Stays Yours. Always.</h2>
+
+  <p style="max-width:600px; margin:auto;">
+    We do not store, share, or use your business or client data without your explicit permission.
+  </p>
+
+  <p>✔ No data reselling</p>
+  <p>✔ Full control remains with you</p>
+</section>
+
+<hr>
+
+<!-- CONTACT -->
+<section style="padding:60px 20px;">
+  <h2>Let’s build your system</h2>
+
+  <p>We customize Astraa to your workflow.</p>
+
+  <p><b>Email:</b> contact@astraasystems.com</p>
+</section>
+
+<!-- SCRIPT -->
 <script>
-
 async function runEstimate() {
   try {
-
     let res = await fetch("https://family-speed-outcome.ngrok-free.dev/estimate", {
       method: "POST",
       headers: {
@@ -60,7 +85,6 @@ async function runEstimate() {
       "Error connecting to estimator.";
   }
 }
-
 </script>
 
 </body>

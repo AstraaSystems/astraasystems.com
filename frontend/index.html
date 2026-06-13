@@ -4,34 +4,86 @@
   <title>Astraa Systems</title>
 </head>
 
-<body style="margin:0; background:#0b1220; color:white; font-family:Arial; text-align:center;">
+<body style="margin:0; font-family:Arial; background:#0b1220; color:#fff; text-align:center;">
 
-<h1>One system to run your business</h1>
+<!-- HERO -->
+<section style="padding:60px 20px;">
+  <h1>Run your business without complexity.</h1>
 
-<p>No complexity. No fragmentation. No guesswork.</p>
+  <p style="max-width:700px; margin:auto;">
+    Astraa Systems simplifies operations, finances, and workflows into one intelligent system designed to help you move faster and make better decisions.
+  </p>
 
-<h2>Your Data Stays Yours. Always.</h2>
-
-<p>We do not store or share your data without permission.</p>
-
-<hr>
-
-<h2>Astraa Estimator</h2>
-
-<p>This is a baseline estimation tool. We can tailor this to your workflow.</p>
-
-<button onclick="runEstimate()" style="padding:10px 20px;">Run Estimate</button>
-
-<div id="result" style="margin-top:20px;"></div>
+  <div style="margin-top:20px;">
+    <button onclick="document.getElementById('estimator').scrollIntoView()" style="padding:12px 20px;">
+      Try Estimator
+    </button>
+  </div>
+</section>
 
 <hr>
 
-<h2>Let’s build your system</h2>
+<!-- ESTIMATOR (PRIMARY) -->
+<section id="estimator" style="padding:60px 20px;">
+  <h2>Astraa Estimator</h2>
 
-<p>Email: contact@astraasystems.com</p>
+  <p>This is a baseline estimation tool. We tailor this to your workflow.</p>
 
+  <button onclick="runEstimate()" style="padding:10px 20px;">
+    Run Estimate
+  </button>
+
+  <div id="result" style="margin-top:20px;"></div>
+</section>
+
+<hr>
+
+<!-- TRUST -->
+<section style="padding:50px 20px; background:#14213d;">
+  <h2>Your Data Stays Yours. Always.</h2>
+
+  <p style="max-width:700px; margin:auto;">
+    We do not store, share, or use your business or client data without your explicit permission.
+  </p>
+
+  <p>✔ No data reselling</p>
+  <p>✔ Full control remains with you</p>
+</section>
+
+<hr>
+
+<!-- BUSINESS VALUE -->
+<section style="padding:60px 20px;">
+  <h2>What Astraa Can Do For You</h2>
+
+  <p>Automate workflows and operations</p>
+  <p>Understand costs and financial decisions</p>
+  <p>Run commerce and transactions</p>
+  <p>Make better decisions with intelligent systems</p>
+</section>
+
+<hr>
+
+<!-- ENGINES (SECONDARY) -->
+<section style="padding:60px 20px; background:#081228;">
+  <h2>Astraa Engines</h2>
+
+  <p>Business • Finance • Construction • Commerce • Inference • Data</p>
+</section>
+
+<hr>
+
+<!-- CONTACT -->
+<section style="padding:60px 20px;">
+  <h2>Let’s build your system</h2>
+
+  <p>We customize Astraa to your exact workflow.</p>
+
+  <p><b>Email:</b> contact@astraasystems.com</p>
+</section>
+
+<!-- SCRIPT -->
 <script>
-
 async function runEstimate() {
   try {
 
@@ -53,17 +105,15 @@ async function runEstimate() {
 
     document.getElementById("result").innerHTML =
       "Estimated Cost: $" + Math.round(data.base_estimate) +
-      "<br><br>This is a baseline. We can tailor this to your workflow.";
+      "<br><br>This is a baseline estimate. We can tailor this to your workflow.";
 
   } catch (error) {
-    document.getElementById("result").innerHTML =
-      "Error connecting to estimator. Try again.";
     console.error(error);
+    document.getElementById("result").innerHTML =
+      "Error connecting to estimator.";
   }
 }
-
 </script>
 
 </body>
 </html>
-``

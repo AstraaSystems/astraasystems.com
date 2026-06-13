@@ -1,56 +1,92 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Payment</title>
+    <title>Astraa Payment</title>
 </head>
-<body style="background:#0b1220;color:white;text-align:center">
+
+<body style="background:#0b1220; color:white; text-align:center; font-family:Arial;">
 
 <h1>Astraa Payment</h1>
 
-<input id="email" placeholder="Email"><br><br>
+<input id="email" placeholder="Email" style="padding:10px; width:250px;"><br><br>
 
-<iframe id="monerisFrame"
-src="https://esqa.moneris.com/HPPtoken/index.php?id=YOUR_PROFILE_ID"
-style="width:300px;height:120px;border:none;"></iframe>
+<!-- ✅ MONERIS IFRAME (FIXED + IDENTIFIED) -->
+<iframe
+    id="monerisFrame"
+    src="https://esqa.moneris.com/HPPtoken/index.php?id=htFKG32TPPP8GLQ"
+    width="300"
+    height="80"
+    frameborder="0">
+</iframe>
 
-<br>
+<br><br>
 
-<button onclick="pay()">Pay</button>
+<button onclick="pay()" style="padding:10px 20px;">Pay</button>
 
-<div id="status"></div>
+<div id="status" style="margin-top:20px;"></div>
 
 <script>
 
 function pay() {
-  document.getElementById("monerisFrame").contentWindow.postMessage(
-    "tokenize",
-    "https://esqa.moneris.com"
-  );
+    document.getElementById("status").innerHTML = "Processing...";
+
+    const frame = document.getElementById("monerisFrame");
+
+    if (!frame || !frame.contentWindow) {
+        document.getElementById("status").innerHTML = "❌ Payment frame not loaded";
+        return;
+    }
+
+    frame.contentWindow.postMessage(
+        "tokenize",
+        "https://esqa.moneris.com"
+    );
 }
 
-window.addEventListener("message", async (event) => {
-  if (!event.origin.includes("moneris.com")) return;
+window.addEventListener("message", async function(event) {
 
-  let res = JSON.parse(event.data);
+    if (!event.origin.includes("moneris.com")) return;
 
-  if (res.dataKey) {
+    try {
+        const response = JSON.parse(event.data);
 
-fetch("https://family-speed-outcome.ngrok-free.dev/charge", {      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": "astraa_secure"
-      },
-      body: JSON.stringify({
-        token: res.dataKey
-      })
-    });
+        console.log("Moneris response:", response);
 
-    let data = await r.json();
+        if (response.dataKey) {
 
-    document.getElementById("status").innerHTML =
-      JSON.stringify(data);
+            document.getElementById("status").innerHTML =
+                "✅ Token received — charging...";
 
-  }
+            const res = await fetch(
+                "https://family-speed-outcome.ngrok-free.dev/charge",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-API-KEY": "astraa_secure"
+                    },
+                    body: JSON.stringify({
+                        token: response.dataKey,
+                        email: document.getElementById("email").value
+                    })
+                }
+            );
+
+            const data = await res.json();
+
+            document.getElementById("status").innerHTML =
+                JSON.stringify(data);
+
+        } else {
+            document.getElementById("status").innerHTML =
+                "❌ Token error: " + response.error;
+        }
+
+    } catch (err) {
+        console.error(err);
+        document.getElementById("status").innerHTML =
+            "❌ Payment setup error";
+    }
 });
 
 </script>

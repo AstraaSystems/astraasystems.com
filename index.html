@@ -80,17 +80,25 @@
     </button>
 </section>
 
-<!-- ESTIMATOR (PRIMARY TOOL) -->
-<section id="estimator">
-    <h2 style="color:#00e5ff;">Astraa Estimator</h2>
+<!-- ESTIMATOR -->
+<section style="padding:60px 20px;">
+  <h2 style="color:#00e5ff;">Astraa Estimator</h2>
 
-    <p>
-        This is a baseline estimation tool. We tailor it to your exact workflow and operational model.
-    </p>
+  <p>Input your project details to generate a real estimate.</p>
 
-    <button class="btn" onclick="runEstimate()">Run Estimate</button>
+  <div style="margin-top:20px;">
+    <input id="sqft" type="number" placeholder="Square Footage" value="10000"><br><br>
 
-    <div id="result" style="margin-top:20px; font-size:18px;"></div>
+    <input id="material" type="number" step="0.1" placeholder="Material Multiplier (1.1)" value="1.1"><br><br>
+
+    <input id="labor" type="number" step="0.1" placeholder="Labor Multiplier (1.05)" value="1.05"><br><br>
+
+    <input id="complexity" type="number" step="0.1" placeholder="Complexity (0.8)" value="0.8"><br><br>
+  </div>
+
+  <button class="btn" onclick="runEstimate()">Run Estimate</button>
+
+  <div id="result" style="margin-top:20px; font-size:18px;"></div>
 </section>
 
 <!-- TRUST -->
@@ -166,35 +174,41 @@
 <!-- SCRIPT -->
 <script>
 async function runEstimate() {
-    try {
+  try {
 
-        let res = await fetch("https://family-speed-outcome.ngrok-free.dev/estimate", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-API-KEY": "astraa_secure"
-            },
-            body: JSON.stringify({
-                sqft: 10000,
-                material: 1.1,
-                labor: 1.05,
-                complexity: 0.8
-            })
-        });
+    let sqft = parseFloat(document.getElementById("sqft").value);
+    let material = parseFloat(document.getElementById("material").value);
+    let labor = parseFloat(document.getElementById("labor").value);
+    let complexity = parseFloat(document.getElementById("complexity").value);
 
-        let data = await res.json();
+    let res = await fetch("https://family-speed-outcome.ngrok-free.dev/estimate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": "astraa_secure"
+      },
+      body: JSON.stringify({
+        sqft: sqft,
+        material: material,
+        labor: labor,
+        complexity: complexity
+      })
+    });
 
-        document.getElementById("result").innerHTML =
-            "Estimated Cost: $" + Math.round(data.base_estimate) +
-            "<br><br>Confidence: 92%" +
-            "<br>Risk Level: Moderate<br><br>" +
-            "We can tailor this to your workflow.";
+    let data = await res.json();
 
-    } catch (error) {
-        console.error(error);
-        document.getElementById("result").innerHTML =
-            "Error connecting to estimator.";
-    }
+    document.getElementById("result").innerHTML =
+      "Estimated Cost: $" + Math.round(data.base_estimate) +
+      "<br><br>Confidence: 92%" +
+      "<br>Risk Level: Moderate<br><br>" +
+      "<b>We can tailor this to your business workflow.</b><br>" +
+      "👉 Contact: contact@astraasystems.com";
+
+  } catch (error) {
+    console.error(error);
+    document.getElementById("result").innerHTML =
+      "Error connecting to estimator.";
+  }
 }
 </script>
 

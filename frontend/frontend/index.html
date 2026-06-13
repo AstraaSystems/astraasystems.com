@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Astraa Systems</title>
+</head>
+
+<body style="margin:0; background:#0b1220; color:white; font-family:Arial; text-align:center;">
+
+<h1>One system to run your business</h1>
+
+<p>No complexity. No fragmentation. No guesswork.</p>
+
+<h2>Your Data Stays Yours. Always.</h2>
+
+<p>We do not store or share your data without permission.</p>
+
+<hr>
+
+<h2>Astraa Estimator</h2>
+
+<p>This is a baseline estimation tool. We can tailor this to your workflow.</p>
+
+<button onclick="runEstimate()" style="padding:10px 20px;">Run Estimate</button>
+
+<div id="result" style="margin-top:20px;"></div>
+
+<hr>
+
+<h2>Let’s build your system</h2>
+
+<p>Email: contact@astraasystems.com</p>
+
+<script>
+
+async function runEstimate() {
+  try {
+
+    let res = await fetch("https://family-speed-outcome.ngrok-free.dev/estimate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": "astraa_secure"
+      },
+      body: JSON.stringify({
+        sqft: 10000,
+        material: 1.1,
+        labor: 1.05,
+        complexity: 0.8
+      })
+    });
+
+    let data = await res.json();
+
+    document.getElementById("result").innerHTML =
+      "Estimated Cost: $" + Math.round(data.base_estimate) +
+      "<br><br>This is a baseline. We can tailor this to your workflow.";
+
+  } catch (error) {
+    document.getElementById("result").innerHTML =
+      "Error connecting to estimator. Try again.";
+    console.error(error);
+  }
+}
+
+</script>
+
+</body>
+</html>
+``

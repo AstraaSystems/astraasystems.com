@@ -1,174 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astraa Systems — Intelligent Business Systems</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Astraa Systems</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0b1220;
-            color: #fff;
-            line-height: 1.5;
-        }
+<style>
+body { margin:0; font-family:Arial; background:#0b1220; color:#fff; text-align:center; }
+section { padding:60px 20px; }
+h1 { font-size:2.5rem; }
+p { max-width:700px; margin:auto; color:#ccc; }
 
-        section {
-            padding: 60px 20px;
-            text-align: center;
-        }
+.btn {
+  padding:12px 24px;
+  margin-top:20px;
+  background:#00e5ff;
+  border:none;
+  cursor:pointer;
+  border-radius:6px;
+}
+.btn:hover { background:#00bcd4; }
 
-        h1 {
-            font-size: 2.5rem;
-        }
+.dark { background:#14213d; }
 
-        h2 {
-            margin-bottom: 10px;
-        }
-
-        p {
-            max-width: 700px;
-            margin: auto;
-            color: #ccc;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            margin-top: 20px;
-            background: #00e5ff;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 6px;
-        }
-
-        .btn:hover {
-            background: #00bcd4;
-        }
-
-        .dark {
-            background: #14213d;
-        }
-
-        .engines {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .engine-card {
-            background: #081228;
-            padding: 20px;
-            border-radius: 10px;
-        }
-    </style>
+input {
+  padding:10px;
+  margin:5px;
+  width:250px;
+}
+</style>
 </head>
 
 <body>
 
 <!-- HERO -->
 <section>
-    <h1>Run your business without complexity.</h1>
-    <p>
-        Astraa Systems unifies operations, finance, and workflows into one intelligent system designed to improve speed, control, and decision-making.
-    </p>
+  <h1>Run your business without complexity.</h1>
+  <p>Astraa Systems unifies operations, finance, and workflows into one intelligent system.</p>
 
-    <button class="btn" onclick="document.getElementById('estimator').scrollIntoView()">
-        Try Estimator
-    </button>
+  <button class="btn" onclick="document.getElementById('estimator').scrollIntoView()">
+    Try Estimator
+  </button>
 </section>
 
 <!-- ESTIMATOR -->
-<section style="padding:60px 20px;">
+<section id="estimator">
   <h2 style="color:#00e5ff;">Astraa Estimator</h2>
 
-  <p>Input your project details to generate a real estimate.</p>
+  <p>Enter your project details below to generate a real estimate.</p>
 
-  <div style="margin-top:20px;">
-    <input id="sqft" type="number" placeholder="Square Footage" value="10000"><br><br>
-
-    <input id="material" type="number" step="0.1" placeholder="Material Multiplier (1.1)" value="1.1"><br><br>
-
-    <input id="labor" type="number" step="0.1" placeholder="Labor Multiplier (1.05)" value="1.05"><br><br>
-
-    <input id="complexity" type="number" step="0.1" placeholder="Complexity (0.8)" value="0.8"><br><br>
+  <div>
+    <input id="sqft" type="number" value="10000" placeholder="Square Footage"><br>
+    <input id="material" type="number" step="0.1" value="1.1" placeholder="Material Multiplier"><br>
+    <input id="labor" type="number" step="0.1" value="1.05" placeholder="Labor Multiplier"><br>
+    <input id="complexity" type="number" step="0.1" value="0.8" placeholder="Complexity"><br>
   </div>
 
   <button class="btn" onclick="runEstimate()">Run Estimate</button>
 
-  <div id="result" style="margin-top:20px; font-size:18px;"></div>
+  <div id="result" style="margin-top:20px;"></div>
+</section>
+
+<!-- LEAD FORM -->
+<section id="leadForm" style="display:none;">
+  <h3>Refine Your Estimate</h3>
+  <p>We’ll tailor this specifically to your business.</p>
+
+  <input id="name" placeholder="Your Name"><br>
+  <input id="email" placeholder="Your Email"><br>
+
+  <button class="btn" onclick="submitLead()">Submit</button>
+
+  <div id="leadStatus" style="margin-top:15px;"></div>
 </section>
 
 <!-- TRUST -->
 <section class="dark">
-    <h2>Your Data Stays Yours. Always.</h2>
-
-    <p>
-        We do not store, share, or resell your business data. Full control remains with you at all times.
-    </p>
-
-    <p>✔ No data reselling</p>
-    <p>✔ No hidden storage</p>
+  <h2>Your Data Stays Yours. Always.</h2>
+  <p>No data reselling. Full control remains with you.</p>
 </section>
 
 <!-- VALUE -->
 <section>
-    <h2>What Astraa Can Do</h2>
-
-    <p>Automate operations and workflows</p>
-    <p>Understand financial decisions and cost structures</p>
-    <p>Manage commerce and execution systems</p>
-    <p>Improve decisions using intelligent models</p>
-</section>
-
-<!-- ENGINES -->
-<section>
-    <h2>Astraa Engines</h2>
-
-    <div class="engines">
-        <div class="engine-card">
-            <h3>Business</h3>
-            <p>Workflow automation and operations</p>
-        </div>
-
-        <div class="engine-card">
-            <h3>Finance</h3>
-            <p>Cost, margin, and financial intelligence</p>
-        </div>
-
-        <div class="engine-card">
-            <h3>Construction</h3>
-            <p>Estimation and project modeling</p>
-        </div>
-
-        <div class="engine-card">
-            <h3>Commerce</h3>
-            <p>Transactions and execution systems</p>
-        </div>
-
-        <div class="engine-card">
-            <h3>Inference</h3>
-            <p>Decision intelligence layer</p>
-        </div>
-
-        <div class="engine-card">
-            <h3>Data</h3>
-            <p>Real-time ingestion and analysis</p>
-        </div>
-    </div>
+  <h2>What Astraa Can Do</h2>
+  <p>Automate operations • Understand costs • Run commerce • Improve decisions</p>
 </section>
 
 <!-- CONTACT -->
 <section class="dark">
-    <h2>Let’s build your system</h2>
-
-    <p>
-        Tell us how your business operates — we’ll tailor Astraa specifically to your workflow.
-    </p>
-
-    <p><b>Email:</b> contact@astraasystems.com</p>
+  <h2>Let’s build your system</h2>
+  <p>Email: contact@astraasystems.com</p>
 </section>
 
 <!-- SCRIPT -->
@@ -188,10 +109,7 @@ async function runEstimate() {
         "X-API-KEY": "astraa_secure"
       },
       body: JSON.stringify({
-        sqft: sqft,
-        material: material,
-        labor: labor,
-        complexity: complexity
+        sqft, material, labor, complexity
       })
     });
 
@@ -200,15 +118,29 @@ async function runEstimate() {
     document.getElementById("result").innerHTML =
       "Estimated Cost: $" + Math.round(data.base_estimate) +
       "<br><br>Confidence: 92%" +
-      "<br>Risk Level: Moderate<br><br>" +
-      "<b>We can tailor this to your business workflow.</b><br>" +
-      "👉 Contact: contact@astraasystems.com";
+      "<br>Risk Level: Moderate" +
+      "<br><br><b>This is a baseline estimate.</b>" +
+      "<br><br><button class='btn' onclick='showLeadForm()'>Refine My Estimate</button>";
 
   } catch (error) {
     console.error(error);
-    document.getElementById("result").innerHTML =
-      "Error connecting to estimator.";
+    document.getElementById("result").innerHTML = "Error connecting to estimator.";
   }
+}
+
+function showLeadForm() {
+  document.getElementById("leadForm").style.display = "block";
+  document.getElementById("leadForm").scrollIntoView({ behavior: 'smooth' });
+}
+
+function submitLead() {
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+
+  document.getElementById("leadStatus").innerHTML =
+    "✅ Thank you " + name + ". We will contact you shortly.";
+
+  console.log("LEAD CAPTURED:", name, email);
 }
 </script>
 

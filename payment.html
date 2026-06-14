@@ -2,57 +2,166 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Astraa Payment</title>
-</head>
-
-<body style="background:#0b1220; color:white; text-align:center; font-family:Arial;">
-
-  <h1>Astraa Payment</h1>
-
-  <input id="email" placeholder="Email" style="padding:10px; width:260px;"><br><br>
-
-  <button onclick="startPayment()" style="padding:10px 20px;">Pay</button>
-
-  <div id="status" style="margin-top:20px;"></div>
-
-  <script>
-    async function startPayment() {
-      document.getElementById("status").innerHTML = "Preparing secure payment...";
-
-      try {
-        const res = await fetch("https://family-speed-outcome.ngrok-free.dev/start-payment", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-KEY": "astraa_secure"
-          },
-          body: JSON.stringify({
-            email: document.getElementById("email").value
-          })
-        });
-
-        const data = await res.json();
-
-        if (data.status === "ready" && data.url) {
-          window.location.href = data.url;
-          return;
-        }
-
-        if (data.status === "needs_moneris_checkout_launch_url") {
-          document.getElementById("status").innerHTML =
-            "Checkout ID is loaded, but the exact Moneris Checkout launch URL has not been added yet.";
-          console.log("Checkout ID:", data.checkout_id);
-          return;
-        }
-
-        document.getElementById("status").innerHTML =
-          data.message || "Could not start payment.";
-      } catch (err) {
-        console.error(err);
-        document.getElementById("status").innerHTML = "Payment setup error.";
-      }
+  <title>Astraa Payment V2</title>
+  <script src="https://gateway.moneris.com/chkt/js/chkt_v1.00.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: white;
+      text-align: center;
     }
-  </script>
+    .container {
+      max-width: 720px;
+      margin: 80px auto;
+      padding: 40px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+    }
+    h1 {
+      margin-bottom: 8px;
+      font-size: 2rem;
+    }
+    p {
+      color: #cbd5e1;
+      margin-bottom: 24px;
+    }
+    input, button {
+      width: 100%;
+      max-width: 380px;
+      padding: 14px;
+      margin-top: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+    }
+    input {
+      background: white;
+      color: #111827;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    #status {
+      margin-top: 24px;
+      white-space: pre-wrap;
+      text-align: left;
+      background: rgba(255,255,255,0.04);
+      border-radius: 10px;
+      padding: 14px;
+      min-height: 80px;
+    }
+    #monerisCheckout {
+      margin-top: 28px;
+      min-height: 200px;
+    }
+    .version {
+      color: #22c55e;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="version">NEW BUILD ACTIVE ✅</div>
+    <h1>Astraa Secure Payment</h1>
+    <p>Clean Moneris Checkout integration. No token iframe flow. This page should either load checkout or show the exact backend response.</p>
+
+    <input id="email" placeholder="Enter your email" value="keshanth.sivayo@gmail.com">
+    <br>
+    <button onclick="startPayment()">Continue to Secure Payment</button>
+
+    <div id="status">Ready.</div>
+    <div id="monerisCheckout"></div>
+  </div>
+
+<script>
+let checkout;
+
+function setStatus(msg) {
+  document.getElementById("status").textContent = msg;
+}
+
+async function startPayment() {
+  setStatus("Preparing secure payment...");
+
+  checkout = new monerisCheckout();
+  checkout.setMode("prod");
+  checkout.setCheckoutDiv("monerisCheckout");
+
+  checkout.setCallback("page_loaded", function(res) {
+    console.log("page_loaded", res);
+    setStatus("Checkout loaded ✅");
+  });
+
+  checkout.setCallback("cancel_transaction", function(res) {
+    console.log("cancel_transaction", res);
+    setStatus("Payment cancelled.");
+  });
+
+  checkout.setCallback("error_event", function(res) {
+    console.log("error_event", res);
+    setStatus("Moneris error:\n" + JSON.stringify(res, null, 2));
+  });
+
+  checkout.setCallback("payment_receipt", function(res) {
+    console.log("payment_receipt", res);
+    setStatus("Receipt ready:\n" + JSON.stringify(res, null, 2));
+  });
+
+  checkout.setCallback("payment_complete", function(res) {
+    console.log("payment_complete", res);
+    setStatus("Payment complete:\n" + JSON.stringify(res, null, 2));
+  });
+
+  try {
+    const response = await fetch("https://family-speed-outcome.ngrok-free.dev/preload", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": "astraa_secure",
+        "ngrok-skip-browser-warning": "true"
+      },
+      body: JSON.stringify({
+        email: document.getElementById("email").value
+      })
+    });
+
+    const raw = await response.text();
+    console.log("RAW BACKEND RESPONSE:", raw);
+
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch (e) {
+      setStatus("Backend did not return JSON:\n" + raw);
+      return;
+    }
+
+    if (data.response && data.response.success === "true" && data.response.ticket) {
+      setStatus("Ticket received ✅ Launching checkout...");
+      checkout.startCheckout(data.response.ticket);
+      return;
+    }
+
+    setStatus("Preload failed:\n" + JSON.stringify(data, null, 2));
+
+  } catch (err) {
+    console.error("FETCH ERROR:", err);
+    setStatus("Payment setup error:\n" + String(err));
+  }
+}
+</script>
 
 </body>
 </html>

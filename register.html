@@ -4,15 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Astraa Systems — Create Account</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+  <title>Astraa Systems — Start Trial</title>
 
   <style>
     :root {
-      --navy: #0f172a;
-      --navy-soft: #1e293b;
+      --navy: #0b1220;
+      --navy-soft: #162033;
       --blue: #2563eb;
       --blue-hover: #1d4ed8;
-      --cyan: #06b6d4;
+      --cyan: #22d3ee;
+      --violet: #8b5cf6;
+      --magenta: #ec4899;
       --white: #ffffff;
       --soft-bg: #f8fafc;
       --soft-blue: #eff6ff;
@@ -21,7 +24,7 @@
       --muted: #64748b;
       --success: #16a34a;
       --danger: #dc2626;
-      --radius: 16px;
+      --warning: #f59e0b;
       --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
     }
 
@@ -29,12 +32,16 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: "Segoe UI", Arial, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 30%),
-        radial-gradient(circle at top right, rgba(6, 182, 212, 0.08), transparent 30%),
+        radial-gradient(circle at top left, rgba(34,211,238,0.10), transparent 28%),
+        radial-gradient(circle at top right, rgba(139,92,246,0.10), transparent 24%),
         linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
       color: var(--navy);
       line-height: 1.6;
@@ -52,44 +59,46 @@
 
     /* NAV */
     .nav {
-      background: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.94);
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
     }
 
     .nav-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 0;
+      padding: 16px 0;
+      gap: 20px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 1.2rem;
+      gap: 12px;
+      font-weight: 900;
+      font-size: 1.14rem;
       color: var(--navy);
+      letter-spacing: -0.02em;
     }
 
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, var(--blue), var(--cyan));
-      display: inline-block;
+    .brand img {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+      display: block;
     }
 
     .nav-links {
       display: flex;
-      gap: 24px;
+      gap: 20px;
       align-items: center;
-      font-size: 0.95rem;
+      flex-wrap: wrap;
       color: var(--text);
+      font-size: 0.95rem;
     }
 
     .nav-links a:hover {
@@ -97,61 +106,141 @@
     }
 
     .nav-cta {
-      background: var(--blue);
+      background: linear-gradient(135deg, var(--blue), var(--violet));
       color: white !important;
       padding: 10px 16px;
-      border-radius: 10px;
-      font-weight: 600;
+      border-radius: 11px;
+      font-weight: 800;
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.20);
     }
 
-    .nav-cta:hover {
-      background: var(--blue-hover);
+    /* BUTTONS */
+    .btn-row,
+    .action-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .btn-row.center {
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 13px 22px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      color: white;
+      box-shadow: 0 14px 34px rgba(37, 99, 235, 0.22);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.04);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--navy);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .btn-full {
+      width: 100%;
     }
 
     /* HERO */
     .hero {
-      padding: 82px 0 34px;
       text-align: center;
+      padding: 82px 0 54px;
+      border-bottom: 1px solid var(--border);
+      background:
+        radial-gradient(circle at top left, rgba(34,211,238,0.14), transparent 26%),
+        radial-gradient(circle at 76% 12%, rgba(139,92,246,0.13), transparent 26%),
+        radial-gradient(circle at 88% 36%, rgba(236,72,153,0.09), transparent 20%),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+
+    .hero-logo {
+      width: 130px;
+      height: 130px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 24px;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--soft-blue);
+      background: white;
       color: var(--blue);
       border: 1px solid #bfdbfe;
       padding: 8px 14px;
       border-radius: 999px;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 0.9rem;
       margin-bottom: 22px;
+      box-shadow: 0 10px 24px rgba(37,99,235,0.06);
     }
 
     .hero h1 {
-      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
       line-height: 1.08;
       margin: 0;
       letter-spacing: -0.05em;
       color: var(--navy);
     }
 
+    .hero-brand-line {
+      font-size: clamp(1.08rem, 2vw, 1.32rem);
+      font-weight: 900;
+      color: var(--navy-soft);
+      margin-top: 16px;
+      letter-spacing: -0.02em;
+    }
+
     .hero p {
-      max-width: 860px;
-      margin: 22px auto 0;
+      max-width: 920px;
+      margin: 24px auto 0;
       color: var(--text);
-      font-size: 1.08rem;
+      font-size: 1.12rem;
     }
 
-    /* REGISTER */
-    .register-section {
-      padding: 22px 0 84px;
+    .brand-note {
+      max-width: 900px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 0.98rem;
     }
 
-    .register-grid {
+    section {
+      padding: 70px 0;
+    }
+
+    /* FORM LAYOUT */
+    .register-layout {
       display: grid;
-      grid-template-columns: 0.92fr 1.08fr;
-      gap: 32px;
+      grid-template-columns: 0.88fr 1.12fr;
+      gap: 28px;
       align-items: start;
     }
 
@@ -159,9 +248,9 @@
     .form-card {
       background: white;
       border: 1px solid var(--border);
-      border-radius: 22px;
+      border-radius: 24px;
+      padding: 32px;
       box-shadow: var(--shadow);
-      padding: 34px;
     }
 
     .info-card h2,
@@ -174,54 +263,53 @@
     .info-card p,
     .form-card p {
       color: var(--muted);
-      margin-top: 12px;
     }
 
-    .feature-block,
-    .policy-block {
+    .trial-box {
       margin-top: 22px;
-      border: 1px solid var(--border);
+      background:
+        radial-gradient(circle at top left, rgba(34,211,238,0.10), transparent 28%),
+        linear-gradient(135deg, #ffffff, #eff6ff);
+      border: 1px solid #bfdbfe;
       border-radius: 18px;
-      padding: 22px;
-      background: var(--soft-bg);
+      padding: 20px;
     }
 
-    .feature-block h3,
-    .policy-block h3 {
-      margin: 0 0 10px;
-      font-size: 1.15rem;
+    .trial-box h3 {
+      margin: 0 0 8px;
     }
 
-    .list {
+    .trial-box p {
+      margin: 0;
+      color: var(--text);
+    }
+
+    .info-list {
       list-style: none;
       padding: 0;
-      margin: 0;
+      margin: 22px 0 0;
     }
 
-    .list li {
-      margin: 10px 0;
+    .info-list li {
+      margin: 13px 0;
       color: var(--text);
       display: flex;
       gap: 10px;
       align-items: flex-start;
     }
 
-    .list li::before {
+    .info-list li::before {
       content: "✓";
       color: var(--success);
       font-weight: 900;
       flex: 0 0 auto;
     }
 
-    form {
-      margin-top: 10px;
-    }
-
     label {
       display: block;
       margin-top: 18px;
       margin-bottom: 8px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--navy);
     }
 
@@ -229,17 +317,17 @@
     select,
     textarea {
       width: 100%;
-      padding: 14px;
+      padding: 13px 14px;
       border: 1px solid var(--border);
       border-radius: 12px;
       font-size: 1rem;
-      color: var(--navy);
       background: white;
+      color: var(--navy);
       font-family: inherit;
     }
 
     textarea {
-      min-height: 120px;
+      min-height: 110px;
       resize: vertical;
     }
 
@@ -251,77 +339,43 @@
       box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
     }
 
-    .two-col {
+    .form-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
     }
 
-    .checkbox-row {
+    .checkbox-line {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: flex-start;
-      margin-top: 18px;
-      padding: 14px;
-      background: var(--soft-bg);
       border: 1px solid var(--border);
+      background: var(--soft-bg);
+      padding: 14px;
       border-radius: 14px;
+      margin-top: 18px;
     }
 
-    .checkbox-row input {
+    .checkbox-line input {
       width: auto;
-      margin-top: 4px;
-      transform: scale(1.1);
+      margin-top: 5px;
     }
 
-    .checkbox-row label {
-      margin: 0;
-      font-weight: 600;
+    .checkbox-line span {
       color: var(--text);
-    }
-
-    .small {
-      color: var(--muted);
-      font-size: 0.91rem;
-      margin-top: 10px;
-    }
-
-    button,
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px 22px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      font-weight: 800;
-      cursor: pointer;
-      transition: 0.2s ease;
-      font-size: 1rem;
-      text-align: center;
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      background: var(--blue);
-      color: white;
-      width: 100%;
-      margin-top: 24px;
-    }
-
-    .btn-primary:hover {
-      background: var(--blue-hover);
+      font-weight: 700;
+      font-size: 0.95rem;
     }
 
     .status {
       margin-top: 18px;
+      padding: 15px;
       border-radius: 14px;
-      padding: 14px;
-      white-space: pre-wrap;
-      display: none;
       border: 1px solid var(--border);
       background: var(--soft-bg);
       color: var(--text);
+      white-space: pre-wrap;
+      display: none;
     }
 
     .status.success {
@@ -338,54 +392,17 @@
       border-color: #fecaca;
     }
 
-    /* FAQ */
-    .faq-strip {
-      padding: 76px 0;
-      background: white;
-      border-top: 1px solid var(--border);
-    }
-
-    .section-header {
-      text-align: center;
-      max-width: 780px;
-      margin: 0 auto 40px;
-    }
-
-    .section-header h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.15;
-      margin: 0;
-      letter-spacing: -0.035em;
-    }
-
-    .section-header p {
-      color: var(--muted);
-      margin-top: 16px;
-      font-size: 1.05rem;
-    }
-
-    .faq-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-
-    .faq-item {
-      border: 1px solid var(--border);
+    .ai-note {
+      margin-top: 22px;
+      background: #0b1220;
+      color: white;
       border-radius: 18px;
-      padding: 24px;
-      background: white;
-      box-shadow: 0 8px 28px rgba(15,23,42,0.04);
+      padding: 20px;
     }
 
-    .faq-item h3 {
-      margin: 0 0 8px;
-      font-size: 1.1rem;
-    }
-
-    .faq-item p {
-      margin: 0;
-      color: var(--muted);
+    .ai-note p {
+      color: #cbd5e1;
+      margin-bottom: 0;
     }
 
     footer {
@@ -403,15 +420,29 @@
       flex-wrap: wrap;
     }
 
-    @media (max-width: 960px) {
-      .register-grid,
-      .two-col,
-      .faq-grid {
+    .footer-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a:hover {
+      color: var(--blue);
+    }
+
+    @media (max-width: 980px) {
+      .register-layout,
+      .form-grid {
         grid-template-columns: 1fr;
       }
 
       .nav-links {
         display: none;
+      }
+
+      .hero-logo {
+        width: 112px;
+        height: 112px;
       }
     }
   </style>
@@ -423,16 +454,18 @@
   <nav class="nav">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
-        <span class="brand-mark"></span>
+        <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
         Astraa Systems
       </a>
 
       <div class="nav-links">
-        <a href="index.html#estimator">Estimator</a>
+        <a href="index.html">Home</a>
+        <a href="engines.html">Tools</a>
         <a href="pricing.html">Pricing</a>
-        <a href="engines.html">Engines</a>
-        <a href="contact.html">Contact</a>
-        <a class="nav-cta" href="pricing.html">View Plans</a>
+        <a href="customer-portal.html">Workspace</a>
+        <a href="contact.html">Custom Packages</a>
+        <a href="login.html">Login</a>
+        <a class="nav-cta" href="register.html">Start Trial</a>
       </div>
     </div>
   </nav>
@@ -440,215 +473,195 @@
   <!-- HERO -->
   <header class="hero">
     <div class="container">
-      <div class="badge">Create your Astraa account to start your trial</div>
+      <img class="hero-logo" src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
 
-      <h1>Start your 15-day Astraa trial.</h1>
+      <div class="badge">Start your Astraa trial</div>
+
+      <h1>Create your Astraa account.</h1>
+
+      <div class="hero-brand-line">
+        15 days. 15 total estimates. One connected workspace.
+      </div>
 
       <p>
-        Your trial includes <strong>15 total estimates over 15 days</strong> — one estimate per day —
-        plus access to Astraa Workspace, saved trial estimates, and limited previews of selected Astraa engines.
+        Start with Astraa Estimator and Workspace. Your trial gives you a controlled Professional-style preview
+        with 15 total estimates over 15 days and 1 estimate per day.
       </p>
+
+      <div class="brand-note">
+        Astraa is built for businesses of all sizes — start with one tool, then add more tools or request a custom package as your workflow grows.
+      </div>
     </div>
   </header>
 
   <!-- REGISTER -->
-  <section class="register-section">
-    <div class="container register-grid">
+  <section>
+    <div class="container register-layout">
 
-      <!-- LEFT INFO -->
+      <!-- INFO -->
       <aside class="info-card">
-        <h2>What you get in trial</h2>
+        <h2>Trial access rules</h2>
 
         <p>
-          Astraa trial is designed to feel close to the Professional experience while keeping usage controlled.
+          Astraa trial access is designed to give serious users enough value to evaluate the platform while protecting the service from abuse.
         </p>
 
-        <div class="feature-block">
-          <h3>Included in your trial</h3>
-
-          <ul class="list">
-            <li>15 total estimates over 15 days</li>
-            <li>1 estimate per day</li>
-            <li>Astraa Workspace access</li>
-            <li>Saved trial estimate history</li>
-            <li>Professional-style estimate summaries</li>
-            <li>Confidence and risk explanation</li>
-            <li>Limited engine previews</li>
-          </ul>
+        <div class="trial-box">
+          <h3>Trial includes</h3>
+          <p>
+            15 total estimates over 15 days, with 1 estimate per day, plus Astraa Workspace access and selected tool previews.
+          </p>
         </div>
 
-        <div class="policy-block">
-          <h3>Why we ask for business details</h3>
+        <ul class="info-list">
+          <li>15 total estimates over 15 days</li>
+          <li>1 estimate per day</li>
+          <li>Astraa Workspace preview</li>
+          <li>Saved trial estimate history</li>
+          <li>Expense Tool preview</li>
+          <li>Selected tool previews</li>
+          <li>Launch bonus eligibility if paid account uses the same verified email</li>
+        </ul>
 
+        <div class="ai-note">
+          <strong>Responsible technology note</strong>
           <p>
-            Astraa collects account, business, device, IP, and usage information to create your account,
-            manage trial limits, prevent abuse, support account recovery, and protect Astraa and its customers from misuse.
-          </p>
-
-          <p class="small">
-            Each trial is tied to one primary account and one business identity. A backup email is required for recovery.
+            Astraa is a business tools company. Selected features may use AI-assisted technology to support organization,
+            summaries, estimates, and workflow clarity. Customers remain responsible for reviewing outputs and making final decisions.
           </p>
         </div>
       </aside>
 
       <!-- FORM -->
       <section class="form-card">
-        <h2>Create your Astraa account</h2>
+        <h2>Create your trial account</h2>
 
         <p>
-          Use one primary email for your trial and future paid plan. If you later use a different email to pay,
-          your launch bonus may require business verification before it is applied.
+          This local version stores your trial information in your browser session and opens Astraa Workspace after registration.
+          Backend account storage can be connected later.
         </p>
 
-        <form id="registerForm" onsubmit="submitRegister(event)">
-          <div class="two-col">
-            <div>
-              <label for="fullName">Full name</label>
-              <input id="fullName" type="text" placeholder="Your full name" required />
-            </div>
-
-            <div>
-              <label for="primaryEmail">Primary email</label>
-              <input id="primaryEmail" type="email" placeholder="you@example.com" required />
-            </div>
+        <div class="form-grid">
+          <div>
+            <label for="fullName">Full name</label>
+            <input id="fullName" type="text" placeholder="Your full name" />
           </div>
 
-          <div class="two-col">
-            <div>
-              <label for="backupEmail">Backup email</label>
-              <input id="backupEmail" type="email" placeholder="backup@example.com" required />
-            </div>
+          <div>
+            <label for="primaryEmail">Primary email</label>
+            <input id="primaryEmail" type="email" placeholder="you@example.com" />
+          </div>
+        </div>
 
-            <div>
-              <label for="phone">Phone number</label>
-              <input id="phone" type="text" placeholder="Business or mobile number" required />
-            </div>
+        <div class="form-grid">
+          <div>
+            <label for="backupEmail">Backup email</label>
+            <input id="backupEmail" type="email" placeholder="backup@example.com" />
           </div>
 
-          <div class="two-col">
-            <div>
-              <label for="password">Password</label>
-              <input id="password" type="password" placeholder="Minimum 8 characters" required />
-            </div>
+          <div>
+            <label for="phone">Phone optional</label>
+            <input id="phone" type="text" placeholder="Optional" />
+          </div>
+        </div>
 
-            <div>
-              <label for="confirmPassword">Confirm password</label>
-              <input id="confirmPassword" type="password" placeholder="Re-enter password" required />
-            </div>
+        <div class="form-grid">
+          <div>
+            <label for="businessName">Business / company name</label>
+            <input id="businessName" type="text" placeholder="Business name" />
           </div>
 
-          <div class="two-col">
-            <div>
-              <label for="businessName">Business name</label>
-              <input id="businessName" type="text" placeholder="Company or operating name" required />
-            </div>
+          <div>
+            <label for="businessStatus">Business status</label>
+            <select id="businessStatus">
+              <option value="">Select one</option>
+              <option>Registered business</option>
+              <option>Startup / not registered yet</option>
+              <option>Individual / sole operator</option>
+              <option>Team / department</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+        </div>
 
-            <div>
-              <label for="businessStatus">Business status</label>
-              <select id="businessStatus" required>
-                <option value="">Select one</option>
-                <option>Registered corporation</option>
-                <option>Sole proprietor</option>
-                <option>Partnership</option>
-                <option>Unregistered contractor / independent operator</option>
-                <option>Startup / not registered yet</option>
-                <option>Other</option>
-              </select>
-            </div>
+        <div class="form-grid">
+          <div>
+            <label for="industry">Business type / industry</label>
+            <select id="industry">
+              <option value="">Select one</option>
+              <option>Construction / contracting</option>
+              <option>Field services</option>
+              <option>Professional services</option>
+              <option>Retail / commerce</option>
+              <option>Operations / logistics</option>
+              <option>Startup / small business</option>
+              <option>Finance / administration</option>
+              <option>Other</option>
+            </select>
           </div>
 
-          <div class="two-col">
-            <div>
-              <label for="businessNumber">Business number / registration number (optional)</label>
-              <input id="businessNumber" type="text" placeholder="Optional at trial" />
-            </div>
+          <div>
+            <label for="interest">Primary interest</label>
+            <select id="interest">
+              <option value="">Select one</option>
+              <option>Astraa Estimator</option>
+              <option>Expense Tool</option>
+              <option>Operations Tool</option>
+              <option>Finance Tool</option>
+              <option>Arkastra Commerce</option>
+              <option>Data Workspace</option>
+              <option>Custom Astraa Systems</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+        </div>
 
-            <div>
-              <label for="city">City</label>
-              <input id="city" type="text" placeholder="Your city" required />
-            </div>
+        <div class="form-grid">
+          <div>
+            <label for="city">City</label>
+            <input id="city" type="text" placeholder="Example: Burnaby" />
           </div>
 
-          <div class="two-col">
-            <div>
-              <label for="province">Province / State</label>
-              <input id="province" type="text" placeholder="Your province or state" required />
-            </div>
+          <div>
+            <label for="province">Province / state</label>
+            <input id="province" type="text" placeholder="Example: BC" />
+          </div>
+        </div>
 
-            <div>
-              <label for="country">Country</label>
-              <input id="country" type="text" placeholder="Your country" value="Canada" required />
-            </div>
+        <div class="form-grid">
+          <div>
+            <label for="country">Country</label>
+            <input id="country" type="text" value="Canada" />
           </div>
 
-          <label for="notes">How do you plan to use Astraa? (optional)</label>
-          <textarea id="notes" placeholder="Tell Astraa what type of estimate or workflow you care about most."></textarea>
-
-          <div class="checkbox-row">
-            <input id="consentPrivacy" type="checkbox" required />
-
-            <label for="consentPrivacy">
-              I agree that Astraa may use my account, business, device, IP, and usage information to manage my trial,
-              prevent abuse, support account recovery, and provide Astraa services.
-            </label>
+          <div>
+            <label for="password">Create password</label>
+            <input id="password" type="password" placeholder="Minimum 8 characters" />
           </div>
+        </div>
 
-          <div class="checkbox-row">
-            <input id="consentOneAccount" type="checkbox" required />
+        <label for="notes">What are you hoping Astraa helps with?</label>
+        <textarea id="notes" placeholder="Example: I want better estimating, expense tracking, and a cleaner way to organize project records."></textarea>
 
-            <label for="consentOneAccount">
-              I understand this trial is tied to one primary account and one business identity. If I later use a different email to pay,
-              any launch bonus may require verification before it is applied.
-            </label>
-          </div>
+        <label class="checkbox-line">
+          <input id="agree" type="checkbox" />
+          <span>
+            I understand this is a trial preview. I will review Astraa outputs before relying on them for business, financial, construction, customer-facing, or operational decisions.
+          </span>
+        </label>
 
-          <button class="btn-primary" type="submit">Create Trial Account</button>
+        <div class="action-row">
+          <button class="btn btn-primary btn-full" onclick="createTrialAccount()">Create Trial Account</button>
+        </div>
 
-          <div id="status" class="status"></div>
+        <div id="status" class="status"></div>
 
-          <p class="small">
-            This page currently prepares the account details locally for the next portal step.
-            Real account creation should be completed by the backend before public launch.
-          </p>
-        </form>
+        <div class="action-row">
+          <a class="btn btn-secondary" href="pricing.html">View Pricing</a>
+          <a class="btn btn-secondary" href="login.html">Already have an account?</a>
+        </div>
       </section>
 
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="faq-strip">
-    <div class="container">
-      <div class="section-header">
-        <h2>Trial rules and account recovery</h2>
-
-        <p>
-          Astraa keeps trial access fair so serious users can evaluate the platform while reducing abuse.
-        </p>
-      </div>
-
-      <div class="faq-grid">
-        <div class="faq-item">
-          <h3>One estimate per day</h3>
-          <p>
-            Your trial includes 15 total estimates over 15 days — enough to evaluate the workflow without replacing a paid plan.
-          </p>
-        </div>
-
-        <div class="faq-item">
-          <h3>One business identity</h3>
-          <p>
-            Generic company email is fine, but Astraa treats the trial as one account and one business identity.
-          </p>
-        </div>
-
-        <div class="faq-item">
-          <h3>Backup email required</h3>
-          <p>
-            If you lose access, Astraa can verify your account through your backup email and business information.
-          </p>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -656,15 +669,30 @@
   <footer>
     <div class="container footer-inner">
       <div>Astraa Systems © 2026</div>
-      <div>Secure hosted tools · Custom business systems · Burnaby, BC</div>
+
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="engines.html">Tools</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="contact.html">Custom Packages</a>
+        <a href="customer-portal.html">Workspace</a>
+      </div>
     </div>
   </footer>
 
   <script>
+    function normalizeEmail(value) {
+      return String(value || "").trim().toLowerCase();
+    }
+
+    function isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
     function setStatus(message, type) {
       const status = document.getElementById("status");
-      status.className = "status";
       status.textContent = message;
+      status.className = "status";
 
       if (type === "success") {
         status.classList.add("success");
@@ -675,128 +703,120 @@
       }
     }
 
-    function submitRegister(event) {
-      event.preventDefault();
+    function todayKey() {
+      return new Date().toISOString().slice(0, 10);
+    }
 
+    function createTrialAccount() {
       const fullName = document.getElementById("fullName").value.trim();
-      const primaryEmail = document.getElementById("primaryEmail").value.trim();
-      const backupEmail = document.getElementById("backupEmail").value.trim();
+      const primaryEmail = normalizeEmail(document.getElementById("primaryEmail").value);
+      const backupEmail = normalizeEmail(document.getElementById("backupEmail").value);
       const phone = document.getElementById("phone").value.trim();
-
-      const password = document.getElementById("password").value;
-      const confirmPassword = document.getElementById("confirmPassword").value;
-
       const businessName = document.getElementById("businessName").value.trim();
       const businessStatus = document.getElementById("businessStatus").value;
-      const businessNumber = document.getElementById("businessNumber").value.trim();
-
+      const industry = document.getElementById("industry").value;
+      const interest = document.getElementById("interest").value;
       const city = document.getElementById("city").value.trim();
       const province = document.getElementById("province").value.trim();
       const country = document.getElementById("country").value.trim();
-
+      const password = document.getElementById("password").value;
       const notes = document.getElementById("notes").value.trim();
+      const agree = document.getElementById("agree").checked;
 
-      const consentPrivacy = document.getElementById("consentPrivacy").checked;
-      const consentOneAccount = document.getElementById("consentOneAccount").checked;
-
-      if (
-        !fullName ||
-        !primaryEmail ||
-        !backupEmail ||
-        !phone ||
-        !businessName ||
-        !businessStatus ||
-        !city ||
-        !province ||
-        !country
-      ) {
-        setStatus("Please complete all required fields.", "error");
+      if (!fullName) {
+        setStatus("Please enter your full name.", "error");
         return;
       }
 
-      if (primaryEmail.toLowerCase() === backupEmail.toLowerCase()) {
-        setStatus("Backup email should be different from the primary email.", "error");
+      if (!primaryEmail || !isValidEmail(primaryEmail)) {
+        setStatus("Please enter a valid primary email.", "error");
         return;
       }
 
-      if (password.length < 8) {
-        setStatus("Use at least 8 characters for your password.", "error");
+      if (!backupEmail || !isValidEmail(backupEmail)) {
+        setStatus("Please enter a valid backup email.", "error");
         return;
       }
 
-      if (password !== confirmPassword) {
-        setStatus("Passwords do not match.", "error");
+      if (primaryEmail === backupEmail) {
+        setStatus("Primary email and backup email should be different for account recovery.", "error");
         return;
       }
 
-      if (!consentPrivacy || !consentOneAccount) {
-        setStatus("Please review and accept both required statements.", "error");
+      if (!businessName) {
+        setStatus("Please enter your business or company name.", "error");
         return;
       }
 
-      const trialAccount = {
-        created_at: new Date().toISOString(),
+      if (!businessStatus) {
+        setStatus("Please select your business status.", "error");
+        return;
+      }
 
+      if (!industry) {
+        setStatus("Please select your business type or industry.", "error");
+        return;
+      }
+
+      if (!interest) {
+        setStatus("Please select your primary interest.", "error");
+        return;
+      }
+
+      if (!password || password.length < 8) {
+        setStatus("Please create a password with at least 8 characters.", "error");
+        return;
+      }
+
+      if (!agree) {
+        setStatus("Please confirm that you understand trial outputs should be reviewed before business use.", "error");
+        return;
+      }
+
+      const account = {
         full_name: fullName,
         primary_email: primaryEmail,
         backup_email: backupEmail,
         phone: phone,
-
         business_name: businessName,
         business_status: businessStatus,
-        business_number: businessNumber,
-
+        industry: industry,
+        primary_interest: interest,
         city: city,
         province: province,
         country: country,
-
         notes: notes,
-
-        plan: "trial",
-
-        trial: {
-          total_limit: 15,
-          used: 0,
-          day_limit: 1,
-          duration_days: 15
-        },
-
-        bonus: {
-          eligible_if_same_paid_account: true,
-          bonus_estimates: 15
-        },
-
-        workspace: {
-          saved_estimates: [],
-          receipts: [],
-          project_files: [],
-          reference_sources: [],
-          engine_previews: {
-            estimator: "active",
-            operations: "preview",
-            finance: "preview",
-            commerce: "coming_soon",
-            data: "limited"
-          }
-        }
+        plan: "Trial",
+        trial_start_date: todayKey(),
+        trial_total_estimates: 15,
+        trial_daily_limit: 1,
+        launch_bonus_eligible: true,
+        created_at: new Date().toISOString()
       };
 
-      try {
-        sessionStorage.setItem("astraa_trial_registration", JSON.stringify(trialAccount));
-        sessionStorage.setItem("astraa_checkout_email", primaryEmail);
-        sessionStorage.setItem("astraa_current_plan", "trial");
-      } catch (e) {
-        console.log("Session storage unavailable:", e);
-      }
+      const usage = {
+        totalLimit: 15,
+        used: 0,
+        dailyLimit: 1,
+        lastEstimateDate: null,
+        savedEstimates: [],
+        expenses: [],
+        receipts: []
+      };
+
+      sessionStorage.setItem("astraa_trial_registration", JSON.stringify(account));
+      sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
+      sessionStorage.setItem("astraa_checkout_email", primaryEmail);
+      sessionStorage.setItem("astraa_launch_bonus_pending", "true");
 
       setStatus(
-        "Trial account details captured. Redirecting to Astraa Workspace preview...",
+        "Trial account created. Opening Astraa Workspace...",
         "success"
       );
 
-      setTimeout(function () {
+      window.setTimeout(function() {
         window.location.href = "customer-portal.html";
-      }, 1000);
+      }, 700);
     }
   </script>
 

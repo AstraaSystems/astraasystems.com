@@ -4,15 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
   <title>Astraa Systems — Login</title>
 
   <style>
     :root {
-      --navy: #0f172a;
-      --navy-soft: #1e293b;
+      --navy: #0b1220;
+      --navy-soft: #162033;
       --blue: #2563eb;
       --blue-hover: #1d4ed8;
-      --cyan: #06b6d4;
+      --cyan: #22d3ee;
+      --violet: #8b5cf6;
+      --magenta: #ec4899;
       --white: #ffffff;
       --soft-bg: #f8fafc;
       --soft-blue: #eff6ff;
@@ -21,7 +24,7 @@
       --muted: #64748b;
       --success: #16a34a;
       --danger: #dc2626;
-      --radius: 16px;
+      --warning: #f59e0b;
       --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
     }
 
@@ -29,16 +32,19 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: "Segoe UI", Arial, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 30%),
-        radial-gradient(circle at top right, rgba(6, 182, 212, 0.08), transparent 30%),
+        radial-gradient(circle at top left, rgba(34,211,238,0.10), transparent 28%),
+        radial-gradient(circle at top right, rgba(139,92,246,0.10), transparent 24%),
         linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
       color: var(--navy);
       line-height: 1.6;
-      min-height: 100vh;
     }
 
     a {
@@ -53,44 +59,46 @@
 
     /* NAV */
     .nav {
-      background: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.94);
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
     }
 
     .nav-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 0;
+      padding: 16px 0;
+      gap: 20px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 1.2rem;
+      gap: 12px;
+      font-weight: 900;
+      font-size: 1.14rem;
       color: var(--navy);
+      letter-spacing: -0.02em;
     }
 
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, var(--blue), var(--cyan));
-      display: inline-block;
+    .brand img {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+      display: block;
     }
 
     .nav-links {
       display: flex;
-      gap: 24px;
+      gap: 20px;
       align-items: center;
-      font-size: 0.95rem;
+      flex-wrap: wrap;
       color: var(--text);
+      font-size: 0.95rem;
     }
 
     .nav-links a:hover {
@@ -98,114 +106,142 @@
     }
 
     .nav-cta {
-      background: var(--blue);
+      background: linear-gradient(135deg, var(--blue), var(--violet));
       color: white !important;
       padding: 10px 16px;
-      border-radius: 10px;
-      font-weight: 700;
-    }
-
-    .nav-cta:hover {
-      background: var(--blue-hover);
+      border-radius: 11px;
+      font-weight: 800;
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.20);
     }
 
     /* PAGE */
-    .login-page {
-      padding: 74px 0 92px;
+    .page {
+      padding: 76px 0;
     }
 
-    .login-grid {
+    .login-layout {
       display: grid;
-      grid-template-columns: 0.92fr 1.08fr;
-      gap: 34px;
-      align-items: center;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 28px;
+      align-items: start;
     }
 
-    .info-panel,
+    .info-card,
     .login-card {
       background: white;
       border: 1px solid var(--border);
-      border-radius: 24px;
+      border-radius: 26px;
+      padding: 34px;
       box-shadow: var(--shadow);
-      padding: 40px;
+    }
+
+    .logo {
+      width: 132px;
+      height: 132px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 22px;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--soft-blue);
+      background: white;
       color: var(--blue);
       border: 1px solid #bfdbfe;
       padding: 8px 14px;
       border-radius: 999px;
-      font-weight: 800;
-      font-size: 0.88rem;
-      margin-bottom: 22px;
+      font-weight: 900;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 24px rgba(37,99,235,0.06);
     }
 
-    .info-panel h1 {
+    h1 {
       margin: 0;
-      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
       line-height: 1.08;
       letter-spacing: -0.05em;
-      color: var(--navy);
     }
 
-    .info-panel p {
-      color: var(--text);
-      margin-top: 20px;
-      font-size: 1.08rem;
+    h2 {
+      margin: 0;
+      font-size: 1.75rem;
+      letter-spacing: -0.03em;
     }
 
-    .list {
+    .subhead {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      font-weight: 900;
+      color: var(--navy-soft);
+      margin-top: 14px;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      color: var(--muted);
+    }
+
+    .info-list {
       list-style: none;
       padding: 0;
-      margin: 28px 0 0;
+      margin: 22px 0 0;
     }
 
-    .list li {
-      margin: 12px 0;
+    .info-list li {
+      margin: 13px 0;
       color: var(--text);
       display: flex;
       gap: 10px;
       align-items: flex-start;
     }
 
-    .list li::before {
+    .info-list li::before {
       content: "✓";
       color: var(--success);
       font-weight: 900;
       flex: 0 0 auto;
     }
 
-    .login-card h2 {
-      margin: 0;
-      font-size: 1.8rem;
-      letter-spacing: -0.03em;
+    .note-box {
+      margin-top: 22px;
+      background: var(--soft-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      color: var(--text);
     }
 
-    .login-card p {
-      color: var(--muted);
-      margin-top: 10px;
+    .ai-note {
+      margin-top: 22px;
+      background: #0b1220;
+      color: white;
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    .ai-note p {
+      color: #cbd5e1;
+      margin-bottom: 0;
     }
 
     label {
       display: block;
-      margin-top: 22px;
+      margin-top: 18px;
       margin-bottom: 8px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--navy);
     }
 
     input {
       width: 100%;
-      padding: 14px;
+      padding: 13px 14px;
       border: 1px solid var(--border);
       border-radius: 12px;
       font-size: 1rem;
-      color: var(--navy);
       background: white;
+      color: var(--navy);
       font-family: inherit;
     }
 
@@ -215,38 +251,37 @@
       box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
     }
 
-    .button-row {
+    .btn-row,
+    .action-row {
       display: flex;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
       margin-top: 24px;
     }
 
-    button,
     .btn {
       display: inline-flex;
-      align-items: center;
       justify-content: center;
-      padding: 14px 22px;
+      align-items: center;
+      padding: 13px 22px;
       border-radius: 12px;
       border: 1px solid transparent;
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
       transition: 0.2s ease;
-      font-size: 1rem;
       text-align: center;
-      text-decoration: none;
+      font-size: 1rem;
     }
 
     .btn-primary {
-      background: var(--blue);
+      background: linear-gradient(135deg, var(--blue), var(--violet));
       color: white;
-      flex: 1;
-      min-width: 180px;
+      box-shadow: 0 14px 34px rgba(37, 99, 235, 0.22);
     }
 
     .btn-primary:hover {
-      background: var(--blue-hover);
+      filter: brightness(1.04);
+      transform: translateY(-1px);
     }
 
     .btn-secondary {
@@ -256,19 +291,23 @@
     }
 
     .btn-secondary:hover {
-      color: var(--blue);
       border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .btn-full {
+      width: 100%;
     }
 
     .status {
       margin-top: 18px;
+      padding: 15px;
       border-radius: 14px;
-      padding: 14px;
-      white-space: pre-wrap;
-      display: none;
       border: 1px solid var(--border);
       background: var(--soft-bg);
       color: var(--text);
+      white-space: pre-wrap;
+      display: none;
     }
 
     .status.success {
@@ -285,29 +324,42 @@
       border-color: #fecaca;
     }
 
-    .helper-box {
-      margin-top: 28px;
+    .status.warning {
+      display: block;
+      background: #fffbeb;
+      color: #92400e;
+      border-color: #fde68a;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .quick-action {
       border: 1px solid var(--border);
-      border-radius: 18px;
       background: var(--soft-bg);
-      padding: 20px;
+      border-radius: 16px;
+      padding: 16px;
+      transition: 0.2s ease;
     }
 
-    .helper-box h3 {
-      margin: 0 0 8px;
-      font-size: 1.12rem;
+    .quick-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(15,23,42,0.06);
     }
 
-    .helper-box p {
-      margin: 0;
+    .quick-action strong {
+      display: block;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .quick-action span {
       color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .small-note {
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.92rem;
     }
 
     footer {
@@ -325,8 +377,19 @@
       flex-wrap: wrap;
     }
 
-    @media (max-width: 960px) {
-      .login-grid {
+    .footer-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a:hover {
+      color: var(--blue);
+    }
+
+    @media (max-width: 980px) {
+      .login-layout,
+      .quick-actions {
         grid-template-columns: 1fr;
       }
 
@@ -334,9 +397,9 @@
         display: none;
       }
 
-      .info-panel,
-      .login-card {
-        padding: 30px 22px;
+      .logo {
+        width: 112px;
+        height: 112px;
       }
     }
   </style>
@@ -348,78 +411,115 @@
   <nav class="nav">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
-        <span class="brand-mark"></span>
+        <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
         Astraa Systems
       </a>
 
       <div class="nav-links">
-        <a href="index.html#estimator">Estimator</a>
+        <a href="index.html">Home</a>
+        <a href="engines.html">Tools</a>
         <a href="pricing.html">Pricing</a>
-        <a href="engines.html">Engines</a>
-        <a href="contact.html">Contact</a>
+        <a href="customer-portal.html">Workspace</a>
+        <a href="contact.html">Custom Packages</a>
+        <a href="login.html">Login</a>
         <a class="nav-cta" href="register.html">Start Trial</a>
       </div>
     </div>
   </nav>
 
-  <!-- LOGIN -->
-  <main class="login-page">
-    <div class="container login-grid">
+  <main class="page">
+    <div class="container login-layout">
 
-      <!-- LEFT INFO -->
-      <section class="info-panel">
-        <div class="badge">Astraa Workspace Login</div>
+      <!-- INFO -->
+      <aside class="info-card">
+        <span class="badge">Astraa Workspace Login</span>
 
-        <h1>Return to your Astraa Workspace.</h1>
+        <img class="logo" src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
+
+        <h1>Welcome back.</h1>
+
+        <div class="subhead">
+          One workspace. Connected tools. Smarter growth.
+        </div>
 
         <p>
-          Access your estimates, trial usage, receipts, engine previews, expense tools,
-          project references, and upgrade options from one workspace.
+          Sign in to return to your Astraa Workspace, continue your trial,
+          review saved estimates, test tool previews, or upgrade your plan.
         </p>
 
-        <ul class="list">
-          <li>Continue your 15-day trial</li>
-          <li>View saved trial estimates</li>
-          <li>Track usage and plan status</li>
-          <li>Access Astraa engine previews</li>
+        <ul class="info-list">
+          <li>Continue trial usage</li>
+          <li>Open Astraa Workspace</li>
+          <li>Review saved estimate activity</li>
+          <li>Access Expense Tool preview</li>
+          <li>Explore connected Astraa tools</li>
           <li>Upgrade to Basic or Professional</li>
+          <li>Request custom packages</li>
         </ul>
-      </section>
 
-      <!-- LOGIN FORM -->
+        <div class="note-box">
+          <strong>Local preview note</strong>
+          <p>
+            This login page uses browser session storage for local testing.
+            Real authentication can be connected later through a backend account system.
+          </p>
+        </div>
+
+        <div class="ai-note">
+          <strong>Responsible technology note</strong>
+          <p>
+            Astraa is a business tools company. Selected features may use AI-assisted technology
+            to support organization, summaries, estimates, and workflow clarity. Customers remain responsible for final decisions.
+          </p>
+        </div>
+      </aside>
+
+      <!-- LOGIN -->
       <section class="login-card">
-        <h2>Sign in</h2>
+        <h2>Login to Astraa Workspace</h2>
 
         <p>
-          Use the same primary email you used during trial registration.
+          Enter the primary or backup email used during trial registration.
+          In this local preview, password validation is not connected to a backend yet.
         </p>
 
-        <form id="loginForm" onsubmit="submitLogin(event)">
-          <label for="email">Primary email</label>
-          <input id="email" type="email" placeholder="you@example.com" required />
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="you@example.com" />
 
-          <label for="password">Password</label>
-          <input id="password" type="password" placeholder="Your password" required />
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Password used during registration" />
 
-          <div class="button-row">
-            <button class="btn-primary" type="submit">Sign In</button>
-            <a class="btn btn-secondary" href="register.html">Create Account</a>
-          </div>
+        <div class="action-row">
+          <button class="btn btn-primary btn-full" onclick="login()">Login</button>
+        </div>
 
-          <div id="status" class="status"></div>
+        <div id="status" class="status"></div>
 
-          <p class="small-note">
-            This is a front-end login placeholder for the current website phase. Real login validation will be handled by the backend later.
-          </p>
-        </form>
+        <div class="quick-actions">
+          <a class="quick-action" href="register.html">
+            <strong>Start a new trial</strong>
+            <span>Create an Astraa trial account.</span>
+          </a>
 
-        <div class="helper-box">
-          <h3>Lost access?</h3>
-          <p>
-            Astraa accounts use a backup email and business details for recovery.
-            If you lose access, contact Astraa with your business name, backup email,
-            and any Moneris receipt or order reference.
-          </p>
+          <a class="quick-action" href="pricing.html">
+            <strong>View pricing</strong>
+            <span>Compare plans and tool pricing.</span>
+          </a>
+
+          <a class="quick-action" href="payment.html">
+            <strong>Upgrade plan</strong>
+            <span>Start Basic or Professional.</span>
+          </a>
+
+          <a class="quick-action" href="contact.html">
+            <strong>Need help?</strong>
+            <span>Contact Astraa or request a package.</span>
+          </a>
+        </div>
+
+        <div class="action-row">
+          <button class="btn btn-secondary" onclick="restoreDemoAccount()">Restore Demo Trial</button>
+          <button class="btn btn-secondary" onclick="clearLocalSession()">Clear Local Session</button>
         </div>
       </section>
 
@@ -430,15 +530,30 @@
   <footer>
     <div class="container footer-inner">
       <div>Astraa Systems © 2026</div>
-      <div>Secure hosted tools · Custom business systems · Burnaby, BC</div>
+
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="engines.html">Tools</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="register.html">Start Trial</a>
+        <a href="customer-portal.html">Workspace</a>
+      </div>
     </div>
   </footer>
 
   <script>
+    function normalizeEmail(value) {
+      return String(value || "").trim().toLowerCase();
+    }
+
+    function isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
     function setStatus(message, type) {
       const status = document.getElementById("status");
-      status.className = "status";
       status.textContent = message;
+      status.className = "status";
 
       if (type === "success") {
         status.classList.add("success");
@@ -447,142 +562,167 @@
       if (type === "error") {
         status.classList.add("error");
       }
+
+      if (type === "warning") {
+        status.classList.add("warning");
+      }
+    }
+
+    function todayKey() {
+      return new Date().toISOString().slice(0, 10);
     }
 
     function getStoredAccount() {
-      const raw = sessionStorage.getItem("astraa_trial_registration");
+      const rawAccount = sessionStorage.getItem("astraa_trial_registration");
 
-      if (!raw) {
+      if (!rawAccount) {
         return null;
       }
 
       try {
-        return JSON.parse(raw);
-      } catch (e) {
-        console.log("Could not parse stored Astraa registration:", e);
+        return JSON.parse(rawAccount);
+      } catch (error) {
         return null;
       }
     }
 
-    function submitLogin(event) {
-      event.preventDefault();
+    function ensureUsageExists() {
+      const rawUsage = sessionStorage.getItem("astraa_usage");
 
-      const email = document.getElementById("email").value.trim().toLowerCase();
-      const password = document.getElementById("password").value;
-
-      if (!email || !password) {
-        setStatus("Please enter your email and password.", "error");
+      if (rawUsage) {
         return;
       }
 
-      if (password.length < 8) {
-        setStatus("Password must be at least 8 characters.", "error");
-        return;
-      }
-
-      const account = getStoredAccount();
-
-      /*
-        Current standalone website behavior:
-        - If registration exists in sessionStorage and email matches, allow portal.
-        - If no local registration exists, allow a soft demo login so testing is not blocked.
-        - Backend authentication will replace this later.
-      */
-
-      if (account && account.primary_email) {
-        const storedEmail = String(account.primary_email).trim().toLowerCase();
-
-        if (email !== storedEmail) {
-          setStatus(
-            "This email does not match the local trial account on this browser. Use the same primary email or create a new trial account.",
-            "error"
-          );
-          return;
-        }
-
-        sessionStorage.setItem("astraa_logged_in", "true");
-        sessionStorage.setItem("astraa_checkout_email", storedEmail);
-        sessionStorage.setItem("astraa_current_plan", account.plan || "trial");
-
-        setStatus("Login successful. Redirecting to Astraa Workspace...", "success");
-
-        setTimeout(function () {
-          window.location.href = "customer-portal.html";
-        }, 900);
-
-        return;
-      }
-
-      /*
-        Soft demo fallback:
-        This lets us test login.html directly even before backend account storage is ready.
-      */
-
-      const demoAccount = {
-        created_at: new Date().toISOString(),
-        full_name: "Astraa Customer",
-        primary_email: email,
-        backup_email: "",
-        phone: "",
-        business_name: "Demo Business",
-        business_status: "Startup / not registered yet",
-        business_number: "",
-        city: "",
-        province: "",
-        country: "Canada",
-        notes: "",
-        plan: "trial",
-        trial: {
-          total_limit: 15,
-          used: 0,
-          day_limit: 1,
-          duration_days: 15
-        },
-        bonus: {
-          eligible_if_same_paid_account: true,
-          bonus_estimates: 15
-        },
-        workspace: {
-          saved_estimates: [],
-          receipts: [],
-          project_files: [],
-          reference_sources: [],
-          engine_previews: {
-            estimator: "active",
-            operations: "preview",
-            finance: "preview",
-            commerce: "coming_soon",
-            data: "limited"
-          }
-        }
+      const usage = {
+        totalLimit: 15,
+        used: 0,
+        dailyLimit: 1,
+        lastEstimateDate: null,
+        savedEstimates: [],
+        expenses: [],
+        receipts: []
       };
 
-      sessionStorage.setItem("astraa_trial_registration", JSON.stringify(demoAccount));
-      sessionStorage.setItem("astraa_logged_in", "true");
-      sessionStorage.setItem("astraa_checkout_email", email);
-      sessionStorage.setItem("astraa_current_plan", "trial");
-
-      setStatus(
-        "Demo login created for this browser. Redirecting to Astraa Workspace...",
-        "success"
-      );
-
-      setTimeout(function () {
-        window.location.href = "customer-portal.html";
-      }, 900);
+      sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
     }
 
-    function prefillEmail() {
-      const savedEmail =
-        sessionStorage.getItem("astraa_checkout_email") ||
-        "";
+    function login() {
+      const email = normalizeEmail(document.getElementById("email").value);
+      const password = document.getElementById("password").value;
+      const account = getStoredAccount();
 
-      if (savedEmail) {
-        document.getElementById("email").value = savedEmail;
+      if (!email || !isValidEmail(email)) {
+        setStatus("Please enter a valid email address.", "error");
+        return;
       }
+
+      if (!password) {
+        setStatus("Please enter your password. Local preview does not verify it yet, but this field is required for the login flow.", "error");
+        return;
+      }
+
+      if (!account) {
+        setStatus(
+          "No local Astraa trial account was found in this browser session. Use Start Trial first, or restore a demo trial for local testing.",
+          "warning"
+        );
+        return;
+      }
+
+      const primary = normalizeEmail(account.primary_email);
+      const backup = normalizeEmail(account.backup_email);
+
+      if (email !== primary && email !== backup) {
+        setStatus(
+          "This email does not match the local trial account primary or backup email.",
+          "error"
+        );
+        return;
+      }
+
+      sessionStorage.setItem("astraa_checkout_email", primary || email);
+      sessionStorage.setItem("astraa_last_login_email", email);
+      ensureUsageExists();
+
+      setStatus("Login successful. Opening Astraa Workspace...", "success");
+
+      window.setTimeout(function() {
+        window.location.href = "customer-portal.html";
+      }, 700);
     }
 
-    prefillEmail();
+    function restoreDemoAccount() {
+      const demoEmail = "demo@astraasystems.com";
+
+      const account = {
+        full_name: "Demo Customer",
+        primary_email: demoEmail,
+        backup_email: "backup@astraasystems.com",
+        phone: "6040000000",
+        business_name: "Demo Business",
+        business_status: "Startup / not registered yet",
+        industry: "Startup / small business",
+        primary_interest: "Astraa Estimator",
+        city: "Burnaby",
+        province: "BC",
+        country: "Canada",
+        notes: "Demo account for local Astraa Workspace testing.",
+        plan: "Trial",
+        trial_start_date: todayKey(),
+        trial_total_estimates: 15,
+        trial_daily_limit: 1,
+        launch_bonus_eligible: true,
+        created_at: new Date().toISOString()
+      };
+
+      const usage = {
+        totalLimit: 15,
+        used: 0,
+        dailyLimit: 1,
+        lastEstimateDate: null,
+        savedEstimates: [],
+        expenses: [],
+        receipts: []
+      };
+
+      sessionStorage.setItem("astraa_trial_registration", JSON.stringify(account));
+      sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
+      sessionStorage.setItem("astraa_checkout_email", demoEmail);
+      sessionStorage.setItem("astraa_launch_bonus_pending", "true");
+
+      document.getElementById("email").value = demoEmail;
+      document.getElementById("password").value = "DemoPass123";
+
+      setStatus("Demo trial restored. Click Login to open Astraa Workspace.", "success");
+    }
+
+    function clearLocalSession() {
+      const keys = [
+        "astraa_trial_registration",
+        "astraa_usage",
+        "astraa_payment_complete",
+        "astraa_payment_receipt",
+        "astraa_checkout_email",
+        "astraa_paid_plan",
+        "astraa_launch_bonus_pending",
+        "astraa_public_estimate_used",
+        "astraa_last_login_email"
+      ];
+
+      keys.forEach(function(key) {
+        sessionStorage.removeItem(key);
+      });
+
+      setStatus("Local Astraa session cleared in this browser.", "success");
+    }
+
+    window.addEventListener("load", function() {
+      const account = getStoredAccount();
+
+      if (account && account.primary_email) {
+        document.getElementById("email").value = account.primary_email;
+      }
+    });
   </script>
 
 </body>

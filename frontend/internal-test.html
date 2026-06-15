@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+  <title>Astraa Systems — Internal Launch Test</title>
+
+  <style>
+    :root {
+      --navy: #0b1220;
+      --blue: #2563eb;
+      --violet: #8b5cf6;
+      --cyan: #22d3ee;
+      --magenta: #ec4899;
+      --border: #e5e7eb;
+      --soft: #f8fafc;
+      --text: #334155;
+      --muted: #64748b;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --shadow: 0 18px 45px rgba(15,23,42,0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(34,211,238,0.10), transparent 30%),
+        radial-gradient(circle at top right, rgba(139,92,246,0.10), transparent 28%),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      color: var(--navy);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: 0 auto;
+    }
+
+    .nav {
+      background: rgba(255,255,255,0.94);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      font-size: 1.12rem;
+      color: var(--navy);
+    }
+
+    .brand img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      color: var(--text);
+      font-size: 0.94rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      color: white !important;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 800;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 70px 0 46px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero img {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 20px;
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 8px 14px;
+      border: 1px solid #bfdbfe;
+      background: white;
+      color: var(--blue);
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 6vw, 4.4rem);
+      line-height: 1.04;
+      letter-spacing: -0.06em;
+    }
+
+    .subhead {
+      margin-top: 12px;
+      font-size: clamp(1.08rem, 2vw, 1.35rem);
+      font-weight: 900;
+      color: #162033;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 20px auto 0;
+      color: var(--text);
+      font-size: 1.08rem;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 26px;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: white;
+      font-weight: 900;
+      cursor: pointer;
+      color: var(--navy);
+    }
+
+    .btn-primary {
+      border: none;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      color: white;
+      box-shadow: 0 14px 34px rgba(37,99,235,0.20);
+    }
+
+    section {
+      padding: 52px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 860px;
+      margin: 0 auto 34px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+    }
+
+    .section-header p {
+      color: var(--muted);
+      margin-top: 14px;
+      font-size: 1.03rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .card,
+    .tool-card,
+    .test-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3,
+    .tool-card h3,
+    .test-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.18rem;
+    }
+
+    .card p,
+    .tool-card p,
+    .test-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .price {
+      font-size: 1.55rem;
+      line-height: 1.1;
+      font-weight: 900;
+      color: var(--blue);
+      margin: 8px 0;
+    }
+
+    .small {
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .pill {
+      display: inline-flex;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      margin-top: 14px;
+    }
+
+    .pill.todo {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .pill.warn {
+      background: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    .notice {
+      background:
+        radial-gradient(circle at top left, rgba(34,211,238,0.16), transparent 24%),
+        radial-gradient(circle at 80% 20%, rgba(139,92,246,0.16), transparent 24%),
+        var(--navy);
+      color: white;
+      border-radius: 26px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .notice p {
+      color: #cbd5e1;
+    }
+
+    .status {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      white-space: pre-wrap;
+      color: var(--text);
+      margin-top: 16px;
+    }
+
+    footer {
+      padding: 34px 0;
+      border-top: 1px solid var(--border);
+      background: white;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 980px) {
+      .grid-3,
+      .grid-2,
+      .tools-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero img {
+        width: 110px;
+        height: 110px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">
+        <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
+        Astraa Internal Test
+      </a>
+
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="engines.html">Tools</a>
+        <a href="register.html">Trial</a>
+        <a href="customer-portal.html">Portal</a>
+        <a href="contact.html">Contact</a>
+        <a href="payment.html">Payment</a>
+        <a class="nav-cta" href="payment.html">Live Test</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <span class="badge">Internal QA before public launch</span>
+
+      <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
+
+      <h1>Astraa Systems</h1>
+
+      <div class="subhead">
+        One workspace. Connected tools. Smarter growth.
+      </div>
+
+      <p>
+        This internal launch page brings together the final Astraa direction:
+        business tools first, transparent AI-assisted technology disclosure, individual tool pricing,
+        Workspace add-ons, trial flow, contact flow, payment flow, and marketing readiness.
+      </p>
+
+      <div class="btn-row">
+        <a class="btn btn-primary" href="register.html">Test Trial</a>
+        <a class="btn" href="pricing.html">Review Pricing</a>
+        <a class="btn" href="customer-portal.html">Open Portal</a>
+        <a class="btn" href="contact.html">Test Contact</a>
+        <a class="btn" href="payment.html">Test Payment</a>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>Launch Positioning</h2>
+        <p>
+          Astraa should look like a clean professional technology company — not only a construction tool,
+          and not AI-hype first. The public focus is connected business tools.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>Public Message</h3>
+          <p>
+            Astraa builds connected business tools that help companies estimate costs, track expenses,
+            organize information, manage workflows, and operate with more ease.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>AI Disclosure</h3>
+          <p>
+            Selected features may use AI-assisted technology, but customers stay in control.
+            AI supports the workflow — it does not replace professional judgment.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Launch Rule</h3>
+          <p>
+            Launch only after local/internal testing, small real-dollar payment testing,
+            visual review, mobile review, and contact/trial/payment checks pass.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>Tool Pricing Model to Verify</h2>
+        <p>
+          Standalone tools are priced higher. Workspace add-ons are priced lower to show customers the value
+          of joining the Astraa ecosystem.
+        </p>
+      </div>
+
+      <div class="tools-grid">
+        <div class="tool-card">
+          <h3>Astraa Estimator</h3>
+          <div class="price">$59.99 CAD</div>
+          <p>Standalone prime estimating tool.</p>
+          <div class="small">Included in Basic and Professional.</div>
+        </div>
+
+        <div class="tool-card">
+          <h3>Expense Tool</h3>
+          <div class="price">$40.99 CAD</div>
+          <p>Standalone expense visibility tool.</p>
+          <div class="small">$29.99 Workspace add-on / included by tier.</div>
+        </div>
+
+        <div class="tool-card">
+          <h3>Operations Tool</h3>
+          <div class="price">$40.99 CAD</div>
+          <p>Workflow, approvals, handoffs, and task stages.</p>
+          <div class="small">$29.99 Workspace add-on.</div>
+        </div>
+
+        <div class="tool-card">
+          <h3>Finance Tool</h3>
+          <div class="price">$40.99 CAD</div>
+          <p>Cost summaries, margin thinking, and business visibility.</p>
+          <div class="small">$29.99 Workspace add-on.</div>
+        </div>
+
+        <div class="tool-card">
+          <h3>Arkastra Commerce</h3>
+          <div class="price">$40.99 CAD</div>
+          <p>Service packages, quote flows, and customer-ready offers.</p>
+          <div class="small">$29.99 Workspace add-on.</div>
+        </div>
+
+        <div class="tool-card">
+          <h3>Data Workspace</h3>
+          <div class="price">$40.99 CAD</div>
+          <p>Records, references, saved files, and business memory.</p>
+          <div class="small">$29.99 Workspace add-on.</div>
+        </div>
+
+        <div class="tool-card">
+          <h3>VSV Systems Intelligence</h3>
+          <div class="price">From $299 CAD</div>
+          <p>Future public system intelligence path.</p>
+          <div class="small">Discovery/custom only.</div>
+        </div>
+
+        <div class="tool-card">
+          <h3>Custom Astraa Systems</h3>
+          <div class="price">Quote-based</div>
+          <p>Custom workflows, templates, integrations, and reports.</p>
+          <div class="small">From $1,500 setup + support.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>Internal QA Checklist</h2>
+        <p>
+          Use this page as the launch control center. Open each page and manually confirm the flow.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="test-card">
+          <h3>1. Logo Clarity</h3>
+          <p>Open Home, Pricing, Portal, and Contact. Logo should be clear image-only with no ugly square background.</p>
+          <span class="pill todo">Manual check</span>
+        </div>
+
+        <div class="test-card">
+          <h3>2. Trial Registration</h3>
+          <p>Register with test data. Confirm redirect to customer portal and account details load.</p>
+          <span class="pill todo">Manual check</span>
+        </div>
+
+        <div class="test-card">
+          <h3>3. Portal Estimate</h3>
+          <p>Run one estimate. Confirm usage moves from 0/15 to 1/15 and second same-day attempt is blocked.</p>
+          <span class="pill todo">Manual check</span>
+        </div>
+
+        <div class="test-card">
+          <h3>4. Expense Tool</h3>
+          <p>Add one test expense. Confirm success message appears and no visual layout breaks.</p>
+          <span class="pill todo">Manual check</span>
+        </div>
+
+        <div class="test-card">
+          <h3>5. Contact Flow</h3>
+          <p>Open contact page. Confirm mailto or fallback contact message works.</p>
+          <span class="pill todo">Manual check</span>
+        </div>
+
+        <div class="test-card">
+          <h3>6. Pricing Page</h3>
+          <p>Confirm Core Plans, Individual Tool Pricing, Workspace Add-ons, and Custom Packages are all visible.</p>
+          <span class="pill todo">Manual check</span>
+        </div>
+
+        <div class="test-card">
+          <h3>7. Payment Preload</h3>
+          <p>Confirm Basic and Professional can request Moneris checkout ticket through backend /preload.</p>
+          <span class="pill warn">Backend required</span>
+        </div>
+
+        <div class="test-card">
+          <h3>8. Real-Dollar Test</h3>
+          <p>Use a small live amount only while ASTRAA_TEST_AMOUNT is active. Confirm payment success redirect and Moneris record.</p>
+          <span class="pill warn">Live Moneris required</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container notice">
+      <h2>Trust, Privacy & AI-Assisted Technology</h2>
+
+      <p>
+        Astraa is presented publicly as a business tools company. Selected features may use AI-assisted
+        technology to organize information, support summaries, reduce repetitive work, and improve workflow clarity.
+      </p>
+
+      <p>
+        Customers remain responsible for reviewing outputs and making final business decisions.
+        This message should appear in privacy, terms, and trust sections so customers do not feel misled,
+        while keeping the public website focused on practical business value.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>Browser Session State Check</h2>
+        <p>This checks whether trial/payment state exists in this browser session.</p>
+      </div>
+
+      <div id="stateBox" class="status"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkState()">Check Session State</button>
+        <button class="btn" onclick="clearState()">Clear Demo State</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      Astraa Systems © 2026 · Internal launch test page
+    </div>
+  </footer>
+
+  <script>
+    function checkState() {
+      const keys = [
+        "astraa_trial_registration",
+        "astraa_usage",
+        "astraa_payment_complete",
+        "astraa_payment_receipt",
+        "astraa_checkout_email",
+        "astraa_paid_plan",
+        "astraa_launch_bonus_pending",
+        "astraa_public_estimate_used"
+      ];
+
+      const lines = keys.map(function(key) {
+        return key + ": " + (sessionStorage.getItem(key) ? "FOUND" : "missing");
+      });
+
+      document.getElementById("stateBox").textContent = lines.join("\n");
+    }
+
+    function clearState() {
+      const keys = [
+        "astraa_trial_registration",
+        "astraa_usage",
+        "astraa_payment_complete",
+        "astraa_payment_receipt",
+        "astraa_checkout_email",
+        "astraa_paid_plan",
+        "astraa_launch_bonus_pending",
+        "astraa_public_estimate_used"
+      ];
+
+      keys.forEach(function(key) {
+        sessionStorage.removeItem(key);
+      });
+
+      checkState();
+    }
+
+    checkState();
+  </script>
+
+</body>
+</html>

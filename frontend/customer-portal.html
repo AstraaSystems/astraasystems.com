@@ -5,119 +5,553 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <link rel="icon" type="image/png" href="assets/images/favicon.png" />
-  <title>Astraa Systems — Customer Portal</title>
+  <title>Astraa Systems — Workspace</title>
 
   <style>
     :root {
-      --navy:#0b1220;
-      --navy-soft:#162033;
-      --blue:#2563eb;
-      --blue-hover:#1d4ed8;
-      --cyan:#22d3ee;
-      --violet:#8b5cf6;
-      --magenta:#ec4899;
-      --white:#ffffff;
-      --soft-bg:#f8fafc;
-      --soft-blue:#eff6ff;
-      --border:#e5e7eb;
-      --text:#334155;
-      --muted:#64748b;
-      --success:#16a34a;
-      --danger:#dc2626;
-      --warning:#f59e0b;
-      --shadow:0 20px 50px rgba(15,23,42,0.08);
-      --glow:0 0 32px rgba(34,211,238,0.18),0 0 48px rgba(139,92,246,0.14),0 0 64px rgba(236,72,153,0.14);
+      --navy: #0b1220;
+      --navy-soft: #162033;
+      --blue: #2563eb;
+      --blue-hover: #1d4ed8;
+      --cyan: #22d3ee;
+      --violet: #8b5cf6;
+      --magenta: #ec4899;
+      --white: #ffffff;
+      --soft-bg: #f8fafc;
+      --soft-blue: #eff6ff;
+      --border: #e5e7eb;
+      --text: #334155;
+      --muted: #64748b;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #f59e0b;
+      --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
     }
 
-    *{box-sizing:border-box}
-    body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at top left,rgba(34,211,238,.08),transparent 28%),radial-gradient(circle at top right,rgba(139,92,246,.08),transparent 24%),linear-gradient(180deg,#fff 0%,#f8fafc 42%,#f8fafc 100%);color:var(--navy);line-height:1.6}
-    a{text-decoration:none;color:inherit}
-    .container{width:min(1220px,92%);margin:0 auto}
+    * {
+      box-sizing: border-box;
+    }
 
-    .nav{background:rgba(255,255,255,.94);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
-    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:1.15rem;color:var(--navy)}
-    .brand-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),var(--blue),var(--violet),var(--magenta));box-shadow:var(--glow);position:relative;overflow:hidden}
-    .brand-mark:after{content:"";position:absolute;inset:3px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.02))}
-    .nav-links{display:flex;gap:24px;align-items:center;font-size:.95rem;color:var(--text)}
-    .nav-links a:hover{color:var(--blue)}
-    .nav-cta{background:linear-gradient(135deg,var(--blue),var(--violet));color:white!important;padding:10px 16px;border-radius:10px;font-weight:800;box-shadow:0 12px 30px rgba(37,99,235,.22)}
+    html {
+      scroll-behavior: smooth;
+    }
 
-    .portal{padding:46px 0 80px}
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(34,211,238,0.10), transparent 28%),
+        radial-gradient(circle at top right, rgba(139,92,246,0.10), transparent 24%),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 42%, #f8fafc 100%);
+      color: var(--navy);
+      line-height: 1.6;
+    }
 
-    .welcome-card{background:radial-gradient(circle at top left,rgba(34,211,238,.18),transparent 28%),radial-gradient(circle at 80% 20%,rgba(139,92,246,.16),transparent 28%),radial-gradient(circle at 90% 70%,rgba(236,72,153,.10),transparent 24%),linear-gradient(135deg,#fff 0%,#eff6ff 100%);border:1px solid #dbeafe;border-radius:26px;box-shadow:var(--shadow);padding:38px;margin-bottom:28px}
-    .badge{display:inline-flex;align-items:center;gap:8px;background:white;color:var(--blue);border:1px solid #bfdbfe;padding:8px 14px;border-radius:999px;font-weight:900;font-size:.88rem;margin-bottom:18px;box-shadow:0 10px 24px rgba(37,99,235,.06)}
-    .workspace-logo{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,var(--cyan),var(--blue),var(--violet),var(--magenta));box-shadow:var(--glow);position:relative;margin-bottom:22px}
-    .workspace-logo:before{content:"A";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:900;color:white;letter-spacing:-.06em}
-    .welcome-card h1{margin:0;font-size:clamp(2.1rem,5vw,3.8rem);line-height:1.08;letter-spacing:-.05em}
-    .workspace-subhead{font-size:clamp(1.05rem,2vw,1.25rem);font-weight:900;color:var(--navy-soft);margin-top:14px;letter-spacing:-.02em}
-    .welcome-card p{color:var(--text);max-width:900px;font-size:1.08rem;margin:18px 0 0}
-    .workspace-data-note{max-width:920px;margin-top:18px;color:var(--muted);font-size:.98rem}
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-    .grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:26px;align-items:start}
-    .card{background:white;border:1px solid var(--border);border-radius:22px;box-shadow:0 8px 28px rgba(15,23,42,.05);padding:28px;margin-bottom:26px}
-    .card h2{margin:0;font-size:1.55rem;letter-spacing:-.03em;color:var(--navy)}
-    .card p{color:var(--muted)}
+    .container {
+      width: min(1220px, 92%);
+      margin: 0 auto;
+    }
 
-    .metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px}
-    .metric,.workspace-item,.engine{border:1px solid var(--border);border-radius:16px;padding:18px;background:var(--soft-bg);transition:.2s ease}
-    .metric:hover,.workspace-item:hover,.engine:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(15,23,42,.06)}
-    .metric-label{color:var(--muted);font-size:.9rem;font-weight:800}
-    .metric-value{font-size:1.7rem;font-weight:900;margin-top:4px;color:var(--navy)}
-    .metric-value.blue{background:linear-gradient(135deg,var(--blue),var(--violet));-webkit-background-clip:text;color:transparent}
+    /* NAV */
+    .nav {
+      background: rgba(255,255,255,0.94);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
 
-    .progress-wrap{margin-top:18px}
-    .progress-label{display:flex;justify-content:space-between;color:var(--muted);font-weight:800;font-size:.92rem;margin-bottom:8px}
-    .progress-bar{height:12px;background:#e2e8f0;border-radius:999px;overflow:hidden}
-    .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--cyan),var(--violet));border-radius:999px;transition:width .4s ease}
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      gap: 20px;
+    }
 
-    .list{list-style:none;padding:0;margin:18px 0 0}
-    .list li{margin:12px 0;color:var(--text);display:flex;gap:10px;align-items:flex-start}
-    .list li:before{content:"✓";color:var(--success);font-weight:900;flex:0 0 auto}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      font-size: 1.14rem;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
 
-    .engine-grid,.workspace-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px}
-    .engine{background:white}
-    .engine h3,.workspace-item h3{margin:0 0 6px;font-size:1.08rem}
-    .engine p,.workspace-item p{margin:0;color:var(--muted);font-size:.94rem}
-    .engine-tag{display:inline-flex;margin-top:12px;padding:6px 10px;border-radius:999px;font-size:.78rem;font-weight:900}
-    .tag-active{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
-    .tag-preview{background:#eff6ff;color:var(--blue);border:1px solid #bfdbfe}
-    .tag-coming{background:#f8fafc;color:var(--muted);border:1px solid var(--border)}
+    .brand img {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+      display: block;
+    }
 
-    .action-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
-    .btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 18px;border-radius:12px;border:1px solid transparent;font-weight:900;cursor:pointer;transition:.2s ease;font-size:.98rem;text-align:center}
-    .btn-primary{background:linear-gradient(135deg,var(--blue),var(--violet));color:white;box-shadow:0 12px 30px rgba(37,99,235,.22)}
-    .btn-primary:hover{filter:brightness(1.04)}
-    .btn-secondary{background:white;color:var(--navy);border-color:var(--border)}
-    .btn-secondary:hover{color:var(--blue);border-color:var(--blue)}
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      flex-wrap: wrap;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
 
-    input,textarea{width:100%;padding:13px;border:1px solid var(--border);border-radius:12px;font-size:1rem;color:var(--navy);background:white;font-family:inherit}
-    textarea{min-height:100px;resize:vertical}
-    label{display:block;margin-top:16px;margin-bottom:8px;font-weight:900}
-    .estimate-result,.status{margin-top:16px;padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--soft-bg);color:var(--text);white-space:pre-wrap;display:none}
-    .status.success,.estimate-result.success{display:block;background:#f0fdf4;color:#166534;border-color:#bbf7d0}
-    .status.error,.estimate-result.error{display:block;background:#fef2f2;color:#991b1b;border-color:#fecaca}
+    .nav-links a:hover {
+      color: var(--blue);
+    }
 
-    footer{padding:34px 0;border-top:1px solid var(--border);color:var(--muted);font-size:.92rem;background:white}
-    .footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .nav-cta {
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      color: white !important;
+      padding: 10px 16px;
+      border-radius: 11px;
+      font-weight: 800;
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.20);
+    }
 
-    @media(max-width:980px){.grid,.metric-grid,.engine-grid,.workspace-grid{grid-template-columns:1fr}.nav-links{display:none}}
+    /* COMMON */
+    .portal {
+      padding: 46px 0 82px;
+    }
+
+    .btn-row,
+    .action-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 18px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-size: 0.98rem;
+      text-align: center;
+      background: white;
+      color: var(--navy);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      color: white;
+      box-shadow: 0 12px 30px rgba(37,99,235,0.22);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.04);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--navy);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      color: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      color: var(--blue);
+      border: 1px solid #bfdbfe;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 0.88rem;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 24px rgba(37,99,235,0.06);
+    }
+
+    /* WELCOME */
+    .welcome-card {
+      background:
+        radial-gradient(circle at top left, rgba(34,211,238,0.16), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(139,92,246,0.14), transparent 28%),
+        radial-gradient(circle at 90% 70%, rgba(236,72,153,0.09), transparent 24%),
+        linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+      border: 1px solid #dbeafe;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 38px;
+      margin-bottom: 28px;
+    }
+
+    .workspace-logo {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 22px;
+    }
+
+    .welcome-card h1 {
+      margin: 0;
+      font-size: clamp(2.1rem, 5vw, 3.8rem);
+      line-height: 1.08;
+      letter-spacing: -0.05em;
+    }
+
+    .workspace-subhead {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      font-weight: 900;
+      color: var(--navy-soft);
+      margin-top: 14px;
+      letter-spacing: -0.02em;
+    }
+
+    .welcome-card p {
+      color: var(--text);
+      max-width: 940px;
+      font-size: 1.08rem;
+      margin: 18px 0 0;
+    }
+
+    .workspace-data-note {
+      max-width: 960px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    /* LAYOUT */
+    .grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 26px;
+      align-items: start;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: 0 8px 28px rgba(15,23,42,0.05);
+      padding: 28px;
+      margin-bottom: 26px;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 1.55rem;
+      letter-spacing: -0.03em;
+      color: var(--navy);
+    }
+
+    .card p {
+      color: var(--muted);
+    }
+
+    /* METRICS */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .metric,
+    .workspace-item,
+    .tool {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      background: var(--soft-bg);
+      transition: 0.2s ease;
+    }
+
+    .metric:hover,
+    .workspace-item:hover,
+    .tool:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(15,23,42,0.06);
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .metric-value {
+      font-size: 1.7rem;
+      font-weight: 900;
+      margin-top: 4px;
+      color: var(--navy);
+    }
+
+    .metric-value.blue {
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .progress-wrap {
+      margin-top: 20px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 0.92rem;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--cyan), var(--violet));
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    /* FORMS */
+    input,
+    textarea {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+      color: var(--navy);
+      background: white;
+      font-family: inherit;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    label {
+      display: block;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      font-weight: 900;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+    }
+
+    .estimate-result,
+    .status {
+      margin-top: 16px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--soft-bg);
+      color: var(--text);
+      white-space: pre-wrap;
+      display: none;
+    }
+
+    .status.success,
+    .estimate-result.success {
+      display: block;
+      background: #f0fdf4;
+      color: #166534;
+      border-color: #bbf7d0;
+    }
+
+    .status.error,
+    .estimate-result.error {
+      display: block;
+      background: #fef2f2;
+      color: #991b1b;
+      border-color: #fecaca;
+    }
+
+    /* WORKSPACE / TOOLS */
+    .workspace-grid,
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .workspace-item {
+      background: var(--soft-bg);
+    }
+
+    .workspace-item h3,
+    .tool h3 {
+      margin: 0 0 6px;
+      font-size: 1.08rem;
+    }
+
+    .workspace-item p,
+    .tool p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .tool {
+      background: white;
+    }
+
+    .tool-price {
+      margin-top: 10px;
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 1rem;
+    }
+
+    .tool-note {
+      color: var(--muted);
+      font-size: 0.86rem;
+      margin-top: 3px;
+    }
+
+    .tool-tag {
+      display: inline-flex;
+      margin-top: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    .tag-active {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .tag-preview {
+      background: #eff6ff;
+      color: var(--blue);
+      border: 1px solid #bfdbfe;
+    }
+
+    .tag-coming {
+      background: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    .tag-custom {
+      background: #f8fafc;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    /* LIST */
+    .list {
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 0;
+    }
+
+    .list li {
+      margin: 12px 0;
+      color: var(--text);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .list li::before {
+      content: "✓";
+      color: var(--success);
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .ai-note {
+      background: #0b1220;
+      color: white;
+      border-radius: 18px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .ai-note p {
+      color: #cbd5e1;
+      margin-bottom: 0;
+    }
+
+    footer {
+      padding: 34px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.92rem;
+      background: white;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .grid,
+      .metric-grid,
+      .tool-grid,
+      .workspace-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .workspace-logo {
+        width: 112px;
+        height: 112px;
+      }
+    }
   </style>
 </head>
 
 <body>
 
+  <!-- NAV -->
   <nav class="nav">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
-        <span class="brand-mark"></span>
+        <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
         Astraa Systems
       </a>
 
       <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="engines.html">Tools</a>
+        <a href="pricing.html">Pricing</a>
         <a href="customer-portal.html">Workspace</a>
-        <a href="pricing.html">Upgrade</a>
-        <a href="engines.html">Engines</a>
         <a href="contact.html">Support</a>
         <a href="login.html">Switch Account</a>
         <a class="nav-cta" href="payment.html">Upgrade Plan</a>
@@ -128,9 +562,11 @@
   <main class="portal">
     <div class="container">
 
+      <!-- WELCOME -->
       <section class="welcome-card">
         <div class="badge">Astraa Workspace</div>
-        <div class="workspace-logo"></div>
+
+        <img class="workspace-logo" src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
 
         <h1 id="welcomeTitle">Welcome to Astraa Workspace.</h1>
 
@@ -140,7 +576,7 @@
 
         <p>
           Your workspace brings together estimating, saved projects, receipts, expense tracking,
-          project references, and selected Astraa engine previews in one professional system.
+          project references, and selected Astraa tool previews in one professional system.
         </p>
 
         <div class="workspace-data-note">
@@ -151,10 +587,15 @@
 
       <div class="grid">
 
+        <!-- LEFT COLUMN -->
         <div>
+
+          <!-- PLAN -->
           <section class="card">
             <h2>Plan & usage</h2>
-            <p id="planDescription">Trial access is active.</p>
+            <p id="planDescription">
+              Trial access is active.
+            </p>
 
             <div class="metric-grid">
               <div class="metric">
@@ -168,7 +609,7 @@
               </div>
 
               <div class="metric">
-                <div class="metric-label">Daily limit</div>
+                <div class="metric-label">Daily trial limit</div>
                 <div class="metric-value" id="dailyLimit">1/day</div>
               </div>
 
@@ -183,6 +624,7 @@
                 <span>Trial usage</span>
                 <span id="usageLabel">0 / 15</span>
               </div>
+
               <div class="progress-bar">
                 <div class="progress-fill" id="usageFill"></div>
               </div>
@@ -194,11 +636,13 @@
             </div>
           </section>
 
+          <!-- ESTIMATE -->
           <section class="card">
             <h2>Run estimate</h2>
+
             <p>
               Trial users can run 15 total estimates over 15 days, with 1 estimate per day.
-              This version simulates usage until backend tracking is connected.
+              This version simulates usage locally until backend account tracking is connected.
             </p>
 
             <label for="sqft">Square footage</label>
@@ -221,8 +665,10 @@
             <div id="estimateResult" class="estimate-result"></div>
           </section>
 
+          <!-- EXPENSE -->
           <section class="card">
-            <h2>Expense tool</h2>
+            <h2>Expense Tool</h2>
+
             <p>
               Trial includes a limited expense preview. Basic includes Expense Tool Lite.
               Professional includes fuller expense tracking.
@@ -240,14 +686,19 @@
 
             <div id="expenseStatus" class="status"></div>
           </section>
+
         </div>
 
+        <!-- RIGHT COLUMN -->
         <div>
+
+          <!-- WORKSPACE OVERVIEW -->
           <section class="card">
             <h2>Workspace overview</h2>
+
             <p>
-              Astraa Workspace is the customer home base — where estimates, receipts, expenses, project references,
-              and engine previews begin to connect into one growing system.
+              Astraa Workspace is the customer home base — where estimates, receipts, expenses,
+              project references, and tool previews begin to connect into one growing system.
             </p>
 
             <div class="workspace-grid">
@@ -262,6 +713,11 @@
               </div>
 
               <div class="workspace-item">
+                <h3>Expense entries</h3>
+                <p id="expenseCount">0 expenses stored locally</p>
+              </div>
+
+              <div class="workspace-item">
                 <h3>Project files</h3>
                 <p>Upload feature planned for backend stage.</p>
               </div>
@@ -270,61 +726,99 @@
                 <h3>Reference sources</h3>
                 <p>Government/public references planned.</p>
               </div>
+
+              <div class="workspace-item">
+                <h3>Custom packages</h3>
+                <p>Request tailored workflows from Contact.</p>
+              </div>
             </div>
           </section>
 
+          <!-- TOOLS -->
           <section class="card">
             <h2>Connected Astraa tools</h2>
+
             <p>
-              Start with Estimator, then expand through workspace tools, finance, operations, data, and custom systems as your business grows.
+              Start with Estimator, then expand through workspace tools, finance, operations,
+              data, commerce, and custom systems as your business grows.
             </p>
 
-            <div class="engine-grid">
-              <div class="engine">
-                <h3>Estimator</h3>
+            <div class="tool-grid">
+              <div class="tool">
+                <h3>Astraa Estimator</h3>
                 <p>Baseline estimates with confidence and risk output.</p>
-                <span class="engine-tag tag-active">Active</span>
+                <span class="tool-tag tag-active">Featured</span>
+                <div class="tool-price">$59.99 standalone</div>
+                <div class="tool-note">Included in Basic / Professional</div>
               </div>
 
-              <div class="engine">
-                <h3>Operations</h3>
-                <p>Workflow, approvals, handoffs, and repeatable business steps.</p>
-                <span class="engine-tag tag-preview">Preview</span>
+              <div class="tool">
+                <h3>Expense Tool</h3>
+                <p>Expense visibility connected to estimating and workspace records.</p>
+                <span class="tool-tag tag-active">Included by tier</span>
+                <div class="tool-price">$40.99 standalone</div>
+                <div class="tool-note">$29.99 Workspace add-on</div>
               </div>
 
-              <div class="engine">
-                <h3>Finance</h3>
-                <p>Expense visibility, margin thinking, and cost summaries.</p>
-                <span class="engine-tag tag-preview">Preview</span>
+              <div class="tool">
+                <h3>Operations Tool</h3>
+                <p>Workflow, approvals, handoffs, task stages, and repeatable process support.</p>
+                <span class="tool-tag tag-preview">Preview</span>
+                <div class="tool-price">$40.99 standalone</div>
+                <div class="tool-note">$29.99 Workspace add-on</div>
               </div>
 
-              <div class="engine">
+              <div class="tool">
+                <h3>Finance Tool</h3>
+                <p>Cost summaries, margin thinking, and business finance visibility.</p>
+                <span class="tool-tag tag-preview">Preview</span>
+                <div class="tool-price">$40.99 standalone</div>
+                <div class="tool-note">$29.99 Workspace add-on</div>
+              </div>
+
+              <div class="tool">
                 <h3>Arkastra Commerce</h3>
-                <p>Service packages, quote flows, and transaction-ready tools.</p>
-                <span class="engine-tag tag-coming">Coming Soon</span>
+                <p>Service packages, quote flows, and customer-ready offers.</p>
+                <span class="tool-tag tag-coming">Coming soon</span>
+                <div class="tool-price">$40.99 standalone</div>
+                <div class="tool-note">$29.99 Workspace add-on</div>
               </div>
 
-              <div class="engine">
+              <div class="tool">
                 <h3>Data Workspace</h3>
-                <p>Saved records, project references, and reporting-ready structure.</p>
-                <span class="engine-tag tag-preview">Limited</span>
+                <p>Records, references, saved files, and reporting-ready memory.</p>
+                <span class="tool-tag tag-preview">Limited</span>
+                <div class="tool-price">$40.99 standalone</div>
+                <div class="tool-note">$29.99 Workspace add-on</div>
               </div>
 
-              <div class="engine">
-                <h3>VSV / Custom Systems</h3>
-                <p>Future public systems and tailored workflows built around your business process.</p>
-                <span class="engine-tag tag-preview">Request Build</span>
+              <div class="tool">
+                <h3>VSV Systems Intelligence</h3>
+                <p>Future public systems intelligence for operational use cases.</p>
+                <span class="tool-tag tag-custom">Discovery</span>
+                <div class="tool-price">From $299/month</div>
+                <div class="tool-note">Custom/discovery only</div>
+              </div>
+
+              <div class="tool">
+                <h3>Custom Astraa Systems</h3>
+                <p>Tailored workflows, reports, templates, and integrations.</p>
+                <span class="tool-tag tag-custom">Quote-based</span>
+                <div class="tool-price">From $1,500 setup</div>
+                <div class="tool-note">Support typically from $199/month</div>
               </div>
             </div>
 
             <div class="action-row">
-              <a class="btn btn-primary" href="engines.html">Explore Engines</a>
-              <a class="btn btn-secondary" href="contact.html">Request Custom Build</a>
+              <a class="btn btn-primary" href="engines.html">Explore Tools</a>
+              <a class="btn btn-secondary" href="contact.html">Request Custom Package</a>
             </div>
           </section>
 
+          <!-- ACCOUNT -->
           <section class="card">
             <h2>Account, security & recovery</h2>
+
             <p>
               Astraa uses one primary email, one backup email, business details, and fair-use rules to protect trial access,
               support recovery, and reduce abusive account behavior.
@@ -336,7 +830,16 @@
               <li id="businessLine">Business: Not loaded</li>
               <li>Different payment email may require verification before launch bonus is applied.</li>
             </ul>
+
+            <div class="ai-note">
+              <strong>Responsible technology note</strong>
+              <p>
+                Astraa is a business tools company. Selected features may use AI-assisted technology to support summaries,
+                organization, estimates, and workflow clarity. Customers remain responsible for reviewing outputs and making final decisions.
+              </p>
+            </div>
           </section>
+
         </div>
 
       </div>
@@ -346,7 +849,7 @@
   <footer>
     <div class="container footer-inner">
       <div>Astraa Systems © 2026</div>
-      <div>Secure hosted tools · Custom business systems · Burnaby, BC</div>
+      <div>Connected business tools · Custom packages · Burnaby, BC</div>
     </div>
   </footer>
 
@@ -359,11 +862,19 @@
       const rawUsage = sessionStorage.getItem("astraa_usage");
 
       if (rawAccount) {
-        try { account = JSON.parse(rawAccount); } catch (e) { account = null; }
+        try {
+          account = JSON.parse(rawAccount);
+        } catch (e) {
+          account = null;
+        }
       }
 
       if (rawUsage) {
-        try { usage = JSON.parse(rawUsage); } catch (e) { usage = null; }
+        try {
+          usage = JSON.parse(rawUsage);
+        } catch (e) {
+          usage = null;
+        }
       }
 
       if (!usage) {
@@ -387,24 +898,44 @@
       const primary = account && account.primary_email ? account.primary_email : "Not loaded";
       const backup = account && account.backup_email ? account.backup_email : "Not loaded";
 
-      document.getElementById("welcomeTitle").textContent = "Welcome to Astraa Workspace, " + name + ".";
+      document.getElementById("welcomeTitle").textContent =
+        "Welcome to Astraa Workspace, " + name + ".";
+
       document.getElementById("planName").textContent = "Trial";
-      document.getElementById("planDescription").textContent = "Trial includes 15 total estimates over 15 days — 1 estimate per day.";
+
+      document.getElementById("planDescription").textContent =
+        "Trial includes 15 total estimates over 15 days — 1 estimate per day.";
 
       const remaining = Math.max(usage.totalLimit - usage.used, 0);
+
       document.getElementById("remainingCount").textContent = remaining;
       document.getElementById("dailyLimit").textContent = "1/day";
       document.getElementById("bonusStatus").textContent = "Eligible";
       document.getElementById("usageLabel").textContent = usage.used + " / " + usage.totalLimit;
 
-      const percent = Math.min((usage.used / usage.totalLimit) * 100, 100);
+      const percent = usage.totalLimit > 0
+        ? Math.min((usage.used / usage.totalLimit) * 100, 100)
+        : 0;
+
       document.getElementById("usageFill").style.width = percent + "%";
 
-      document.getElementById("savedEstimateCount").textContent = usage.savedEstimates.length + " saved locally";
-      document.getElementById("receiptCount").textContent = usage.receipts.length + " receipts stored locally";
-      document.getElementById("primaryEmailLine").textContent = "Primary email: " + primary;
-      document.getElementById("backupEmailLine").textContent = "Backup email: " + backup;
-      document.getElementById("businessLine").textContent = "Business: " + business;
+      document.getElementById("savedEstimateCount").textContent =
+        usage.savedEstimates.length + " saved locally";
+
+      document.getElementById("receiptCount").textContent =
+        usage.receipts.length + " receipts stored locally";
+
+      document.getElementById("expenseCount").textContent =
+        usage.expenses.length + " expenses stored locally";
+
+      document.getElementById("primaryEmailLine").textContent =
+        "Primary email: " + primary;
+
+      document.getElementById("backupEmailLine").textContent =
+        "Backup email: " + backup;
+
+      document.getElementById("businessLine").textContent =
+        "Business: " + business;
     }
 
     function todayKey() {
@@ -412,7 +943,10 @@
     }
 
     function canRunEstimateToday() {
-      if (!usage.lastEstimateDate) return true;
+      if (!usage.lastEstimateDate) {
+        return true;
+      }
+
       return usage.lastEstimateDate !== todayKey();
     }
 
@@ -425,14 +959,16 @@
 
       if (usage.used >= usage.totalLimit) {
         result.className = "estimate-result error";
-        result.textContent = "Trial estimate limit reached. Upgrade to Basic or Professional to continue using Astraa.";
+        result.textContent =
+          "Trial estimate limit reached. Upgrade to Basic or Professional to continue using Astraa.";
         result.style.display = "block";
         return;
       }
 
       if (!canRunEstimateToday()) {
         result.className = "estimate-result error";
-        result.textContent = "Daily trial limit reached. Trial allows 1 estimate per day.";
+        result.textContent =
+          "Daily trial limit reached. Trial allows 1 estimate per day.";
         result.style.display = "block";
         return;
       }
@@ -447,13 +983,14 @@
 
       usage.used += 1;
       usage.lastEstimateDate = todayKey();
+
       usage.savedEstimates.push({
         created_at: new Date().toISOString(),
-        sqft,
-        material,
-        labor,
-        complexity,
-        estimate
+        sqft: sqft,
+        material: material,
+        labor: labor,
+        complexity: complexity,
+        estimate: estimate
       });
 
       sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
@@ -463,6 +1000,7 @@
         "Workspace estimate created.\n\nEstimated baseline: " +
         formatCurrency(estimate) +
         "\n\nThis estimate was saved locally in your trial workspace preview.";
+
       result.style.display = "block";
 
       renderPortal();
@@ -476,13 +1014,14 @@
       if (!name || amount <= 0) {
         status.className = "status error";
         status.textContent = "Enter an expense name and a valid amount.";
+        status.style.display = "block";
         return;
       }
 
       usage.expenses.push({
         created_at: new Date().toISOString(),
-        name,
-        amount
+        name: name,
+        amount: amount
       });
 
       sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
@@ -491,6 +1030,13 @@
       status.textContent =
         "Expense added locally: " + name + " — " + formatCurrency(amount) +
         "\n\nProfessional will include fuller expense tracking.";
+
+      status.style.display = "block";
+
+      document.getElementById("expenseName").value = "";
+      document.getElementById("expenseAmount").value = "";
+
+      renderPortal();
     }
 
     function resetLocalUsage() {

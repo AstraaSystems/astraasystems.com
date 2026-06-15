@@ -4,15 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Astraa Systems — Contact</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+  <title>Astraa Systems — Contact & Custom Packages</title>
 
   <style>
     :root {
-      --navy: #0f172a;
-      --navy-soft: #1e293b;
+      --navy: #0b1220;
+      --navy-soft: #162033;
       --blue: #2563eb;
       --blue-hover: #1d4ed8;
-      --cyan: #06b6d4;
+      --cyan: #22d3ee;
+      --violet: #8b5cf6;
+      --magenta: #ec4899;
       --white: #ffffff;
       --soft-bg: #f8fafc;
       --soft-blue: #eff6ff;
@@ -21,12 +24,16 @@
       --muted: #64748b;
       --success: #16a34a;
       --danger: #dc2626;
-      --radius: 16px;
+      --warning: #f59e0b;
       --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
     }
 
     * {
       box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -49,44 +56,46 @@
 
     /* NAV */
     .nav {
-      background: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.94);
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
     }
 
     .nav-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 0;
+      padding: 16px 0;
+      gap: 20px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 1.2rem;
+      gap: 12px;
+      font-weight: 900;
+      font-size: 1.14rem;
       color: var(--navy);
+      letter-spacing: -0.02em;
     }
 
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, var(--blue), var(--cyan));
-      display: inline-block;
+    .brand img {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+      display: block;
     }
 
     .nav-links {
       display: flex;
-      gap: 24px;
+      gap: 20px;
       align-items: center;
-      font-size: 0.95rem;
+      flex-wrap: wrap;
       color: var(--text);
+      font-size: 0.95rem;
     }
 
     .nav-links a:hover {
@@ -94,67 +103,156 @@
     }
 
     .nav-cta {
-      background: var(--blue);
+      background: linear-gradient(135deg, var(--blue), var(--violet));
       color: white !important;
       padding: 10px 16px;
-      border-radius: 10px;
-      font-weight: 600;
+      border-radius: 11px;
+      font-weight: 800;
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.20);
     }
 
-    .nav-cta:hover {
-      background: var(--blue-hover);
+    /* BUTTONS */
+    .btn-row,
+    .action-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .btn-row.center {
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 13px 22px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      color: white;
+      box-shadow: 0 14px 34px rgba(37, 99, 235, 0.22);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.04);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--navy);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--blue);
+      color: var(--blue);
     }
 
     /* HERO */
     .hero {
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 30%),
-        radial-gradient(circle at top right, rgba(6, 182, 212, 0.10), transparent 30%),
-        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      text-align: center;
       padding: 86px 0 64px;
       border-bottom: 1px solid var(--border);
-      text-align: center;
+      background:
+        radial-gradient(circle at top left, rgba(34,211,238,0.14), transparent 26%),
+        radial-gradient(circle at 76% 12%, rgba(139,92,246,0.13), transparent 26%),
+        radial-gradient(circle at 88% 36%, rgba(236,72,153,0.09), transparent 20%),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+
+    .hero-logo {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 24px;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--soft-blue);
+      background: white;
       color: var(--blue);
       border: 1px solid #bfdbfe;
       padding: 8px 14px;
       border-radius: 999px;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 0.9rem;
       margin-bottom: 22px;
+      box-shadow: 0 10px 24px rgba(37,99,235,0.06);
     }
 
     .hero h1 {
-      font-size: clamp(2.4rem, 5vw, 4.3rem);
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
       line-height: 1.08;
       margin: 0;
       letter-spacing: -0.05em;
       color: var(--navy);
     }
 
+    .hero-brand-line {
+      font-size: clamp(1.08rem, 2vw, 1.32rem);
+      font-weight: 900;
+      color: var(--navy-soft);
+      margin-top: 16px;
+      letter-spacing: -0.02em;
+    }
+
     .hero p {
-      max-width: 800px;
+      max-width: 920px;
       margin: 24px auto 0;
       color: var(--text);
-      font-size: 1.15rem;
+      font-size: 1.12rem;
     }
 
-    /* MAIN */
-    .contact-section {
+    .brand-note {
+      max-width: 900px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    section {
       padding: 78px 0;
-      background: var(--soft-bg);
     }
 
-    .contact-grid {
+    .section-header {
+      text-align: center;
+      max-width: 880px;
+      margin: 0 auto 42px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.12;
+      margin: 0;
+      letter-spacing: -0.04em;
+    }
+
+    .section-header p {
+      color: var(--muted);
+      margin-top: 16px;
+      font-size: 1.05rem;
+    }
+
+    /* CONTACT LAYOUT */
+    .contact-layout {
       display: grid;
       grid-template-columns: 0.9fr 1.1fr;
-      gap: 32px;
+      gap: 28px;
       align-items: start;
     }
 
@@ -162,93 +260,68 @@
     .form-card {
       background: white;
       border: 1px solid var(--border);
-      border-radius: 22px;
+      border-radius: 24px;
+      padding: 32px;
       box-shadow: var(--shadow);
-      padding: 34px;
     }
 
     .info-card h2,
     .form-card h2 {
       margin: 0;
-      font-size: 1.8rem;
+      font-size: 1.7rem;
       letter-spacing: -0.03em;
     }
 
     .info-card p,
     .form-card p {
       color: var(--muted);
-      margin-top: 12px;
     }
 
-    .contact-methods {
-      margin-top: 28px;
-      display: grid;
-      gap: 16px;
-    }
-
-    .method {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      background: var(--soft-bg);
-    }
-
-    .method h3 {
-      margin: 0 0 6px;
-      font-size: 1.05rem;
-    }
-
-    .method p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
-    .method a {
-      color: var(--blue);
-      font-weight: 700;
-    }
-
-    .scope-box {
-      margin-top: 28px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 22px;
-      background: linear-gradient(180deg, #ffffff, #f8fafc);
-    }
-
-    .scope-box h3 {
-      margin: 0 0 12px;
-      font-size: 1.18rem;
-    }
-
-    .scope-list {
-      padding: 0;
-      margin: 0;
+    .info-list {
       list-style: none;
+      padding: 0;
+      margin: 22px 0 0;
     }
 
-    .scope-list li {
-      margin: 10px 0;
+    .info-list li {
+      margin: 13px 0;
       color: var(--text);
       display: flex;
       gap: 10px;
       align-items: flex-start;
     }
 
-    .scope-list li::before {
+    .info-list li::before {
       content: "✓";
       color: var(--success);
       font-weight: 900;
       flex: 0 0 auto;
     }
 
+    .contact-direct {
+      margin-top: 24px;
+      background: var(--soft-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .contact-direct strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .contact-direct a {
+      color: var(--blue);
+      font-weight: 900;
+    }
+
     /* FORM */
     label {
       display: block;
-      margin-top: 20px;
+      margin-top: 18px;
       margin-bottom: 8px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--navy);
     }
 
@@ -256,17 +329,17 @@
     select,
     textarea {
       width: 100%;
-      padding: 14px;
+      padding: 13px 14px;
       border: 1px solid var(--border);
       border-radius: 12px;
       font-size: 1rem;
-      color: var(--navy);
       background: white;
-      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--navy);
+      font-family: inherit;
     }
 
     textarea {
-      min-height: 150px;
+      min-height: 130px;
       resize: vertical;
     }
 
@@ -278,56 +351,43 @@
       box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
     }
 
-    .two-col {
+    .form-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
     }
 
-    button,
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px 22px;
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .check-option {
+      border: 1px solid var(--border);
+      background: var(--soft-bg);
       border-radius: 12px;
-      border: 1px solid transparent;
-      font-weight: 800;
-      cursor: pointer;
-      transition: 0.2s ease;
-      font-size: 1rem;
-      text-align: center;
-      text-decoration: none;
+      padding: 11px 12px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.93rem;
     }
 
-    .btn-primary {
-      background: var(--blue);
-      color: white;
-      width: 100%;
-      margin-top: 24px;
-    }
-
-    .btn-primary:hover {
-      background: var(--blue-hover);
-    }
-
-    .btn-secondary {
-      background: white;
-      color: var(--navy);
-      border-color: var(--border);
-    }
-
-    .btn-secondary:hover {
-      color: var(--blue);
-      border-color: var(--blue);
+    .check-option input {
+      width: auto;
+      margin: 0;
     }
 
     .status {
       margin-top: 18px;
-      background: var(--soft-bg);
-      border: 1px solid var(--border);
+      padding: 15px;
       border-radius: 14px;
-      padding: 14px;
+      border: 1px solid var(--border);
+      background: var(--soft-bg);
       color: var(--text);
       white-space: pre-wrap;
       display: none;
@@ -347,92 +407,95 @@
       border-color: #fecaca;
     }
 
-    .small-note {
+    .prepared-box {
       margin-top: 18px;
-      color: var(--muted);
-      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px;
+      color: var(--text);
+      white-space: pre-wrap;
+      display: none;
+      font-size: 0.95rem;
     }
 
-    /* FAQ STRIP */
-    .faq-strip {
-      padding: 72px 0;
-      background: white;
+    .prepared-box.visible {
+      display: block;
     }
 
-    .section-header {
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto 42px;
+    /* PACKAGES */
+    .packages {
+      background: var(--soft-bg);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
     }
 
-    .section-header h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.15;
-      margin: 0;
-      letter-spacing: -0.035em;
-    }
-
-    .section-header p {
-      color: var(--muted);
-      margin-top: 16px;
-      font-size: 1.05rem;
-    }
-
-    .faq-grid {
+    .package-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 22px;
     }
 
-    .faq-item {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 24px;
+    .package-card {
       background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 28px;
       box-shadow: 0 8px 28px rgba(15,23,42,0.04);
     }
 
-    .faq-item h3 {
-      margin: 0 0 10px;
-      font-size: 1.15rem;
+    .package-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.25rem;
     }
 
-    .faq-item p {
+    .package-card p {
+      margin: 0;
       color: var(--muted);
-      margin: 0;
     }
 
-    /* CTA */
-    .final-cta {
-      text-align: center;
-      background: linear-gradient(135deg, #eff6ff, #ffffff);
-      padding: 76px 0;
-      border-top: 1px solid var(--border);
+    /* TRUST */
+    .trust {
+      background: var(--navy);
+      color: white;
+      position: relative;
+      overflow: hidden;
     }
 
-    .final-cta h2 {
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      margin: 0;
-      letter-spacing: -0.04em;
+    .trust::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(34,211,238,0.14), transparent 20%),
+        radial-gradient(circle at 80% 20%, rgba(139,92,246,0.16), transparent 22%),
+        radial-gradient(circle at 80% 70%, rgba(236,72,153,0.12), transparent 22%);
     }
 
-    .final-cta p {
-      max-width: 720px;
-      margin: 18px auto 0;
-      color: var(--text);
-      font-size: 1.08rem;
+    .trust .container {
+      position: relative;
+      z-index: 1;
     }
 
-    .btn-row {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 28px;
+    .trust .section-header p {
+      color: #cbd5e1;
     }
 
-    .btn-row .btn {
-      min-width: 180px;
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .trust-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 20px;
+      padding: 26px;
+    }
+
+    .trust-card p {
+      color: #cbd5e1;
     }
 
     footer {
@@ -450,15 +513,35 @@
       flex-wrap: wrap;
     }
 
-    @media (max-width: 960px) {
-      .contact-grid,
-      .two-col,
-      .faq-grid {
+    .footer-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a:hover {
+      color: var(--blue);
+    }
+
+    @media (max-width: 980px) {
+      .contact-layout,
+      .package-grid,
+      .trust-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid,
+      .checkbox-grid {
         grid-template-columns: 1fr;
       }
 
       .nav-links {
         display: none;
+      }
+
+      .hero-logo {
+        width: 112px;
+        height: 112px;
       }
     }
   </style>
@@ -470,16 +553,18 @@
   <nav class="nav">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
-        <span class="brand-mark"></span>
+        <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
         Astraa Systems
       </a>
 
       <div class="nav-links">
-        <a href="index.html#estimator">Estimator</a>
+        <a href="index.html">Home</a>
+        <a href="engines.html">Tools</a>
         <a href="pricing.html">Pricing</a>
-        <a href="engines.html">Engines</a>
-        <a href="contact.html">Contact</a>
-        <a class="nav-cta" href="pricing.html">View Plans</a>
+        <a href="customer-portal.html">Workspace</a>
+        <a href="contact.html">Custom Packages</a>
+        <a href="login.html">Login</a>
+        <a class="nav-cta" href="register.html">Start Trial</a>
       </div>
     </div>
   </nav>
@@ -487,177 +572,303 @@
   <!-- HERO -->
   <header class="hero">
     <div class="container">
-      <div class="badge">Custom builds, support, and business inquiries</div>
+      <img class="hero-logo" src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
 
-      <h1>Let’s build the right Astraa system for your business.</h1>
+      <div class="badge">Contact & custom packages</div>
+
+      <h1>Tell us what your business needs.</h1>
+
+      <div class="hero-brand-line">
+        One workspace. Connected tools. Smarter growth.
+      </div>
 
       <p>
-        Use this page to request a custom build, ask about hosted plans, or contact Astraa about business workflow,
-        estimation, finance, commerce, data, or automation needs.
+        Use this page to ask about Astraa tools, custom packages, business workflows,
+        pricing, trial access, or a tailored Astraa system for your company.
       </p>
+
+      <div class="brand-note">
+        Astraa is built for businesses of all sizes — construction, services, operations, commerce,
+        startups, and teams that need clearer workflows.
+      </div>
     </div>
   </header>
 
   <!-- CONTACT -->
-  <section class="contact-section">
-    <div class="container contact-grid">
+  <section>
+    <div class="container contact-layout">
 
       <!-- INFO -->
       <aside class="info-card">
-        <h2>Contact Astraa</h2>
+        <h2>How Astraa can help</h2>
+
         <p>
-          Astraa supports both self-serve hosted tools and custom workflow builds. If you need a tailored estimator,
-          business workflow, or custom system, share the details here.
+          Astraa Systems builds connected business tools that help companies estimate costs,
+          track expenses, organize records, manage workflows, and grow through one workspace.
         </p>
 
-        <div class="contact-methods">
-          <div class="method">
-            <h3>Email</h3>
-            <p>
-              For now, inquiries can be sent directly to:
-              <br>
-              <a href="mailto:contact@astraasystems.com">contact@astraasystems.com</a>
-            </p>
-          </div>
+        <ul class="info-list">
+          <li>Ask about a single Astraa tool</li>
+          <li>Request a custom package</li>
+          <li>Discuss pricing or add-ons</li>
+          <li>Request custom workflow design</li>
+          <li>Ask about Astraa Estimator</li>
+          <li>Explore multi-industry use cases</li>
+          <li>Start with one tool and grow later</li>
+        </ul>
 
-          <div class="method">
-            <h3>Self-serve plans</h3>
-            <p>
-              Basic and Professional are intended for customers who want hosted tool access without a sales call.
-            </p>
-          </div>
-
-          <div class="method">
-            <h3>Custom builds</h3>
-            <p>
-              Custom builds are scoped separately and may use contract, invoice, EFT, wire, cheque, or milestone billing.
-            </p>
-          </div>
+        <div class="contact-direct">
+          <strong>Direct contact fallback</strong>
+          If the form does not open your email client, send your inquiry directly to:
+          <br />
+          <a href="mailto:contact@astraasystems.com">contact@astraasystems.com</a>
         </div>
 
-        <div class="scope-box">
-          <h3>Good custom-build requests include</h3>
-          <ul class="scope-list">
-            <li>What type of business or trade you operate</li>
-            <li>What workflow or estimating problem you want solved</li>
-            <li>Whether you need a hosted tool or custom system</li>
-            <li>Any templates, reports, or calculations you already use</li>
-            <li>Expected timeline or urgency</li>
-          </ul>
+        <div class="contact-direct">
+          <strong>Recommended message style</strong>
+          Tell us your business type, what you are trying to improve, which tools you are interested in,
+          and whether you want a standalone tool, a Workspace add-on, or a custom package.
         </div>
       </aside>
 
       <!-- FORM -->
       <section class="form-card">
-        <h2>Send a request</h2>
+        <h2>Prepare your inquiry</h2>
+
         <p>
-          Complete the form below. It will prepare an email with your details so you can send it directly from your mailbox.
-          Later, we can wire this into backend lead storage.
+          This version prepares an email using your default email client. Later, this form can be connected to a backend lead-capture endpoint.
         </p>
 
-        <form id="contactForm" onsubmit="submitContact(event)">
-          <div class="two-col">
-            <div>
-              <label for="name">Name</label>
-              <input id="name" type="text" placeholder="Your name" required />
-            </div>
-
-            <div>
-              <label for="email">Email</label>
-              <input id="email" type="email" placeholder="you@example.com" required />
-            </div>
+        <div class="form-grid">
+          <div>
+            <label for="name">Full name</label>
+            <input id="name" type="text" placeholder="Your name" />
           </div>
 
-          <div class="two-col">
-            <div>
-              <label for="company">Company</label>
-              <input id="company" type="text" placeholder="Company name" />
-            </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="you@example.com" />
+          </div>
+        </div>
 
-            <div>
-              <label for="phone">Phone</label>
-              <input id="phone" type="text" placeholder="Optional" />
-            </div>
+        <div class="form-grid">
+          <div>
+            <label for="company">Company / business name</label>
+            <input id="company" type="text" placeholder="Business name" />
           </div>
 
-          <label for="requestType">Request type</label>
-          <select id="requestType" required>
-            <option value="Custom Build">Custom Build</option>
-            <option value="Estimator Question">Estimator Question</option>
-            <option value="Hosted Plan Question">Hosted Plan Question</option>
-            <option value="Operations Workflow">Operations Workflow</option>
-            <option value="Finance / Cost Workflow">Finance / Cost Workflow</option>
-            <option value="Commerce / Service Flow">Commerce / Service Flow</option>
-            <option value="Data / Reporting">Data / Reporting</option>
-            <option value="Support">Support</option>
-            <option value="Other">Other</option>
-          </select>
+          <div>
+            <label for="phone">Phone optional</label>
+            <input id="phone" type="text" placeholder="Optional" />
+          </div>
+        </div>
 
-          <label for="budget">Estimated budget range</label>
-          <select id="budget">
-            <option value="Not sure yet">Not sure yet</option>
-            <option value="Under $500">Under $500</option>
-            <option value="$500 - $1,500">$500 - $1,500</option>
-            <option value="$1,500 - $5,000">$1,500 - $5,000</option>
-            <option value="$5,000+">$5,000+</option>
-          </select>
+        <div class="form-grid">
+          <div>
+            <label for="industry">Business type / industry</label>
+            <select id="industry">
+              <option value="">Select one</option>
+              <option>Construction / contracting</option>
+              <option>Field services</option>
+              <option>Professional services</option>
+              <option>Retail / commerce</option>
+              <option>Operations / logistics</option>
+              <option>Startup / small business</option>
+              <option>Finance / administration</option>
+              <option>Other</option>
+            </select>
+          </div>
 
-          <label for="message">What do you need?</label>
-          <textarea id="message" placeholder="Tell us what you want Astraa to help with..." required></textarea>
+          <div>
+            <label for="requestType">Request type</label>
+            <select id="requestType">
+              <option value="">Select one</option>
+              <option>Single tool inquiry</option>
+              <option>Custom package inquiry</option>
+              <option>Astraa Estimator inquiry</option>
+              <option>Pricing / billing question</option>
+              <option>Trial / account help</option>
+              <option>Payment support</option>
+              <option>Partnership / referral</option>
+              <option>General question</option>
+            </select>
+          </div>
+        </div>
 
-          <button class="btn-primary" type="submit">Prepare Email</button>
+        <label>Tools you are interested in</label>
+        <div class="checkbox-grid">
+          <label class="check-option">
+            <input type="checkbox" value="Astraa Estimator" />
+            Astraa Estimator
+          </label>
 
-          <div id="status" class="status"></div>
+          <label class="check-option">
+            <input type="checkbox" value="Expense Tool" />
+            Expense Tool
+          </label>
 
-          <p class="small-note">
-            This form currently opens your email client using a prepared message. No card or payment information should be entered here.
-          </p>
-        </form>
+          <label class="check-option">
+            <input type="checkbox" value="Operations Tool" />
+            Operations Tool
+          </label>
+
+          <label class="check-option">
+            <input type="checkbox" value="Finance Tool" />
+            Finance Tool
+          </label>
+
+          <label class="check-option">
+            <input type="checkbox" value="Arkastra Commerce Tool" />
+            Arkastra Commerce
+          </label>
+
+          <label class="check-option">
+            <input type="checkbox" value="Data Workspace" />
+            Data Workspace
+          </label>
+
+          <label class="check-option">
+            <input type="checkbox" value="VSV Systems Intelligence" />
+            VSV Systems Intelligence
+          </label>
+
+          <label class="check-option">
+            <input type="checkbox" value="Custom Astraa Systems" />
+            Custom Astraa Systems
+          </label>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label for="packageType">Preferred path</label>
+            <select id="packageType">
+              <option value="">Select one</option>
+              <option>Standalone tool</option>
+              <option>Workspace add-on</option>
+              <option>Core plan</option>
+              <option>Custom package</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="budget">Budget range</label>
+            <select id="budget">
+              <option value="">Select one</option>
+              <option>Under $50/month</option>
+              <option>$50–$150/month</option>
+              <option>$150–$500/month</option>
+              <option>$500+/month</option>
+              <option>Custom setup budget</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="message">Tell us what you are trying to improve</label>
+        <textarea id="message" placeholder="Example: We need better estimating, expense tracking, and a cleaner way to manage project records."></textarea>
+
+        <div class="action-row">
+          <button class="btn btn-primary" onclick="prepareEmail()">Prepare Email</button>
+          <button class="btn btn-secondary" onclick="copyPreparedMessage()">Copy Message</button>
+          <a class="btn btn-secondary" href="pricing.html">View Pricing</a>
+        </div>
+
+        <div id="status" class="status"></div>
+        <div id="preparedMessage" class="prepared-box"></div>
       </section>
 
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section class="faq-strip">
+  <!-- PACKAGES -->
+  <section class="packages">
     <div class="container">
       <div class="section-header">
-        <h2>Which path should I choose?</h2>
+        <h2>Common custom package requests</h2>
         <p>
-          Use self-serve plans when you want hosted access. Use custom requests when you need Astraa adapted to your process.
+          These examples help customers understand what Astraa can package without making the website feel messy.
         </p>
       </div>
 
-      <div class="faq-grid">
-        <div class="faq-item">
-          <h3>Use Basic or Professional if...</h3>
-          <p>You want hosted Astraa Estimator access and do not need custom workflow logic.</p>
+      <div class="package-grid">
+        <div class="package-card">
+          <h3>Estimator + Expense Package</h3>
+          <p>
+            For businesses that need cost estimates, expense entries, and simple cost visibility in one workspace.
+          </p>
         </div>
 
-        <div class="faq-item">
-          <h3>Request Custom if...</h3>
-          <p>You need Astraa built around your trade, templates, reports, internal process, or pricing logic.</p>
+        <div class="package-card">
+          <h3>Operations Package</h3>
+          <p>
+            For teams that need workflow structure, task stages, approvals, handoffs, and organized records.
+          </p>
         </div>
 
-        <div class="faq-item">
-          <h3>Contact support if...</h3>
-          <p>You need help with access, billing questions, account setup, or product questions.</p>
+        <div class="package-card">
+          <h3>Commerce Package</h3>
+          <p>
+            For businesses that want service packages, quote flows, customer-ready offers, and payment path planning.
+          </p>
+        </div>
+
+        <div class="package-card">
+          <h3>Finance Visibility Package</h3>
+          <p>
+            For businesses that want cost summaries, expense visibility, and margin thinking support.
+          </p>
+        </div>
+
+        <div class="package-card">
+          <h3>Growth Workspace Package</h3>
+          <p>
+            For growing businesses that want estimating, expenses, records, and tool expansion inside one workspace.
+          </p>
+        </div>
+
+        <div class="package-card">
+          <h3>Custom Systems Package</h3>
+          <p>
+            For business-specific workflows, templates, dashboards, reporting, and possible integrations.
+          </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FINAL CTA -->
-  <section class="final-cta">
+  <!-- TRUST -->
+  <section class="trust">
     <div class="container">
-      <h2>Not sure where to start?</h2>
-      <p>
-        Start with the estimator, review pricing, or send a custom request. Astraa can begin as one hosted tool and grow into a tailored business system.
-      </p>
+      <div class="section-header">
+        <h2>Practical business tools with responsible technology.</h2>
+        <p>
+          Astraa is presented as a business tools company. Selected features may use AI-assisted technology
+          to support organization, summaries, estimates, and workflow clarity — while customers remain in control.
+        </p>
+      </div>
 
-      <div class="btn-row">
-        <a class="btn btn-secondary" href="index.html#estimator">Try Estimator</a>
-        <a class="btn btn-primary" href="pricing.html">View Pricing</a>
+      <div class="trust-grid">
+        <div class="trust-card">
+          <h3>Business tools first</h3>
+          <p>
+            Astraa focuses on estimating, expenses, workflows, records, commerce, data, and custom packages.
+          </p>
+        </div>
+
+        <div class="trust-card">
+          <h3>Transparent AI-assisted support</h3>
+          <p>
+            Where AI-assisted technology is used, Astraa explains it in trust, privacy, and terms language.
+          </p>
+        </div>
+
+        <div class="trust-card">
+          <h3>Customer judgment remains final</h3>
+          <p>
+            Astraa outputs are designed to support workflows. Customers review and approve final business decisions.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -666,54 +877,123 @@
   <footer>
     <div class="container footer-inner">
       <div>Astraa Systems © 2026</div>
-      <div>Secure hosted tools · Custom business systems · Burnaby, BC</div>
+
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="engines.html">Tools</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="register.html">Start Trial</a>
+        <a href="customer-portal.html">Workspace</a>
+      </div>
     </div>
   </footer>
 
   <script>
-    function submitContact(event) {
-      event.preventDefault();
+    const CONTACT_EMAIL = "contact@astraasystems.com";
 
+    function getSelectedTools() {
+      const checked = Array.from(document.querySelectorAll(".check-option input:checked"));
+      return checked.map(item => item.value);
+    }
+
+    function buildMessage() {
       const name = document.getElementById("name").value.trim();
       const email = document.getElementById("email").value.trim();
       const company = document.getElementById("company").value.trim();
       const phone = document.getElementById("phone").value.trim();
+      const industry = document.getElementById("industry").value;
       const requestType = document.getElementById("requestType").value;
+      const packageType = document.getElementById("packageType").value;
       const budget = document.getElementById("budget").value;
       const message = document.getElementById("message").value.trim();
+      const tools = getSelectedTools();
 
+      return {
+        name,
+        email,
+        company,
+        phone,
+        industry,
+        requestType,
+        packageType,
+        budget,
+        message,
+        tools,
+        body:
+`Astraa Systems Inquiry
+
+Name: ${name || "Not provided"}
+Email: ${email || "Not provided"}
+Company: ${company || "Not provided"}
+Phone: ${phone || "Not provided"}
+
+Business type / industry: ${industry || "Not provided"}
+Request type: ${requestType || "Not provided"}
+Preferred path: ${packageType || "Not provided"}
+Budget range: ${budget || "Not provided"}
+
+Tools of interest:
+${tools.length ? tools.map(tool => "- " + tool).join("\\n") : "- Not selected"}
+
+Message:
+${message || "Not provided"}
+
+---
+This inquiry was prepared from the Astraa Systems contact page.`
+      };
+    }
+
+    function setStatus(message, type) {
       const status = document.getElementById("status");
+      status.textContent = message;
+      status.className = "status";
 
-      if (!name || !email || !message) {
-        status.className = "status error";
-        status.textContent = "Please complete your name, email, and message.";
+      if (type === "success") {
+        status.classList.add("success");
+      }
+
+      if (type === "error") {
+        status.classList.add("error");
+      }
+    }
+
+    function prepareEmail() {
+      const data = buildMessage();
+
+      if (!data.name || !data.email || !data.message) {
+        setStatus("Please enter your name, email, and message before preparing the email.", "error");
         return;
       }
 
-      const subject = encodeURIComponent("Astraa Systems Inquiry — " + requestType);
+      const subject = encodeURIComponent("Astraa Systems Inquiry — " + (data.requestType || "General"));
+      const body = encodeURIComponent(data.body);
 
-      const body = encodeURIComponent(
-`Name: ${name}
-Email: ${email}
-Company: ${company || "Not provided"}
-Phone: ${phone || "Not provided"}
-Request Type: ${requestType}
-Estimated Budget: ${budget}
+      const mailto = "mailto:" + CONTACT_EMAIL + "?subject=" + subject + "&body=" + body;
 
-Message:
-${message}
+      document.getElementById("preparedMessage").textContent = data.body;
+      document.getElementById("preparedMessage").classList.add("visible");
 
----
-Sent from Astraa Systems contact page.`
+      setStatus(
+        "Prepared message created. Your email client should open. If it does not, use Copy Message and send it to " + CONTACT_EMAIL + ".",
+        "success"
       );
 
-      const mailtoUrl = `mailto:contact@astraasystems.com?subject=${subject}&body=${body}`;
+      window.location.href = mailto;
+    }
 
-      status.className = "status success";
-      status.textContent =
-        "Your email has been prepared. If your email client does not open automatically, send your request to contact@astraasystems.com.";
+    async function copyPreparedMessage() {
+      const data = buildMessage();
+      const box = document.getElementById("preparedMessage");
 
-      window.location.href = mailtoUrl;
+      box.textContent = data.body;
+      box.classList.add("visible");
+
+      try {
+        await navigator.clipboard.writeText(data.body);
+        setStatus("Message copied. Send it to " + CONTACT_EMAIL + ".", "success");
+      } catch (error) {
+        setStatus("Copy was not available in this browser. The prepared message is shown below for manual copy.", "error");
+      }
     }
   </script>
 

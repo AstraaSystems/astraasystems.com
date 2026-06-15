@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
   <title>Astraa Systems — Pricing</title>
 
   <style>
@@ -111,6 +112,94 @@
     @media(max-width:1120px){.pricing-grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:760px){.pricing-grid,.bonus-grid,.trust-grid{grid-template-columns:1fr}.pricing-card.highlight{transform:none}.nav-links{display:none}}
   </style>
+.engine-pricing-section {
+  background: #ffffff;
+  border-top: 1px solid var(--border);
+}
+
+.engine-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.engine-price-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 26px;
+  box-shadow: 0 8px 28px rgba(15,23,42,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.engine-price-card::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(34,211,238,0.14), rgba(139,92,246,0.06), transparent 70%);
+  pointer-events: none;
+}
+
+.engine-price-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.22rem;
+  letter-spacing: -0.02em;
+}
+
+.engine-price {
+  font-size: 1.65rem;
+  font-weight: 900;
+  color: var(--blue);
+  margin: 8px 0;
+  line-height: 1.1;
+}
+
+.engine-price span {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.engine-desc {
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+.engine-price-card ul {
+  padding: 0;
+  margin: 16px 0 0;
+  list-style: none;
+}
+
+.engine-price-card li {
+  margin: 9px 0;
+  color: var(--text);
+  display: flex;
+  gap: 8px;
+}
+
+.engine-price-card li::before {
+  content: "✓";
+  color: var(--success);
+  font-weight: 900;
+}
+
+@media (max-width: 1120px) {
+  .engine-pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .engine-pricing-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 </head>
 
 <body>
@@ -277,6 +366,116 @@
       </div>
     </div>
   </section>
+
+<section class="engine-pricing-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Astraa engine and tool pricing</h2>
+      <p>
+        Astraa starts with Estimator and Workspace, then expands through connected tools.
+        Trial users receive limited previews. Professional and Custom users can grow into additional engines as needed.
+      </p>
+    </div>
+
+    <div class="engine-pricing-grid">
+
+      <div class="engine-price-card">
+        <h3>Astraa Estimator</h3>
+        <p class="engine-price">Included</p>
+        <p class="engine-desc">Core estimating engine for Trial, Basic, Professional, and Custom users.</p>
+        <ul>
+          <li>Trial: 15 total estimates</li>
+          <li>Basic: 30/month</li>
+          <li>Professional: 120/month</li>
+          <li>Custom: scoped usage</li>
+        </ul>
+      </div>
+
+      <div class="engine-price-card">
+        <h3>Expense Tool</h3>
+        <p class="engine-price">Included by tier</p>
+        <p class="engine-desc">Expense visibility connected to estimating and workspace records.</p>
+        <ul>
+          <li>Trial: limited preview</li>
+          <li>Basic: Expense Tool Lite</li>
+          <li>Professional: fuller expense tracking</li>
+          <li>Custom: tailored expense workflow</li>
+        </ul>
+      </div>
+
+      <div class="engine-price-card">
+        <h3>Astraa Operations</h3>
+        <p class="engine-price">+$29 CAD <span>/ month</span></p>
+        <p class="engine-desc">Workflow, approvals, handoffs, and repeatable business process support.</p>
+        <ul>
+          <li>Trial: preview</li>
+          <li>Basic: preview only</li>
+          <li>Professional: limited preview</li>
+          <li>Custom: workflow build available</li>
+        </ul>
+      </div>
+
+      <div class="engine-price-card">
+        <h3>Astraa Finance</h3>
+        <p class="engine-price">+$29 CAD <span>/ month</span></p>
+        <p class="engine-desc">Margin thinking, cost summaries, expense intelligence, and financial visibility.</p>
+        <ul>
+          <li>Trial: preview</li>
+          <li>Basic: preview only</li>
+          <li>Professional: limited preview</li>
+          <li>Custom: tailored finance workflow</li>
+        </ul>
+      </div>
+
+      <div class="engine-price-card">
+        <h3>Arkastra Commerce</h3>
+        <p class="engine-price">+$39 CAD <span>/ month</span></p>
+        <p class="engine-desc">Service packages, quote flows, and transaction-ready business tools.</p>
+        <ul>
+          <li>Status: coming soon</li>
+          <li>Professional preview planned</li>
+          <li>Custom commerce workflows available later</li>
+        </ul>
+      </div>
+
+      <div class="engine-price-card">
+        <h3>Data Workspace</h3>
+        <p class="engine-price">+$19 CAD <span>/ month</span></p>
+        <p class="engine-desc">Project references, saved records, government/public data links, and reporting-ready structure.</p>
+        <ul>
+          <li>Trial: limited</li>
+          <li>Basic: basic workspace</li>
+          <li>Professional: fuller workspace</li>
+          <li>Custom: dedicated data structure</li>
+        </ul>
+      </div>
+
+      <div class="engine-price-card">
+        <h3>VSV Systems Intelligence</h3>
+        <p class="engine-price">Custom</p>
+        <p class="engine-desc">Public future system intelligence path for industrial, construction, or operational use cases.</p>
+        <ul>
+          <li>Status: future/custom</li>
+          <li>Scoped by business need</li>
+          <li>Not included in standard self-serve plans yet</li>
+        </ul>
+      </div>
+
+      <div class="engine-price-card">
+        <h3>Custom Astraa Systems</h3>
+        <p class="engine-price">Quote-based</p>
+        <p class="engine-desc">Custom workflows, templates, business rules, integrations, and reporting.</p>
+        <ul>
+          <li>From $1,500 CAD setup</li>
+          <li>Support/hosting typically from $199 CAD/month</li>
+          <li>Delivered through proposal or contract</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 
   <section class="bonus-section">
     <div class="container">

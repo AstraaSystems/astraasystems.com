@@ -4,27 +4,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Astraa Systems — Intelligent Business Tools</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+  <title>Astraa Systems — One workspace. Connected tools. Smarter growth.</title>
 
   <style>
     :root {
-      --navy: #0f172a;
-      --navy-soft: #1e293b;
+      --navy: #0b1220;
+      --navy-soft: #162033;
       --blue: #2563eb;
       --blue-hover: #1d4ed8;
-      --cyan: #06b6d4;
+      --cyan: #22d3ee;
+      --violet: #8b5cf6;
+      --magenta: #ec4899;
       --white: #ffffff;
       --soft-bg: #f8fafc;
+      --soft-blue: #eff6ff;
       --border: #e5e7eb;
       --text: #334155;
       --muted: #64748b;
       --success: #16a34a;
-      --radius: 16px;
+      --radius: 18px;
       --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      --glow: 0 0 32px rgba(34, 211, 238, 0.18), 0 0 48px rgba(139, 92, 246, 0.14), 0 0 64px rgba(236, 72, 153, 0.14);
     }
 
     * {
       box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -47,12 +56,12 @@
 
     /* NAV */
     .nav {
-      background: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.94);
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
     }
 
     .nav-inner {
@@ -65,18 +74,30 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 1.2rem;
+      gap: 12px;
+      font-weight: 900;
+      font-size: 1.15rem;
       color: var(--navy);
+      letter-spacing: -0.02em;
     }
 
     .brand-mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, var(--blue), var(--cyan));
-      display: inline-block;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background:
+        linear-gradient(135deg, rgba(34,211,238,1) 0%, rgba(37,99,235,1) 35%, rgba(139,92,246,1) 68%, rgba(236,72,153,1) 100%);
+      box-shadow: var(--glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.02));
     }
 
     .nav-links {
@@ -96,7 +117,8 @@
       color: white !important;
       padding: 10px 16px;
       border-radius: 10px;
-      font-weight: 700;
+      font-weight: 800;
+      box-shadow: 0 8px 22px rgba(37, 99, 235, 0.22);
     }
 
     .nav-cta:hover {
@@ -109,7 +131,7 @@
       gap: 14px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-top: 28px;
+      margin-top: 30px;
     }
 
     .btn {
@@ -117,7 +139,7 @@
       align-items: center;
       justify-content: center;
       padding: 13px 22px;
-      border-radius: 10px;
+      border-radius: 12px;
       border: 1px solid transparent;
       font-weight: 800;
       cursor: pointer;
@@ -125,12 +147,14 @@
     }
 
     .btn-primary {
-      background: var(--blue);
+      background: linear-gradient(135deg, var(--blue) 0%, var(--violet) 100%);
       color: white;
+      box-shadow: 0 14px 34px rgba(37, 99, 235, 0.22);
     }
 
     .btn-primary:hover {
-      background: var(--blue-hover);
+      transform: translateY(-1px);
+      filter: brightness(1.04);
     }
 
     .btn-secondary {
@@ -146,25 +170,30 @@
 
     /* HERO */
     .hero {
+      position: relative;
+      overflow: hidden;
       background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 30%),
-        radial-gradient(circle at top right, rgba(6, 182, 212, 0.10), transparent 30%),
+        radial-gradient(circle at top left, rgba(34,211,238,0.16), transparent 26%),
+        radial-gradient(circle at 75% 15%, rgba(139,92,246,0.14), transparent 26%),
+        radial-gradient(circle at 85% 30%, rgba(236,72,153,0.10), transparent 18%),
         linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-      padding: 90px 0 70px;
+      padding: 94px 0 78px;
       border-bottom: 1px solid var(--border);
     }
 
     .hero-content {
       text-align: center;
-      max-width: 940px;
+      max-width: 980px;
       margin: 0 auto;
+      position: relative;
+      z-index: 2;
     }
 
-    .badge {
+    .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: #eff6ff;
+      background: white;
       color: var(--blue);
       border: 1px solid #bfdbfe;
       padding: 8px 14px;
@@ -172,39 +201,82 @@
       font-weight: 800;
       font-size: 0.9rem;
       margin-bottom: 22px;
+      box-shadow: 0 10px 24px rgba(37,99,235,0.06);
+    }
+
+    .hero-logo {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 26px;
+      border-radius: 22px;
+      background:
+        linear-gradient(135deg, rgba(34,211,238,1) 0%, rgba(37,99,235,1) 35%, rgba(139,92,246,1) 68%, rgba(236,72,153,1) 100%);
+      box-shadow: var(--glow);
+      position: relative;
+      transform: rotate(0deg);
+    }
+
+    .hero-logo::before {
+      content: "A";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: white;
+      text-shadow: 0 0 18px rgba(255,255,255,0.18);
+      letter-spacing: -0.06em;
     }
 
     .hero h1 {
-      font-size: clamp(2.4rem, 6vw, 4.8rem);
-      line-height: 1.08;
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      line-height: 1.02;
       margin: 0;
-      letter-spacing: -0.05em;
+      letter-spacing: -0.06em;
       color: var(--navy);
     }
 
+    .hero .subhead {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      font-weight: 900;
+      color: var(--navy-soft);
+      margin-top: 16px;
+      letter-spacing: -0.02em;
+    }
+
     .hero p {
-      max-width: 760px;
-      margin: 24px auto 0;
+      max-width: 780px;
+      margin: 22px auto 0;
       color: var(--text);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
+    }
+
+    .hero-note {
+      max-width: 820px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 0.98rem;
     }
 
     /* SECTIONS */
     section {
-      padding: 80px 0;
+      padding: 84px 0;
     }
 
     .section-header {
       text-align: center;
-      max-width: 800px;
-      margin: 0 auto 42px;
+      max-width: 820px;
+      margin: 0 auto 44px;
     }
 
     .section-header h2 {
       font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.15;
+      line-height: 1.12;
       margin: 0;
-      letter-spacing: -0.035em;
+      letter-spacing: -0.04em;
+      color: var(--navy);
     }
 
     .section-header p {
@@ -213,15 +285,58 @@
       font-size: 1.05rem;
     }
 
+    /* VALUE STRIP */
+    .value-strip {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .value-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 26px;
+      box-shadow: 0 8px 28px rgba(15,23,42,0.04);
+    }
+
+    .value-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .value-card p {
+      color: var(--muted);
+      margin: 0;
+    }
+
     /* ESTIMATOR */
     .estimator-card {
-      max-width: 900px;
+      max-width: 920px;
       margin: 0 auto;
       background: white;
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 34px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .estimator-card::after {
+      content: "";
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(34,211,238,0.16), rgba(139,92,246,0.04), transparent 70%);
+      pointer-events: none;
     }
 
     .form-grid {
@@ -248,7 +363,7 @@
       width: 100%;
       padding: 13px 14px;
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 1rem;
       background: #ffffff;
       color: var(--navy);
@@ -264,20 +379,21 @@
       margin-top: 24px;
       background: var(--soft-bg);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 24px;
       display: none;
     }
 
     .estimate-result h3 {
       margin-top: 0;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
     }
 
     .result-number {
       font-size: 2rem;
       font-weight: 900;
       color: var(--blue);
+      margin-bottom: 8px;
     }
 
     /* PRICING PREVIEW */
@@ -296,14 +412,14 @@
     .card {
       background: white;
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: 20px;
       padding: 28px;
       box-shadow: 0 8px 28px rgba(15,23,42,0.05);
     }
 
     .card h3 {
       margin: 0 0 10px;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
     }
 
     .price {
@@ -311,12 +427,13 @@
       font-weight: 900;
       color: var(--navy);
       margin: 12px 0;
+      line-height: 1.08;
     }
 
     .price span {
       font-size: 0.95rem;
       color: var(--muted);
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .card p {
@@ -341,47 +458,69 @@
       margin-right: 8px;
     }
 
-    /* ENGINES */
-    .engine-grid {
+    /* ECOSYSTEM */
+    .ecosystem-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 22px;
     }
 
-    .engine-card {
+    .eco-card {
       background: white;
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: 20px;
       padding: 26px;
       transition: 0.2s ease;
+      box-shadow: 0 8px 28px rgba(15,23,42,0.04);
     }
 
-    .engine-card:hover {
+    .eco-card:hover {
       transform: translateY(-3px);
       box-shadow: var(--shadow);
     }
 
-    .engine-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--blue), var(--cyan));
+    .eco-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan), var(--violet), var(--magenta));
+      box-shadow: var(--glow);
       margin-bottom: 16px;
     }
 
-    .engine-card h3 {
-      margin: 0 0 10px;
+    .eco-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.16rem;
+      letter-spacing: -0.02em;
     }
 
-    .engine-card p {
+    .eco-card p {
       color: var(--muted);
       margin: 0;
     }
 
-    /* TRUST */
+    /* TRUST / DATA FLOW */
     .trust {
       background: var(--navy);
       color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trust::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(34,211,238,0.14), transparent 20%),
+        radial-gradient(circle at 80% 20%, rgba(139,92,246,0.16), transparent 22%),
+        radial-gradient(circle at 80% 70%, rgba(236,72,153,0.12), transparent 22%);
+      pointer-events: none;
+    }
+
+    .trust .section-header {
+      position: relative;
+      z-index: 1;
     }
 
     .trust .section-header p {
@@ -392,20 +531,26 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 22px;
+      position: relative;
+      z-index: 1;
     }
 
     .trust-card {
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.10);
-      border-radius: var(--radius);
+      border-radius: 20px;
       padding: 26px;
+    }
+
+    .trust-card h3 {
+      margin-top: 0;
     }
 
     .trust-card p {
       color: #cbd5e1;
     }
 
-    /* CTA */
+    /* FINAL CTA */
     .final-cta {
       text-align: center;
       background: linear-gradient(135deg, #eff6ff, #ffffff);
@@ -418,7 +563,7 @@
     }
 
     .final-cta p {
-      max-width: 740px;
+      max-width: 760px;
       margin: 18px auto 0;
       color: var(--text);
       font-size: 1.08rem;
@@ -449,9 +594,10 @@
       color: var(--blue);
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
+      .value-grid,
       .cards,
-      .engine-grid,
+      .ecosystem-grid,
       .trust-grid {
         grid-template-columns: 1fr;
       }
@@ -465,7 +611,7 @@
       }
 
       .hero {
-        padding-top: 70px;
+        padding-top: 72px;
       }
     }
   </style>
@@ -495,14 +641,22 @@
   <!-- HERO -->
   <header class="hero">
     <div class="container hero-content">
-      <div class="badge">Secure hosted tools for growing businesses</div>
+      <div class="hero-badge">Connected business tools for structured growth</div>
 
-      <h1>Run estimates, workflows, and business operations with clarity.</h1>
+      <div class="hero-logo"></div>
+
+      <h1>Astraa Systems</h1>
+      <div class="subhead">One workspace. Connected tools. Smarter growth.</div>
 
       <p>
-        Astraa Systems helps businesses simplify estimating, workflow decisions, finance visibility,
-        and custom automation through secure hosted tools and tailored business systems.
+        Astraa transforms individual workflows into a connected system—where estimating, data,
+        receipts, expense visibility, and future tools work together inside one professional workspace.
       </p>
+
+      <div class="hero-note">
+        Information collected through the website is structured to flow into the Astraa ecosystem,
+        supporting linear growth across workflows and expanding outward across tools, reports, and internal intelligence.
+      </div>
 
       <div class="btn-row">
         <a class="btn btn-primary" href="register.html">Start 15-Day Trial</a>
@@ -512,14 +666,35 @@
     </div>
   </header>
 
+  <!-- VALUE STRIP -->
+  <section class="value-strip">
+    <div class="container">
+      <div class="value-grid">
+        <div class="value-card">
+          <h3>One workspace</h3>
+          <p>Bring estimates, project references, receipts, and future tools together in a single Astraa workspace.</p>
+        </div>
+
+        <div class="value-card">
+          <h3>Connected tools</h3>
+          <p>Start with Estimator, then expand through finance, data, operations, and custom workflow systems when your needs grow.</p>
+        </div>
+
+        <div class="value-card">
+          <h3>Smarter growth</h3>
+          <p>Every interaction builds structure—feeding better visibility, better decisions, and stronger long-term system value.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ESTIMATOR -->
   <section id="estimator">
     <div class="container">
       <div class="section-header">
         <h2>Start with Astraa Estimator</h2>
         <p>
-          Generate a fast baseline estimate with confidence and risk indicators.
-          Use the hosted version, or request a tailored estimator built around your workflow.
+          Run one public estimate to see the workflow, then create an Astraa account to continue with trial access, saved history, and workspace features.
         </p>
       </div>
 
@@ -560,6 +735,7 @@
           <h3>Baseline Estimate</h3>
           <div id="estimateCost" class="result-number">$0</div>
           <p id="estimateDetails"></p>
+
           <div class="btn-row">
             <a class="btn btn-primary" href="register.html">Start 15-Day Trial</a>
             <a class="btn btn-secondary" href="contact.html">Request Custom Version</a>
@@ -573,10 +749,9 @@
   <section class="pricing-preview">
     <div class="container">
       <div class="section-header">
-        <h2>Simple plans. Room to grow.</h2>
+        <h2>Simple entry. Expand when you need more.</h2>
         <p>
-          Start with a controlled trial, choose a hosted estimator plan, then expand into professional tools
-          or a custom Astraa system when your workflow needs more.
+          Start with a controlled trial, move into Basic or Professional, and grow into a connected Astraa system over time.
         </p>
       </div>
 
@@ -584,7 +759,7 @@
         <div class="card">
           <h3>Trial</h3>
           <div class="price">$0 <span>/ 15 days</span></div>
-          <p>Professional-style trial access with controlled usage.</p>
+          <p>Professional-style preview with controlled usage.</p>
           <ul class="feature-list">
             <li>15 estimates total</li>
             <li>1 estimate per day</li>
@@ -598,7 +773,7 @@
           <div class="price">$39 CAD <span>/ month</span></div>
           <p>For very small teams, startups, and occasional estimating.</p>
           <ul class="feature-list">
-            <li>30 estimates per month</li>
+            <li>30 estimates / month</li>
             <li>Basic workspace</li>
             <li>Expense Tool Lite</li>
             <li>Email support</li>
@@ -608,9 +783,9 @@
         <div class="card">
           <h3>Professional</h3>
           <div class="price">$99 CAD <span>/ month</span></div>
-          <p>For active users who need stronger summaries, saved history, and more usage.</p>
+          <p>For active users who need stronger summaries, history, and tool previews.</p>
           <ul class="feature-list">
-            <li>120 estimates per month</li>
+            <li>120 estimates / month</li>
             <li>Professional summaries</li>
             <li>Expense tracking</li>
             <li>Engine previews</li>
@@ -625,53 +800,51 @@
     </div>
   </section>
 
-  <!-- ENGINES -->
+  <!-- ECOSYSTEM -->
   <section>
     <div class="container">
       <div class="section-header">
-        <h2>Start with estimating. Expand into a complete business system.</h2>
+        <h2>Built as an ecosystem, not a random collection of tools.</h2>
         <p>
-          Astraa Estimator is the first hosted tool in the Astraa platform.
-          As your needs grow, Astraa can support workflows across operations, finance,
-          commerce, data, and custom automation.
+          Astraa starts with practical value, then grows outward through connected tools, workspace memory, and structured business intelligence.
         </p>
       </div>
 
-      <div class="engine-grid">
-        <div class="engine-card">
-          <div class="engine-icon"></div>
-          <h3>Estimating</h3>
-          <p>Fast baseline estimates with confidence and risk output.</p>
+      <div class="ecosystem-grid">
+        <div class="eco-card">
+          <div class="eco-icon"></div>
+          <h3>Estimator</h3>
+          <p>Fast baseline estimates with confidence and risk output, structured inside one professional workspace.</p>
         </div>
 
-        <div class="engine-card">
-          <div class="engine-icon"></div>
+        <div class="eco-card">
+          <div class="eco-icon"></div>
+          <h3>Workspace</h3>
+          <p>Receipts, project references, saved estimates, and account intelligence all belong in one place.</p>
+        </div>
+
+        <div class="eco-card">
+          <div class="eco-icon"></div>
+          <h3>Finance & Expense</h3>
+          <p>Track expense visibility and connect estimating to smarter project and business decisions.</p>
+        </div>
+
+        <div class="eco-card">
+          <div class="eco-icon"></div>
           <h3>Operations</h3>
-          <p>Organize workflows, approvals, handoffs, and repeatable business steps.</p>
+          <p>Expand into workflow, approvals, handoffs, and repeatable business process support.</p>
         </div>
 
-        <div class="engine-card">
-          <div class="engine-icon"></div>
-          <h3>Finance</h3>
-          <p>Support cost visibility, expense tracking, margin thinking, and pricing decisions.</p>
-        </div>
-
-        <div class="engine-card">
-          <div class="engine-icon"></div>
-          <h3>Commerce</h3>
-          <p>Create structured service flows, quoting paths, and transaction-ready tools.</p>
-        </div>
-
-        <div class="engine-card">
-          <div class="engine-icon"></div>
+        <div class="eco-card">
+          <div class="eco-icon"></div>
           <h3>Data</h3>
-          <p>Keep project and business information structured for reporting and dashboards.</p>
+          <p>Build structured project memory through files, references, and reporting-ready records.</p>
         </div>
 
-        <div class="engine-card">
-          <div class="engine-icon"></div>
+        <div class="eco-card">
+          <div class="eco-icon"></div>
           <h3>Custom Systems</h3>
-          <p>Build tailored workflows around your company’s actual process.</p>
+          <p>Tailor Astraa around your workflow, templates, trade logic, and internal business process.</p>
         </div>
       </div>
 
@@ -682,30 +855,30 @@
     </div>
   </section>
 
-  <!-- TRUST -->
+  <!-- TRUST / DATA FLOW -->
   <section class="trust">
     <div class="container">
       <div class="section-header">
-        <h2>Built for trust from the first click.</h2>
+        <h2>Information becomes structure. Structure becomes growth.</h2>
         <p>
-          Astraa is designed to make business tools feel simple, professional, and secure.
+          Astraa is designed so website interactions, account activity, project references, and workspace data can be organized into a more useful ecosystem over time — supporting both clear workflows and expanding business intelligence.
         </p>
       </div>
 
       <div class="trust-grid">
         <div class="trust-card">
-          <h3>Secure checkout</h3>
-          <p>Self-serve subscriptions are designed to be processed through secure Moneris Checkout.</p>
+          <h3>Professional by design</h3>
+          <p>The website uses a clean white / navy foundation, while neon color is reserved for brand highlights, hero accents, icons, and meaningful moments of emphasis.</p>
         </div>
 
         <div class="trust-card">
-          <h3>Your data stays yours</h3>
-          <p>Astraa is built around clear data ownership and professional handling of business information.</p>
+          <h3>Structured data flow</h3>
+          <p>Information collected through the site is intended to support connected workflows, workspace memory, and more intelligent long-term system growth.</p>
         </div>
 
         <div class="trust-card">
-          <h3>Self-serve or custom</h3>
-          <p>Use standard hosted tools, or request a tailored build scoped around your workflow.</p>
+          <h3>Trusted growth path</h3>
+          <p>Astraa separates public products, private systems, and hidden internal reporting layers so customers experience clarity while the deeper ecosystem stays protected.</p>
         </div>
       </div>
     </div>
@@ -714,9 +887,9 @@
   <!-- FINAL CTA -->
   <section class="final-cta">
     <div class="container">
-      <h2>Start simple. Expand when you’re ready.</h2>
+      <h2>Enter the workspace. Grow through connected tools.</h2>
       <p>
-        Use Astraa Estimator as a hosted tool, start a controlled trial, or work with Astraa to build a custom workflow system for your business.
+        Use Astraa Estimator as your first step, then expand into workspace tools, structured data, and custom systems as your business grows.
       </p>
 
       <div class="btn-row">
@@ -731,6 +904,7 @@
   <footer>
     <div class="container footer-inner">
       <div>Astraa Systems © 2026</div>
+
       <div class="footer-links">
         <a href="login.html">Login</a>
         <a href="register.html">Start Trial</a>
@@ -747,15 +921,15 @@
     function runEstimate() {
       const alreadyUsed = sessionStorage.getItem("astraa_public_estimate_used");
 
-      if (alreadyUsed === "true") {
-        const resultBox = document.getElementById("estimateResult");
-        const costBox = document.getElementById("estimateCost");
-        const detailsBox = document.getElementById("estimateDetails");
+      const resultBox = document.getElementById("estimateResult");
+      const costBox = document.getElementById("estimateCost");
+      const detailsBox = document.getElementById("estimateDetails");
 
+      if (alreadyUsed === "true") {
         costBox.textContent = "Free estimate used";
 
         detailsBox.textContent =
-          "You have already used your public free estimate on this browser. Create an Astraa trial account to continue with 15 total estimates over 15 days.";
+          "You have already used your public free estimate on this browser. Create an Astraa trial account to continue with 15 total estimates over 15 days, workspace access, and connected tool previews.";
 
         resultBox.style.display = "block";
         resultBox.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -769,10 +943,6 @@
 
       const baseRate = 400;
       const estimate = sqft * baseRate * material * labor * complexity;
-
-      const resultBox = document.getElementById("estimateResult");
-      const costBox = document.getElementById("estimateCost");
-      const detailsBox = document.getElementById("estimateDetails");
 
       costBox.textContent = formatCurrency(estimate);
 

@@ -8,457 +8,99 @@
 
   <style>
     :root {
-      --navy: #0f172a;
-      --navy-soft: #1e293b;
-      --blue: #2563eb;
-      --blue-hover: #1d4ed8;
-      --cyan: #06b6d4;
-      --white: #ffffff;
-      --soft-bg: #f8fafc;
-      --soft-blue: #eff6ff;
-      --border: #e5e7eb;
-      --text: #334155;
-      --muted: #64748b;
-      --success: #16a34a;
-      --warning: #f59e0b;
-      --danger: #dc2626;
-      --radius: 16px;
-      --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      --navy:#0b1220;
+      --navy-soft:#162033;
+      --blue:#2563eb;
+      --blue-hover:#1d4ed8;
+      --cyan:#22d3ee;
+      --violet:#8b5cf6;
+      --magenta:#ec4899;
+      --white:#ffffff;
+      --soft-bg:#f8fafc;
+      --soft-blue:#eff6ff;
+      --border:#e5e7eb;
+      --text:#334155;
+      --muted:#64748b;
+      --success:#16a34a;
+      --danger:#dc2626;
+      --warning:#f59e0b;
+      --shadow:0 20px 50px rgba(15,23,42,0.08);
+      --glow:0 0 32px rgba(34,211,238,0.18),0 0 48px rgba(139,92,246,0.14),0 0 64px rgba(236,72,153,0.14);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at top left,rgba(34,211,238,.08),transparent 28%),radial-gradient(circle at top right,rgba(139,92,246,.08),transparent 24%),linear-gradient(180deg,#fff 0%,#f8fafc 42%,#f8fafc 100%);color:var(--navy);line-height:1.6}
+    a{text-decoration:none;color:inherit}
+    .container{width:min(1220px,92%);margin:0 auto}
 
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: var(--soft-bg);
-      color: var(--navy);
-      line-height: 1.6;
-    }
+    .nav{background:rgba(255,255,255,.94);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:1.15rem;color:var(--navy)}
+    .brand-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),var(--blue),var(--violet),var(--magenta));box-shadow:var(--glow);position:relative;overflow:hidden}
+    .brand-mark:after{content:"";position:absolute;inset:3px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.02))}
+    .nav-links{display:flex;gap:24px;align-items:center;font-size:.95rem;color:var(--text)}
+    .nav-links a:hover{color:var(--blue)}
+    .nav-cta{background:linear-gradient(135deg,var(--blue),var(--violet));color:white!important;padding:10px 16px;border-radius:10px;font-weight:800;box-shadow:0 12px 30px rgba(37,99,235,.22)}
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+    .portal{padding:46px 0 80px}
 
-    .container {
-      width: min(1220px, 92%);
-      margin: 0 auto;
-    }
+    .welcome-card{background:radial-gradient(circle at top left,rgba(34,211,238,.18),transparent 28%),radial-gradient(circle at 80% 20%,rgba(139,92,246,.16),transparent 28%),radial-gradient(circle at 90% 70%,rgba(236,72,153,.10),transparent 24%),linear-gradient(135deg,#fff 0%,#eff6ff 100%);border:1px solid #dbeafe;border-radius:26px;box-shadow:var(--shadow);padding:38px;margin-bottom:28px}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:white;color:var(--blue);border:1px solid #bfdbfe;padding:8px 14px;border-radius:999px;font-weight:900;font-size:.88rem;margin-bottom:18px;box-shadow:0 10px 24px rgba(37,99,235,.06)}
+    .workspace-logo{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,var(--cyan),var(--blue),var(--violet),var(--magenta));box-shadow:var(--glow);position:relative;margin-bottom:22px}
+    .workspace-logo:before{content:"A";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:900;color:white;letter-spacing:-.06em}
+    .welcome-card h1{margin:0;font-size:clamp(2.1rem,5vw,3.8rem);line-height:1.08;letter-spacing:-.05em}
+    .workspace-subhead{font-size:clamp(1.05rem,2vw,1.25rem);font-weight:900;color:var(--navy-soft);margin-top:14px;letter-spacing:-.02em}
+    .welcome-card p{color:var(--text);max-width:900px;font-size:1.08rem;margin:18px 0 0}
+    .workspace-data-note{max-width:920px;margin-top:18px;color:var(--muted);font-size:.98rem}
 
-    .nav {
-      background: rgba(255,255,255,0.95);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-    }
+    .grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:26px;align-items:start}
+    .card{background:white;border:1px solid var(--border);border-radius:22px;box-shadow:0 8px 28px rgba(15,23,42,.05);padding:28px;margin-bottom:26px}
+    .card h2{margin:0;font-size:1.55rem;letter-spacing:-.03em;color:var(--navy)}
+    .card p{color:var(--muted)}
 
-    .nav-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px 0;
-    }
+    .metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px}
+    .metric,.workspace-item,.engine{border:1px solid var(--border);border-radius:16px;padding:18px;background:var(--soft-bg);transition:.2s ease}
+    .metric:hover,.workspace-item:hover,.engine:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(15,23,42,.06)}
+    .metric-label{color:var(--muted);font-size:.9rem;font-weight:800}
+    .metric-value{font-size:1.7rem;font-weight:900;margin-top:4px;color:var(--navy)}
+    .metric-value.blue{background:linear-gradient(135deg,var(--blue),var(--violet));-webkit-background-clip:text;color:transparent}
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 1.2rem;
-      color: var(--navy);
-    }
+    .progress-wrap{margin-top:18px}
+    .progress-label{display:flex;justify-content:space-between;color:var(--muted);font-weight:800;font-size:.92rem;margin-bottom:8px}
+    .progress-bar{height:12px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+    .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--cyan),var(--violet));border-radius:999px;transition:width .4s ease}
 
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, var(--blue), var(--cyan));
-      display: inline-block;
-    }
+    .list{list-style:none;padding:0;margin:18px 0 0}
+    .list li{margin:12px 0;color:var(--text);display:flex;gap:10px;align-items:flex-start}
+    .list li:before{content:"✓";color:var(--success);font-weight:900;flex:0 0 auto}
 
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-      font-size: 0.95rem;
-      color: var(--text);
-    }
+    .engine-grid,.workspace-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px}
+    .engine{background:white}
+    .engine h3,.workspace-item h3{margin:0 0 6px;font-size:1.08rem}
+    .engine p,.workspace-item p{margin:0;color:var(--muted);font-size:.94rem}
+    .engine-tag{display:inline-flex;margin-top:12px;padding:6px 10px;border-radius:999px;font-size:.78rem;font-weight:900}
+    .tag-active{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+    .tag-preview{background:#eff6ff;color:var(--blue);border:1px solid #bfdbfe}
+    .tag-coming{background:#f8fafc;color:var(--muted);border:1px solid var(--border)}
 
-    .nav-links a:hover {
-      color: var(--blue);
-    }
+    .action-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 18px;border-radius:12px;border:1px solid transparent;font-weight:900;cursor:pointer;transition:.2s ease;font-size:.98rem;text-align:center}
+    .btn-primary{background:linear-gradient(135deg,var(--blue),var(--violet));color:white;box-shadow:0 12px 30px rgba(37,99,235,.22)}
+    .btn-primary:hover{filter:brightness(1.04)}
+    .btn-secondary{background:white;color:var(--navy);border-color:var(--border)}
+    .btn-secondary:hover{color:var(--blue);border-color:var(--blue)}
 
-    .nav-cta {
-      background: var(--blue);
-      color: white !important;
-      padding: 10px 16px;
-      border-radius: 10px;
-      font-weight: 700;
-    }
+    input,textarea{width:100%;padding:13px;border:1px solid var(--border);border-radius:12px;font-size:1rem;color:var(--navy);background:white;font-family:inherit}
+    textarea{min-height:100px;resize:vertical}
+    label{display:block;margin-top:16px;margin-bottom:8px;font-weight:900}
+    .estimate-result,.status{margin-top:16px;padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--soft-bg);color:var(--text);white-space:pre-wrap;display:none}
+    .status.success,.estimate-result.success{display:block;background:#f0fdf4;color:#166534;border-color:#bbf7d0}
+    .status.error,.estimate-result.error{display:block;background:#fef2f2;color:#991b1b;border-color:#fecaca}
 
-    .nav-cta:hover {
-      background: var(--blue-hover);
-    }
+    footer{padding:34px 0;border-top:1px solid var(--border);color:var(--muted);font-size:.92rem;background:white}
+    .footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 
-    .portal {
-      padding: 46px 0 80px;
-    }
-
-    .welcome-card {
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 32%),
-        linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
-      border: 1px solid var(--border);
-      border-radius: 26px;
-      box-shadow: var(--shadow);
-      padding: 38px;
-      margin-bottom: 28px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--soft-blue);
-      color: var(--blue);
-      border: 1px solid #bfdbfe;
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-weight: 800;
-      font-size: 0.88rem;
-      margin-bottom: 18px;
-    }
-
-    .welcome-card h1 {
-      margin: 0;
-      font-size: clamp(2.1rem, 5vw, 3.8rem);
-      line-height: 1.08;
-      letter-spacing: -0.05em;
-    }
-
-    .welcome-card p {
-      color: var(--text);
-      max-width: 820px;
-      font-size: 1.08rem;
-      margin: 18px 0 0;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 0.95fr 1.05fr;
-      gap: 26px;
-      align-items: start;
-    }
-
-    .card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      box-shadow: 0 8px 28px rgba(15,23,42,0.05);
-      padding: 28px;
-      margin-bottom: 26px;
-    }
-
-    .card h2 {
-      margin: 0;
-      font-size: 1.55rem;
-      letter-spacing: -0.03em;
-    }
-
-    .card p {
-      color: var(--muted);
-    }
-
-    .metric-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      margin-top: 20px;
-    }
-
-    .metric {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      background: var(--soft-bg);
-    }
-
-    .metric-label {
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
-
-    .metric-value {
-      font-size: 1.7rem;
-      font-weight: 900;
-      margin-top: 4px;
-      color: var(--navy);
-    }
-
-    .metric-value.blue {
-      color: var(--blue);
-    }
-
-    .progress-wrap {
-      margin-top: 18px;
-    }
-
-    .progress-label {
-      display: flex;
-      justify-content: space-between;
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 0.92rem;
-      margin-bottom: 8px;
-    }
-
-    .progress-bar {
-      height: 12px;
-      background: #e2e8f0;
-      border-radius: 999px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--blue), var(--cyan));
-      border-radius: 999px;
-      transition: width 0.4s ease;
-    }
-
-    .list {
-      list-style: none;
-      padding: 0;
-      margin: 18px 0 0;
-    }
-
-    .list li {
-      margin: 12px 0;
-      color: var(--text);
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-    }
-
-    .list li::before {
-      content: "✓";
-      color: var(--success);
-      font-weight: 900;
-      flex: 0 0 auto;
-    }
-
-    .engine-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      margin-top: 20px;
-    }
-
-    .engine {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      background: white;
-    }
-
-    .engine h3 {
-      margin: 0 0 6px;
-      font-size: 1.08rem;
-    }
-
-    .engine p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    .engine-tag {
-      display: inline-flex;
-      margin-top: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 900;
-    }
-
-    .tag-active {
-      background: #dcfce7;
-      color: #166534;
-      border: 1px solid #bbf7d0;
-    }
-
-    .tag-preview {
-      background: #eff6ff;
-      color: var(--blue);
-      border: 1px solid #bfdbfe;
-    }
-
-    .tag-coming {
-      background: #f8fafc;
-      color: var(--muted);
-      border: 1px solid var(--border);
-    }
-
-    .action-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 22px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 13px 18px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      font-weight: 800;
-      cursor: pointer;
-      transition: 0.2s ease;
-      font-size: 0.98rem;
-      text-align: center;
-    }
-
-    .btn-primary {
-      background: var(--blue);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--blue-hover);
-    }
-
-    .btn-secondary {
-      background: white;
-      color: var(--navy);
-      border-color: var(--border);
-    }
-
-    .btn-secondary:hover {
-      color: var(--blue);
-      border-color: var(--blue);
-    }
-
-    .btn-dark {
-      background: var(--navy);
-      color: white;
-    }
-
-    .btn-dark:hover {
-      background: var(--navy-soft);
-    }
-
-    input,
-    textarea {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      font-size: 1rem;
-      color: var(--navy);
-      background: white;
-      font-family: inherit;
-    }
-
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    label {
-      display: block;
-      margin-top: 16px;
-      margin-bottom: 8px;
-      font-weight: 800;
-    }
-
-    .estimate-result,
-    .status {
-      margin-top: 16px;
-      padding: 14px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: var(--soft-bg);
-      color: var(--text);
-      white-space: pre-wrap;
-      display: none;
-    }
-
-    .status.success,
-    .estimate-result.success {
-      display: block;
-      background: #f0fdf4;
-      color: #166534;
-      border-color: #bbf7d0;
-    }
-
-    .status.error {
-      display: block;
-      background: #fef2f2;
-      color: #991b1b;
-      border-color: #fecaca;
-    }
-
-    .workspace-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .workspace-item {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      background: var(--soft-bg);
-    }
-
-    .workspace-item h3 {
-      margin: 0 0 6px;
-      font-size: 1.05rem;
-    }
-
-    .workspace-item p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    footer {
-      padding: 34px 0;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.92rem;
-      background: white;
-    }
-
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    @media (max-width: 980px) {
-      .grid,
-      .metric-grid,
-      .engine-grid,
-      .workspace-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .nav-links {
-        display: none;
-      }
-    }
+    @media(max-width:980px){.grid,.metric-grid,.engine-grid,.workspace-grid{grid-template-columns:1fr}.nav-links{display:none}}
   </style>
 </head>
 
@@ -472,11 +114,12 @@
       </a>
 
       <div class="nav-links">
-        <a href="index.html#estimator">Estimator</a>
-        <a href="pricing.html">Pricing</a>
+        <a href="customer-portal.html">Workspace</a>
+        <a href="pricing.html">Upgrade</a>
         <a href="engines.html">Engines</a>
-        <a href="contact.html">Contact</a>
-        <a class="nav-cta" href="pricing.html">Upgrade</a>
+        <a href="contact.html">Support</a>
+        <a href="login.html">Switch Account</a>
+        <a class="nav-cta" href="payment.html">Upgrade Plan</a>
       </div>
     </div>
   </nav>
@@ -486,18 +129,28 @@
 
       <section class="welcome-card">
         <div class="badge">Astraa Workspace</div>
+        <div class="workspace-logo"></div>
+
         <h1 id="welcomeTitle">Welcome to Astraa Workspace.</h1>
+
+        <div class="workspace-subhead">
+          One workspace. Connected tools. Smarter growth.
+        </div>
+
         <p>
           Your workspace brings together estimating, saved projects, receipts, expense tracking,
-          project references, and selected Astraa engine previews in one place.
+          project references, and selected Astraa engine previews in one professional system.
         </p>
+
+        <div class="workspace-data-note">
+          Each account interaction becomes structured workspace information — supporting linear growth through daily workflows
+          and wider ecosystem expansion across tools, reports, and internal intelligence.
+        </div>
       </section>
 
       <div class="grid">
 
-        <!-- LEFT COLUMN -->
         <div>
-
           <section class="card">
             <h2>Plan & usage</h2>
             <p id="planDescription">Trial access is active.</p>
@@ -544,7 +197,7 @@
             <h2>Run estimate</h2>
             <p>
               Trial users can run 15 total estimates over 15 days, with 1 estimate per day.
-              This front-end version simulates usage until backend tracking is connected.
+              This version simulates usage until backend tracking is connected.
             </p>
 
             <label for="sqft">Square footage</label>
@@ -586,16 +239,14 @@
 
             <div id="expenseStatus" class="status"></div>
           </section>
-
         </div>
 
-        <!-- RIGHT COLUMN -->
         <div>
-
           <section class="card">
             <h2>Workspace overview</h2>
             <p>
-              This is where Astraa begins to feel like an ecosystem instead of a single tool.
+              Astraa Workspace is the customer home base — where estimates, receipts, expenses, project references,
+              and engine previews begin to connect into one growing system.
             </p>
 
             <div class="workspace-grid">
@@ -622,9 +273,9 @@
           </section>
 
           <section class="card">
-            <h2>Astraa Engines</h2>
+            <h2>Connected Astraa tools</h2>
             <p>
-              Start with Estimator. Preview other Astraa engines and add more when your workflow grows.
+              Start with Estimator, then expand through workspace tools, finance, operations, data, and custom systems as your business grows.
             </p>
 
             <div class="engine-grid">
@@ -647,20 +298,20 @@
               </div>
 
               <div class="engine">
-                <h3>Commerce</h3>
+                <h3>Arkastra Commerce</h3>
                 <p>Service packages, quote flows, and transaction-ready tools.</p>
                 <span class="engine-tag tag-coming">Coming Soon</span>
               </div>
 
               <div class="engine">
-                <h3>Data</h3>
+                <h3>Data Workspace</h3>
                 <p>Saved records, project references, and reporting-ready structure.</p>
                 <span class="engine-tag tag-preview">Limited</span>
               </div>
 
               <div class="engine">
-                <h3>Custom Systems</h3>
-                <p>Tailored workflows built around your business process.</p>
+                <h3>VSV / Custom Systems</h3>
+                <p>Future public systems and tailored workflows built around your business process.</p>
                 <span class="engine-tag tag-preview">Request Build</span>
               </div>
             </div>
@@ -672,10 +323,10 @@
           </section>
 
           <section class="card">
-            <h2>Account & recovery</h2>
+            <h2>Account, security & recovery</h2>
             <p>
-              Your trial is tied to one primary email and one business identity.
-              Backup email and business details help with recovery.
+              Astraa uses one primary email, one backup email, business details, and fair-use rules to protect trial access,
+              support recovery, and reduce abusive account behavior.
             </p>
 
             <ul class="list">
@@ -685,7 +336,6 @@
               <li>Different payment email may require verification before launch bonus is applied.</li>
             </ul>
           </section>
-
         </div>
 
       </div>
@@ -700,13 +350,6 @@
   </footer>
 
   <script>
-    const DEFAULT_TRIAL = {
-      totalLimit: 15,
-      used: 0,
-      dailyLimit: 1,
-      plan: "trial"
-    };
-
     let account = null;
     let usage = null;
 
@@ -715,19 +358,11 @@
       const rawUsage = sessionStorage.getItem("astraa_usage");
 
       if (rawAccount) {
-        try {
-          account = JSON.parse(rawAccount);
-        } catch (e) {
-          account = null;
-        }
+        try { account = JSON.parse(rawAccount); } catch (e) { account = null; }
       }
 
       if (rawUsage) {
-        try {
-          usage = JSON.parse(rawUsage);
-        } catch (e) {
-          usage = null;
-        }
+        try { usage = JSON.parse(rawUsage); } catch (e) { usage = null; }
       }
 
       if (!usage) {
@@ -751,38 +386,24 @@
       const primary = account && account.primary_email ? account.primary_email : "Not loaded";
       const backup = account && account.backup_email ? account.backup_email : "Not loaded";
 
-      document.getElementById("welcomeTitle").textContent =
-        "Welcome to Astraa Workspace, " + name + ".";
-
+      document.getElementById("welcomeTitle").textContent = "Welcome to Astraa Workspace, " + name + ".";
       document.getElementById("planName").textContent = "Trial";
-      document.getElementById("planDescription").textContent =
-        "Trial includes 15 total estimates over 15 days — 1 estimate per day.";
+      document.getElementById("planDescription").textContent = "Trial includes 15 total estimates over 15 days — 1 estimate per day.";
 
       const remaining = Math.max(usage.totalLimit - usage.used, 0);
       document.getElementById("remainingCount").textContent = remaining;
       document.getElementById("dailyLimit").textContent = "1/day";
       document.getElementById("bonusStatus").textContent = "Eligible";
-
-      document.getElementById("usageLabel").textContent =
-        usage.used + " / " + usage.totalLimit;
+      document.getElementById("usageLabel").textContent = usage.used + " / " + usage.totalLimit;
 
       const percent = Math.min((usage.used / usage.totalLimit) * 100, 100);
       document.getElementById("usageFill").style.width = percent + "%";
 
-      document.getElementById("savedEstimateCount").textContent =
-        usage.savedEstimates.length + " saved locally";
-
-      document.getElementById("receiptCount").textContent =
-        usage.receipts.length + " receipts stored locally";
-
-      document.getElementById("primaryEmailLine").textContent =
-        "Primary email: " + primary;
-
-      document.getElementById("backupEmailLine").textContent =
-        "Backup email: " + backup;
-
-      document.getElementById("businessLine").textContent =
-        "Business: " + business;
+      document.getElementById("savedEstimateCount").textContent = usage.savedEstimates.length + " saved locally";
+      document.getElementById("receiptCount").textContent = usage.receipts.length + " receipts stored locally";
+      document.getElementById("primaryEmailLine").textContent = "Primary email: " + primary;
+      document.getElementById("backupEmailLine").textContent = "Backup email: " + backup;
+      document.getElementById("businessLine").textContent = "Business: " + business;
     }
 
     function todayKey() {
@@ -790,10 +411,7 @@
     }
 
     function canRunEstimateToday() {
-      if (!usage.lastEstimateDate) {
-        return true;
-      }
-
+      if (!usage.lastEstimateDate) return true;
       return usage.lastEstimateDate !== todayKey();
     }
 
@@ -805,17 +423,15 @@
       const result = document.getElementById("estimateResult");
 
       if (usage.used >= usage.totalLimit) {
-        result.className = "estimate-result status error";
-        result.textContent =
-          "Trial estimate limit reached. Upgrade to Basic or Professional to continue using Astraa.";
+        result.className = "estimate-result error";
+        result.textContent = "Trial estimate limit reached. Upgrade to Basic or Professional to continue using Astraa.";
         result.style.display = "block";
         return;
       }
 
       if (!canRunEstimateToday()) {
-        result.className = "estimate-result status error";
-        result.textContent =
-          "Daily trial limit reached. Trial allows 1 estimate per day.";
+        result.className = "estimate-result error";
+        result.textContent = "Daily trial limit reached. Trial allows 1 estimate per day.";
         result.style.display = "block";
         return;
       }
@@ -828,26 +444,24 @@
       const baseRate = 400;
       const estimate = sqft * baseRate * material * labor * complexity;
 
-      const estimateRecord = {
-        created_at: new Date().toISOString(),
-        sqft: sqft,
-        material: material,
-        labor: labor,
-        complexity: complexity,
-        estimate: estimate
-      };
-
       usage.used += 1;
       usage.lastEstimateDate = todayKey();
-      usage.savedEstimates.push(estimateRecord);
+      usage.savedEstimates.push({
+        created_at: new Date().toISOString(),
+        sqft,
+        material,
+        labor,
+        complexity,
+        estimate
+      });
 
       sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
 
       result.className = "estimate-result success";
       result.textContent =
-        "Workspace estimate created.\n\n" +
-        "Estimated baseline: " + formatCurrency(estimate) + "\n\n" +
-        "This estimate was saved locally in your trial workspace preview.";
+        "Workspace estimate created.\n\nEstimated baseline: " +
+        formatCurrency(estimate) +
+        "\n\nThis estimate was saved locally in your trial workspace preview.";
       result.style.display = "block";
 
       renderPortal();
@@ -866,8 +480,8 @@
 
       usage.expenses.push({
         created_at: new Date().toISOString(),
-        name: name,
-        amount: amount
+        name,
+        amount
       });
 
       sessionStorage.setItem("astraa_usage", JSON.stringify(usage));

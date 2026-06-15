@@ -1,194 +1,465 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import json
-import os
+from dotenv import load_dotenv
+from decimal import Decimal, InvalidOperation
 from datetime import datetime
-import smtplib
-from email.mime.text import MIMEText
+import os
+import json
+import uuid
+import requests
+
+# -------------------------------------------------
+# Load environment variables
+# -------------------------------------------------
+load_dotenv(override=True)
 
 app = Flask(__name__)
 CORS(app)
 
-API_KEY = "astraa_secure"
-LEADS_FILE = "leads.jsonl"
+# -------------------------------------------------
+# Astraa API security
+# -------------------------------------------------
+API_KEY = os.getenv("ASTRAA_API_KEY", "astraa_secure")
 
-# ---------- MONERIS CONFIG ----------
-# Fill these with your actual values or export them as environment variables.
-MONERIS_STORE_ID = os.getenv("MONERIS_STORE_ID", "PUT_YOUR_STORE_ID_HERE")
-MONERIS_API_TOKEN = os.getenv("MONERIS_API_TOKEN", "PUT_YOUR_API_TOKEN_HERE")
-MONERIS_WEBSITE_TOKEN = os.getenv("MONERIS_WEBSITE_TOKEN", "PUT_YOUR_WEBSITE_TOKEN_HERE")
+# -------------------------------------------------
+# Moneris production credentials
+# -------------------------------------------------
+MONERIS_STORE_ID = os.getenv("MONERIS_STORE_ID", "")
+MONERIS_API_TOKEN = os.getenv("MONERIS_API_TOKEN", "")
+MONERIS_CHECKOUT_ID = os.getenv("MONERIS_CHECKOUT_ID", "")
+MONERIS_ENV = os.getenv("MONERIS_ENV", "prod").lower()
 
-# ---------- SMTP CONFIG ----------
-SMTP_HOST = os.getenv("SMTP_HOST", "smtp.office365.com")
-SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
-SMTP_USER = os.getenv("SMTP_USER", "")
-SMTP_PASS = os.getenv("SMTP_PASS", "")
-LEAD_NOTIFY_EMAIL = os.getenv("LEAD_NOTIFY_EMAIL", "contact@astraasystems.com")
+# -------------------------------------------------
+# Optional safe testing override
+# If you want to charge a small production test amount,
+# set ASTRAA_TEST_AMOUNT=2.00 in .env
+# If empty, real plan prices are used.
+# -------------------------------------------------
+ASTRAA_TEST_AMOUNT = os.getenv("ASTRAA_TEST_AMOUNT", "").strip()
+
+# -------------------------------------------------
+# Files
+# -------------------------------------------------
+PAYMENTS_FILE = "payments.jsonl"
+PRELOADS_FILE = "preloads.jsonl"
+RECEIPTS_FILE = "receipts.jsonl"
+
+# -------------------------------------------------
+# Plan pricing
+# -------------------------------------------------
+PLAN_PRICES = {
+    "basic": "39.00",
+    "professional": "99.00"
+}
+
+PLAN_LABELS = {
+    "basic": "Astraa Basic",
+    "professional": "Astraa Professional"
+}
+
+# -------------------------------------------------
+# Moneris endpoints
+# -------------------------------------------------
+if MONERIS_ENV == "prod":
+    MONERIS_REQUEST_URL = "https://gateway.moneris.com/chkt/request/request.php"
+    MONERIS_ENV_VALUE = "prod"
+else:
+    MONERIS_REQUEST_URL = "https://gatewayt.moneris.com/chkt/request/request.php"
+    MONERIS_ENV_VALUE = "qa"
+
+
+# -------------------------------------------------
+# Utility helpers
+# -------------------------------------------------
+def now_iso():
+    return datetime.utcnow().isoformat() + "Z"
+
+
+def append_jsonl(path, record):
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
 def authorized(req):
     return req.headers.get("X-API-KEY") == API_KEY
 
 
-def append_jsonl(path, record):
-    with open(path, "a", encoding="utf-8") as f:
-        f.write(json.dumps(record) + "\n")
+def safe_amount(value):
+    """
+    Validate and normalize amount to Moneris-style decimal string.
+    Example: 39.00
+    """
+    try:
+        amount = Decimal(str(value)).quantize(Decimal("0.01"))
+        if amount <= 0:
+            return None
+        return f"{amount:.2f}"
+    except (InvalidOperation, ValueError):
+        return None
 
 
-def send_email(subject, body, to_email):
-    if not SMTP_USER or not SMTP_PASS:
-        return {"status": "skipped", "reason": "smtp not configured"}
+def get_plan_amount(plan):
+    """
+    Server-side plan pricing.
+    The frontend may send amount, but backend controls final amount.
+    """
+    normalized_plan = (plan or "professional").lower().strip()
 
-    msg = MIMEText(body)
-    msg["Subject"] = subject
-    msg["From"] = SMTP_USER
-    msg["To"] = to_email
+    if normalized_plan not in PLAN_PRICES:
+        normalized_plan = "professional"
 
-    with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
-        server.starttls()
-        server.login(SMTP_USER, SMTP_PASS)
-        server.send_message(msg)
+    if ASTRAA_TEST_AMOUNT:
+        test_amount = safe_amount(ASTRAA_TEST_AMOUNT)
+        if test_amount:
+            return normalized_plan, test_amount
 
-    return {"status": "sent"}
-
-
-@app.route("/", methods=["GET"])
-def home():
-    return "Astraa API is running"
+    return normalized_plan, PLAN_PRICES[normalized_plan]
 
 
-# ---------- ESTIMATOR ----------
-@app.route("/estimate", methods=["POST"])
-def estimate():
-    if not authorized(request):
-        return jsonify({"error": "unauthorized"}), 403
-
-    data = request.json or {}
-
-    sqft = float(data.get("sqft", 10000))
-    material = float(data.get("material", 1.1))
-    labor = float(data.get("labor", 1.05))
-    complexity = float(data.get("complexity", 0.8))
-
-    base = sqft * 400
-    estimate_value = base * material * labor * complexity
-
-    return jsonify({
-        "base_estimate": estimate_value,
-        "confidence": 0.92,
-        "risk": "Moderate"
-    })
+def get_plan_label(plan):
+    return PLAN_LABELS.get(plan, "Astraa Professional")
 
 
-# ---------- LEAD CAPTURE ----------
-@app.route("/lead", methods=["POST"])
-def lead():
-    if not authorized(request):
-        return jsonify({"error": "unauthorized"}), 403
-
-    data = request.json or {}
-    name = data.get("name", "").strip()
-    email = data.get("email", "").strip()
-    estimate_context = data.get("estimate_context", {})
-
-    if not name or not email:
-        return jsonify({"error": "name and email required"}), 400
-
-    record = {
-        "name": name,
-        "email": email,
-        "estimate_context": estimate_context,
-        "timestamp": datetime.utcnow().isoformat() + "Z"
+def config_status():
+    return {
+        "store_id_loaded": bool(MONERIS_STORE_ID),
+        "api_token_loaded": bool(MONERIS_API_TOKEN),
+        "checkout_id_loaded": bool(MONERIS_CHECKOUT_ID),
+        "moneris_env": MONERIS_ENV_VALUE,
+        "moneris_url": MONERIS_REQUEST_URL,
+        "test_amount_override": ASTRAA_TEST_AMOUNT if ASTRAA_TEST_AMOUNT else None
     }
 
-    append_jsonl(LEADS_FILE, record)
 
-    email_body = f"""
-New Astraa lead captured
+# -------------------------------------------------
+# Startup debug
+# -------------------------------------------------
+print("======================================")
+print("Astraa API starting")
+print("MONERIS_STORE_ID loaded:", bool(MONERIS_STORE_ID))
+print("MONERIS_API_TOKEN loaded:", bool(MONERIS_API_TOKEN))
+print("MONERIS_CHECKOUT_ID loaded:", bool(MONERIS_CHECKOUT_ID))
+print("MONERIS_ENV:", MONERIS_ENV_VALUE)
+print("MONERIS URL:", MONERIS_REQUEST_URL)
+print("ASTRAA_TEST_AMOUNT:", ASTRAA_TEST_AMOUNT if ASTRAA_TEST_AMOUNT else "not set")
+print("======================================")
 
-Name: {name}
-Email: {email}
-Estimate Context:
-{json.dumps(estimate_context, indent=2)}
 
-Timestamp: {record["timestamp"]}
-"""
-    email_result = send_email(
-        subject="New Astraa Lead Captured",
-        body=email_body,
-        to_email=LEAD_NOTIFY_EMAIL
-    )
-
+# -------------------------------------------------
+# Health
+# -------------------------------------------------
+@app.route("/", methods=["GET"])
+def home():
     return jsonify({
         "status": "ok",
-        "message": "Lead captured successfully",
-        "email_notification": email_result
+        "message": "Astraa API running",
+        "config": config_status()
     })
 
 
-# ---------- MONERIS-READY PAYMENT CONFIG ----------
-@app.route("/payment/config", methods=["GET"])
-def payment_config():
-    if MONERIS_STORE_ID.startswith("PUT_") or MONERIS_API_TOKEN.startswith("PUT_") or MONERIS_WEBSITE_TOKEN.startswith("PUT_"):
-        return jsonify({
-            "status": "incomplete",
-            "message": "Moneris credentials not configured yet"
-        })
-
+@app.route("/health", methods=["GET"])
+def health():
     return jsonify({
-        "status": "ready",
-        "store_id": MONERIS_STORE_ID,
-        "website_token": MONERIS_WEBSITE_TOKEN
+        "status": "ok",
+        "timestamp": now_iso(),
+        "config": config_status()
     })
 
 
-# ---------- PAYMENT ENTRY POINT ----------
-@app.route("/pay", methods=["POST"])
-def pay():
+# -------------------------------------------------
+# Moneris Checkout Preload
+# -------------------------------------------------
+@app.route("/preload", methods=["POST"])
+def preload():
     if not authorized(request):
-        return jsonify({"error": "unauthorized"}), 403
+        return jsonify({
+            "status": "error",
+            "message": "unauthorized"
+        }), 403
+
+    if not MONERIS_STORE_ID or not MONERIS_API_TOKEN or not MONERIS_CHECKOUT_ID:
+        return jsonify({
+            "response": {
+                "success": "false",
+                "error": {
+                    "config": {
+                        "data": "Missing MONERIS_STORE_ID, MONERIS_API_TOKEN, or MONERIS_CHECKOUT_ID"
+                    }
+                }
+            }
+        }), 500
 
     data = request.json or {}
-    email = data.get("email", "").strip()
-    plan = data.get("plan", "trial")
 
-    # NOTE:
-    # This route is "Moneris-ready", but not charging yet.
-    # It validates config and gives back the values needed
-    # for the next integration step (Hosted Checkout/Hosted Tokenization).
+    email = (data.get("email") or "").strip()
+    requested_plan = (data.get("plan") or "professional").strip().lower()
 
-    if MONERIS_STORE_ID.startswith("PUT_") or MONERIS_API_TOKEN.startswith("PUT_") or MONERIS_WEBSITE_TOKEN.startswith("PUT_"):
-        return jsonify({
-            "status": "incomplete",
-            "message": "Moneris is not fully configured yet"
-        }), 400
+    plan, amount = get_plan_amount(requested_plan)
+    plan_label = get_plan_label(plan)
 
-    record = {
+    order_no = "ASTRAA-" + datetime.utcnow().strftime("%Y%m%d%H%M%S") + "-" + uuid.uuid4().hex[:6].upper()
+
+    payload = {
+        "store_id": MONERIS_STORE_ID,
+        "api_token": MONERIS_API_TOKEN,
+        "checkout_id": MONERIS_CHECKOUT_ID,
+        "txn_total": amount,
+        "environment": MONERIS_ENV_VALUE,
+        "action": "preload",
+        "order_no": order_no,
+        "cust_id": email if email else order_no,
+        "dynamic_descriptor": "ASTRAA",
+        "language": "en",
+        "contact_details": {
+            "first_name": "Astraa",
+            "last_name": "Customer",
+            "email": email if email else "customer@astraasystems.com",
+            "phone": ""
+        },
+        "cart": {
+            "items": [
+                {
+                    "description": plan_label,
+                    "product_code": plan,
+                    "unit_cost": amount,
+                    "quantity": "1"
+                }
+            ],
+            "subtotal": amount
+        }
+    }
+
+    preload_record = {
+        "timestamp": now_iso(),
+        "order_no": order_no,
         "email": email,
         "plan": plan,
-        "timestamp": datetime.utcnow().isoformat() + "Z",
-        "payment_provider": "Moneris",
+        "amount": amount,
+        "moneris_env": MONERIS_ENV_VALUE,
         "status": "initiated"
     }
 
-    append_jsonl("payments.jsonl", record)
+    append_jsonl(PRELOADS_FILE, preload_record)
 
-    # EMAIL NOTIFY
-    send_email(
-        subject="Astraa Trial Payment Started",
-        body=f"Payment initiated for {email} on plan: {plan}",
-        to_email=LEAD_NOTIFY_EMAIL
-    )
+    try:
+        response = requests.post(
+            MONERIS_REQUEST_URL,
+            json=payload,
+            timeout=30
+        )
+
+        raw_text = response.text
+
+        print("MONERIS PRELOAD HTTP STATUS:", response.status_code)
+        print("MONERIS PRELOAD RAW:", raw_text)
+
+        try:
+            moneris_data = response.json()
+        except Exception:
+            error_payload = {
+                "response": {
+                    "success": "false",
+                    "error": {
+                        "gateway": {
+                            "data": "Moneris returned non-JSON response",
+                            "http_status": response.status_code,
+                            "raw": raw_text
+                        }
+                    }
+                }
+            }
+
+            preload_record["status"] = "failed_non_json"
+            preload_record["raw_response"] = raw_text
+            append_jsonl(PRELOADS_FILE, preload_record)
+
+            return jsonify(error_payload), 500
+
+        preload_record["status"] = "response_received"
+        preload_record["moneris_response"] = moneris_data
+        append_jsonl(PRELOADS_FILE, preload_record)
+
+        # Log payment session if ticket received
+        if (
+            isinstance(moneris_data, dict)
+            and moneris_data.get("response", {}).get("success") == "true"
+            and moneris_data.get("response", {}).get("ticket")
+        ):
+            payment_record = {
+                "timestamp": now_iso(),
+                "order_no": order_no,
+                "email": email,
+                "plan": plan,
+                "amount": amount,
+                "ticket": moneris_data["response"]["ticket"],
+                "status": "ticket_created"
+            }
+            append_jsonl(PAYMENTS_FILE, payment_record)
+
+        return jsonify(moneris_data)
+
+    except requests.exceptions.RequestException as e:
+        error_payload = {
+            "response": {
+                "success": "false",
+                "error": {
+                    "exception": {
+                        "data": str(e)
+                    }
+                }
+            }
+        }
+
+        preload_record["status"] = "request_exception"
+        preload_record["error"] = str(e)
+        append_jsonl(PRELOADS_FILE, preload_record)
+
+        return jsonify(error_payload), 500
+
+
+# -------------------------------------------------
+# Moneris Checkout Receipt Request
+# Used after payment_complete callback later.
+# -------------------------------------------------
+@app.route("/receipt", methods=["POST"])
+def receipt():
+    if not authorized(request):
+        return jsonify({
+            "status": "error",
+            "message": "unauthorized"
+        }), 403
+
+    data = request.json or {}
+    ticket = (data.get("ticket") or "").strip()
+
+    if not ticket:
+        return jsonify({
+            "response": {
+                "success": "false",
+                "error": {
+                    "ticket": {
+                        "data": "Missing ticket"
+                    }
+                }
+            }
+        }), 400
+
+    if not MONERIS_STORE_ID or not MONERIS_API_TOKEN or not MONERIS_CHECKOUT_ID:
+        return jsonify({
+            "response": {
+                "success": "false",
+                "error": {
+                    "config": {
+                        "data": "Missing MONERIS_STORE_ID, MONERIS_API_TOKEN, or MONERIS_CHECKOUT_ID"
+                    }
+                }
+            }
+        }), 500
+
+    payload = {
+        "store_id": MONERIS_STORE_ID,
+        "api_token": MONERIS_API_TOKEN,
+        "checkout_id": MONERIS_CHECKOUT_ID,
+        "ticket": ticket,
+        "environment": MONERIS_ENV_VALUE,
+        "action": "receipt"
+    }
+
+    receipt_record = {
+        "timestamp": now_iso(),
+        "ticket": ticket,
+        "status": "initiated"
+    }
+
+    append_jsonl(RECEIPTS_FILE, receipt_record)
+
+    try:
+        response = requests.post(
+            MONERIS_REQUEST_URL,
+            json=payload,
+            timeout=30
+        )
+
+        raw_text = response.text
+
+        print("MONERIS RECEIPT HTTP STATUS:", response.status_code)
+        print("MONERIS RECEIPT RAW:", raw_text)
+
+        try:
+            moneris_data = response.json()
+        except Exception:
+            receipt_record["status"] = "failed_non_json"
+            receipt_record["raw_response"] = raw_text
+            append_jsonl(RECEIPTS_FILE, receipt_record)
+
+            return jsonify({
+                "response": {
+                    "success": "false",
+                    "error": {
+                        "gateway": {
+                            "data": "Moneris returned non-JSON response",
+                            "http_status": response.status_code,
+                            "raw": raw_text
+                        }
+                    }
+                }
+            }), 500
+
+        receipt_record["status"] = "response_received"
+        receipt_record["moneris_response"] = moneris_data
+        append_jsonl(RECEIPTS_FILE, receipt_record)
+
+        return jsonify(moneris_data)
+
+    except requests.exceptions.RequestException as e:
+        receipt_record["status"] = "request_exception"
+        receipt_record["error"] = str(e)
+        append_jsonl(RECEIPTS_FILE, receipt_record)
+
+        return jsonify({
+            "response": {
+                "success": "false",
+                "error": {
+                    "exception": {
+                        "data": str(e)
+                    }
+                }
+            }
+        }), 500
+
+
+# -------------------------------------------------
+# Optional simple lead endpoint for later use
+# -------------------------------------------------
+@app.route("/lead", methods=["POST"])
+def lead():
+    if not authorized(request):
+        return jsonify({
+            "status": "error",
+            "message": "unauthorized"
+        }), 403
+
+    data = request.json or {}
+
+    record = {
+        "timestamp": now_iso(),
+        "name": data.get("name", ""),
+        "email": data.get("email", ""),
+        "company": data.get("company", ""),
+        "request_type": data.get("request_type", ""),
+        "message": data.get("message", "")
+    }
+
+    append_jsonl("leads.jsonl", record)
 
     return jsonify({
-        "status": "ready",
-        "message": "Payment route is active and Moneris credentials are loaded",
-        "moneris": {
-            "store_id": MONERIS_STORE_ID,
-            "website_token": MONERIS_WEBSITE_TOKEN
-        }
+        "status": "ok",
+        "message": "Lead captured"
     })
 
 
+# -------------------------------------------------
+# Run server
+# -------------------------------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

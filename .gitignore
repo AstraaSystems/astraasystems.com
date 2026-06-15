@@ -3,3 +3,10 @@
 __pycache__/
 *.db
 *.sqlite3
+logs/
+*.jsonl
+.env
+payments.jsonl
+preloads.jsonl
+receipts.jsonl
+leads.jsonl

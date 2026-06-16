@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<script id="astraa-workspace-public-lock">
+(function lockAstraaWorkspaceFromPublic() {
+  try {
+    var hasSessionAccess = sessionStorage.getItem("astraa_workspace_test_access") === "true";
+    var hasLocalAccess = localStorage.getItem("astraa_workspace_test_access") === "true";
+    var hasPaidAccess = sessionStorage.getItem("astraa_payment_complete") === "true";
+    var isWorkspaceLogin = window.location.pathname.indexOf("workspace-test-login.html") !== -1;
+
+    if (!isWorkspaceLogin && !hasSessionAccess && !hasLocalAccess && !hasPaidAccess) {
+      window.location.replace("workspace-test-login.html");
+    }
+  } catch (error) {
+    window.location.replace("workspace-test-login.html");
+  }
+})();
+</script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Astraa Workspace Test Access</title>
+
+  <style>
+    :root {
+      --bg: #050816;
+      --panel: rgba(255,255,255,0.09);
+      --border: rgba(255,255,255,0.16);
+      --text: #ffffff;
+      --muted: #b9c2d8;
+      --cyan: #36e4ff;
+      --green: #43f0a3;
+      --blue: #4f7cff;
+      --red: #ff5c7a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(54,228,255,.24), transparent 28%),
+        radial-gradient(circle at top right, rgba(155,92,255,.22), transparent 30%),
+        radial-gradient(circle at bottom, rgba(79,124,255,.18), transparent 36%),
+        var(--bg);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(100%, 520px);
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.38);
+      backdrop-filter: blur(18px);
+    }
+
+    .badge {
+      display: inline-flex;
+      border: 1px solid rgba(54,228,255,.28);
+      background: rgba(54,228,255,.10);
+      color: var(--cyan);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 46px);
+      line-height: 1;
+      letter-spacing: -.045em;
+    }
+
+    p {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      color: #dce7ff;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(5,8,22,.68);
+      color: #fff;
+      padding: 14px;
+      border-radius: 14px;
+      outline: none;
+      font: inherit;
+    }
+
+    input:focus {
+      border-color: rgba(54,228,255,.65);
+      box-shadow: 0 0 0 4px rgba(54,228,255,.12);
+    }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button,
+    a.btn {
+      border: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 13px 16px;
+      font-weight: 900;
+      text-align: center;
+      text-decoration: none;
+      font: inherit;
+    }
+
+    .primary {
+      background: linear-gradient(135deg, var(--cyan), var(--green));
+      color: #03101f;
+    }
+
+    .secondary {
+      background: rgba(255,255,255,.10);
+      color: #fff;
+      border: 1px solid var(--border);
+    }
+
+    .status {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.08);
+      color: var(--muted);
+      line-height: 1.5;
+      display: none;
+    }
+
+    .status.good {
+      display: block;
+      background: rgba(67,240,163,.10);
+      border: 1px solid rgba(67,240,163,.28);
+      color: #b9ffe0;
+    }
+
+    .status.bad {
+      display: block;
+      background: rgba(255,92,122,.10);
+      border: 1px solid rgba(255,92,122,.28);
+      color: #ffd1da;
+    }
+
+    .note {
+      margin-top: 18px;
+      font-size: 12px;
+      color: #91a0be;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <div class="badge">Private Test Access</div>
+    <h1>Astraa Workspace</h1>
+    <p>
+      Workspace is currently locked from public access while Astraa Finance, Expense,
+      Operations, Estimator, and additional tools are tested.
+    </p>
+
+    <form id="testLoginForm">
+      <label for="email">Test account email</label>
+      <input id="email" type="email" autocomplete="email" placeholder="astraa.live.test@astraasystems.com" required />
+
+      <label for="code">Workspace access code</label>
+      <input id="code" type="password" autocomplete="current-password" placeholder="Enter access code" required />
+
+      <div class="actions">
+        <button class="primary" type="submit">Open Astraa Workspace</button>
+        <button class="secondary" type="button" onclick="clearAccess()">Clear Test Access</button>
+        <a class="btn secondary" href="index.html">Return to Public Site</a>
+      </div>
+
+      <div id="status" class="status"></div>
+
+      <div class="note">
+        Test account is for internal Astraa Workspace validation only. Payment and Moneris files remain locked separately.
+      </div>
+    </form>
+  </main>
+
+  <script>
+    const TEST_EMAIL = "astraa.live.test@astraasystems.com";
+    const TEST_CODE = "ASTRAA-WORKSPACE-TEST-2026";
+
+    function setStatus(message, type) {
+      const status = document.getElementById("status");
+      status.textContent = message;
+      status.className = "status " + type;
+    }
+
+    function grantWorkspaceAccess(email) {
+      sessionStorage.setItem("astraa_workspace_test_access", "true");
+      sessionStorage.setItem("astraa_workspace_status", "active");
+      sessionStorage.setItem("astraa_test_account_email", email);
+
+      sessionStorage.setItem("astraa_selected_product", "Astraa Workspace");
+      sessionStorage.setItem("astraa_selected_tool", "Astraa Estimator");
+      sessionStorage.setItem("astraa_active_tool", "Astraa Estimator");
+      sessionStorage.setItem("astraa_selected_plan", "Professional");
+      sessionStorage.setItem("astraa_plan", "Professional");
+      sessionStorage.setItem("astraa_selected_price", "Internal Test Access");
+
+      localStorage.setItem("astraa_workspace_test_access", "true");
+      localStorage.setItem("astraa_workspace_status", "active");
+      localStorage.setItem("astraa_test_account_email", email);
+
+      localStorage.setItem("astraa_selected_product", "Astraa Workspace");
+      localStorage.setItem("astraa_selected_tool", "Astraa Estimator");
+      localStorage.setItem("astraa_active_tool", "Astraa Estimator");
+      localStorage.setItem("astraa_selected_plan", "Professional");
+      localStorage.setItem("astraa_plan", "Professional");
+      localStorage.setItem("astraa_selected_price", "Internal Test Access");
+    }
+
+    function clearAccess() {
+      [
+        "astraa_workspace_test_access",
+        "astraa_workspace_status",
+        "astraa_test_account_email",
+        "astraa_selected_product",
+        "astraa_selected_tool",
+        "astraa_active_tool",
+        "astraa_selected_plan",
+        "astraa_plan",
+        "astraa_selected_price"
+      ].forEach(function(key) {
+        sessionStorage.removeItem(key);
+        localStorage.removeItem(key);
+      });
+
+      setStatus("Test access cleared in this browser.", "good");
+    }
+
+    document.getElementById("testLoginForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const email = String(document.getElementById("email").value || "").trim().toLowerCase();
+      const code = String(document.getElementById("code").value || "").trim();
+
+      if (email !== TEST_EMAIL || code !== TEST_CODE) {
+        setStatus("Access denied. Use the internal Astraa Workspace test account.", "bad");
+        return;
+      }
+
+      grantWorkspaceAccess(email);
+      setStatus("Access granted. Opening Astraa Workspace...", "good");
+
+      window.setTimeout(function() {
+        window.location.href = "customer-portal.html";
+      }, 500);
+    });
+
+    document.getElementById("email").value = TEST_EMAIL;
+  </script>
+</body>
+</html>

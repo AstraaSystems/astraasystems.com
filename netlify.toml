@@ -1,8 +1,11 @@
 [build]
   publish = "."
 
-[[redirects]]
-  from = "/api/*"
-  to = "https://astraa-backend-production.up.railway.app/api/:splat"
-  status = 200
-  force = true
+# Astraa API proxy will be enabled after the production backend is deployed.
+# Final format:
+#
+# [[redirects]]
+#   from = "/api/*"
+#   to = "https://YOUR-REAL-BACKEND-DOMAIN/api/:splat"
+#   status = 200
+#   force = true

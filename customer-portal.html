@@ -502,6 +502,864 @@
       margin-bottom: 0;
     }
 
+
+    .selection-summary {
+      margin-top: 22px;
+      background:
+        radial-gradient(circle at top left, rgba(34,211,238,0.08), transparent 30%),
+        linear-gradient(135deg, #ffffff, #eff6ff);
+      border: 1px solid #bfdbfe;
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .selection-summary h3 {
+      margin: 0 0 10px;
+      font-size: 1.12rem;
+      letter-spacing: -0.02em;
+    }
+
+    .selection-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 9px 0;
+      border-bottom: 1px solid #dbeafe;
+      color: var(--text);
+    }
+
+    .selection-line:last-child {
+      border-bottom: none;
+    }
+
+    .selection-line span {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .selection-line strong {
+      color: var(--navy);
+      text-align: right;
+    }
+
+    .paid-pill {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      font-weight: 900;
+      font-size: 0.88rem;
+    }
+
+    .unpaid-pill {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      font-weight: 900;
+      font-size: 0.88rem;
+    }
+
+
+    /* Detailed Astraa Estimator Console */
+    .estimator-console-card {
+      background: #0b1b33;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(15,23,42,0.22);
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .estimator-console-header {
+      padding: 26px 28px;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      background:
+        radial-gradient(circle at top left, rgba(34,211,238,0.14), transparent 28%),
+        radial-gradient(circle at 90% 20%, rgba(139,92,246,0.14), transparent 28%),
+        #0b1b33;
+    }
+
+    .estimator-console-header h2 {
+      color: white;
+      margin: 0;
+      font-size: 1.65rem;
+      letter-spacing: -0.03em;
+    }
+
+    .estimator-console-header p {
+      color: #b8c7dc;
+      margin: 10px 0 0;
+      max-width: 920px;
+    }
+
+    .estimator-console-body {
+      padding: 26px;
+    }
+
+    .estimator-two-col {
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .estimator-block {
+      background: #12233d;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .estimator-block h3 {
+      color: white;
+      margin: 0 0 8px;
+      font-size: 1.14rem;
+      letter-spacing: -0.02em;
+    }
+
+    .estimator-block p,
+    .estimator-help {
+      color: #b8c7dc;
+      font-size: 0.92rem;
+      margin: 0 0 14px;
+    }
+
+    .estimator-form-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .dark-field label {
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      font-size: 0.92rem;
+      margin-top: 0;
+    }
+
+    .field-pill {
+      display: inline-flex;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(34,211,238,0.12);
+      border: 1px solid rgba(34,211,238,0.28);
+      color: #a5f3fc;
+      font-size: 0.72rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .dark-field input,
+    .dark-field select {
+      background: #081526;
+      border: 1px solid rgba(255,255,255,0.14);
+      color: white;
+      border-radius: 12px;
+      padding: 12px 13px;
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.98rem;
+    }
+
+    .dark-field input:focus,
+    .dark-field select:focus {
+      outline: none;
+      border-color: #22d3ee;
+      box-shadow: 0 0 0 4px rgba(34,211,238,0.12);
+    }
+
+    .dark-field small {
+      display: block;
+      color: #8fa6c2;
+      margin-top: 6px;
+      font-size: 0.82rem;
+    }
+
+    .console-metrics {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .console-metric {
+      background: #132642;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 15px;
+      min-height: 112px;
+    }
+
+    .console-metric .label {
+      color: #9fb4ce;
+      font-size: 0.74rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .console-metric .value {
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 900;
+      margin-top: 8px;
+      line-height: 1.1;
+      word-break: break-word;
+    }
+
+    .console-metric .desc {
+      color: #b8c7dc;
+      font-size: 0.8rem;
+      margin-top: 8px;
+    }
+
+    .console-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .console-box {
+      background: #12233d;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 18px;
+      min-height: 150px;
+    }
+
+    .console-box h3 {
+      color: white;
+      margin: 0 0 10px;
+      font-size: 1.04rem;
+      letter-spacing: -0.02em;
+    }
+
+    .console-box ul {
+      margin: 0;
+      padding-left: 18px;
+      color: #d8e4f2;
+      font-size: 0.9rem;
+    }
+
+    .console-box li {
+      margin: 8px 0;
+    }
+
+    .guidance-box {
+      background: rgba(20,184,166,0.12);
+      border: 1px solid rgba(45,212,191,0.30);
+      color: #99f6e4;
+      border-radius: 14px;
+      padding: 14px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .scenario-table,
+    .trade-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .scenario-table td,
+    .trade-table td {
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      padding: 9px 0;
+      color: #d8e4f2;
+    }
+
+    .scenario-table tr:last-child td,
+    .trade-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .scenario-table td:last-child,
+    .trade-table td:last-child {
+      text-align: right;
+      color: #9fb4ce;
+      font-weight: 800;
+    }
+
+    .feedback-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .feedback-row input {
+      background: #081526;
+      border: 1px solid rgba(255,255,255,0.14);
+      color: white;
+      border-radius: 12px;
+      padding: 12px 13px;
+      width: 100%;
+    }
+
+    .console-status {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: #081526;
+      color: #d8e4f2;
+      white-space: pre-wrap;
+      display: none;
+    }
+
+    .console-status.success {
+      display: block;
+      background: rgba(22,163,74,0.13);
+      border-color: rgba(74,222,128,0.32);
+      color: #bbf7d0;
+    }
+
+    .console-status.error {
+      display: block;
+      background: rgba(220,38,38,0.13);
+      border-color: rgba(248,113,113,0.35);
+      color: #fecaca;
+    }
+
+    .estimator-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .dark-btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+      text-align: center;
+      font-size: 0.95rem;
+      color: white;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .dark-btn.primary {
+      background: linear-gradient(135deg, #2563eb, #22d3ee);
+      border: none;
+      box-shadow: 0 14px 34px rgba(37,99,235,0.22);
+    }
+
+    .dark-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.04);
+    }
+
+    @media (max-width: 1120px) {
+      .estimator-two-col,
+      .console-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .console-metrics {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .feedback-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .console-metrics {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* Astraa clean-light estimator console override */
+    .estimator-console-card.light-theme {
+      background: white;
+      color: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .light-theme .estimator-console-header {
+      background:
+        radial-gradient(circle at top left, rgba(34,211,238,0.14), transparent 30%),
+        radial-gradient(circle at 85% 15%, rgba(139,92,246,0.13), transparent 28%),
+        linear-gradient(135deg, #ffffff, #eff6ff);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .light-theme .estimator-console-header h2 {
+      color: var(--navy);
+    }
+
+    .light-theme .estimator-console-header p {
+      color: var(--text);
+    }
+
+    .light-theme .estimator-block,
+    .light-theme .console-box,
+    .light-theme .console-metric {
+      background: white;
+      color: var(--navy);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 24px rgba(15,23,42,0.04);
+    }
+
+    .light-theme .estimator-block h3,
+    .light-theme .console-box h3 {
+      color: var(--navy);
+    }
+
+    .light-theme .estimator-block p,
+    .light-theme .estimator-help,
+    .light-theme .console-box p {
+      color: var(--muted);
+    }
+
+    .light-theme .dark-field label {
+      color: var(--navy);
+    }
+
+    .light-theme .field-pill {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--blue);
+    }
+
+    .light-theme .dark-field input,
+    .light-theme .dark-field select,
+    .light-theme .feedback-row input {
+      background: white;
+      color: var(--navy);
+      border: 1px solid var(--border);
+    }
+
+    .light-theme .dark-field small {
+      color: var(--muted);
+    }
+
+    .light-theme .console-metric .label {
+      color: var(--muted);
+    }
+
+    .light-theme .console-metric .value {
+      color: var(--navy);
+    }
+
+    .light-theme .console-metric .desc {
+      color: var(--muted);
+    }
+
+    .light-theme .guidance-box {
+      background: #ecfeff;
+      border: 1px solid #67e8f9;
+      color: #155e75;
+    }
+
+    .light-theme .console-box ul {
+      color: var(--text);
+    }
+
+    .light-theme .scenario-table td,
+    .light-theme .trade-table td {
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .light-theme .scenario-table td:last-child,
+    .light-theme .trade-table td:last-child {
+      color: var(--blue);
+    }
+
+    .light-theme .console-status {
+      background: var(--soft-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .light-theme .console-status.success {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+      color: #166534;
+    }
+
+    .light-theme .console-status.error {
+      background: #fef2f2;
+      border-color: #fecaca;
+      color: #991b1b;
+    }
+
+    .light-theme .dark-btn {
+      color: var(--navy);
+      background: white;
+      border: 1px solid var(--border);
+    }
+
+    .light-theme .dark-btn.primary {
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      border: none;
+    }
+
+    .preview-tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .preview-tool-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 8px 22px rgba(15,23,42,0.04);
+    }
+
+    .preview-tool-card h3 {
+      margin: 0 0 6px;
+      font-size: 1.02rem;
+      color: var(--navy);
+    }
+
+    .preview-tool-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .preview-price {
+      margin-top: 10px;
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 0.92rem;
+    }
+
+    .preview-pill {
+      display: inline-flex;
+      margin-top: 10px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 900;
+    }
+
+    .preview-pill.included {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .preview-pill.addon {
+      background: #eff6ff;
+      color: var(--blue);
+      border: 1px solid #bfdbfe;
+    }
+
+    .preview-pill.custom {
+      background: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    @media (max-width: 980px) {
+      .preview-tool-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* Preview vs backend result label */
+    .preview-backend-label {
+      margin-top: 14px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    .preview-backend-label strong {
+      color: #0b1220;
+    }
+
+    .preview-backend-label .label-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      margin: 5px 0;
+    }
+
+    .preview-backend-label .label-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      margin-top: 7px;
+      flex: 0 0 auto;
+      background: var(--blue);
+    }
+
+    .preview-backend-label .label-dot.green {
+      background: var(--success);
+    }
+
+
+    /* Estimator accuracy and calibration note */
+    .accuracy-note {
+      margin-top: 14px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .accuracy-note strong {
+      color: #78350f;
+    }
+
+    .accuracy-note ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+
+    .accuracy-note li {
+      margin: 4px 0;
+    }
+
+
+    /* Public calibration source note */
+    .calibration-note {
+      margin-top: 12px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      border-radius: 14px;
+      padding: 12px 13px;
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    .calibration-note strong {
+      color: #0b1220;
+    }
+
+
+    /* Calibration Source panel */
+    .calibration-source-panel {
+      margin-top: 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 15px;
+      color: var(--text);
+      box-shadow: 0 8px 24px rgba(15,23,42,0.04);
+    }
+
+    .calibration-source-panel h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+
+    .calibration-source-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .calibration-source-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .calibration-source-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 4px;
+    }
+
+    .calibration-source-item strong {
+      color: var(--navy);
+      font-size: 0.92rem;
+    }
+
+    .calibration-source-note {
+      margin-top: 11px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      border-radius: 12px;
+      padding: 11px;
+      font-size: 0.83rem;
+      line-height: 1.45;
+    }
+
+    .calibration-source-note strong {
+      color: #78350f;
+    }
+
+    @media (max-width: 760px) {
+      .calibration-source-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* BCPI factor explanation */
+    .bcpi-explanation {
+      margin-top: 11px;
+      background: #ecfeff;
+      border: 1px solid #67e8f9;
+      color: #155e75;
+      border-radius: 12px;
+      padding: 11px;
+      font-size: 0.83rem;
+      line-height: 1.45;
+    }
+
+    .bcpi-explanation strong {
+      color: #164e63;
+    }
+
+    .bcpi-explanation ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+
+    .bcpi-explanation li {
+      margin: 4px 0;
+    }
+
+
+    /* Safe field tooltip helpers */
+    .field-tooltip-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .field-tooltip-icon {
+      width: 19px;
+      height: 19px;
+      border-radius: 999px;
+      border: 1px solid #bfdbfe;
+      background: #eff6ff;
+      color: var(--blue);
+      font-size: 0.72rem;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: help;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .field-tooltip-text {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 10px);
+      transform: translateX(-50%);
+      width: min(310px, 82vw);
+      background: #0b1220;
+      color: white;
+      border-radius: 12px;
+      padding: 12px 13px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      box-shadow: 0 18px 45px rgba(15,23,42,0.25);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      z-index: 999;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .field-tooltip-text::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 7px;
+      border-style: solid;
+      border-color: #0b1220 transparent transparent transparent;
+    }
+
+    .field-tooltip-wrap:hover .field-tooltip-text,
+    .field-tooltip-wrap:focus-within .field-tooltip-text {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .field-tooltip-icon:focus {
+      outline: 3px solid rgba(37,99,235,0.20);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 760px) {
+      .field-tooltip-text {
+        left: auto;
+        right: 0;
+        transform: none;
+      }
+
+      .field-tooltip-text::after {
+        left: auto;
+        right: 10px;
+        transform: none;
+      }
+    }
+
+
+    /* Keyboard accessible tooltip open state */
+    .field-tooltip-wrap.tooltip-open .field-tooltip-text {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .field-tooltip-icon[aria-expanded="true"] {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
     footer {
       padding: 34px 0;
       border-top: 1px solid var(--border);
@@ -597,6 +1455,37 @@
               Trial access is active.
             </p>
 
+            <div class="selection-summary">
+              <h3>Selected Astraa access</h3>
+
+              <div class="selection-line">
+                <span>Selected tool</span>
+                <strong id="selectedToolDisplay">Astraa Estimator</strong>
+              </div>
+
+              <div class="selection-line">
+                <span>Selected plan</span>
+                <strong id="selectedPlanDisplay">Trial</strong>
+              </div>
+
+              <div class="selection-line">
+                <span>Selected price</span>
+                <strong id="selectedPriceDisplay">$0 / 15 days</strong>
+              </div>
+
+              <div class="selection-line">
+                <span>Checkout email</span>
+                <strong id="checkoutEmailDisplay">Not provided</strong>
+              </div>
+
+              <div class="selection-line">
+                <span>Payment status</span>
+                <strong id="paymentStatusDisplay">Trial / not paid</strong>
+              </div>
+
+              <div id="paidStatusPill" class="unpaid-pill">Payment not confirmed in this browser session</div>
+            </div>
+
             <div class="metric-grid">
               <div class="metric">
                 <div class="metric-label">Current plan</div>
@@ -636,33 +1525,353 @@
             </div>
           </section>
 
-          <!-- ESTIMATE -->
-          <section class="card">
-            <h2>Run estimate</h2>
-
-            <p>
-              Trial users can run 15 total estimates over 15 days, with 1 estimate per day.
-              This version simulates usage locally until backend account tracking is connected.
-            </p>
-
-            <label for="sqft">Square footage</label>
-            <input id="sqft" type="number" value="10000" />
-
-            <label for="material">Material multiplier</label>
-            <input id="material" type="number" step="0.1" value="1.1" />
-
-            <label for="labor">Labor multiplier</label>
-            <input id="labor" type="number" step="0.1" value="1.05" />
-
-            <label for="complexity">Complexity factor</label>
-            <input id="complexity" type="number" step="0.1" value="0.8" />
-
-            <div class="action-row">
-              <button class="btn btn-primary" onclick="runWorkspaceEstimate()">Run Workspace Estimate</button>
-              <button class="btn btn-secondary" onclick="resetLocalUsage()">Reset Local Demo</button>
+          <!-- DETAILED ESTIMATOR CONSOLE -->
+          <section class="estimator-console-card light-theme">
+            <div class="estimator-console-header">
+              <h2>Astraa Estimator</h2>
+              <p>
+                Powered by Astraa Estimate Intelligence. A professional estimating and bid-intelligence interface designed
+                to present not only the number, but the decision context around the number.
+              </p>
             </div>
 
-            <div id="estimateResult" class="estimate-result"></div>
+            <div class="estimator-console-body">
+              <div class="estimator-two-col">
+
+                <div class="estimator-block">
+                  <h3>Project Intake</h3>
+                  <p>
+                    Enter the same core drivers a contractor or estimator would use to understand project scale,
+                    regional cost pressure, labor conditions, and job complexity.
+                  </p>
+
+                  <div class="estimator-form-grid">
+
+                    <div class="dark-field">
+                      <label for="projectType">
+                        Project Type
+                        <span class="field-pill">Base cost posture</span>
+                      </label>
+                      <select id="projectType">
+                        <option>Commercial</option>
+                        <option>Residential</option>
+                        <option>Renovation</option>
+                        <option>Service / Repair</option>
+                        <option>Industrial</option>
+                        <option>Custom</option>
+                      </select>
+                      <small>Choose the primary project type. This influences the cost profile and final recommendation framing.</small>
+                    </div>
+
+                    <div class="dark-field">
+                      <label for="locationMarket">
+                        Location / Market
+                        <span class="field-pill">Public data calibration</span>
+                      </label>
+                      <select id="locationMarket">
+                        <option>BC / Vancouver</option>
+                        <option>Canada / General</option>
+                        <option>Custom Market</option>
+                      </select>
+                      <small>Used to apply a public-data baseline before material, labor, and complexity adjustments.</small>
+                    </div>
+
+                    <div class="dark-field">
+                      <label for="calibratedBaseRate">
+                        Calibrated Base Rate
+                        <span class="field-pill">$/sq ft</span>
+                      </label>
+                      <input id="calibratedBaseRate" type="number" value="375" />
+                      <small>Auto-filled from public calibration. You can override it for testing or custom assumptions.</small>
+                    </div>
+
+                    <div class="dark-field">
+                      <label for="bcpiFactor">
+                        BCPI Factor
+                        <span class="field-pill">Index adjustment</span>
+                        <span class="field-tooltip-wrap" data-tooltip>
+                          <button
+                            type="button"
+                            class="field-tooltip-icon"
+                            aria-label="BCPI Factor information"
+                            aria-describedby="bcpiFactorTooltip"
+                            aria-expanded="false"
+                          >?</button>
+                          <span id="bcpiFactorTooltip" class="field-tooltip-text" role="tooltip">
+                            BCPI Factor adjusts the estimate for construction market movement or escalation after the base $/sq ft rate is selected. Use 1.00 for no adjustment, 1.05 for a 5% upward adjustment, or 0.98 for a 2% downward adjustment.
+                          </span>
+                        </span>
+                      </label>
+                      <input id="bcpiFactor" type="number" step="0.01" value="1.00" />
+                      <small>
+                        Index-style market movement adjustment. Use 1.00 for no BCPI adjustment, 1.05 for +5%, or 0.98 for -2%.
+                      </small>
+                    </div>
+
+                    <div class="calibration-note">
+                      <strong>Calibration basis:</strong>
+                      Stage 1 uses public construction cost ranges to anchor the base rate. Results are baseline hard-cost planning estimates and should be reviewed before bids, budgets, purchasing, or contracts.
+                    </div>
+
+                    <div class="dark-field">
+                      <label for="sqft">
+                        Square Footage
+                        <span class="field-pill">Project scale</span>
+                      </label>
+                      <input id="sqft" type="number" value="10000" />
+                      <small>Total gross area of the project in square feet. Larger projects influence schedule, risk, and trade weighting.</small>
+                    </div>
+
+                    <div class="dark-field">
+                      <label for="material">
+                        Material Cost Index
+                        <span class="field-pill">1.0 = standard</span>
+                      </label>
+                      <input id="material" type="number" step="0.1" value="1.1" />
+                      <small>Represents today’s material market pressure. Higher values mean a more expensive material environment.</small>
+                    </div>
+
+                    <div class="dark-field">
+                      <label for="labor">
+                        Labor Cost Index
+                        <span class="field-pill">Regional labor burden</span>
+                      </label>
+                      <input id="labor" type="number" step="0.1" value="1.05" />
+                      <small>Use this for local labor cost conditions, workforce shortage pressure, or union burden.</small>
+                    </div>
+
+                    <div class="dark-field">
+                      <label for="complexity">
+                        Project Complexity
+                        <span class="field-pill">0.3 simple · 1.0 high</span>
+                      </label>
+                      <input id="complexity" type="number" step="0.1" value="0.8" />
+                      <small>Reflect scope complexity, design coordination, site difficulty, sequencing challenges, or systems integration.</small>
+                    </div>
+
+                  </div>
+
+                  <div class="estimator-actions">
+                    <button class="dark-btn primary" onclick="runWorkspaceEstimate()">Run Estimate</button>
+                    <button class="dark-btn" onclick="resetLocalUsage()">Reset Backend Demo</button>
+                  </div>
+
+                  <div class="estimator-help">
+                    This estimate structure is designed to feel closer to a professional estimating system than a simple calculator.
+                  </div>
+
+                  <div class="preview-backend-label">
+                    <div class="label-row">
+                      <span class="label-dot"></span>
+                      <div><strong>Preview result:</strong> shown immediately in the console so you can review estimate intelligence, scenarios, and budget pressure.</div>
+                    </div>
+                    <div class="label-row">
+                      <span class="label-dot green"></span>
+                      <div><strong>Backend result:</strong> saved and counted only when Astraa backend usage rules allow it for your current plan.</div>
+                    </div>
+                  </div>
+
+                  <div class="calibration-source-panel">
+                    <h3>Calibration Source</h3>
+
+                    <div class="calibration-source-grid">
+                      <div class="calibration-source-item">
+                        <span>Market</span>
+                        <strong id="calibrationMarketDisplay">BC / Vancouver</strong>
+                      </div>
+
+                      <div class="calibration-source-item">
+                        <span>Project Type</span>
+                        <strong id="calibrationProjectTypeDisplay">Commercial</strong>
+                      </div>
+
+                      <div class="calibration-source-item">
+                        <span>Base Rate</span>
+                        <strong id="calibrationBaseRateDisplay">$375 / sq ft</strong>
+                      </div>
+
+                      <div class="calibration-source-item">
+                        <span>BCPI Factor</span>
+                        <strong id="calibrationBcpiFactorDisplay">1.00</strong>
+                      </div>
+
+                      <div class="calibration-source-item">
+                        <span>Calibration Level</span>
+                        <strong id="calibrationLevelDisplay">Stage 1 public-data baseline</strong>
+                      </div>
+
+                      <div class="calibration-source-item">
+                        <span>Index Source</span>
+                        <strong id="statcanSourceLink">Statistics Canada BCPI</strong>
+                      </div>
+                    </div>
+
+                    <div class="bcpi-explanation">
+                      <strong>BCPI Factor explanation:</strong>
+                      The BCPI Factor is an index-style adjustment used to reflect market movement or escalation after the base $/sq ft benchmark is selected.
+                      <ul>
+                        <li><strong>1.00</strong> means no BCPI adjustment is applied.</li>
+                        <li><strong>1.05</strong> means a 5% upward escalation adjustment.</li>
+                        <li><strong>0.98</strong> means a 2% downward adjustment.</li>
+                      </ul>
+                      Statistics Canada BCPI should be used as escalation and market-movement context, not as a direct replacement for a cost guide, project bid, takeoff, or quantity surveyor review.
+                    </div>
+
+
+                    <div class="calibration-source-note">
+                      <strong>Important:</strong>
+                      Calibration uses public benchmark ranges as a planning anchor. Statistics Canada Building Construction Price Indexes are used as market-movement and escalation context through the BCPI Factor, not as a direct $/sq ft bid source. Results are baseline estimate intelligence for comparison and decision support, not a final bid, takeoff, contract price, or quantity surveyor review.
+                      <br /><br />
+                      <strong>Public source:</strong>
+                      Statistics Canada Building Construction Price Indexes measure changes over time in contractor prices for new commercial, institutional, industrial, and residential buildings across selected Canadian CMAs including Vancouver and Victoria.
+                    </div>
+                  </div>
+
+                  <div class="accuracy-note">
+                    <strong>Estimator accuracy & calibration note:</strong>
+                    Astraa Estimator currently provides baseline estimate intelligence for planning, comparison, and decision support.
+                    Estimate results should be reviewed before being used for bids, budgets, contracts, purchasing, or financial decisions.
+                    Accuracy improves as Astraa is calibrated with:
+                    <ul>
+                      <li>project type and scope details</li>
+                      <li>regional labor and material conditions</li>
+                      <li>trade-specific cost assumptions</li>
+                      <li>historical estimates and actual final project costs</li>
+                      <li>customer feedback shared through the Workspace</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="estimator-block">
+                    <h3>Estimate Intelligence Console</h3>
+                    <p>
+                      The result workspace is structured for owner review, bid framing, and operational decision support:
+                      estimate, risk, confidence, scenarios, trade visibility, and learning feedback.
+                    </p>
+
+                    <div class="console-metrics">
+                      <div class="console-metric">
+                        <div class="label">Base Estimate</div>
+                        <div id="metricBaseEstimate" class="value">$—</div>
+                        <div class="desc">Primary total estimate</div>
+                      </div>
+
+                      <div class="console-metric">
+                        <div class="label">Estimate Range</div>
+                        <div id="metricEstimateRange" class="value">$—</div>
+                        <div class="desc">Expected bid band</div>
+                      </div>
+
+                      <div class="console-metric">
+                        <div class="label">Budget Gap</div>
+                        <div id="metricBudgetGap" class="value">$—</div>
+                        <div id="metricBudgetStatus" class="desc">Budget comparison</div>
+                      </div>
+
+                      <div class="console-metric">
+                        <div class="label">Confidence</div>
+                        <div id="metricConfidence" class="value">—%</div>
+                        <div class="desc">Model trust level</div>
+                      </div>
+
+                      <div class="console-metric">
+                        <div class="label">Risk</div>
+                        <div id="metricRisk" class="value">—%</div>
+                        <div class="desc">Projected volatility pressure</div>
+                      </div>
+
+                      <div class="console-metric">
+                        <div class="label">Archetype</div>
+                        <div id="metricArchetype" class="value">—</div>
+                        <div class="desc">Detected project pattern</div>
+                      </div>
+                    </div>
+
+                    <div class="console-grid">
+                      <div class="console-box">
+                        <h3>Decision Guidance</h3>
+                        <div id="decisionGuidanceBox" class="guidance-box">
+                          Awaiting estimate — run the estimator to generate decision guidance and bid posture.
+                        </div>
+                        <ul id="decisionGuidanceList">
+                          <li>Recommendation will appear after estimate execution.</li>
+                          <li>Use this section to guide the next action — not just view the number.</li>
+                        </ul>
+                      </div>
+
+                      <div class="console-box">
+                        <h3>Executive Summary</h3>
+                        <ul id="executiveSummaryList">
+                          <li>Estimate not yet generated.</li>
+                          <li>Risk and confidence interpretation pending.</li>
+                          <li>Scenario and breakdown visibility will appear after run.</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="console-grid">
+                      <div class="console-box">
+                        <h3>Scenario Impact</h3>
+                        <table class="scenario-table">
+                          <tbody>
+                            <tr>
+                              <td>Material Spike</td>
+                              <td id="scenarioMaterial">—</td>
+                            </tr>
+                            <tr>
+                              <td>Labor Shortage</td>
+                              <td id="scenarioLabor">—</td>
+                            </tr>
+                            <tr>
+                              <td>Delay Risk</td>
+                              <td id="scenarioDelay">—</td>
+                            </tr>
+                            <tr>
+                              <td>Optimized Plan</td>
+                              <td id="scenarioOptimized">—</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div class="console-box">
+                        <h3>Trade Cost Breakdown</h3>
+                        <table class="trade-table">
+                          <tbody>
+                            <tr><td>Foundation</td><td id="tradeFoundation">—</td></tr>
+                            <tr><td>Framing</td><td id="tradeFraming">—</td></tr>
+                            <tr><td>Electrical</td><td id="tradeElectrical">—</td></tr>
+                            <tr><td>Plumbing</td><td id="tradePlumbing">—</td></tr>
+                            <tr><td>Finishes</td><td id="tradeFinishes">—</td></tr>
+                            <tr><td>Mechanical</td><td id="tradeMechanical">—</td></tr>
+                            <tr><td>Overhead</td><td id="tradeOverhead">—</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div class="console-box" style="margin-top:16px;">
+                      <h3>Feedback & Learning</h3>
+                      <p>
+                        Help us improve Astraa’s estimating intelligence. If you choose to share the final project cost later,
+                        Astraa can use that feedback to improve calibration, accuracy, and decision quality over time.
+                      </p>
+
+                      <div class="feedback-row">
+                        <input id="actualCostFeedback" type="number" placeholder="Optional: enter final project cost to help improve Astraa" />
+                        <button type="button" class="dark-btn" onclick="recordEstimatorFeedback()">Help Improve Astraa</button>
+                      </div>
+
+                      <div id="feedbackStatus" class="console-status"></div>
+                    </div>
+
+                    <div id="estimateResult" class="console-status"></div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </section>
 
           <!-- EXPENSE -->
@@ -734,83 +1943,75 @@
             </div>
           </section>
 
-          <!-- TOOLS -->
+          <!-- TOOLS PREVIEW -->
           <section class="card">
-            <h2>Connected Astraa tools</h2>
+            <h2>Astraa tool previews</h2>
 
             <p>
-              Start with Estimator, then expand through workspace tools, finance, operations,
-              data, commerce, and custom systems as your business grows.
+              Start with Astraa Estimator, then preview how other tools expand your Workspace.
+              Expense visibility is included as added value. Data Workspace is available as an add-on or inside selected packages.
             </p>
 
-            <div class="tool-grid">
-              <div class="tool">
+            <div class="preview-tool-grid">
+              <div class="preview-tool-card">
                 <h3>Astraa Estimator</h3>
-                <p>Baseline estimates with confidence and risk output.</p>
-                <span class="tool-tag tag-active">Featured</span>
-                <div class="tool-price">$59.99 standalone</div>
-                <div class="tool-note">Included in Basic / Professional</div>
+                <p>Detailed estimate intelligence with project intake, confidence, risk, decision guidance, scenarios, and trade breakdown.</p>
+                <span class="preview-pill included">Included in Core Plans</span>
+                <div class="preview-price">Trial / Basic / Professional / Custom</div>
               </div>
 
-              <div class="tool">
-                <h3>Expense Tool</h3>
-                <p>Expense visibility connected to estimating and workspace records.</p>
-                <span class="tool-tag tag-active">Included by tier</span>
-                <div class="tool-price">$40.99 standalone</div>
-                <div class="tool-note">$29.99 Workspace add-on</div>
+              <div class="preview-tool-card">
+                <h3>Expense Visibility</h3>
+                <p>Included across Astraa tools to help connect estimate decisions with cost awareness.</p>
+                <span class="preview-pill included">Included value layer</span>
+                <div class="preview-price">Basic limited / Professional full</div>
               </div>
 
-              <div class="tool">
+              <div class="preview-tool-card">
                 <h3>Operations Tool</h3>
-                <p>Workflow, approvals, handoffs, task stages, and repeatable process support.</p>
-                <span class="tool-tag tag-preview">Preview</span>
-                <div class="tool-price">$40.99 standalone</div>
-                <div class="tool-note">$29.99 Workspace add-on</div>
+                <p>Workflow structure, approvals, task stages, handoffs, and repeatable business processes.</p>
+                <span class="preview-pill addon">Tool plan or add-on</span>
+                <div class="preview-price">Basic $34.99 / Professional $59.99</div>
               </div>
 
-              <div class="tool">
+              <div class="preview-tool-card">
                 <h3>Finance Tool</h3>
-                <p>Cost summaries, margin thinking, and business finance visibility.</p>
-                <span class="tool-tag tag-preview">Preview</span>
-                <div class="tool-price">$40.99 standalone</div>
-                <div class="tool-note">$29.99 Workspace add-on</div>
+                <p>Cost summaries, margin thinking, estimate-to-expense visibility, and finance signals.</p>
+                <span class="preview-pill addon">Tool plan or add-on</span>
+                <div class="preview-price">Basic $29.99 / Professional $59.99</div>
               </div>
 
-              <div class="tool">
+              <div class="preview-tool-card">
                 <h3>Arkastra Commerce</h3>
-                <p>Service packages, quote flows, and customer-ready offers.</p>
-                <span class="tool-tag tag-coming">Coming soon</span>
-                <div class="tool-price">$40.99 standalone</div>
-                <div class="tool-note">$29.99 Workspace add-on</div>
+                <p>Service packages, quote flows, customer-ready offers, and transaction-oriented workflows.</p>
+                <span class="preview-pill addon">Coming soon</span>
+                <div class="preview-price">Basic $39.99 / Professional $79.99</div>
               </div>
 
-              <div class="tool">
+              <div class="preview-tool-card">
                 <h3>Data Workspace</h3>
-                <p>Records, references, saved files, and reporting-ready memory.</p>
-                <span class="tool-tag tag-preview">Limited</span>
-                <div class="tool-price">$40.99 standalone</div>
-                <div class="tool-note">$29.99 Workspace add-on</div>
+                <p>Records, references, saved files, estimate history, and reporting-ready business information.</p>
+                <span class="preview-pill addon">Add-on only</span>
+                <div class="preview-price">+$19.99 Basic / +$29.99 Professional</div>
               </div>
 
-              <div class="tool">
-                <h3>VSV Systems Intelligence</h3>
-                <p>Future public systems intelligence for operational use cases.</p>
-                <span class="tool-tag tag-custom">Discovery</span>
-                <div class="tool-price">From $299/month</div>
-                <div class="tool-note">Custom/discovery only</div>
+              <div class="preview-tool-card">
+                <h3>Industry Packages</h3>
+                <p>Construction, Services, Operations, Commerce, and Finance/Admin packages with Starter, Growth, Franchise, and Enterprise tiers.</p>
+                <span class="preview-pill custom">Package path</span>
+                <div class="preview-price">Starter / Growth / Franchise / Enterprise</div>
               </div>
 
-              <div class="tool">
+              <div class="preview-tool-card">
                 <h3>Custom Astraa Systems</h3>
-                <p>Tailored workflows, reports, templates, and integrations.</p>
-                <span class="tool-tag tag-custom">Quote-based</span>
-                <div class="tool-price">From $1,500 setup</div>
-                <div class="tool-note">Support typically from $199/month</div>
+                <p>Custom workflows, templates, reports, data structure, permissions, integrations, and business-specific logic.</p>
+                <span class="preview-pill custom">Quote-based</span>
+                <div class="preview-price">From $1,500 setup + support</div>
               </div>
             </div>
 
             <div class="action-row">
-              <a class="btn btn-primary" href="engines.html">Explore Tools</a>
+              <a class="btn btn-primary" href="pricing.html">View Pricing</a>
               <a class="btn btn-secondary" href="contact.html">Request Custom Package</a>
             </div>
           </section>
@@ -828,6 +2029,7 @@
               <li id="primaryEmailLine">Primary email: Not loaded</li>
               <li id="backupEmailLine">Backup email: Not loaded</li>
               <li id="businessLine">Business: Not loaded</li>
+              <li id="toolLine">Selected tool and plan will appear in Plan & usage.</li>
               <li>Different payment email may require verification before launch bonus is applied.</li>
             </ul>
 
@@ -854,10 +2056,244 @@
   </footer>
 
   <script>
+
+    /*
+      ASTRAA BACKEND API SETTINGS
+
+      Local testing default:
+        http://127.0.0.1:5000
+
+      For live/ngrok testing, open browser console and run:
+        localStorage.setItem("astraa_backend_base_url", "https://YOUR-NGROK-URL")
+
+      To reset back to local:
+        localStorage.removeItem("astraa_backend_base_url")
+    */
+    const ASTRAA_BACKEND_BASE_URL =
+      localStorage.getItem("astraa_backend_base_url") ||
+      sessionStorage.getItem("astraa_backend_base_url") ||
+      "http://127.0.0.1:5000";
+
+    function astraaApiUrl(path) {
+      return ASTRAA_BACKEND_BASE_URL.replace(/\/$/, "") + path;
+    }
+
+    function syncLocalUsageFromBackendUsage(backendUsage) {
+      if (!backendUsage) {
+        return;
+      }
+
+      if (!usage) {
+        usage = {
+          totalLimit: backendUsage.estimate_limit,
+          used: backendUsage.estimate_used || 0,
+          dailyLimit: backendUsage.daily_limit,
+          lastEstimateDate: backendUsage.last_trial_estimate_date || null,
+          savedEstimates: [],
+          expenses: [],
+          receipts: [],
+          planKey: backendUsage.selected_plan || "Trial"
+        };
+      }
+
+      usage.totalLimit = backendUsage.estimate_limit;
+      usage.used = backendUsage.estimate_used || 0;
+      usage.dailyLimit = backendUsage.daily_limit;
+      usage.lastEstimateDate = backendUsage.last_trial_estimate_date || null;
+      usage.planKey = backendUsage.selected_plan || usage.planKey || "Trial";
+
+      if (!Array.isArray(usage.savedEstimates)) {
+        usage.savedEstimates = [];
+      }
+
+      if (!Array.isArray(usage.expenses)) {
+        usage.expenses = [];
+      }
+
+      if (!Array.isArray(usage.receipts)) {
+        usage.receipts = [];
+      }
+
+      sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
+
+      if (backendUsage.selected_tool) {
+        sessionStorage.setItem("astraa_selected_tool", backendUsage.selected_tool);
+      }
+
+      if (backendUsage.selected_plan) {
+        sessionStorage.setItem("astraa_selected_plan", backendUsage.selected_plan);
+      }
+
+      if (backendUsage.selected_price) {
+        sessionStorage.setItem("astraa_selected_price", backendUsage.selected_price);
+      }
+    }
+
+
+    function sanitizeEstimateInputs() {
+      const sqftInput = document.getElementById("sqft");
+      const materialInput = document.getElementById("material");
+      const laborInput = document.getElementById("labor");
+      const complexityInput = document.getElementById("complexity");
+      const customerBudgetInput = document.getElementById("customerBudget");
+
+      if (Number(sqftInput.value || 0) <= 0) {
+        sqftInput.value = 10000;
+      }
+
+      if (Number(materialInput.value || 0) <= 0) {
+        materialInput.value = 1.1;
+      }
+
+      if (Number(laborInput.value || 0) <= 0) {
+        laborInput.value = 1.05;
+      }
+
+      if (Number(complexityInput.value || 0) <= 0) {
+        complexityInput.value = 0.8;
+      }
+
+      if (customerBudgetInput && Number(customerBudgetInput.value || 0) < 0) {
+        customerBudgetInput.value = 0;
+      }
+    }
+
+
+    function getWorkspaceEmail() {
+      let email = "";
+
+      if (account && account.primary_email) {
+        email = account.primary_email;
+      }
+
+      if (!email) {
+        email = sessionStorage.getItem("astraa_checkout_email") || "";
+      }
+
+      if (!email) {
+        try {
+          const rawAccount = sessionStorage.getItem("astraa_trial_registration");
+          const storedAccount = rawAccount ? JSON.parse(rawAccount) : null;
+
+          if (storedAccount && storedAccount.primary_email) {
+            email = storedAccount.primary_email;
+          }
+        } catch (error) {
+          email = "";
+        }
+      }
+
+      /*
+        Soft-launch fallback:
+        If the user opens the Workspace directly during testing, Astraa still needs
+        an internal account key for backend usage tracking. The customer should not
+        have to enter an email again inside the Workspace.
+      */
+      if (!email) {
+        email = "astraa.live.test@astraasystems.com";
+      }
+
+      sessionStorage.setItem("astraa_checkout_email", email);
+
+      if (!account) {
+        account = {
+          full_name: "Astraa Workspace Customer",
+          primary_email: email,
+          backup_email: "astraa.backup.test@astraasystems.com",
+          business_name: "Astraa Workspace",
+          industry: "Construction / contracting",
+          selected_tool: sessionStorage.getItem("astraa_selected_tool") || "Astraa Estimator",
+          selected_plan: sessionStorage.getItem("astraa_selected_plan") || "Trial",
+          selected_price: sessionStorage.getItem("astraa_selected_price") || "$0 / 15 days",
+          plan: sessionStorage.getItem("astraa_selected_plan") || "Trial",
+          soft_launch_workspace_account: true
+        };
+
+        sessionStorage.setItem("astraa_trial_registration", JSON.stringify(account));
+      }
+
+      return email;
+    }
+
+    function getEstimateRequestPayload() {
+      sanitizeEstimateInputs();
+      const selection = getAstraaSelection();
+
+      const sqft = parseFloat(document.getElementById("sqft").value || "0");
+      const material = parseFloat(document.getElementById("material").value || "1");
+      const labor = parseFloat(document.getElementById("labor").value || "1");
+      const complexity = parseFloat(document.getElementById("complexity").value || "1");
+
+      const email = getWorkspaceEmail();
+
+      return {
+        email: email,
+        selected_tool: selection.tool || "Astraa Estimator",
+        selected_plan: selection.plan || "Trial",
+        selected_price: selection.price || "$0 / 15 days",
+        business_name: account && account.business_name ? account.business_name : "",
+        industry: account && account.industry ? account.industry : "",
+        sqft: sqft,
+        material: material,
+        labor: labor,
+        complexity: complexity,
+        project_type: document.getElementById("projectType") ? document.getElementById("projectType").value : "Commercial",
+        location_market: document.getElementById("locationMarket") ? document.getElementById("locationMarket").value : "BC / Vancouver",
+        base_rate: parseFloat(document.getElementById("calibratedBaseRate") ? document.getElementById("calibratedBaseRate").value || "375" : "375"),
+        bcpi_factor: parseFloat(document.getElementById("bcpiFactor") ? document.getElementById("bcpiFactor").value || "1.00" : "1.00"),
+        customer_budget: parseFloat(document.getElementById("customerBudget") ? document.getElementById("customerBudget").value || "0" : "0"),
+        source: "customer_portal"
+      };
+    }
+
     let account = null;
     let usage = null;
 
+
+    function ensureSoftLaunchAccountFallback() {
+      const rawAccount = sessionStorage.getItem("astraa_trial_registration");
+
+      if (rawAccount) {
+        return;
+      }
+
+      const fallbackEmail = sessionStorage.getItem("astraa_checkout_email") || "astraa.live.test@astraasystems.com";
+
+      const fallbackAccount = {
+        full_name: "Astraa Live Tester",
+        primary_email: fallbackEmail,
+        backup_email: "astraa.backup.test@astraasystems.com",
+        phone: "6040000000",
+        business_name: "Astraa Live Test Business",
+        industry: "Construction / contracting",
+        country: "Canada",
+        selected_tool: sessionStorage.getItem("astraa_selected_tool") || "Astraa Estimator",
+        selected_plan: sessionStorage.getItem("astraa_selected_plan") || "Trial",
+        selected_price: sessionStorage.getItem("astraa_selected_price") || "$0 / 15 days",
+        plan: sessionStorage.getItem("astraa_selected_plan") || "Trial",
+        launch_bonus_eligible: true,
+        created_at: new Date().toISOString(),
+        soft_launch_fallback: true
+      };
+
+      sessionStorage.setItem("astraa_trial_registration", JSON.stringify(fallbackAccount));
+      sessionStorage.setItem("astraa_checkout_email", fallbackEmail);
+
+      if (!sessionStorage.getItem("astraa_selected_tool")) {
+        sessionStorage.setItem("astraa_selected_tool", "Astraa Estimator");
+      }
+
+      if (!sessionStorage.getItem("astraa_selected_plan")) {
+        sessionStorage.setItem("astraa_selected_plan", "Trial");
+      }
+
+      if (!sessionStorage.getItem("astraa_selected_price")) {
+        sessionStorage.setItem("astraa_selected_price", "$0 / 15 days");
+      }
+    }
+
     function loadPortalData() {
+      ensureSoftLaunchAccountFallback();
       const rawAccount = sessionStorage.getItem("astraa_trial_registration");
       const rawUsage = sessionStorage.getItem("astraa_usage");
 
@@ -878,18 +2314,218 @@
       }
 
       if (!usage) {
+        const selection = getAstraaSelection();
+        const config = getPlanLimitConfig(selection);
+
         usage = {
-          totalLimit: 15,
+          totalLimit: config.totalLimit,
           used: 0,
-          dailyLimit: 1,
+          dailyLimit: config.dailyLimit,
           lastEstimateDate: null,
           savedEstimates: [],
           expenses: [],
-          receipts: []
+          receipts: [],
+          planKey: config.plan
         };
+
+        sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
       }
 
       renderPortal();
+    }
+
+
+    function getAstraaSelection() {
+      const selectedTool =
+        sessionStorage.getItem("astraa_paid_tool") ||
+        sessionStorage.getItem("astraa_selected_tool") ||
+        (account && account.selected_tool) ||
+        "Astraa Estimator";
+
+      const selectedPlan =
+        sessionStorage.getItem("astraa_paid_plan") ||
+        sessionStorage.getItem("astraa_selected_plan") ||
+        (account && account.selected_plan) ||
+        (account && account.plan) ||
+        "Trial";
+
+      const selectedPrice =
+        sessionStorage.getItem("astraa_paid_price") ||
+        sessionStorage.getItem("astraa_selected_price") ||
+        (account && account.selected_price) ||
+        "$0 / 15 days";
+
+      const checkoutEmail =
+        sessionStorage.getItem("astraa_checkout_email") ||
+        (account && account.primary_email) ||
+        "";
+
+      const paymentComplete =
+        sessionStorage.getItem("astraa_payment_complete") === "true";
+
+      let receipt = null;
+
+      try {
+        const rawReceipt = sessionStorage.getItem("astraa_payment_receipt");
+        receipt = rawReceipt ? JSON.parse(rawReceipt) : null;
+      } catch (error) {
+        receipt = null;
+      }
+
+      return {
+        tool: selectedTool,
+        plan: selectedPlan,
+        price: selectedPrice,
+        email: checkoutEmail,
+        paymentComplete: paymentComplete,
+        receipt: receipt
+      };
+    }
+
+
+    function getPlanLimitConfig(selection) {
+      const plan = selection.plan || "Trial";
+
+      if (plan === "Trial") {
+        return {
+          plan: "Trial",
+          totalLimit: 15,
+          dailyLimit: 1,
+          dailyLabel: "1/day",
+          periodLabel: "15-day trial",
+          limitDescription: "Trial includes 15 total estimates over 15 days — 1 estimate per day."
+        };
+      }
+
+      if (plan === "Basic") {
+        return {
+          plan: "Basic",
+          totalLimit: 30,
+          dailyLimit: null,
+          dailyLabel: "No daily cap",
+          periodLabel: "Monthly",
+          limitDescription: "Basic includes 30 estimates per month. Daily estimate blocking is not applied in this frontend preview."
+        };
+      }
+
+      if (plan === "Professional") {
+        return {
+          plan: "Professional",
+          totalLimit: 120,
+          dailyLimit: null,
+          dailyLabel: "No daily cap",
+          periodLabel: "Monthly",
+          limitDescription: "Professional includes 120 estimates per month. Daily estimate blocking is not applied in this frontend preview."
+        };
+      }
+
+      return {
+        plan: plan,
+        totalLimit: null,
+        dailyLimit: null,
+        dailyLabel: "Scoped",
+        periodLabel: "Custom",
+        limitDescription: "Custom usage is scoped separately based on the package, workflow, and agreement."
+      };
+    }
+
+    function ensureUsageMatchesPlan() {
+      const selection = getAstraaSelection();
+      const config = getPlanLimitConfig(selection);
+
+      if (!usage) {
+        usage = {
+          totalLimit: config.totalLimit || 15,
+          used: 0,
+          dailyLimit: config.dailyLimit,
+          lastEstimateDate: null,
+          savedEstimates: [],
+          expenses: [],
+          receipts: [],
+          planKey: config.plan
+        };
+      }
+
+      if (!Array.isArray(usage.savedEstimates)) {
+        usage.savedEstimates = [];
+      }
+
+      if (!Array.isArray(usage.expenses)) {
+        usage.expenses = [];
+      }
+
+      if (!Array.isArray(usage.receipts)) {
+        usage.receipts = [];
+      }
+
+      usage.planKey = config.plan;
+      usage.totalLimit = config.totalLimit;
+      usage.dailyLimit = config.dailyLimit;
+
+      sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
+
+      return config;
+    }
+
+    function getRemainingEstimateCount(config) {
+      if (!config.totalLimit) {
+        return "Scoped";
+      }
+
+      return Math.max(config.totalLimit - usage.used, 0);
+    }
+
+    function getUsageLabel(config) {
+      if (!config.totalLimit) {
+        return usage.used + " / Scoped";
+      }
+
+      return usage.used + " / " + config.totalLimit;
+    }
+
+    function getUsagePercent(config) {
+      if (!config.totalLimit || config.totalLimit <= 0) {
+        return 0;
+      }
+
+      return Math.min((usage.used / config.totalLimit) * 100, 100);
+    }
+
+    function renderSelectedAccess() {
+      const selection = getAstraaSelection();
+
+      const selectedToolDisplay = document.getElementById("selectedToolDisplay");
+      const selectedPlanDisplay = document.getElementById("selectedPlanDisplay");
+      const selectedPriceDisplay = document.getElementById("selectedPriceDisplay");
+      const checkoutEmailDisplay = document.getElementById("checkoutEmailDisplay");
+      const paymentStatusDisplay = document.getElementById("paymentStatusDisplay");
+      const paidStatusPill = document.getElementById("paidStatusPill");
+
+      if (!selectedToolDisplay) {
+        return;
+      }
+
+      selectedToolDisplay.textContent = selection.tool;
+      selectedPlanDisplay.textContent = selection.plan;
+      selectedPriceDisplay.textContent = selection.price;
+      checkoutEmailDisplay.textContent = selection.email || "Not provided";
+
+      if (selection.paymentComplete) {
+        paymentStatusDisplay.textContent = "Payment recorded locally";
+
+        paidStatusPill.className = "paid-pill";
+        paidStatusPill.textContent = "Payment state found for this browser session";
+      } else if (selection.plan === "Trial") {
+        paymentStatusDisplay.textContent = "Trial / not paid";
+
+        paidStatusPill.className = "unpaid-pill";
+        paidStatusPill.textContent = "Trial access active — no payment required";
+      } else {
+        paymentStatusDisplay.textContent = "Payment not confirmed";
+
+        paidStatusPill.className = "unpaid-pill";
+        paidStatusPill.textContent = "Payment not confirmed in this browser session";
+      }
     }
 
     function renderPortal() {
@@ -901,23 +2537,26 @@
       document.getElementById("welcomeTitle").textContent =
         "Welcome to Astraa Workspace, " + name + ".";
 
-      document.getElementById("planName").textContent = "Trial";
+      const selection = getAstraaSelection();
+      const config = ensureUsageMatchesPlan();
 
-      document.getElementById("planDescription").textContent =
-        "Trial includes 15 total estimates over 15 days — 1 estimate per day.";
+      document.getElementById("planName").textContent = selection.plan;
 
-      const remaining = Math.max(usage.totalLimit - usage.used, 0);
+      if (selection.paymentComplete) {
+        document.getElementById("planDescription").textContent =
+          "Paid access recorded for " + selection.tool + " — " + selection.plan + ". " + config.limitDescription + " Official payment proof should still be confirmed in Moneris admin.";
+      } else if (selection.plan === "Trial") {
+        document.getElementById("planDescription").textContent = config.limitDescription;
+      } else {
+        document.getElementById("planDescription").textContent =
+          selection.tool + " — " + selection.plan + " selected. Payment is not confirmed in this browser session. " + config.limitDescription;
+      }
 
-      document.getElementById("remainingCount").textContent = remaining;
-      document.getElementById("dailyLimit").textContent = "1/day";
-      document.getElementById("bonusStatus").textContent = "Eligible";
-      document.getElementById("usageLabel").textContent = usage.used + " / " + usage.totalLimit;
-
-      const percent = usage.totalLimit > 0
-        ? Math.min((usage.used / usage.totalLimit) * 100, 100)
-        : 0;
-
-      document.getElementById("usageFill").style.width = percent + "%";
+      document.getElementById("remainingCount").textContent = getRemainingEstimateCount(config);
+      document.getElementById("dailyLimit").textContent = config.dailyLabel;
+      document.getElementById("bonusStatus").textContent = selection.plan === "Trial" ? "Eligible" : "Applied / verify";
+      document.getElementById("usageLabel").textContent = getUsageLabel(config);
+      document.getElementById("usageFill").style.width = getUsagePercent(config) + "%";
 
       document.getElementById("savedEstimateCount").textContent =
         usage.savedEstimates.length + " saved locally";
@@ -936,6 +2575,13 @@
 
       document.getElementById("businessLine").textContent =
         "Business: " + business;
+
+      const toolLine = document.getElementById("toolLine");
+      if (toolLine) {
+        toolLine.textContent = "Selected access: " + selection.tool + " — " + selection.plan + " — " + selection.price;
+      }
+
+      renderSelectedAccess();
     }
 
     function todayKey() {
@@ -943,6 +2589,12 @@
     }
 
     function canRunEstimateToday() {
+      const config = ensureUsageMatchesPlan();
+
+      if (!config.dailyLimit) {
+        return true;
+      }
+
       if (!usage.lastEstimateDate) {
         return true;
       }
@@ -954,56 +2606,463 @@
       return "$" + Math.round(value).toLocaleString("en-CA");
     }
 
-    function runWorkspaceEstimate() {
-      const result = document.getElementById("estimateResult");
 
-      if (usage.used >= usage.totalLimit) {
-        result.className = "estimate-result error";
-        result.textContent =
-          "Trial estimate limit reached. Upgrade to Basic or Professional to continue using Astraa.";
-        result.style.display = "block";
+    function clampNumber(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function formatCompactCurrency(value) {
+      if (!isFinite(value)) {
+        return "$—";
+      }
+
+      return "$" + Math.round(value).toLocaleString("en-CA");
+    }
+
+    function deriveEstimatorIntelligence(estimateData, payload) {
+      const estimate = Number(estimateData && estimateData.estimate ? estimateData.estimate : 0);
+      const material = Number(payload.material || 1);
+      const labor = Number(payload.labor || 1);
+      const complexity = Number(payload.complexity || 1);
+      const sqft = Number(payload.sqft || 0);
+      const projectType = document.getElementById("projectType") ? document.getElementById("projectType").value : "Commercial";
+      const customerBudget = Number(payload.customer_budget || 0);
+      const budgetGap = customerBudget > 0 ? estimate - customerBudget : 0;
+      const budgetGapPercent = customerBudget > 0 ? (budgetGap / customerBudget) * 100 : 0;
+
+      const pressure = Math.max(material, labor, complexity);
+      const risk = clampNumber(Math.round(((material - 1) * 45) + ((labor - 1) * 35) + (complexity * 35)), 8, 95);
+      const confidence = clampNumber(100 - Math.round(risk * 0.55), 45, 92);
+
+      const low = estimate * (1 - risk / 300);
+      const high = estimate * (1 + risk / 220);
+
+      let archetype = "Balanced";
+      if (complexity >= 0.85) archetype = "Complex build";
+      else if (material >= 1.2) archetype = "Material-sensitive";
+      else if (labor >= 1.15) archetype = "Labor-sensitive";
+      else if (sqft >= 50000) archetype = "Large scale";
+      else if (projectType === "Renovation") archetype = "Renovation risk";
+      else if (projectType === "Service / Repair") archetype = "Service scope";
+
+      const materialSpike = estimate * 0.08 * material;
+      const laborShortage = estimate * 0.06 * labor;
+      const delayRisk = estimate * 0.04 * complexity;
+      const optimized = estimate * 0.035;
+
+      const trades = {
+        foundation: estimate * 0.14,
+        framing: estimate * 0.18,
+        electrical: estimate * 0.10,
+        plumbing: estimate * 0.09,
+        finishes: estimate * 0.17,
+        mechanical: estimate * 0.12,
+        overhead: estimate * 0.20
+      };
+
+      let guidance = "Estimate generated — review range, risk, and trade breakdown before bid decision.";
+      if (risk >= 70) {
+        guidance = "High risk posture — consider contingency, supplier validation, and conservative bid framing.";
+      } else if (risk >= 45) {
+        guidance = "Moderate risk posture — validate material and labor assumptions before final pricing.";
+      } else {
+        guidance = "Stable posture — estimate appears within a controlled risk band for initial review.";
+      }
+
+      return {
+        estimate,
+        low,
+        high,
+        confidence,
+        risk,
+        archetype,
+        materialSpike,
+        laborShortage,
+        delayRisk,
+        optimized,
+        trades,
+        guidance,
+        customerBudget,
+        budgetGap,
+        budgetGapPercent
+      };
+    }
+
+
+    function updateCalibrationSourceDisplay(payload, estimateData) {
+      const marketEl = document.getElementById("calibrationMarketDisplay");
+      const typeEl = document.getElementById("calibrationProjectTypeDisplay");
+      const rateEl = document.getElementById("calibrationBaseRateDisplay");
+      const levelEl = document.getElementById("calibrationLevelDisplay");
+
+      if (!marketEl || !typeEl || !rateEl || !levelEl) {
         return;
       }
 
-      if (!canRunEstimateToday()) {
-        result.className = "estimate-result error";
-        result.textContent =
-          "Daily trial limit reached. Trial allows 1 estimate per day.";
-        result.style.display = "block";
+      const projectType =
+        (estimateData && estimateData.project_type) ||
+        payload.project_type ||
+        "Commercial";
+
+      const market =
+        (estimateData && estimateData.location_market) ||
+        payload.location_market ||
+        "BC / Vancouver";
+
+      const baseRate =
+        (estimateData && estimateData.base_rate) ||
+        payload.base_rate ||
+        375;
+
+      const calibrationBasis =
+        (estimateData && estimateData.calibration_basis) ||
+        "Stage 1 public-data calibrated baseline";
+
+      marketEl.textContent = market;
+      typeEl.textContent = projectType;
+      rateEl.textContent = "$" + Number(baseRate).toLocaleString("en-CA") + " / sq ft";
+
+      const bcpiEl = document.getElementById("calibrationBcpiFactorDisplay");
+      if (bcpiEl) {
+        bcpiEl.textContent = Number(bcpiFactor).toFixed(2);
+      }
+
+      levelEl.textContent = calibrationBasis;
+    }
+
+    function updateEstimatorConsole(data, payload) {
+      if (!data || !data.estimate) {
         return;
       }
 
-      const sqft = parseFloat(document.getElementById("sqft").value || "0");
-      const material = parseFloat(document.getElementById("material").value || "1");
-      const labor = parseFloat(document.getElementById("labor").value || "1");
-      const complexity = parseFloat(document.getElementById("complexity").value || "1");
+      updateCalibrationSourceDisplay(payload, data.estimate);
+      const intelligence = deriveEstimatorIntelligence(data.estimate, payload);
 
-      const baseRate = 400;
-      const estimate = sqft * baseRate * material * labor * complexity;
+      document.getElementById("metricBaseEstimate").textContent = formatCompactCurrency(intelligence.estimate);
+      document.getElementById("metricEstimateRange").textContent =
+        formatCompactCurrency(intelligence.low) + " – " + formatCompactCurrency(intelligence.high);
 
-      usage.used += 1;
-      usage.lastEstimateDate = todayKey();
+      const budgetGapEl = document.getElementById("metricBudgetGap");
+      const budgetStatusEl = document.getElementById("metricBudgetStatus");
 
-      usage.savedEstimates.push({
+      if (budgetGapEl && budgetStatusEl) {
+        if (intelligence.customerBudget > 0) {
+          const gapText =
+            (intelligence.budgetGap >= 0 ? "+" : "-") +
+            formatCompactCurrency(Math.abs(intelligence.budgetGap));
+
+          budgetGapEl.textContent = gapText;
+
+          if (intelligence.budgetGap > 0) {
+            budgetStatusEl.textContent =
+              "Over budget by " + Math.abs(intelligence.budgetGapPercent).toFixed(1) + "%";
+          } else if (intelligence.budgetGap < 0) {
+            budgetStatusEl.textContent =
+              "Under budget by " + Math.abs(intelligence.budgetGapPercent).toFixed(1) + "%";
+          } else {
+            budgetStatusEl.textContent = "Matches budget";
+          }
+        } else {
+          budgetGapEl.textContent = "$—";
+          budgetStatusEl.textContent = "No budget entered";
+        }
+      }
+      document.getElementById("metricConfidence").textContent = intelligence.confidence + "%";
+      document.getElementById("metricRisk").textContent = intelligence.risk + "%";
+      document.getElementById("metricArchetype").textContent = intelligence.archetype;
+
+      document.getElementById("decisionGuidanceBox").textContent = intelligence.guidance;
+
+      document.getElementById("decisionGuidanceList").innerHTML =
+        "<li>Review estimate range before customer-facing pricing.</li>" +
+        "<li>Use confidence and risk together to decide bid posture.</li>" +
+        "<li>Compare scenario impacts before final proposal.</li>";
+
+      document.getElementById("executiveSummaryList").innerHTML =
+        "<li>Base estimate generated: " + formatCompactCurrency(intelligence.estimate) + ".</li>" +
+        "<li>Estimated bid band: " + formatCompactCurrency(intelligence.low) + " – " + formatCompactCurrency(intelligence.high) + ".</li>" +
+        (intelligence.customerBudget > 0
+          ? "<li>Budget comparison: " + (intelligence.budgetGap >= 0 ? "over budget by " : "under budget by ") + formatCompactCurrency(Math.abs(intelligence.budgetGap)) + ".</li>"
+          : "<li>No customer budget entered for comparison.</li>") +
+        "<li>Risk posture: " + intelligence.risk + "% with confidence at " + intelligence.confidence + "%.</li>";
+
+      document.getElementById("scenarioMaterial").textContent = "+" + formatCompactCurrency(intelligence.materialSpike);
+      document.getElementById("scenarioLabor").textContent = "+" + formatCompactCurrency(intelligence.laborShortage);
+      document.getElementById("scenarioDelay").textContent = "+" + formatCompactCurrency(intelligence.delayRisk);
+      document.getElementById("scenarioOptimized").textContent = "-" + formatCompactCurrency(intelligence.optimized);
+
+      document.getElementById("tradeFoundation").textContent = formatCompactCurrency(intelligence.trades.foundation);
+      document.getElementById("tradeFraming").textContent = formatCompactCurrency(intelligence.trades.framing);
+      document.getElementById("tradeElectrical").textContent = formatCompactCurrency(intelligence.trades.electrical);
+      document.getElementById("tradePlumbing").textContent = formatCompactCurrency(intelligence.trades.plumbing);
+      document.getElementById("tradeFinishes").textContent = formatCompactCurrency(intelligence.trades.finishes);
+      document.getElementById("tradeMechanical").textContent = formatCompactCurrency(intelligence.trades.mechanical);
+      document.getElementById("tradeOverhead").textContent = formatCompactCurrency(intelligence.trades.overhead);
+    }
+
+
+    function getSavedEstimatorFeedback() {
+      try {
+        return JSON.parse(sessionStorage.getItem("astraa_estimator_feedback") || "[]");
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function recordEstimatorFeedback() {
+      const input = document.getElementById("actualCostFeedback");
+      const feedbackStatus = document.getElementById("feedbackStatus") || document.getElementById("estimateResult");
+
+      const rawValue = input ? input.value : "";
+      const value = parseFloat(rawValue || "0");
+
+      if (!value || value <= 0) {
+        feedbackStatus.className = "console-status error";
+        feedbackStatus.textContent =
+          "Enter a valid final project cost before submitting feedback. This can be added after the real project cost is known.";
+        feedbackStatus.style.display = "block";
+        return;
+      }
+
+      const selection = getAstraaSelection ? getAstraaSelection() : {
+        tool: sessionStorage.getItem("astraa_selected_tool") || "Astraa Estimator",
+        plan: sessionStorage.getItem("astraa_selected_plan") || "Trial",
+        price: sessionStorage.getItem("astraa_selected_price") || "$0 / 15 days",
+        email: sessionStorage.getItem("astraa_checkout_email") || "Not provided"
+      };
+
+      const latestEstimate =
+        usage &&
+        Array.isArray(usage.savedEstimates) &&
+        usage.savedEstimates.length
+          ? usage.savedEstimates[usage.savedEstimates.length - 1]
+          : null;
+
+      const feedback = {
         created_at: new Date().toISOString(),
+        actual_final_cost: value,
+        account_email: getWorkspaceEmail ? getWorkspaceEmail() : selection.email,
+        selected_tool: selection.tool,
+        selected_plan: selection.plan,
+        selected_price: selection.price,
+        latest_estimate: latestEstimate,
+        source: "customer_portal_feedback",
+        customer_message:
+          "Customer shared optional final project cost to help improve Astraa estimating intelligence."
+      };
+
+      let existing = [];
+
+      try {
+        existing = JSON.parse(sessionStorage.getItem("astraa_estimator_feedback") || "[]");
+        if (!Array.isArray(existing)) {
+          existing = [];
+        }
+      } catch (error) {
+        existing = [];
+      }
+
+      existing.push(feedback);
+
+      sessionStorage.setItem("astraa_estimator_feedback", JSON.stringify(existing));
+
+      feedbackStatus.className = "console-status success";
+      feedbackStatus.textContent =
+        "Thank you — your feedback was recorded locally to help improve Astraa’s future estimating intelligence." +
+        "\n\nFinal project cost shared: " +
+        formatCompactCurrency(value) +
+        "\nTool: " +
+        feedback.selected_tool +
+        "\nPlan: " +
+        feedback.selected_plan +
+        "\n\nIn production, this feedback can be securely connected to Astraa’s improvement and reporting workflow.";
+
+      feedbackStatus.style.display = "block";
+
+      if (input) {
+        input.value = "";
+      }
+    }
+
+
+
+    function getPublicCalibratedBaseRate(projectType, locationMarket) {
+      projectType = String(projectType || "Commercial").toLowerCase();
+      locationMarket = String(locationMarket || "BC / Vancouver");
+
+      const table = {
+        "commercial": 375,
+        "residential": 300,
+        "renovation": 250,
+        "service / repair": 190,
+        "industrial": 325,
+        "custom": 400
+      };
+
+      if (projectType.includes("residential")) return table.residential;
+      if (projectType.includes("commercial")) return table.commercial;
+      if (projectType.includes("renovation")) return table.renovation;
+      if (projectType.includes("service") || projectType.includes("repair")) return table["service / repair"];
+      if (projectType.includes("industrial")) return table.industrial;
+      if (projectType.includes("custom")) return table.custom;
+
+      return table.commercial;
+    }
+
+
+    function refreshCalibrationSourceFromInputsOnly() {
+      const payload = {
+        project_type: document.getElementById("projectType") ? document.getElementById("projectType").value : "Commercial",
+        location_market: document.getElementById("locationMarket") ? document.getElementById("locationMarket").value : "BC / Vancouver",
+        base_rate: parseFloat(document.getElementById("calibratedBaseRate") ? document.getElementById("calibratedBaseRate").value || "375" : "375")
+      };
+
+      updateCalibrationSourceDisplay(payload, {
+        project_type: payload.project_type,
+        location_market: payload.location_market,
+        base_rate: payload.base_rate,
+        bcpi_factor: payload.bcpi_factor,
+        calibration_basis: "Stage 1 public-data calibrated baseline"
+      });
+    }
+
+    function updateCalibratedBaseRateFromInputs() {
+      const projectTypeEl = document.getElementById("projectType");
+      const locationEl = document.getElementById("locationMarket");
+      const baseRateEl = document.getElementById("calibratedBaseRate");
+
+      if (!projectTypeEl || !locationEl || !baseRateEl) {
+        return;
+      }
+
+      const rate = getPublicCalibratedBaseRate(projectTypeEl.value, locationEl.value);
+      baseRateEl.value = rate;
+      refreshCalibrationSourceFromInputsOnly();
+    }
+
+    function buildLocalPreviewEstimate(payload) {
+      const sqft = Number(payload.sqft || 0);
+      const material = Number(payload.material || 1);
+      const labor = Number(payload.labor || 1);
+      const complexity = Number(payload.complexity || 1);
+      const baseRate = Number(payload.base_rate || 400);
+      const bcpiFactor = Number(payload.bcpi_factor || 1.0);
+
+      return {
         sqft: sqft,
         material: material,
         labor: labor,
         complexity: complexity,
-        estimate: estimate
-      });
+        base_rate: baseRate,
+        bcpi_factor: bcpiFactor,
+        estimate: sqft * baseRate * bcpiFactor * material * labor * complexity
+      };
+    }
 
-      sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
+    function showEstimatorPreview(payload) {
+      const previewEstimate = buildLocalPreviewEstimate(payload);
 
-      result.className = "estimate-result success";
+      if (typeof updateEstimatorConsole === "function") {
+        updateEstimatorConsole(
+          {
+            estimate: previewEstimate
+          },
+          payload
+        );
+      }
+
+      return previewEstimate;
+    }
+
+    async function runWorkspaceEstimate() {
+      const result = document.getElementById("estimateResult");
+
+      const payload = getEstimateRequestPayload();
+
+      // Always populate the console immediately as a preview.
+      // Backend still decides whether this estimate is allowed/saved.
+      const previewEstimate = showEstimatorPreview(payload);
+
+      result.className = "console-status success";
       result.textContent =
-        "Workspace estimate created.\n\nEstimated baseline: " +
-        formatCurrency(estimate) +
-        "\n\nThis estimate was saved locally in your trial workspace preview.";
-
+        "Preview result generated in the console. Checking backend usage rules now...\n\n" +
+        "Workspace email: " + payload.email + "\n" +
+        "Endpoint: " + astraaApiUrl("/api/estimate");
       result.style.display = "block";
 
-      renderPortal();
+      try {
+        const response = await fetch(astraaApiUrl("/api/estimate"), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          if (data.usage) {
+            syncLocalUsageFromBackendUsage(data.usage);
+            renderPortal();
+          }
+
+          result.className = "console-status error";
+          result.textContent =
+            (data.error || "Backend estimate request failed.") +
+            "\n\nThe estimator is connected, but the backend limit prevented a new estimate from being generated." +
+            "\n\nBackend usage:" +
+            "\nPlan: " + (data.usage && data.usage.selected_plan ? data.usage.selected_plan : payload.selected_plan) +
+            "\nUsed: " + (data.usage && data.usage.estimate_used !== undefined ? data.usage.estimate_used : "Unknown") +
+            "\nRemaining: " + (data.usage && data.usage.estimate_remaining !== undefined ? data.usage.estimate_remaining : "Unknown") +
+            "\n\nFor testing, select Reset Backend Demo, then run the estimate again. Feedback can still be submitted separately below when you have a final project cost.";
+          result.style.display = "block";
+          return;
+        }
+
+        syncLocalUsageFromBackendUsage(data.usage);
+        updateEstimatorConsole(data, payload);
+
+        if (data.estimate) {
+          if (!Array.isArray(usage.savedEstimates)) {
+            usage.savedEstimates = [];
+          }
+
+          usage.savedEstimates.push({
+            created_at: new Date().toISOString(),
+            sqft: data.estimate.sqft,
+            material: data.estimate.material,
+            labor: data.estimate.labor,
+            complexity: data.estimate.complexity,
+            estimate: data.estimate.estimate,
+            source: "backend_api"
+          });
+
+          sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
+        }
+
+        result.className = "console-status success";
+        result.textContent =
+          "Backend result saved and counted.\n\nEstimated baseline: " +
+          formatCurrency(data.estimate.estimate) +
+          "\n\nPlan: " + data.usage.selected_plan +
+          "\nUsed: " + data.usage.estimate_used +
+          "\nRemaining: " + data.usage.estimate_remaining +
+          "\n\nThis estimate was saved, counted, and tracked by the Astraa backend.";
+
+        result.style.display = "block";
+
+        renderPortal();
+
+      } catch (error) {
+        result.className = "console-status error";
+        result.textContent =
+          "Astraa could not reach the backend estimate service.\n\n" +
+          "This usually means api.py is not running, ngrok is not active, or the backend URL is not set for this browser.\n\n" +
+          "Error: " + error.message +
+          "\n\nCurrent backend base URL: " + ASTRAA_BACKEND_BASE_URL;
+        result.style.display = "block";
+      }
     }
 
     function addExpense() {
@@ -1039,28 +3098,179 @@
       renderPortal();
     }
 
-    function resetLocalUsage() {
-      usage = {
-        totalLimit: 15,
-        used: 0,
-        dailyLimit: 1,
-        lastEstimateDate: null,
-        savedEstimates: [],
-        expenses: [],
-        receipts: []
-      };
-
-      sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
-
+    async function resetLocalUsage() {
       const result = document.getElementById("estimateResult");
-      result.className = "estimate-result success";
-      result.textContent = "Local demo usage reset.";
+      const currentEmail = getWorkspaceEmail();
+      const fallbackEmail = "astraa.live.test@astraasystems.com";
+
+      const emailsToReset = Array.from(new Set([currentEmail, fallbackEmail].filter(Boolean)));
+
+      result.className = "console-status success";
+      result.textContent =
+        "Resetting backend demo usage for Workspace account...\\n\\n" +
+        "Email(s): " + emailsToReset.join(", ");
       result.style.display = "block";
 
-      renderPortal();
+      try {
+        for (const email of emailsToReset) {
+          const response = await fetch(astraaApiUrl("/api/account/usage/reset"), {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              email: email
+            })
+          });
+
+          const data = await response.json();
+
+          if (!response.ok || !data.success) {
+            throw new Error((data.error || "Backend usage reset failed.") + " Email: " + email);
+          }
+
+          if (email === currentEmail) {
+            syncLocalUsageFromBackendUsage(data.usage);
+          }
+        }
+
+        clearEstimatorConsoleStatus();
+
+        document.getElementById("metricBaseEstimate").textContent = "$—";
+        document.getElementById("metricEstimateRange").textContent = "$—";
+        document.getElementById("metricConfidence").textContent = "—%";
+        document.getElementById("metricRisk").textContent = "—%";
+        document.getElementById("metricArchetype").textContent = "—";
+
+        document.getElementById("decisionGuidanceBox").textContent =
+          "Awaiting estimate — run the estimator to generate decision guidance and bid posture.";
+
+        document.getElementById("decisionGuidanceList").innerHTML =
+          "<li>Recommendation will appear after estimate execution.</li>" +
+          "<li>Use this section to guide the next action — not just view the number.</li>";
+
+        document.getElementById("executiveSummaryList").innerHTML =
+          "<li>Estimate not yet generated.</li>" +
+          "<li>Risk and confidence interpretation pending.</li>" +
+          "<li>Scenario and breakdown visibility will appear after run.</li>";
+
+        document.getElementById("scenarioMaterial").textContent = "—";
+        document.getElementById("scenarioLabor").textContent = "—";
+        document.getElementById("scenarioDelay").textContent = "—";
+        document.getElementById("scenarioOptimized").textContent = "—";
+
+        document.getElementById("tradeFoundation").textContent = "—";
+        document.getElementById("tradeFraming").textContent = "—";
+        document.getElementById("tradeElectrical").textContent = "—";
+        document.getElementById("tradePlumbing").textContent = "—";
+        document.getElementById("tradeFinishes").textContent = "—";
+        document.getElementById("tradeMechanical").textContent = "—";
+        document.getElementById("tradeOverhead").textContent = "—";
+
+        await syncBackendUsageForWorkspace(false);
+
+        result.className = "console-status success";
+        result.textContent =
+          "Backend demo usage reset and synced.\\n\\n" +
+          "Workspace email: " + currentEmail + "\\n" +
+          "You can now run the estimator again.";
+        result.style.display = "block";
+
+        renderPortal();
+
+      } catch (error) {
+        result.className = "console-status error";
+        result.textContent =
+          "Could not reset backend demo usage.\\n\\n" +
+          "Error: " + error.message +
+          "\\n\\nCheck that api.py is running and that the backend URL is correct.\\n\\n" +
+          "Current backend base URL: " + ASTRAA_BACKEND_BASE_URL;
+        result.style.display = "block";
+      }
     }
 
     loadPortalData();
+    window.addEventListener("load", function() {
+      initializeFieldTooltips();
+      const projectType = document.getElementById("projectType");
+      const locationMarket = document.getElementById("locationMarket");
+
+      if (projectType) projectType.addEventListener("change", updateCalibratedBaseRateFromInputs);
+      if (locationMarket) locationMarket.addEventListener("change", updateCalibratedBaseRateFromInputs);
+
+      updateCalibratedBaseRateFromInputs();
+    });
+
+    function closeAllFieldTooltips() {
+      document.querySelectorAll("[data-tooltip]").forEach(function(wrap) {
+        const button = wrap.querySelector(".field-tooltip-icon");
+        wrap.classList.remove("tooltip-open");
+
+        if (button) {
+          button.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
+
+    function initializeFieldTooltips() {
+      document.querySelectorAll("[data-tooltip]").forEach(function(wrap) {
+        const button = wrap.querySelector(".field-tooltip-icon");
+
+        if (!button || button.dataset.tooltipReady === "true") {
+          return;
+        }
+
+        button.dataset.tooltipReady = "true";
+
+        button.addEventListener("click", function(event) {
+          event.stopPropagation();
+
+          const isOpen = wrap.classList.contains("tooltip-open");
+
+          closeAllFieldTooltips();
+
+          if (!isOpen) {
+            wrap.classList.add("tooltip-open");
+            button.setAttribute("aria-expanded", "true");
+          }
+        });
+
+        button.addEventListener("keydown", function(event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+
+            const isOpen = wrap.classList.contains("tooltip-open");
+
+            closeAllFieldTooltips();
+
+            if (!isOpen) {
+              wrap.classList.add("tooltip-open");
+              button.setAttribute("aria-expanded", "true");
+            }
+          }
+
+          if (event.key === "Escape") {
+            event.preventDefault();
+            closeAllFieldTooltips();
+            button.focus();
+          }
+        });
+
+        button.addEventListener("blur", function() {
+          window.setTimeout(function() {
+            if (!wrap.contains(document.activeElement)) {
+              wrap.classList.remove("tooltip-open");
+              button.setAttribute("aria-expanded", "false");
+            }
+          }, 100);
+        });
+      });
+
+      document.addEventListener("click", function() {
+        closeAllFieldTooltips();
+      }, { once: false });
+    }
+
   </script>
 
 </body>

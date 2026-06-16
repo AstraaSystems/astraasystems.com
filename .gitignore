@@ -10,3 +10,12 @@ payments.jsonl
 preloads.jsonl
 receipts.jsonl
 leads.jsonl
+
+# Astraa local backups and safety snapshots
+SAFE_SNAPSHOTS/
+*.bak*
+*.WORKING*
+*.tar.gz
+__pycache__/
+venv/
+.venv/

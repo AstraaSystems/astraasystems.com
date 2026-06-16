@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <link rel="icon" type="image/png" href="assets/images/favicon.png" />
-  <title>Astraa Systems — Login</title>
+  <title>Astraa Systems — Login / Register</title>
 
   <style>
     :root {
@@ -57,7 +57,6 @@
       margin: 0 auto;
     }
 
-    /* NAV */
     .nav {
       background: rgba(255,255,255,0.94);
       border-bottom: 1px solid var(--border);
@@ -114,20 +113,19 @@
       box-shadow: 0 12px 30px rgba(37, 99, 235, 0.20);
     }
 
-    /* PAGE */
     .page {
       padding: 76px 0;
     }
 
     .login-layout {
       display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
+      grid-template-columns: 0.88fr 1.12fr;
       gap: 28px;
       align-items: start;
     }
 
     .info-card,
-    .login-card {
+    .flow-card {
       background: white;
       border: 1px solid var(--border);
       border-radius: 26px;
@@ -169,6 +167,11 @@
       margin: 0;
       font-size: 1.75rem;
       letter-spacing: -0.03em;
+    }
+
+    h3 {
+      margin: 0;
+      letter-spacing: -0.02em;
     }
 
     .subhead {
@@ -226,6 +229,42 @@
       margin-bottom: 0;
     }
 
+    .tab-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 24px 0 26px;
+      background: var(--soft-bg);
+      border: 1px solid var(--border);
+      padding: 8px;
+      border-radius: 16px;
+    }
+
+    .tab-btn {
+      border: none;
+      border-radius: 12px;
+      padding: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .tab-btn.active {
+      background: white;
+      color: var(--blue);
+      box-shadow: 0 8px 20px rgba(15,23,42,0.06);
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
     label {
       display: block;
       margin-top: 18px;
@@ -234,7 +273,9 @@
       color: var(--navy);
     }
 
-    input {
+    input,
+    select,
+    textarea {
       width: 100%;
       padding: 13px 14px;
       border: 1px solid var(--border);
@@ -245,10 +286,118 @@
       font-family: inherit;
     }
 
-    input:focus {
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
       outline: none;
       border-color: var(--blue);
       box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .choice-card {
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 18px;
+      padding: 18px;
+      cursor: pointer;
+      transition: 0.2s ease;
+      min-height: 132px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .choice-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--blue);
+      box-shadow: 0 12px 28px rgba(15,23,42,0.06);
+    }
+
+    .choice-card.selected {
+      border: 2px solid var(--blue);
+      background: #eff6ff;
+      box-shadow: 0 14px 32px rgba(37,99,235,0.12);
+    }
+
+    .choice-title {
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .choice-desc {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin: 0;
+    }
+
+    .choice-price {
+      color: var(--blue);
+      font-weight: 900;
+      margin-top: 12px;
+      font-size: 1rem;
+    }
+
+    .step-box {
+      background: var(--soft-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .step-box h3 {
+      margin-bottom: 8px;
+    }
+
+    .summary-box {
+      background:
+        radial-gradient(circle at top left, rgba(34,211,238,0.08), transparent 30%),
+        linear-gradient(135deg, #ffffff, #eff6ff);
+      border: 1px solid #bfdbfe;
+      border-radius: 18px;
+      padding: 18px;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .summary-box.visible {
+      display: block;
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      border-bottom: 1px solid #dbeafe;
+      padding: 8px 0;
+      color: var(--text);
+    }
+
+    .summary-line:last-child {
+      border-bottom: none;
+    }
+
+    .summary-line strong {
+      color: var(--navy);
     }
 
     .btn-row,
@@ -293,6 +442,11 @@
     .btn-secondary:hover {
       border-color: var(--blue);
       color: var(--blue);
+    }
+
+    .btn-dark {
+      background: var(--navy);
+      color: white;
     }
 
     .btn-full {
@@ -362,6 +516,28 @@
       font-size: 0.92rem;
     }
 
+    .checkbox-line {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      border: 1px solid var(--border);
+      background: var(--soft-bg);
+      padding: 14px;
+      border-radius: 14px;
+      margin-top: 18px;
+    }
+
+    .checkbox-line input {
+      width: auto;
+      margin-top: 5px;
+    }
+
+    .checkbox-line span {
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
     footer {
       padding: 34px 0;
       border-top: 1px solid var(--border);
@@ -389,7 +565,9 @@
 
     @media (max-width: 980px) {
       .login-layout,
-      .quick-actions {
+      .quick-actions,
+      .choice-grid,
+      .form-grid {
         grid-template-columns: 1fr;
       }
 
@@ -407,7 +585,6 @@
 
 <body>
 
-  <!-- NAV -->
   <nav class="nav">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
@@ -420,9 +597,10 @@
         <a href="engines.html">Tools</a>
         <a href="pricing.html">Pricing</a>
         <a href="customer-portal.html">Workspace</a>
+        <a href="estimator-faq.html">Estimator FAQ</a>
         <a href="contact.html">Custom Packages</a>
         <a href="login.html">Login</a>
-        <a class="nav-cta" href="register.html">Start Trial</a>
+        <a class="nav-cta" href="login.html">Login / Register</a>
       </div>
     </div>
   </nav>
@@ -430,38 +608,36 @@
   <main class="page">
     <div class="container login-layout">
 
-      <!-- INFO -->
       <aside class="info-card">
-        <span class="badge">Astraa Workspace Login</span>
+        <span class="badge">Astraa Workspace Access</span>
 
         <img class="logo" src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
 
-        <h1>Welcome back.</h1>
+        <h1>Login or create your Astraa account.</h1>
 
         <div class="subhead">
-          One workspace. Connected tools. Smarter growth.
+          Choose your tool. Choose your plan. Enter Astraa Workspace.
         </div>
 
         <p>
-          Sign in to return to your Astraa Workspace, continue your trial,
-          review saved estimates, test tool previews, or upgrade your plan.
+          Existing customers can login. New customers can choose a tool, select Trial, Basic, Professional,
+          or Custom, and then continue into the right Astraa flow.
         </p>
 
         <ul class="info-list">
-          <li>Continue trial usage</li>
-          <li>Open Astraa Workspace</li>
-          <li>Review saved estimate activity</li>
-          <li>Access Expense Tool preview</li>
-          <li>Explore connected Astraa tools</li>
-          <li>Upgrade to Basic or Professional</li>
-          <li>Request custom packages</li>
+          <li>Astraa Estimator is included in Astraa Basic and Professional</li>
+          <li>Expense visibility is included across Astraa tools as added value</li>
+          <li>Data Workspace is available as an add-on or inside selected packages</li>
+          <li>Basic add-ons start at +$19.99/month</li>
+          <li>Professional add-ons start at +$29.99/month</li>
+          <li>Custom and Enterprise requests go through contact/discovery</li>
         </ul>
 
         <div class="note-box">
           <strong>Local preview note</strong>
           <p>
-            This login page uses browser session storage for local testing.
-            Real authentication can be connected later through a backend account system.
+            This page stores test account and plan selection data in browser session storage for local/live soft-launch testing.
+            Backend account storage and secure authentication can be connected later.
           </p>
         </div>
 
@@ -474,59 +650,257 @@
         </div>
       </aside>
 
-      <!-- LOGIN -->
-      <section class="login-card">
-        <h2>Login to Astraa Workspace</h2>
+      <section class="flow-card">
+        <h2>Astraa Access</h2>
 
         <p>
-          Enter the primary or backup email used during trial registration.
-          In this local preview, password validation is not connected to a backend yet.
+          Login to continue, or create a new Astraa account by selecting the tool and plan that fits your workflow.
         </p>
 
-        <label for="email">Email</label>
-        <input id="email" type="email" placeholder="you@example.com" />
-
-        <label for="password">Password</label>
-        <input id="password" type="password" placeholder="Password used during registration" />
-
-        <div class="action-row">
-          <button class="btn btn-primary btn-full" onclick="login()">Login</button>
+        <div class="tab-row">
+          <button id="loginTab" class="tab-btn active" onclick="showPanel('login')">Login</button>
+          <button id="registerTab" class="tab-btn" onclick="showPanel('register')">Create account</button>
         </div>
 
-        <div id="status" class="status"></div>
+        <div id="loginPanel" class="panel active">
+          <h3>Login to Astraa Workspace</h3>
 
-        <div class="quick-actions">
-          <a class="quick-action" href="register.html">
-            <strong>Start a new trial</strong>
-            <span>Create an Astraa trial account.</span>
-          </a>
+          <p>
+            Enter the primary or backup email used during registration. This local preview requires a password field,
+            but password verification is not connected to a backend yet.
+          </p>
 
-          <a class="quick-action" href="pricing.html">
-            <strong>View pricing</strong>
-            <span>Compare plans and tool pricing.</span>
-          </a>
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" type="email" placeholder="you@example.com" />
 
-          <a class="quick-action" href="payment.html">
-            <strong>Upgrade plan</strong>
-            <span>Start Basic or Professional.</span>
-          </a>
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" placeholder="Password used during registration" />
 
-          <a class="quick-action" href="contact.html">
-            <strong>Need help?</strong>
-            <span>Contact Astraa or request a package.</span>
-          </a>
+          <div class="action-row">
+            <button class="btn btn-primary btn-full" onclick="login()">Login</button>
+          </div>
+
+          <div id="loginStatus" class="status"></div>
+
+          <div class="quick-actions">
+            <a class="quick-action" href="pricing.html">
+              <strong>View pricing</strong>
+              <span>Compare plans, add-ons, and packages.</span>
+            </a>
+
+            <a class="quick-action" href="contact.html">
+              <strong>Need help?</strong>
+              <span>Request a custom package or support.</span>
+            </a>
+          </div>
+
+          <div class="action-row">
+            <button class="btn btn-secondary" onclick="restoreDemoAccount()">Restore Demo Trial</button>
+            <button class="btn btn-secondary" onclick="clearLocalSession()">Clear Local Session</button>
+          </div>
         </div>
 
-        <div class="action-row">
-          <button class="btn btn-secondary" onclick="restoreDemoAccount()">Restore Demo Trial</button>
-          <button class="btn btn-secondary" onclick="clearLocalSession()">Clear Local Session</button>
+        <div id="registerPanel" class="panel">
+          <h3>Create an Astraa account</h3>
+
+          <p>
+            Select what you want to start with. Trial opens Workspace. Basic and Professional continue to payment.
+            Custom and Enterprise continue to contact/discovery.
+          </p>
+
+          <div class="step-box">
+            <h3>Step 1 — Choose your starting tool</h3>
+
+            <div class="choice-grid" id="toolChoices">
+              <div class="choice-card" data-tool="Astraa Estimator" onclick="selectTool(this)">
+                <div>
+                  <div class="choice-title">Astraa Estimator</div>
+                  <p class="choice-desc">Baseline estimates, estimate history, and cost visibility.</p>
+                </div>
+                <div class="choice-price">Included in Core Plans</div>
+              </div>
+
+              <div class="choice-card" data-tool="Operations Tool" onclick="selectTool(this)">
+                <div>
+                  <div class="choice-title">Operations Tool</div>
+                  <p class="choice-desc">Workflows, approvals, task stages, and handoffs.</p>
+                </div>
+                <div class="choice-price">Basic $34.99 / Pro $59.99</div>
+              </div>
+
+              <div class="choice-card" data-tool="Finance Tool" onclick="selectTool(this)">
+                <div>
+                  <div class="choice-title">Finance Tool</div>
+                  <p class="choice-desc">Cost summaries, margin thinking, and visibility.</p>
+                </div>
+                <div class="choice-price">Basic $29.99 / Pro $59.99</div>
+              </div>
+
+              <div class="choice-card" data-tool="Arkastra Commerce Tool" onclick="selectTool(this)">
+                <div>
+                  <div class="choice-title">Arkastra Commerce</div>
+                  <p class="choice-desc">Service packages, quote flows, and offers.</p>
+                </div>
+                <div class="choice-price">Basic $39.99 / Pro $79.99</div>
+              </div>
+
+              <div class="choice-card" data-tool="Data Workspace Add-on" onclick="selectTool(this)">
+                <div>
+                  <div class="choice-title">Data Workspace</div>
+                  <p class="choice-desc">Records, references, files, and reporting-ready structure.</p>
+                </div>
+                <div class="choice-price">Add-on only</div>
+              </div>
+
+              <div class="choice-card" data-tool="Custom Package" onclick="selectTool(this)">
+                <div>
+                  <div class="choice-title">Custom Package</div>
+                  <p class="choice-desc">Workflow discovery, custom systems, and packages.</p>
+                </div>
+                <div class="choice-price">Quote-based</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <h3>Step 2 — Choose access level</h3>
+
+            <div class="choice-grid" id="planChoices">
+              <div class="choice-card" data-plan="Trial" onclick="selectPlan(this)">
+                <div>
+                  <div class="choice-title">Trial</div>
+                  <p class="choice-desc">15 days, 15 total estimates, 1 estimate per day.</p>
+                </div>
+                <div class="choice-price">$0</div>
+              </div>
+
+              <div class="choice-card" data-plan="Basic" onclick="selectPlan(this)">
+                <div>
+                  <div class="choice-title">Basic</div>
+                  <p class="choice-desc">Basic access for the selected tool or Astraa Core Basic.</p>
+                </div>
+                <div class="choice-price">Basic plan pricing</div>
+              </div>
+
+              <div class="choice-card" data-plan="Professional" onclick="selectPlan(this)">
+                <div>
+                  <div class="choice-title">Professional</div>
+                  <p class="choice-desc">Stronger usage, fuller expense access, and Workspace support.</p>
+                </div>
+                <div class="choice-price">Professional pricing</div>
+              </div>
+
+              <div class="choice-card" data-plan="Custom" onclick="selectPlan(this)">
+                <div>
+                  <div class="choice-title">Custom / Enterprise</div>
+                  <p class="choice-desc">Discovery, custom workflow, package, franchise, or enterprise request.</p>
+                </div>
+                <div class="choice-price">Quote-based</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <h3>Step 3 — Account details</h3>
+
+            <div class="form-grid">
+              <div>
+                <label for="fullName">Full name</label>
+                <input id="fullName" type="text" placeholder="Your full name" />
+              </div>
+
+              <div>
+                <label for="primaryEmail">Primary email</label>
+                <input id="primaryEmail" type="email" placeholder="you@example.com" />
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div>
+                <label for="backupEmail">Backup email</label>
+                <input id="backupEmail" type="email" placeholder="backup@example.com" />
+              </div>
+
+              <div>
+                <label for="phone">Phone optional</label>
+                <input id="phone" type="text" placeholder="Optional" />
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div>
+                <label for="businessName">Business / company name</label>
+                <input id="businessName" type="text" placeholder="Business name" />
+              </div>
+
+              <div>
+                <label for="industry">Business type / industry</label>
+                <select id="industry">
+                  <option value="">Select one</option>
+                  <option>Construction / contracting</option>
+                  <option>Field services</option>
+                  <option>Professional services</option>
+                  <option>Retail / commerce</option>
+                  <option>Operations / logistics</option>
+                  <option>Startup / small business</option>
+                  <option>Finance / administration</option>
+                  <option>Franchise / multi-location business</option>
+                  <option>Enterprise / larger organization</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div>
+                <label for="password">Create password</label>
+                <input id="password" type="password" placeholder="Minimum 8 characters" />
+              </div>
+
+              <div>
+                <label for="country">Country</label>
+                <input id="country" type="text" value="Canada" />
+              </div>
+            </div>
+
+            <label for="notes">What are you hoping Astraa helps with?</label>
+            <textarea id="notes" placeholder="Example: I want better estimating, expense visibility, records, and workflow organization."></textarea>
+
+            <label class="checkbox-line">
+              <input id="agree" type="checkbox" />
+              <span>
+                I understand Astraa outputs should be reviewed before relying on them for business, financial, construction, customer-facing, or operational decisions.
+              </span>
+            </label>
+          </div>
+
+          <div id="selectionSummary" class="summary-box">
+            <h3>Selected path</h3>
+            <div class="summary-line">
+              <span>Tool</span>
+              <strong id="summaryTool">Not selected</strong>
+            </div>
+            <div class="summary-line">
+              <span>Plan</span>
+              <strong id="summaryPlan">Not selected</strong>
+            </div>
+            <div class="summary-line">
+              <span>Next step</span>
+              <strong id="summaryNext">Select tool and plan</strong>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button class="btn btn-primary btn-full" onclick="createAccountAndContinue()">Continue</button>
+          </div>
+
+          <div id="registerStatus" class="status"></div>
         </div>
       </section>
 
     </div>
   </main>
 
-  <!-- FOOTER -->
   <footer>
     <div class="container footer-inner">
       <div>Astraa Systems © 2026</div>
@@ -542,42 +916,153 @@
   </footer>
 
   <script>
+    let selectedTool = "";
+    let selectedPlan = "";
+
+    const toolPlanPricing = {
+      "Astraa Estimator": {
+        Trial: "$0 / 15 days",
+        Basic: "$39 CAD/month",
+        Professional: "$99 CAD/month",
+        Custom: "Quote-based"
+      },
+      "Operations Tool": {
+        Trial: "Included preview",
+        Basic: "$34.99 CAD/month",
+        Professional: "$59.99 CAD/month",
+        Custom: "Quote-based"
+      },
+      "Finance Tool": {
+        Trial: "Included preview",
+        Basic: "$29.99 CAD/month",
+        Professional: "$59.99 CAD/month",
+        Custom: "Quote-based"
+      },
+      "Arkastra Commerce Tool": {
+        Trial: "Coming soon / inquiry",
+        Basic: "$39.99 CAD/month",
+        Professional: "$79.99 CAD/month",
+        Custom: "Quote-based"
+      },
+      "Data Workspace Add-on": {
+        Trial: "Not standalone",
+        Basic: "+$19.99 CAD/month add-on",
+        Professional: "+$29.99 CAD/month add-on",
+        Custom: "Quote-based"
+      },
+      "Custom Package": {
+        Trial: "Discovery",
+        Basic: "Package-based",
+        Professional: "Package-based",
+        Custom: "Quote-based"
+      }
+    };
+
     function normalizeEmail(value) {
       return String(value || "").trim().toLowerCase();
     }
 
     function isValidEmail(value) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-    }
-
-    function setStatus(message, type) {
-      const status = document.getElementById("status");
-      status.textContent = message;
-      status.className = "status";
-
-      if (type === "success") {
-        status.classList.add("success");
-      }
-
-      if (type === "error") {
-        status.classList.add("error");
-      }
-
-      if (type === "warning") {
-        status.classList.add("warning");
-      }
+      return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);
     }
 
     function todayKey() {
       return new Date().toISOString().slice(0, 10);
     }
 
+    function showPanel(panel) {
+      const loginTab = document.getElementById("loginTab");
+      const registerTab = document.getElementById("registerTab");
+      const loginPanel = document.getElementById("loginPanel");
+      const registerPanel = document.getElementById("registerPanel");
+
+      if (panel === "login") {
+        loginTab.classList.add("active");
+        registerTab.classList.remove("active");
+        loginPanel.classList.add("active");
+        registerPanel.classList.remove("active");
+      } else {
+        registerTab.classList.add("active");
+        loginTab.classList.remove("active");
+        registerPanel.classList.add("active");
+        loginPanel.classList.remove("active");
+      }
+    }
+
+    function setStatus(id, message, type) {
+      const status = document.getElementById(id);
+      status.textContent = message;
+      status.className = "status";
+
+      if (type === "success") status.classList.add("success");
+      if (type === "error") status.classList.add("error");
+      if (type === "warning") status.classList.add("warning");
+    }
+
+    function selectTool(card) {
+      document.querySelectorAll("#toolChoices .choice-card").forEach(function(item) {
+        item.classList.remove("selected");
+      });
+
+      card.classList.add("selected");
+      selectedTool = card.getAttribute("data-tool");
+
+      updatePlanChoicePrices();
+      updateSummary();
+    }
+
+    function selectPlan(card) {
+      document.querySelectorAll("#planChoices .choice-card").forEach(function(item) {
+        item.classList.remove("selected");
+      });
+
+      card.classList.add("selected");
+      selectedPlan = card.getAttribute("data-plan");
+
+      updateSummary();
+    }
+
+    function updatePlanChoicePrices() {
+      const pricing = toolPlanPricing[selectedTool] || {};
+
+      document.querySelectorAll("#planChoices .choice-card").forEach(function(card) {
+        const plan = card.getAttribute("data-plan");
+        const priceEl = card.querySelector(".choice-price");
+
+        if (priceEl && pricing[plan]) {
+          priceEl.textContent = pricing[plan];
+        }
+      });
+    }
+
+    function nextStepForSelection() {
+      if (!selectedTool || !selectedPlan) {
+        return "Select tool and plan";
+      }
+
+      if (selectedPlan === "Trial") {
+        return "Open Astraa Workspace";
+      }
+
+      if (selectedPlan === "Basic" || selectedPlan === "Professional") {
+        return "Continue to payment";
+      }
+
+      return "Continue to custom package inquiry";
+    }
+
+    function updateSummary() {
+      const box = document.getElementById("selectionSummary");
+      box.classList.add("visible");
+
+      document.getElementById("summaryTool").textContent = selectedTool || "Not selected";
+      document.getElementById("summaryPlan").textContent = selectedPlan || "Not selected";
+      document.getElementById("summaryNext").textContent = nextStepForSelection();
+    }
+
     function getStoredAccount() {
       const rawAccount = sessionStorage.getItem("astraa_trial_registration");
-
-      if (!rawAccount) {
-        return null;
-      }
+      if (!rawAccount) return null;
 
       try {
         return JSON.parse(rawAccount);
@@ -588,10 +1073,7 @@
 
     function ensureUsageExists() {
       const rawUsage = sessionStorage.getItem("astraa_usage");
-
-      if (rawUsage) {
-        return;
-      }
+      if (rawUsage) return;
 
       const usage = {
         totalLimit: 15,
@@ -607,23 +1089,24 @@
     }
 
     function login() {
-      const email = normalizeEmail(document.getElementById("email").value);
-      const password = document.getElementById("password").value;
+      const email = normalizeEmail(document.getElementById("loginEmail").value);
+      const password = document.getElementById("loginPassword").value;
       const account = getStoredAccount();
 
       if (!email || !isValidEmail(email)) {
-        setStatus("Please enter a valid email address.", "error");
+        setStatus("loginStatus", "Please enter a valid email address.", "error");
         return;
       }
 
       if (!password) {
-        setStatus("Please enter your password. Local preview does not verify it yet, but this field is required for the login flow.", "error");
+        setStatus("loginStatus", "Please enter your password. Local preview does not verify it yet, but this field is required for the login flow.", "error");
         return;
       }
 
       if (!account) {
         setStatus(
-          "No local Astraa trial account was found in this browser session. Use Start Trial first, or restore a demo trial for local testing.",
+          "loginStatus",
+          "No local Astraa account was found in this browser session. Choose Create account first, or restore a demo trial for local testing.",
           "warning"
         );
         return;
@@ -633,10 +1116,7 @@
       const backup = normalizeEmail(account.backup_email);
 
       if (email !== primary && email !== backup) {
-        setStatus(
-          "This email does not match the local trial account primary or backup email.",
-          "error"
-        );
+        setStatus("loginStatus", "This email does not match the local account primary or backup email.", "error");
         return;
       }
 
@@ -644,29 +1124,161 @@
       sessionStorage.setItem("astraa_last_login_email", email);
       ensureUsageExists();
 
-      setStatus("Login successful. Opening Astraa Workspace...", "success");
+      setStatus("loginStatus", "Login successful. Opening Astraa Workspace...", "success");
 
       window.setTimeout(function() {
         window.location.href = "customer-portal.html";
       }, 700);
     }
 
-    function restoreDemoAccount() {
-      const demoEmail = "demo@astraasystems.com";
+    function createAccountAndContinue() {
+      const fullName = document.getElementById("fullName").value.trim();
+      const primaryEmail = normalizeEmail(document.getElementById("primaryEmail").value);
+      const backupEmail = normalizeEmail(document.getElementById("backupEmail").value);
+      const phone = document.getElementById("phone").value.trim();
+      const businessName = document.getElementById("businessName").value.trim();
+      const industry = document.getElementById("industry").value;
+      const password = document.getElementById("password").value;
+      const country = document.getElementById("country").value.trim();
+      const notes = document.getElementById("notes").value.trim();
+      const agree = document.getElementById("agree").checked;
+
+      if (!selectedTool) {
+        setStatus("registerStatus", "Please choose a starting tool.", "error");
+        return;
+      }
+
+      if (!selectedPlan) {
+        setStatus("registerStatus", "Please choose an access level.", "error");
+        return;
+      }
+
+      if (!fullName) {
+        setStatus("registerStatus", "Please enter your full name.", "error");
+        return;
+      }
+
+      if (!primaryEmail || !isValidEmail(primaryEmail)) {
+        setStatus("registerStatus", "Please enter a valid primary email.", "error");
+        return;
+      }
+
+      if (!backupEmail || !isValidEmail(backupEmail)) {
+        setStatus("registerStatus", "Please enter a valid backup email.", "error");
+        return;
+      }
+
+      if (primaryEmail === backupEmail) {
+        setStatus("registerStatus", "Primary email and backup email should be different for account recovery.", "error");
+        return;
+      }
+
+      if (!businessName) {
+        setStatus("registerStatus", "Please enter your business or company name.", "error");
+        return;
+      }
+
+      if (!industry) {
+        setStatus("registerStatus", "Please select your business type or industry.", "error");
+        return;
+      }
+
+      if (!password || password.length < 8) {
+        setStatus("registerStatus", "Please create a password with at least 8 characters.", "error");
+        return;
+      }
+
+      if (!agree) {
+        setStatus("registerStatus", "Please confirm that Astraa outputs should be reviewed before business use.", "error");
+        return;
+      }
+
+      const pricing = toolPlanPricing[selectedTool] || {};
+      const selectedPrice = pricing[selectedPlan] || "Quote-based";
 
       const account = {
-        full_name: "Demo Customer",
+        full_name: fullName,
+        primary_email: primaryEmail,
+        backup_email: backupEmail,
+        phone: phone,
+        business_name: businessName,
+        industry: industry,
+        country: country,
+        notes: notes,
+        selected_tool: selectedTool,
+        selected_plan: selectedPlan,
+        selected_price: selectedPrice,
+        plan: selectedPlan,
+        trial_start_date: todayKey(),
+        trial_total_estimates: 15,
+        trial_daily_limit: 1,
+        launch_bonus_eligible: true,
+        created_at: new Date().toISOString()
+      };
+
+      const usage = {
+        totalLimit: 15,
+        used: 0,
+        dailyLimit: 1,
+        lastEstimateDate: null,
+        savedEstimates: [],
+        expenses: [],
+        receipts: []
+      };
+
+      sessionStorage.setItem("astraa_trial_registration", JSON.stringify(account));
+      sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
+      sessionStorage.setItem("astraa_checkout_email", primaryEmail);
+      sessionStorage.setItem("astraa_selected_tool", selectedTool);
+      sessionStorage.setItem("astraa_selected_plan", selectedPlan);
+      sessionStorage.setItem("astraa_selected_price", selectedPrice);
+
+      if (selectedPlan === "Trial") {
+        sessionStorage.setItem("astraa_launch_bonus_pending", "true");
+        setStatus("registerStatus", "Trial account created. Opening Astraa Workspace...", "success");
+
+        window.setTimeout(function() {
+          window.location.href = "customer-portal.html";
+        }, 700);
+
+        return;
+      }
+
+      if (selectedPlan === "Basic" || selectedPlan === "Professional") {
+        sessionStorage.setItem("astraa_paid_plan", selectedPlan);
+        setStatus("registerStatus", "Account created. Continuing to payment for " + selectedTool + " — " + selectedPlan + ".", "success");
+
+        window.setTimeout(function() {
+          window.location.href = "payment.html";
+        }, 700);
+
+        return;
+      }
+
+      sessionStorage.setItem("astraa_custom_request_tool", selectedTool);
+      sessionStorage.setItem("astraa_custom_request_plan", selectedPlan);
+      setStatus("registerStatus", "Custom request path selected. Opening contact page...", "success");
+
+      window.setTimeout(function() {
+        window.location.href = "contact.html";
+      }, 700);
+    }
+
+    function restoreDemoAccount() {
+      const demoEmail = "astraa.live.test@astraasystems.com";
+
+      const account = {
+        full_name: "Astraa Live Tester",
         primary_email: demoEmail,
-        backup_email: "backup@astraasystems.com",
+        backup_email: "astraa.backup.test@astraasystems.com",
         phone: "6040000000",
-        business_name: "Demo Business",
-        business_status: "Startup / not registered yet",
-        industry: "Startup / small business",
-        primary_interest: "Astraa Estimator",
-        city: "Burnaby",
-        province: "BC",
+        business_name: "Astraa Live Test Business",
+        industry: "Construction / contracting",
         country: "Canada",
-        notes: "Demo account for local Astraa Workspace testing.",
+        notes: "Live testing Astraa Systems trial, portal, estimator, tools, pricing, contact, and payment flow.",
+        selected_tool: "Astraa Estimator",
+        selected_plan: "Trial",
+        selected_price: "$0 / 15 days",
         plan: "Trial",
         trial_start_date: todayKey(),
         trial_total_estimates: 15,
@@ -688,12 +1300,15 @@
       sessionStorage.setItem("astraa_trial_registration", JSON.stringify(account));
       sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
       sessionStorage.setItem("astraa_checkout_email", demoEmail);
+      sessionStorage.setItem("astraa_selected_tool", "Astraa Estimator");
+      sessionStorage.setItem("astraa_selected_plan", "Trial");
+      sessionStorage.setItem("astraa_selected_price", "$0 / 15 days");
       sessionStorage.setItem("astraa_launch_bonus_pending", "true");
 
-      document.getElementById("email").value = demoEmail;
-      document.getElementById("password").value = "DemoPass123";
+      document.getElementById("loginEmail").value = demoEmail;
+      document.getElementById("loginPassword").value = "TestPass123";
 
-      setStatus("Demo trial restored. Click Login to open Astraa Workspace.", "success");
+      setStatus("loginStatus", "Demo trial restored. Select Login to open Astraa Workspace.", "success");
     }
 
     function clearLocalSession() {
@@ -706,21 +1321,49 @@
         "astraa_paid_plan",
         "astraa_launch_bonus_pending",
         "astraa_public_estimate_used",
-        "astraa_last_login_email"
+        "astraa_last_login_email",
+        "astraa_selected_tool",
+        "astraa_selected_plan",
+        "astraa_selected_price",
+        "astraa_custom_request_tool",
+        "astraa_custom_request_plan"
       ];
 
       keys.forEach(function(key) {
         sessionStorage.removeItem(key);
       });
 
-      setStatus("Local Astraa session cleared in this browser.", "success");
+      setStatus("loginStatus", "Local Astraa session cleared in this browser.", "success");
     }
 
     window.addEventListener("load", function() {
       const account = getStoredAccount();
 
       if (account && account.primary_email) {
-        document.getElementById("email").value = account.primary_email;
+        document.getElementById("loginEmail").value = account.primary_email;
+      }
+
+      const existingTool = sessionStorage.getItem("astraa_selected_tool");
+      const existingPlan = sessionStorage.getItem("astraa_selected_plan");
+
+      if (existingTool) {
+        const toolCard = Array.from(document.querySelectorAll("#toolChoices .choice-card")).find(function(card) {
+          return card.getAttribute("data-tool") === existingTool;
+        });
+
+        if (toolCard) {
+          selectTool(toolCard);
+        }
+      }
+
+      if (existingPlan) {
+        const planCard = Array.from(document.querySelectorAll("#planChoices .choice-card")).find(function(card) {
+          return card.getAttribute("data-plan") === existingPlan;
+        });
+
+        if (planCard) {
+          selectPlan(planCard);
+        }
       }
     });
   </script>

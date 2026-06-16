@@ -1,1110 +1,709 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
-  <title>Astraa Systems — Pricing</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Astraa Pricing | Estimator, Workspace, Estimate Packs & Custom Tool Packages</title>
+  <meta name="description" content="Astraa pricing for Estimator, Workspace, estimate packs, and future tool packages across finance, business automation, commerce, data, and inference." />
 
   <style>
     :root {
-      --navy: #0b1220;
-      --navy-soft: #162033;
-      --blue: #2563eb;
-      --blue-hover: #1d4ed8;
-      --cyan: #22d3ee;
-      --violet: #8b5cf6;
-      --magenta: #ec4899;
-      --white: #ffffff;
-      --soft-bg: #f8fafc;
-      --soft-blue: #eff6ff;
-      --border: #e5e7eb;
-      --text: #334155;
-      --muted: #64748b;
-      --success: #16a34a;
-      --warning: #f59e0b;
-      --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      --navy:#0f172a;
+      --text:#334155;
+      --muted:#64748b;
+      --border:#e2e8f0;
+      --soft:#f8fafc;
+      --blue:#2563eb;
+      --cyan:#22d3ee;
+      --violet:#7c3aed;
+      --green:#16a34a;
+      --amber:#f59e0b;
+      --shadow:0 20px 50px rgba(15,23,42,.08);
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing:border-box; }
 
     body {
-      margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: var(--white);
-      color: var(--navy);
-      line-height: 1.6;
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:white;
+      line-height:1.6;
     }
 
     a {
-      text-decoration: none;
-      color: inherit;
+      color:inherit;
+      text-decoration:none;
     }
 
     .container {
-      width: min(1180px, 92%);
-      margin: 0 auto;
+      width:min(1180px,calc(100% - 36px));
+      margin:0 auto;
     }
 
-    /* NAV */
-    .nav {
-      background: rgba(255,255,255,0.94);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(12px);
+    .site-nav {
+      position:sticky;
+      top:0;
+      z-index:30;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--border);
     }
 
     .nav-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
-      gap: 20px;
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      padding:12px 0;
     }
 
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 900;
-      font-size: 1.14rem;
-      color: var(--navy);
-      letter-spacing: -0.02em;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--navy);
+      font-weight:950;
+      letter-spacing:-.03em;
     }
 
-    .brand img {
-      width: 46px;
-      height: 46px;
-      object-fit: contain;
-      display: block;
+    .brand-mark {
+      width:34px;
+      height:34px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--blue),var(--cyan),var(--violet));
+      box-shadow:0 12px 30px rgba(37,99,235,.28);
     }
 
     .nav-links {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      flex-wrap: wrap;
-      color: var(--text);
-      font-size: 0.95rem;
+      display:flex;
+      flex-wrap:wrap;
+      gap:16px;
+      justify-content:flex-end;
+      align-items:center;
+      color:var(--muted);
+      font-weight:850;
+      font-size:.93rem;
     }
 
-    .nav-links a:hover {
-      color: var(--blue);
-    }
+    .nav-links a:hover { color:var(--blue); }
 
-    .nav-cta {
-      background: linear-gradient(135deg, var(--blue), var(--violet));
-      color: white !important;
-      padding: 10px 16px;
-      border-radius: 11px;
-      font-weight: 800;
-      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.20);
-    }
-
-    /* BUTTONS */
-    .btn-row {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 28px;
-    }
-
-    .btn {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      padding: 13px 22px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      font-weight: 900;
-      cursor: pointer;
-      transition: 0.2s ease;
-      text-align: center;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--blue), var(--violet));
-      color: white;
-      box-shadow: 0 14px 34px rgba(37, 99, 235, 0.22);
-    }
-
-    .btn-primary:hover {
-      filter: brightness(1.04);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      background: white;
-      color: var(--navy);
-      border-color: var(--border);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--blue);
-      color: var(--blue);
-    }
-
-    .btn-dark {
-      background: var(--navy);
-      color: white;
-    }
-
-    .btn-full {
-      width: 100%;
-    }
-
-    /* HERO */
     .hero {
-      text-align: center;
-      padding: 86px 0 64px;
-      border-bottom: 1px solid var(--border);
+      padding:78px 0 62px;
+      border-bottom:1px solid var(--border);
       background:
-        radial-gradient(circle at top left, rgba(34,211,238,0.14), transparent 26%),
-        radial-gradient(circle at 76% 12%, rgba(139,92,246,0.13), transparent 26%),
-        radial-gradient(circle at 88% 36%, rgba(236,72,153,0.09), transparent 20%),
-        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+        radial-gradient(circle at 12% 10%,rgba(34,211,238,.18),transparent 34%),
+        radial-gradient(circle at 86% 16%,rgba(124,58,237,.16),transparent 34%),
+        linear-gradient(135deg,#fff,#eff6ff);
     }
 
-    .hero-logo {
-      width: 140px;
-      height: 140px;
-      object-fit: contain;
-      display: block;
-      margin: 0 auto 24px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: white;
-      color: var(--blue);
-      border: 1px solid #bfdbfe;
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-weight: 900;
-      font-size: 0.9rem;
-      margin-bottom: 22px;
-      box-shadow: 0 10px 24px rgba(37,99,235,0.06);
+    .eyebrow {
+      display:inline-flex;
+      width:fit-content;
+      padding:7px 11px;
+      border-radius:999px;
+      background:white;
+      border:1px solid #bfdbfe;
+      color:var(--blue);
+      font-weight:950;
+      font-size:.8rem;
+      margin-bottom:18px;
     }
 
     .hero h1 {
-      font-size: clamp(2.4rem, 5vw, 4.4rem);
-      line-height: 1.08;
-      margin: 0;
-      letter-spacing: -0.05em;
-      color: var(--navy);
-    }
-
-    .hero-brand-line {
-      font-size: clamp(1.08rem, 2vw, 1.32rem);
-      font-weight: 900;
-      color: var(--navy-soft);
-      margin-top: 16px;
-      letter-spacing: -0.02em;
+      margin:0;
+      max-width:1040px;
+      color:var(--navy);
+      font-size:clamp(2.4rem,5vw,5.2rem);
+      line-height:.97;
+      letter-spacing:-.07em;
     }
 
     .hero p {
-      max-width: 900px;
-      margin: 24px auto 0;
-      color: var(--text);
-      font-size: 1.12rem;
+      max-width:850px;
+      margin:22px 0 0;
+      color:var(--text);
+      font-size:1.08rem;
     }
 
-    .brand-note {
-      max-width: 900px;
-      margin: 18px auto 0;
-      color: var(--muted);
-      font-size: 0.98rem;
+    .hero-actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:30px;
     }
 
-    section {
-      padding: 78px 0;
+    .btn {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 18px;
+      border-radius:12px;
+      font-weight:900;
+      border:1px solid transparent;
+      transition:.2s ease;
+      cursor:pointer;
+      font-family:inherit;
+      font-size:.95rem;
+    }
+
+    .btn-primary {
+      color:white;
+      background:linear-gradient(135deg,var(--blue),var(--violet));
+      box-shadow:0 14px 34px rgba(37,99,235,.22);
+    }
+
+    .btn-secondary {
+      color:var(--navy);
+      background:white;
+      border-color:var(--border);
+    }
+
+    .pill-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:28px;
+    }
+
+    .pill {
+      display:inline-flex;
+      padding:7px 11px;
+      border-radius:999px;
+      background:white;
+      border:1px solid var(--border);
+      color:var(--navy);
+      font-size:.82rem;
+      font-weight:900;
+    }
+
+    section { padding:60px 0; }
+
+    .soft-section {
+      background:var(--soft);
+      border-top:1px solid var(--border);
+      border-bottom:1px solid var(--border);
     }
 
     .section-header {
-      text-align: center;
-      max-width: 880px;
-      margin: 0 auto 42px;
+      max-width:900px;
+      margin-bottom:28px;
     }
 
     .section-header h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.12;
-      margin: 0;
-      letter-spacing: -0.04em;
+      margin:0;
+      color:var(--navy);
+      font-size:clamp(1.85rem,3vw,2.8rem);
+      letter-spacing:-.055em;
+      line-height:1.05;
     }
 
     .section-header p {
-      color: var(--muted);
-      margin-top: 16px;
-      font-size: 1.05rem;
+      margin:12px 0 0;
+      color:var(--muted);
     }
 
-    /* NOTICE */
-    .notice {
-      background:
-        radial-gradient(circle at top left, rgba(34,211,238,0.12), transparent 30%),
-        linear-gradient(135deg, #ffffff, #eff6ff);
-      border: 1px solid #bfdbfe;
-      border-radius: 22px;
-      padding: 26px;
-      max-width: 980px;
-      margin: 0 auto 42px;
-      box-shadow: 0 8px 28px rgba(15,23,42,0.04);
-    }
-
-    .notice h3 {
-      margin: 0 0 8px;
-      font-size: 1.35rem;
-    }
-
-    .notice p {
-      margin: 0;
-      color: var(--text);
-    }
-
-    /* CORE PLANS */
     .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 22px;
-      align-items: stretch;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
     }
 
-    .pricing-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 28px;
-      box-shadow: 0 8px 28px rgba(15,23,42,0.05);
-      display: flex;
-      flex-direction: column;
-      position: relative;
+    .price-card {
+      background:white;
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:24px;
+      box-shadow:0 8px 28px rgba(15,23,42,.05);
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:18px;
+      min-height:420px;
     }
 
-    .pricing-card.highlight {
-      border: 2px solid var(--blue);
-      box-shadow:
-        var(--shadow),
-        0 0 32px rgba(34,211,238,0.10),
-        0 0 42px rgba(139,92,246,0.08);
-      transform: translateY(-6px);
+    .price-card.featured {
+      border-color:#bfdbfe;
+      box-shadow:0 22px 60px rgba(37,99,235,.14);
     }
 
-    .popular {
-      position: absolute;
-      top: -15px;
-      left: 24px;
-      background: linear-gradient(135deg, var(--blue), var(--violet));
-      color: white;
-      font-weight: 900;
-      font-size: 0.8rem;
-      padding: 7px 12px;
-      border-radius: 999px;
+    .tag {
+      display:inline-flex;
+      width:fit-content;
+      padding:6px 9px;
+      border-radius:999px;
+      font-size:.75rem;
+      font-weight:950;
+      background:#f8fafc;
+      border:1px solid var(--border);
+      color:var(--muted);
+      margin-bottom:12px;
     }
 
-    .plan-name {
-      font-size: 1.42rem;
-      font-weight: 900;
-      margin: 0;
+    .tag.live {
+      background:#ecfdf5;
+      border-color:#bbf7d0;
+      color:#166534;
     }
 
-    .plan-subtitle {
-      color: var(--muted);
-      margin: 8px 0 20px;
+    .tag.preview {
+      background:#eff6ff;
+      border-color:#bfdbfe;
+      color:#1d4ed8;
+    }
+
+    .tag.pack {
+      background:#fffbeb;
+      border-color:#fde68a;
+      color:#92400e;
+    }
+
+    .price-card h3 {
+      margin:0;
+      color:var(--navy);
+      font-size:1.25rem;
+      letter-spacing:-.035em;
     }
 
     .price {
-      font-size: 2.1rem;
-      font-weight: 900;
-      letter-spacing: -0.04em;
-      color: var(--navy);
-      margin: 0;
-      line-height: 1.1;
+      margin:10px 0 0;
+      color:var(--navy);
+      font-size:2.05rem;
+      font-weight:950;
+      letter-spacing:-.055em;
+      line-height:1;
     }
 
     .price small {
-      font-size: 0.92rem;
-      color: var(--muted);
-      font-weight: 700;
-      letter-spacing: 0;
+      font-size:.88rem;
+      color:var(--muted);
+      font-weight:850;
+      letter-spacing:0;
     }
 
-    .annual-note {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    .plan-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 22px 0;
+    .price-card p {
+      margin:12px 0 0;
+      color:var(--muted);
+      font-size:.93rem;
     }
 
     .feature-list {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-      flex: 1;
+      margin:0;
+      padding-left:18px;
+      color:var(--text);
+      font-size:.9rem;
     }
 
-    .feature-list li {
-      margin: 11px 0;
-      color: var(--text);
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
+    .feature-list li { margin:7px 0; }
+
+    .fine-print {
+      margin-top:12px;
+      color:var(--muted);
+      font-size:.8rem;
     }
 
-    .feature-list li::before {
-      content: "✓";
-      color: var(--success);
-      font-weight: 900;
-      flex: 0 0 auto;
+    .tools-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
     }
 
-    .not-included {
-      margin-top: 22px;
-      background: var(--soft-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 15px;
-      color: var(--muted);
-      font-size: 0.92rem;
+    .tool-card {
+      background:white;
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:22px;
+      box-shadow:0 8px 24px rgba(15,23,42,.04);
     }
 
-    .not-included strong {
-      color: var(--navy);
+    .tool-card h3 {
+      margin:0 0 8px;
+      color:var(--navy);
+      letter-spacing:-.025em;
     }
 
-    .card-action {
-      margin-top: 24px;
+    .tool-card p {
+      margin:0;
+      color:var(--muted);
+      font-size:.93rem;
     }
 
-    /* TOOL PRICING */
-    .tool-pricing-section {
-      background: #ffffff;
-      border-top: 1px solid var(--border);
+    .wide-card {
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:24px;
+      align-items:center;
+      background:linear-gradient(135deg,#0f172a,#1e1b4b);
+      color:white;
+      border-radius:28px;
+      padding:32px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      position:relative;
     }
 
-    .pricing-explainer {
-      background: var(--soft-bg);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 24px;
-      margin-bottom: 32px;
-      color: var(--text);
+    .wide-card h2 {
+      margin:0;
+      font-size:clamp(1.75rem,3vw,2.7rem);
+      letter-spacing:-.055em;
+      line-height:1.05;
     }
 
-    .pricing-explainer strong {
-      color: var(--navy);
+    .wide-card p {
+      color:#cbd5e1;
+      margin:14px 0 0;
     }
 
-    .tool-pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 22px;
+    .wide-card .btn-secondary {
+      color:var(--navy);
+      background:white;
     }
 
-    .tool-price-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 26px;
-      box-shadow: 0 8px 28px rgba(15,23,42,0.05);
-      display: flex;
-      flex-direction: column;
+    .bundle-list {
+      display:grid;
+      gap:10px;
     }
 
-    .tool-price-card h3 {
-      margin: 0 0 10px;
-      font-size: 1.22rem;
-      letter-spacing: -0.02em;
+    .bundle-item {
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:14px;
+      padding:12px;
+      color:#e2e8f0;
+      font-weight:850;
+      font-size:.92rem;
     }
 
-    .tool-price {
-      font-size: 1.55rem;
-      font-weight: 900;
-      color: var(--blue);
-      margin: 8px 0;
-      line-height: 1.1;
-    }
-
-    .tool-price span {
-      font-size: 0.9rem;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .addon-price {
-      margin-top: 8px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      color: #166534;
-      font-weight: 900;
-      font-size: 0.92rem;
-    }
-
-    .tool-desc {
-      color: var(--muted);
-      margin: 12px 0 16px;
-    }
-
-    .tool-price-card ul {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-      flex: 1;
-    }
-
-    .tool-price-card li {
-      margin: 9px 0;
-      color: var(--text);
-      display: flex;
-      gap: 8px;
-    }
-
-    .tool-price-card li::before {
-      content: "✓";
-      color: var(--success);
-      font-weight: 900;
-    }
-
-    /* PACKAGES */
-    .package-section {
-      background: var(--soft-bg);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .package-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-
-    .package-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 28px;
-      box-shadow: 0 8px 28px rgba(15,23,42,0.04);
-    }
-
-    .package-card h3 {
-      margin: 0 0 8px;
-      font-size: 1.25rem;
-    }
-
-    .package-card p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    /* AI / TRUST */
-    .trust {
-      background: var(--navy);
-      color: white;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .trust::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 10% 20%, rgba(34,211,238,0.14), transparent 20%),
-        radial-gradient(circle at 80% 20%, rgba(139,92,246,0.16), transparent 22%),
-        radial-gradient(circle at 80% 70%, rgba(236,72,153,0.12), transparent 22%);
-    }
-
-    .trust .container {
-      position: relative;
-      z-index: 1;
-    }
-
-    .trust .section-header p {
-      color: #cbd5e1;
-    }
-
-    .trust-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-
-    .trust-card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 20px;
-      padding: 26px;
-    }
-
-    .trust-card p {
-      color: #cbd5e1;
-    }
-
-    /* FINAL CTA */
-    .final-cta {
-      text-align: center;
-      background: linear-gradient(135deg, #eff6ff, #ffffff);
-    }
-
-    .final-cta h2 {
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      margin: 0;
-      letter-spacing: -0.04em;
-    }
-
-    .final-cta p {
-      max-width: 780px;
-      margin: 18px auto 0;
-      color: var(--text);
-      font-size: 1.08rem;
+    .note {
+      margin-top:22px;
+      padding:16px;
+      border-radius:16px;
+      background:#fffbeb;
+      border:1px solid #fde68a;
+      color:#92400e;
+      font-weight:800;
     }
 
     footer {
-      padding: 34px 0;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.92rem;
-      background: white;
+      border-top:1px solid var(--border);
+      padding:34px 0;
+      color:var(--muted);
+      font-size:.9rem;
     }
 
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
+    @media (max-width:1100px) {
+      .pricing-grid { grid-template-columns:repeat(2,1fr); }
+      .tools-grid { grid-template-columns:repeat(2,1fr); }
+      .wide-card { grid-template-columns:1fr; }
     }
 
-    .footer-links {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a:hover {
-      color: var(--blue);
-    }
-
-    @media (max-width: 1120px) {
+    @media (max-width:720px) {
       .pricing-grid,
-      .tool-pricing-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .tools-grid {
+        grid-template-columns:1fr;
       }
 
-      .package-grid,
-      .trust-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .pricing-grid,
-      .tool-pricing-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .pricing-card.highlight {
-        transform: none;
+      .nav-inner {
+        flex-direction:column;
+        align-items:flex-start;
       }
 
       .nav-links {
-        display: none;
+        justify-content:flex-start;
       }
 
-      .hero-logo {
-        width: 112px;
-        height: 112px;
+      .hero {
+        padding:54px 0 44px;
       }
     }
   </style>
 </head>
 
 <body>
-
-  <!-- NAV -->
-  <nav class="nav">
+  <nav class="site-nav">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
-        <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
-        Astraa Systems
+        <span class="brand-mark"></span>
+        <span>Astraa Systems</span>
       </a>
 
       <div class="nav-links">
         <a href="index.html">Home</a>
-        <a href="engines.html">Tools</a>
         <a href="pricing.html">Pricing</a>
+        <a href="engines.html">Tools</a>
         <a href="customer-portal.html">Workspace</a>
-        <a href="contact.html">Custom Packages</a>
-        <a href="login.html">Login</a>
-        <a class="nav-cta" href="register.html">Start Trial</a>
+        <a href="estimator-faq.html">Estimator FAQ</a>
+        <a href="contact.html">Contact</a>
       </div>
     </div>
   </nav>
 
-  <!-- HERO -->
   <header class="hero">
     <div class="container">
-      <img class="hero-logo" src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
+      <span class="eyebrow">Astraa Pricing</span>
 
-      <div class="badge">Pricing for connected business tools</div>
-
-      <h1>Astraa Systems Pricing</h1>
-
-      <div class="hero-brand-line">
-        One workspace. Connected tools. Smarter growth.
-      </div>
+      <h1>Start with one tool. Add more as your business grows.</h1>
 
       <p>
-        Choose one tool, start with a workspace plan, or request a custom package designed around your business.
-        Astraa helps companies estimate costs, track expenses, organize records, manage workflows, and operate with more ease.
+        Astraa pricing is designed for a practical launch: start with Astraa Estimator and Workspace,
+        add estimate packs when needed, then expand into custom tool packages as Finance, Business,
+        Commerce, Data, Inference, and Vault tools mature.
       </p>
 
-      <div class="brand-note">
-        Astraa is built for businesses of all sizes — from solo operators and startups to growing teams that need connected tools and custom systems.
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="register.html">Start Trial</a>
+        <a class="btn btn-secondary" href="customer-portal.html">Open Workspace</a>
+        <a class="btn btn-secondary" href="engines.html">Explore Tools</a>
       </div>
 
-      <div class="btn-row">
-        <a class="btn btn-primary" href="register.html">Start 15-Day Trial</a>
-        <a class="btn btn-secondary" href="#individual-tools">View Tool Pricing</a>
-        <a class="btn btn-secondary" href="contact.html">Request Custom Package</a>
+      <div class="pill-row">
+        <span class="pill">15 estimates over 15 days</span>
+        <span class="pill">$10 CAD / 10 extra estimates</span>
+        <span class="pill">Basic starts at $39 CAD/month</span>
+        <span class="pill">Custom packages available</span>
       </div>
     </div>
   </header>
 
-  <!-- CORE PLANS -->
-  <section class="pricing">
+  <section>
     <div class="container">
       <div class="section-header">
-        <h2>Start with a plan. Add tools as you grow.</h2>
+        <h2>Estimator plans</h2>
         <p>
-          Trial gives a controlled Professional-style preview. Basic is for very small or occasional users.
-          Professional is the recommended working plan. Custom is for companies that need Astraa tailored into their workflow.
-        </p>
-      </div>
-
-      <div class="notice">
-        <h3>Launch bonus</h3>
-        <p>
-          Customers who start Basic or Professional through the same verified Astraa account may receive
-          <strong>15 one-time bonus estimates</strong> in their first paid cycle. If trial and payment emails differ,
-          bonus eligibility may require business verification.
+          Astraa Estimator is the first live tool in the Astraa platform. Use the trial to test estimate math,
+          BC city calibration, customer allowances, budget comparison, and feedback learning.
         </p>
       </div>
 
       <div class="pricing-grid">
+        <article class="price-card">
+          <div>
+            <span class="tag live">Trial</span>
+            <h3>Estimator Trial</h3>
+            <div class="price">$0 <small>/ 15 days</small></div>
+            <p>For testing Astraa Estimator before choosing a paid plan.</p>
 
-        <!-- TRIAL -->
-        <div class="pricing-card">
-          <h3 class="plan-name">Trial</h3>
-          <p class="plan-subtitle">Professional-style preview with controlled usage.</p>
-
-          <p class="price">$0 <small>/ 15 days</small></p>
-          <p class="annual-note">15 total estimates · 1 estimate per day</p>
-
-          <div class="plan-divider"></div>
-
-          <ul class="feature-list">
-            <li>15 estimates total over 15 days</li>
-            <li>1 estimate per day</li>
-            <li>Astraa Workspace access</li>
-            <li>Saved trial estimate history</li>
-            <li>Professional-style summaries</li>
-            <li>Limited tool previews</li>
-            <li>Limited expense tool preview</li>
-          </ul>
-
-          <div class="not-included">
-            <strong>Not included:</strong> high usage, full exports, custom logic, priority support, or full tool access.
+            <ul class="feature-list">
+              <li>15 total estimates over 15 days</li>
+              <li>No daily estimate limit</li>
+              <li>BC city/town market selector</li>
+              <li>BCPI factor, soft cost, contingency</li>
+              <li>Optional customer-entered allowances</li>
+              <li>Estimator FAQ and math explanation</li>
+            </ul>
           </div>
 
-          <div class="card-action">
-            <a class="btn btn-primary btn-full" href="register.html">Start Trial</a>
+          <div>
+            <a class="btn btn-primary" href="register.html">Start Trial</a>
+            <div class="fine-print">Trial is intended for controlled testing and early feedback.</div>
           </div>
-        </div>
+        </article>
 
-        <!-- BASIC -->
-        <div class="pricing-card">
-          <h3 class="plan-name">Basic</h3>
-          <p class="plan-subtitle">For very small teams, startups, and occasional estimating.</p>
+        <article class="price-card featured">
+          <div>
+            <span class="tag live">Basic</span>
+            <h3>Estimator Basic</h3>
+            <div class="price">$39 <small>CAD/month</small></div>
+            <p>For small businesses, early users, and customers who need regular estimator access.</p>
 
-          <p class="price">$39 CAD <small>/ month</small></p>
-          <p class="annual-note">30 estimates/month · one-time +15 bonus if eligible</p>
-
-          <div class="plan-divider"></div>
-
-          <ul class="feature-list">
-            <li>Astraa Estimator access</li>
-            <li>30 estimates per month</li>
-            <li>Basic Astraa Workspace</li>
-            <li>Saved estimate history</li>
-            <li>Basic estimate summaries</li>
-            <li>Expense Tool Lite</li>
-            <li>Email support</li>
-          </ul>
-
-          <div class="not-included">
-            <strong>Not included:</strong> custom logic, advanced reporting, full tool access, dedicated onboarding, or integrations.
+            <ul class="feature-list">
+              <li>Monthly estimator access</li>
+              <li>Plan usage visibility in Workspace</li>
+              <li>Budget gap and estimate summary</li>
+              <li>Feedback capture for learning improvements</li>
+              <li>Can add estimate packs when needed</li>
+              <li>Good for lightweight project planning</li>
+            </ul>
           </div>
 
-          <div class="card-action">
-            <a class="btn btn-secondary btn-full" href="payment.html">Start Basic</a>
+          <div>
+            <button class="btn btn-primary" type="button" onclick="selectPaidPlan('Astraa Estimator','Basic','$39 CAD/month')">Choose Basic</button>
+            <div class="fine-print">Paid access should be confirmed through verified payment records.</div>
           </div>
-        </div>
+        </article>
 
-        <!-- PROFESSIONAL -->
-        <div class="pricing-card highlight">
-          <div class="popular">Recommended</div>
+        <article class="price-card">
+          <div>
+            <span class="tag preview">Professional</span>
+            <h3>Estimator Professional</h3>
+            <div class="price">Custom <small>/ launch pricing</small></div>
+            <p>For higher estimate volume, active business workflows, reporting needs, and support.</p>
 
-          <h3 class="plan-name">Professional</h3>
-          <p class="plan-subtitle">For active users who estimate regularly and want stronger workspace tools.</p>
-
-          <p class="price">$99 CAD <small>/ month</small></p>
-          <p class="annual-note">120 estimates/month · one-time +15 bonus if eligible</p>
-
-          <div class="plan-divider"></div>
-
-          <ul class="feature-list">
-            <li>Everything in Basic</li>
-            <li>120 estimates per month</li>
-            <li>Stronger Astraa Workspace</li>
-            <li>Professional estimate summaries</li>
-            <li>Project-type templates</li>
-            <li>Fuller expense tracking</li>
-            <li>Workspace tool add-on pricing</li>
-            <li>Priority email support</li>
-          </ul>
-
-          <div class="not-included">
-            <strong>Not included:</strong> full custom workflow design, private company logic, custom integrations, or contract-based implementation work.
+            <ul class="feature-list">
+              <li>Higher estimator usage allowance</li>
+              <li>Designed for active estimating workflows</li>
+              <li>Better fit for repeated project comparisons</li>
+              <li>Can be combined with Workspace and Finance</li>
+              <li>Estimate packs supported</li>
+              <li>Launch pricing can be confirmed directly</li>
+            </ul>
           </div>
 
-          <div class="card-action">
-            <a class="btn btn-primary btn-full" href="payment.html">Start Professional</a>
+          <div>
+            <a class="btn btn-secondary" href="contact.html">Ask About Professional</a>
+            <div class="fine-print">Professional pricing can be finalized before public rollout.</div>
           </div>
-        </div>
+        </article>
 
-        <!-- CUSTOM -->
-        <div class="pricing-card">
-          <h3 class="plan-name">Custom</h3>
-          <p class="plan-subtitle">For companies that need Astraa tailored to their workflow, industry, or internal process.</p>
+        <article class="price-card">
+          <div>
+            <span class="tag pack">Add-on</span>
+            <h3>Estimate Pack</h3>
+            <div class="price">$10 <small>CAD one-time</small></div>
+            <p>Add extra estimates when you run out before your plan resets.</p>
 
-          <p class="price">From $1,500 <small>CAD setup</small></p>
-          <p class="annual-note">Support and hosting typically from $199 CAD/month</p>
-
-          <div class="plan-divider"></div>
-
-          <ul class="feature-list">
-            <li>Workflow discovery</li>
-            <li>Custom estimator logic</li>
-            <li>Company-specific templates</li>
-            <li>Industry-specific assumptions</li>
-            <li>Custom expense workflow</li>
-            <li>Custom reports and summaries</li>
-            <li>Optional integrations</li>
-            <li>Contract or statement-of-work delivery</li>
-          </ul>
-
-          <div class="not-included">
-            <strong>Scoped separately:</strong> integrations, private deployment, advanced reporting, and long-term development support.
+            <ul class="feature-list">
+              <li>+10 extra estimates</li>
+              <li>Works with Trial, Basic, Professional, and Custom accounts</li>
+              <li>Useful for short bursts of estimating</li>
+              <li>Estimate credit pack is tracked in Workspace</li>
+              <li>Designed for flexible usage</li>
+            </ul>
           </div>
 
-          <div class="card-action">
-            <a class="btn btn-dark btn-full" href="contact.html">Request Custom Package</a>
+          <div>
+            <button class="btn btn-primary" type="button" onclick="selectEstimatePack()">Add 10 Estimates</button>
+            <div class="fine-print">$10 CAD / 10 extra estimates. Payment verification should be confirmed.</div>
           </div>
-        </div>
+        </article>
+      </div>
 
+      <div class="note">
+        Current trial model: 15 total estimates over 15 days. If a customer uses all estimates early,
+        they can upgrade or add an Estimate Pack. The old daily trial limit is no longer used.
       </div>
     </div>
   </section>
 
-  <!-- INDIVIDUAL TOOL PRICING -->
-  <section id="individual-tools" class="tool-pricing-section">
+  <section class="soft-section">
     <div class="container">
       <div class="section-header">
-        <h2>Individual tool pricing</h2>
+        <h2>Astraa tool pricing direction</h2>
         <p>
-          Customers can use one Astraa tool on its own, add tools to Astraa Workspace, or request a custom package.
-          Workspace add-ons are priced lower because they connect into your existing Astraa account, workspace, and records.
+          Astraa is expanding beyond one estimator. Tools can be used individually or combined into custom packages.
+          Preview tools are listed honestly as preview/custom-package items until they are publicly active.
         </p>
       </div>
 
-      <div class="pricing-explainer">
-        <strong>Standalone vs. Workspace add-on:</strong>
-        Standalone tools are priced as independent products. Workspace add-ons are priced lower to show the value of using Astraa as one connected system.
-        Most standalone tools are priced around 35% higher than the Workspace add-on price.
-      </div>
-
-      <div class="tool-pricing-grid">
-
-        <div class="tool-price-card">
+      <div class="tools-grid">
+        <div class="tool-card">
           <h3>Astraa Estimator</h3>
-          <p class="tool-price">$59.99 CAD <span>/ month standalone</span></p>
-          <div class="addon-price">Included in Basic and Professional</div>
-          <p class="tool-desc">
-            Prime estimating tool for fast baseline estimates, saved estimate history, and workspace-connected cost visibility.
-          </p>
-          <ul>
-            <li>Standalone estimate workspace</li>
-            <li>Trial: 15 total estimates over 15 days</li>
-            <li>Basic: 30 estimates/month</li>
-            <li>Professional: 120 estimates/month</li>
-          </ul>
+          <p>Available now. Baseline estimate intelligence, budget comparison, BC calibration, feedback learning, and estimate packs.</p>
         </div>
 
-        <div class="tool-price-card">
-          <h3>Expense Tool</h3>
-          <p class="tool-price">$40.99 CAD <span>/ month standalone</span></p>
-          <div class="addon-price">$29.99 CAD/month as Workspace add-on</div>
-          <p class="tool-desc">
-            Track business expenses, materials, project costs, and basic cost visibility.
-          </p>
-          <ul>
-            <li>Trial: limited preview</li>
-            <li>Basic: Expense Tool Lite included</li>
-            <li>Professional: fuller tracking included</li>
-            <li>Custom: tailored expense workflow</li>
-          </ul>
+        <div class="tool-card">
+          <h3>Astraa Workspace</h3>
+          <p>Available as the customer portal layer for account access, usage visibility, payment handoff, feedback, and tool navigation.</p>
         </div>
 
-        <div class="tool-price-card">
-          <h3>Operations Tool</h3>
-          <p class="tool-price">$40.99 CAD <span>/ month standalone</span></p>
-          <div class="addon-price">$29.99 CAD/month as Workspace add-on</div>
-          <p class="tool-desc">
-            Organize workflows, approvals, handoffs, task stages, and repeatable business processes.
-          </p>
-          <ul>
-            <li>Limited workflow preview</li>
-            <li>Task and process structure</li>
-            <li>Operational handoff support</li>
-            <li>Custom workflow build available</li>
-          </ul>
+        <div class="tool-card">
+          <h3>Astraa Vault</h3>
+          <p>Preview/custom package. Future storage for estimate summaries, reports, project notes, customer feedback, and tool records.</p>
         </div>
 
-        <div class="tool-price-card">
-          <h3>Finance Tool</h3>
-          <p class="tool-price">$40.99 CAD <span>/ month standalone</span></p>
-          <div class="addon-price">$29.99 CAD/month as Workspace add-on</div>
-          <p class="tool-desc">
-            Review cost summaries, margin thinking, estimate-to-expense visibility, and business finance signals.
-          </p>
-          <ul>
-            <li>Cost visibility summaries</li>
-            <li>Estimate-to-expense awareness</li>
-            <li>Margin thinking support</li>
-            <li>Custom finance workflow available</li>
-          </ul>
+        <div class="tool-card">
+          <h3>Astraa Finance</h3>
+          <p>Preview/custom package. Budget comparison, margin visibility, actual cost review, and finance-ready reporting direction.</p>
         </div>
 
-        <div class="tool-price-card">
-          <h3>Arkastra Commerce Tool</h3>
-          <p class="tool-price">$40.99 CAD <span>/ month standalone</span></p>
-          <div class="addon-price">$29.99 CAD/month as Workspace add-on</div>
-          <p class="tool-desc">
-            Build service packages, quote flows, customer-ready offers, and transaction-oriented workflows.
-          </p>
-          <ul>
-            <li>Status: coming soon</li>
-            <li>Service package structure</li>
-            <li>Quote-to-payment path planning</li>
-            <li>Custom commerce workflows later</li>
-          </ul>
+        <div class="tool-card">
+          <h3>Astraa Business</h3>
+          <p>Preview/custom package. Business automation, operational workflows, customer follow-up, task clarity, and process support.</p>
         </div>
 
-        <div class="tool-price-card">
-          <h3>Data Workspace</h3>
-          <p class="tool-price">$40.99 CAD <span>/ month standalone</span></p>
-          <div class="addon-price">$29.99 CAD/month as Workspace add-on</div>
-          <p class="tool-desc">
-            Organize project records, reference links, saved files, and reporting-ready business memory.
-          </p>
-          <ul>
-            <li>Reference workspace</li>
-            <li>Saved records and files</li>
-            <li>Project memory structure</li>
-            <li>Custom data structure available</li>
-          </ul>
+        <div class="tool-card">
+          <h3>Astraa Commerce / Arkastra</h3>
+          <p>Preview/custom package. Quote, package, transaction, checkout, customer plan, and selling workflow direction.</p>
         </div>
 
-        <div class="tool-price-card">
-          <h3>VSV Systems Intelligence</h3>
-          <p class="tool-price">From $299 CAD <span>/ month</span></p>
-          <div class="addon-price">Discovery required</div>
-          <p class="tool-desc">
-            Future public systems intelligence for industrial, construction, and operational use cases.
-          </p>
-          <ul>
-            <li>Future/custom path</li>
-            <li>Scoped by business need</li>
-            <li>Not included in standard plans yet</li>
-            <li>Discovery before pricing confirmation</li>
-          </ul>
+        <div class="tool-card">
+          <h3>Astraa Data / Oracle</h3>
+          <p>Preview/custom package. Structured business memory, feedback history, estimate records, and reporting data foundation.</p>
         </div>
 
-        <div class="tool-price-card">
-          <h3>Custom Astraa Systems</h3>
-          <p class="tool-price">Quote-based</p>
-          <div class="addon-price">From $1,500 CAD setup</div>
-          <p class="tool-desc">
-            Custom workflows, templates, business rules, integrations, dashboards, and reporting.
-          </p>
-          <ul>
-            <li>Custom package discovery</li>
-            <li>Support/hosting typically from $199/month</li>
-            <li>Delivered through proposal or contract</li>
-            <li>Best for business-specific workflows</li>
-          </ul>
+        <div class="tool-card">
+          <h3>Astraa Inference / Aruhan</h3>
+          <p>Preview/custom package. Future intelligence layer for interpreting signals and supporting reviewed recommendations.</p>
         </div>
 
+        <div class="tool-card">
+          <h3>VSV Industrial Intelligence</h3>
+          <p>Future/custom direction for industrial and systems intelligence, advanced visibility, and specialized deployments.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- CUSTOM PACKAGES -->
-  <section class="package-section">
+  <section>
+    <div class="container">
+      <div class="wide-card">
+        <div>
+          <h2>Custom packages for growing workflows.</h2>
+          <p>
+            If your business needs multiple Astraa tools, onboarding help, special reporting, or a workflow built around your operations,
+            request a custom package. This lets Astraa support practical adoption without overpromising fixed public pricing for tools that are still in preview.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="contact.html">Request Custom Package</a>
+            <a class="btn btn-secondary" href="engines.html">Explore Tools</a>
+          </div>
+        </div>
+
+        <div class="bundle-list">
+          <div class="bundle-item">Estimator + Workspace for project planning</div>
+          <div class="bundle-item">Estimator + Finance for budget visibility</div>
+          <div class="bundle-item">Business + Commerce for operating and selling flows</div>
+          <div class="bundle-item">Data + Inference for future intelligence and reporting</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="soft-section">
     <div class="container">
       <div class="section-header">
-        <h2>Custom packages for different businesses</h2>
+        <h2>Payment and activation note</h2>
         <p>
-          Astraa is not limited to one industry. Start with one tool, combine tools into a package,
-          or request a workflow built around how your business actually operates.
+          Astraa payment flow is connected through Moneris. Official paid plan activation, estimate credit application,
+          or custom package setup should be confirmed through verified payment records and account setup.
         </p>
       </div>
 
-      <div class="package-grid">
-        <div class="package-card">
-          <h3>Estimator + Expense Package</h3>
-          <p>
-            For contractors, service teams, and operators that need cost estimates and expense visibility in one place.
-          </p>
-        </div>
-
-        <div class="package-card">
-          <h3>Business Operations Package</h3>
-          <p>
-            Operations Tool + Data Workspace for teams that need workflow structure, records, and repeatable processes.
-          </p>
-        </div>
-
-        <div class="package-card">
-          <h3>Commerce Workflow Package</h3>
-          <p>
-            Arkastra Commerce + Data Workspace for service packages, quote flows, customer-ready offers, and payment paths.
-          </p>
-        </div>
-
-        <div class="package-card">
-          <h3>Finance Visibility Package</h3>
-          <p>
-            Finance Tool + Expense Tool + Data Workspace for businesses that need clearer cost and margin visibility.
-          </p>
-        </div>
-
-        <div class="package-card">
-          <h3>Growth Workspace Package</h3>
-          <p>
-            A balanced package for growing teams that want estimating, records, expenses, and workflow clarity.
-          </p>
-        </div>
-
-        <div class="package-card">
-          <h3>Custom Systems Package</h3>
-          <p>
-            Any combination of Astraa tools, custom workflows, reports, integrations, and business-specific logic.
-          </p>
-        </div>
+      <div class="note">
+        Browser payment success pages are useful for customer flow, but official payment proof should be confirmed through Moneris/admin records before final account activation or credit application.
       </div>
 
-      <div class="btn-row">
-        <a class="btn btn-primary" href="contact.html">Request Custom Package</a>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="register.html">Start Trial</a>
+        <a class="btn btn-secondary" href="customer-portal.html">Open Workspace</a>
+        <a class="btn btn-secondary" href="contact.html">Contact Astraa</a>
       </div>
     </div>
   </section>
 
-  <!-- TRUST / AI DISCLOSURE -->
-  <section class="trust">
-    <div class="container">
-      <div class="section-header">
-        <h2>Practical tools first. Responsible technology behind them.</h2>
-        <p>
-          Astraa is presented as a business tools company. Selected features may use AI-assisted technology
-          to support summaries, organization, estimates, and workflow clarity — while customers remain in control of final decisions.
-        </p>
-      </div>
-
-      <div class="trust-grid">
-        <div class="trust-card">
-          <h3>Business tools, not AI hype</h3>
-          <p>
-            Astraa focuses on practical tools that help businesses operate with more clarity, structure, and ease.
-          </p>
-        </div>
-
-        <div class="trust-card">
-          <h3>Transparent AI-assisted support</h3>
-          <p>
-            Where AI-assisted technology is used, Astraa explains it in trust, privacy, and terms language so customers are not misled.
-          </p>
-        </div>
-
-        <div class="trust-card">
-          <h3>Customer judgment stays in control</h3>
-          <p>
-            Astraa outputs are designed to support workflows. Customers remain responsible for review and final business decisions.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FINAL CTA -->
-  <section class="final-cta">
-    <div class="container">
-      <h2>Choose one tool, build a workspace, or request a custom package.</h2>
-
-      <p>
-        Astraa gives businesses a flexible path: start small, add tools when needed, or build a custom system around your workflow.
-      </p>
-
-      <div class="btn-row">
-        <a class="btn btn-primary" href="register.html">Start 15-Day Trial</a>
-        <a class="btn btn-secondary" href="#individual-tools">View Tool Pricing</a>
-        <a class="btn btn-secondary" href="contact.html">Request Custom Package</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
   <footer>
-    <div class="container footer-inner">
-      <div>Astraa Systems © 2026</div>
-
-      <div class="footer-links">
-        <a href="login.html">Login</a>
-        <a href="register.html">Start Trial</a>
-        <a href="customer-portal.html">Workspace</a>
-        <a href="contact.html">Custom Packages</a>
-      </div>
+    <div class="container">
+      © 2026 Astraa Systems. Pricing and preview tools may be adjusted during launch testing. Astraa tools provide planning, automation, and decision-support intelligence.
     </div>
   </footer>
 
+  <script>
+    function selectPaidPlan(tool, plan, price) {
+      sessionStorage.setItem("astraa_selected_tool", tool);
+      sessionStorage.setItem("astraa_selected_plan", plan);
+      sessionStorage.setItem("astraa_selected_price", price);
+      window.location.href = "payment.html";
+    }
+
+    function selectEstimatePack() {
+      sessionStorage.setItem("astraa_selected_tool", "Astraa Estimator");
+      sessionStorage.setItem("astraa_selected_plan", "Estimate Pack +10");
+      sessionStorage.setItem("astraa_selected_price", "$10 CAD one-time");
+      sessionStorage.setItem("astraa_estimate_pack_credits", "10");
+      window.location.href = "payment.html";
+    }
+  </script>
 </body>
 </html>

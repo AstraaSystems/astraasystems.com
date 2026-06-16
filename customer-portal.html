@@ -2480,6 +2480,137 @@ button:disabled {
 }
 
 </style>
+
+<style id="astraa-finance-readable-patch">
+/* Astraa Finance readability patch
+   Fixes light/invisible text in Finance Preview without touching payment/Moneris files.
+*/
+
+.astraa-finance-readable {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+.astraa-finance-readable,
+.astraa-finance-readable div,
+.astraa-finance-readable section,
+.astraa-finance-readable article,
+.astraa-finance-readable header,
+.astraa-finance-readable footer,
+.astraa-finance-readable h1,
+.astraa-finance-readable h2,
+.astraa-finance-readable h3,
+.astraa-finance-readable h4,
+.astraa-finance-readable h5,
+.astraa-finance-readable h6,
+.astraa-finance-readable p,
+.astraa-finance-readable label,
+.astraa-finance-readable span,
+.astraa-finance-readable small,
+.astraa-finance-readable strong,
+.astraa-finance-readable em,
+.astraa-finance-readable li {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+.astraa-finance-readable h1,
+.astraa-finance-readable h2,
+.astraa-finance-readable h3,
+.astraa-finance-readable strong {
+  color: #020617 !important;
+  -webkit-text-fill-color: #020617 !important;
+  font-weight: 900 !important;
+}
+
+.astraa-finance-readable p,
+.astraa-finance-readable small,
+.astraa-finance-readable .help,
+.astraa-finance-readable .hint,
+.astraa-finance-readable .note {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+  font-weight: 600 !important;
+}
+
+.astraa-finance-readable input,
+.astraa-finance-readable select,
+.astraa-finance-readable textarea {
+  background: #071426 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 1px solid #2563eb !important;
+  border-radius: 14px !important;
+  opacity: 1 !important;
+}
+
+.astraa-finance-readable input::placeholder,
+.astraa-finance-readable textarea::placeholder {
+  color: #cbd5e1 !important;
+  -webkit-text-fill-color: #cbd5e1 !important;
+  opacity: 1 !important;
+}
+
+.astraa-finance-readable button,
+.astraa-finance-readable .btn {
+  background: linear-gradient(135deg, #2563eb, #0891b2) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 1px solid rgba(37, 99, 235, 0.55) !important;
+  font-weight: 900 !important;
+  opacity: 1 !important;
+}
+
+.astraa-finance-readable button:disabled,
+.astraa-finance-readable .btn:disabled {
+  background: #dbeafe !important;
+  color: #1e3a8a !important;
+  -webkit-text-fill-color: #1e3a8a !important;
+  border: 1px solid #93c5fd !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+}
+
+.astraa-finance-readable .pill,
+.astraa-finance-readable .badge,
+.astraa-finance-readable .tag {
+  background: #e0f2fe !important;
+  color: #075985 !important;
+  -webkit-text-fill-color: #075985 !important;
+  border: 1px solid #7dd3fc !important;
+  font-weight: 900 !important;
+}
+
+.astraa-finance-readable .card,
+.astraa-finance-readable .panel,
+.astraa-finance-readable .metric,
+.astraa-finance-readable .output-card,
+.astraa-finance-readable .summary-card,
+.astraa-finance-readable .notice,
+.astraa-finance-readable .info-box {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #dbe3ef !important;
+}
+
+.astraa-finance-readable .warning,
+.astraa-finance-readable .warning-box {
+  background: #fffbeb !important;
+  color: #92400e !important;
+  -webkit-text-fill-color: #92400e !important;
+  border: 1px solid #fbbf24 !important;
+}
+
+/* Make accidental text selection less visually confusing */
+.astraa-finance-readable ::selection {
+  background: #bfdbfe !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+}
+</style>
+
 </head>
 
 <body>
@@ -5770,6 +5901,37 @@ Customers can optionally share final project costs and written feedback to help 
     }
 
   </script>
+
+
+<script id="astraa-finance-readable-marker">
+(function markAstraaFinancePreview() {
+  function mark() {
+    var candidates = Array.from(document.querySelectorAll("section, article, div"));
+
+    var financeRoots = candidates.filter(function(el) {
+      var text = (el.textContent || "").replace(/\s+/g, " ").trim();
+      return text.includes("Astraa Finance Preview") &&
+             text.includes("Finance Inputs") &&
+             text.includes("Finance Preview Output");
+    });
+
+    if (!financeRoots.length) return;
+
+    financeRoots.sort(function(a, b) {
+      return (a.textContent || "").length - (b.textContent || "").length;
+    });
+
+    var root = financeRoots[0];
+    root.classList.add("astraa-finance-readable");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", mark);
+  } else {
+    mark();
+  }
+})();
+</script>
 
 </body>
 </html>

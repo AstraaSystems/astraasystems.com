@@ -2255,7 +2255,231 @@
         height: 112px;
       }
     }
-  </style>
+  
+/* Astraa Workspace contrast safety patch - 2026-06-16
+   Purpose: improve readability for light cards, Finance Preview, disabled buttons, and blocked-limit messages.
+   This patch does not touch Moneris/payment files.
+*/
+
+.finance-preview,
+.finance-preview *,
+.workspace-finance,
+.workspace-finance *,
+.finance-card,
+.finance-card *,
+#financePreview,
+#financePreview *,
+#finance-preview,
+#finance-preview * {
+  color: #0f172a;
+}
+
+.finance-preview h2,
+.finance-preview h3,
+.workspace-finance h2,
+.workspace-finance h3,
+.finance-card h2,
+.finance-card h3,
+#financePreview h2,
+#financePreview h3,
+#finance-preview h2,
+#finance-preview h3 {
+  color: #020617 !important;
+}
+
+.finance-preview p,
+.workspace-finance p,
+.finance-card p,
+#financePreview p,
+#finance-preview p {
+  color: #334155 !important;
+}
+
+.finance-preview label,
+.workspace-finance label,
+.finance-card label,
+#financePreview label,
+#finance-preview label {
+  color: #0f172a !important;
+  font-weight: 800;
+}
+
+.finance-preview small,
+.workspace-finance small,
+.finance-card small,
+#financePreview small,
+#finance-preview small,
+.finance-help,
+.finance-note,
+.input-help,
+.field-help {
+  color: #475569 !important;
+  font-weight: 600;
+}
+
+.finance-preview input,
+.workspace-finance input,
+.finance-card input,
+#financePreview input,
+#finance-preview input {
+  background: #071426 !important;
+  color: #ffffff !important;
+  border: 1px solid #1e40af !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+.finance-preview input::placeholder,
+.workspace-finance input::placeholder,
+.finance-card input::placeholder,
+#financePreview input::placeholder,
+#finance-preview input::placeholder {
+  color: #cbd5e1 !important;
+}
+
+.finance-preview .tag,
+.workspace-finance .tag,
+.finance-card .tag,
+#financePreview .tag,
+#finance-preview .tag,
+.badge,
+.pill {
+  color: #0f172a;
+  font-weight: 900;
+}
+
+.finance-preview button,
+.workspace-finance button,
+.finance-card button,
+#financePreview button,
+#finance-preview button {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #2563eb, #0891b2) !important;
+  border: 1px solid rgba(37, 99, 235, 0.45) !important;
+  font-weight: 900;
+}
+
+.finance-preview button:disabled,
+.workspace-finance button:disabled,
+.finance-card button:disabled,
+#financePreview button:disabled,
+#finance-preview button:disabled,
+button:disabled {
+  color: #475569 !important;
+  background: #e2e8f0 !important;
+  border: 1px solid #cbd5e1 !important;
+  opacity: 1 !important;
+  cursor: not-allowed;
+  box-shadow: none !important;
+}
+
+.finance-preview .output-card,
+.workspace-finance .output-card,
+.finance-card .output-card,
+#financePreview .output-card,
+#finance-preview .output-card,
+.metric,
+.summary-card {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #dbe3ef !important;
+}
+
+.finance-preview .output-card strong,
+.workspace-finance .output-card strong,
+.finance-card .output-card strong,
+#financePreview .output-card strong,
+#finance-preview .output-card strong,
+.metric strong,
+.summary-card strong {
+  color: #020617 !important;
+}
+
+.finance-preview .output-card span,
+.workspace-finance .output-card span,
+.finance-card .output-card span,
+#financePreview .output-card span,
+#finance-preview .output-card span,
+.metric span,
+.summary-card span {
+  color: #475569 !important;
+}
+
+.notice,
+.info-box,
+.warning-box {
+  color: #0f172a;
+}
+
+.notice strong,
+.info-box strong,
+.warning-box strong {
+  color: #020617;
+}
+
+/* Blocked/limit/error result readability */
+.result-blocked,
+.limit-blocked,
+.error-panel,
+.alert-error,
+.status-error,
+#resultStatus,
+#estimateResult {
+  color: inherit;
+}
+
+.error-panel,
+.alert-error,
+.limit-blocked,
+.result-blocked {
+  background: #fff1f2 !important;
+  border: 1px solid #fda4af !important;
+  color: #991b1b !important;
+}
+
+.error-panel *,
+.alert-error *,
+.limit-blocked *,
+.result-blocked * {
+  color: #991b1b !important;
+}
+
+.status-pill,
+.result-status,
+.status-badge {
+  font-weight: 900;
+}
+
+.status-pill.error,
+.result-status.error,
+.status-badge.error {
+  color: #991b1b !important;
+  background: #fff1f2 !important;
+  border: 1px solid #fca5a5 !important;
+}
+
+/* General light panel protection */
+.panel,
+.card,
+.portal-card,
+.workspace-card {
+  color: inherit;
+}
+
+.panel.light,
+.card.light,
+.portal-card.light,
+.workspace-card.light {
+  color: #0f172a !important;
+}
+
+.panel.light *,
+.card.light *,
+.portal-card.light *,
+.workspace-card.light * {
+  color: inherit;
+}
+
+</style>
 </head>
 
 <body>

@@ -1360,6 +1360,869 @@
       border-color: var(--blue);
     }
 
+
+    /* Estimate quality, cost split, and copy summary */
+    .cost-split-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .cost-split-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px;
+    }
+
+    .cost-split-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 4px;
+    }
+
+    .cost-split-card strong {
+      color: var(--navy);
+      font-size: 0.98rem;
+    }
+
+    .copy-estimate-box {
+      margin-top: 12px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 0.86rem;
+      line-height: 1.45;
+      color: var(--text);
+    }
+
+    .copy-estimate-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .copy-status-box {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 12px;
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .copy-status-box.success {
+      display: block;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+    }
+
+    .copy-status-box.error {
+      display: block;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+    }
+
+    @media (max-width: 760px) {
+      .cost-split-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* Written estimator feedback */
+    .feedback-textarea {
+      width: 100%;
+      min-height: 96px;
+      margin-top: 10px;
+      padding: 12px 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--navy);
+      background: white;
+      resize: vertical;
+    }
+
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+    }
+
+    .feedback-helper {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+
+    /* Active BCPI factor display repair */
+    .active-bcpi-display {
+      margin-top: 10px;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #3730a3;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 0.86rem;
+      line-height: 1.45;
+      font-weight: 800;
+    }
+
+    .active-bcpi-display strong {
+      color: #0b1220;
+    }
+
+    .active-bcpi-display span {
+      color: #2563eb;
+      font-weight: 900;
+    }
+
+
+    /* Estimator wrap-up clarity: result status, estimate class, included/excluded */
+    .result-status-pill {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 900;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: var(--muted);
+    }
+
+    .result-status-pill.preview {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: #1d4ed8;
+    }
+
+    .result-status-pill.saved {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+      color: #166534;
+    }
+
+    .result-status-pill.blocked {
+      background: #fef2f2;
+      border-color: #fecaca;
+      color: #991b1b;
+    }
+
+    .result-status-pill.override {
+      background: #ecfdf5;
+      border-color: #6ee7b7;
+      color: #047857;
+    }
+
+    .estimate-class-panel {
+      margin-top: 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 15px;
+      color: var(--text);
+      box-shadow: 0 8px 24px rgba(15,23,42,0.04);
+    }
+
+    .estimate-class-panel h3 {
+      margin: 0 0 8px;
+      color: var(--navy);
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .estimate-class-panel p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .estimate-class-badge {
+      display: inline-flex;
+      width: fit-content;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      font-weight: 900;
+      font-size: 0.78rem;
+    }
+
+    .included-excluded-panel {
+      margin-top: 14px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 15px;
+      box-shadow: 0 8px 24px rgba(15,23,42,0.04);
+    }
+
+    .included-excluded-panel h3 {
+      margin: 0 0 10px;
+      color: var(--navy);
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .included-excluded-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .included-excluded-list {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .included-excluded-list strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--navy);
+      font-size: 0.9rem;
+    }
+
+    .included-excluded-list ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--text);
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    .included-excluded-list li {
+      margin: 5px 0;
+    }
+
+    @media (max-width: 760px) {
+      .included-excluded-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* Cost split and estimate credit pack UI */
+    .cost-split-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .cost-split-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px;
+    }
+
+    .cost-split-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 4px;
+    }
+
+    .cost-split-card strong {
+      color: var(--navy);
+      font-size: 0.98rem;
+    }
+
+    .estimate-limit-actions {
+      display: none;
+      margin-top: 12px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      border-radius: 14px;
+      padding: 13px;
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    .estimate-limit-actions.show {
+      display: block;
+    }
+
+    .estimate-limit-actions strong {
+      color: #78350f;
+    }
+
+    @media (max-width: 760px) {
+      .cost-split-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* Estimator mathematical breakdown */
+    .math-breakdown-panel {
+      margin-top: 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 15px;
+      box-shadow: 0 8px 24px rgba(15,23,42,0.04);
+    }
+
+    .math-breakdown-panel h3 {
+      margin: 0 0 8px;
+      color: var(--navy);
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .math-breakdown-panel p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .math-formula-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 10px;
+      color: var(--text);
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+    .math-formula-box code {
+      display: block;
+      white-space: normal;
+      background: #eff6ff;
+      color: #1e3a8a;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 9px 10px;
+      margin: 8px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.82rem;
+    }
+
+    .math-line-grid {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .math-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      padding: 7px 0;
+      font-size: 0.86rem;
+    }
+
+    .math-line:last-child {
+      border-bottom: none;
+    }
+
+    .math-line span {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .math-line strong {
+      color: var(--navy);
+      text-align: right;
+    }
+
+    .math-line.total {
+      background: #ecfeff;
+      border: 1px solid #67e8f9;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 4px;
+    }
+
+    .math-line.total span,
+    .math-line.total strong {
+      color: #155e75;
+      font-weight: 900;
+    }
+
+
+    /* Astraa Workspace multi-tool cards */
+    .workspace-overview {
+      margin: 20px 0 24px;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(34,211,238,0.14), transparent 26%),
+        radial-gradient(circle at 100% 0%, rgba(124,58,237,0.12), transparent 28%),
+        linear-gradient(135deg, #ffffff, #eff6ff);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 18px 46px rgba(15,23,42,0.07);
+    }
+
+    .workspace-overview h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 1.7rem;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+    }
+
+    .workspace-overview p {
+      margin: 12px 0 0;
+      color: var(--text);
+      font-size: 0.98rem;
+      line-height: 1.55;
+      max-width: 860px;
+    }
+
+    .workspace-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .workspace-pill {
+      display: inline-flex;
+      width: fit-content;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--navy);
+      font-size: 0.8rem;
+      font-weight: 900;
+    }
+
+    .workspace-tool-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .workspace-tool-card {
+      position: relative;
+      overflow: hidden;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(15,23,42,0.04);
+      min-height: 245px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .workspace-tool-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 100% 0%, rgba(37,99,235,0.08), transparent 30%);
+      pointer-events: none;
+    }
+
+    .workspace-tool-top {
+      position: relative;
+      z-index: 1;
+    }
+
+    .workspace-tool-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan), var(--violet));
+      box-shadow: 0 12px 24px rgba(37,99,235,0.18);
+      margin-bottom: 14px;
+    }
+
+    .workspace-tool-card h3 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 1.02rem;
+      letter-spacing: -0.03em;
+    }
+
+    .workspace-tool-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.89rem;
+      line-height: 1.45;
+    }
+
+    .workspace-status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .workspace-status {
+      display: inline-flex;
+      width: fit-content;
+      padding: 6px 9px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 950;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: var(--muted);
+    }
+
+    .workspace-status.active {
+      background: #ecfdf5;
+      border-color: #bbf7d0;
+      color: #166534;
+    }
+
+    .workspace-status.preview {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: #1d4ed8;
+    }
+
+    .workspace-status.custom {
+      background: #fffbeb;
+      border-color: #fde68a;
+      color: #92400e;
+    }
+
+    .workspace-status.private {
+      background: #f5f3ff;
+      border-color: #ddd6fe;
+      color: #6d28d9;
+    }
+
+    .workspace-tool-actions {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .workspace-tool-note {
+      margin-top: 16px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      font-weight: 800;
+    }
+
+    @media (max-width: 1050px) {
+      .workspace-tool-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .workspace-tool-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* Astraa Finance preview */
+    .finance-preview-section {
+      margin: 22px 0 24px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 18px 46px rgba(15,23,42,0.06);
+    }
+
+    .finance-preview-section h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 1.55rem;
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+    }
+
+    .finance-preview-section p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.55;
+      max-width: 900px;
+    }
+
+    .finance-preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .finance-input-card,
+    .finance-output-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .finance-input-card h3,
+    .finance-output-card h3 {
+      margin: 0 0 12px;
+      color: var(--navy);
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .finance-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .finance-metric {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .finance-metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 5px;
+    }
+
+    .finance-metric strong {
+      color: var(--navy);
+      font-size: 1rem;
+    }
+
+    .finance-metric.good strong {
+      color: #166534;
+    }
+
+    .finance-metric.warn strong {
+      color: #92400e;
+    }
+
+    .finance-metric.bad strong {
+      color: #991b1b;
+    }
+
+    .finance-insight-box {
+      margin-top: 14px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      border-radius: 14px;
+      padding: 13px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      font-weight: 800;
+      white-space: pre-line;
+    }
+
+    .finance-preview-note {
+      margin-top: 14px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      border-radius: 14px;
+      padding: 13px;
+      font-size: 0.86rem;
+      line-height: 1.45;
+      font-weight: 800;
+    }
+
+    @media (max-width: 900px) {
+      .finance-preview-grid,
+      .finance-mini-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* Astraa Workspace dashboard summary + Vault preview */
+    .workspace-dashboard-summary {
+      margin: 20px 0 24px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 16px 42px rgba(15,23,42,0.06);
+    }
+
+    .workspace-dashboard-summary h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 1.45rem;
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+    }
+
+    .workspace-dashboard-summary p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.5;
+      max-width: 900px;
+    }
+
+    .workspace-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .workspace-summary-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      min-height: 112px;
+    }
+
+    .workspace-summary-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 7px;
+    }
+
+    .workspace-summary-card strong {
+      display: block;
+      color: var(--navy);
+      font-size: 1.05rem;
+      line-height: 1.2;
+    }
+
+    .workspace-summary-card small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+
+    .vault-preview-panel {
+      margin-top: 16px;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(124,58,237,0.10), transparent 32%),
+        linear-gradient(135deg, #ffffff, #f5f3ff);
+      border: 1px solid #ddd6fe;
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .vault-preview-panel h3 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 1.05rem;
+      letter-spacing: -0.025em;
+    }
+
+    .vault-preview-panel p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .vault-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .vault-preview-item {
+      background: white;
+      border: 1px solid #ddd6fe;
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .vault-preview-item strong {
+      display: block;
+      color: #5b21b6;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .vault-preview-item span {
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.35;
+    }
+
+    .vault-preview-note {
+      margin-top: 12px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      border-radius: 12px;
+      padding: 11px;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      font-weight: 800;
+    }
+
+    @media (max-width: 1000px) {
+      .workspace-summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .vault-preview-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .workspace-summary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     footer {
       padding: 34px 0;
       border-top: 1px solid var(--border);
@@ -1410,6 +2273,7 @@
         <a href="engines.html">Tools</a>
         <a href="pricing.html">Pricing</a>
         <a href="customer-portal.html">Workspace</a>
+        <a href="estimator-faq.html">Estimator FAQ</a>
         <a href="contact.html">Support</a>
         <a href="login.html">Switch Account</a>
         <a class="nav-cta" href="payment.html">Upgrade Plan</a>
@@ -1418,6 +2282,244 @@
   </nav>
 
   <main class="portal">
+
+
+          <section id="workspaceDashboardSummary" class="workspace-dashboard-summary">
+            <span class="section-kicker">Workspace Summary</span>
+            <h2>Astraa Workspace snapshot</h2>
+            <p>
+              This dashboard summarizes the customer’s active tool, plan status, estimate usage, preview tools,
+              and future Vault memory direction. Estimator remains the active live tool while Finance, Vault,
+              Business, Commerce, Data, and Inference continue as preview/custom-package layers.
+            </p>
+
+            <div class="workspace-summary-grid">
+              <div class="workspace-summary-card">
+                <span>Active Tool</span>
+                <strong id="workspaceActiveToolDisplay">Astraa Estimator</strong>
+                <small>Current live tool available in this workspace.</small>
+              </div>
+
+              <div class="workspace-summary-card">
+                <span>Plan</span>
+                <strong id="workspacePlanDisplay">Trial</strong>
+                <small id="workspacePlanPriceDisplay">$0 / 15 days</small>
+              </div>
+
+              <div class="workspace-summary-card">
+                <span>Estimate Usage</span>
+                <strong id="workspaceEstimateUsageDisplay">—</strong>
+                <small id="workspaceEstimatePackDisplay">Estimate packs will appear here.</small>
+              </div>
+
+              <div class="workspace-summary-card">
+                <span>Preview Tools</span>
+                <strong>Finance, Vault, Business</strong>
+                <small>Additional tools are shown as preview/custom package direction.</small>
+              </div>
+            </div>
+
+            <div class="vault-preview-panel" id="vaultPreviewPanel">
+              <h3>Astraa Vault Preview</h3>
+              <p>
+                Vault is the future memory layer for Astraa Workspace. It is intended to organize saved estimates,
+                feedback records, reports, customer notes, and calibration history as the platform grows.
+              </p>
+
+              <div class="vault-preview-grid">
+                <div class="vault-preview-item">
+                  <strong>Saved Estimates</strong>
+                  <span>Future space for estimate summaries, budget views, and copied reports.</span>
+                </div>
+
+                <div class="vault-preview-item">
+                  <strong>Feedback Records</strong>
+                  <span>Future customer feedback, actual-cost notes, and learning signals.</span>
+                </div>
+
+                <div class="vault-preview-item">
+                  <strong>Calibration History</strong>
+                  <span>Future approved calibration snapshots and reviewed adjustment history.</span>
+                </div>
+              </div>
+
+              <div class="vault-preview-note">
+                Vault is shown as a preview layer. It should not be presented as full file storage or production document management until that backend is built.
+              </div>
+            </div>
+          </section>
+
+          <section class="workspace-overview">
+            <span class="section-kicker">Astraa Workspace</span>
+            <h2>Your Astraa tools, plans, and previews in one workspace.</h2>
+            <p>
+              Astraa Workspace is the control center for estimator access, tool visibility, customer plan status,
+              estimate packs, feedback learning, and future tool expansion. Start with Astraa Estimator now, then grow into
+              Finance, Vault, Business, Commerce, Data, and Inference tools over time.
+            </p>
+
+            <div class="workspace-pill-row">
+              <span class="workspace-pill">Estimator available now</span>
+              <span class="workspace-pill">Finance preview</span>
+              <span class="workspace-pill">Vault preview</span>
+              <span class="workspace-pill">Business automation direction</span>
+              <span class="workspace-pill">Custom packages supported</span>
+            </div>
+
+            <div class="workspace-tool-grid">
+              <article class="workspace-tool-card">
+                <div class="workspace-tool-top">
+                  <div class="workspace-tool-icon"></div>
+                  <div class="workspace-status-row">
+                    <span class="workspace-status active">Active Tool</span>
+                    <span class="workspace-status preview">Learning Enabled</span>
+                  </div>
+                  <h3>Astraa Estimator</h3>
+                  <p>
+                    Baseline estimate intelligence with BC market calibration, BCPI factor, budget gap, customer allowances,
+                    feedback learning, estimate packs, and reviewed calibration improvements.
+                  </p>
+                </div>
+
+                <div class="workspace-tool-actions">
+                  <a class="dark-btn" href="#estimatorSection">Open Estimator</a>
+                  <a class="dark-btn secondary" href="estimator-faq.html">Estimator FAQ</a>
+                </div>
+              </article>
+
+              <article class="workspace-tool-card">
+                <div class="workspace-tool-top">
+                  <div class="workspace-tool-icon"></div>
+                  <div class="workspace-status-row">
+                    <span class="workspace-status preview">Preview Tool</span>
+                  </div>
+                  <h3>Astraa Finance</h3>
+                  <p>
+                    Budget comparison, estimated vs actual cost direction, financial visibility, project margin support,
+                    and future reporting layers built on top of estimator outputs.
+                  </p>
+                </div>
+
+                <div class="workspace-tool-actions">
+                  <button class="dark-btn secondary" type="button" onclick="openFinancePreview()">Open Finance Preview</button>
+                </div>
+              </article>
+
+              <article class="workspace-tool-card">
+                <div class="workspace-tool-top">
+                  <div class="workspace-tool-icon"></div>
+                  <div class="workspace-status-row">
+                    <span class="workspace-status preview">Preview Tool</span>
+                  </div>
+                  <h3>Astraa Vault</h3>
+                  <p>
+                    Future storage for estimate summaries, feedback records, project notes, reports, customer history,
+                    and cross-tool business memory.
+                  </p>
+                </div>
+
+                <div class="workspace-tool-actions">
+                  <button class="dark-btn secondary" type="button" onclick="showWorkspacePreview('Astraa Vault')">Preview Vault</button>
+                </div>
+              </article>
+
+              <article class="workspace-tool-card">
+                <div class="workspace-tool-top">
+                  <div class="workspace-tool-icon"></div>
+                  <div class="workspace-status-row">
+                    <span class="workspace-status preview">Preview Tool</span>
+                  </div>
+                  <h3>Astraa Business</h3>
+                  <p>
+                    Business workflow direction for operations, service workflows, notes, customer follow-up,
+                    tasks, and process clarity across the Astraa ecosystem.
+                  </p>
+                </div>
+
+                <div class="workspace-tool-actions">
+                  <button class="dark-btn secondary" type="button" onclick="showWorkspacePreview('Astraa Business')">Preview Business</button>
+                </div>
+              </article>
+
+              <article class="workspace-tool-card">
+                <div class="workspace-tool-top">
+                  <div class="workspace-tool-icon"></div>
+                  <div class="workspace-status-row">
+                    <span class="workspace-status preview">Preview Tool</span>
+                  </div>
+                  <h3>Astraa Commerce / Arkastra</h3>
+                  <p>
+                    Commerce workflow direction for quotes, package selection, payment handoff, transaction support,
+                    and future customer-facing selling flows.
+                  </p>
+                </div>
+
+                <div class="workspace-tool-actions">
+                  <button class="dark-btn secondary" type="button" onclick="showWorkspacePreview('Astraa Commerce / Arkastra')">Preview Commerce</button>
+                </div>
+              </article>
+
+              <article class="workspace-tool-card">
+                <div class="workspace-tool-top">
+                  <div class="workspace-tool-icon"></div>
+                  <div class="workspace-status-row">
+                    <span class="workspace-status preview">Preview Tool</span>
+                  </div>
+                  <h3>Astraa Data / Oracle</h3>
+                  <p>
+                    A structured data layer for customer records, estimate history, feedback insight, reporting memory,
+                    and future decision-support intelligence.
+                  </p>
+                </div>
+
+                <div class="workspace-tool-actions">
+                  <button class="dark-btn secondary" type="button" onclick="showWorkspacePreview('Astraa Data / Oracle')">Preview Data</button>
+                </div>
+              </article>
+
+              <article class="workspace-tool-card">
+                <div class="workspace-tool-top">
+                  <div class="workspace-tool-icon"></div>
+                  <div class="workspace-status-row">
+                    <span class="workspace-status preview">Preview Tool</span>
+                    <span class="workspace-status private">Internal-first</span>
+                  </div>
+                  <h3>Astraa Inference / Aruhan</h3>
+                  <p>
+                    Future intelligence for cross-tool insights, reviewed recommendations, and interpretation of business signals
+                    across Finance, Business, Commerce, and Data layers.
+                  </p>
+                </div>
+
+                <div class="workspace-tool-actions">
+                  <button class="dark-btn secondary" type="button" onclick="showWorkspacePreview('Astraa Inference / Aruhan')">Preview Inference</button>
+                </div>
+              </article>
+
+              <article class="workspace-tool-card">
+                <div class="workspace-tool-top">
+                  <div class="workspace-tool-icon"></div>
+                  <div class="workspace-status-row">
+                    <span class="workspace-status custom">Custom Package</span>
+                  </div>
+                  <h3>Custom Astraa Package</h3>
+                  <p>
+                    Combine Estimator, Workspace, Finance, Vault, Business, Commerce, Data, or Inference tools into
+                    a workflow that fits your business. Best for real operations and scale.
+                  </p>
+                </div>
+
+                <div class="workspace-tool-actions">
+                  <a class="dark-btn secondary" href="contact.html">Request Package</a>
+                </div>
+              </article>
+            </div>
+
+            <div class="workspace-tool-note">
+              Astraa Workspace is designed to grow with your business. Estimator is available now. Other tools are visible so customers can understand the broader Astraa platform without pretending everything is fully public yet.
+            </div>
+          </section>
+
     <div class="container">
 
       <!-- WELCOME -->
@@ -1449,7 +2551,98 @@
         <div>
 
           <!-- PLAN -->
-          <section class="card">
+
+          <section id="financePreviewSection" class="finance-preview-section">
+            <span class="section-kicker">Astraa Finance Preview</span>
+            <h2>Turn estimates into budget and margin visibility.</h2>
+            <p>
+              Astraa Finance is the next natural layer after Estimator. This preview shows how estimate outputs can become
+              budget comparison, actual cost tracking, revenue/margin visibility, and finance-ready decision support.
+            </p>
+
+            <div class="finance-preview-grid">
+              <div class="finance-input-card">
+                <h3>Finance Inputs</h3>
+
+                <div class="dark-field">
+                  <label for="financeEstimatedBudget">
+                    Estimated Project Budget
+                    <span class="field-pill">From estimator or manual</span>
+                  </label>
+                  <input id="financeEstimatedBudget" type="number" value="4015935" />
+                  <small>Use the estimator total project budget or enter a planning estimate manually.</small>
+                </div>
+
+                <div class="dark-field">
+                  <label for="financeCustomerBudget">
+                    Customer Budget
+                    <span class="field-pill">Budget target</span>
+                  </label>
+                  <input id="financeCustomerBudget" type="number" value="3500000" />
+                  <small>Customer budget or internal target budget.</small>
+                </div>
+
+                <div class="dark-field">
+                  <label for="financeActualCost">
+                    Actual / Forecast Cost
+                    <span class="field-pill">Placeholder</span>
+                  </label>
+                  <input id="financeActualCost" type="number" value="0" />
+                  <small>Optional actual or forecast cost. Leave 0 if not known yet.</small>
+                </div>
+
+                <div class="dark-field">
+                  <label for="financeRevenue">
+                    Revenue / Contract Value
+                    <span class="field-pill">Optional</span>
+                  </label>
+                  <input id="financeRevenue" type="number" value="0" />
+                  <small>Optional revenue, quote, or contract value for margin preview.</small>
+                </div>
+
+                <div class="action-row" style="margin-top:12px;">
+                  <button type="button" class="dark-btn" onclick="updateFinancePreview()">Update Finance Preview</button>
+                  <button type="button" class="dark-btn secondary" onclick="loadFinanceFromEstimator()">Use Latest Estimator Result</button>
+                </div>
+              </div>
+
+              <div class="finance-output-card">
+                <h3>Finance Preview Output</h3>
+
+                <div class="finance-mini-grid">
+                  <div class="finance-metric" id="financeBudgetGapCard">
+                    <span>Budget Gap</span>
+                    <strong id="financeBudgetGapDisplay">$—</strong>
+                  </div>
+
+                  <div class="finance-metric" id="financeBudgetGapPercentCard">
+                    <span>Budget Gap %</span>
+                    <strong id="financeBudgetGapPercentDisplay">—</strong>
+                  </div>
+
+                  <div class="finance-metric" id="financeActualVarianceCard">
+                    <span>Actual / Forecast Variance</span>
+                    <strong id="financeActualVarianceDisplay">Not entered</strong>
+                  </div>
+
+                  <div class="finance-metric" id="financeMarginCard">
+                    <span>Estimated Margin</span>
+                    <strong id="financeMarginDisplay">Not entered</strong>
+                  </div>
+                </div>
+
+                <div id="financeInsightBox" class="finance-insight-box">
+                  Enter finance inputs or use the latest estimator result to preview budget and margin visibility.
+                </div>
+
+                <div class="finance-preview-note">
+                  Finance Preview is not accounting, tax, financing, or legal advice. It is a planning layer that helps connect estimator outputs to budget visibility and future financial reporting.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="estimatorSection" class="card">
             <h2>Plan & usage</h2>
             <p id="planDescription">
               Trial access is active.
@@ -1564,14 +2757,115 @@
                     </div>
 
                     <div class="dark-field">
+                      <label for="qualityLevel">
+                        Quality Level
+                        <span class="field-pill">Finish standard</span>
+                      </label>
+                      <select id="qualityLevel">
+                        <option value="0.85">Economy / Basic</option>
+                        <option value="1.00" selected>Standard</option>
+                        <option value="1.20">Premium</option>
+                        <option value="1.40">High-end / Custom</option>
+                      </select>
+                      <small>Adjusts the baseline for finish level, design standard, and specification quality.</small>
+                    </div>
+
+                    <div class="dark-field">
                       <label for="locationMarket">
                         Location / Market
                         <span class="field-pill">Public data calibration</span>
                       </label>
                       <select id="locationMarket">
-                        <option>BC / Vancouver</option>
-                        <option>Canada / General</option>
-                        <option>Custom Market</option>
+                        <optgroup label="Metro Vancouver / Lower Mainland">
+                          <option>BC / Vancouver</option>
+                          <option>BC / Burnaby</option>
+                          <option>BC / Richmond</option>
+                          <option>BC / Surrey</option>
+                          <option>BC / Coquitlam</option>
+                          <option>BC / Port Coquitlam</option>
+                          <option>BC / Port Moody</option>
+                          <option>BC / New Westminster</option>
+                          <option>BC / North Vancouver</option>
+                          <option>BC / West Vancouver</option>
+                          <option>BC / Delta</option>
+                          <option>BC / Langley</option>
+                          <option>BC / Maple Ridge</option>
+                          <option>BC / Pitt Meadows</option>
+                          <option>BC / White Rock</option>
+                        </optgroup>
+
+                        <optgroup label="Fraser Valley">
+                          <option>BC / Abbotsford</option>
+                          <option>BC / Chilliwack</option>
+                          <option>BC / Mission</option>
+                          <option>BC / Hope</option>
+                        </optgroup>
+
+                        <optgroup label="Vancouver Island / Coast">
+                          <option>BC / Victoria</option>
+                          <option>BC / Saanich</option>
+                          <option>BC / Langford</option>
+                          <option>BC / Colwood</option>
+                          <option>BC / Nanaimo</option>
+                          <option>BC / Parksville</option>
+                          <option>BC / Qualicum Beach</option>
+                          <option>BC / Duncan</option>
+                          <option>BC / Courtenay</option>
+                          <option>BC / Comox</option>
+                          <option>BC / Campbell River</option>
+                          <option>BC / Port Alberni</option>
+                          <option>BC / Tofino</option>
+                          <option>BC / Ucluelet</option>
+                          <option>BC / Powell River</option>
+                        </optgroup>
+
+                        <optgroup label="Sea to Sky / Sunshine Coast">
+                          <option>BC / Squamish</option>
+                          <option>BC / Whistler</option>
+                          <option>BC / Pemberton</option>
+                          <option>BC / Gibsons</option>
+                          <option>BC / Sechelt</option>
+                        </optgroup>
+
+                        <optgroup label="Okanagan / Thompson">
+                          <option>BC / Kelowna</option>
+                          <option>BC / West Kelowna</option>
+                          <option>BC / Vernon</option>
+                          <option>BC / Penticton</option>
+                          <option>BC / Kamloops</option>
+                          <option>BC / Merritt</option>
+                          <option>BC / Salmon Arm</option>
+                          <option>BC / Revelstoke</option>
+                        </optgroup>
+
+                        <optgroup label="Kootenays / Interior">
+                          <option>BC / Cranbrook</option>
+                          <option>BC / Kimberley</option>
+                          <option>BC / Fernie</option>
+                          <option>BC / Nelson</option>
+                          <option>BC / Castlegar</option>
+                          <option>BC / Trail</option>
+                          <option>BC / Golden</option>
+                        </optgroup>
+
+                        <optgroup label="Northern BC">
+                          <option>BC / Prince George</option>
+                          <option>BC / Quesnel</option>
+                          <option>BC / Williams Lake</option>
+                          <option>BC / Fort St. John</option>
+                          <option>BC / Dawson Creek</option>
+                          <option>BC / Terrace</option>
+                          <option>BC / Prince Rupert</option>
+                          <option>BC / Kitimat</option>
+                          <option>BC / Smithers</option>
+                          <option>BC / Fort Nelson</option>
+                        </optgroup>
+
+                        <optgroup label="Fallback">
+                          <option>BC / Other City or Town</option>
+                          <option>Canada / General</option>
+                          <option>Custom Market</option>
+                        </optgroup>
                       </select>
                       <small>Used to apply a public-data baseline before material, labor, and complexity adjustments.</small>
                     </div>
@@ -1603,6 +2897,11 @@
                         </span>
                       </label>
                       <input id="bcpiFactor" type="number" step="0.01" value="1.00" />
+                      <div class="active-bcpi-display">
+                        Active BCPI Factor: <span id="activeBcpiFactorDisplay">1.00</span>
+                        <br />
+                        <strong>Applied after base $/sq ft calibration and before material, labor, and complexity adjustments.</strong>
+                      </div>
                       <small>
                         Index-style market movement adjustment. Use 1.00 for no BCPI adjustment, 1.05 for +5%, or 0.98 for -2%.
                       </small>
@@ -1610,7 +2909,7 @@
 
                     <div class="calibration-note">
                       <strong>Calibration basis:</strong>
-                      Stage 1 uses public construction cost ranges to anchor the base rate. Results are baseline hard-cost planning estimates and should be reviewed before bids, budgets, purchasing, or contracts.
+                      Stage 1 uses public construction cost ranges to anchor the base rate and Astraa BC city/town planning multipliers to adjust the local market. Results are baseline hard-cost planning estimates and should be reviewed before bids, budgets, purchasing, or contracts.
                     </div>
 
                     <div class="dark-field">
@@ -1621,6 +2920,34 @@
                       <input id="sqft" type="number" value="10000" />
                       <small>Total gross area of the project in square feet. Larger projects influence schedule, risk, and trade weighting.</small>
                     </div>
+
+                    <div class="dark-field">
+                      <label for="customerBudget">
+                        Customer Budget
+                        <span class="field-pill">Budget vs Estimate</span>
+                      </label>
+                      <input id="customerBudget" type="number" value="3500000" />
+                      <small>Optional target budget. Astraa compares this against the estimate to show budget pressure.</small>
+                    </div>
+
+                    <div class="dark-field">
+                      <label for="softCostPercent">
+                        Soft Cost Allowance
+                        <span class="field-pill">% of hard cost</span>
+                      </label>
+                      <input id="softCostPercent" type="number" step="0.5" value="12" />
+                      <small>Planning allowance for design, permits, administration, consulting, and related soft costs.</small>
+                    </div>
+
+                    <div class="dark-field">
+                      <label for="contingencyPercent">
+                        Contingency
+                        <span class="field-pill">% of hard cost</span>
+                      </label>
+                      <input id="contingencyPercent" type="number" step="0.5" value="10" />
+                      <small>Planning allowance for unknowns, escalation risk, scope uncertainty, and project-specific conditions.</small>
+                    </div>
+
 
                     <div class="dark-field">
                       <label for="material">
@@ -1701,6 +3028,11 @@
                       </div>
 
                       <div class="calibration-source-item">
+                        <span>Approved Override</span>
+                        <strong id="calibrationApprovedDisplay">Not applied</strong>
+                      </div>
+
+                      <div class="calibration-source-item">
                         <span>Index Source</span>
                         <strong id="statcanSourceLink">Statistics Canada BCPI</strong>
                       </div>
@@ -1724,6 +3056,50 @@
                       <br /><br />
                       <strong>Public source:</strong>
                       Statistics Canada Building Construction Price Indexes measure changes over time in contractor prices for new commercial, institutional, industrial, and residential buildings across selected Canadian CMAs including Vancouver and Victoria.
+                    </div>
+                  </div>
+
+                  <div class="estimate-class-panel">
+                    <span class="estimate-class-badge">Estimate Class: Conceptual / Baseline Planning Estimate</span>
+                    <h3>Estimate Class</h3>
+                    <p>
+                      Astraa Estimator provides calibrated baseline estimate intelligence for early planning, budget comparison,
+                      and decision support. It is not a final bid, contract price, quantity takeoff, financing estimate,
+                      or replacement for professional construction review.
+                    </p>
+                  </div>
+
+                  <div class="included-excluded-panel">
+                    <h3>Included / Excluded</h3>
+
+                    <div class="included-excluded-grid">
+                      <div class="included-excluded-list">
+                        <strong>Included in this baseline</strong>
+                        <ul>
+                          <li>Calibrated hard-cost planning estimate</li>
+                          <li>BC city/town planning multiplier</li>
+                          <li>BCPI market movement factor</li>
+                          <li>Quality level adjustment</li>
+                          <li>Material, labor, and complexity factors</li>
+                          <li>Soft cost allowance</li>
+                          <li>Contingency allowance</li>
+                          <li>Budget gap and scenario guidance</li>
+                        </ul>
+                      </div>
+
+                      <div class="included-excluded-list">
+                        <strong>Excluded unless customized</strong>
+                        <ul>
+                          <li>Land acquisition cost</li>
+                          <li>GST, taxes, and financing costs</li>
+                          <li>Municipality-specific permit fee detail</li>
+                          <li>Detailed quantity takeoff</li>
+                          <li>Site-specific geotechnical conditions</li>
+                          <li>Contractor-specific bid pricing</li>
+                          <li>Legal, insurance, or lender requirements</li>
+                          <li>Final contract or purchasing decision</li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
 
@@ -1752,9 +3128,9 @@
 
                     <div class="console-metrics">
                       <div class="console-metric">
-                        <div class="label">Base Estimate</div>
+                        <div class="label">Hard Cost Estimate</div>
                         <div id="metricBaseEstimate" class="value">$—</div>
-                        <div class="desc">Primary total estimate</div>
+                        <div class="desc">Primary hard cost estimate</div>
                       </div>
 
                       <div class="console-metric">
@@ -1863,10 +3239,32 @@
                         <button type="button" class="dark-btn" onclick="recordEstimatorFeedback()">Help Improve Astraa</button>
                       </div>
 
-                      <div id="feedbackStatus" class="console-status"></div>
+                      <textarea
+                      id="writtenEstimatorFeedback"
+                      class="feedback-textarea"
+                      placeholder="Optional: write feedback about the estimate, trade breakdown, budget gap, calibration, or anything Astraa should improve."
+                    ></textarea>
+
+                    <div class="feedback-helper">
+                      Written feedback is optional. It helps Astraa improve estimate calibration, trade logic, user experience, and future industry-specific tools.
                     </div>
 
+                    <div id="feedbackStatus" class="console-status"></div>
+                    </div>
+
+                    <div id="resultStatusPill" class="result-status-pill preview">
+                      Result Status: Preview Only
+                    </div>
                     <div id="estimateResult" class="console-status"></div>
+
+                    <div id="estimateLimitActions" class="estimate-limit-actions">
+                      <strong>Need more estimates?</strong>
+                      You can add 10 extra estimates for $10 CAD. This works for Trial, Basic, Professional, and custom customers.
+                      <div class="action-row" style="margin-top:10px;">
+                        <button type="button" class="dark-btn" onclick="goToEstimatePackPayment()">Add 10 Estimates — $10</button>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
 
@@ -2015,8 +3413,7 @@
               <a class="btn btn-secondary" href="contact.html">Request Custom Package</a>
             </div>
           </section>
-
-          <!-- ACCOUNT -->
+<!-- ACCOUNT -->
           <section class="card">
             <h2>Account, security & recovery</h2>
 
@@ -2046,7 +3443,27 @@
 
       </div>
     </div>
-  </main>
+  
+          <section class="card estimator-faq-summary-card">
+            <h2>Estimator Math FAQ</h2>
+            <p>
+              Astraa Estimator builds your estimate in clear layers: hard construction cost,
+              soft cost, contingency, budget comparison, and optional customer-entered allowances.
+              The FAQ explains how each number is calculated and what should still be reviewed before final decisions.
+            </p>
+
+            <ul>
+              <li><strong>Hard Cost:</strong> construction baseline from size, market, BCPI, quality, material, labor, and complexity.</li>
+              <li><strong>Total Project Budget:</strong> hard cost plus soft cost and contingency.</li>
+              <li><strong>Expanded Budget View:</strong> total project budget plus optional customer-entered allowances.</li>
+            </ul>
+
+            <div class="action-row">
+              <a class="btn btn-secondary" href="estimator-faq.html">Open Estimator FAQ</a>
+            </div>
+          </section>
+
+</main>
 
   <footer>
     <div class="container footer-inner">
@@ -2215,6 +3632,17 @@
       return email;
     }
 
+
+    function safeNumber(value, fallback) {
+      const n = parseFloat(value);
+
+      if (!isFinite(n)) {
+        return fallback;
+      }
+
+      return n;
+    }
+
     function getEstimateRequestPayload() {
       sanitizeEstimateInputs();
       const selection = getAstraaSelection();
@@ -2239,9 +3667,12 @@
         complexity: complexity,
         project_type: document.getElementById("projectType") ? document.getElementById("projectType").value : "Commercial",
         location_market: document.getElementById("locationMarket") ? document.getElementById("locationMarket").value : "BC / Vancouver",
-        base_rate: parseFloat(document.getElementById("calibratedBaseRate") ? document.getElementById("calibratedBaseRate").value || "375" : "375"),
-        bcpi_factor: parseFloat(document.getElementById("bcpiFactor") ? document.getElementById("bcpiFactor").value || "1.00" : "1.00"),
-        customer_budget: parseFloat(document.getElementById("customerBudget") ? document.getElementById("customerBudget").value || "0" : "0"),
+        base_rate: safeNumber(document.getElementById("calibratedBaseRate") ? document.getElementById("calibratedBaseRate").value : "375", 375),
+        bcpi_factor: safeNumber(document.getElementById("bcpiFactor") ? document.getElementById("bcpiFactor").value : "1.00", 1.00),
+        customer_budget: safeNumber(document.getElementById("customerBudget") ? document.getElementById("customerBudget").value : "0", 0),
+        quality_factor: safeNumber(document.getElementById("qualityLevel") ? document.getElementById("qualityLevel").value : "1.00", 1.00),
+        soft_cost_percent: safeNumber(document.getElementById("softCostPercent") ? document.getElementById("softCostPercent").value : "0", 0),
+        contingency_percent: safeNumber(document.getElementById("contingencyPercent") ? document.getElementById("contingencyPercent").value : "0", 0),
         source: "customer_portal"
       };
     }
@@ -2619,6 +4050,143 @@
       return "$" + Math.round(value).toLocaleString("en-CA");
     }
 
+
+    let astraaLatestEstimateSummary = null;
+
+    function calculateCostSplit(hardCost, payload) {
+      const softPercent = Number(payload.soft_cost_percent || 0);
+      const contingencyPercent = Number(payload.contingency_percent || 0);
+
+      const softCost = hardCost * (softPercent / 100);
+      const contingency = hardCost * (contingencyPercent / 100);
+      const totalBudgetEstimate = hardCost + softCost + contingency;
+
+      return {
+        hardCost,
+        softPercent,
+        softCost,
+        contingencyPercent,
+        contingency,
+        totalBudgetEstimate
+      };
+    }
+
+    function updateCostSplitDisplay(costSplit) {
+      const hardEl = document.getElementById("hardCostDisplay");
+      const softEl = document.getElementById("softCostDisplay");
+      const contingencyEl = document.getElementById("contingencyDisplay");
+      const totalEl = document.getElementById("totalBudgetEstimateDisplay");
+
+      if (!hardEl || !softEl || !contingencyEl || !totalEl) {
+        return;
+      }
+
+      hardEl.textContent = formatCompactCurrency(costSplit.hardCost);
+      softEl.textContent =
+        formatCompactCurrency(costSplit.softCost) + " (" + costSplit.softPercent.toFixed(1) + "%)";
+      contingencyEl.textContent =
+        formatCompactCurrency(costSplit.contingency) + " (" + costSplit.contingencyPercent.toFixed(1) + "%)";
+      totalEl.textContent = formatCompactCurrency(costSplit.totalBudgetEstimate);
+    }
+
+    function getSelectedQualityLabel() {
+      const el = document.getElementById("qualityLevel");
+
+      if (!el) {
+        return "Standard";
+      }
+
+      return el.options[el.selectedIndex] ? el.options[el.selectedIndex].textContent.trim() : "Standard";
+    }
+
+    function buildEstimateSummaryText() {
+      if (!astraaLatestEstimateSummary) {
+        return "No estimate summary is available yet. Run an estimate first.";
+      }
+
+      const s = astraaLatestEstimateSummary;
+
+      return (
+`Astraa Estimator Summary
+
+Project Type: ${s.projectType}
+Location / Market: ${s.locationMarket}
+Quality Level: ${s.qualityLabel}
+Square Footage: ${s.sqft.toLocaleString("en-CA")} sq ft
+
+Calibration:
+Base Rate: ${formatCompactCurrency(s.baseRate)} / sq ft
+BCPI Factor: ${s.bcpiFactor.toFixed(2)}
+Material Cost Index: ${s.material.toFixed(2)}
+Labor Cost Index: ${s.labor.toFixed(2)}
+Project Complexity: ${s.complexity.toFixed(2)}
+
+Estimate:
+Hard Cost Estimate: ${formatCompactCurrency(s.costSplit.hardCost)}
+Soft Cost Allowance: ${formatCompactCurrency(s.costSplit.softCost)} (${s.costSplit.softPercent.toFixed(1)}%)
+Contingency: ${formatCompactCurrency(s.costSplit.contingency)} (${s.costSplit.contingencyPercent.toFixed(1)}%)
+Total Project Budget Estimate: ${formatCompactCurrency(s.costSplit.totalBudgetEstimate)}
+
+Budget Comparison:
+Customer Budget: ${s.customerBudget > 0 ? formatCompactCurrency(s.customerBudget) : "Not entered"}
+Budget Gap: ${s.customerBudget > 0 ? ((s.costSplit.totalBudgetEstimate - s.customerBudget) >= 0 ? "+" : "-") + formatCompactCurrency(Math.abs(s.costSplit.totalBudgetEstimate - s.customerBudget)) : "Not available"}
+
+Estimate Intelligence:
+Estimate Range: ${formatCompactCurrency(s.low)} – ${formatCompactCurrency(s.high)}
+Confidence: ${s.confidence}%
+Risk: ${s.risk}%
+Archetype: ${s.archetype}
+
+Scenario Impact:
+Material Spike: +${formatCompactCurrency(s.materialSpike)}
+Labor Shortage: +${formatCompactCurrency(s.laborShortage)}
+Delay Risk: +${formatCompactCurrency(s.delayRisk)}
+Optimized Plan: -${formatCompactCurrency(s.optimized)}
+
+Trade Breakdown:
+Foundation: ${formatCompactCurrency(s.trades.foundation)}
+Framing: ${formatCompactCurrency(s.trades.framing)}
+Electrical: ${formatCompactCurrency(s.trades.electrical)}
+Plumbing: ${formatCompactCurrency(s.trades.plumbing)}
+Finishes: ${formatCompactCurrency(s.trades.finishes)}
+Mechanical: ${formatCompactCurrency(s.trades.mechanical)}
+Overhead: ${formatCompactCurrency(s.trades.overhead)}
+
+Estimate Class:
+Conceptual / Baseline Planning Estimate. Use for early planning, comparison, and decision support only.
+
+Included / Excluded:
+Included: calibrated hard-cost baseline, BC city/town planning multiplier, BCPI factor, quality/material/labor/complexity adjustments, soft cost allowance, contingency allowance, budget gap, and scenario guidance.
+Excluded unless customized: land, GST/taxes, financing, municipal permit fee detail, detailed quantity takeoff, geotechnical/site-specific conditions, contractor-specific pricing, legal/insurance/lender requirements, and final contract or purchasing decisions.
+
+Accuracy Note:
+Astraa Estimator provides calibrated baseline estimate intelligence for planning, comparison, and decision support. Results should be reviewed before being used for bids, budgets, contracts, purchasing, or financial decisions.
+
+Written Feedback Option:
+Customers can optionally share final project costs and written feedback to help Astraa improve calibration, trade logic, and future estimate intelligence.`
+      );
+    }
+
+    async function copyEstimateSummary() {
+      const status = document.getElementById("copyEstimateStatus");
+      const text = buildEstimateSummaryText();
+
+      if (!astraaLatestEstimateSummary) {
+        status.className = "copy-status-box error";
+        status.textContent = "Run an estimate first, then copy the summary.";
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+        status.className = "copy-status-box success";
+        status.textContent = "Estimate summary copied.";
+      } catch (error) {
+        status.className = "copy-status-box error";
+        status.textContent = "Clipboard copy failed. You can still select and copy the estimate manually.";
+      }
+    }
+
     function deriveEstimatorIntelligence(estimateData, payload) {
       const estimate = Number(estimateData && estimateData.estimate ? estimateData.estimate : 0);
       const material = Number(payload.material || 1);
@@ -2627,7 +4195,9 @@
       const sqft = Number(payload.sqft || 0);
       const projectType = document.getElementById("projectType") ? document.getElementById("projectType").value : "Commercial";
       const customerBudget = Number(payload.customer_budget || 0);
-      const budgetGap = customerBudget > 0 ? estimate - customerBudget : 0;
+      const costSplit = calculateCostSplit(estimate, payload);
+      const totalForBudget = costSplit.totalBudgetEstimate;
+      const budgetGap = customerBudget > 0 ? totalForBudget - customerBudget : 0;
       const budgetGapPercent = customerBudget > 0 ? (budgetGap / customerBudget) * 100 : 0;
 
       const pressure = Math.max(material, labor, complexity);
@@ -2684,7 +4254,13 @@
         guidance,
         customerBudget,
         budgetGap,
-        budgetGapPercent
+        budgetGapPercent,
+        costSplit,
+        qualityLabel: getSelectedQualityLabel(),
+        projectType,
+        locationMarket: payload.location_market || "BC / Vancouver",
+        baseRate: Number(payload.base_rate || 0),
+        bcpiFactor: Number(payload.bcpi_factor || 1.0)
       };
     }
 
@@ -2723,11 +4299,126 @@
       rateEl.textContent = "$" + Number(baseRate).toLocaleString("en-CA") + " / sq ft";
 
       const bcpiEl = document.getElementById("calibrationBcpiFactorDisplay");
+      const bcpiFactorSafe = safeNumber(bcpiFactor, 1.00);
+
       if (bcpiEl) {
-        bcpiEl.textContent = Number(bcpiFactor).toFixed(2);
+        bcpiEl.textContent = bcpiFactorSafe.toFixed(2);
       }
 
       levelEl.textContent = calibrationBasis;
+
+      const approvedEl = document.getElementById("calibrationApprovedDisplay");
+
+      if (approvedEl) {
+        if (estimateData && estimateData.approved_calibration_applied) {
+          approvedEl.textContent = "Applied: " + (estimateData.approved_calibration_id || "approved calibration");
+        } else {
+          approvedEl.textContent = "Not applied";
+        }
+      }
+    }
+
+
+    function updateEstimateMathBreakdown(payload, intelligence) {
+      const hardFormulaEl = document.getElementById("mathHardCostFormula");
+      const softFormulaEl = document.getElementById("mathSoftCostFormula");
+      const contingencyFormulaEl = document.getElementById("mathContingencyFormula");
+      const totalFormulaEl = document.getElementById("mathTotalBudgetFormula");
+      const allowancesFormulaEl = document.getElementById("mathAllowancesFormula");
+      const expandedFormulaEl = document.getElementById("mathExpandedBudgetFormula");
+
+      if (!hardFormulaEl || !softFormulaEl || !contingencyFormulaEl || !totalFormulaEl || !allowancesFormulaEl || !expandedFormulaEl) {
+        return;
+      }
+
+      if (!intelligence || !intelligence.costSplit) {
+        return;
+      }
+
+      const sqft = safeNumber(payload.sqft, 0);
+      const baseRate = safeNumber(payload.base_rate, 0);
+      const bcpiFactor = safeNumber(payload.bcpi_factor, 1);
+      const qualityFactor = safeNumber(payload.quality_factor, 1);
+      const material = safeNumber(payload.material, 1);
+      const labor = safeNumber(payload.labor, 1);
+      const complexity = safeNumber(payload.complexity, 1);
+
+      const costSplit = intelligence.costSplit;
+      const advanced = getAdvancedAllowances(costSplit.totalBudgetEstimate);
+
+      hardFormulaEl.textContent =
+        sqft.toLocaleString("en-CA") +
+        " × " +
+        formatCompactCurrency(baseRate) +
+        " × " +
+        bcpiFactor.toFixed(2) +
+        " × " +
+        qualityFactor.toFixed(2) +
+        " × " +
+        material.toFixed(2) +
+        " × " +
+        labor.toFixed(2) +
+        " × " +
+        complexity.toFixed(2) +
+        " = " +
+        formatCompactCurrency(costSplit.hardCost);
+
+      softFormulaEl.textContent =
+        formatCompactCurrency(costSplit.hardCost) +
+        " × " +
+        costSplit.softPercent.toFixed(1) +
+        "% = " +
+        formatCompactCurrency(costSplit.softCost);
+
+      contingencyFormulaEl.textContent =
+        formatCompactCurrency(costSplit.hardCost) +
+        " × " +
+        costSplit.contingencyPercent.toFixed(1) +
+        "% = " +
+        formatCompactCurrency(costSplit.contingency);
+
+      totalFormulaEl.textContent =
+        formatCompactCurrency(costSplit.hardCost) +
+        " + " +
+        formatCompactCurrency(costSplit.softCost) +
+        " + " +
+        formatCompactCurrency(costSplit.contingency) +
+        " = " +
+        formatCompactCurrency(costSplit.totalBudgetEstimate);
+
+      allowancesFormulaEl.textContent =
+        "Land " +
+        formatCompactCurrency(advanced.land) +
+        " + Tax " +
+        formatCompactCurrency(advanced.tax) +
+        " + Financing " +
+        formatCompactCurrency(advanced.financing) +
+        " + Municipal " +
+        formatCompactCurrency(advanced.municipal) +
+        " + Site/Geo " +
+        formatCompactCurrency(advanced.geotech) +
+        " + Legal/Lender " +
+        formatCompactCurrency(advanced.legalInsuranceLender) +
+        " = " +
+        formatCompactCurrency(advanced.totalAdvanced);
+
+      expandedFormulaEl.textContent =
+        formatCompactCurrency(costSplit.totalBudgetEstimate) +
+        " + " +
+        formatCompactCurrency(advanced.totalAdvanced) +
+        " = " +
+        formatCompactCurrency(advanced.expandedProjectBudget);
+
+      if (astraaLatestEstimateSummary) {
+        astraaLatestEstimateSummary.mathBreakdown = {
+          hard_cost_formula: hardFormulaEl.textContent,
+          soft_cost_formula: softFormulaEl.textContent,
+          contingency_formula: contingencyFormulaEl.textContent,
+          total_budget_formula: totalFormulaEl.textContent,
+          allowances_formula: allowancesFormulaEl.textContent,
+          expanded_budget_formula: expandedFormulaEl.textContent
+        };
+      }
     }
 
     function updateEstimatorConsole(data, payload) {
@@ -2737,6 +4428,11 @@
 
       updateCalibrationSourceDisplay(payload, data.estimate);
       const intelligence = deriveEstimatorIntelligence(data.estimate, payload);
+
+      updateCostSplitDisplay(intelligence.costSplit);
+      updateEstimateMathBreakdown(payload, intelligence);
+
+      astraaLatestEstimateSummary = intelligence;
 
       document.getElementById("metricBaseEstimate").textContent = formatCompactCurrency(intelligence.estimate);
       document.getElementById("metricEstimateRange").textContent =
@@ -2809,27 +4505,122 @@
       }
     }
 
-    function recordEstimatorFeedback() {
-      const input = document.getElementById("actualCostFeedback");
+
+    function buildBackendFeedbackPayload(feedback) {
+      const latest = feedback.latest_estimate || {};
+      const estimateObj = latest.estimate || {};
+
+      const selectedTool = feedback.selected_tool || sessionStorage.getItem("astraa_selected_tool") || "Astraa Estimator";
+      const selectedPlan = feedback.selected_plan || sessionStorage.getItem("astraa_selected_plan") || "Trial";
+      const selectedPrice = feedback.selected_price || sessionStorage.getItem("astraa_selected_price") || "$0 / 15 days";
+
+      const projectType = document.getElementById("projectType") ? document.getElementById("projectType").value : "";
+      const locationMarket = document.getElementById("locationMarket") ? document.getElementById("locationMarket").value : "";
+      const qualityLevel = document.getElementById("qualityLevel") ? document.getElementById("qualityLevel").options[document.getElementById("qualityLevel").selectedIndex].textContent.trim() : "";
+
+      const sqft = safeNumber(document.getElementById("sqft") ? document.getElementById("sqft").value : "", null);
+      const baseRate = safeNumber(document.getElementById("calibratedBaseRate") ? document.getElementById("calibratedBaseRate").value : "", null);
+      const bcpiFactor = safeNumber(document.getElementById("bcpiFactor") ? document.getElementById("bcpiFactor").value : "", null);
+      const material = safeNumber(document.getElementById("material") ? document.getElementById("material").value : "", null);
+      const labor = safeNumber(document.getElementById("labor") ? document.getElementById("labor").value : "", null);
+      const complexity = safeNumber(document.getElementById("complexity") ? document.getElementById("complexity").value : "", null);
+      const customerBudget = safeNumber(document.getElementById("customerBudget") ? document.getElementById("customerBudget").value : "", null);
+
+      const hardCost =
+        astraaLatestEstimateSummary && astraaLatestEstimateSummary.costSplit
+          ? astraaLatestEstimateSummary.costSplit.hardCost
+          : safeNumber(estimateObj.estimate || latest.estimate, null);
+
+      const softCost =
+        astraaLatestEstimateSummary && astraaLatestEstimateSummary.costSplit
+          ? astraaLatestEstimateSummary.costSplit.softCost
+          : null;
+
+      const contingency =
+        astraaLatestEstimateSummary && astraaLatestEstimateSummary.costSplit
+          ? astraaLatestEstimateSummary.costSplit.contingency
+          : null;
+
+      const totalBudgetEstimate =
+        astraaLatestEstimateSummary && astraaLatestEstimateSummary.costSplit
+          ? astraaLatestEstimateSummary.costSplit.totalBudgetEstimate
+          : hardCost;
+
+      return {
+        account_email: feedback.account_email || getWorkspaceEmail(),
+        business_name: account && account.business_name ? account.business_name : "",
+        selected_tool: selectedTool,
+        selected_plan: selectedPlan,
+        selected_price: selectedPrice,
+
+        project_type: projectType,
+        location_market: locationMarket,
+        quality_level: qualityLevel,
+        square_footage: sqft,
+        base_rate: baseRate,
+        bcpi_factor: bcpiFactor,
+        material_index: material,
+        labor_index: labor,
+        complexity: complexity,
+        customer_budget: customerBudget,
+
+        hard_cost_estimate: hardCost,
+        soft_cost: softCost,
+        contingency: contingency,
+        total_budget_estimate: totalBudgetEstimate,
+
+        actual_final_cost: feedback.actual_final_cost,
+        written_feedback: feedback.written_feedback,
+        latest_estimate: feedback.latest_estimate,
+        source: "customer_portal_feedback"
+      };
+    }
+
+    async function submitEstimatorFeedbackToBackend(feedback) {
+      const payload = buildBackendFeedbackPayload(feedback);
+
+      const response = await fetch(astraaApiUrl("/api/feedback"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || "Feedback API failed.");
+      }
+
+      return data;
+    }
+
+    async function recordEstimatorFeedback() {
+      const costInput = document.getElementById("actualCostFeedback");
+      const writtenInput = document.getElementById("writtenEstimatorFeedback");
       const feedbackStatus = document.getElementById("feedbackStatus") || document.getElementById("estimateResult");
 
-      const rawValue = input ? input.value : "";
-      const value = parseFloat(rawValue || "0");
+      const rawCost = costInput ? costInput.value : "";
+      const actualCost = parseFloat(rawCost || "0");
+      const writtenFeedback = writtenInput ? writtenInput.value.trim() : "";
 
-      if (!value || value <= 0) {
+      if ((!actualCost || actualCost <= 0) && !writtenFeedback) {
         feedbackStatus.className = "console-status error";
         feedbackStatus.textContent =
-          "Enter a valid final project cost before submitting feedback. This can be added after the real project cost is known.";
+          "Please enter a final project cost or write feedback before submitting. You can share either one, or both.";
         feedbackStatus.style.display = "block";
         return;
       }
 
-      const selection = getAstraaSelection ? getAstraaSelection() : {
-        tool: sessionStorage.getItem("astraa_selected_tool") || "Astraa Estimator",
-        plan: sessionStorage.getItem("astraa_selected_plan") || "Trial",
-        price: sessionStorage.getItem("astraa_selected_price") || "$0 / 15 days",
-        email: sessionStorage.getItem("astraa_checkout_email") || "Not provided"
-      };
+      const selection = typeof getAstraaSelection === "function"
+        ? getAstraaSelection()
+        : {
+            tool: sessionStorage.getItem("astraa_selected_tool") || "Astraa Estimator",
+            plan: sessionStorage.getItem("astraa_selected_plan") || "Trial",
+            price: sessionStorage.getItem("astraa_selected_price") || "$0 / 15 days",
+            email: sessionStorage.getItem("astraa_checkout_email") || "Not provided"
+          };
 
       const latestEstimate =
         usage &&
@@ -2840,21 +4631,23 @@
 
       const feedback = {
         created_at: new Date().toISOString(),
-        actual_final_cost: value,
-        account_email: getWorkspaceEmail ? getWorkspaceEmail() : selection.email,
+        actual_final_cost: actualCost && actualCost > 0 ? actualCost : null,
+        written_feedback: writtenFeedback || null,
+        account_email: typeof getWorkspaceEmail === "function" ? getWorkspaceEmail() : selection.email,
         selected_tool: selection.tool,
         selected_plan: selection.plan,
         selected_price: selection.price,
         latest_estimate: latestEstimate,
         source: "customer_portal_feedback",
         customer_message:
-          "Customer shared optional final project cost to help improve Astraa estimating intelligence."
+          "Customer shared optional feedback to help improve Astraa estimating intelligence."
       };
 
       let existing = [];
 
       try {
         existing = JSON.parse(sessionStorage.getItem("astraa_estimator_feedback") || "[]");
+
         if (!Array.isArray(existing)) {
           existing = [];
         }
@@ -2866,25 +4659,143 @@
 
       sessionStorage.setItem("astraa_estimator_feedback", JSON.stringify(existing));
 
-      feedbackStatus.className = "console-status success";
-      feedbackStatus.textContent =
-        "Thank you — your feedback was recorded locally to help improve Astraa’s future estimating intelligence." +
-        "\n\nFinal project cost shared: " +
-        formatCompactCurrency(value) +
-        "\nTool: " +
+      let successMessage =
+        "Thank you — your feedback was recorded locally to help improve Astraa’s future estimating intelligence.";
+
+      if (feedback.actual_final_cost) {
+        successMessage +=
+          "\n\nFinal project cost shared: " +
+          formatCompactCurrency(feedback.actual_final_cost);
+      }
+
+      if (feedback.written_feedback) {
+        successMessage +=
+          "\n\nWritten feedback: " +
+          feedback.written_feedback;
+      }
+
+      successMessage +=
+        "\n\nTool: " +
         feedback.selected_tool +
         "\nPlan: " +
-        feedback.selected_plan +
-        "\n\nIn production, this feedback can be securely connected to Astraa’s improvement and reporting workflow.";
+        feedback.selected_plan;
 
+      if (backendResult && backendResult.feedback) {
+        successMessage +=
+          "\nFeedback ID: " +
+          backendResult.feedback.feedback_id;
+
+        if (backendResult.feedback.error_percent !== null && backendResult.feedback.error_percent !== undefined) {
+          successMessage +=
+            "\nEstimate error: " +
+            backendResult.feedback.error_percent.toFixed(2) +
+            "% (" +
+            backendResult.feedback.estimate_direction +
+            ")";
+        }
+      }
+
+      successMessage +=
+        "\n\nThis feedback can be used for reviewed calibration improvements, not automatic uncontrolled changes." +
+        backendWarning;
+
+      feedbackStatus.className = "console-status success";
+      feedbackStatus.textContent = successMessage;
       feedbackStatus.style.display = "block";
 
-      if (input) {
-        input.value = "";
+      if (costInput) {
+        costInput.value = "";
+      }
+
+      if (writtenInput) {
+        writtenInput.value = "";
       }
     }
 
 
+
+    function getBCLocationMultiplier(locationMarket) {
+      const key = String(locationMarket || "BC / Vancouver").trim();
+
+      const multipliers = {
+        "BC / Vancouver": 1.00,
+        "BC / Burnaby": 0.98,
+        "BC / Richmond": 0.98,
+        "BC / Surrey": 0.95,
+        "BC / Coquitlam": 0.97,
+        "BC / Port Coquitlam": 0.95,
+        "BC / Port Moody": 0.98,
+        "BC / New Westminster": 0.97,
+        "BC / North Vancouver": 1.02,
+        "BC / West Vancouver": 1.05,
+        "BC / Delta": 0.96,
+        "BC / Langley": 0.94,
+        "BC / Maple Ridge": 0.93,
+        "BC / Pitt Meadows": 0.94,
+        "BC / White Rock": 0.99,
+
+        "BC / Abbotsford": 0.91,
+        "BC / Chilliwack": 0.89,
+        "BC / Mission": 0.90,
+        "BC / Hope": 0.88,
+
+        "BC / Victoria": 0.96,
+        "BC / Saanich": 0.96,
+        "BC / Langford": 0.93,
+        "BC / Colwood": 0.93,
+        "BC / Nanaimo": 0.90,
+        "BC / Parksville": 0.90,
+        "BC / Qualicum Beach": 0.91,
+        "BC / Duncan": 0.88,
+        "BC / Courtenay": 0.88,
+        "BC / Comox": 0.89,
+        "BC / Campbell River": 0.87,
+        "BC / Port Alberni": 0.86,
+        "BC / Tofino": 0.98,
+        "BC / Ucluelet": 0.97,
+        "BC / Powell River": 0.86,
+
+        "BC / Squamish": 0.98,
+        "BC / Whistler": 1.08,
+        "BC / Pemberton": 0.98,
+        "BC / Gibsons": 0.91,
+        "BC / Sechelt": 0.91,
+
+        "BC / Kelowna": 0.92,
+        "BC / West Kelowna": 0.91,
+        "BC / Vernon": 0.89,
+        "BC / Penticton": 0.90,
+        "BC / Kamloops": 0.88,
+        "BC / Merritt": 0.85,
+        "BC / Salmon Arm": 0.87,
+        "BC / Revelstoke": 0.89,
+
+        "BC / Cranbrook": 0.86,
+        "BC / Kimberley": 0.86,
+        "BC / Fernie": 0.90,
+        "BC / Nelson": 0.89,
+        "BC / Castlegar": 0.86,
+        "BC / Trail": 0.85,
+        "BC / Golden": 0.88,
+
+        "BC / Prince George": 0.85,
+        "BC / Quesnel": 0.84,
+        "BC / Williams Lake": 0.84,
+        "BC / Fort St. John": 0.89,
+        "BC / Dawson Creek": 0.87,
+        "BC / Terrace": 0.87,
+        "BC / Prince Rupert": 0.90,
+        "BC / Kitimat": 0.89,
+        "BC / Smithers": 0.86,
+        "BC / Fort Nelson": 0.88,
+
+        "BC / Other City or Town": 0.90,
+        "Canada / General": 0.92,
+        "Custom Market": 1.00
+      };
+
+      return multipliers[key] || 0.90;
+    }
 
     function getPublicCalibratedBaseRate(projectType, locationMarket) {
       projectType = String(projectType || "Commercial").toLowerCase();
@@ -2899,22 +4810,53 @@
         "custom": 400
       };
 
-      if (projectType.includes("residential")) return table.residential;
-      if (projectType.includes("commercial")) return table.commercial;
-      if (projectType.includes("renovation")) return table.renovation;
-      if (projectType.includes("service") || projectType.includes("repair")) return table["service / repair"];
-      if (projectType.includes("industrial")) return table.industrial;
-      if (projectType.includes("custom")) return table.custom;
+      let base = table.commercial;
 
-      return table.commercial;
+      if (projectType.includes("residential")) base = table.residential;
+      else if (projectType.includes("commercial")) base = table.commercial;
+      else if (projectType.includes("renovation")) base = table.renovation;
+      else if (projectType.includes("service") || projectType.includes("repair")) base = table["service / repair"];
+      else if (projectType.includes("industrial")) base = table.industrial;
+      else if (projectType.includes("custom")) base = table.custom;
+
+      const locationMultiplier = getBCLocationMultiplier(locationMarket);
+
+      return Math.round(base * locationMultiplier);
     }
 
+
+
+
+    function updateActiveBcpiFactorDisplay() {
+      const input = document.getElementById("bcpiFactor");
+      const display = document.getElementById("activeBcpiFactorDisplay");
+      const sourceDisplay = document.getElementById("calibrationBcpiFactorDisplay");
+
+      let value = input ? safeNumber(input.value, 1.00) : 1.00;
+
+      if (!isFinite(value) || value <= 0) {
+        value = 1.00;
+
+        if (input) {
+          input.value = "1.00";
+        }
+      }
+
+      if (display) {
+        display.textContent = value.toFixed(2);
+      }
+
+      if (sourceDisplay) {
+        sourceDisplay.textContent = value.toFixed(2);
+      }
+    }
 
     function refreshCalibrationSourceFromInputsOnly() {
       const payload = {
         project_type: document.getElementById("projectType") ? document.getElementById("projectType").value : "Commercial",
         location_market: document.getElementById("locationMarket") ? document.getElementById("locationMarket").value : "BC / Vancouver",
-        base_rate: parseFloat(document.getElementById("calibratedBaseRate") ? document.getElementById("calibratedBaseRate").value || "375" : "375")
+        base_rate: safeNumber(document.getElementById("calibratedBaseRate") ? document.getElementById("calibratedBaseRate").value : "375", 375),
+        bcpi_factor: safeNumber(document.getElementById("bcpiFactor") ? document.getElementById("bcpiFactor").value : "1.00", 1.00)
       };
 
       updateCalibrationSourceDisplay(payload, {
@@ -2924,6 +4866,8 @@
         bcpi_factor: payload.bcpi_factor,
         calibration_basis: "Stage 1 public-data calibrated baseline"
       });
+
+      updateActiveBcpiFactorDisplay();
     }
 
     function updateCalibratedBaseRateFromInputs() {
@@ -2947,6 +4891,7 @@
       const complexity = Number(payload.complexity || 1);
       const baseRate = Number(payload.base_rate || 400);
       const bcpiFactor = Number(payload.bcpi_factor || 1.0);
+      const qualityFactor = Number(payload.quality_factor || 1.0);
 
       return {
         sqft: sqft,
@@ -2955,7 +4900,8 @@
         complexity: complexity,
         base_rate: baseRate,
         bcpi_factor: bcpiFactor,
-        estimate: sqft * baseRate * bcpiFactor * material * labor * complexity
+        quality_factor: qualityFactor,
+        estimate: sqft * baseRate * bcpiFactor * qualityFactor * material * labor * complexity
       };
     }
 
@@ -2974,6 +4920,322 @@
       return previewEstimate;
     }
 
+
+    function setResultStatus(status, detail) {
+      const pill = document.getElementById("resultStatusPill");
+
+      if (!pill) {
+        return;
+      }
+
+      const normalized = String(status || "preview").toLowerCase();
+
+      if (normalized === "saved") {
+        pill.className = "result-status-pill saved";
+        pill.textContent = "Result Status: Saved & Counted" + (detail ? " — " + detail : "");
+        return;
+      }
+
+      if (normalized === "blocked") {
+        pill.className = "result-status-pill blocked";
+        pill.textContent = "Result Status: Blocked by Plan Limit" + (detail ? " — " + detail : "");
+        return;
+      }
+
+      if (normalized === "override") {
+        pill.className = "result-status-pill override";
+        pill.textContent = "Result Status: Approved Override Applied" + (detail ? " — " + detail : "");
+        return;
+      }
+
+      pill.className = "result-status-pill preview";
+      pill.textContent = "Result Status: Preview Only" + (detail ? " — " + detail : "");
+    }
+
+
+    function showEstimateLimitActions(show) {
+      const el = document.getElementById("estimateLimitActions");
+
+      if (!el) {
+        return;
+      }
+
+      el.className = show ? "estimate-limit-actions show" : "estimate-limit-actions";
+    }
+
+    function goToEstimatePackPayment() {
+      const email =
+        typeof getWorkspaceEmail === "function"
+          ? getWorkspaceEmail()
+          : sessionStorage.getItem("astraa_checkout_email") || "astraa.live.test@astraasystems.com";
+
+      sessionStorage.setItem("astraa_checkout_email", email);
+      sessionStorage.setItem("astraa_selected_tool", "Astraa Estimator");
+      sessionStorage.setItem("astraa_selected_plan", "Estimate Pack +10");
+      sessionStorage.setItem("astraa_selected_price", "$10 CAD one-time");
+      sessionStorage.setItem("astraa_estimate_pack_credits", "10");
+
+      window.location.href = "payment.html";
+    }
+
+
+
+    function financeSafeNumber(value, fallback) {
+      if (typeof safeNumber === "function") {
+        return safeNumber(value, fallback);
+      }
+
+      const n = parseFloat(value);
+
+      if (!isFinite(n)) {
+        return fallback;
+      }
+
+      return n;
+    }
+
+    function financeFormatCurrency(value) {
+      if (typeof formatCompactCurrency === "function") {
+        return formatCompactCurrency(value);
+      }
+
+      return new Intl.NumberFormat("en-CA", {
+        style: "currency",
+        currency: "CAD",
+        maximumFractionDigits: 0
+      }).format(value || 0);
+    }
+
+    function setFinanceMetricState(cardId, value) {
+      const card = document.getElementById(cardId);
+
+      if (!card) {
+        return;
+      }
+
+      card.classList.remove("good", "warn", "bad");
+
+      if (value > 0) {
+        card.classList.add("bad");
+      } else if (value < 0) {
+        card.classList.add("good");
+      } else {
+        card.classList.add("warn");
+      }
+    }
+
+    function updateFinancePreview() {
+      const estimatedBudget = financeSafeNumber(document.getElementById("financeEstimatedBudget") ? document.getElementById("financeEstimatedBudget").value : "0", 0);
+      const customerBudget = financeSafeNumber(document.getElementById("financeCustomerBudget") ? document.getElementById("financeCustomerBudget").value : "0", 0);
+      const actualCost = financeSafeNumber(document.getElementById("financeActualCost") ? document.getElementById("financeActualCost").value : "0", 0);
+      const revenue = financeSafeNumber(document.getElementById("financeRevenue") ? document.getElementById("financeRevenue").value : "0", 0);
+
+      const budgetGap = estimatedBudget - customerBudget;
+      const budgetGapPercent = customerBudget > 0 ? (budgetGap / customerBudget) * 100 : 0;
+
+      const actualVariance = actualCost > 0 ? actualCost - estimatedBudget : null;
+      const estimatedMargin = revenue > 0 ? revenue - estimatedBudget : null;
+      const estimatedMarginPercent = revenue > 0 ? (estimatedMargin / revenue) * 100 : null;
+
+      const budgetGapEl = document.getElementById("financeBudgetGapDisplay");
+      const budgetGapPercentEl = document.getElementById("financeBudgetGapPercentDisplay");
+      const actualVarianceEl = document.getElementById("financeActualVarianceDisplay");
+      const marginEl = document.getElementById("financeMarginDisplay");
+      const insightEl = document.getElementById("financeInsightBox");
+
+      if (budgetGapEl) {
+        budgetGapEl.textContent =
+          (budgetGap >= 0 ? "+" : "-") + financeFormatCurrency(Math.abs(budgetGap));
+      }
+
+      if (budgetGapPercentEl) {
+        budgetGapPercentEl.textContent =
+          customerBudget > 0 ? (budgetGap >= 0 ? "+" : "") + budgetGapPercent.toFixed(1) + "%" : "No budget";
+      }
+
+      if (actualVarianceEl) {
+        actualVarianceEl.textContent =
+          actualVariance === null
+            ? "Not entered"
+            : (actualVariance >= 0 ? "+" : "-") + financeFormatCurrency(Math.abs(actualVariance));
+      }
+
+      if (marginEl) {
+        marginEl.textContent =
+          estimatedMargin === null
+            ? "Not entered"
+            : financeFormatCurrency(estimatedMargin) + " (" + estimatedMarginPercent.toFixed(1) + "%)";
+      }
+
+      setFinanceMetricState("financeBudgetGapCard", budgetGap);
+
+      if (actualVariance !== null) {
+        setFinanceMetricState("financeActualVarianceCard", actualVariance);
+      }
+
+      if (estimatedMargin !== null) {
+        const marginCard = document.getElementById("financeMarginCard");
+
+        if (marginCard) {
+          marginCard.classList.remove("good", "warn", "bad");
+          marginCard.classList.add(estimatedMargin >= 0 ? "good" : "bad");
+        }
+      }
+
+      if (insightEl) {
+        let insight = "Finance Preview Summary\\n\\n";
+
+        if (customerBudget > 0) {
+          insight +=
+            "Estimated project budget is " +
+            (budgetGap >= 0 ? "over" : "under") +
+            " customer budget by " +
+            financeFormatCurrency(Math.abs(budgetGap)) +
+            " (" +
+            Math.abs(budgetGapPercent).toFixed(1) +
+            "%).\\n";
+        } else {
+          insight += "Customer budget has not been entered.\\n";
+        }
+
+        if (actualVariance !== null) {
+          insight +=
+            "Actual / forecast cost is " +
+            (actualVariance >= 0 ? "above" : "below") +
+            " the estimate by " +
+            financeFormatCurrency(Math.abs(actualVariance)) +
+            ".\\n";
+        } else {
+          insight += "Actual / forecast cost is not entered yet.\\n";
+        }
+
+        if (estimatedMargin !== null) {
+          insight +=
+            "Estimated margin based on revenue/contract value is " +
+            financeFormatCurrency(estimatedMargin) +
+            " (" +
+            estimatedMarginPercent.toFixed(1) +
+            "%).";
+        } else {
+          insight += "Revenue / contract value is not entered yet, so margin is not calculated.";
+        }
+
+        insightEl.textContent = insight;
+      }
+    }
+
+    function loadFinanceFromEstimator() {
+      if (typeof astraaLatestEstimateSummary !== "undefined" && astraaLatestEstimateSummary && astraaLatestEstimateSummary.costSplit) {
+        const estimatedBudgetInput = document.getElementById("financeEstimatedBudget");
+        const customerBudgetInput = document.getElementById("financeCustomerBudget");
+
+        if (estimatedBudgetInput) {
+          estimatedBudgetInput.value = Math.round(astraaLatestEstimateSummary.costSplit.totalBudgetEstimate);
+        }
+
+        if (customerBudgetInput && astraaLatestEstimateSummary.customerBudget) {
+          customerBudgetInput.value = Math.round(astraaLatestEstimateSummary.customerBudget);
+        }
+
+        updateFinancePreview();
+        return;
+      }
+
+      const result = document.getElementById("estimateResult");
+
+      if (result) {
+        result.className = "console-status error";
+        result.textContent = "Run an estimator calculation first, then select Use Latest Estimator Result.";
+      }
+    }
+
+    function openFinancePreview() {
+      const section = document.getElementById("financePreviewSection");
+
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      updateFinancePreview();
+    }
+
+
+    function refreshWorkspaceDashboardSummary(usage) {
+      const activeToolEl = document.getElementById("workspaceActiveToolDisplay");
+      const planEl = document.getElementById("workspacePlanDisplay");
+      const priceEl = document.getElementById("workspacePlanPriceDisplay");
+      const usageEl = document.getElementById("workspaceEstimateUsageDisplay");
+      const packEl = document.getElementById("workspaceEstimatePackDisplay");
+
+      const selectedTool =
+        sessionStorage.getItem("astraa_selected_tool") ||
+        (usage && usage.selected_tool) ||
+        "Astraa Estimator";
+
+      const selectedPlan =
+        sessionStorage.getItem("astraa_selected_plan") ||
+        (usage && usage.selected_plan) ||
+        "Trial";
+
+      const selectedPrice =
+        sessionStorage.getItem("astraa_selected_price") ||
+        (usage && usage.selected_price) ||
+        "$0 / 15 days";
+
+      if (activeToolEl) {
+        activeToolEl.textContent = selectedTool;
+      }
+
+      if (planEl) {
+        planEl.textContent = selectedPlan;
+      }
+
+      if (priceEl) {
+        priceEl.textContent = selectedPrice;
+      }
+
+      if (usageEl) {
+        if (usage && usage.estimate_limit !== undefined && usage.estimate_used !== undefined) {
+          usageEl.textContent =
+            String(usage.estimate_used) +
+            " used / " +
+            String(usage.estimate_limit) +
+            " total";
+        } else {
+          usageEl.textContent = "Usage not synced yet";
+        }
+      }
+
+      if (packEl) {
+        const extraCredits =
+          usage && usage.extra_estimate_credits_total !== undefined
+            ? usage.extra_estimate_credits_total
+            : 0;
+
+        packEl.textContent =
+          extraCredits > 0
+            ? String(extraCredits) + " extra estimate credits added"
+            : "No estimate packs added yet";
+      }
+    }
+
+    function showWorkspacePreview(toolName) {
+      const result = document.getElementById("estimateResult");
+
+      const message =
+        toolName +
+        " is currently presented as a preview inside Astraa Workspace.\n\n" +
+        "This lets customers understand the broader Astraa platform while Estimator remains the active live tool.\n\n" +
+        "Next rollout direction for this tool can be shown through preview cards, custom packages, or a dedicated tool page.";
+
+      if (result) {
+        result.className = "console-status success";
+        result.textContent = message;
+      } else {
+        alert(message);
+      }
+    }
+
     async function runWorkspaceEstimate() {
       const result = document.getElementById("estimateResult");
 
@@ -2982,6 +5244,7 @@
       // Always populate the console immediately as a preview.
       // Backend still decides whether this estimate is allowed/saved.
       const previewEstimate = showEstimatorPreview(payload);
+      setResultStatus("preview", "Backend check in progress");
 
       result.className = "console-status success";
       result.textContent =
@@ -3007,6 +5270,8 @@
             renderPortal();
           }
 
+          setResultStatus("blocked", data.error || "Usage rule");
+          showEstimateLimitActions(true);
           result.className = "console-status error";
           result.textContent =
             (data.error || "Backend estimate request failed.") +
@@ -3041,6 +5306,12 @@
           sessionStorage.setItem("astraa_usage", JSON.stringify(usage));
         }
 
+        setResultStatus(
+          data.estimate && data.estimate.approved_calibration_applied ? "override" : "saved",
+          data.estimate && data.estimate.approved_calibration_id ? data.estimate.approved_calibration_id : ""
+        );
+
+        showEstimateLimitActions(false);
         result.className = "console-status success";
         result.textContent =
           "Backend result saved and counted.\n\nEstimated baseline: " +
@@ -3169,6 +5440,8 @@
 
         await syncBackendUsageForWorkspace(false);
 
+        setResultStatus("preview", "Reset complete");
+
         result.className = "console-status success";
         result.textContent =
           "Backend demo usage reset and synced.\\n\\n" +
@@ -3199,6 +5472,7 @@
       if (locationMarket) locationMarket.addEventListener("change", updateCalibratedBaseRateFromInputs);
 
       updateCalibratedBaseRateFromInputs();
+      refreshWorkspaceDashboardSummary(null);
     });
 
     function closeAllFieldTooltips() {

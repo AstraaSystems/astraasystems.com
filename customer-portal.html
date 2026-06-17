@@ -2630,8 +2630,14 @@ button:disabled {
 </style>
 
 
+
+
 <style id="astraa-workspace-tools-v1-style">
-/* Astraa Workspace Tools v1 - Finance, Expense, Operations */
+/* Astraa Workspace Tools v1
+   Finance Tool + Expense Bonus Tool + Operations Tool
+   Scope: customer-portal.html and frontend/customer-portal.html only.
+   Moneris/payment files are not touched.
+*/
 
 .astraa-tools-v1 {
   max-width: 1180px;
@@ -2833,6 +2839,7 @@ button:disabled {
   display: block;
   color: #64748b;
   margin-top: 4px;
+  line-height: 1.4;
 }
 
 .astraa-warning-v1 {
@@ -2855,6 +2862,12 @@ button:disabled {
 
 @media (max-width: 1000px) {
   .astraa-tool-grid-v1 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .astraa-field-row-v1 {
     grid-template-columns: 1fr;
   }
 }
@@ -4066,6 +4079,8 @@ button:disabled {
               <a class="btn btn-secondary" href="estimator-faq.html">Open Estimator FAQ</a>
             </div>
           </section>
+
+
 
 
 <section id="astraa-tools-v1" class="astraa-tools-v1">
@@ -6397,6 +6412,8 @@ Customers can optionally share final project costs and written feedback to help 
 </script>
 
 
+
+
 <script id="astraa-workspace-tools-v1-script">
 (function astraaWorkspaceToolsV1() {
   const money = (value) => {
@@ -6539,8 +6556,12 @@ Insight: ${data.insight}
 
 Note: Astraa Finance provides planning visibility only and is not accounting, tax, investment, financing, or legal advice.`;
 
-    navigator.clipboard?.writeText(text);
-    alert("Finance summary copied.");
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      alert("Finance summary copied.");
+    } else {
+      alert(text);
+    }
   };
 
   function loadExpenses() {
@@ -6623,8 +6644,12 @@ ${lines || "No expenses recorded."}
 
 Note: Expense Tool is a Workspace bonus tool. Basic access is limited; Professional access is full during testing.`;
 
-    navigator.clipboard?.writeText(text);
-    alert("Expense summary copied.");
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      alert("Expense summary copied.");
+    } else {
+      alert(text);
+    }
   };
 
   window.astraaExpenseClearV1 = function() {
@@ -6665,7 +6690,6 @@ Note: Expense Tool is a Workspace bonus tool. Basic access is limited; Professio
 
   window.astraaOperationAddV1 = function() {
     const items = loadOperations();
-
     const title = document.getElementById("operationTitleV1").value.trim();
 
     if (!title) {
@@ -6704,8 +6728,12 @@ ${lines || "No operations actions recorded."}
 
 Note: Operations Tool helps track business execution, priorities, blockers, and follow-up actions.`;
 
-    navigator.clipboard?.writeText(text);
-    alert("Operations summary copied.");
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      alert("Operations summary copied.");
+    } else {
+      alert(text);
+    }
   };
 
   window.astraaOperationsClearV1 = function() {

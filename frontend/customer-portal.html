@@ -5,12 +5,18 @@
 <script id="astraa-workspace-public-lock">
 (function lockAstraaWorkspaceFromPublic() {
   try {
-    var hasSessionAccess = sessionStorage.getItem("astraa_workspace_test_access") === "true";
-    var hasLocalAccess = localStorage.getItem("astraa_workspace_test_access") === "true";
-    var hasPaidAccess = sessionStorage.getItem("astraa_payment_complete") === "true";
-    var isWorkspaceLogin = window.location.pathname.indexOf("workspace-test-login.html") !== -1;
+    var path = window.location.pathname || "";
+    var isWorkspaceLogin = path.indexOf("workspace-test-login.html") !== -1;
 
-    if (!isWorkspaceLogin && !hasSessionAccess && !hasLocalAccess && !hasPaidAccess) {
+    /*
+      STRICT TEST LOCK:
+      During internal Workspace testing, only the Workspace test login may unlock customer-portal.html.
+      Payment/session data must NOT bypass this lock.
+    */
+    var hasSessionTestAccess = sessionStorage.getItem("astraa_workspace_test_access") === "true";
+    var hasLocalTestAccess = localStorage.getItem("astraa_workspace_test_access") === "true";
+
+    if (!isWorkspaceLogin && !hasSessionTestAccess && !hasLocalTestAccess) {
       window.location.replace("workspace-test-login.html");
     }
   } catch (error) {
@@ -18,6 +24,8 @@
   }
 })();
 </script>
+
+
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -2899,6 +2907,219 @@ button:disabled {
   </nav>
 
   <main class="portal">
+<section id="astraa-tools-v1" class="astraa-tools-v1">
+  <div class="astraa-tools-v1-header">
+    <span class="astraa-tools-v1-kicker">Astraa Workspace Tools v1</span>
+    <h2>Finance, Expense, and Operations</h2>
+    <p class="astraa-tools-v1-subtitle">
+      Workspace testing now includes Finance Tool v1, Expense Bonus Tool, and Operations Tool v1.
+      These tools are available behind the Workspace lock for internal validation.
+    </p>
+  </div>
+
+  <div class="astraa-tool-grid-v1">
+
+    <article class="astraa-tool-panel-v1" id="astraaFinanceToolV1">
+      <h3>Astraa Finance Tool</h3>
+      <p>
+        Connect estimator results, budgets, forecast costs, and revenue to understand budget gap,
+        variance, and estimated margin.
+      </p>
+
+      <div class="astraa-tool-badge-row">
+        <span class="astraa-tool-badge green" id="financeAccessBadge">Professional test access</span>
+        <span class="astraa-tool-badge" id="financeModeBadge">Business + Personal Finance</span>
+      </div>
+
+      <div class="astraa-field-v1">
+        <label for="financeCustomerType">Customer type</label>
+        <select id="financeCustomerType">
+          <option value="business">Business</option>
+          <option value="personal">Personal / non-business</option>
+          <option value="nonprofit">Non-profit</option>
+        </select>
+      </div>
+
+      <div class="astraa-field-row-v1">
+        <div class="astraa-field-v1">
+          <label for="financeEstimatedBudget">Estimated budget</label>
+          <input id="financeEstimatedBudget" type="number" min="0" step="100" value="100000">
+        </div>
+
+        <div class="astraa-field-v1">
+          <label for="financeCustomerBudget">Customer / available budget</label>
+          <input id="financeCustomerBudget" type="number" min="0" step="100" value="95000">
+        </div>
+      </div>
+
+      <div class="astraa-field-row-v1">
+        <div class="astraa-field-v1">
+          <label for="financeForecastCost">Actual / forecast cost</label>
+          <input id="financeForecastCost" type="number" min="0" step="100" value="90000">
+        </div>
+
+        <div class="astraa-field-v1">
+          <label for="financeRevenue">Revenue / contract value</label>
+          <input id="financeRevenue" type="number" min="0" step="100" value="120000">
+        </div>
+      </div>
+
+      <div class="astraa-action-row-v1">
+        <button class="astraa-btn-v1" type="button" onclick="astraaFinanceCalculateV1()">Update Finance</button>
+        <button class="astraa-btn-v1 secondary" type="button" onclick="astraaFinanceUseLatestEstimateV1()">Use Latest Estimate</button>
+        <button class="astraa-btn-v1 secondary" type="button" onclick="astraaFinanceCopySummaryV1()">Copy Summary</button>
+      </div>
+
+      <div class="astraa-output-v1" id="financeOutputV1">
+        <div class="astraa-metric-v1"><span>Budget gap</span><strong id="financeBudgetGap">$0</strong></div>
+        <div class="astraa-metric-v1"><span>Budget gap %</span><strong id="financeBudgetGapPercent">0%</strong></div>
+        <div class="astraa-metric-v1"><span>Forecast variance</span><strong id="financeVariance">$0</strong></div>
+        <div class="astraa-metric-v1"><span>Estimated margin</span><strong id="financeMargin">$0</strong></div>
+        <div class="astraa-metric-v1"><span>Margin %</span><strong id="financeMarginPercent">0%</strong></div>
+        <div class="astraa-warning-v1" id="financeInsightV1">
+          Finance insight will appear after calculation.
+        </div>
+      </div>
+
+      <div class="astraa-note-v1">
+        Astraa Finance provides planning visibility only. It is not accounting, tax, investment,
+        financing, or legal advice.
+      </div>
+    </article>
+
+    <article class="astraa-tool-panel-v1" id="astraaExpenseToolV1">
+      <h3>Expense Bonus Tool</h3>
+      <p>
+        Expense is included as a bonus tool across Astraa Workspace. Basic receives limited access;
+        Professional receives full local tracking during testing.
+      </p>
+
+      <div class="astraa-tool-badge-row">
+        <span class="astraa-tool-badge green" id="expenseAccessBadge">Full Professional access</span>
+        <span class="astraa-tool-badge amber">Bonus tool</span>
+      </div>
+
+      <div class="astraa-field-row-v1">
+        <div class="astraa-field-v1">
+          <label for="expenseTitleV1">Expense title</label>
+          <input id="expenseTitleV1" type="text" placeholder="Materials, fuel, software, supplies">
+        </div>
+
+        <div class="astraa-field-v1">
+          <label for="expenseAmountV1">Amount</label>
+          <input id="expenseAmountV1" type="number" min="0" step="0.01" placeholder="0.00">
+        </div>
+      </div>
+
+      <div class="astraa-field-row-v1">
+        <div class="astraa-field-v1">
+          <label for="expenseCategoryV1">Category</label>
+          <select id="expenseCategoryV1">
+            <option>Materials</option>
+            <option>Labour</option>
+            <option>Travel / fuel</option>
+            <option>Software</option>
+            <option>Office</option>
+            <option>Food / community</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="astraa-field-v1">
+          <label for="expenseProjectV1">Project / purpose</label>
+          <input id="expenseProjectV1" type="text" placeholder="Project, client, event, or internal">
+        </div>
+      </div>
+
+      <div class="astraa-field-v1">
+        <label for="expenseNotesV1">Notes</label>
+        <textarea id="expenseNotesV1" placeholder="Optional notes"></textarea>
+      </div>
+
+      <div class="astraa-action-row-v1">
+        <button class="astraa-btn-v1" type="button" onclick="astraaExpenseAddV1()">Add Expense</button>
+        <button class="astraa-btn-v1 secondary" type="button" onclick="astraaExpenseCopySummaryV1()">Copy Summary</button>
+        <button class="astraa-btn-v1 secondary" type="button" onclick="astraaExpenseClearV1()">Clear</button>
+      </div>
+
+      <div class="astraa-output-v1">
+        <div class="astraa-metric-v1"><span>Total expenses</span><strong id="expenseTotalV1">$0</strong></div>
+        <div class="astraa-metric-v1"><span>Entries</span><strong id="expenseCountV1">0</strong></div>
+        <div class="astraa-list-v1" id="expenseListV1"></div>
+      </div>
+    </article>
+
+    <article class="astraa-tool-panel-v1" id="astraaOperationsToolV1">
+      <h3>Operations Tool</h3>
+      <p>
+        Track daily execution, priorities, blockers, and follow-up actions from inside Astraa Workspace.
+      </p>
+
+      <div class="astraa-tool-badge-row">
+        <span class="astraa-tool-badge green" id="operationsAccessBadge">Professional test access</span>
+        <span class="astraa-tool-badge">Execution control</span>
+      </div>
+
+      <div class="astraa-field-v1">
+        <label for="operationTitleV1">Action item</label>
+        <input id="operationTitleV1" type="text" placeholder="Follow up, test, send, review, prepare...">
+      </div>
+
+      <div class="astraa-field-row-v1">
+        <div class="astraa-field-v1">
+          <label for="operationOwnerV1">Owner / responsible person</label>
+          <input id="operationOwnerV1" type="text" placeholder="Owner">
+        </div>
+
+        <div class="astraa-field-v1">
+          <label for="operationDueV1">Due date</label>
+          <input id="operationDueV1" type="date">
+        </div>
+      </div>
+
+      <div class="astraa-field-row-v1">
+        <div class="astraa-field-v1">
+          <label for="operationPriorityV1">Priority</label>
+          <select id="operationPriorityV1">
+            <option>Low</option>
+            <option selected>Medium</option>
+            <option>High</option>
+            <option>Critical</option>
+          </select>
+        </div>
+
+        <div class="astraa-field-v1">
+          <label for="operationStatusV1">Status</label>
+          <select id="operationStatusV1">
+            <option selected>Open</option>
+            <option>In Progress</option>
+            <option>Blocked</option>
+            <option>Done</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="astraa-field-v1">
+        <label for="operationNotesV1">Notes</label>
+        <textarea id="operationNotesV1" placeholder="Operational notes"></textarea>
+      </div>
+
+      <div class="astraa-action-row-v1">
+        <button class="astraa-btn-v1" type="button" onclick="astraaOperationAddV1()">Add Action</button>
+        <button class="astraa-btn-v1 secondary" type="button" onclick="astraaOperationsCopySummaryV1()">Copy Summary</button>
+        <button class="astraa-btn-v1 secondary" type="button" onclick="astraaOperationsClearV1()">Clear</button>
+      </div>
+
+      <div class="astraa-output-v1">
+        <div class="astraa-metric-v1"><span>Open / active</span><strong id="operationsOpenCountV1">0</strong></div>
+        <div class="astraa-metric-v1"><span>Done</span><strong id="operationsDoneCountV1">0</strong></div>
+        <div class="astraa-list-v1" id="operationsListV1"></div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
 
 
           <section id="workspaceDashboardSummary" class="workspace-dashboard-summary">
@@ -4083,218 +4304,7 @@ button:disabled {
 
 
 
-<section id="astraa-tools-v1" class="astraa-tools-v1">
-  <div class="astraa-tools-v1-header">
-    <span class="astraa-tools-v1-kicker">Astraa Workspace Tools v1</span>
-    <h2>Finance, Expense, and Operations</h2>
-    <p class="astraa-tools-v1-subtitle">
-      Workspace testing now includes Finance Tool v1, Expense Bonus Tool, and Operations Tool v1.
-      These tools are available behind the Workspace lock for internal validation.
-    </p>
-  </div>
 
-  <div class="astraa-tool-grid-v1">
-
-    <article class="astraa-tool-panel-v1" id="astraaFinanceToolV1">
-      <h3>Astraa Finance Tool</h3>
-      <p>
-        Connect estimator results, budgets, forecast costs, and revenue to understand budget gap,
-        variance, and estimated margin.
-      </p>
-
-      <div class="astraa-tool-badge-row">
-        <span class="astraa-tool-badge green" id="financeAccessBadge">Professional test access</span>
-        <span class="astraa-tool-badge" id="financeModeBadge">Business + Personal Finance</span>
-      </div>
-
-      <div class="astraa-field-v1">
-        <label for="financeCustomerType">Customer type</label>
-        <select id="financeCustomerType">
-          <option value="business">Business</option>
-          <option value="personal">Personal / non-business</option>
-          <option value="nonprofit">Non-profit</option>
-        </select>
-      </div>
-
-      <div class="astraa-field-row-v1">
-        <div class="astraa-field-v1">
-          <label for="financeEstimatedBudget">Estimated budget</label>
-          <input id="financeEstimatedBudget" type="number" min="0" step="100" value="100000">
-        </div>
-
-        <div class="astraa-field-v1">
-          <label for="financeCustomerBudget">Customer / available budget</label>
-          <input id="financeCustomerBudget" type="number" min="0" step="100" value="95000">
-        </div>
-      </div>
-
-      <div class="astraa-field-row-v1">
-        <div class="astraa-field-v1">
-          <label for="financeForecastCost">Actual / forecast cost</label>
-          <input id="financeForecastCost" type="number" min="0" step="100" value="90000">
-        </div>
-
-        <div class="astraa-field-v1">
-          <label for="financeRevenue">Revenue / contract value</label>
-          <input id="financeRevenue" type="number" min="0" step="100" value="120000">
-        </div>
-      </div>
-
-      <div class="astraa-action-row-v1">
-        <button class="astraa-btn-v1" type="button" onclick="astraaFinanceCalculateV1()">Update Finance</button>
-        <button class="astraa-btn-v1 secondary" type="button" onclick="astraaFinanceUseLatestEstimateV1()">Use Latest Estimate</button>
-        <button class="astraa-btn-v1 secondary" type="button" onclick="astraaFinanceCopySummaryV1()">Copy Summary</button>
-      </div>
-
-      <div class="astraa-output-v1" id="financeOutputV1">
-        <div class="astraa-metric-v1"><span>Budget gap</span><strong id="financeBudgetGap">$0</strong></div>
-        <div class="astraa-metric-v1"><span>Budget gap %</span><strong id="financeBudgetGapPercent">0%</strong></div>
-        <div class="astraa-metric-v1"><span>Forecast variance</span><strong id="financeVariance">$0</strong></div>
-        <div class="astraa-metric-v1"><span>Estimated margin</span><strong id="financeMargin">$0</strong></div>
-        <div class="astraa-metric-v1"><span>Margin %</span><strong id="financeMarginPercent">0%</strong></div>
-        <div class="astraa-warning-v1" id="financeInsightV1">
-          Finance insight will appear after calculation.
-        </div>
-      </div>
-
-      <div class="astraa-note-v1">
-        Astraa Finance provides planning visibility only. It is not accounting, tax, investment,
-        financing, or legal advice.
-      </div>
-    </article>
-
-    <article class="astraa-tool-panel-v1" id="astraaExpenseToolV1">
-      <h3>Expense Bonus Tool</h3>
-      <p>
-        Expense is included as a bonus tool across Astraa Workspace. Basic receives limited access;
-        Professional receives full local tracking during testing.
-      </p>
-
-      <div class="astraa-tool-badge-row">
-        <span class="astraa-tool-badge green" id="expenseAccessBadge">Full Professional access</span>
-        <span class="astraa-tool-badge amber">Bonus tool</span>
-      </div>
-
-      <div class="astraa-field-row-v1">
-        <div class="astraa-field-v1">
-          <label for="expenseTitleV1">Expense title</label>
-          <input id="expenseTitleV1" type="text" placeholder="Materials, fuel, software, supplies">
-        </div>
-
-        <div class="astraa-field-v1">
-          <label for="expenseAmountV1">Amount</label>
-          <input id="expenseAmountV1" type="number" min="0" step="0.01" placeholder="0.00">
-        </div>
-      </div>
-
-      <div class="astraa-field-row-v1">
-        <div class="astraa-field-v1">
-          <label for="expenseCategoryV1">Category</label>
-          <select id="expenseCategoryV1">
-            <option>Materials</option>
-            <option>Labour</option>
-            <option>Travel / fuel</option>
-            <option>Software</option>
-            <option>Office</option>
-            <option>Food / community</option>
-            <option>Other</option>
-          </select>
-        </div>
-
-        <div class="astraa-field-v1">
-          <label for="expenseProjectV1">Project / purpose</label>
-          <input id="expenseProjectV1" type="text" placeholder="Project, client, event, or internal">
-        </div>
-      </div>
-
-      <div class="astraa-field-v1">
-        <label for="expenseNotesV1">Notes</label>
-        <textarea id="expenseNotesV1" placeholder="Optional notes"></textarea>
-      </div>
-
-      <div class="astraa-action-row-v1">
-        <button class="astraa-btn-v1" type="button" onclick="astraaExpenseAddV1()">Add Expense</button>
-        <button class="astraa-btn-v1 secondary" type="button" onclick="astraaExpenseCopySummaryV1()">Copy Summary</button>
-        <button class="astraa-btn-v1 secondary" type="button" onclick="astraaExpenseClearV1()">Clear</button>
-      </div>
-
-      <div class="astraa-output-v1">
-        <div class="astraa-metric-v1"><span>Total expenses</span><strong id="expenseTotalV1">$0</strong></div>
-        <div class="astraa-metric-v1"><span>Entries</span><strong id="expenseCountV1">0</strong></div>
-        <div class="astraa-list-v1" id="expenseListV1"></div>
-      </div>
-    </article>
-
-    <article class="astraa-tool-panel-v1" id="astraaOperationsToolV1">
-      <h3>Operations Tool</h3>
-      <p>
-        Track daily execution, priorities, blockers, and follow-up actions from inside Astraa Workspace.
-      </p>
-
-      <div class="astraa-tool-badge-row">
-        <span class="astraa-tool-badge green" id="operationsAccessBadge">Professional test access</span>
-        <span class="astraa-tool-badge">Execution control</span>
-      </div>
-
-      <div class="astraa-field-v1">
-        <label for="operationTitleV1">Action item</label>
-        <input id="operationTitleV1" type="text" placeholder="Follow up, test, send, review, prepare...">
-      </div>
-
-      <div class="astraa-field-row-v1">
-        <div class="astraa-field-v1">
-          <label for="operationOwnerV1">Owner / responsible person</label>
-          <input id="operationOwnerV1" type="text" placeholder="Owner">
-        </div>
-
-        <div class="astraa-field-v1">
-          <label for="operationDueV1">Due date</label>
-          <input id="operationDueV1" type="date">
-        </div>
-      </div>
-
-      <div class="astraa-field-row-v1">
-        <div class="astraa-field-v1">
-          <label for="operationPriorityV1">Priority</label>
-          <select id="operationPriorityV1">
-            <option>Low</option>
-            <option selected>Medium</option>
-            <option>High</option>
-            <option>Critical</option>
-          </select>
-        </div>
-
-        <div class="astraa-field-v1">
-          <label for="operationStatusV1">Status</label>
-          <select id="operationStatusV1">
-            <option selected>Open</option>
-            <option>In Progress</option>
-            <option>Blocked</option>
-            <option>Done</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="astraa-field-v1">
-        <label for="operationNotesV1">Notes</label>
-        <textarea id="operationNotesV1" placeholder="Operational notes"></textarea>
-      </div>
-
-      <div class="astraa-action-row-v1">
-        <button class="astraa-btn-v1" type="button" onclick="astraaOperationAddV1()">Add Action</button>
-        <button class="astraa-btn-v1 secondary" type="button" onclick="astraaOperationsCopySummaryV1()">Copy Summary</button>
-        <button class="astraa-btn-v1 secondary" type="button" onclick="astraaOperationsClearV1()">Clear</button>
-      </div>
-
-      <div class="astraa-output-v1">
-        <div class="astraa-metric-v1"><span>Open / active</span><strong id="operationsOpenCountV1">0</strong></div>
-        <div class="astraa-metric-v1"><span>Done</span><strong id="operationsDoneCountV1">0</strong></div>
-        <div class="astraa-list-v1" id="operationsListV1"></div>
-      </div>
-    </article>
-
-  </div>
-</section>
 
 </main>
 

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Astraa Finance | Astraa Systems</title>
+  <meta name="description" content="Astraa Finance helps users review budgets, expenses, receivables, payables, and cashflow visibility inside Astraa Workspace." />
+
+  <style>
+    :root {
+      --black:#05070f;
+      --navy:#071426;
+      --royal:#1d4ed8;
+      --white:#ffffff;
+      --off:#f8fafc;
+      --line:#dbe3ef;
+      --text:#0f172a;
+      --muted:#475569;
+      --gray:#64748b;
+      --light:#dbeafe;
+      --soft:#eff6ff;
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:var(--white);
+      line-height:1.6;
+    }
+
+    a { color:inherit; }
+
+    .header {
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(255,255,255,.96);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid #e5e7eb;
+    }
+
+    .nav {
+      max-width:1120px;
+      margin:0 auto;
+      padding:16px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+    }
+
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      font-weight:950;
+      color:var(--black);
+    }
+
+    .brand img {
+      width:38px;
+      height:38px;
+      object-fit:contain;
+    }
+
+    .brand span {
+      display:block;
+      font-size:12px;
+      color:var(--gray);
+      font-weight:700;
+    }
+
+    .links {
+      display:flex;
+      align-items:center;
+      gap:22px;
+      color:var(--muted);
+      font-size:14px;
+      font-weight:750;
+    }
+
+    .links a { text-decoration:none; }
+    .links a:hover { color:var(--royal); }
+
+    .cta {
+      display:inline-flex;
+      padding:10px 15px;
+      border-radius:999px;
+      background:var(--royal);
+      color:white;
+      text-decoration:none;
+      font-weight:900;
+    }
+
+    .container {
+      max-width:1120px;
+      margin:0 auto;
+      padding:0 24px;
+    }
+
+    .hero {
+      background:linear-gradient(135deg,var(--black),var(--navy));
+      color:white;
+      padding:88px 0 76px;
+    }
+
+    .kicker {
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      color:var(--light);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      margin-bottom:20px;
+    }
+
+    .status {
+      display:inline-flex;
+      width:fit-content;
+      margin-bottom:14px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#eff6ff;
+      border:1px solid #bfdbfe;
+      color:#1d4ed8;
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .logo-title {
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:16px;
+    }
+
+    .logo-title img {
+      width:42px;
+      height:42px;
+      object-fit:contain;
+    }
+
+    .hero h1 {
+      margin:0;
+      max-width:940px;
+      font-size:clamp(44px,7vw,82px);
+      line-height:.96;
+      letter-spacing:-.07em;
+    }
+
+    .hero p {
+      max-width:780px;
+      margin:24px 0 0;
+      color:var(--light);
+      font-size:19px;
+    }
+
+    .actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:30px;
+    }
+
+    .btn {
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+      padding:13px 18px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:950;
+      border:1px solid transparent;
+      cursor:pointer;
+      font:inherit;
+    }
+
+    .btn.primary {
+      background:var(--royal);
+      color:white;
+    }
+
+    .btn.secondary {
+      background:transparent;
+      color:white;
+      border-color:rgba(255,255,255,.3);
+    }
+
+    .btn.dark-secondary {
+      background:transparent;
+      color:var(--royal);
+      border-color:#bfdbfe;
+    }
+
+    .section {
+      padding:72px 0;
+    }
+
+    .section h2 {
+      margin:0 0 12px;
+      color:var(--black);
+      font-size:clamp(32px,4vw,52px);
+      line-height:1.05;
+      letter-spacing:-.055em;
+    }
+
+    .section p {
+      color:var(--muted);
+      max-width:850px;
+      margin:0;
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:18px;
+      margin-top:28px;
+    }
+
+    .card {
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:24px;
+      background:white;
+      box-shadow:0 18px 50px rgba(15,23,42,.08);
+    }
+
+    .card h3 {
+      margin:0 0 10px;
+      color:var(--black);
+      font-size:22px;
+      letter-spacing:-.035em;
+    }
+
+    .card p,
+    .card li {
+      color:var(--muted);
+    }
+
+    .card ul {
+      margin:0;
+      padding-left:20px;
+    }
+
+    .band {
+      background:var(--off);
+      border-top:1px solid #e5e7eb;
+      border-bottom:1px solid #e5e7eb;
+    }
+
+    .function-list {
+      display:grid;
+      gap:14px;
+      margin-top:30px;
+    }
+
+    .function-row {
+      display:grid;
+      grid-template-columns:260px 1fr;
+      gap:18px;
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:20px;
+      background:white;
+      box-shadow:0 14px 38px rgba(15,23,42,.06);
+    }
+
+    .function-row h3 {
+      margin:0;
+      color:var(--black);
+      font-size:21px;
+      letter-spacing:-.035em;
+    }
+
+    .function-row p {
+      margin:0;
+      color:var(--muted);
+    }
+
+    .access-grid {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:18px;
+      margin-top:28px;
+    }
+
+    .access-card {
+      border:1px solid var(--line);
+      background:white;
+      border-radius:26px;
+      padding:22px;
+      box-shadow:0 14px 38px rgba(15,23,42,.06);
+    }
+
+    .access-card h3 {
+      margin:0 0 8px;
+      color:var(--black);
+      font-size:22px;
+      letter-spacing:-.035em;
+    }
+
+    .access-card p {
+      color:var(--muted);
+      margin:0;
+    }
+
+    .notice {
+      margin-top:26px;
+      padding:20px;
+      border-radius:22px;
+      background:#eff6ff;
+      border:1px solid #bfdbfe;
+      color:#1e3a8a;
+    }
+
+    footer {
+      padding:28px 0;
+      border-top:1px solid #e5e7eb;
+      color:var(--gray);
+      font-size:14px;
+    }
+
+    .footer-inner {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .footer-links {
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .footer-links a {
+      text-decoration:none;
+      color:var(--gray);
+    }
+
+    @media(max-width:900px) {
+      .links { display:none; }
+      .grid { grid-template-columns:1fr; }
+      .access-grid { grid-template-columns:1fr; }
+      .function-row { grid-template-columns:1fr; }
+      .hero { padding:70px 0 64px; }
+    }
+  </style>
+</head>
+
+<body>
+<header class="header">
+  <nav class="nav">
+    <a class="brand" href="index.html">
+      assets/images/astraa_logo.png
+      <div>Astraa Systems<span>Connected business tools</span></div>
+    </a>
+
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="engines.html">Tools</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="workspace-test-login.html">Workspace</a>
+      <a href="contact.html">Contact</a>
+    </div>
+
+    <a class="cta" href="workspace-test-login.html">Open Workspace</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="kicker">Astraa Tool</div>
+      <span class="status">Active / Included</span>
+
+      <div class="logo-title">
+        assets/images/astraa_logo.png
+        <h1>Astraa Finance</h1>
+      </div>
+
+      <p>
+        Finance visibility for budgets, expenses, receivables, payables, and cashflow direction inside Astraa Workspace.
+      </p>
+
+      <div class="actions">
+        <a class="btn primary" href="pricing.html">Start 15-Day Trial</a>
+        <a class="btn secondary" href="engines.html">Back to Tools</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Understand the money side of your work.</h2>
+      <p>
+        Astraa Finance helps users review budget pressure, spending visibility, revenue direction,
+        receivables, payables, and cashflow planning from one Workspace.
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Best for</h3>
+          <ul>
+            <li>Business owners reviewing project and operating costs</li>
+            <li>Personal users who need simple finance visibility</li>
+            <li>Non-profits tracking budget and spending direction</li>
+            <li>Teams that want finance summaries connected to Workspace activity</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Core capabilities</h3>
+          <ul>
+            <li>Budget review and margin visibility</li>
+            <li>Expense connection through Astraa Expense</li>
+            <li>Receivables and payables workflow support</li>
+            <li>Cashflow planning direction</li>
+            <li>Copyable finance summaries</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Trial path</h3>
+          <p>
+            The 15-day trial helps users see how Finance works with Estimator, Expense, and Operations
+            inside Astraa Workspace.
+          </p>
+        </article>
+      </div>
+
+      <div class="notice">
+        Astraa Finance provides planning visibility only. It is not accounting, tax, legal, investment,
+        financing, or professional financial advice.
+      </div>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="container">
+      <h2>Finance access by customer type.</h2>
+      <p>
+        Finance access is assigned based on the customer type and package.
+      </p>
+
+      <div class="access-grid">
+        <article class="access-card">
+          <h3>Business customers</h3>
+          <p>
+            Basic and Professional business customers can receive both Personal Finance and Business Finance
+            within their assigned Workspace access.
+          </p>
+        </article>
+
+        <article class="access-card">
+          <h3>Personal customers</h3>
+          <p>
+            Personal or non-business customers receive Personal Finance only, with pricing adjusted lower than
+            the equivalent business access.
+          </p>
+        </article>
+
+        <article class="access-card">
+          <h3>Non-profit organizations</h3>
+          <p>
+            Non-profit organizations follow a simplified Non-Profit Workspace package with size, budget,
+            startup stage, and community impact considered during setup.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Finance functions.</h2>
+      <p>
+        Astraa Finance is organized around practical financial visibility, not complex accounting software.
+      </p>
+
+      <div class="function-list">
+        <div class="function-row">
+          <h3>Budget Review</h3>
+          <p>Compare estimated cost, available budget, forecast cost, and expected revenue to understand pressure points.</p>
+        </div>
+
+        <div class="function-row">
+          <h3>Expense Connection</h3>
+          <p>Use Astraa Expense to organize spending and connect expense totals back into Finance visibility.</p>
+        </div>
+
+        <div class="function-row">
+          <h3>Receivables Review</h3>
+          <p>Track money expected from customers, unpaid invoices, due dates, and follow-up needs.</p>
+        </div>
+
+        <div class="function-row">
+          <h3>Payables Review</h3>
+          <p>Track vendor bills, upcoming due dates, expected outgoing payments, and cash impact.</p>
+        </div>
+
+        <div class="function-row">
+          <h3>Cashflow Planning</h3>
+          <p>Review expected income, expected expenses, upcoming payables, and available cash direction.</p>
+        </div>
+
+        <div class="function-row">
+          <h3>Finance Summary</h3>
+          <p>Create a clear summary that can support planning discussions, internal review, or client-facing preparation.</p>
+        </div>
+      </div>
+
+      <div class="notice">
+        The full Workspace trial is the better way to experience Finance because it works alongside Estimator,
+        Expense, and Operations instead of standing alone.
+      </div>
+
+      <div class="actions">
+        <a class="btn primary" href="pricing.html">Start 15-Day Trial</a>
+        <a class="btn dark-secondary" href="workspace-test-login.html">Open Workspace</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>Astraa Systems © 2026</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="engines.html">Tools</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="workspace-test-login.html">Workspace</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

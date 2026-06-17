@@ -183,12 +183,217 @@
 }
 </style>
 
+
+<style id="astraa-parked-roadmap-style">
+/* Astraa Parked Roadmap Section
+   Purpose: keep future ideas visible without building them during current core sprint.
+   Does not touch Moneris/payment files.
+*/
+
+.astraa-parked-roadmap {
+  max-width: 1240px;
+  margin: 36px auto 72px;
+  padding: 0 24px;
+}
+
+.astraa-parked-shell {
+  background: #0f172a;
+  color: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 30px;
+  padding: 28px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.32);
+}
+
+.astraa-parked-kicker {
+  display: inline-flex;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: rgba(251, 191, 36, 0.14);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.32);
+  font-weight: 900;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.astraa-parked-shell h2 {
+  margin: 12px 0 8px;
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+  font-size: clamp(28px, 4vw, 44px);
+  letter-spacing: -.04em;
+}
+
+.astraa-parked-shell p {
+  color: #dbeafe;
+  -webkit-text-fill-color: #dbeafe;
+  line-height: 1.6;
+  max-width: 880px;
+  margin: 0 0 22px;
+}
+
+.astraa-parked-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.astraa-parked-card {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #dbe3ef;
+  border-radius: 20px;
+  padding: 16px;
+}
+
+.astraa-parked-card h3 {
+  margin: 0 0 8px;
+  color: #020617;
+  -webkit-text-fill-color: #020617;
+  font-size: 17px;
+}
+
+.astraa-parked-card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.astraa-parked-card li {
+  color: #334155;
+  -webkit-text-fill-color: #334155;
+  margin: 7px 0;
+  line-height: 1.45;
+  font-size: 14px;
+}
+
+.astraa-parked-tag {
+  display: inline-flex;
+  margin-top: 12px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.astraa-parked-note {
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: #dbeafe;
+  -webkit-text-fill-color: #dbeafe;
+  line-height: 1.55;
+}
+
+@media (max-width: 1000px) {
+  .astraa-parked-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
 </head>
 <body>
   <main class="card">
     <h1>Astraa Workspace is locked</h1>
     <p>Workspace access is currently restricted for internal testing.</p>
     <a href="workspace-test-login.html">Go to Workspace Test Login</a>
-  </main>
+  
+<section id="astraa-parked-roadmap" class="astraa-parked-roadmap">
+  <div class="astraa-parked-shell">
+    <span class="astraa-parked-kicker">Parked for Later</span>
+    <h2>Roadmap parking lot</h2>
+    <p>
+      These ideas are important, but they are intentionally parked so the current build stays focused:
+      Finance Tool, Expense Bonus Tool, and Operations Tool inside the locked Workspace.
+    </p>
+
+    <div class="astraa-parked-grid">
+      <article class="astraa-parked-card">
+        <h3>Reporting & Output</h3>
+        <ul>
+          <li>PDF export</li>
+          <li>Professional report templates</li>
+          <li>Advanced charts and dashboards</li>
+          <li>Saved finance, expense, and operations summaries</li>
+          <li>Customer-ready downloadable packages</li>
+        </ul>
+        <span class="astraa-parked-tag">Parked</span>
+      </article>
+
+      <article class="astraa-parked-card">
+        <h3>Backend & Accounts</h3>
+        <ul>
+          <li>Backend saving and persistent records</li>
+          <li>User accounts database</li>
+          <li>Production authentication</li>
+          <li>Role-based access control</li>
+          <li>Netlify / backend production migration</li>
+        </ul>
+        <span class="astraa-parked-tag">Test later</span>
+      </article>
+
+      <article class="astraa-parked-card">
+        <h3>Business Access Models</h3>
+        <ul>
+          <li>Contractor multi-company switcher</li>
+          <li>Company contractor host dashboard</li>
+          <li>Franchise Workspace dashboard</li>
+          <li>Seat management and added-user billing</li>
+          <li>Non-profit approval and discount workflow</li>
+        </ul>
+        <span class="astraa-parked-tag">Parked</span>
+      </article>
+
+      <article class="astraa-parked-card">
+        <h3>Future Workspace Tools</h3>
+        <ul>
+          <li>Arkastra Commerce</li>
+          <li>Data Workspace</li>
+          <li>VSV Systems Intelligence</li>
+          <li>Vault saved-records layer</li>
+          <li>Future reporting intelligence</li>
+        </ul>
+        <span class="astraa-parked-tag">Tomorrow / Later</span>
+      </article>
+
+      <article class="astraa-parked-card">
+        <h3>Public Website Polish</h3>
+        <ul>
+          <li>Refined homepage with less crowding</li>
+          <li>Cleaner hero section</li>
+          <li>Move complex rules to deeper pages</li>
+          <li>Improve spacing and trust messaging</li>
+          <li>Keep homepage focused on Estimate / Track / Operate</li>
+        </ul>
+        <span class="astraa-parked-tag">Parked</span>
+      </article>
+
+      <article class="astraa-parked-card">
+        <h3>Private / Internal Systems</h3>
+        <ul>
+          <li>Lux research preparation</li>
+          <li>Historical data workflow</li>
+          <li>Arka-governed rules</li>
+          <li>Decision journal and risk controls</li>
+          <li>Ecosystem and HQ shift preparation</li>
+        </ul>
+        <span class="astraa-parked-tag">Private</span>
+      </article>
+    </div>
+
+    <div class="astraa-parked-note">
+      Build rule: build the core, protect Moneris, keep Workspace locked, park extras, and test after each patch.
+    </div>
+  </div>
+</section>
+
+</main>
 </body>
 </html>

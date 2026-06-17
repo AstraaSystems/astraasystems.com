@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Astraa Operations | Astraa Systems</title>
+  <meta name="description" content="Astraa Operations helps businesses organize actions, owners, priorities, due dates, blockers, and operational follow-up inside Astraa Workspace." />
+
+  <style>
+    :root {
+      --black:#05070f;
+      --navy:#071426;
+      --royal:#1d4ed8;
+      --white:#ffffff;
+      --off:#f8fafc;
+      --line:#dbe3ef;
+      --text:#0f172a;
+      --muted:#475569;
+      --gray:#64748b;
+      --light:#dbeafe;
+      --soft:#eff6ff;
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:var(--white);
+      line-height:1.6;
+    }
+
+    a { color:inherit; }
+
+    .header {
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(255,255,255,.96);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid #e5e7eb;
+    }
+
+    .nav {
+      max-width:1120px;
+      margin:0 auto;
+      padding:16px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+    }
+
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      font-weight:950;
+      color:var(--black);
+    }
+
+    .brand img {
+      width:38px;
+      height:38px;
+      object-fit:contain;
+    }
+
+    .brand span {
+      display:block;
+      font-size:12px;
+      color:var(--gray);
+      font-weight:700;
+    }
+
+    .links {
+      display:flex;
+      align-items:center;
+      gap:22px;
+      color:var(--muted);
+      font-size:14px;
+      font-weight:750;
+    }
+
+    .links a { text-decoration:none; }
+    .links a:hover { color:var(--royal); }
+
+    .cta {
+      display:inline-flex;
+      padding:10px 15px;
+      border-radius:999px;
+      background:var(--royal);
+      color:white;
+      text-decoration:none;
+      font-weight:900;
+    }
+
+    .container {
+      max-width:1120px;
+      margin:0 auto;
+      padding:0 24px;
+    }
+
+    .hero {
+      background:linear-gradient(135deg,var(--black),var(--navy));
+      color:white;
+      padding:88px 0 76px;
+    }
+
+    .kicker {
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      color:var(--light);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      margin-bottom:20px;
+    }
+
+    .status {
+      display:inline-flex;
+      width:fit-content;
+      margin-bottom:14px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#eff6ff;
+      border:1px solid #bfdbfe;
+      color:#1d4ed8;
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .logo-title {
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:16px;
+    }
+
+    .logo-title img {
+      width:42px;
+      height:42px;
+      object-fit:contain;
+    }
+
+    .hero h1 {
+      margin:0;
+      max-width:940px;
+      font-size:clamp(44px,7vw,82px);
+      line-height:.96;
+      letter-spacing:-.07em;
+    }
+
+    .hero p {
+      max-width:780px;
+      margin:24px 0 0;
+      color:var(--light);
+      font-size:19px;
+    }
+
+    .actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:30px;
+    }
+
+    .btn {
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+      padding:13px 18px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:950;
+      border:1px solid transparent;
+      cursor:pointer;
+      font:inherit;
+    }
+
+    .btn.primary {
+      background:var(--royal);
+      color:white;
+    }
+
+    .btn.secondary {
+      background:transparent;
+      color:white;
+      border-color:rgba(255,255,255,.3);
+    }
+
+    .btn.dark-secondary {
+      background:transparent;
+      color:var(--royal);
+      border-color:#bfdbfe;
+    }
+
+    .section {
+      padding:72px 0;
+    }
+
+    .section h2 {
+      margin:0 0 12px;
+      color:var(--black);
+      font-size:clamp(32px,4vw,52px);
+      line-height:1.05;
+      letter-spacing:-.055em;
+    }
+
+    .section p {
+      color:var(--muted);
+      max-width:840px;
+      margin:0;
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:18px;
+      margin-top:28px;
+    }
+
+    .card {
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:24px;
+      background:white;
+      box-shadow:0 18px 50px rgba(15,23,42,.08);
+    }
+
+    .card h3 {
+      margin:0 0 10px;
+      color:var(--black);
+      font-size:22px;
+      letter-spacing:-.035em;
+    }
+
+    .card p,
+    .card li {
+      color:var(--muted);
+    }
+
+    .card ul {
+      margin:0;
+      padding-left:20px;
+    }
+
+    .band {
+      background:var(--off);
+      border-top:1px solid #e5e7eb;
+      border-bottom:1px solid #e5e7eb;
+    }
+
+    .function-list {
+      display:grid;
+      gap:14px;
+      margin-top:30px;
+    }
+
+    .function-row {
+      display:grid;
+      grid-template-columns:260px 1fr;
+      gap:18px;
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:20px;
+      background:white;
+      box-shadow:0 14px 38px rgba(15,23,42,.06);
+    }
+
+    .function-row h3 {
+      margin:0;
+      color:var(--black);
+      font-size:21px;
+      letter-spacing:-.035em;
+    }
+
+    .function-row p {
+      margin:0;
+      color:var(--muted);
+    }
+
+    .process-grid {
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+      margin-top:28px;
+    }
+
+    .step-card {
+      background:white;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      box-shadow:0 12px 32px rgba(15,23,42,.06);
+    }
+
+    .step-card strong {
+      display:block;
+      color:var(--black);
+      margin-bottom:6px;
+    }
+
+    .step-card span {
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .notice {
+      margin-top:26px;
+      padding:20px;
+      border-radius:22px;
+      background:#eff6ff;
+      border:1px solid #bfdbfe;
+      color:#1e3a8a;
+    }
+
+    footer {
+      padding:28px 0;
+      border-top:1px solid #e5e7eb;
+      color:var(--gray);
+      font-size:14px;
+    }
+
+    .footer-inner {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .footer-links {
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .footer-links a {
+      text-decoration:none;
+      color:var(--gray);
+    }
+
+    @media(max-width:900px) {
+      .links { display:none; }
+      .grid { grid-template-columns:1fr; }
+      .process-grid { grid-template-columns:1fr; }
+      .function-row { grid-template-columns:1fr; }
+      .hero { padding:70px 0 64px; }
+    }
+  </style>
+</head>
+
+<body>
+<header class="header">
+  <nav class="nav">
+    <a class="brand" href="index.html">
+      <img src="assets/images/astraa_logo.png" alt="Astraa logo" />
+      <div>Astraa Systems<span>Connected business tools</span></div>
+    </a>
+
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="engines.html">Tools</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="workspace-test-login.html">Workspace</a>
+      <a href="contact.html">Contact</a>
+    </div>
+
+    <a class="cta" href="workspace-test-login.html">Open Workspace</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="kicker">Astraa Tool</div>
+      <span class="status">Active / Included</span>
+
+      <div class="logo-title">
+        <img src="assets/images/astraa_logo.png" alt="Astraa logo" />
+        <h1>Astraa Operations</h1>
+      </div>
+
+      <p>
+        Organize actions, owners, priorities, status, blockers, and follow-up work inside Astraa Workspace.
+      </p>
+
+      <div class="actions">
+        <a class="btn primary" href="pricing.html">Start 15-Day Trial</a>
+        <a class="btn secondary" href="engines.html">Back to Tools</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Run daily work with clearer structure.</h2>
+      <p>
+        Astraa Operations helps businesses keep follow-ups, responsibilities, priorities, and blockers
+        organized in one Workspace instead of scattered across notes, messages, and spreadsheets.
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Best for</h3>
+          <ul>
+            <li>Growing businesses managing daily execution</li>
+            <li>Contractor and service teams</li>
+            <li>Managers tracking follow-ups and blockers</li>
+            <li>Teams that need cleaner operational visibility</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Core capabilities</h3>
+          <ul>
+            <li>Action and follow-up tracking</li>
+            <li>Owner and responsibility fields</li>
+            <li>Priority and status visibility</li>
+            <li>Due date and blocker notes</li>
+            <li>Copyable operations summaries</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Workspace path</h3>
+          <p>
+            Basic supports limited operations visibility. Professional and Custom packages support broader
+            operations workflows based on the client’s assigned tools.
+          </p>
+        </article>
+      </div>
+
+      <div class="notice">
+        Operations is not a calculator. It is a Workspace utility for organizing work, actions, and follow-up.
+      </div>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="container">
+      <h2>Operations functions.</h2>
+      <p>
+        Astraa Operations is designed around practical business functions clients can understand and use.
+      </p>
+
+      <div class="function-list">
+        <div class="function-row">
+          <h3>General Actions</h3>
+          <p>Track action items, owners, priorities, due dates, current status, notes, and blockers.</p>
+        </div>
+
+        <div class="function-row">
+          <h3>HR / Admin</h3>
+          <p>Track onboarding-style actions, document follow-ups, training reminders, responsibility notes, and internal admin tasks.</p>
+        </div>
+
+        <div class="function-row">
+          <h3>Marketing Operations</h3>
+          <p>Track campaign tasks, content actions, owners, channels, due dates, blocked work, and completion status.</p>
+        </div>
+
+        <div class="function-row">
+          <h3>Logistics / Field</h3>
+          <p>Track field tasks, location-based follow-ups, assigned people, due dates, blocked actions, and completion progress.</p>
+        </div>
+
+        <div class="function-row">
+          <h3>Sales Follow-Up</h3>
+          <p>Track lead follow-ups, customer tasks, next steps, potential value, status, and due dates.</p>
+        </div>
+
+        <div class="function-row">
+          <h3>Customer Service</h3>
+          <p>Track customer issues, assigned owners, priority level, support notes, open status, and resolution progress.</p>
+        </div>
+      </div>
+
+      <div class="notice">
+        The 15-day trial gives users a better feel for how Operations works inside Astraa Workspace
+        alongside Estimator, Finance, and Expense.
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>How it works in Workspace.</h2>
+      <p>
+        Operations gives clients a simple way to create, assign, review, and summarize work across the business.
+      </p>
+
+      <div class="process-grid">
+        <div class="step-card">
+          <strong>1. Create action</strong>
+          <span>Add the task, issue, follow-up, or operational item.</span>
+        </div>
+
+        <div class="step-card">
+          <strong>2. Assign owner</strong>
+          <span>Set who is responsible and when it should be reviewed.</span>
+        </div>
+
+        <div class="step-card">
+          <strong>3. Track status</strong>
+          <span>Use open, in progress, blocked, or done status to keep work visible.</span>
+        </div>
+
+        <div class="step-card">
+          <strong>4. Review summary</strong>
+          <span>Use summaries to support daily check-ins and business follow-up.</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn primary" href="pricing.html">Start 15-Day Trial</a>
+        <a class="btn dark-secondary" href="workspace-test-login.html">Open Workspace</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>Astraa Systems © 2026</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="engines.html">Tools</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="workspace-test-login.html">Workspace</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

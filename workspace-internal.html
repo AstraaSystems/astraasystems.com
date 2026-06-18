@@ -582,6 +582,21 @@
   }
 </style>
 
+
+<script id="astraa-api-base-config-v2">
+(function () {
+  var host = window.location.hostname;
+  var isLocal = host === "localhost" || host === "127.0.0.1" || host === "0.0.0.0";
+
+  window.ASTRAA_API_BASE = window.ASTRAA_API_BASE || (isLocal ? "http://localhost:5000" : "");
+
+  window.astraaApiUrl = window.astraaApiUrl || function astraaApiUrl(path) {
+    var base = window.ASTRAA_API_BASE || "";
+    return base + path;
+  };
+})();
+</script>
+
 </head>
 
 <body>
@@ -798,7 +813,7 @@
 </main>
 
 <script>
-const ASTRAA_GATEWAY_ENDPOINT = window.astraaApiUrl("/api/astraa/workspace/tool-test");
+var ASTRAA_GATEWAY_ENDPOINT = window.astraaApiUrl("/api/astraa/workspace/tool-test");
 let currentToolKey = "";
 
 const tools = [
@@ -1169,7 +1184,7 @@ initTools();
 </script>
 
 <script id="advanced-estimator-cockpit-v1-script">
-const ASTRAA_EXECUTION_BLUEPRINT_ENDPOINT = window.astraaApiUrl("/api/astraa/estimator/execution-blueprint");
+var ASTRAA_EXECUTION_BLUEPRINT_ENDPOINT = window.astraaApiUrl("/api/astraa/estimator/execution-blueprint");
 
 function getValue(id) {
   const el = document.getElementById(id);
@@ -1254,7 +1269,7 @@ function clearExecutionBlueprintV1() {
 
 
 <script id="astraa-core-os-panel-v1-script">
-const ASTRAA_CORE_BASE_V1 = window.astraaApiUrl("/api/astraa/core");
+var ASTRAA_CORE_BASE_V1 = window.astraaApiUrl("/api/astraa/core");
 
 function astraaCoreTenantContextV1() {
   return {
@@ -1349,25 +1364,5 @@ function astraaCoreSearchV1() {
   });
 }
 </script>
-
-
-<script id="astraa-api-base-config-v1">
-(function () {
-  const isLocal =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1" ||
-    window.location.hostname === "0.0.0.0";
-
-  window.ASTRAA_API_BASE =
-    window.ASTRAA_API_BASE ||
-    (isLocal ? "http://localhost:5000" : "");
-
-  window.astraaApiUrl = function astraaApiUrl(path) {
-    const base = window.ASTRAA_API_BASE || "";
-    return base + path;
-  };
-})();
-</script>
-
 </body>
 </html>

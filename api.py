@@ -1,3 +1,40 @@
+"""
+ASTRAA BACKEND ENFORCEMENT NOTE
+
+The current frontend portal uses browser sessionStorage for estimate usage during
+internal testing and live soft-launch validation.
+
+Production estimate limits must be enforced by the backend.
+
+Required production rules:
+
+Trial:
+- 15 total estimates
+- 1 estimate per day
+- 15-day trial window
+- backend account identity required
+
+Basic:
+- 30 estimates per monthly billing period
+- active payment/subscription required
+
+Professional:
+- 120 estimates per monthly billing period
+- active payment/subscription required
+
+Custom / Franchise / Enterprise:
+- usage limits should be read from custom package configuration or agreement
+
+Important:
+- Browser sessionStorage must not be trusted for production enforcement.
+- payment-success.html is a customer-facing/session confirmation only.
+- Official payment proof must be confirmed through Moneris merchant/admin records.
+- Backend should eventually store account, subscription, payment status, estimate usage,
+  trial dates, billing period dates, and custom package limits.
+
+See BACKEND_ENFORCEMENT_NOTES.md for the full enforcement plan.
+"""
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -461,5 +498,1818 @@ def lead():
 # -------------------------------------------------
 # Run server
 # -------------------------------------------------
+
+# -------------------------------------------------------------------
+# ASTRAA ESTIMATE USAGE API
+# Backend-side estimate usage tracking and soft-launch enforcement.
+#
+# Current purpose:
+# - Move estimate usage rules out of browser-only sessionStorage.
+# - Track Trial / Basic / Professional estimate usage on backend.
+# - Provide API endpoints the portal can call later.
+#
+# Production note:
+# - This local JSON store is for soft launch/testing.
+# - Replace with a real database before larger public launch.
+# - Official paid access should eventually be verified by Moneris records.
+# -------------------------------------------------------------------
+
+import json
+import os
+from pathlib import Path
+from datetime import datetime, date, timedelta
+
+ASTRAA_DATA_DIR = Path(os.getenv("ASTRAA_DATA_DIR", "astraa_data"))
+ASTRAA_DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+ASTRAA_USAGE_DB_PATH = Path(
+    os.getenv("ASTRAA_USAGE_DB_PATH", str(ASTRAA_DATA_DIR / "astraa_usage_db.json"))
+)
+
+# Soft-launch switch:
+# false = allow Basic/Professional usage even if payment_status is not active yet.
+# true  = require payment_status == active for paid plans.
+ASTRAA_REQUIRE_ACTIVE_PAYMENT = os.getenv(
+    "ASTRAA_REQUIRE_ACTIVE_PAYMENT",
+    "false"
+).lower() == "true"
+
+# Dev-only reset switch:
+# true allows POST /api/account/usage/reset
+ASTRAA_ALLOW_USAGE_RESET = os.getenv(
+    "ASTRAA_ALLOW_USAGE_RESET",
+    "true"
+).lower() == "true"
+
+
+def astraa_today_key():
+    return date.today().isoformat()
+
+
+def astraa_month_key():
+    today = date.today()
+    return f"{today.year:04d}-{today.month:02d}"
+
+
+def astraa_now_iso():
+    return datetime.utcnow().isoformat() + "Z"
+
+
+def astraa_normalize_email(value):
+    return str(value or "").strip().lower()
+
+
+def astraa_json_response(payload, status=200):
+    try:
+        return jsonify(payload), status
+    except NameError:
+        # If jsonify was not imported in older api.py, import it lazily.
+        from flask import jsonify as _jsonify
+        return _jsonify(payload), status
+
+
+def astraa_get_request_json():
+    try:
+        return request.get_json(silent=True) or {}
+    except NameError:
+        from flask import request as _request
+        return _request.get_json(silent=True) or {}
+
+
+def astraa_get_query_arg(name, default=""):
+    try:
+        return request.args.get(name, default)
+    except NameError:
+        from flask import request as _request
+        return _request.args.get(name, default)
+
+
+def astraa_load_usage_db():
+    if not ASTRAA_USAGE_DB_PATH.exists():
+        return {}
+
+    try:
+        with ASTRAA_USAGE_DB_PATH.open("r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        if isinstance(data, dict):
+            return data
+
+        return {}
+    except Exception:
+        return {}
+
+
+def astraa_save_usage_db(db):
+    ASTRAA_USAGE_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    tmp = ASTRAA_USAGE_DB_PATH.with_suffix(".tmp")
+
+    with tmp.open("w", encoding="utf-8") as f:
+        json.dump(db, f, indent=2, sort_keys=True)
+
+    tmp.replace(ASTRAA_USAGE_DB_PATH)
+
+
+def astraa_plan_config(plan):
+    plan = str(plan or "Trial").strip()
+
+    if plan == "Trial":
+        return {
+            "plan": "Trial",
+            "estimate_limit": 15,
+            "daily_limit": None,
+            "period_type": "trial",
+            "period_label": "15-day trial",
+            "payment_required": False
+        }
+
+    if plan == "Basic":
+        return {
+            "plan": "Basic",
+            "estimate_limit": 30,
+            "daily_limit": None,
+            "period_type": "monthly",
+            "period_label": "Monthly",
+            "payment_required": True
+        }
+
+    if plan == "Professional":
+        return {
+            "plan": "Professional",
+            "estimate_limit": 120,
+            "daily_limit": None,
+            "period_type": "monthly",
+            "period_label": "Monthly",
+            "payment_required": True
+        }
+
+    if plan in ["Custom", "Franchise", "Enterprise"]:
+        return {
+            "plan": plan,
+            "estimate_limit": None,
+            "daily_limit": None,
+            "period_type": "custom",
+            "period_label": "Scoped",
+            "payment_required": True
+        }
+
+    return {
+        "plan": plan,
+        "estimate_limit": 15,
+        "daily_limit": 1,
+        "period_type": "trial",
+        "period_label": "15-day trial",
+        "payment_required": False
+    }
+
+
+def astraa_default_period(config):
+    today = date.today()
+
+    if config["period_type"] == "trial":
+        start = today
+        end = today + timedelta(days=15)
+        return start.isoformat(), end.isoformat()
+
+    if config["period_type"] == "monthly":
+        start = today.replace(day=1)
+
+        if start.month == 12:
+            next_month = start.replace(year=start.year + 1, month=1)
+        else:
+            next_month = start.replace(month=start.month + 1)
+
+        end = next_month - timedelta(days=1)
+        return start.isoformat(), end.isoformat()
+
+    return None, None
+
+
+def astraa_account_key(email):
+    email = astraa_normalize_email(email)
+    if not email:
+        return ""
+    return email
+
+
+def astraa_create_or_update_account_usage(
+    email,
+    selected_tool="Astraa Estimator",
+    selected_plan="Trial",
+    selected_price="$0 / 15 days",
+    payment_status=None,
+    business_name="",
+    industry=""
+):
+    email = astraa_normalize_email(email)
+
+    if not email:
+        return None, "Missing email"
+
+    db = astraa_load_usage_db()
+    key = astraa_account_key(email)
+    config = astraa_plan_config(selected_plan)
+    period_start, period_end = astraa_default_period(config)
+
+    existing = db.get(key, {})
+
+    # If plan changes, reset usage for that selected plan.
+    plan_changed = existing.get("selected_plan") and existing.get("selected_plan") != selected_plan
+
+    if payment_status is None:
+        payment_status = existing.get("payment_status")
+
+    if not payment_status:
+        payment_status = "active" if selected_plan == "Trial" else "pending"
+
+    if not existing or plan_changed:
+        record = {
+            "account_id": key,
+            "primary_email": email,
+            "business_name": business_name or existing.get("business_name", ""),
+            "industry": industry or existing.get("industry", ""),
+            "selected_tool": selected_tool,
+            "selected_plan": selected_plan,
+            "selected_price": selected_price,
+            "payment_status": payment_status,
+            "subscription_status": "active" if payment_status == "active" else "pending",
+            "trial_start_date": astraa_today_key() if selected_plan == "Trial" else existing.get("trial_start_date"),
+            "billing_period_key": astraa_month_key(),
+            "billing_period_start": period_start,
+            "billing_period_end": period_end,
+            "estimate_limit": config["estimate_limit"],
+            "estimate_used": 0,
+            "last_trial_estimate_date": None,
+            "period_type": config["period_type"],
+            "period_label": config["period_label"],
+            "daily_limit": config["daily_limit"],
+            "saved_estimates": [],
+            "created_at": existing.get("created_at", astraa_now_iso()),
+            "updated_at": astraa_now_iso()
+        }
+    else:
+        record = existing
+        record["selected_tool"] = selected_tool or record.get("selected_tool", "Astraa Estimator")
+        record["selected_plan"] = selected_plan or record.get("selected_plan", "Trial")
+        record["selected_price"] = selected_price or record.get("selected_price", "$0 / 15 days")
+        record["business_name"] = business_name or record.get("business_name", "")
+        record["industry"] = industry or record.get("industry", "")
+        record["payment_status"] = payment_status
+        record["subscription_status"] = "active" if payment_status == "active" else record.get("subscription_status", "pending")
+        record["estimate_limit"] = config["estimate_limit"]
+        record["period_type"] = config["period_type"]
+        record["period_label"] = config["period_label"]
+        record["daily_limit"] = config["daily_limit"]
+        record["updated_at"] = astraa_now_iso()
+
+        # Reset monthly usage when month changes for paid monthly plans.
+        if config["period_type"] == "monthly":
+            current_month = astraa_month_key()
+            if record.get("billing_period_key") != current_month:
+                record["billing_period_key"] = current_month
+                record["billing_period_start"], record["billing_period_end"] = astraa_default_period(config)
+                record["estimate_used"] = 0
+                record["saved_estimates"] = []
+
+    db[key] = record
+    astraa_save_usage_db(db)
+
+    return record, None
+
+
+def astraa_get_usage_record(email):
+    email = astraa_normalize_email(email)
+
+    if not email:
+        return None
+
+    db = astraa_load_usage_db()
+    return db.get(astraa_account_key(email))
+
+
+def astraa_estimate_remaining(record):
+    limit = record.get("estimate_limit")
+
+    if limit is None:
+        return None
+
+    return max(int(limit) - int(record.get("estimate_used", 0)), 0)
+
+
+def astraa_usage_summary(record):
+    if not record:
+        return None
+
+    return {
+        "selected_tool": record.get("selected_tool"),
+        "selected_plan": record.get("selected_plan"),
+        "selected_price": record.get("selected_price"),
+        "payment_status": record.get("payment_status"),
+        "subscription_status": record.get("subscription_status"),
+        "estimate_limit": record.get("estimate_limit"),
+        "estimate_used": record.get("estimate_used", 0),
+        "estimate_remaining": astraa_estimate_remaining(record),
+        "extra_estimate_credits_total": record.get("extra_estimate_credits_total", 0),
+        "estimate_credit_packs": record.get("estimate_credit_packs", []),
+        "period_type": record.get("period_type"),
+        "period_label": record.get("period_label"),
+        "billing_period_start": record.get("billing_period_start"),
+        "billing_period_end": record.get("billing_period_end"),
+        "daily_limit": record.get("daily_limit"),
+        "last_trial_estimate_date": record.get("last_trial_estimate_date")
+    }
+
+
+def astraa_enforce_estimate_limit(record):
+    if not record:
+        return False, "Account usage record not found."
+
+    plan = record.get("selected_plan", "Trial")
+    config = astraa_plan_config(plan)
+
+    payment_required = config.get("payment_required", False)
+
+    if payment_required and ASTRAA_REQUIRE_ACTIVE_PAYMENT:
+        if record.get("payment_status") != "active":
+            return False, "Payment is not active for this plan."
+
+    if plan == "Trial":
+        if int(record.get("estimate_used", 0)) >= 15:
+            return False, "Trial estimate limit reached."
+
+        return True, "Allowed"
+
+    if plan == "Basic":
+        if int(record.get("estimate_used", 0)) >= 30:
+            return False, "Basic monthly estimate limit reached."
+
+        return True, "Allowed"
+
+    if plan == "Professional":
+        if int(record.get("estimate_used", 0)) >= 120:
+            return False, "Professional monthly estimate limit reached."
+
+        return True, "Allowed"
+
+    if plan in ["Custom", "Franchise", "Enterprise"]:
+        # For now, custom usage is allowed unless a custom limit is later configured.
+        return True, "Allowed"
+
+    return False, "Unknown plan."
+
+
+
+def astraa_bc_location_multiplier(location_market="BC / Vancouver"):
+    """
+    Stage 1 Astraa planning multipliers for BC cities and towns.
+
+    These are relative planning factors for soft launch only.
+    They are not official municipal construction cost indexes.
+    Replace/expand with verified BCPI/cost-guide data over time.
+    """
+    key = str(location_market or "BC / Vancouver").strip()
+
+    multipliers = {
+        "BC / Vancouver": 1.00,
+        "BC / Burnaby": 0.98,
+        "BC / Richmond": 0.98,
+        "BC / Surrey": 0.95,
+        "BC / Coquitlam": 0.97,
+        "BC / Port Coquitlam": 0.95,
+        "BC / Port Moody": 0.98,
+        "BC / New Westminster": 0.97,
+        "BC / North Vancouver": 1.02,
+        "BC / West Vancouver": 1.05,
+        "BC / Delta": 0.96,
+        "BC / Langley": 0.94,
+        "BC / Maple Ridge": 0.93,
+        "BC / Pitt Meadows": 0.94,
+        "BC / White Rock": 0.99,
+
+        "BC / Abbotsford": 0.91,
+        "BC / Chilliwack": 0.89,
+        "BC / Mission": 0.90,
+        "BC / Hope": 0.88,
+
+        "BC / Victoria": 0.96,
+        "BC / Saanich": 0.96,
+        "BC / Langford": 0.93,
+        "BC / Colwood": 0.93,
+        "BC / Nanaimo": 0.90,
+        "BC / Parksville": 0.90,
+        "BC / Qualicum Beach": 0.91,
+        "BC / Duncan": 0.88,
+        "BC / Courtenay": 0.88,
+        "BC / Comox": 0.89,
+        "BC / Campbell River": 0.87,
+        "BC / Port Alberni": 0.86,
+        "BC / Tofino": 0.98,
+        "BC / Ucluelet": 0.97,
+        "BC / Powell River": 0.86,
+
+        "BC / Squamish": 0.98,
+        "BC / Whistler": 1.08,
+        "BC / Pemberton": 0.98,
+        "BC / Gibsons": 0.91,
+        "BC / Sechelt": 0.91,
+
+        "BC / Kelowna": 0.92,
+        "BC / West Kelowna": 0.91,
+        "BC / Vernon": 0.89,
+        "BC / Penticton": 0.90,
+        "BC / Kamloops": 0.88,
+        "BC / Merritt": 0.85,
+        "BC / Salmon Arm": 0.87,
+        "BC / Revelstoke": 0.89,
+
+        "BC / Cranbrook": 0.86,
+        "BC / Kimberley": 0.86,
+        "BC / Fernie": 0.90,
+        "BC / Nelson": 0.89,
+        "BC / Castlegar": 0.86,
+        "BC / Trail": 0.85,
+        "BC / Golden": 0.88,
+
+        "BC / Prince George": 0.85,
+        "BC / Quesnel": 0.84,
+        "BC / Williams Lake": 0.84,
+        "BC / Fort St. John": 0.89,
+        "BC / Dawson Creek": 0.87,
+        "BC / Terrace": 0.87,
+        "BC / Prince Rupert": 0.90,
+        "BC / Kitimat": 0.89,
+        "BC / Smithers": 0.86,
+        "BC / Fort Nelson": 0.88,
+
+        "BC / Other City or Town": 0.90,
+        "Canada / General": 0.92,
+        "Custom Market": 1.00
+    }
+
+    return multipliers.get(key, 0.90)
+
+
+
+def astraa_estimator_project_base_rate(project_type="Commercial"):
+    """
+    Base rate anchor by project type before location/calibration multiplier.
+    This keeps approved calibration math independent from city default multipliers.
+    """
+    project_type = str(project_type or "Commercial").strip().lower()
+
+    if "residential" in project_type:
+        return 300.0
+
+    if "commercial" in project_type:
+        return 375.0
+
+    if "renovation" in project_type:
+        return 250.0
+
+    if "service" in project_type or "repair" in project_type:
+        return 190.0
+
+    if "industrial" in project_type:
+        return 325.0
+
+    if "custom" in project_type:
+        return 400.0
+
+    return 375.0
+
+
+def astraa_public_calibrated_base_rate(project_type="", location_market="BC / Vancouver", quality_level=""):
+    """
+    Stage 1 public-data calibration.
+
+    Base rates are planning anchors by project type.
+    Location multipliers adjust them for BC city/town selection.
+    This is a soft-launch calibration layer, not a final bid source.
+    """
+    project_type = str(project_type or "").strip().lower()
+
+    rates = {
+        "residential": 300,
+        "commercial": 375,
+        "renovation": 250,
+        "service / repair": 190,
+        "service": 190,
+        "industrial": 325,
+        "custom": 400
+    }
+
+    if "residential" in project_type:
+        base = rates["residential"]
+    elif "commercial" in project_type:
+        base = rates["commercial"]
+    elif "renovation" in project_type:
+        base = rates["renovation"]
+    elif "service" in project_type or "repair" in project_type:
+        base = rates["service / repair"]
+    elif "industrial" in project_type:
+        base = rates["industrial"]
+    elif "custom" in project_type:
+        base = rates["custom"]
+    else:
+        base = rates["commercial"]
+
+    try:
+        quality_level = ""
+        effective_multiplier = astraa_get_effective_location_multiplier(
+            location_market,
+            project_type,
+            quality_level
+        )
+    except Exception:
+        effective_multiplier = astraa_bc_location_multiplier(location_market)
+
+    return round(base * effective_multiplier, 2)
+
+
+def astraa_calculate_estimate(payload):
+    sqft = float(payload.get("sqft") or 0)
+    material = float(payload.get("material") or 1)
+    labor = float(payload.get("labor") or 1)
+    complexity = float(payload.get("complexity") or 1)
+
+    project_type = payload.get("project_type") or payload.get("projectType") or "Commercial"
+    location_market = payload.get("location_market") or payload.get("location") or "BC / Vancouver"
+    quality_level = payload.get("quality_level") or payload.get("qualityLevel") or "Standard"
+
+    approved_calibration = astraa_find_approved_calibration(
+        location_market,
+        project_type,
+        quality_level
+    )
+
+    if approved_calibration:
+        effective_location_multiplier = float(approved_calibration.get("approved_multiplier"))
+        base_rate = round(
+            astraa_estimator_project_base_rate(project_type) * effective_location_multiplier,
+            2
+        )
+        approved_calibration_applied = True
+        approved_calibration_id = approved_calibration.get("calibration_id")
+        calibration_basis = "Approved calibration override"
+    else:
+        base_rate = float(
+            payload.get("base_rate") or
+            astraa_public_calibrated_base_rate(project_type, location_market, quality_level)
+        )
+        approved_calibration_applied = False
+        approved_calibration_id = None
+        effective_location_multiplier = astraa_bc_location_multiplier(location_market)
+        calibration_basis = "Stage 1 public-data calibrated baseline"
+
+    bcpi_factor = float(payload.get("bcpi_factor") or 1.0)
+
+    estimate = sqft * base_rate * bcpi_factor * material * labor * complexity
+
+    return {
+        "sqft": sqft,
+        "material": material,
+        "labor": labor,
+        "complexity": complexity,
+        "base_rate": base_rate,
+        "bcpi_factor": bcpi_factor,
+        "project_type": project_type,
+        "location_market": location_market,
+        "quality_level": quality_level,
+        "effective_location_multiplier": effective_location_multiplier,
+        "approved_calibration_applied": approved_calibration_applied,
+        "approved_calibration_id": approved_calibration_id,
+        "calibration_basis": calibration_basis,
+        "estimate": round(estimate, 2)
+    }
+
+
+@app.route("/api/account/usage", methods=["GET"])
+def astraa_get_account_usage():
+    email = astraa_normalize_email(astraa_get_query_arg("email"))
+
+    if not email:
+        return astraa_json_response({
+            "success": False,
+            "error": "Missing email query parameter."
+        }, 400)
+
+    record = astraa_get_usage_record(email)
+
+    if not record:
+        return astraa_json_response({
+            "success": False,
+            "error": "Usage record not found.",
+            "usage": None
+        }, 404)
+
+    return astraa_json_response({
+        "success": True,
+        "usage": astraa_usage_summary(record)
+    })
+
+
+@app.route("/api/account/usage", methods=["POST"])
+def astraa_create_account_usage():
+    payload = astraa_get_request_json()
+
+    email = astraa_normalize_email(payload.get("email"))
+    selected_tool = payload.get("selected_tool") or "Astraa Estimator"
+    selected_plan = payload.get("selected_plan") or "Trial"
+    selected_price = payload.get("selected_price") or "$0 / 15 days"
+    payment_status = payload.get("payment_status")
+    business_name = payload.get("business_name") or ""
+    industry = payload.get("industry") or ""
+
+    record, error = astraa_create_or_update_account_usage(
+        email=email,
+        selected_tool=selected_tool,
+        selected_plan=selected_plan,
+        selected_price=selected_price,
+        payment_status=payment_status,
+        business_name=business_name,
+        industry=industry
+    )
+
+    if error:
+        return astraa_json_response({
+            "success": False,
+            "error": error
+        }, 400)
+
+    return astraa_json_response({
+        "success": True,
+        "usage": astraa_usage_summary(record)
+    })
+
+
+@app.route("/api/account/payment-status", methods=["POST"])
+def astraa_update_payment_status():
+    payload = astraa_get_request_json()
+
+    email = astraa_normalize_email(payload.get("email"))
+    payment_status = payload.get("payment_status") or "active"
+    selected_tool = payload.get("selected_tool") or "Astraa Estimator"
+    selected_plan = payload.get("selected_plan") or "Professional"
+    selected_price = payload.get("selected_price") or "$99 CAD/month"
+
+    record, error = astraa_create_or_update_account_usage(
+        email=email,
+        selected_tool=selected_tool,
+        selected_plan=selected_plan,
+        selected_price=selected_price,
+        payment_status=payment_status,
+        business_name=payload.get("business_name") or "",
+        industry=payload.get("industry") or ""
+    )
+
+    if error:
+        return astraa_json_response({
+            "success": False,
+            "error": error
+        }, 400)
+
+    return astraa_json_response({
+        "success": True,
+        "message": "Payment status updated.",
+        "usage": astraa_usage_summary(record)
+    })
+
+
+@app.route("/api/estimate", methods=["POST"])
+def astraa_create_estimate():
+    payload = astraa_get_request_json()
+
+    email = astraa_normalize_email(payload.get("email"))
+
+    if not email:
+        return astraa_json_response({
+            "success": False,
+            "error": "Missing email."
+        }, 400)
+
+    selected_tool = payload.get("selected_tool") or "Astraa Estimator"
+    selected_plan = payload.get("selected_plan") or "Trial"
+    selected_price = payload.get("selected_price") or "$0 / 15 days"
+    payment_status = payload.get("payment_status")
+
+    record = astraa_get_usage_record(email)
+
+    if not record:
+        record, error = astraa_create_or_update_account_usage(
+            email=email,
+            selected_tool=selected_tool,
+            selected_plan=selected_plan,
+            selected_price=selected_price,
+            payment_status=payment_status,
+            business_name=payload.get("business_name") or "",
+            industry=payload.get("industry") or ""
+        )
+
+        if error:
+            return astraa_json_response({
+                "success": False,
+                "error": error
+            }, 400)
+
+    allowed, reason = astraa_enforce_estimate_limit(record)
+
+    if not allowed:
+        return astraa_json_response({
+            "success": False,
+            "error": reason,
+            "usage": astraa_usage_summary(record)
+        }, 403)
+
+    estimate_result = astraa_calculate_estimate(payload)
+
+    db = astraa_load_usage_db()
+    key = astraa_account_key(email)
+    record = db.get(key, record)
+
+    record["estimate_used"] = int(record.get("estimate_used", 0)) + 1
+
+    record["last_estimate_date"] = astraa_today_key()
+
+    saved_estimates = record.get("saved_estimates")
+
+    if not isinstance(saved_estimates, list):
+        saved_estimates = []
+
+    saved_estimates.append({
+        "created_at": astraa_now_iso(),
+        "estimate": estimate_result,
+        "source": "backend_api"
+    })
+
+    record["saved_estimates"] = saved_estimates
+    record["updated_at"] = astraa_now_iso()
+
+    db[key] = record
+    astraa_save_usage_db(db)
+
+    return astraa_json_response({
+        "success": True,
+        "estimate": estimate_result,
+        "usage": astraa_usage_summary(record)
+    })
+
+
+@app.route("/api/account/usage/reset", methods=["POST"])
+def astraa_reset_account_usage():
+    if not ASTRAA_ALLOW_USAGE_RESET:
+        return astraa_json_response({
+            "success": False,
+            "error": "Usage reset is disabled."
+        }, 403)
+
+    payload = astraa_get_request_json()
+    email = astraa_normalize_email(payload.get("email"))
+
+    if not email:
+        return astraa_json_response({
+            "success": False,
+            "error": "Missing email."
+        }, 400)
+
+    record = astraa_get_usage_record(email)
+
+    if not record:
+        return astraa_json_response({
+            "success": False,
+            "error": "Usage record not found."
+        }, 404)
+
+    config = astraa_plan_config(record.get("selected_plan", "Trial"))
+
+    record["estimate_used"] = 0
+    record["last_trial_estimate_date"] = None
+    record["saved_estimates"] = []
+    record["estimate_limit"] = config["estimate_limit"]
+    record["daily_limit"] = config["daily_limit"]
+    record["period_type"] = config["period_type"]
+    record["period_label"] = config["period_label"]
+    record["updated_at"] = astraa_now_iso()
+
+    db = astraa_load_usage_db()
+    db[astraa_account_key(email)] = record
+    astraa_save_usage_db(db)
+
+    return astraa_json_response({
+        "success": True,
+        "message": "Usage reset.",
+        "usage": astraa_usage_summary(record)
+    })
+
+# -------------------------------------------------------------------
+# END ASTRAA ESTIMATE USAGE API
+# -------------------------------------------------------------------
+
+
+
+# -------------------------------------------------------------------
+# ASTRAA FEEDBACK API
+# Stores estimator feedback for future calibration and learning.
+#
+# Purpose:
+# - Capture optional actual final cost
+# - Capture optional written customer feedback
+# - Store estimate snapshot and context
+# - Calculate estimate error when actual final cost is provided
+# - Support future calibration suggestions
+#
+# Soft-launch storage:
+# - astraa_data/astraa_feedback_db.json
+#
+# Production note:
+# - Replace JSON file with a real database later.
+# - Do not auto-update pricing/calibration from feedback without review.
+# -------------------------------------------------------------------
+
+import uuid
+
+ASTRAA_FEEDBACK_DB_PATH = Path(
+    os.getenv("ASTRAA_FEEDBACK_DB_PATH", str(ASTRAA_DATA_DIR / "astraa_feedback_db.json"))
+)
+
+
+def astraa_load_feedback_db():
+    if not ASTRAA_FEEDBACK_DB_PATH.exists():
+        return []
+
+    try:
+        with ASTRAA_FEEDBACK_DB_PATH.open("r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        if isinstance(data, list):
+            return data
+
+        return []
+    except Exception:
+        return []
+
+
+def astraa_save_feedback_db(records):
+    ASTRAA_FEEDBACK_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    tmp = ASTRAA_FEEDBACK_DB_PATH.with_suffix(".tmp")
+
+    with tmp.open("w", encoding="utf-8") as f:
+        json.dump(records, f, indent=2, sort_keys=True)
+
+    tmp.replace(ASTRAA_FEEDBACK_DB_PATH)
+
+
+def astraa_float_or_none(value):
+    try:
+        if value is None or value == "":
+            return None
+
+        return float(value)
+    except Exception:
+        return None
+
+
+def astraa_extract_estimate_amount(payload):
+    """
+    Attempts to extract the best available estimate amount from the feedback payload.
+
+    Priority:
+    1. total_budget_estimate
+    2. hard_cost_estimate
+    3. latest_estimate.estimate.estimate
+    4. latest_estimate.estimate
+    """
+
+    direct_total = astraa_float_or_none(payload.get("total_budget_estimate"))
+
+    if direct_total is not None:
+        return direct_total, "total_budget_estimate"
+
+    direct_hard = astraa_float_or_none(payload.get("hard_cost_estimate"))
+
+    if direct_hard is not None:
+        return direct_hard, "hard_cost_estimate"
+
+    latest = payload.get("latest_estimate")
+
+    if isinstance(latest, dict):
+        estimate_obj = latest.get("estimate")
+
+        if isinstance(estimate_obj, dict):
+            nested_estimate = astraa_float_or_none(estimate_obj.get("estimate"))
+
+            if nested_estimate is not None:
+                return nested_estimate, "latest_estimate.estimate.estimate"
+
+        flat_estimate = astraa_float_or_none(latest.get("estimate"))
+
+        if flat_estimate is not None:
+            return flat_estimate, "latest_estimate.estimate"
+
+    return None, "not_available"
+
+
+def astraa_build_feedback_record(payload):
+    feedback_id = "fb_" + uuid.uuid4().hex
+
+    account_email = astraa_normalize_email(
+        payload.get("account_email") or
+        payload.get("email") or
+        payload.get("checkout_email")
+    )
+
+    actual_final_cost = astraa_float_or_none(payload.get("actual_final_cost"))
+    estimate_amount, estimate_amount_source = astraa_extract_estimate_amount(payload)
+
+    error_amount = None
+    error_percent = None
+    estimate_direction = None
+
+    if actual_final_cost is not None and actual_final_cost > 0 and estimate_amount is not None:
+        error_amount = estimate_amount - actual_final_cost
+        error_percent = (error_amount / actual_final_cost) * 100
+
+        if error_amount > 0:
+            estimate_direction = "over_estimated"
+        elif error_amount < 0:
+            estimate_direction = "under_estimated"
+        else:
+            estimate_direction = "matched_actual"
+
+    record = {
+        "feedback_id": feedback_id,
+        "created_at": astraa_now_iso(),
+
+        "account_email": account_email,
+        "business_name": payload.get("business_name") or "",
+        "selected_tool": payload.get("selected_tool") or "Astraa Estimator",
+        "selected_plan": payload.get("selected_plan") or "",
+        "selected_price": payload.get("selected_price") or "",
+
+        "project_type": payload.get("project_type") or "",
+        "location_market": payload.get("location_market") or "",
+        "quality_level": payload.get("quality_level") or "",
+        "square_footage": astraa_float_or_none(payload.get("square_footage")),
+        "base_rate": astraa_float_or_none(payload.get("base_rate")),
+        "bcpi_factor": astraa_float_or_none(payload.get("bcpi_factor")),
+        "material_index": astraa_float_or_none(payload.get("material_index")),
+        "labor_index": astraa_float_or_none(payload.get("labor_index")),
+        "complexity": astraa_float_or_none(payload.get("complexity")),
+
+        "customer_budget": astraa_float_or_none(payload.get("customer_budget")),
+        "hard_cost_estimate": astraa_float_or_none(payload.get("hard_cost_estimate")),
+        "soft_cost": astraa_float_or_none(payload.get("soft_cost")),
+        "contingency": astraa_float_or_none(payload.get("contingency")),
+        "total_budget_estimate": astraa_float_or_none(payload.get("total_budget_estimate")),
+
+        "actual_final_cost": actual_final_cost,
+        "written_feedback": str(payload.get("written_feedback") or "").strip() or None,
+        "customer_rating": payload.get("customer_rating"),
+        "was_estimate_useful": payload.get("was_estimate_useful"),
+
+        "estimate_amount_used_for_error": estimate_amount,
+        "estimate_amount_source": estimate_amount_source,
+        "error_amount": error_amount,
+        "error_percent": error_percent,
+        "estimate_direction": estimate_direction,
+
+        "latest_estimate": payload.get("latest_estimate"),
+        "source": payload.get("source") or "customer_portal_feedback",
+
+        "learning_status": "captured_pending_review"
+    }
+
+    return record
+
+
+@app.route("/api/feedback", methods=["POST"])
+def astraa_create_feedback():
+    payload = astraa_get_request_json()
+
+    actual_final_cost = astraa_float_or_none(payload.get("actual_final_cost"))
+    written_feedback = str(payload.get("written_feedback") or "").strip()
+
+    if (actual_final_cost is None or actual_final_cost <= 0) and not written_feedback:
+        return astraa_json_response({
+            "success": False,
+            "error": "Please provide an actual final cost or written feedback."
+        }, 400)
+
+    record = astraa_build_feedback_record(payload)
+
+    records = astraa_load_feedback_db()
+    records.append(record)
+    astraa_save_feedback_db(records)
+
+    return astraa_json_response({
+        "success": True,
+        "message": "Feedback captured for Astraa learning review.",
+        "feedback": {
+            "feedback_id": record["feedback_id"],
+            "learning_status": record["learning_status"],
+            "actual_final_cost": record["actual_final_cost"],
+            "written_feedback": record["written_feedback"],
+            "estimate_amount_used_for_error": record["estimate_amount_used_for_error"],
+            "error_amount": record["error_amount"],
+            "error_percent": record["error_percent"],
+            "estimate_direction": record["estimate_direction"]
+        }
+    })
+
+
+@app.route("/api/feedback", methods=["GET"])
+def astraa_get_feedback():
+    email = astraa_normalize_email(astraa_get_query_arg("email"))
+    records = astraa_load_feedback_db()
+
+    if email:
+        records = [
+            r for r in records
+            if astraa_normalize_email(r.get("account_email")) == email
+        ]
+
+    return astraa_json_response({
+        "success": True,
+        "count": len(records),
+        "feedback": records[-50:]
+    })
+
+# -------------------------------------------------------------------
+# END ASTRAA FEEDBACK API
+# -------------------------------------------------------------------
+
+
+
+# -------------------------------------------------------------------
+# ASTRAA CALIBRATION SUGGESTIONS API
+# Reads captured feedback and produces review-only calibration suggestions.
+#
+# Important:
+# - This does NOT automatically update estimator logic.
+# - Suggestions are pending review.
+# - Human approval should be required before changing multipliers/base rates.
+# -------------------------------------------------------------------
+
+ASTRAA_CALIBRATION_MIN_RECORDS = int(os.getenv("ASTRAA_CALIBRATION_MIN_RECORDS", "3"))
+ASTRAA_CALIBRATION_ADJUSTMENT_STRENGTH = float(os.getenv("ASTRAA_CALIBRATION_ADJUSTMENT_STRENGTH", "0.50"))
+
+
+def astraa_feedback_group_key(record):
+    location = record.get("location_market") or "Unknown Market"
+    project_type = record.get("project_type") or "Unknown Project Type"
+    quality_level = record.get("quality_level") or "Unknown Quality"
+
+    return f"{location}||{project_type}||{quality_level}"
+
+
+def astraa_split_feedback_key(key):
+    parts = key.split("||")
+
+    while len(parts) < 3:
+        parts.append("Unknown")
+
+    return {
+        "location_market": parts[0],
+        "project_type": parts[1],
+        "quality_level": parts[2]
+    }
+
+
+def astraa_average(values):
+    values = [v for v in values if isinstance(v, (int, float))]
+
+    if not values:
+        return None
+
+    return sum(values) / len(values)
+
+
+def astraa_direction_from_average_error(avg_error):
+    if avg_error is None:
+        return "unknown"
+
+    if avg_error > 0:
+        return "over_estimated"
+
+    if avg_error < 0:
+        return "under_estimated"
+
+    return "matched_actual"
+
+
+def astraa_current_location_multiplier(location_market):
+    try:
+        return astraa_bc_location_multiplier(location_market)
+    except Exception:
+        return None
+
+
+def astraa_suggest_multiplier(location_market, avg_error_percent):
+    current = astraa_current_location_multiplier(location_market)
+
+    if current is None or avg_error_percent is None:
+        return None
+
+    # If estimates are over actuals by +8%, reduce multiplier partially.
+    # If estimates are under actuals by -8%, increase multiplier partially.
+    adjustment = 1 - ((avg_error_percent / 100) * ASTRAA_CALIBRATION_ADJUSTMENT_STRENGTH)
+
+    suggested = current * adjustment
+
+    # Guardrails to avoid extreme auto-suggestions.
+    suggested = max(0.70, min(1.20, suggested))
+
+    return round(suggested, 4)
+
+
+def astraa_build_calibration_suggestions():
+    records = astraa_load_feedback_db()
+
+    usable = []
+
+    for record in records:
+        error_percent = record.get("error_percent")
+
+        if isinstance(error_percent, (int, float)):
+            usable.append(record)
+
+    grouped = {}
+
+    for record in usable:
+        key = astraa_feedback_group_key(record)
+        grouped.setdefault(key, []).append(record)
+
+    suggestions = []
+    learning_groups = []
+
+    for key, group_records in grouped.items():
+        key_parts = astraa_split_feedback_key(key)
+        errors = [r.get("error_percent") for r in group_records if isinstance(r.get("error_percent"), (int, float))]
+        avg_error = astraa_average(errors)
+        direction = astraa_direction_from_average_error(avg_error)
+
+        location = key_parts["location_market"]
+        current_multiplier = astraa_current_location_multiplier(location)
+        suggested_multiplier = astraa_suggest_multiplier(location, avg_error)
+
+        item = {
+            "location_market": key_parts["location_market"],
+            "project_type": key_parts["project_type"],
+            "quality_level": key_parts["quality_level"],
+            "feedback_count": len(group_records),
+            "minimum_required": ASTRAA_CALIBRATION_MIN_RECORDS,
+            "average_error_percent": avg_error,
+            "direction": direction,
+            "current_location_multiplier": current_multiplier,
+            "suggested_location_multiplier": suggested_multiplier,
+            "status": "pending_review" if len(group_records) >= ASTRAA_CALIBRATION_MIN_RECORDS else "not_enough_feedback",
+            "note": ""
+        }
+
+        if len(group_records) < ASTRAA_CALIBRATION_MIN_RECORDS:
+            item["note"] = (
+                "Captured learning signal, but not enough feedback records yet for a calibration suggestion. "
+                f"Need at least {ASTRAA_CALIBRATION_MIN_RECORDS} records in this same market/project/quality group."
+            )
+            learning_groups.append(item)
+        else:
+            if direction == "over_estimated":
+                item["note"] = (
+                    "Average feedback indicates Astraa estimates are higher than actuals for this group. "
+                    "Suggested multiplier is reduced partially and requires review."
+                )
+            elif direction == "under_estimated":
+                item["note"] = (
+                    "Average feedback indicates Astraa estimates are lower than actuals for this group. "
+                    "Suggested multiplier is increased partially and requires review."
+                )
+            else:
+                item["note"] = "Average feedback is close to actuals for this group. Review before changing calibration."
+
+            suggestions.append(item)
+
+    return suggestions, learning_groups, len(records), len(usable)
+
+
+@app.route("/api/calibration/suggestions", methods=["GET"])
+def astraa_get_calibration_suggestions():
+    suggestions, learning_groups, total_feedback, usable_feedback = astraa_build_calibration_suggestions()
+
+    return astraa_json_response({
+        "success": True,
+        "total_feedback_records": total_feedback,
+        "usable_feedback_records": usable_feedback,
+        "minimum_records_required": ASTRAA_CALIBRATION_MIN_RECORDS,
+        "suggestions": suggestions,
+        "learning_groups": learning_groups,
+        "message": (
+            "Calibration suggestions are review-only. Astraa should not automatically change estimator logic "
+            "without human approval and versioning."
+        )
+    })
+
+# -------------------------------------------------------------------
+# END ASTRAA CALIBRATION SUGGESTIONS API
+# -------------------------------------------------------------------
+
+
+
+# -------------------------------------------------------------------
+# ASTRAA CALIBRATION APPROVAL API
+# Turns review-only calibration suggestions into approved calibration
+# overrides that can be used by future estimates.
+#
+# Important:
+# - Approval is manual/human-reviewed.
+# - Approved records are versioned.
+# - Suggestions alone do not change estimator behavior.
+# -------------------------------------------------------------------
+
+ASTRAA_APPROVED_CALIBRATION_DB_PATH = Path(
+    os.getenv(
+        "ASTRAA_APPROVED_CALIBRATION_DB_PATH",
+        str(ASTRAA_DATA_DIR / "astraa_approved_calibrations_db.json")
+    )
+)
+
+
+def astraa_load_approved_calibrations_db():
+    if not ASTRAA_APPROVED_CALIBRATION_DB_PATH.exists():
+        return []
+
+    try:
+        with ASTRAA_APPROVED_CALIBRATION_DB_PATH.open("r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        if isinstance(data, list):
+            return data
+
+        return []
+    except Exception:
+        return []
+
+
+def astraa_save_approved_calibrations_db(records):
+    ASTRAA_APPROVED_CALIBRATION_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    tmp = ASTRAA_APPROVED_CALIBRATION_DB_PATH.with_suffix(".tmp")
+
+    with tmp.open("w", encoding="utf-8") as f:
+        json.dump(records, f, indent=2, sort_keys=True)
+
+    tmp.replace(ASTRAA_APPROVED_CALIBRATION_DB_PATH)
+
+
+def astraa_calibration_key(location_market, project_type, quality_level):
+    return (
+        str(location_market or "").strip().lower(),
+        str(project_type or "").strip().lower(),
+        str(quality_level or "").strip().lower()
+    )
+
+
+def astraa_find_matching_suggestion(location_market, project_type, quality_level):
+    suggestions, learning_groups, total_feedback, usable_feedback = astraa_build_calibration_suggestions()
+
+    target = astraa_calibration_key(location_market, project_type, quality_level)
+
+    for suggestion in suggestions:
+        candidate = astraa_calibration_key(
+            suggestion.get("location_market"),
+            suggestion.get("project_type"),
+            suggestion.get("quality_level")
+        )
+
+        if candidate == target:
+            return suggestion
+
+    return None
+
+
+def astraa_find_approved_calibration(location_market, project_type="", quality_level=""):
+    records = astraa_load_approved_calibrations_db()
+
+    target = astraa_calibration_key(location_market, project_type, quality_level)
+
+    approved_matches = []
+
+    for record in records:
+        if record.get("status") != "approved":
+            continue
+
+        candidate = astraa_calibration_key(
+            record.get("location_market"),
+            record.get("project_type"),
+            record.get("quality_level")
+        )
+
+        if candidate == target:
+            approved_matches.append(record)
+
+    if not approved_matches:
+        return None
+
+    approved_matches.sort(key=lambda r: r.get("approved_at") or "", reverse=True)
+
+    return approved_matches[0]
+
+
+def astraa_get_effective_location_multiplier(location_market, project_type="", quality_level=""):
+    approved = astraa_find_approved_calibration(location_market, project_type, quality_level)
+
+    if approved and approved.get("approved_multiplier") is not None:
+        return float(approved["approved_multiplier"])
+
+    return astraa_bc_location_multiplier(location_market)
+
+
+@app.route("/api/calibration/approve", methods=["POST"])
+def astraa_approve_calibration():
+    payload = astraa_get_request_json()
+
+    location_market = payload.get("location_market")
+    project_type = payload.get("project_type")
+    quality_level = payload.get("quality_level")
+
+    approved_multiplier = astraa_float_or_none(payload.get("approved_multiplier"))
+    approved_by = str(payload.get("approved_by") or "Astraa Admin").strip()
+    reason = str(payload.get("reason") or "").strip()
+
+    if not location_market or not project_type or not quality_level:
+        return astraa_json_response({
+            "success": False,
+            "error": "location_market, project_type, and quality_level are required."
+        }, 400)
+
+    if approved_multiplier is None:
+        return astraa_json_response({
+            "success": False,
+            "error": "approved_multiplier is required and must be numeric."
+        }, 400)
+
+    if approved_multiplier < 0.70 or approved_multiplier > 1.20:
+        return astraa_json_response({
+            "success": False,
+            "error": "approved_multiplier must be between 0.70 and 1.20."
+        }, 400)
+
+    suggestion = astraa_find_matching_suggestion(
+        location_market,
+        project_type,
+        quality_level
+    )
+
+    if not suggestion:
+        return astraa_json_response({
+            "success": False,
+            "error": "No pending calibration suggestion found for this market/project/quality group. Make sure minimum feedback threshold has been reached."
+        }, 404)
+
+    calibration_id = "cal_" + uuid.uuid4().hex
+
+    old_multiplier = suggestion.get("current_location_multiplier")
+    suggested_multiplier = suggestion.get("suggested_location_multiplier")
+
+    record = {
+        "calibration_id": calibration_id,
+        "status": "approved",
+        "created_at": astraa_now_iso(),
+        "approved_at": astraa_now_iso(),
+        "approved_by": approved_by,
+
+        "location_market": location_market,
+        "project_type": project_type,
+        "quality_level": quality_level,
+
+        "old_multiplier": old_multiplier,
+        "suggested_multiplier": suggested_multiplier,
+        "approved_multiplier": approved_multiplier,
+
+        "average_error_percent": suggestion.get("average_error_percent"),
+        "direction": suggestion.get("direction"),
+        "feedback_count": suggestion.get("feedback_count"),
+        "minimum_required": suggestion.get("minimum_required"),
+
+        "reason": reason or suggestion.get("note") or "Approved calibration adjustment.",
+        "source": "manual_calibration_approval",
+        "version_label": (
+            str(location_market).replace(" ", "_").replace("/", "").lower()
+            + "_"
+            + str(project_type).replace(" ", "_").lower()
+            + "_"
+            + str(quality_level).replace(" ", "_").lower()
+        )
+    }
+
+    records = astraa_load_approved_calibrations_db()
+    records.append(record)
+    astraa_save_approved_calibrations_db(records)
+
+    return astraa_json_response({
+        "success": True,
+        "message": "Calibration approved and versioned.",
+        "approved_calibration": record
+    })
+
+
+@app.route("/api/calibration/approved", methods=["GET"])
+def astraa_get_approved_calibrations():
+    records = astraa_load_approved_calibrations_db()
+
+    location_market = astraa_get_query_arg("location_market")
+    project_type = astraa_get_query_arg("project_type")
+    quality_level = astraa_get_query_arg("quality_level")
+
+    if location_market:
+        records = [
+            r for r in records
+            if str(r.get("location_market") or "").lower() == str(location_market).lower()
+        ]
+
+    if project_type:
+        records = [
+            r for r in records
+            if str(r.get("project_type") or "").lower() == str(project_type).lower()
+        ]
+
+    if quality_level:
+        records = [
+            r for r in records
+            if str(r.get("quality_level") or "").lower() == str(quality_level).lower()
+        ]
+
+    return astraa_json_response({
+        "success": True,
+        "count": len(records),
+        "approved_calibrations": records[-100:]
+    })
+
+# -------------------------------------------------------------------
+# END ASTRAA CALIBRATION APPROVAL API
+# -------------------------------------------------------------------
+
+
+
+# -------------------------------------------------------------------
+# ASTRAA ESTIMATE CREDIT PACK API
+# Allows additional estimate credits to be added to an account.
+#
+# Product rule:
+# - $10 CAD = 10 extra estimates
+# - Available to Trial, Basic, Professional, and custom users
+#
+# Soft-launch note:
+# - This endpoint adds credits directly for testing/admin workflow.
+# - Production should call this only after verified Moneris payment.
+# -------------------------------------------------------------------
+
+def astraa_add_estimate_credits_to_record(record, credits, amount_cad, source="manual_credit_add"):
+    credits = int(credits or 0)
+
+    if credits <= 0:
+        raise ValueError("credits must be greater than zero")
+
+    current_limit = int(record.get("estimate_limit") or 0)
+    current_extra = int(record.get("extra_estimate_credits_total") or 0)
+
+    record["estimate_limit"] = current_limit + credits
+    record["extra_estimate_credits_total"] = current_extra + credits
+
+    packs = record.get("estimate_credit_packs")
+
+    if not isinstance(packs, list):
+        packs = []
+
+    packs.append({
+        "created_at": astraa_now_iso(),
+        "credits": credits,
+        "amount_cad": amount_cad,
+        "source": source,
+        "note": "$10 CAD estimate pack = 10 extra estimates"
+    })
+
+    record["estimate_credit_packs"] = packs
+    record["updated_at"] = astraa_now_iso()
+
+    return record
+
+
+@app.route("/api/account/estimate-credits/add", methods=["POST"])
+def astraa_add_estimate_credits():
+    payload = astraa_get_request_json()
+
+    email = astraa_normalize_email(payload.get("email"))
+    credits = int(payload.get("credits") or 10)
+    amount_cad = float(payload.get("amount_cad") or 10.00)
+    source = payload.get("source") or "manual_credit_add"
+
+    if not email:
+        return astraa_json_response({
+            "success": False,
+            "error": "Missing email."
+        }, 400)
+
+    record = astraa_get_usage_record(email)
+
+    if not record:
+        record, error = astraa_create_or_update_account_usage(
+            email=email,
+            selected_tool=payload.get("selected_tool") or "Astraa Estimator",
+            selected_plan=payload.get("selected_plan") or "Trial",
+            selected_price=payload.get("selected_price") or "$0 / 15 days",
+            payment_status=payload.get("payment_status") or "active",
+            business_name=payload.get("business_name") or "",
+            industry=payload.get("industry") or ""
+        )
+
+        if error:
+            return astraa_json_response({
+                "success": False,
+                "error": error
+            }, 400)
+
+    try:
+        record = astraa_add_estimate_credits_to_record(
+            record=record,
+            credits=credits,
+            amount_cad=amount_cad,
+            source=source
+        )
+    except Exception as error:
+        return astraa_json_response({
+            "success": False,
+            "error": str(error)
+        }, 400)
+
+    db = astraa_load_usage_db()
+    db[astraa_account_key(email)] = record
+    astraa_save_usage_db(db)
+
+    return astraa_json_response({
+        "success": True,
+        "message": f"Added {credits} extra estimate credits.",
+        "usage": astraa_usage_summary(record),
+        "credit_pack": {
+            "credits": credits,
+            "amount_cad": amount_cad,
+            "price_label": "$10 CAD / 10 extra estimates"
+        }
+    })
+
+# -------------------------------------------------------------------
+# END ASTRAA ESTIMATE CREDIT PACK API
+# -------------------------------------------------------------------
+
+
+
+
+# ============================================================
+# ASTRAA GATEWAY — Workspace Tool QA Test Route
+# ============================================================
+
+from flask import request, jsonify
+from datetime import datetime
+import html
+import re
+
+ASTRAA_ALLOWED_TEST_EMAIL = "astraa.live.test@astraasystems.com"
+
+ASTRAA_ALLOWED_TOOLS = {
+    "estimator",
+    "expense",
+    "finance",
+    "operations",
+    "commerce",
+    "data",
+    "inference",
+    "distribution",
+    "vault",
+}
+
+def astraa_safe_float(value, default=0):
+    try:
+        return float(str(value).replace("$", "").replace(",", "").strip())
+    except Exception:
+        return default
+
+def astraa_sanitize(value):
+    if value is None:
+        return ""
+
+    if isinstance(value, (int, float, bool)):
+        return value
+
+    if isinstance(value, str):
+        value = value.strip()
+        value = html.escape(value)
+        value = re.sub(r"(?i)<script.*?>.*?</script>", "", value)
+        value = re.sub(r"(?i)javascript:", "", value)
+        value = re.sub(r"(?i)onerror\s*=", "", value)
+        value = re.sub(r"(?i)onclick\s*=", "", value)
+        return value[:5000]
+
+    if isinstance(value, list):
+        return [astraa_sanitize(v) for v in value]
+
+    if isinstance(value, dict):
+        return {str(astraa_sanitize(k)): astraa_sanitize(v) for k, v in value.items()}
+
+    return str(value)
+
+def astraa_validate_payload(payload):
+    errors = []
+
+    if not isinstance(payload, dict):
+        return ["Payload must be a JSON object."]
+
+    tenant = payload.get("tenant_context", {})
+    tool = payload.get("tool", {})
+    inputs = payload.get("inputs", {})
+
+    if tenant.get("test_email") != ASTRAA_ALLOWED_TEST_EMAIL:
+        errors.append("Invalid test tenant email.")
+
+    if tenant.get("plan") not in ["Trial", "Basic", "Professional", "Custom"]:
+        errors.append("Invalid or missing plan.")
+
+    if tenant.get("access") != "Full internal test mode":
+        errors.append("Invalid Workspace test access.")
+
+    if tool.get("key") not in ASTRAA_ALLOWED_TOOLS:
+        errors.append(f"Unsupported tool key: {tool.get('key')}")
+
+    if not isinstance(inputs, dict):
+        errors.append("Inputs must be a JSON object.")
+
+    return errors
+
+def astraa_tool_response(tool_key, inputs):
+    if tool_key == "estimator":
+        base = astraa_safe_float(inputs.get("base_cost"))
+        factor = astraa_safe_float(inputs.get("complexity_factor"), 1)
+        return {
+            "tool": "Astraa Estimator",
+            "pipeline": ["Astraa Gateway", "Estimator Engine", "Operations", "Finance", "Vault"],
+            "result": {
+                "estimated_total": round(base * factor, 2),
+                "plan_rule": "Professional includes 120 estimates per month.",
+                "extra_pack_rule": "$10 CAD per 10 additional estimates.",
+                "review_note": "Planning-grade estimate output. Review before customer use."
+            }
+        }
+
+    if tool_key == "expense":
+        amount = astraa_safe_float(inputs.get("amount"))
+        return {
+            "tool": "Astraa Expense",
+            "pipeline": ["Astraa Gateway", "Expense Tool", "Finance", "Vault"],
+            "result": {
+                "expense_amount": round(amount, 2),
+                "category": inputs.get("category", ""),
+                "finance_handoff": True,
+                "review_note": "Expense summary ready for Finance visibility testing."
+            }
+        }
+
+    if tool_key == "finance":
+        revenue = astraa_safe_float(inputs.get("revenue"))
+        costs = astraa_safe_float(inputs.get("costs"))
+        receivables = astraa_safe_float(inputs.get("receivables"))
+        payables = astraa_safe_float(inputs.get("payables"))
+        return {
+            "tool": "Astraa Finance",
+            "pipeline": ["Astraa Gateway", "Finance Tool", "Expense", "Vault"],
+            "result": {
+                "working_position": round(revenue - costs + receivables - payables, 2),
+                "review_note": "Planning visibility only. Not accounting, tax, legal, or investment advice."
+            }
+        }
+
+    if tool_key == "operations":
+        return {
+            "tool": "Astraa Operations",
+            "pipeline": ["Astraa Gateway", "Operations Tool", "Distribution", "Expense", "Vault"],
+            "result": {
+                "task": inputs.get("task", ""),
+                "owner": inputs.get("owner", ""),
+                "due_date": inputs.get("due_date", ""),
+                "priority": inputs.get("priority", ""),
+                "blocker": inputs.get("blocker", ""),
+                "review_note": "Operations QA summary generated."
+            }
+        }
+
+    if tool_key == "commerce":
+        return {
+            "tool": "Astraa Commerce",
+            "pipeline": ["Astraa Gateway", "Commerce Tool", "Finance", "Vault"],
+            "result": {
+                "offer_type": inputs.get("offer_type", ""),
+                "catalog_need": inputs.get("catalog_need", ""),
+                "transaction_note": inputs.get("transaction_note", ""),
+                "review_note": "Commerce is QA-ready and customer access remains controlled."
+            }
+        }
+
+    if tool_key == "data":
+        return {
+            "tool": "Astraa Data",
+            "pipeline": ["Astraa Gateway", "Data Tool", "Vault"],
+            "result": {
+                "data_source": inputs.get("data_source", ""),
+                "report_need": inputs.get("report_need", ""),
+                "record_type": inputs.get("record_type", ""),
+                "review_note": "Data QA route prepared for reporting and Vault handoff."
+            }
+        }
+
+    if tool_key == "inference":
+        return {
+            "tool": "Astraa Inference",
+            "pipeline": ["Astraa Gateway", "Inference Tool", "Vault"],
+            "result": {
+                "scenario": inputs.get("scenario", ""),
+                "assumptions": inputs.get("assumptions", ""),
+                "risk_note": inputs.get("risk_note", ""),
+                "review_note": "Decision-support output only. Requires review."
+            }
+        }
+
+    if tool_key == "distribution":
+        return {
+            "tool": "Astraa Distribution",
+            "pipeline": ["Astraa Gateway", "Distribution Utility", "Expense", "Finance", "Vault"],
+            "result": {
+                "origin_node": inputs.get("origin_node", ""),
+                "destination": inputs.get("destination", ""),
+                "delivery_window": inputs.get("delivery_window", ""),
+                "review_note": "Distribution QA route prepared for route/inventory workflow."
+            }
+        }
+
+    if tool_key == "vault":
+        return {
+            "tool": "Astraa Vault",
+            "pipeline": ["Astraa Gateway", "Vault"],
+            "result": {
+                "record_type": inputs.get("record_type", ""),
+                "access_level": inputs.get("access_level", ""),
+                "storage_group": inputs.get("storage_group", ""),
+                "review_note": "Vault QA route prepared for secure record storage."
+            }
+        }
+
+    return {
+        "tool": "Unknown",
+        "pipeline": ["Astraa Gateway"],
+        "result": {}
+    }
+
+@app.post("/api/astraa/workspace/tool-test")
+def astraa_workspace_tool_test():
+    raw_payload = request.get_json(silent=True)
+
+    if raw_payload is None:
+        return jsonify({
+            "status": "rejected",
+            "gateway": "Astraa Gateway",
+            "errors": ["Invalid or missing JSON payload."]
+        }), 400
+
+    payload = astraa_sanitize(raw_payload)
+    errors = astraa_validate_payload(payload)
+
+    if errors:
+        return jsonify({
+            "status": "rejected",
+            "gateway": "Astraa Gateway",
+            "errors": errors
+        }), 400
+
+    tool_key = payload.get("tool", {}).get("key")
+    inputs = payload.get("inputs", {})
+
+    response = astraa_tool_response(tool_key, inputs)
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "tenant_context": {
+            "plan": payload.get("tenant_context", {}).get("plan"),
+            "access": payload.get("tenant_context", {}).get("access"),
+            "isolated": True
+        },
+        "gateway_controls": {
+            "payload_sanitized": True,
+            "schema_validated": True,
+            "tenant_isolation_checked": True,
+            "vault_route_ready": True,
+            "timestamp": datetime.utcnow().isoformat() + "Z"
+        },
+        **response
+    }), 200
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

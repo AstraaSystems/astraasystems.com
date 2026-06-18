@@ -356,6 +356,135 @@
       .arch { grid-template-columns:1fr; }
     }
   </style>
+
+<style id="astraa-advanced-estimator-cockpit-v1-style">
+  .advanced-estimator-cockpit-v1 {
+    margin-top: 28px;
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    border-radius: 30px;
+    padding: 26px;
+    box-shadow: 0 18px 55px rgba(15,23,42,.08);
+  }
+
+  .advanced-estimator-cockpit-v1 h2 {
+    margin: 0 0 10px;
+    color: #05070f;
+    font-size: clamp(30px,4vw,48px);
+    line-height: 1.05;
+    letter-spacing: -.055em;
+  }
+
+  .advanced-estimator-cockpit-v1 p {
+    margin: 0;
+    color: #475569;
+    max-width: 920px;
+  }
+
+  .advanced-cockpit-grid-v1 {
+    display: grid;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .advanced-cockpit-field-v1 label {
+    display: block;
+    color: #05070f;
+    font-weight: 900;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .advanced-cockpit-field-v1 input,
+  .advanced-cockpit-field-v1 textarea {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 16px;
+    padding: 11px 12px;
+    background: white;
+    font: inherit;
+  }
+
+  .advanced-cockpit-field-v1 textarea {
+    min-height: 92px;
+    resize: vertical;
+  }
+
+  .advanced-cockpit-wide-v1 {
+    grid-column: 1 / -1;
+  }
+
+  .advanced-cockpit-actions-v1 {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  .advanced-cockpit-actions-v1 button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-weight: 900;
+    border: 1px solid #bfdbfe;
+    background: white;
+    color: #1d4ed8;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .advanced-cockpit-actions-v1 .primary {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+    color: white;
+  }
+
+  .advanced-cockpit-output-grid-v1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .advanced-cockpit-output-v1 {
+    padding: 14px;
+    border-radius: 18px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e3a8a;
+    font-size: 13px;
+    white-space: pre-wrap;
+    min-height: 180px;
+    overflow: auto;
+  }
+
+  .advanced-cockpit-output-v1.dark {
+    background: #0f172a;
+    border-color: #1e293b;
+    color: #e2e8f0;
+  }
+
+  .advanced-cockpit-note-v1 {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 18px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e3a8a;
+    font-size: 14px;
+  }
+
+  @media(max-width:980px) {
+    .advanced-cockpit-grid-v1,
+    .advanced-cockpit-output-grid-v1 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
 </head>
 
 <body>
@@ -431,6 +560,118 @@
       Until that route is implemented, it uses a local fallback response so no QA button is dead.
     </div>
   </section>
+
+<section class="advanced-estimator-cockpit-v1" id="advanced-estimator-cockpit-v1">
+  <h2>Advanced Estimator Cockpit.</h2>
+  <p>
+    Generate an execution blueprint from an estimate. Astraa will split the Estimator payload into Operations,
+    Distribution, Finance, Commerce, and Vault-ready structures.
+  </p>
+
+  <div class="advanced-cockpit-grid-v1">
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecTenantId">Tenant ID</label>
+      <input id="aecTenantId" value="ASTRAA-QA-TENANT" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecProjectId">Project ID</label>
+      <input id="aecProjectId" value="PROJ-BURNABY-BYPASS" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecEstimateId">Estimate ID</label>
+      <input id="aecEstimateId" value="EST-QA-001" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecProjectName">Project name</label>
+      <input id="aecProjectName" value="Burnaby Bypass QA Project" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecProjectLocation">Project location</label>
+      <input id="aecProjectLocation" value="Burnaby, BC" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecTaxRegion">Tax region</label>
+      <input id="aecTaxRegion" value="BC" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecBaseCost">Base cost</label>
+      <input id="aecBaseCost" value="120000" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecMaterialMultiplier">Material multiplier</label>
+      <input id="aecMaterialMultiplier" value="1.08" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecLaborMultiplier">Labor multiplier</label>
+      <input id="aecLaborMultiplier" value="1.12" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecLocationMultiplier">Location multiplier</label>
+      <input id="aecLocationMultiplier" value="1.05" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecComplexityFactor">Complexity factor</label>
+      <input id="aecComplexityFactor" value="1.15" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecContingencyRate">Contingency rate</label>
+      <input id="aecContingencyRate" value="7.5" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecOriginNode">Origin node</label>
+      <input id="aecOriginNode" value="Surrey material yard" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecDeliveryWindow">Delivery window</label>
+      <input id="aecDeliveryWindow" value="8 AM to 12 PM" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecMilestoneName">Milestone name</label>
+      <input id="aecMilestoneName" value="Phase 1 - Site Prep" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1 advanced-cockpit-wide-v1">
+      <label for="aecProjectScope">Project scope</label>
+      <textarea id="aecProjectScope">BC framing project with logistics, crew scheduling, staged material delivery, and progress billing.</textarea>
+    </div>
+
+    <div class="advanced-cockpit-field-v1 advanced-cockpit-wide-v1">
+      <label for="aecMaterialProfile">Material profile</label>
+      <textarea id="aecMaterialProfile">Steel stud, drywall, concrete, aggregate, fuel-sensitive delivery materials.</textarea>
+    </div>
+  </div>
+
+  <div class="advanced-cockpit-actions-v1">
+    <button class="primary" type="button" onclick="generateExecutionBlueprintV1()">Generate Execution Blueprint</button>
+    <button type="button" onclick="copyExecutionBlueprintV1()">Copy Blueprint</button>
+    <button type="button" onclick="clearExecutionBlueprintV1()">Clear Output</button>
+  </div>
+
+  <div class="advanced-cockpit-output-grid-v1">
+    <pre class="advanced-cockpit-output-v1 dark" id="aecPayloadOutput">Execution blueprint payload will appear here.</pre>
+    <pre class="advanced-cockpit-output-v1" id="aecResponseOutput">Execution blueprint response will appear here.</pre>
+  </div>
+
+  <div class="advanced-cockpit-note-v1">
+    Vault record structure: tenantId, projectId, estimateId, sourceTool, payload type, linked Operations/Distribution/Finance/Commerce payloads,
+    audit controls, zero-knowledge-ready flag, and tenant-private visibility.
+  </div>
+</section>
+
 </main>
 
 <script>
@@ -803,5 +1044,90 @@ function workspaceLogout() {
 
 initTools();
 </script>
+
+<script id="advanced-estimator-cockpit-v1-script">
+const ASTRAA_EXECUTION_BLUEPRINT_ENDPOINT = "http://localhost:5000/api/astraa/estimator/execution-blueprint";
+
+function getValue(id) {
+  const el = document.getElementById(id);
+  return el ? el.value : "";
+}
+
+function buildExecutionBlueprintPayloadV1() {
+  return {
+    astraa_gateway_version: "workspace-qa-v1",
+    mode: "professional_full_internal_test",
+    tenant_context: {
+      test_email: "astraa.live.test@astraasystems.com",
+      plan: "Professional",
+      access: "Full internal test mode"
+    },
+    inputs: {
+      tenant_id: getValue("aecTenantId"),
+      project_id: getValue("aecProjectId"),
+      estimate_id: getValue("aecEstimateId"),
+      project_name: getValue("aecProjectName"),
+      project_location: getValue("aecProjectLocation"),
+      tax_region: getValue("aecTaxRegion"),
+      base_cost: getValue("aecBaseCost"),
+      material_multiplier: getValue("aecMaterialMultiplier"),
+      labor_multiplier: getValue("aecLaborMultiplier"),
+      location_multiplier: getValue("aecLocationMultiplier"),
+      complexity_factor: getValue("aecComplexityFactor"),
+      contingency_rate: getValue("aecContingencyRate"),
+      origin_node: getValue("aecOriginNode"),
+      delivery_window: getValue("aecDeliveryWindow"),
+      milestone_name: getValue("aecMilestoneName"),
+      project_scope: getValue("aecProjectScope"),
+      material_profile: getValue("aecMaterialProfile")
+    },
+    expected_spawn: [
+      "operations_blueprint",
+      "distribution_blueprint",
+      "finance_blueprint",
+      "commerce_blueprint",
+      "vault_record"
+    ],
+    timestamp_local: new Date().toISOString()
+  };
+}
+
+async function generateExecutionBlueprintV1() {
+  const payload = buildExecutionBlueprintPayloadV1();
+  document.getElementById("aecPayloadOutput").textContent = JSON.stringify(payload, null, 2);
+  document.getElementById("aecResponseOutput").textContent = "Sending to Astraa Gateway...";
+
+  try {
+    const res = await fetch(ASTRAA_EXECUTION_BLUEPRINT_ENDPOINT, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    document.getElementById("aecResponseOutput").textContent = JSON.stringify(data, null, 2);
+  } catch (error) {
+    document.getElementById("aecResponseOutput").textContent = JSON.stringify({
+      status: "frontend_error",
+      message: error.message,
+      next_step: "Confirm Flask backend is running on port 5000 and route exists."
+    }, null, 2);
+  }
+}
+
+function copyExecutionBlueprintV1() {
+  const payload = document.getElementById("aecPayloadOutput").textContent || "";
+  const response = document.getElementById("aecResponseOutput").textContent || "";
+  navigator.clipboard.writeText("ASTRAA EXECUTION BLUEPRINT PAYLOAD\n" + payload + "\n\nASTRAA EXECUTION BLUEPRINT RESPONSE\n" + response)
+    .then(() => alert("Execution blueprint copied."))
+    .catch(() => alert("Copy failed. Select manually."));
+}
+
+function clearExecutionBlueprintV1() {
+  document.getElementById("aecPayloadOutput").textContent = "Execution blueprint payload will appear here.";
+  document.getElementById("aecResponseOutput").textContent = "Execution blueprint response will appear here.";
+}
+</script>
+
 </body>
 </html>

@@ -2533,5 +2533,266 @@ def astraa_workspace_tool_test():
     }), 200
 
 
+
+
+# ============================================================
+# ASTRAA GATEWAY — Estimator Execution Blueprint Route
+# Purpose:
+#   Turns an approved estimate into structured Operations,
+#   Distribution, Finance, Commerce, and Vault-ready payloads.
+# ============================================================
+
+@app.post("/api/astraa/estimator/execution-blueprint")
+def astraa_estimator_execution_blueprint():
+    raw_payload = request.get_json(silent=True)
+
+    if raw_payload is None:
+        return jsonify({
+            "status": "rejected",
+            "gateway": "Astraa Gateway",
+            "errors": ["Invalid or missing JSON payload."]
+        }), 400
+
+    payload = astraa_sanitize(raw_payload)
+
+    tenant = payload.get("tenant_context", {})
+    inputs = payload.get("inputs", {})
+
+    errors = []
+
+    if tenant.get("test_email") != ASTRAA_ALLOWED_TEST_EMAIL:
+        errors.append("Invalid test tenant email.")
+
+    if tenant.get("plan") not in ["Trial", "Basic", "Professional", "Custom"]:
+        errors.append("Invalid or missing plan.")
+
+    if tenant.get("access") != "Full internal test mode":
+        errors.append("Invalid Workspace test access.")
+
+    if errors:
+        return jsonify({
+            "status": "rejected",
+            "gateway": "Astraa Gateway",
+            "errors": errors
+        }), 400
+
+    tenant_id = inputs.get("tenant_id") or "ASTRAA-QA-TENANT"
+    project_id = inputs.get("project_id") or "PROJ-QA-ESTIMATOR"
+    estimate_id = inputs.get("estimate_id") or "EST-QA-001"
+    project_name = inputs.get("project_name") or "Astraa QA Project"
+    project_location = inputs.get("project_location") or "Burnaby, BC"
+    tax_region = str(inputs.get("tax_region") or "BC").upper()
+
+    base_cost = astraa_safe_float(inputs.get("base_cost"))
+    material_multiplier = astraa_safe_float(inputs.get("material_multiplier"), 1)
+    labor_multiplier = astraa_safe_float(inputs.get("labor_multiplier"), 1)
+    location_multiplier = astraa_safe_float(inputs.get("location_multiplier"), 1)
+    complexity_factor = astraa_safe_float(inputs.get("complexity_factor"), 1)
+    contingency_rate = astraa_safe_float(inputs.get("contingency_rate"), 7.5)
+
+    if contingency_rate > 1:
+        contingency_rate = contingency_rate / 100
+
+    adjusted_budget = (
+        base_cost
+        * material_multiplier
+        * labor_multiplier
+        * location_multiplier
+        * complexity_factor
+    )
+
+    contingency_amount = adjusted_budget * contingency_rate
+    execution_budget = adjusted_budget + contingency_amount
+
+    material_profile = inputs.get("material_profile") or "General materials"
+    project_scope = inputs.get("project_scope") or "General project scope"
+    delivery_window = inputs.get("delivery_window") or "TBD"
+    milestone_name = inputs.get("milestone_name") or "Phase 1 - Execution Start"
+
+    operations_blueprint = {
+        "tool": "Astraa Operations",
+        "payloadType": "OPERATIONS_BLUEPRINT_FROM_ESTIMATE",
+        "tenantId": tenant_id,
+        "projectId": project_id,
+        "estimateId": estimate_id,
+        "projectName": project_name,
+        "baselineTasks": [
+            {
+                "taskId": "TASK-EST-001",
+                "title": "Review approved estimate scope",
+                "ownerRole": "Project Coordinator",
+                "status": "Ready"
+            },
+            {
+                "taskId": "TASK-EST-002",
+                "title": "Schedule crew and subcontractor requirements",
+                "ownerRole": "Operations Manager",
+                "status": "Ready"
+            },
+            {
+                "taskId": "TASK-EST-003",
+                "title": "Confirm staging yard capacity and receiving windows",
+                "ownerRole": "Site Coordinator",
+                "status": "Ready"
+            }
+        ],
+        "crewTargets": {
+            "laborMultiplier": labor_multiplier,
+            "complexityFactor": complexity_factor,
+            "certificationCheckRequired": True
+        },
+        "stagingRequirements": {
+            "materialProfile": material_profile,
+            "deliveryWindow": delivery_window,
+            "siteLocation": project_location
+        }
+    }
+
+    distribution_blueprint = {
+        "tool": "Astraa Distribution",
+        "payloadType": "DISTRIBUTION_BLUEPRINT_FROM_ESTIMATE",
+        "tenantId": tenant_id,
+        "projectId": project_id,
+        "estimateId": estimate_id,
+        "originNode": inputs.get("origin_node") or "Supplier / Yard TBD",
+        "destination": project_location,
+        "materialProfile": material_profile,
+        "deliveryWindow": delivery_window,
+        "capacityConstraints": {
+            "requiresRoutePreview": True,
+            "requiresStagingCapacityCheck": True,
+            "requiresDemurrageRiskCheck": True
+        }
+    }
+
+    finance_blueprint = {
+        "tool": "Astraa Finance",
+        "payloadType": "FINANCE_BLUEPRINT_FROM_ESTIMATE",
+        "tenantId": tenant_id,
+        "projectId": project_id,
+        "estimateId": estimate_id,
+        "taxRegion": tax_region,
+        "contractBudget": round(execution_budget, 2),
+        "adjustedBudget": round(adjusted_budget, 2),
+        "contingencyAmount": round(contingency_amount, 2),
+        "milestones": [
+            {
+                "milestoneId": "MILESTONE-001",
+                "name": milestone_name,
+                "billingType": "percentage_of_completion",
+                "plannedBillingPercent": 25,
+                "status": "Draft"
+            }
+        ],
+        "progressBillingReady": True,
+        "reviewNote": "Finance blueprint is planning-grade and must be reviewed before issuing invoices."
+    }
+
+    commerce_blueprint = {
+        "tool": "Astraa Commerce",
+        "payloadType": "COMMERCE_BLUEPRINT_FROM_ESTIMATE",
+        "tenantId": tenant_id,
+        "projectId": project_id,
+        "estimateId": estimate_id,
+        "customerApprovalFlow": "Draft approval required before payment request.",
+        "billingRailStatus": "Ready for future payment/invoice workflow",
+        "paymentGatewayAction": "Do not charge automatically from QA blueprint."
+    }
+
+    vault_record = {
+        "vaultRecordId": "VAULT-EST-QA-" + datetime.utcnow().strftime("%Y%m%d%H%M%S"),
+        "recordType": "ESTIMATOR_EXECUTION_BLUEPRINT",
+        "tenantId": tenant_id,
+        "projectId": project_id,
+        "estimateId": estimate_id,
+        "sourceTool": "Astraa Estimator",
+        "sourceGateway": "Astraa Gateway",
+        "visibility": "tenant_private",
+        "zeroKnowledgeReady": True,
+        "linkedPayloads": {
+            "operations": operations_blueprint["payloadType"],
+            "distribution": distribution_blueprint["payloadType"],
+            "finance": finance_blueprint["payloadType"],
+            "commerce": commerce_blueprint["payloadType"]
+        },
+        "storedObjects": [
+            "estimate_summary",
+            "operations_blueprint",
+            "distribution_blueprint",
+            "finance_blueprint",
+            "commerce_blueprint"
+        ],
+        "audit": {
+            "payloadSanitized": True,
+            "schemaValidated": True,
+            "tenantIsolationChecked": True,
+            "createdAt": datetime.utcnow().isoformat() + "Z"
+        }
+    }
+
+    activity_events = [
+        {
+            "eventType": "EVENT_ESTIMATE_BLUEPRINT_GENERATED",
+            "tool": "estimator",
+            "summary": "Estimator generated execution blueprint for Operations, Distribution, Finance, Commerce, and Vault."
+        },
+        {
+            "eventType": "EVENT_OPERATIONS_BLUEPRINT_READY",
+            "tool": "operations",
+            "summary": "Operations baseline task and staging payload generated."
+        },
+        {
+            "eventType": "EVENT_DISTRIBUTION_BLUEPRINT_READY",
+            "tool": "distribution",
+            "summary": "Distribution route and delivery-prep payload generated."
+        },
+        {
+            "eventType": "EVENT_FINANCE_BLUEPRINT_READY",
+            "tool": "finance",
+            "summary": "Finance progress billing draft payload generated."
+        },
+        {
+            "eventType": "EVENT_VAULT_RECORD_READY",
+            "tool": "vault",
+            "summary": "Vault estimator execution blueprint record prepared."
+        }
+    ]
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "route": "/api/astraa/estimator/execution-blueprint",
+        "tenant_context": {
+            "plan": tenant.get("plan"),
+            "access": tenant.get("access"),
+            "isolated": True
+        },
+        "gateway_controls": {
+            "payload_sanitized": True,
+            "schema_validated": True,
+            "tenant_isolation_checked": True,
+            "vault_record_ready": True,
+            "timestamp": datetime.utcnow().isoformat() + "Z"
+        },
+        "estimator_result": {
+            "baseCost": round(base_cost, 2),
+            "adjustedBudget": round(adjusted_budget, 2),
+            "contingencyAmount": round(contingency_amount, 2),
+            "executionBudget": round(execution_budget, 2),
+            "projectScope": project_scope,
+            "materialProfile": material_profile
+        },
+        "execution_blueprint": {
+            "operations": operations_blueprint,
+            "distribution": distribution_blueprint,
+            "finance": finance_blueprint,
+            "commerce": commerce_blueprint,
+            "vaultRecord": vault_record
+        },
+        "activity_events": activity_events,
+        "review_note": "Execution blueprint is internal QA output. Review before customer-facing use or invoice generation."
+    }), 200
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

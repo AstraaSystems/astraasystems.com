@@ -167,6 +167,254 @@ def config_status():
         "test_amount_override": ASTRAA_TEST_AMOUNT if ASTRAA_TEST_AMOUNT else None
     }
 
+# ============================================================
+# ASTRAA ESTIMATOR USAGE ENFORCEMENT — LOCAL/STAGING V1
+# ============================================================
+
+ASTRAA_USAGE_DB_PATH = os.path.join("astraa_data", "astraa_usage_db.json")
+
+ESTIMATOR_PLAN_LIMITS = {
+    "Trial": {
+        "estimate_limit": 15,
+        "daily_limit": 1,
+        "requires_payment": False,
+        "period_type": "trial_15_days"
+    },
+    "Basic": {
+        "estimate_limit": 30,
+        "daily_limit": None,
+        "requires_payment": True,
+        "period_type": "monthly"
+    },
+    "Professional": {
+        "estimate_limit": 120,
+        "daily_limit": None,
+        "requires_payment": True,
+        "period_type": "monthly"
+    }
+}
+
+
+def astraa_today_date():
+    return datetime.now(timezone.utc).date()
+
+
+def astraa_today_key():
+    return astraa_today_date().isoformat()
+
+
+def astraa_month_key():
+    now = datetime.now(timezone.utc)
+    return now.strftime("%Y-%m")
+
+
+def astraa_month_start():
+    now = datetime.now(timezone.utc)
+    return now.replace(day=1).date().isoformat()
+
+
+def astraa_month_end():
+    now = datetime.now(timezone.utc)
+    if now.month == 12:
+        next_month = now.replace(year=now.year + 1, month=1, day=1)
+    else:
+        next_month = now.replace(month=now.month + 1, day=1)
+
+    return (next_month.date() - timedelta(days=1)).isoformat()
+
+
+def astraa_load_usage_db():
+    os.makedirs("astraa_data", exist_ok=True)
+
+    if not os.path.exists(ASTRAA_USAGE_DB_PATH):
+        return {}
+
+    try:
+        with open(ASTRAA_USAGE_DB_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        return data if isinstance(data, dict) else {}
+
+    except Exception:
+        return {}
+
+
+def astraa_save_usage_db(db):
+    os.makedirs("astraa_data", exist_ok=True)
+
+    tmp_path = ASTRAA_USAGE_DB_PATH + ".tmp"
+
+    with open(tmp_path, "w", encoding="utf-8") as f:
+        json.dump(db, f, indent=2, sort_keys=True)
+
+    os.replace(tmp_path, ASTRAA_USAGE_DB_PATH)
+
+
+def astraa_default_usage_record(account_email, plan):
+    plan_rules = ESTIMATOR_PLAN_LIMITS.get(plan, ESTIMATOR_PLAN_LIMITS["Trial"])
+
+    return {
+        "account_id": account_email,
+        "primary_email": account_email,
+        "business_name": "",
+        "selected_tool": "Astraa Estimator",
+        "selected_plan": plan,
+        "payment_status": "trial" if plan == "Trial" else "inactive",
+        "subscription_status": "trial" if plan == "Trial" else "inactive",
+
+        "billing_period_key": astraa_month_key(),
+        "billing_period_start": astraa_month_start(),
+        "billing_period_end": astraa_month_end(),
+
+        "estimate_limit": plan_rules["estimate_limit"],
+        "estimate_used": 0,
+
+        "trial_start_date": astraa_today_key() if plan == "Trial" else None,
+        "last_trial_estimate_date": None,
+        "daily_limit": plan_rules["daily_limit"],
+
+        "extra_estimate_credits_total": 0,
+        "extra_estimate_credits_used": 0,
+
+        "custom_limit_config": None,
+        "saved_estimates": [],
+        "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    }
+
+
+def astraa_get_usage_record(account_email, requested_plan="Trial"):
+    db = astraa_load_usage_db()
+
+    account_email = str(account_email or "").strip().lower()
+    if not account_email:
+        account_email = "anonymous@astraa.local"
+
+    if account_email not in db:
+        db[account_email] = astraa_default_usage_record(account_email, requested_plan)
+        astraa_save_usage_db(db)
+
+    return db, db[account_email]
+
+
+def astraa_reset_monthly_period_if_needed(record):
+    current_key = astraa_month_key()
+
+    if record.get("billing_period_key") != current_key:
+        record["billing_period_key"] = current_key
+        record["billing_period_start"] = astraa_month_start()
+        record["billing_period_end"] = astraa_month_end()
+        record["estimate_used"] = 0
+        record["extra_estimate_credits_used"] = 0
+        record["updated_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+    return record
+
+
+def astraa_trial_expired(record):
+    trial_start = record.get("trial_start_date")
+
+    if not trial_start:
+        return False
+
+    try:
+        start_date = date.fromisoformat(trial_start)
+        days_used = (astraa_today_date() - start_date).days
+        return days_used >= 15
+    except Exception:
+        return False
+
+
+def astraa_effective_estimate_allowance(record):
+    base_limit = int(record.get("estimate_limit") or 0)
+    extra_total = int(record.get("extra_estimate_credits_total") or 0)
+    extra_used = int(record.get("extra_estimate_credits_used") or 0)
+    extra_remaining = max(extra_total - extra_used, 0)
+
+    return base_limit + extra_remaining
+
+
+def astraa_enforce_estimator_usage(record):
+    plan = record.get("selected_plan") or "Trial"
+    tool = record.get("selected_tool") or "Astraa Estimator"
+
+    if tool != "Astraa Estimator":
+        return False, "Selected tool is not Astraa Estimator.", record
+
+    if plan in ["Basic", "Professional"]:
+        record = astraa_reset_monthly_period_if_needed(record)
+
+    if plan == "Trial":
+        if astraa_trial_expired(record):
+            return False, "Trial period expired.", record
+
+        if int(record.get("estimate_used") or 0) >= 15:
+            return False, "Trial estimate limit reached.", record
+
+        if record.get("last_trial_estimate_date") == astraa_today_key():
+            return False, "Daily trial estimate limit reached.", record
+
+        return True, "Allowed", record
+
+    if plan in ["Basic", "Professional"]:
+        if record.get("payment_status") != "active" or record.get("subscription_status") != "active":
+            return False, "Payment/subscription is not active.", record
+
+        allowance = astraa_effective_estimate_allowance(record)
+        used = int(record.get("estimate_used") or 0)
+
+        if used >= allowance:
+            return False, "Monthly estimate limit reached. Add an estimate pack or upgrade.", record
+
+        return True, "Allowed", record
+
+    if plan in ["Custom", "Franchise", "Enterprise"]:
+        if record.get("payment_status") != "active" or record.get("subscription_status") != "active":
+            return False, "Custom package payment/subscription is not active.", record
+
+        custom_config = record.get("custom_limit_config") or {}
+        custom_limit = int(custom_config.get("estimate_limit") or record.get("estimate_limit") or 0)
+
+        if custom_limit and int(record.get("estimate_used") or 0) >= custom_limit:
+            return False, "Custom package estimate limit reached.", record
+
+        return True, "Allowed", record
+
+    return False, "Unsupported Estimator plan.", record
+
+
+def astraa_record_successful_estimator_usage(db, record, estimate_summary):
+    plan = record.get("selected_plan") or "Trial"
+
+    record["estimate_used"] = int(record.get("estimate_used") or 0) + 1
+
+    if plan == "Trial":
+        record["last_trial_estimate_date"] = astraa_today_key()
+
+    base_limit = int(record.get("estimate_limit") or 0)
+
+    # If user has exceeded base plan limit because of extra packs,
+    # count the overflow against extra_estimate_credits_used.
+    if record["estimate_used"] > base_limit:
+        overflow = record["estimate_used"] - base_limit
+        record["extra_estimate_credits_used"] = min(
+            overflow,
+            int(record.get("extra_estimate_credits_total") or 0)
+        )
+
+    record.setdefault("saved_estimates", [])
+    record["saved_estimates"].append({
+        "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "source": "backend_estimator_usage_enforcement",
+        "estimate": estimate_summary
+    })
+
+    record["updated_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+    db[record["account_id"]] = record
+    astraa_save_usage_db(db)
+
+    return record
 
 # -------------------------------------------------
 # Startup debug
@@ -3390,6 +3638,358 @@ def astraa_core_search():
             "events": events[-25:],
             "vaultRecords": vault_records[-25:]
         }
+    }), 200
+
+
+
+
+# ============================================================
+# ASTRAA ESTIMATOR USAGE ENFORCEMENT — LOCAL/STAGING V1
+# Purpose:
+#   Backend-side usage enforcement for Astraa Estimator.
+#   This is a staging-prep route and does not replace final
+#   payment verification / Moneris subscription enforcement yet.
+# ============================================================
+
+ASTRAA_USAGE_DB_PATH = os.path.join("astraa_data", "astraa_usage_db.json")
+
+ESTIMATOR_PLAN_LIMITS = {
+    "Trial": {
+        "estimate_limit": 15,
+        "daily_limit": 1,
+        "requires_payment": False,
+        "period_type": "trial_15_days"
+    },
+    "Basic": {
+        "estimate_limit": 30,
+        "daily_limit": None,
+        "requires_payment": True,
+        "period_type": "monthly"
+    },
+    "Professional": {
+        "estimate_limit": 120,
+        "daily_limit": None,
+        "requires_payment": True,
+        "period_type": "monthly"
+    }
+}
+
+
+def astraa_today_date():
+    return datetime.now(timezone.utc).date()
+
+
+def astraa_today_key():
+    return astraa_today_date().isoformat()
+
+
+def astraa_month_key():
+    now = datetime.now(timezone.utc)
+    return now.strftime("%Y-%m")
+
+
+def astraa_month_start():
+    now = datetime.now(timezone.utc)
+    return now.replace(day=1).date().isoformat()
+
+
+def astraa_month_end():
+    now = datetime.now(timezone.utc)
+
+    if now.month == 12:
+        next_month = now.replace(year=now.year + 1, month=1, day=1)
+    else:
+        next_month = now.replace(month=now.month + 1, day=1)
+
+    return (next_month.date() - timedelta(days=1)).isoformat()
+
+
+def astraa_load_usage_db():
+    os.makedirs("astraa_data", exist_ok=True)
+
+    if not os.path.exists(ASTRAA_USAGE_DB_PATH):
+        return {}
+
+    try:
+        with open(ASTRAA_USAGE_DB_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        return data if isinstance(data, dict) else {}
+
+    except Exception:
+        return {}
+
+
+def astraa_save_usage_db(db):
+    os.makedirs("astraa_data", exist_ok=True)
+
+    tmp_path = ASTRAA_USAGE_DB_PATH + ".tmp"
+
+    with open(tmp_path, "w", encoding="utf-8") as f:
+        json.dump(db, f, indent=2, sort_keys=True)
+
+    os.replace(tmp_path, ASTRAA_USAGE_DB_PATH)
+
+
+def astraa_default_usage_record(account_email, plan):
+    plan_rules = ESTIMATOR_PLAN_LIMITS.get(plan, ESTIMATOR_PLAN_LIMITS["Trial"])
+
+    return {
+        "account_id": account_email,
+        "primary_email": account_email,
+        "business_name": "",
+        "selected_tool": "Astraa Estimator",
+        "selected_plan": plan,
+        "payment_status": "trial" if plan == "Trial" else "inactive",
+        "subscription_status": "trial" if plan == "Trial" else "inactive",
+
+        "billing_period_key": astraa_month_key(),
+        "billing_period_start": astraa_month_start(),
+        "billing_period_end": astraa_month_end(),
+
+        "estimate_limit": plan_rules["estimate_limit"],
+        "estimate_used": 0,
+
+        "trial_start_date": astraa_today_key() if plan == "Trial" else None,
+        "last_trial_estimate_date": None,
+        "daily_limit": plan_rules["daily_limit"],
+
+        "extra_estimate_credits_total": 0,
+        "extra_estimate_credits_used": 0,
+
+        "custom_limit_config": None,
+        "saved_estimates": [],
+        "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    }
+
+
+def astraa_get_usage_record(account_email, requested_plan="Trial"):
+    db = astraa_load_usage_db()
+
+    account_email = str(account_email or "").strip().lower()
+    if not account_email:
+        account_email = "anonymous@astraa.local"
+
+    if account_email not in db:
+        db[account_email] = astraa_default_usage_record(account_email, requested_plan)
+        astraa_save_usage_db(db)
+
+    return db, db[account_email]
+
+
+def astraa_reset_monthly_period_if_needed(record):
+    current_key = astraa_month_key()
+
+    if record.get("billing_period_key") != current_key:
+        record["billing_period_key"] = current_key
+        record["billing_period_start"] = astraa_month_start()
+        record["billing_period_end"] = astraa_month_end()
+        record["estimate_used"] = 0
+        record["extra_estimate_credits_used"] = 0
+        record["updated_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+    return record
+
+
+def astraa_trial_expired(record):
+    trial_start = record.get("trial_start_date")
+
+    if not trial_start:
+        return False
+
+    try:
+        start_date = date.fromisoformat(trial_start)
+        days_used = (astraa_today_date() - start_date).days
+        return days_used >= 15
+    except Exception:
+        return False
+
+
+def astraa_effective_estimate_allowance(record):
+    base_limit = int(record.get("estimate_limit") or 0)
+    extra_total = int(record.get("extra_estimate_credits_total") or 0)
+    extra_used = int(record.get("extra_estimate_credits_used") or 0)
+    extra_remaining = max(extra_total - extra_used, 0)
+
+    return base_limit + extra_remaining
+
+
+def astraa_enforce_estimator_usage(record):
+    plan = record.get("selected_plan") or "Trial"
+    tool = record.get("selected_tool") or "Astraa Estimator"
+
+    if tool != "Astraa Estimator":
+        return False, "Selected tool is not Astraa Estimator.", record
+
+    if plan in ["Basic", "Professional"]:
+        record = astraa_reset_monthly_period_if_needed(record)
+
+    if plan == "Trial":
+        if astraa_trial_expired(record):
+            return False, "Trial period expired.", record
+
+        if int(record.get("estimate_used") or 0) >= 15:
+            return False, "Trial estimate limit reached.", record
+
+        if record.get("last_trial_estimate_date") == astraa_today_key():
+            return False, "Daily trial estimate limit reached.", record
+
+        return True, "Allowed", record
+
+    if plan in ["Basic", "Professional"]:
+        if record.get("payment_status") != "active" or record.get("subscription_status") != "active":
+            return False, "Payment/subscription is not active.", record
+
+        allowance = astraa_effective_estimate_allowance(record)
+        used = int(record.get("estimate_used") or 0)
+
+        if used >= allowance:
+            return False, "Monthly estimate limit reached. Add an estimate pack or upgrade.", record
+
+        return True, "Allowed", record
+
+    if plan in ["Custom", "Franchise", "Enterprise"]:
+        if record.get("payment_status") != "active" or record.get("subscription_status") != "active":
+            return False, "Custom package payment/subscription is not active.", record
+
+        custom_config = record.get("custom_limit_config") or {}
+        custom_limit = int(custom_config.get("estimate_limit") or record.get("estimate_limit") or 0)
+
+        if custom_limit and int(record.get("estimate_used") or 0) >= custom_limit:
+            return False, "Custom package estimate limit reached.", record
+
+        return True, "Allowed", record
+
+    return False, "Unsupported Estimator plan.", record
+
+
+def astraa_record_successful_estimator_usage(db, record, estimate_summary):
+    plan = record.get("selected_plan") or "Trial"
+
+    record["estimate_used"] = int(record.get("estimate_used") or 0) + 1
+
+    if plan == "Trial":
+        record["last_trial_estimate_date"] = astraa_today_key()
+
+    base_limit = int(record.get("estimate_limit") or 0)
+
+    # If user has exceeded base plan limit because of extra packs,
+    # count the overflow against extra_estimate_credits_used.
+    if record["estimate_used"] > base_limit:
+        overflow = record["estimate_used"] - base_limit
+        record["extra_estimate_credits_used"] = min(
+            overflow,
+            int(record.get("extra_estimate_credits_total") or 0)
+        )
+
+    record.setdefault("saved_estimates", [])
+    record["saved_estimates"].append({
+        "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "source": "backend_estimator_usage_enforcement",
+        "estimate": estimate_summary
+    })
+
+    record["updated_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+    db[record["account_id"]] = record
+    astraa_save_usage_db(db)
+
+    return record
+
+
+# ============================================================
+# ASTRAA ESTIMATOR ENFORCED RUN ROUTE — LOCAL/STAGING V1
+# ============================================================
+
+@app.post("/api/astraa/estimator/enforced-run")
+def astraa_estimator_enforced_run():
+    raw_payload = request.get_json(silent=True)
+
+    if raw_payload is None:
+        return jsonify({
+            "status": "rejected",
+            "gateway": "Astraa Gateway",
+            "errors": ["Invalid or missing JSON payload."]
+        }), 400
+
+    payload = astraa_sanitize(raw_payload)
+    inputs = payload.get("inputs", {})
+
+    account_email = (
+        inputs.get("account_email")
+        or payload.get("account_email")
+        or payload.get("tenant_context", {}).get("test_email")
+    )
+
+    requested_plan = (
+        inputs.get("selected_plan")
+        or payload.get("selected_plan")
+        or payload.get("tenant_context", {}).get("plan")
+        or "Trial"
+    )
+
+    db, record = astraa_get_usage_record(account_email, requested_plan)
+    allowed, reason, record = astraa_enforce_estimator_usage(record)
+
+    if not allowed:
+        return jsonify({
+            "status": "blocked",
+            "gateway": "Astraa Gateway",
+            "reason": reason,
+            "usage": {
+                "plan": record.get("selected_plan"),
+                "estimate_used": record.get("estimate_used"),
+                "estimate_limit": record.get("estimate_limit"),
+                "extra_estimate_credits_total": record.get("extra_estimate_credits_total"),
+                "extra_estimate_credits_used": record.get("extra_estimate_credits_used"),
+                "billing_period_key": record.get("billing_period_key"),
+                "last_trial_estimate_date": record.get("last_trial_estimate_date")
+            }
+        }), 403
+
+    base_cost = astraa_safe_float(inputs.get("base_cost"))
+    complexity_factor = astraa_safe_float(inputs.get("complexity_factor"), 1)
+    material_multiplier = astraa_safe_float(inputs.get("material_multiplier"), 1)
+    labor_multiplier = astraa_safe_float(inputs.get("labor_multiplier"), 1)
+    location_multiplier = astraa_safe_float(inputs.get("location_multiplier"), 1)
+
+    estimate_total = (
+        base_cost
+        * complexity_factor
+        * material_multiplier
+        * labor_multiplier
+        * location_multiplier
+    )
+
+    estimate_summary = {
+        "base_cost": round(base_cost, 2),
+        "complexity_factor": complexity_factor,
+        "material_multiplier": material_multiplier,
+        "labor_multiplier": labor_multiplier,
+        "location_multiplier": location_multiplier,
+        "estimated_total": round(estimate_total, 2)
+    }
+
+    record = astraa_record_successful_estimator_usage(db, record, estimate_summary)
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "tool": "Astraa Estimator",
+        "result": estimate_summary,
+        "usage": {
+            "plan": record.get("selected_plan"),
+            "estimate_used": record.get("estimate_used"),
+            "estimate_limit": record.get("estimate_limit"),
+            "extra_estimate_credits_total": record.get("extra_estimate_credits_total"),
+            "extra_estimate_credits_used": record.get("extra_estimate_credits_used"),
+            "billing_period_key": record.get("billing_period_key"),
+            "billing_period_start": record.get("billing_period_start"),
+            "billing_period_end": record.get("billing_period_end"),
+            "last_trial_estimate_date": record.get("last_trial_estimate_date")
+        },
+        "review_note": "Backend usage enforcement test route. Production payment verification still required before public launch."
     }), 200
 
 

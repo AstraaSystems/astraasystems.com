@@ -2794,5 +2794,367 @@ def astraa_estimator_execution_blueprint():
     }), 200
 
 
+
+
+# ============================================================
+# ASTRAA CORE OS — Unified Business Operating System Routes
+# Purpose:
+#   Local prototype for shared session, common data model,
+#   activity stream, Vault records, event automation, and search.
+# ============================================================
+
+ASTRAA_CORE_TENANTS = {}
+ASTRAA_CORE_ENTITIES = []
+ASTRAA_CORE_ACTIVITY = []
+ASTRAA_CORE_EVENTS = []
+ASTRAA_CORE_VAULT_RECORDS = []
+
+ASTRAA_CORE_ENABLED_TOOLS = [
+    "estimator",
+    "expense",
+    "finance",
+    "operations",
+    "commerce",
+    "data",
+    "inference",
+    "distribution",
+    "vault",
+]
+
+ASTRAA_CORE_ENTITY_TYPES = {
+    "tenant",
+    "organization",
+    "contact",
+    "project",
+    "asset",
+    "location",
+    "estimate",
+    "task",
+    "route",
+    "expense",
+    "invoice",
+    "vault_record",
+}
+
+def astraa_core_now():
+    return datetime.utcnow().isoformat() + "Z"
+
+def astraa_core_id(prefix):
+    return prefix + "-" + datetime.utcnow().strftime("%Y%m%d%H%M%S%f")
+
+def astraa_core_validate_tenant_context(payload):
+    tenant = payload.get("tenant_context", {})
+    errors = []
+
+    if tenant.get("test_email") != ASTRAA_ALLOWED_TEST_EMAIL:
+        errors.append("Invalid test tenant email.")
+
+    if tenant.get("plan") not in ["Trial", "Basic", "Professional", "Custom"]:
+        errors.append("Invalid or missing plan.")
+
+    if tenant.get("access") != "Full internal test mode":
+        errors.append("Invalid Workspace test access.")
+
+    return errors
+
+def astraa_core_write_activity(event_type, tenant_id, project_id, tool, summary, related=None):
+    record = {
+        "activityId": astraa_core_id("ACT"),
+        "eventType": event_type,
+        "tenantId": tenant_id,
+        "projectId": project_id,
+        "tool": tool,
+        "summary": summary,
+        "source": "Astraa Gateway",
+        "related": related or {},
+        "timestamp": astraa_core_now()
+    }
+    ASTRAA_CORE_ACTIVITY.append(record)
+    return record
+
+@app.post("/api/astraa/core/session")
+def astraa_core_session():
+    raw = request.get_json(silent=True)
+    if raw is None:
+        return jsonify({"status": "rejected", "gateway": "Astraa Gateway", "errors": ["Invalid or missing JSON payload."]}), 400
+
+    payload = astraa_sanitize(raw)
+    errors = astraa_core_validate_tenant_context(payload)
+    if errors:
+        return jsonify({"status": "rejected", "gateway": "Astraa Gateway", "errors": errors}), 400
+
+    tenant = payload.get("tenant_context", {})
+    tenant_id = payload.get("tenantId") or payload.get("tenant_id") or "ASTRAA-QA-TENANT"
+    sector = payload.get("sector") or "contractor"
+
+    session = {
+        "tenantId": tenant_id,
+        "tenantName": payload.get("tenantName") or "Astraa Internal QA",
+        "plan": tenant.get("plan"),
+        "access": tenant.get("access"),
+        "sector": sector,
+        "enabledTools": ASTRAA_CORE_ENABLED_TOOLS,
+        "sessionMode": "core_os_local_qa",
+        "issuedAt": astraa_core_now()
+    }
+
+    ASTRAA_CORE_TENANTS[tenant_id] = session
+
+    activity = astraa_core_write_activity(
+        "EVENT_CORE_SESSION_VALIDATED",
+        tenant_id,
+        payload.get("projectId") or "",
+        "core",
+        "Core OS session validated.",
+        {"enabledTools": ASTRAA_CORE_ENABLED_TOOLS}
+    )
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "session": session,
+        "activity": activity
+    }), 200
+
+@app.post("/api/astraa/core/entity")
+def astraa_core_entity():
+    raw = request.get_json(silent=True)
+    if raw is None:
+        return jsonify({"status": "rejected", "gateway": "Astraa Gateway", "errors": ["Invalid or missing JSON payload."]}), 400
+
+    payload = astraa_sanitize(raw)
+    entity_type = payload.get("entityType")
+    tenant_id = payload.get("tenantId") or "ASTRAA-QA-TENANT"
+    project_id = payload.get("projectId") or ""
+
+    if entity_type not in ASTRAA_CORE_ENTITY_TYPES:
+        return jsonify({
+            "status": "rejected",
+            "gateway": "Astraa Gateway",
+            "errors": [f"Unsupported entityType: {entity_type}"]
+        }), 400
+
+    entity = {
+        "entityId": payload.get("entityId") or astraa_core_id(entity_type.upper()),
+        "entityType": entity_type,
+        "tenantId": tenant_id,
+        "projectId": project_id,
+        "name": payload.get("name") or "",
+        "sector": payload.get("sector") or "",
+        "location": payload.get("location") or "",
+        "data": payload.get("data") or {},
+        "createdAt": astraa_core_now(),
+        "source": "Astraa Gateway"
+    }
+
+    ASTRAA_CORE_ENTITIES.append(entity)
+
+    activity = astraa_core_write_activity(
+        "EVENT_CORE_ENTITY_CREATED",
+        tenant_id,
+        project_id,
+        "core",
+        f"Created {entity_type} entity: {entity.get('name') or entity.get('entityId')}",
+        {"entityId": entity["entityId"], "entityType": entity_type}
+    )
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "entity": entity,
+        "activity": activity
+    }), 200
+
+@app.post("/api/astraa/core/activity")
+def astraa_core_activity_post():
+    raw = request.get_json(silent=True)
+    if raw is None:
+        return jsonify({"status": "rejected", "gateway": "Astraa Gateway", "errors": ["Invalid or missing JSON payload."]}), 400
+
+    payload = astraa_sanitize(raw)
+    record = astraa_core_write_activity(
+        payload.get("eventType") or "EVENT_CORE_ACTIVITY",
+        payload.get("tenantId") or "ASTRAA-QA-TENANT",
+        payload.get("projectId") or "",
+        payload.get("tool") or "core",
+        payload.get("summary") or "Activity event recorded.",
+        payload.get("related") or {}
+    )
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "activity": record
+    }), 200
+
+@app.get("/api/astraa/core/activity")
+def astraa_core_activity_get():
+    tenant_id = request.args.get("tenantId")
+    project_id = request.args.get("projectId")
+
+    results = ASTRAA_CORE_ACTIVITY
+
+    if tenant_id:
+        results = [r for r in results if r.get("tenantId") == tenant_id]
+
+    if project_id:
+        results = [r for r in results if r.get("projectId") == project_id]
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "count": len(results),
+        "activity": results[-100:]
+    }), 200
+
+@app.post("/api/astraa/core/vault-record")
+def astraa_core_vault_record():
+    raw = request.get_json(silent=True)
+    if raw is None:
+        return jsonify({"status": "rejected", "gateway": "Astraa Gateway", "errors": ["Invalid or missing JSON payload."]}), 400
+
+    payload = astraa_sanitize(raw)
+    tenant_id = payload.get("tenantId") or "ASTRAA-QA-TENANT"
+    project_id = payload.get("projectId") or ""
+
+    record = {
+        "vaultRecordId": payload.get("vaultRecordId") or astraa_core_id("VAULT"),
+        "recordType": payload.get("recordType") or "CORE_OS_RECORD",
+        "tenantId": tenant_id,
+        "projectId": project_id,
+        "sourceTool": payload.get("sourceTool") or "Astraa Core",
+        "sourceGateway": "Astraa Gateway",
+        "visibility": payload.get("visibility") or "tenant_private",
+        "zeroKnowledgeReady": bool(payload.get("zeroKnowledgeReady", True)),
+        "linkedPayloads": payload.get("linkedPayloads") or {},
+        "storedObjects": payload.get("storedObjects") or [],
+        "data": payload.get("data") or {},
+        "audit": {
+            "payloadSanitized": True,
+            "schemaValidated": True,
+            "tenantIsolationChecked": True,
+            "createdAt": astraa_core_now()
+        }
+    }
+
+    ASTRAA_CORE_VAULT_RECORDS.append(record)
+
+    activity = astraa_core_write_activity(
+        "EVENT_CORE_VAULT_RECORD_CREATED",
+        tenant_id,
+        project_id,
+        "vault",
+        f"Vault record created: {record['recordType']}",
+        {"vaultRecordId": record["vaultRecordId"]}
+    )
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "vaultRecord": record,
+        "activity": activity
+    }), 200
+
+@app.post("/api/astraa/core/event")
+def astraa_core_event():
+    raw = request.get_json(silent=True)
+    if raw is None:
+        return jsonify({"status": "rejected", "gateway": "Astraa Gateway", "errors": ["Invalid or missing JSON payload."]}), 400
+
+    payload = astraa_sanitize(raw)
+
+    tenant_id = payload.get("tenantId") or "ASTRAA-QA-TENANT"
+    project_id = payload.get("projectId") or ""
+    event_type = payload.get("eventType") or "EVENT_CORE_GENERIC"
+    tool = payload.get("tool") or "core"
+
+    event = {
+        "eventId": payload.get("eventId") or astraa_core_id("EVT"),
+        "eventType": event_type,
+        "tenantId": tenant_id,
+        "projectId": project_id,
+        "tool": tool,
+        "payload": payload.get("payload") or {},
+        "timestamp": astraa_core_now(),
+        "source": "Astraa Gateway"
+    }
+
+    ASTRAA_CORE_EVENTS.append(event)
+
+    triggered = []
+
+    if event_type == "EVENT_PROJECT_MILESTONE_COMPLETE":
+        triggered = [
+            "finance_progress_invoice_draft_ready",
+            "vault_milestone_record_ready",
+            "activity_stream_updated"
+        ]
+    elif event_type == "EVENT_ESTIMATE_BLUEPRINT_GENERATED":
+        triggered = [
+            "operations_blueprint_ready",
+            "distribution_blueprint_ready",
+            "finance_blueprint_ready",
+            "vault_record_ready"
+        ]
+    else:
+        triggered = ["activity_stream_updated"]
+
+    activity = astraa_core_write_activity(
+        event_type,
+        tenant_id,
+        project_id,
+        tool,
+        payload.get("summary") or f"Event published: {event_type}",
+        {"eventId": event["eventId"], "triggeredActions": triggered}
+    )
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "eventAccepted": True,
+        "event": event,
+        "triggeredActions": triggered,
+        "activity": activity
+    }), 200
+
+@app.post("/api/astraa/core/search")
+def astraa_core_search():
+    raw = request.get_json(silent=True)
+    if raw is None:
+        return jsonify({"status": "rejected", "gateway": "Astraa Gateway", "errors": ["Invalid or missing JSON payload."]}), 400
+
+    payload = astraa_sanitize(raw)
+    tenant_id = payload.get("tenantId") or "ASTRAA-QA-TENANT"
+    query = str(payload.get("query") or "").lower().strip()
+
+    def contains_query(obj):
+        return query in json.dumps(obj, default=str).lower()
+
+    if not query:
+        return jsonify({
+            "status": "rejected",
+            "gateway": "Astraa Gateway",
+            "errors": ["Search query is required."]
+        }), 400
+
+    entities = [x for x in ASTRAA_CORE_ENTITIES if x.get("tenantId") == tenant_id and contains_query(x)]
+    activity = [x for x in ASTRAA_CORE_ACTIVITY if x.get("tenantId") == tenant_id and contains_query(x)]
+    events = [x for x in ASTRAA_CORE_EVENTS if x.get("tenantId") == tenant_id and contains_query(x)]
+    vault_records = [x for x in ASTRAA_CORE_VAULT_RECORDS if x.get("tenantId") == tenant_id and contains_query(x)]
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "query": query,
+        "tenantId": tenant_id,
+        "results": {
+            "entities": entities[-25:],
+            "activity": activity[-25:],
+            "events": events[-25:],
+            "vaultRecords": vault_records[-25:]
+        }
+    }), 200
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

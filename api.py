@@ -2790,9 +2790,9 @@ def astraa_estimator_execution_blueprint():
             "source": "Astraa Gateway"
         }
 
-        ASTRAA_CORE_ENTITIES.append(core_project_entity)
-        astraa_core_save_store()
+        core_project_entity, entity_action = astraa_core_upsert_entity(core_project_entity)
         core_os_commit["entityCreated"] = core_project_entity
+        core_os_commit["entityAction"] = entity_action
 
         core_os_commit["activityWritten"].append(
             astraa_core_write_activity(
@@ -2800,18 +2800,19 @@ def astraa_estimator_execution_blueprint():
                 tenant_id,
                 project_id,
                 "estimator",
-                "Estimator execution blueprint created/updated project entity.",
+                "Estimator execution blueprint " + entity_action + " project entity.",
                 {
                     "entityId": core_project_entity["entityId"],
-                    "estimateId": estimate_id
+                    "estimateId": estimate_id,
+                    "action": entity_action
                 }
             )
         )
 
         # 2. Store Vault record in Core OS Vault store.
-        ASTRAA_CORE_VAULT_RECORDS.append(vault_record)
-        astraa_core_save_store()
+        vault_record, vault_action = astraa_core_upsert_vault_record(vault_record)
         core_os_commit["vaultRecordStored"] = vault_record
+        core_os_commit["vaultRecordAction"] = vault_action
 
         core_os_commit["activityWritten"].append(
             astraa_core_write_activity(
@@ -2819,10 +2820,11 @@ def astraa_estimator_execution_blueprint():
                 tenant_id,
                 project_id,
                 "vault",
-                "Estimator execution blueprint stored as Vault record.",
+                "Estimator execution blueprint " + vault_action + " Vault record.",
                 {
                     "vaultRecordId": vault_record.get("vaultRecordId"),
-                    "estimateId": estimate_id
+                    "estimateId": estimate_id,
+                    "action": vault_action
                 }
             )
         )
@@ -2973,6 +2975,65 @@ def astraa_core_save_store():
 
     os.replace(tmp_path, ASTRAA_CORE_STORE_PATH)
 
+
+# ASTRAA_CORE_OS_UPSERT_V1
+def astraa_core_upsert_entity(entity):
+    """
+    Upsert entity by tenantId + projectId + entityType.
+    This prevents duplicate project records during repeated QA runs.
+    """
+    tenant_id = entity.get("tenantId")
+    project_id = entity.get("projectId")
+    entity_type = entity.get("entityType")
+
+    for idx, existing in enumerate(ASTRAA_CORE_ENTITIES):
+        if (
+            existing.get("tenantId") == tenant_id
+            and existing.get("projectId") == project_id
+            and existing.get("entityType") == entity_type
+        ):
+            merged = dict(existing)
+            merged.update(entity)
+            merged["updatedAt"] = astraa_core_now()
+            ASTRAA_CORE_ENTITIES[idx] = merged
+            astraa_core_save_store()
+            return merged, "updated"
+
+    ASTRAA_CORE_ENTITIES.append(entity)
+    astraa_core_save_store()
+    return entity, "created"
+
+
+def astraa_core_upsert_vault_record(record):
+    """
+    Upsert Vault record by tenantId + projectId + estimateId + recordType.
+    This prevents duplicate estimator blueprint Vault records during repeated QA runs.
+    """
+    tenant_id = record.get("tenantId")
+    project_id = record.get("projectId")
+    estimate_id = record.get("estimateId")
+    record_type = record.get("recordType")
+
+    for idx, existing in enumerate(ASTRAA_CORE_VAULT_RECORDS):
+        if (
+            existing.get("tenantId") == tenant_id
+            and existing.get("projectId") == project_id
+            and existing.get("estimateId") == estimate_id
+            and existing.get("recordType") == record_type
+        ):
+            merged = dict(existing)
+            merged.update(record)
+            merged.setdefault("audit", {})
+            merged["audit"]["updatedAt"] = astraa_core_now()
+            ASTRAA_CORE_VAULT_RECORDS[idx] = merged
+            astraa_core_save_store()
+            return merged, "updated"
+
+    ASTRAA_CORE_VAULT_RECORDS.append(record)
+    astraa_core_save_store()
+    return record, "created"
+
+
 ASTRAA_CORE_STORE = astraa_core_load_store()
 ASTRAA_CORE_TENANTS = ASTRAA_CORE_STORE.get("tenants", {})
 ASTRAA_CORE_ENTITIES = ASTRAA_CORE_STORE.get("entities", [])
@@ -3120,21 +3181,21 @@ def astraa_core_entity():
         "source": "Astraa Gateway"
     }
 
-    ASTRAA_CORE_ENTITIES.append(entity)
-    astraa_core_save_store()
+    entity, entity_action = astraa_core_upsert_entity(entity)
 
     activity = astraa_core_write_activity(
-        "EVENT_CORE_ENTITY_CREATED",
+        "EVENT_CORE_ENTITY_" + entity_action.upper(),
         tenant_id,
         project_id,
         "core",
-        f"Created {entity_type} entity: {entity.get('name') or entity.get('entityId')}",
-        {"entityId": entity["entityId"], "entityType": entity_type}
+        f"{entity_action.title()} {entity_type} entity: {entity.get('name') or entity.get('entityId')}",
+        {"entityId": entity["entityId"], "entityType": entity_type, "action": entity_action}
     )
 
     return jsonify({
         "status": "ok",
         "gateway": "Astraa Gateway",
+        "entityAction": entity_action,
         "entity": entity,
         "activity": activity
     }), 200
@@ -3211,21 +3272,21 @@ def astraa_core_vault_record():
         }
     }
 
-    ASTRAA_CORE_VAULT_RECORDS.append(record)
-    astraa_core_save_store()
+    record, vault_action = astraa_core_upsert_vault_record(record)
 
     activity = astraa_core_write_activity(
-        "EVENT_CORE_VAULT_RECORD_CREATED",
+        "EVENT_CORE_VAULT_RECORD_" + vault_action.upper(),
         tenant_id,
         project_id,
         "vault",
-        f"Vault record created: {record['recordType']}",
-        {"vaultRecordId": record["vaultRecordId"]}
+        f"Vault record {vault_action}: {record['recordType']}",
+        {"vaultRecordId": record["vaultRecordId"], "action": vault_action}
     )
 
     return jsonify({
         "status": "ok",
         "gateway": "Astraa Gateway",
+        "vaultRecordAction": vault_action,
         "vaultRecord": record,
         "activity": activity
     }), 200

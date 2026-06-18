@@ -485,6 +485,103 @@
   }
 </style>
 
+
+<style id="astraa-core-os-panel-v1-style">
+  .astraa-core-os-panel-v1 {
+    margin-top: 28px;
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    border-radius: 30px;
+    padding: 26px;
+    box-shadow: 0 18px 55px rgba(15,23,42,.08);
+  }
+
+  .astraa-core-os-panel-v1 h2 {
+    margin: 0 0 10px;
+    color: #05070f;
+    font-size: clamp(30px,4vw,48px);
+    line-height: 1.05;
+    letter-spacing: -.055em;
+  }
+
+  .astraa-core-os-panel-v1 p {
+    margin: 0;
+    color: #475569;
+    max-width: 920px;
+  }
+
+  .astraa-core-os-grid-v1 {
+    display: grid;
+    grid-template-columns: repeat(5,minmax(0,1fr));
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .astraa-core-os-grid-v1 button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 46px;
+    padding: 10px 12px;
+    border-radius: 999px;
+    font-weight: 900;
+    border: 1px solid #bfdbfe;
+    background: white;
+    color: #1d4ed8;
+    cursor: pointer;
+    font: inherit;
+    text-align: center;
+  }
+
+  .astraa-core-os-grid-v1 button.primary {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+    color: white;
+  }
+
+  .astraa-core-os-output-grid-v1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .astraa-core-os-output-v1 {
+    padding: 14px;
+    border-radius: 18px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e3a8a;
+    font-size: 13px;
+    white-space: pre-wrap;
+    min-height: 190px;
+    overflow: auto;
+  }
+
+  .astraa-core-os-output-v1.dark {
+    background: #0f172a;
+    border-color: #1e293b;
+    color: #e2e8f0;
+  }
+
+  .astraa-core-os-note-v1 {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 18px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e3a8a;
+    font-size: 14px;
+  }
+
+  @media(max-width: 980px) {
+    .astraa-core-os-grid-v1,
+    .astraa-core-os-output-grid-v1 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
 </head>
 
 <body>
@@ -560,6 +657,32 @@
       Until that route is implemented, it uses a local fallback response so no QA button is dead.
     </div>
   </section>
+
+
+<section class="astraa-core-os-panel-v1" id="astraa-core-os-panel-v1">
+  <h2>Astraa Core OS Test Panel.</h2>
+  <p>
+    Test the shared operating-system layer: master session, Common Data Model entity,
+    universal activity stream, Vault record, event automation, and global search.
+  </p>
+
+  <div class="astraa-core-os-grid-v1">
+    <button class="primary" type="button" onclick="astraaCoreValidateSessionV1()">Validate Session</button>
+    <button type="button" onclick="astraaCoreCreateProjectV1()">Create Project Entity</button>
+    <button type="button" onclick="astraaCoreCreateVaultRecordV1()">Create Vault Record</button>
+    <button type="button" onclick="astraaCorePublishMilestoneEventV1()">Publish Milestone Event</button>
+    <button type="button" onclick="astraaCoreSearchV1()">Search Burnaby</button>
+  </div>
+
+  <div class="astraa-core-os-output-grid-v1">
+    <pre class="astraa-core-os-output-v1 dark" id="astraaCorePayloadOutputV1">Core OS payload will appear here.</pre>
+    <pre class="astraa-core-os-output-v1" id="astraaCoreResponseOutputV1">Core OS response will appear here.</pre>
+  </div>
+
+  <div class="astraa-core-os-note-v1">
+    Core OS goal: one tenant, one project graph, one activity stream, one event bus, one Vault, and one search layer across every Astraa tool.
+  </div>
+</section>
 
 <section class="advanced-estimator-cockpit-v1" id="advanced-estimator-cockpit-v1">
   <h2>Advanced Estimator Cockpit.</h2>
@@ -1126,6 +1249,104 @@ function copyExecutionBlueprintV1() {
 function clearExecutionBlueprintV1() {
   document.getElementById("aecPayloadOutput").textContent = "Execution blueprint payload will appear here.";
   document.getElementById("aecResponseOutput").textContent = "Execution blueprint response will appear here.";
+}
+</script>
+
+
+<script id="astraa-core-os-panel-v1-script">
+const ASTRAA_CORE_BASE_V1 = "http://localhost:5000/api/astraa/core";
+
+function astraaCoreTenantContextV1() {
+  return {
+    test_email: "astraa.live.test@astraasystems.com",
+    plan: "Professional",
+    access: "Full internal test mode"
+  };
+}
+
+async function astraaCorePostV1(path, payload) {
+  const payloadBox = document.getElementById("astraaCorePayloadOutputV1");
+  const responseBox = document.getElementById("astraaCoreResponseOutputV1");
+
+  payloadBox.textContent = JSON.stringify(payload, null, 2);
+  responseBox.textContent = "Sending to Astraa Core OS...";
+
+  try {
+    const res = await fetch(ASTRAA_CORE_BASE_V1 + path, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    responseBox.textContent = JSON.stringify(data, null, 2);
+  } catch (error) {
+    responseBox.textContent = JSON.stringify({
+      status: "frontend_error",
+      message: error.message,
+      next_step: "Confirm Flask backend is running on port 5000 and Core OS routes exist."
+    }, null, 2);
+  }
+}
+
+function astraaCoreValidateSessionV1() {
+  astraaCorePostV1("/session", {
+    tenantId: "ASTRAA-QA-TENANT",
+    tenantName: "Astraa Internal QA",
+    sector: "contractor",
+    tenant_context: astraaCoreTenantContextV1()
+  });
+}
+
+function astraaCoreCreateProjectV1() {
+  astraaCorePostV1("/entity", {
+    entityType: "project",
+    tenantId: "ASTRAA-QA-TENANT",
+    projectId: "PROJ-BURNABY-BYPASS",
+    name: "Burnaby Bypass QA Project",
+    sector: "contractor",
+    location: "Burnaby, BC",
+    data: {
+      source: "Workspace Core OS Panel",
+      connectedTools: ["estimator", "operations", "finance", "distribution", "vault"]
+    }
+  });
+}
+
+function astraaCoreCreateVaultRecordV1() {
+  astraaCorePostV1("/vault-record", {
+    recordType: "ESTIMATOR_EXECUTION_BLUEPRINT",
+    tenantId: "ASTRAA-QA-TENANT",
+    projectId: "PROJ-BURNABY-BYPASS",
+    sourceTool: "Astraa Estimator",
+    visibility: "tenant_private",
+    zeroKnowledgeReady: true,
+    storedObjects: ["estimate_summary", "operations_blueprint", "finance_blueprint"],
+    data: {
+      summary: "Vault record created from Workspace Core OS panel."
+    }
+  });
+}
+
+function astraaCorePublishMilestoneEventV1() {
+  astraaCorePostV1("/event", {
+    eventType: "EVENT_PROJECT_MILESTONE_COMPLETE",
+    tenantId: "ASTRAA-QA-TENANT",
+    projectId: "PROJ-BURNABY-BYPASS",
+    tool: "operations",
+    summary: "Phase 1 Site Prep marked complete from Workspace panel.",
+    payload: {
+      milestoneId: "PHASE-1-SITE-PREP",
+      verification: "QA_FIELD_UPDATE_PROTOCOL"
+    }
+  });
+}
+
+function astraaCoreSearchV1() {
+  astraaCorePostV1("/search", {
+    tenantId: "ASTRAA-QA-TENANT",
+    query: "Burnaby"
+  });
 }
 </script>
 

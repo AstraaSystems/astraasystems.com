@@ -445,13 +445,23 @@ const tools = [
     status: ["Active", "First QA Tool", "Professional"],
     desc: "Complete Estimator QA: project intake, scope assumptions, estimate limits, add-on packs, calculation output, and review warnings.",
     summary: "Estimator validates localized bid modeling and package rules.",
-    fields: [
+        fields: [
       ["project_scope", "Project scope", "Example: BC framing project, 12,000 sq ft"],
       ["material_profile", "Material profile", "Example: steel stud, drywall, concrete"],
       ["base_cost", "Base cost", "Example: 120000"],
+      ["material_multiplier", "Material multiplier", "Example: 1.08"],
+      ["labor_multiplier", "Labor multiplier", "Example: 1.12"],
+      ["location_multiplier", "Location multiplier", "Example: 1.05"],
+      ["quality_multiplier", "Quality / finish multiplier", "Example: 1.10"],
+      ["access_multiplier", "Access / site condition multiplier", "Example: 1.07"],
       ["complexity_factor", "Complexity factor", "Example: 1.15"],
+      ["collaboration_factor", "Crew / collaboration productivity factor", "Example: 0.98"],
+      ["rush_factor", "Rush / schedule pressure factor", "Example: 1.06"],
+      ["overhead_rate", "Overhead rate", "Example: 10 or 0.10"],
+      ["contingency_rate", "Contingency rate", "Example: 7.5 or 0.075"],
+      ["tax_rate", "Tax rate", "Example: 5 or 0.05"],
       ["estimate_plan", "Plan", "Professional"],
-      ["qa_notes", "QA notes", "What worked, what failed, what needs backend connection"]
+      ["qa_notes", "QA notes", "Full Estimator QA notes"]
     ]
   },
   {
@@ -477,12 +487,22 @@ const tools = [
     status: ["Active", "Full Functionality"],
     desc: "Finance QA: budget visibility, cashflow direction, payables, receivables, summaries, and package rules.",
     summary: "Finance reconciles budgets, expenses, invoices, and progress billing.",
-    fields: [
+        fields: [
       ["revenue", "Revenue", "Example: 250000"],
-      ["costs", "Costs", "Example: 165000"],
-      ["receivables", "Receivables", "Example: 45000"],
-      ["payables", "Payables", "Example: 22000"],
-      ["tax_region", "Tax region", "BC / ON / AB / custom"],
+      ["original_contract_sum", "Original contract sum", "Example: 500000"],
+      ["change_orders", "Change orders", "Example: 25000"],
+      ["work_completed_to_date", "Work completed to date", "Example: 150000"],
+      ["materials_presently_stored", "Materials presently stored", "Example: 45000"],
+      ["retainage_rate", "Retainage rate", "Example: 10"],
+      ["tax_region", "Tax region", "BC / AB / ON / NB / NS / NL / PE"],
+      ["labor_hours", "Labor hours", "Example: 42.5"],
+      ["burden_rate", "Burden rate", "Example: 85"],
+      ["material_cost", "Material cost", "Example: 62000"],
+      ["fleet_expenses", "Fleet expenses", "Example: 4200"],
+      ["gross_sales", "Franchise gross sales", "Example: 100000"],
+      ["royalty_rate", "Royalty rate", "Example: 6"],
+      ["restricted_fund_amount", "Restricted fund amount", "Example: 50000"],
+      ["requested_expense_amount", "Requested expense amount", "Example: 12000"],
       ["qa_notes", "QA notes", "Finance QA notes"]
     ]
   },
@@ -493,12 +513,28 @@ const tools = [
     status: ["Active", "Full Functionality"],
     desc: "Operations QA: tasks, owners, due dates, priorities, blockers, statuses, and follow-up summaries.",
     summary: "Operations controls workflow, scheduling, crews, and multi-site coordination.",
-    fields: [
+        fields: [
       ["task", "Action / task", "Example: schedule crew for site phase"],
+      ["worker_name", "Worker / subcontractor", "Example: Ravi - equipment operator"],
+      ["required_certification", "Required certification", "Example: BC_CRANE_OPERATOR"],
+      ["worker_certification", "Worker certification", "Example: BC_CRANE_OPERATOR"],
       ["owner", "Owner", "Example: project coordinator"],
       ["due_date", "Due date", "Example: 2026-06-30"],
       ["priority", "Priority", "High / medium / low"],
       ["blocker", "Blocker", "Example: material delivery pending"],
+      ["tenant_level", "Tenant level", "HQ / Branch / Field"],
+      ["branch_id", "Branch / franchise ID", "Example: BURNABY-01"],
+      ["staging_capacity_sqm", "Staging capacity sqm", "Example: 1200"],
+      ["required_footprint_sqm", "Required footprint sqm", "Example: 950"],
+      ["planned_arrival", "Planned arrival", "Example: 08:00"],
+      ["actual_arrival", "Actual arrival", "Example: 08:12"],
+      ["labor_hours", "Labor hours", "Example: 42.5"],
+      ["fuel_burn_liters", "Fuel burn liters", "Example: 340.2"],
+      ["demurrage_minutes", "Demurrage minutes", "Example: 45"],
+      ["asset_depreciation_cad", "Asset depreciation CAD", "Example: 182.50"],
+      ["tenant_id", "Tenant ID", "Example: ARK-CONTRACTING-04"],
+      ["project_id", "Project ID", "Example: PROJ-BURNABY-BYPASS"],
+      ["milestone_id", "Milestone ID", "Example: PHASE-1-SITE-PREP"],
       ["qa_notes", "QA notes", "Operations QA notes"]
     ]
   },

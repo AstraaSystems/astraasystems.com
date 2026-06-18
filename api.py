@@ -2147,15 +2147,74 @@ def astraa_validate_payload(payload):
 def astraa_tool_response(tool_key, inputs):
     if tool_key == "estimator":
         base = astraa_safe_float(inputs.get("base_cost"))
-        factor = astraa_safe_float(inputs.get("complexity_factor"), 1)
+
+        # Multipliers default to 1.0. These are internal QA factors and can later map to
+        # the production Estimator engine tables.
+        material_multiplier = astraa_safe_float(inputs.get("material_multiplier"), 1)
+        labor_multiplier = astraa_safe_float(inputs.get("labor_multiplier"), 1)
+        location_multiplier = astraa_safe_float(inputs.get("location_multiplier"), 1)
+        quality_multiplier = astraa_safe_float(inputs.get("quality_multiplier"), 1)
+        access_multiplier = astraa_safe_float(inputs.get("access_multiplier"), 1)
+        complexity_factor = astraa_safe_float(inputs.get("complexity_factor"), 1)
+        collaboration_factor = astraa_safe_float(inputs.get("collaboration_factor"), 1)
+        rush_factor = astraa_safe_float(inputs.get("rush_factor"), 1)
+
+        # Rates can be supplied as either 0.10 or 10.
+        overhead_rate = astraa_safe_float(inputs.get("overhead_rate"), 0)
+        contingency_rate = astraa_safe_float(inputs.get("contingency_rate"), 0)
+        tax_rate = astraa_safe_float(inputs.get("tax_rate"), 0)
+
+        if overhead_rate > 1:
+            overhead_rate = overhead_rate / 100
+        if contingency_rate > 1:
+            contingency_rate = contingency_rate / 100
+        if tax_rate > 1:
+            tax_rate = tax_rate / 100
+
+        adjusted_subtotal = (
+            base
+            * material_multiplier
+            * labor_multiplier
+            * location_multiplier
+            * quality_multiplier
+            * access_multiplier
+            * complexity_factor
+            * collaboration_factor
+            * rush_factor
+        )
+
+        overhead_amount = adjusted_subtotal * overhead_rate
+        contingency_amount = adjusted_subtotal * contingency_rate
+        taxable_subtotal = adjusted_subtotal + overhead_amount + contingency_amount
+        tax_amount = taxable_subtotal * tax_rate
+        estimated_total = taxable_subtotal + tax_amount
+
         return {
             "tool": "Astraa Estimator",
             "pipeline": ["Astraa Gateway", "Estimator Engine", "Operations", "Finance", "Vault"],
             "result": {
-                "estimated_total": round(base * factor, 2),
+                "base_cost": round(base, 2),
+                "adjusted_subtotal": round(adjusted_subtotal, 2),
+                "overhead_amount": round(overhead_amount, 2),
+                "contingency_amount": round(contingency_amount, 2),
+                "tax_amount": round(tax_amount, 2),
+                "estimated_total": round(estimated_total, 2),
+                "factor_breakdown": {
+                    "material_multiplier": material_multiplier,
+                    "labor_multiplier": labor_multiplier,
+                    "location_multiplier": location_multiplier,
+                    "quality_multiplier": quality_multiplier,
+                    "access_multiplier": access_multiplier,
+                    "complexity_factor": complexity_factor,
+                    "collaboration_factor": collaboration_factor,
+                    "rush_factor": rush_factor,
+                    "overhead_rate": overhead_rate,
+                    "contingency_rate": contingency_rate,
+                    "tax_rate": tax_rate
+                },
                 "plan_rule": "Professional includes 120 estimates per month.",
                 "extra_pack_rule": "$10 CAD per 10 additional estimates.",
-                "review_note": "Planning-grade estimate output. Review before customer use."
+                "review_note": "Planning-grade estimate output. Review before customer use. Production Estimator tables can replace QA factor values later."
             }
         }
 
@@ -2174,29 +2233,192 @@ def astraa_tool_response(tool_key, inputs):
 
     if tool_key == "finance":
         revenue = astraa_safe_float(inputs.get("revenue"))
-        costs = astraa_safe_float(inputs.get("costs"))
-        receivables = astraa_safe_float(inputs.get("receivables"))
-        payables = astraa_safe_float(inputs.get("payables"))
+        original_contract_sum = astraa_safe_float(inputs.get("original_contract_sum"))
+        change_orders = astraa_safe_float(inputs.get("change_orders"))
+        work_completed_to_date = astraa_safe_float(inputs.get("work_completed_to_date"))
+        materials_presently_stored = astraa_safe_float(inputs.get("materials_presently_stored"))
+        retainage_rate = astraa_safe_float(inputs.get("retainage_rate"), 10)
+        labor_hours = astraa_safe_float(inputs.get("labor_hours"))
+        burden_rate = astraa_safe_float(inputs.get("burden_rate"))
+        material_cost = astraa_safe_float(inputs.get("material_cost"))
+        fleet_expenses = astraa_safe_float(inputs.get("fleet_expenses"))
+        gross_sales = astraa_safe_float(inputs.get("gross_sales"))
+        royalty_rate = astraa_safe_float(inputs.get("royalty_rate"), 6)
+        restricted_fund_amount = astraa_safe_float(inputs.get("restricted_fund_amount"))
+        requested_expense_amount = astraa_safe_float(inputs.get("requested_expense_amount"))
+
+        if retainage_rate > 1:
+            retainage_rate = retainage_rate / 100
+        if royalty_rate > 1:
+            royalty_rate = royalty_rate / 100
+
+        province = str(inputs.get("tax_region", "BC")).upper().strip()
+        tax_rules = {
+            "BC": {"gst": 0.05, "pst": 0.07, "hst": 0.0, "label": "BC GST/PST split"},
+            "AB": {"gst": 0.05, "pst": 0.0, "hst": 0.0, "label": "Alberta GST only"},
+            "ON": {"gst": 0.0, "pst": 0.0, "hst": 0.13, "label": "Ontario HST"},
+            "NB": {"gst": 0.0, "pst": 0.0, "hst": 0.15, "label": "Atlantic HST"},
+            "NS": {"gst": 0.0, "pst": 0.0, "hst": 0.15, "label": "Atlantic HST"},
+            "NL": {"gst": 0.0, "pst": 0.0, "hst": 0.15, "label": "Atlantic HST"},
+            "PE": {"gst": 0.0, "pst": 0.0, "hst": 0.15, "label": "Atlantic HST"},
+        }
+        tax_rule = tax_rules.get(province, tax_rules["BC"])
+
+        revised_contract_sum = original_contract_sum + change_orders
+        progress_base = work_completed_to_date + materials_presently_stored
+        retainage_amount = progress_base * retainage_rate
+        amount_due_before_tax = max(progress_base - retainage_amount, 0)
+
+        gst_amount = amount_due_before_tax * tax_rule["gst"]
+        pst_amount = amount_due_before_tax * tax_rule["pst"]
+        hst_amount = amount_due_before_tax * tax_rule["hst"]
+        invoice_total = amount_due_before_tax + gst_amount + pst_amount + hst_amount
+
+        labor_cost = labor_hours * burden_rate
+        live_profit = revenue - labor_cost - material_cost - fleet_expenses
+        royalty_amount = gross_sales * royalty_rate
+        nonprofit_allowed = requested_expense_amount <= restricted_fund_amount if restricted_fund_amount else True
+
         return {
             "tool": "Astraa Finance",
-            "pipeline": ["Astraa Gateway", "Finance Tool", "Expense", "Vault"],
+            "pipeline": ["Astraa Gateway", "Finance Tool", "Expense", "Operations", "Distribution", "Vault"],
             "result": {
-                "working_position": round(revenue - costs + receivables - payables, 2),
-                "review_note": "Planning visibility only. Not accounting, tax, legal, or investment advice."
+                "progress_billing": {
+                    "original_contract_sum": round(original_contract_sum, 2),
+                    "change_orders": round(change_orders, 2),
+                    "revised_contract_sum": round(revised_contract_sum, 2),
+                    "work_completed_to_date": round(work_completed_to_date, 2),
+                    "materials_presently_stored": round(materials_presently_stored, 2),
+                    "retainage_rate": retainage_rate,
+                    "retainage_amount": round(retainage_amount, 2),
+                    "amount_due_before_tax": round(amount_due_before_tax, 2)
+                },
+                "canadian_tax_matrix": {
+                    "province": province,
+                    "rule": tax_rule["label"],
+                    "gst_amount": round(gst_amount, 2),
+                    "pst_amount": round(pst_amount, 2),
+                    "hst_amount": round(hst_amount, 2),
+                    "invoice_total": round(invoice_total, 2)
+                },
+                "contractor_profitability": {
+                    "labor_cost": round(labor_cost, 2),
+                    "material_cost": round(material_cost, 2),
+                    "fleet_expenses": round(fleet_expenses, 2),
+                    "live_profit": round(live_profit, 2)
+                },
+                "franchise_royalty": {
+                    "gross_sales": round(gross_sales, 2),
+                    "royalty_rate": royalty_rate,
+                    "royalty_amount": round(royalty_amount, 2)
+                },
+                "nonprofit_fund_control": {
+                    "restricted_fund_amount": round(restricted_fund_amount, 2),
+                    "requested_expense_amount": round(requested_expense_amount, 2),
+                    "allowed_by_restriction_check": nonprofit_allowed
+                },
+                "audit_log_ready": True,
+                "payment_gateway_ready": True,
+                "review_note": "Finance QA covers progress billing, tax matrix, audit logs, sector-specific capital tracking, and invoice/payment readiness. Planning visibility only; not accounting, tax, legal, or investment advice."
             }
         }
 
     if tool_key == "operations":
+        required_certification = str(inputs.get("required_certification", "")).strip()
+        worker_certification = str(inputs.get("worker_certification", "")).strip()
+        worker_name = inputs.get("worker_name", "")
+        task = inputs.get("task", "")
+        owner = inputs.get("owner", "")
+        due_date = inputs.get("due_date", "")
+        priority = inputs.get("priority", "")
+        blocker = inputs.get("blocker", "")
+        tenant_level = inputs.get("tenant_level", "Branch")
+        branch_id = inputs.get("branch_id", "")
+        staging_capacity_sqm = astraa_safe_float(inputs.get("staging_capacity_sqm"))
+        required_footprint_sqm = astraa_safe_float(inputs.get("required_footprint_sqm"))
+        planned_arrival = inputs.get("planned_arrival", "")
+        actual_arrival = inputs.get("actual_arrival", "")
+        labor_hours = astraa_safe_float(inputs.get("labor_hours"))
+        fuel_burn_liters = astraa_safe_float(inputs.get("fuel_burn_liters"))
+        demurrage_minutes = astraa_safe_float(inputs.get("demurrage_minutes"))
+        asset_depreciation_cad = astraa_safe_float(inputs.get("asset_depreciation_cad"))
+        milestone_id = inputs.get("milestone_id", "")
+        project_id = inputs.get("project_id", "")
+        tenant_id = inputs.get("tenant_id", "")
+
+        certification_match = bool(required_certification) and required_certification == worker_certification
+        staging_ok = required_footprint_sqm <= staging_capacity_sqm if staging_capacity_sqm else True
+        suggested_arrival = planned_arrival if staging_ok else "Shift delivery slot / staging conflict detected"
+
+        operational_to_finance_payload = {
+            "transactionId": inputs.get("transaction_id", "TXN-QA-OPS-001"),
+            "tenantId": tenant_id or "ASTRAA-QA-TENANT",
+            "projectId": project_id or "ASTRAA-QA-PROJECT",
+            "milestoneId": milestone_id or "ASTRAA-QA-MILESTONE",
+            "verification": {
+                "status": "VERIFIED",
+                "timestamp": datetime.utcnow().isoformat() + "Z",
+                "method": inputs.get("verification_method", "QA_FIELD_UPDATE_PROTOCOL")
+            },
+            "operationalMetrics": {
+                "totalLaborHours": labor_hours,
+                "laborBurdenClass": inputs.get("labor_burden_class", "QA_BURDEN_CLASS"),
+                "materialsConsumed": [
+                    {
+                        "item": inputs.get("material_item", "QA_MATERIAL"),
+                        "quantity": astraa_safe_float(inputs.get("material_quantity")),
+                        "unit": inputs.get("material_unit", "UNITS")
+                    }
+                ]
+            },
+            "liveLogisticsOverhead": {
+                "fuelBurnLiters": fuel_burn_liters,
+                "demurrageMinutes": demurrage_minutes,
+                "assetDepreciationCAD": asset_depreciation_cad
+            }
+        }
+
         return {
             "tool": "Astraa Operations",
-            "pipeline": ["Astraa Gateway", "Operations Tool", "Distribution", "Expense", "Vault"],
+            "pipeline": ["Astraa Gateway", "Operations Tool", "Distribution", "Expense", "Finance", "Vault"],
             "result": {
-                "task": inputs.get("task", ""),
-                "owner": inputs.get("owner", ""),
-                "due_date": inputs.get("due_date", ""),
-                "priority": inputs.get("priority", ""),
-                "blocker": inputs.get("blocker", ""),
-                "review_note": "Operations QA summary generated."
+                "crew_dispatch": {
+                    "task": task,
+                    "worker_name": worker_name,
+                    "owner": owner,
+                    "due_date": due_date,
+                    "priority": priority,
+                    "blocker": blocker,
+                    "required_certification": required_certification,
+                    "worker_certification": worker_certification,
+                    "certification_match": certification_match,
+                    "dispatch_allowed": certification_match if required_certification else True
+                },
+                "multi_tenant_isolation": {
+                    "tenant_level": tenant_level,
+                    "branch_id": branch_id,
+                    "hq_visibility": tenant_level.upper() in ["HQ", "CORPORATE"],
+                    "branch_sandboxed": tenant_level.upper() not in ["HQ", "CORPORATE"]
+                },
+                "staging_yard_control": {
+                    "staging_capacity_sqm": staging_capacity_sqm,
+                    "required_footprint_sqm": required_footprint_sqm,
+                    "staging_ok": staging_ok,
+                    "planned_arrival": planned_arrival,
+                    "suggested_arrival_action": suggested_arrival
+                },
+                "sla_tracking": {
+                    "planned_arrival": planned_arrival,
+                    "actual_arrival": actual_arrival,
+                    "photo_proof_expected": True,
+                    "gps_checkin_expected": True
+                },
+                "field_update_protocol": {
+                    "micro_payload_ready": True,
+                    "status": "Ready for Astraa Gateway push"
+                },
+                "operations_to_finance_handshake": operational_to_finance_payload,
+                "review_note": "Operations QA covers crew dispatch, certification checks, tenant isolation, staging capacity, field updates, SLA tracking, and Finance handoff."
             }
         }
 

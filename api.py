@@ -4102,6 +4102,37 @@ def astraa_moneris_simulation_enabled():
     return (os.getenv("ASTRAA_MONERIS_SIMULATION", "true").strip().lower() in ["1", "true", "yes"])
 
 
+
+
+# ASTRAA_MONERIS_PROD_SIMULATION_GUARD_V1
+def astraa_moneris_prod_simulation_allowed():
+    return (
+        os.getenv("ASTRAA_ALLOW_PROD_SIMULATION", "false")
+        .strip()
+        .lower()
+        in ["1", "true", "yes"]
+    )
+
+
+def astraa_moneris_environment_guard():
+    """
+    Prevent accidental local/simulated payment verification while configured for production.
+    This protects against MONERIS_ENV=prod + ASTRAA_MONERIS_SIMULATION=true.
+    """
+    env = astraa_moneris_env()
+    simulation = astraa_moneris_simulation_enabled()
+
+    if env == "prod" and simulation and not astraa_moneris_prod_simulation_allowed():
+        return False, (
+            "Blocked unsafe payment verification mode: MONERIS_ENV=prod with "
+            "ASTRAA_MONERIS_SIMULATION=true. Set MONERIS_ENV=qa for local simulation, "
+            "or set ASTRAA_MONERIS_SIMULATION=false for real Moneris production receipt verification. "
+            "Only set ASTRAA_ALLOW_PROD_SIMULATION=true for an intentional internal override."
+        )
+
+    return True, "Environment guard passed."
+
+
 def astraa_verify_moneris_receipt(ticket):
     """
     Returns:
@@ -4127,6 +4158,18 @@ def astraa_verify_moneris_receipt(ticket):
             "source": "local_validation",
             "raw": {},
             "reason": "Missing Moneris ticket."
+        }
+
+    env_guard_ok, env_guard_reason = astraa_moneris_environment_guard()
+    if not env_guard_ok:
+        return {
+            "verified": False,
+            "source": "environment_guard",
+            "raw": {
+                "environment": astraa_moneris_env(),
+                "simulation": astraa_moneris_simulation_enabled()
+            },
+            "reason": env_guard_reason
         }
 
     env = astraa_moneris_env()

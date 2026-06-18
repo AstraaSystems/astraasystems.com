@@ -278,25 +278,419 @@ a { color:inherit; }
   .grid { grid-template-columns:1fr; }
   .hero { padding:70px 0; }
 }
+/* ASTRAA_HEADER_RESCUE_CSS */
+
+    :root {
+      --black:#05070f;
+      --navy:#071426;
+      --royal:#1d4ed8;
+      --white:#ffffff;
+      --off:#f8fafc;
+      --line:#dbe3ef;
+      --text:#0f172a;
+      --muted:#475569;
+      --gray:#64748b;
+      --light:#dbeafe;
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:var(--white);
+      line-height:1.6;
+    }
+
+    a { color:inherit; }
+
+    .header {
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(255,255,255,.96);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid #e5e7eb;
+    }
+
+    .nav {
+      max-width:1120px;
+      margin:0 auto;
+      padding:16px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+    }
+
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      font-weight:950;
+      color:var(--black);
+    }
+
+    .brand img {
+      width:38px;
+      height:38px;
+      object-fit:contain;
+      flex:0 0 auto;
+    }
+
+    .brand span {
+      display:block;
+      font-size:12px;
+      color:var(--gray);
+      font-weight:700;
+      line-height:1.1;
+    }
+
+    .links {
+      display:flex;
+      align-items:center;
+      gap:22px;
+      color:var(--muted);
+      font-size:14px;
+      font-weight:750;
+    }
+
+    .links a { text-decoration:none; }
+    .links a:hover { color:var(--royal); }
+
+    .cta {
+      display:inline-flex;
+      padding:10px 15px;
+      border-radius:999px;
+      background:var(--royal);
+      color:white;
+      text-decoration:none;
+      font-weight:900;
+    }
+
+    .container {
+      max-width:1120px;
+      margin:0 auto;
+      padding:0 24px;
+    }
+
+    .hero {
+      background:linear-gradient(135deg,var(--black),var(--navy));
+      color:white;
+      padding:88px 0 76px;
+    }
+
+    .kicker {
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      color:var(--light);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      margin-bottom:20px;
+    }
+
+    .hero h1 {
+      margin:0;
+      max-width:940px;
+      font-size:clamp(44px,7vw,82px);
+      line-height:.96;
+      letter-spacing:-.07em;
+    }
+
+    .hero p {
+      max-width:780px;
+      margin:24px 0 0;
+      color:var(--light);
+      font-size:19px;
+    }
+
+    .section { padding:72px 0; }
+
+    .section h2 {
+      margin:0 0 12px;
+      color:var(--black);
+      font-size:clamp(32px,4vw,52px);
+      line-height:1.05;
+      letter-spacing:-.055em;
+    }
+
+    .section p {
+      color:var(--muted);
+      max-width:860px;
+      margin:0;
+    }
+
+    .btn {
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+      padding:12px 15px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:950;
+      border:1px solid transparent;
+      cursor:pointer;
+      font:inherit;
+    }
+
+    .btn.primary { background:var(--royal); color:white; }
+    .btn.secondary { background:white; color:var(--royal); border-color:#bfdbfe; }
+    .btn.dark { background:var(--black); color:white; }
+
+    .actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .notice {
+      margin-top:26px;
+      padding:20px;
+      border-radius:22px;
+      background:#eff6ff;
+      border:1px solid #bfdbfe;
+      color:#1e3a8a;
+    }
+
+    footer {
+      padding:28px 0;
+      border-top:1px solid #e5e7eb;
+      color:var(--gray);
+      font-size:14px;
+    }
+
+    .footer-inner {
+      max-width:1120px;
+      margin:0 auto;
+      padding:0 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .footer-links {
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .footer-links a {
+      text-decoration:none;
+      color:var(--gray);
+    }
+
+    @media(max-width:900px) {
+      .links { display:none; }
+      .hero { padding:70px 0 64px; }
+    }
+
+
+/* ASTRAA_VISIBLE_PUBLIC_HEADER_V7 */
+.astraa-site-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  background: rgba(255,255,255,.97) !important;
+  backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.astraa-site-nav {
+  max-width: 1120px !important;
+  margin: 0 auto !important;
+  padding: 16px 24px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 20px !important;
+}
+
+.astraa-site-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-decoration: none !important;
+  font-weight: 950 !important;
+  color: #05070f !important;
+  white-space: nowrap !important;
+}
+
+.astraa-site-brand img {
+  width: 38px !important;
+  height: 38px !important;
+  object-fit: contain !important;
+  flex: 0 0 auto !important;
+}
+
+.astraa-site-brand span {
+  display: block !important;
+  font-size: 12px !important;
+  color: #64748b !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+}
+
+.astraa-site-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: 22px !important;
+  color: #475569 !important;
+  font-size: 14px !important;
+  font-weight: 750 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a {
+  display: inline-flex !important;
+  text-decoration: none !important;
+  color: #475569 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a:hover {
+  color: #1d4ed8 !important;
+}
+
+.astraa-site-cta {
+  display: inline-flex !important;
+  padding: 10px 15px !important;
+  border-radius: 999px !important;
+  background: #1d4ed8 !important;
+  color: white !important;
+  text-decoration: none !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+}
+
+@media(max-width: 900px) {
+  .astraa-site-links {
+    display: none !important;
+  }
+}
+
+
+/* ASTRAA_VISIBLE_PUBLIC_HEADER_V8 */
+.astraa-site-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  background: rgba(255,255,255,.97) !important;
+  backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.astraa-site-nav {
+  max-width: 1120px !important;
+  margin: 0 auto !important;
+  padding: 16px 24px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 20px !important;
+}
+
+.astraa-site-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-decoration: none !important;
+  font-weight: 950 !important;
+  color: #05070f !important;
+  white-space: nowrap !important;
+}
+
+.astraa-site-brand img {
+  width: 38px !important;
+  height: 38px !important;
+  object-fit: contain !important;
+  flex: 0 0 auto !important;
+}
+
+.astraa-site-brand span {
+  display: block !important;
+  font-size: 12px !important;
+  color: #64748b !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+}
+
+.astraa-site-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: 22px !important;
+  color: #475569 !important;
+  font-size: 14px !important;
+  font-weight: 750 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a {
+  display: inline-flex !important;
+  text-decoration: none !important;
+  color: #475569 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a:hover {
+  color: #1d4ed8 !important;
+}
+
+.astraa-site-cta {
+  display: inline-flex !important;
+  padding: 10px 15px !important;
+  border-radius: 999px !important;
+  background: #1d4ed8 !important;
+  color: white !important;
+  text-decoration: none !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+}
+
+@media(max-width: 900px) {
+  .astraa-site-links {
+    display: none !important;
+  }
+}
+
 </style>
 </head>
 <body>
-<header class="header">
-  <nav class="nav">
-    <a class="brand" href="index.html">
-      <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
-      <div>Astraa Systems<span>Connected business tools</span></div>
+<header data-astraa-header="emergency-v9" style="position:sticky;top:0;z-index:99999;background:rgba(255,255,255,.98);backdrop-filter:blur(16px);border-bottom:1px solid #e5e7eb;width:100%;">
+  <nav style="max-width:1120px;margin:0 auto;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;gap:20px;">
+    <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:950;color:#05070f;white-space:nowrap;">
+      <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" style="width:38px;height:38px;object-fit:contain;display:block;" />
+      <div style="line-height:1.15;">Astraa Systems<span style="display:block;font-size:12px;color:#64748b;font-weight:700;">Connected business tools</span></div>
     </a>
-    <div class="links">
-      <a href="index.html">Home</a>
-      <a href="tools.html">Tools</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="workspace-test-login.html">Workspace</a>
-      <a href="contact.html">Contact</a>
+
+    <div style="display:flex;align-items:center;gap:22px;font-size:14px;font-weight:750;visibility:visible;opacity:1;">
+      <a href="index.html" style="display:inline-flex;text-decoration:none;color:#475569;">Home</a>
+      <a href="tools.html" style="display:inline-flex;text-decoration:none;color:#475569;">Tools</a>
+      <a href="pricing.html" style="display:inline-flex;text-decoration:none;color:#475569;">Pricing</a>
+      <a href="support.html" style="display:inline-flex;text-decoration:none;color:#475569;">FAQ / Support</a>
+      <a href="contact.html" style="display:inline-flex;text-decoration:none;color:#475569;">Contact</a>
     </div>
-    <a class="cta" href="workspace-test-login.html">Open Workspace</a>
+
+    <a href="workspace-test-login.html" style="display:inline-flex;padding:10px 15px;border-radius:999px;background:#1d4ed8;color:white;text-decoration:none;font-weight:900;white-space:nowrap;">Open Workspace</a>
   </nav>
 </header>
+
+
+
+
 
 
 <main>

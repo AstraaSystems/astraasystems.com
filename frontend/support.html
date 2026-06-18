@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ASTRAA_SUPPORT_PAGE_V3 -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>FAQ / Support | Astraa Systems</title>
+  <meta name="description" content="FAQ and support for Astraa Workspace, Estimator, Finance, Expense, Operations, pricing, trials, and custom packages." />
+
+  <style>
+    :root {
+      --black:#05070f;
+      --navy:#071426;
+      --royal:#1d4ed8;
+      --white:#ffffff;
+      --off:#f8fafc;
+      --line:#dbe3ef;
+      --text:#0f172a;
+      --muted:#475569;
+      --gray:#64748b;
+      --light:#dbeafe;
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:var(--white);
+      line-height:1.6;
+    }
+
+    a { color:inherit; }
+
+    .container {
+      max-width:1120px;
+      margin:0 auto;
+      padding:0 24px;
+    }
+
+    .hero {
+      background:linear-gradient(135deg,var(--black),var(--navy));
+      color:white;
+      padding:88px 0 76px;
+    }
+
+    .kicker {
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      color:var(--light);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      margin-bottom:20px;
+    }
+
+    .hero h1 {
+      margin:0;
+      max-width:940px;
+      font-size:clamp(44px,7vw,82px);
+      line-height:.96;
+      letter-spacing:-.07em;
+    }
+
+    .hero p {
+      max-width:780px;
+      margin:24px 0 0;
+      color:var(--light);
+      font-size:19px;
+    }
+
+    .section { padding:72px 0; }
+
+    .section h2 {
+      margin:0 0 12px;
+      color:var(--black);
+      font-size:clamp(32px,4vw,52px);
+      line-height:1.05;
+      letter-spacing:-.055em;
+    }
+
+    .section p {
+      color:var(--muted);
+      max-width:850px;
+      margin:0;
+    }
+
+    .support-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:30px;
+    }
+
+    .card {
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:24px;
+      background:white;
+      box-shadow:0 14px 38px rgba(15,23,42,.06);
+    }
+
+    .card h3 {
+      margin:0 0 14px;
+      color:var(--black);
+      font-size:25px;
+      letter-spacing:-.04em;
+    }
+
+    .faq-item {
+      border-top:1px solid #e5e7eb;
+      padding:16px 0;
+    }
+
+    .faq-item:first-of-type {
+      border-top:0;
+      padding-top:0;
+    }
+
+    .faq-item strong {
+      display:block;
+      color:var(--black);
+      margin-bottom:6px;
+      font-size:15px;
+    }
+
+    .faq-item span {
+      display:block;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.55;
+    }
+
+    .notice {
+      margin-top:28px;
+      padding:20px;
+      border-radius:22px;
+      background:#eff6ff;
+      border:1px solid #bfdbfe;
+      color:#1e3a8a;
+    }
+
+    .btn {
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+      padding:12px 15px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:950;
+      border:1px solid transparent;
+      cursor:pointer;
+      font:inherit;
+      margin-top:18px;
+    }
+
+    .btn.primary {
+      background:var(--royal);
+      color:white;
+    }
+
+    .btn.secondary {
+      background:white;
+      color:var(--royal);
+      border-color:#bfdbfe;
+    }
+
+    footer {
+      padding:28px 0;
+      border-top:1px solid #e5e7eb;
+      color:var(--gray);
+      font-size:14px;
+    }
+
+    .footer-inner {
+      max-width:1120px;
+      margin:0 auto;
+      padding:0 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .footer-links {
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .footer-links a {
+      text-decoration:none;
+      color:var(--gray);
+    }
+
+    .support-chat {
+      position:fixed;
+      right:22px;
+      bottom:22px;
+      z-index:90;
+    }
+
+    .support-chat button {
+      border:0;
+      border-radius:999px;
+      background:#1d4ed8;
+      color:white;
+      padding:13px 16px;
+      font-weight:950;
+      box-shadow:0 18px 45px rgba(29,78,216,.28);
+      cursor:pointer;
+    }
+
+    @media(max-width:900px) {
+      .support-grid { grid-template-columns:1fr; }
+      .hero { padding:70px 0 64px; }
+    }
+  
+/* ASTRAA_VISIBLE_PUBLIC_HEADER_V8 */
+.astraa-site-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  background: rgba(255,255,255,.97) !important;
+  backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.astraa-site-nav {
+  max-width: 1120px !important;
+  margin: 0 auto !important;
+  padding: 16px 24px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 20px !important;
+}
+
+.astraa-site-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-decoration: none !important;
+  font-weight: 950 !important;
+  color: #05070f !important;
+  white-space: nowrap !important;
+}
+
+.astraa-site-brand img {
+  width: 38px !important;
+  height: 38px !important;
+  object-fit: contain !important;
+  flex: 0 0 auto !important;
+}
+
+.astraa-site-brand span {
+  display: block !important;
+  font-size: 12px !important;
+  color: #64748b !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+}
+
+.astraa-site-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: 22px !important;
+  color: #475569 !important;
+  font-size: 14px !important;
+  font-weight: 750 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a {
+  display: inline-flex !important;
+  text-decoration: none !important;
+  color: #475569 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a:hover {
+  color: #1d4ed8 !important;
+}
+
+.astraa-site-cta {
+  display: inline-flex !important;
+  padding: 10px 15px !important;
+  border-radius: 999px !important;
+  background: #1d4ed8 !important;
+  color: white !important;
+  text-decoration: none !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+}
+
+@media(max-width: 900px) {
+  .astraa-site-links {
+    display: none !important;
+  }
+}
+
+</style>
+</head>
+
+<body>
+<header data-astraa-header="emergency-v9" style="position:sticky;top:0;z-index:99999;background:rgba(255,255,255,.98);backdrop-filter:blur(16px);border-bottom:1px solid #e5e7eb;width:100%;">
+  <nav style="max-width:1120px;margin:0 auto;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;gap:20px;">
+    <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:950;color:#05070f;white-space:nowrap;">
+      <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" style="width:38px;height:38px;object-fit:contain;display:block;" />
+      <div style="line-height:1.15;">Astraa Systems<span style="display:block;font-size:12px;color:#64748b;font-weight:700;">Connected business tools</span></div>
+    </a>
+
+    <div style="display:flex;align-items:center;gap:22px;font-size:14px;font-weight:750;visibility:visible;opacity:1;">
+      <a href="index.html" style="display:inline-flex;text-decoration:none;color:#475569;">Home</a>
+      <a href="tools.html" style="display:inline-flex;text-decoration:none;color:#475569;">Tools</a>
+      <a href="pricing.html" style="display:inline-flex;text-decoration:none;color:#475569;">Pricing</a>
+      <a href="support.html" style="display:inline-flex;text-decoration:none;color:#475569;">FAQ / Support</a>
+      <a href="contact.html" style="display:inline-flex;text-decoration:none;color:#475569;">Contact</a>
+    </div>
+
+    <a href="workspace-test-login.html" style="display:inline-flex;padding:10px 15px;border-radius:999px;background:#1d4ed8;color:white;text-decoration:none;font-weight:900;white-space:nowrap;">Open Workspace</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="kicker">Astraa Support</div>
+      <h1>FAQ, support, and troubleshooting for Astraa products.</h1>
+      <p>
+        Get help with Workspace access, Estimator, Finance, Expense, Operations,
+        pricing, trials, custom packages, and coming soon tools.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Support options.</h2>
+      <p>Use the FAQ resources, contact Astraa, or prepare for future phone support.</p>
+
+      <div class="support-grid">
+        <article class="card">
+          <h3>FAQ / Support Assistant</h3>
+          <div class="faq-item">
+            <strong>What is this support area?</strong>
+            <span>This page helps public visitors understand Astraa tools, pricing, trial access, and support paths.</span>
+          </div>
+          <div class="faq-item">
+            <strong>Can the support assistant fix account issues?</strong>
+            <span>Not yet. Deeper account actions should happen inside Workspace or through direct support.</span>
+          </div>
+          <div class="faq-item">
+            <strong>Where should customers ask for help?</strong>
+            <span>Use the Contact page for custom packages, onboarding, account access, and troubleshooting requests.</span>
+          </div>
+          <a class="btn primary" href="contact.html">Contact Support</a>
+        </article>
+
+        <article class="card">
+          <h3>Phone support</h3>
+          <p>
+            Phone support is planned, but should not be published until the phone number,
+            routing, privacy language, and escalation flow are ready.
+          </p>
+          <div class="notice">
+            <strong>Support phone:</strong> Coming soon. Future phone support should connect callers to a support assistant and provide a clear path to direct contact when needed.
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Astraa Estimator</h3>
+          <div class="faq-item"><strong>Basic</strong><span>$39.99 CAD/month with 30 estimates per month.</span></div>
+          <div class="faq-item"><strong>Professional</strong><span>$99.99 CAD/month with 120 estimates per month.</span></div>
+          <div class="faq-item"><strong>Extra estimates</strong><span>Basic and Professional can add $10 CAD packs for 10 additional estimates.</span></div>
+        </article>
+
+        <article class="card">
+          <h3>Finance, Expense, and Operations</h3>
+          <div class="faq-item"><strong>Finance</strong><span>Supports planning visibility for budgets, cashflow direction, receivables, payables, and summaries.</span></div>
+          <div class="faq-item"><strong>Expense</strong><span>Bonus Workspace tool for expense tracking and summaries.</span></div>
+          <div class="faq-item"><strong>Operations</strong><span>Supports actions, owners, priorities, statuses, blockers, and follow-up workflows.</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="support-chat">
+  <button type="button" onclick="alert('FAQ / Support chat placeholder. Full connected support assistant will be added after Workspace resources are stable.')">FAQ / Support</button>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>Astraa Systems © 2026</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="support.html">FAQ / Support</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="trial-terms.html">Trial Terms</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

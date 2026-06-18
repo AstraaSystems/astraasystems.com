@@ -3993,5 +3993,360 @@ def astraa_estimator_enforced_run():
     }), 200
 
 
+
+
+# ============================================================
+# ASTRAA PAYMENT VERIFICATION — MONERIS RECEIPT ROUTE V1
+# Purpose:
+#   Server-side payment verification before activating plans
+#   or applying estimate packs.
+#
+# Notes:
+#   - Local QA simulation is supported for internal testing.
+#   - Real Moneris verification requires backend env variables.
+#   - Do not expose store_id/api_token/checkout_id in frontend JS.
+# ============================================================
+
+ASTRAA_PAYMENT_DB_PATH = os.path.join("astraa_data", "astraa_payment_db.json")
+
+MONERIS_RECEIPT_URLS = {
+    "qa": "https://gatewayt.moneris.com/chkt/request/request.php",
+    "prod": "https://gateway.moneris.com/chkt/request/request.php"
+}
+
+
+def astraa_payment_now():
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def astraa_load_payment_db():
+    os.makedirs("astraa_data", exist_ok=True)
+
+    if not os.path.exists(ASTRAA_PAYMENT_DB_PATH):
+        return []
+
+    try:
+        with open(ASTRAA_PAYMENT_DB_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        return data if isinstance(data, list) else []
+
+    except Exception:
+        return []
+
+
+def astraa_save_payment_db(records):
+    os.makedirs("astraa_data", exist_ok=True)
+
+    tmp_path = ASTRAA_PAYMENT_DB_PATH + ".tmp"
+
+    with open(tmp_path, "w", encoding="utf-8") as f:
+        json.dump(records, f, indent=2, sort_keys=True)
+
+    os.replace(tmp_path, ASTRAA_PAYMENT_DB_PATH)
+
+
+def astraa_payment_record_id(prefix="PAY"):
+    return prefix + "-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S%f")
+
+
+def astraa_moneris_env():
+    return (os.getenv("MONERIS_ENV") or "qa").strip().lower()
+
+
+def astraa_moneris_simulation_enabled():
+    return (os.getenv("ASTRAA_MONERIS_SIMULATION", "true").strip().lower() in ["1", "true", "yes"])
+
+
+def astraa_verify_moneris_receipt(ticket):
+    """
+    Returns:
+      {
+        "verified": bool,
+        "source": "simulation" or "moneris_receipt_request",
+        "raw": dict,
+        "reason": str
+      }
+
+    Local QA simulation:
+      Accepts tickets starting with ASTRAA-QA- or QA- only when
+      ASTRAA_MONERIS_SIMULATION=true.
+
+    Real Moneris mode:
+      Sends receipt request server-to-server using backend env vars.
+    """
+    ticket = str(ticket or "").strip()
+
+    if not ticket:
+        return {
+            "verified": False,
+            "source": "local_validation",
+            "raw": {},
+            "reason": "Missing Moneris ticket."
+        }
+
+    env = astraa_moneris_env()
+
+    # Local/internal QA simulation. This is NOT Moneris behavior.
+    # It is only an Astraa test harness so frontend payment flow can be wired safely.
+    if astraa_moneris_simulation_enabled():
+        if ticket.startswith("ASTRAA-QA-") or ticket.startswith("QA-"):
+            return {
+                "verified": True,
+                "source": "astraa_local_simulation",
+                "raw": {
+                    "ticket": ticket,
+                    "environment": env,
+                    "simulation": True
+                },
+                "reason": "Local QA simulated payment verified."
+            }
+
+        return {
+            "verified": False,
+            "source": "astraa_local_simulation",
+            "raw": {
+                "ticket": ticket,
+                "environment": env,
+                "simulation": True
+            },
+            "reason": "Local QA simulation only accepts ASTRAA-QA-* or QA-* tickets."
+        }
+
+    store_id = os.getenv("MONERIS_STORE_ID")
+    api_token = os.getenv("MONERIS_API_TOKEN")
+    checkout_id = os.getenv("MONERIS_CHECKOUT_ID")
+
+    missing = []
+    if not store_id:
+        missing.append("MONERIS_STORE_ID")
+    if not api_token:
+        missing.append("MONERIS_API_TOKEN")
+    if not checkout_id:
+        missing.append("MONERIS_CHECKOUT_ID")
+
+    if missing:
+        return {
+            "verified": False,
+            "source": "moneris_receipt_request",
+            "raw": {},
+            "reason": "Missing backend Moneris env vars: " + ", ".join(missing)
+        }
+
+    url = MONERIS_RECEIPT_URLS.get(env, MONERIS_RECEIPT_URLS["qa"])
+
+    request_payload = {
+        "store_id": store_id,
+        "api_token": api_token,
+        "checkout_id": checkout_id,
+        "ticket": ticket,
+        "environment": "prod" if env == "prod" else "qa",
+        "action": "receipt"
+    }
+
+    try:
+        response = requests.post(url, json=request_payload, timeout=20)
+        raw = response.json() if response.content else {}
+
+        # Moneris response schemas can contain nested response objects depending on setup.
+        # Keep approval extraction conservative. If not clearly true, do not activate.
+        response_obj = raw.get("response", {}) if isinstance(raw, dict) else {}
+        success_value = str(response_obj.get("success", "")).lower()
+
+        verified = success_value == "true"
+
+        return {
+            "verified": verified,
+            "source": "moneris_receipt_request",
+            "raw": raw,
+            "reason": "Moneris receipt verified." if verified else "Moneris receipt not approved or not clearly verified."
+        }
+
+    except Exception as exc:
+        return {
+            "verified": False,
+            "source": "moneris_receipt_request",
+            "raw": {},
+            "reason": "Moneris receipt request failed: " + str(exc)
+        }
+
+
+def astraa_apply_verified_payment_to_usage(account_email, purchase_type, selected_plan, payment_record):
+    """
+    Updates astraa_usage_db.json after verified payment only.
+    """
+    account_email = str(account_email or "").strip().lower()
+    selected_plan = str(selected_plan or "").strip()
+    purchase_type = str(purchase_type or "").strip()
+
+    db = astraa_load_usage_db()
+
+    if not account_email:
+        return False, "Missing account email.", None
+
+    # Determine target plan.
+    if purchase_type == "subscription_basic":
+        selected_plan = "Basic"
+    elif purchase_type == "subscription_professional":
+        selected_plan = "Professional"
+
+    if account_email not in db:
+        db[account_email] = astraa_default_usage_record(account_email, selected_plan or "Trial")
+
+    record = db[account_email]
+
+    record["account_id"] = account_email
+    record["primary_email"] = account_email
+    record["selected_tool"] = "Astraa Estimator"
+
+    if purchase_type == "subscription_basic":
+        record["selected_plan"] = "Basic"
+        record["selected_price"] = "$39.99 CAD/month"
+        record["payment_status"] = "active"
+        record["subscription_status"] = "active"
+        record["estimate_limit"] = 30
+        record["billing_period_key"] = astraa_month_key()
+        record["billing_period_start"] = astraa_month_start()
+        record["billing_period_end"] = astraa_month_end()
+
+    elif purchase_type == "subscription_professional":
+        record["selected_plan"] = "Professional"
+        record["selected_price"] = "$99.99 CAD/month"
+        record["payment_status"] = "active"
+        record["subscription_status"] = "active"
+        record["estimate_limit"] = 120
+        record["billing_period_key"] = astraa_month_key()
+        record["billing_period_start"] = astraa_month_start()
+        record["billing_period_end"] = astraa_month_end()
+
+    elif purchase_type == "estimate_pack_10":
+        # Estimate pack should only be useful for paid active accounts.
+        if record.get("payment_status") != "active" or record.get("subscription_status") != "active":
+            return False, "Estimate pack cannot be applied to inactive account.", record
+
+        record["extra_estimate_credits_total"] = int(record.get("extra_estimate_credits_total") or 0) + 10
+
+    else:
+        return False, "Unsupported purchase_type.", record
+
+    record.setdefault("payment_history", [])
+    record["payment_history"].append({
+        "payment_id": payment_record.get("payment_id"),
+        "purchase_type": purchase_type,
+        "selected_plan": record.get("selected_plan"),
+        "verified_at": payment_record.get("verified_at"),
+        "source": payment_record.get("verification_source"),
+        "ticket_reference": payment_record.get("ticket_reference")
+    })
+
+    record["updated_at"] = astraa_payment_now()
+
+    db[account_email] = record
+    astraa_save_usage_db(db)
+
+    return True, "Usage record updated after verified payment.", record
+
+
+@app.post("/api/payment/verify-moneris-receipt")
+def astraa_verify_moneris_receipt_route():
+    raw_payload = request.get_json(silent=True)
+
+    if raw_payload is None:
+        return jsonify({
+            "status": "rejected",
+            "gateway": "Astraa Gateway",
+            "errors": ["Invalid or missing JSON payload."]
+        }), 400
+
+    payload = astraa_sanitize(raw_payload)
+
+    account_email = (
+        payload.get("account_email")
+        or payload.get("email")
+        or payload.get("customer_email")
+        or payload.get("tenant_context", {}).get("test_email")
+    )
+
+    selected_tool = payload.get("selected_tool") or "Astraa Estimator"
+    selected_plan = payload.get("selected_plan") or payload.get("plan") or ""
+    purchase_type = payload.get("purchase_type") or ""
+    ticket = payload.get("moneris_ticket") or payload.get("ticket") or ""
+
+    if selected_tool != "Astraa Estimator":
+        return jsonify({
+            "status": "rejected",
+            "gateway": "Astraa Gateway",
+            "errors": ["Only Astraa Estimator payment verification is supported in this route version."]
+        }), 400
+
+    verification = astraa_verify_moneris_receipt(ticket)
+
+    payment_record = {
+        "payment_id": astraa_payment_record_id(),
+        "account_email": str(account_email or "").strip().lower(),
+        "selected_tool": selected_tool,
+        "selected_plan": selected_plan,
+        "purchase_type": purchase_type,
+        "ticket_reference": str(ticket)[-12:] if ticket else "",
+        "verified": bool(verification.get("verified")),
+        "verification_source": verification.get("source"),
+        "verification_reason": verification.get("reason"),
+        "verified_at": astraa_payment_now() if verification.get("verified") else None,
+        "environment": astraa_moneris_env(),
+        "created_at": astraa_payment_now()
+    }
+
+    payment_db = astraa_load_payment_db()
+    payment_db.append(payment_record)
+    astraa_save_payment_db(payment_db)
+
+    if not verification.get("verified"):
+        return jsonify({
+            "status": "blocked",
+            "gateway": "Astraa Gateway",
+            "payment_verified": False,
+            "reason": verification.get("reason"),
+            "payment": payment_record,
+            "review_note": "Payment was not verified. Account access was not changed."
+        }), 403
+
+    applied, apply_reason, usage_record = astraa_apply_verified_payment_to_usage(
+        account_email,
+        purchase_type,
+        selected_plan,
+        payment_record
+    )
+
+    if not applied:
+        return jsonify({
+            "status": "blocked",
+            "gateway": "Astraa Gateway",
+            "payment_verified": True,
+            "reason": apply_reason,
+            "payment": payment_record,
+            "usage": usage_record,
+            "review_note": "Payment verified but usage update was not applied."
+        }), 400
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "payment_verified": True,
+        "payment": payment_record,
+        "usage": {
+            "account_id": usage_record.get("account_id"),
+            "selected_plan": usage_record.get("selected_plan"),
+            "payment_status": usage_record.get("payment_status"),
+            "subscription_status": usage_record.get("subscription_status"),
+            "estimate_limit": usage_record.get("estimate_limit"),
+            "estimate_used": usage_record.get("estimate_used"),
+            "extra_estimate_credits_total": usage_record.get("extra_estimate_credits_total"),
+            "extra_estimate_credits_used": usage_record.get("extra_estimate_credits_used"),
+            "billing_period_key": usage_record.get("billing_period_key")
+        },
+        "review_note": "Backend payment verification completed. Production mode requires real Moneris env vars and receipt validation."
+    }), 200
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

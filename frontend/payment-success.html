@@ -901,5 +901,210 @@ Note: Confirm official transaction details in Moneris admin for accounting and r
     });
   </script>
 
+
+<!-- ASTRAA_BACKEND_PAYMENT_VERIFICATION_V1 -->
+<script id="astraa-backend-payment-verification-v1">
+(function () {
+  function astraaPaymentApiBase() {
+    return (
+      window.ASTRAA_API_BASE ||
+      sessionStorage.getItem("astraa_api_base") ||
+      (location.hostname === "localhost" || location.hostname === "127.0.0.1"
+        ? "http://localhost:5000"
+        : "")
+    );
+  }
+
+  function astraaPaymentApiUrl(path) {
+    return astraaPaymentApiBase() + path;
+  }
+
+  function safeGet(key, fallback) {
+    return sessionStorage.getItem(key) || fallback || "";
+  }
+
+  function inferEstimatorPurchaseType() {
+    const selectedTool = safeGet("astraa_selected_tool", "Astraa Estimator");
+    const selectedPlan = safeGet("astraa_selected_plan", "");
+    const packCredits = safeGet("astraa_estimate_pack_credits", "");
+
+    if (selectedTool === "Astraa Estimator" && String(packCredits).trim() === "10") {
+      return "estimate_pack_10";
+    }
+
+    if (selectedPlan === "Basic") {
+      return "subscription_basic";
+    }
+
+    if (selectedPlan === "Professional") {
+      return "subscription_professional";
+    }
+
+    return "";
+  }
+
+  function ensureBackendVerificationBox() {
+    let box = document.getElementById("astraaBackendPaymentVerificationBox");
+
+    if (!box) {
+      box = document.createElement("section");
+      box.id = "astraaBackendPaymentVerificationBox";
+      box.style.margin = "24px auto";
+      box.style.maxWidth = "960px";
+      box.style.padding = "18px";
+      box.style.border = "1px solid #bfdbfe";
+      box.style.borderRadius = "18px";
+      box.style.background = "#eff6ff";
+      box.style.color = "#1e3a8a";
+      box.style.fontFamily = "inherit";
+
+      const target = document.querySelector("main") || document.body;
+      target.prepend(box);
+    }
+
+    return box;
+  }
+
+  function renderBackendVerification(status, data) {
+    const box = ensureBackendVerificationBox();
+
+    box.innerHTML =
+      "<strong>Backend Payment Verification</strong><br><br>" +
+      "<pre style='white-space:pre-wrap;margin:0;font-size:13px;'>" +
+      JSON.stringify(
+        {
+          status: status,
+          response: data
+        },
+        null,
+        2
+      ) +
+      "</pre>";
+  }
+
+  async function verifyMonerisReceiptWithBackend() {
+    const ticket =
+      safeGet("astraa_moneris_ticket", "") ||
+      safeGet("astraa_payment_ticket", "") ||
+      safeGet("moneris_ticket", "");
+
+    const accountEmail =
+      safeGet("astraa_checkout_email", "") ||
+      safeGet("astraa_account_email", "") ||
+      safeGet("astraa_last_login_email", "");
+
+    const selectedTool = safeGet("astraa_selected_tool", "Astraa Estimator");
+    const selectedPlan = safeGet("astraa_selected_plan", "");
+    const purchaseType = inferEstimatorPurchaseType();
+
+    if (!ticket) {
+      renderBackendVerification("skipped", {
+        reason: "No Moneris ticket found in sessionStorage.",
+        expected_keys: [
+          "astraa_moneris_ticket",
+          "astraa_payment_ticket",
+          "moneris_ticket"
+        ]
+      });
+      return;
+    }
+
+    if (!accountEmail) {
+      renderBackendVerification("skipped", {
+        reason: "No account email found in sessionStorage.",
+        expected_keys: [
+          "astraa_checkout_email",
+          "astraa_account_email",
+          "astraa_last_login_email"
+        ]
+      });
+      return;
+    }
+
+    if (!purchaseType) {
+      renderBackendVerification("skipped", {
+        reason: "Could not infer purchase type.",
+        selectedTool: selectedTool,
+        selectedPlan: selectedPlan
+      });
+      return;
+    }
+
+    const guardKey =
+      "astraa_backend_payment_verified_" +
+      ticket +
+      "_" +
+      purchaseType +
+      "_" +
+      accountEmail;
+
+    if (sessionStorage.getItem(guardKey) === "true") {
+      const previous = sessionStorage.getItem("astraa_backend_payment_verification_result");
+      renderBackendVerification("already_verified_in_this_browser_session", {
+        message: "Backend verification was already called for this ticket in this browser session.",
+        previous_result: previous ? JSON.parse(previous) : null
+      });
+      return;
+    }
+
+    const payload = {
+      account_email: accountEmail,
+      selected_tool: selectedTool,
+      selected_plan: selectedPlan,
+      purchase_type: purchaseType,
+      moneris_ticket: ticket
+    };
+
+    renderBackendVerification("pending", {
+      message: "Sending payment receipt to backend for verification...",
+      payload: payload
+    });
+
+    try {
+      const res = await fetch(
+        astraaPaymentApiUrl("/api/payment/verify-moneris-receipt"),
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        }
+      );
+
+      const data = await res.json();
+
+      sessionStorage.setItem(
+        "astraa_backend_payment_verification_result",
+        JSON.stringify(data)
+      );
+
+      if (data.status === "ok" && data.payment_verified === true) {
+        sessionStorage.setItem(guardKey, "true");
+        sessionStorage.setItem("astraa_backend_payment_verified", "true");
+
+        if (data.usage) {
+          sessionStorage.setItem("astraa_backend_usage", JSON.stringify(data.usage));
+        }
+      }
+
+      renderBackendVerification(data.status || "completed", data);
+    } catch (error) {
+      renderBackendVerification("frontend_error", {
+        message: error.message,
+        next_step:
+          "Confirm backend is running and /api/payment/verify-moneris-receipt exists."
+      });
+    }
+  }
+
+  window.verifyMonerisReceiptWithBackend = verifyMonerisReceiptWithBackend;
+
+  document.addEventListener("DOMContentLoaded", function () {
+    verifyMonerisReceiptWithBackend();
+  });
+})();
+</script>
+
 </body>
 </html>

@@ -2997,6 +2997,395 @@ button:disabled {
 }
 </style>
 
+
+<style id="astraa-today-testing-ground-style">
+/* Astraa Today Testing Ground
+   Purpose: unpark only today's test support items.
+   Scope: internal Workspace only.
+   Does not touch Moneris/payment files.
+*/
+
+.astraa-today-ground {
+  max-width: 1240px;
+  margin: 38px auto 72px;
+  padding: 0 24px;
+}
+
+.astraa-today-box {
+  background: #0f172a;
+  color: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 30px;
+  padding: 28px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.32);
+}
+
+.astraa-today-kicker {
+  display: inline-flex;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: rgba(67, 240, 163, 0.12);
+  color: #43f0a3;
+  border: 1px solid rgba(67, 240, 163, 0.30);
+  font-weight: 900;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.astraa-today-box h2 {
+  margin: 12px 0 8px;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-size: clamp(28px, 4vw, 44px);
+  letter-spacing: -.04em;
+}
+
+.astraa-today-box p {
+  color: #dbeafe !important;
+  -webkit-text-fill-color: #dbeafe !important;
+  line-height: 1.6;
+  max-width: 920px;
+}
+
+.astraa-today-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.astraa-today-card {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #dbe3ef;
+  border-radius: 22px;
+  padding: 18px;
+}
+
+.astraa-today-card h3 {
+  margin: 0 0 10px;
+  color: #020617 !important;
+  -webkit-text-fill-color: #020617 !important;
+  font-size: 18px;
+}
+
+.astraa-today-card p,
+.astraa-today-card li,
+.astraa-today-card label,
+.astraa-today-card small,
+.astraa-today-card span {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+}
+
+.astraa-today-btn-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.astraa-today-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 13px;
+  font-weight: 900;
+  cursor: pointer;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb, #0891b2);
+}
+
+.astraa-today-btn.secondary {
+  background: #e2e8f0;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+}
+
+.astraa-today-output {
+  margin-top: 14px;
+  border-radius: 16px;
+  border: 1px solid #dbe3ef;
+  background: #f8fafc;
+  padding: 12px;
+  min-height: 90px;
+  max-height: 260px;
+  overflow: auto;
+  white-space: pre-wrap;
+  font-size: 13px;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+}
+
+.astraa-today-checklist {
+  display: grid;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.astraa-today-checklist label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.astraa-today-card textarea {
+  width: 100%;
+  min-height: 130px;
+  resize: vertical;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 11px 12px;
+  font: inherit;
+  color: #0f172a;
+  background: #f8fafc;
+}
+
+.astraa-today-note {
+  margin-top: 16px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 18px;
+  padding: 14px;
+  color: #dbeafe !important;
+  -webkit-text-fill-color: #dbeafe !important;
+  line-height: 1.55;
+}
+
+@media (max-width: 1000px) {
+  .astraa-today-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+
+
+
+<style id="astraa-finance-operations-capability-style">
+/* Astraa Finance + Operations Capability Maps
+   Adds the user's requested Finance and Operations function lists into the locked client Workspace.
+   Scope: workspace-internal.html and frontend/workspace-internal.html only.
+   Does not touch Moneris/payment files.
+*/
+
+.astraa-capability-map {
+  margin: 20px 0 24px;
+  display: grid;
+  gap: 14px;
+}
+
+.astraa-capability-title {
+  margin: 22px 0 10px;
+  font-size: 15px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .045em;
+  color: #020617 !important;
+  -webkit-text-fill-color: #020617 !important;
+}
+
+.astraa-capability-card {
+  background: #f8fafc;
+  border: 1px solid #dbe3ef;
+  border-radius: 18px;
+  padding: 16px;
+  color: #0f172a;
+}
+
+.astraa-capability-card h4 {
+  margin: 0 0 10px;
+  color: #020617 !important;
+  -webkit-text-fill-color: #020617 !important;
+  font-size: 17px;
+}
+
+.astraa-capability-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.astraa-capability-box {
+  border-radius: 14px;
+  padding: 12px;
+  border: 1px solid #dbe3ef;
+  background: #ffffff;
+}
+
+.astraa-capability-box strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .035em;
+}
+
+.astraa-capability-box p {
+  margin: 0;
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.astraa-capability-box.future {
+  background: #fffbeb;
+  border-color: #fbbf24;
+}
+
+.astraa-capability-box.future p {
+  color: #92400e !important;
+  -webkit-text-fill-color: #92400e !important;
+}
+
+.astraa-tool-purpose-note {
+  margin: 14px 0 18px;
+  padding: 13px 14px;
+  border-radius: 16px;
+  background: #eef6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e3a8a !important;
+  -webkit-text-fill-color: #1e3a8a !important;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+@media (max-width: 800px) {
+  .astraa-capability-columns {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+
+<style id="astraa-onboarding-assistant-style">
+  .astraa-onboarding-panel {
+    max-width: 1240px;
+    margin: 38px auto 72px;
+    padding: 0 24px;
+  }
+
+  .astraa-onboarding-box {
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    border-radius: 30px;
+    padding: 28px;
+    box-shadow: 0 18px 55px rgba(15, 23, 42, 0.10);
+  }
+
+  .astraa-onboarding-kicker {
+    display: inline-flex;
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1d4ed8;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .astraa-onboarding-box h2 {
+    margin: 0 0 10px;
+    color: #05070f;
+    font-size: clamp(28px, 4vw, 46px);
+    line-height: 1.05;
+    letter-spacing: -0.05em;
+  }
+
+  .astraa-onboarding-box p {
+    color: #475569;
+    max-width: 900px;
+    margin: 0;
+  }
+
+  .astraa-onboarding-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 22px;
+  }
+
+  .astraa-onboarding-card {
+    border: 1px solid #dbe3ef;
+    background: #f8fafc;
+    border-radius: 22px;
+    padding: 18px;
+  }
+
+  .astraa-onboarding-card h3 {
+    margin: 0 0 8px;
+    color: #05070f;
+    font-size: 18px;
+  }
+
+  .astraa-onboarding-card ul {
+    margin: 0;
+    padding-left: 18px;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .astraa-onboarding-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .astraa-onboarding-actions a,
+  .astraa-onboarding-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 14px;
+    border-radius: 999px;
+    font-weight: 900;
+    text-decoration: none;
+    border: 1px solid #bfdbfe;
+    background: #ffffff;
+    color: #1d4ed8;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .astraa-onboarding-actions .primary {
+    background: #1d4ed8;
+    color: #ffffff;
+    border-color: #1d4ed8;
+  }
+
+  .astraa-onboarding-note {
+    margin-top: 18px;
+    padding: 16px;
+    border-radius: 18px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e3a8a;
+    font-size: 14px;
+  }
+
+  @media(max-width: 980px) {
+    .astraa-onboarding-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media(max-width: 640px) {
+    .astraa-onboarding-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
 </head>
 
 <body>
@@ -3011,7 +3400,7 @@ button:disabled {
 
       <div class="nav-links">
         <a href="index.html">Home</a>
-        <a href="engines.html">Tools</a>
+        <a href="tools.html">Tools</a>
         <a href="pricing.html">Pricing</a>
         <a href="customer-portal.html">Workspace</a>
         <a href="estimator-faq.html">Estimator FAQ</a>
@@ -3026,9 +3415,9 @@ button:disabled {
 <section id="astraa-tools-v1" class="astraa-tools-v1">
   <div class="astraa-tools-v1-header">
     <span class="astraa-tools-v1-kicker">Astraa Workspace Tools v1</span>
-    <h2>Finance, Expense, and Operations</h2>
+    <h2>Workspace tools</h2>
     <p class="astraa-tools-v1-subtitle">
-      Workspace testing now includes Finance Tool v1, Expense Bonus Tool, and Operations Tool v1.
+      Use Astraa Workspace tools for finance visibility, expense tracking, and operations follow-up.
       These tools are available behind the Workspace lock for internal validation.
     </p>
   </div>
@@ -3046,6 +3435,75 @@ button:disabled {
         <span class="astraa-tool-badge green" id="financeAccessBadge">Professional test access</span>
         <span class="astraa-tool-badge" id="financeModeBadge">Business + Personal Finance</span>
       </div>
+
+      
+<div id="astraaFinanceCapabilityMapV1">
+  <div class="astraa-tool-purpose-note">
+    Astraa Finance is being built as a financial visibility layer for planning, budgeting, expenses,
+    forecasting, and business review. The quick calculator below tests the first version of budget,
+    variance, and margin logic.
+  </div>
+
+  <div class="astraa-capability-title">Finance function coverage</div>
+
+  <div class="astraa-capability-map">
+    <div class="astraa-capability-card">
+      <h4>Accounting & Ledger</h4>
+      <div class="astraa-capability-columns">
+        <div class="astraa-capability-box">
+          <strong>Current Astraa focus</strong>
+          <p>Track structured finance inputs such as estimated budget, forecast cost, revenue, margin, and local expense totals.</p>
+        </div>
+        <div class="astraa-capability-box future">
+          <strong>Later capability</strong>
+          <p>Full bookkeeping, digital ledger balancing, and multi-entity consolidation require backend records and accounting review.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="astraa-capability-card">
+      <h4>Accounts Payable / Receivable</h4>
+      <div class="astraa-capability-columns">
+        <div class="astraa-capability-box">
+          <strong>Current Astraa focus</strong>
+          <p>Support project and customer financial review through contract value, budget gap, and forecast visibility.</p>
+        </div>
+        <div class="astraa-capability-box future">
+          <strong>Later capability</strong>
+          <p>Invoice automation, payment links, late notices, and payment dispute workflows are planned for future backend/payment integration.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="astraa-capability-card">
+      <h4>Compliance & Taxes</h4>
+      <div class="astraa-capability-columns">
+        <div class="astraa-capability-box">
+          <strong>Current Astraa focus</strong>
+          <p>Provide planning visibility only, with clear disclaimer that Astraa Finance is not accounting, tax, legal, or financing advice.</p>
+        </div>
+        <div class="astraa-capability-box future">
+          <strong>Later capability</strong>
+          <p>Regional tax logic, municipal updates, and compliance automation must be reviewed carefully before public use.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="astraa-capability-card">
+      <h4>FP&amp;A / Treasury</h4>
+      <div class="astraa-capability-columns">
+        <div class="astraa-capability-box">
+          <strong>Current Astraa focus</strong>
+          <p>Test budget gap, forecast variance, estimated margin, and basic finance insight messages.</p>
+        </div>
+        <div class="astraa-capability-box future">
+          <strong>Later capability</strong>
+          <p>Advanced forecasting, real-time macro adjustments, cashflow planning, fraud detection, and treasury intelligence are later-stage capabilities.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
       <div class="astraa-field-v1">
         <label for="financeCustomerType">Customer type</label>
@@ -3176,6 +3634,88 @@ button:disabled {
         <span class="astraa-tool-badge">Execution control</span>
       </div>
 
+      
+<div id="astraaOperationsCapabilityMapV1">
+  <div class="astraa-tool-purpose-note">
+    Astraa Operations is being built as a business execution layer. It starts with action tracking,
+    ownership, priority, status, due dates, and blockers, then grows into broader operational functions.
+  </div>
+
+  <div class="astraa-capability-title">Operations function coverage</div>
+
+  <div class="astraa-capability-map">
+    <div class="astraa-capability-card">
+      <h4>Human Resources / Admin</h4>
+      <div class="astraa-capability-columns">
+        <div class="astraa-capability-box">
+          <strong>Current Astraa focus</strong>
+          <p>Track owners, responsibilities, follow-ups, onboarding-style actions, due dates, and administrative tasks.</p>
+        </div>
+        <div class="astraa-capability-box future">
+          <strong>Later capability</strong>
+          <p>Payroll, benefits, applicant tracking, PTO, bias-aware evaluation, and knowledge retention are not part of the current tool.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="astraa-capability-card">
+      <h4>Marketing Operations</h4>
+      <div class="astraa-capability-columns">
+        <div class="astraa-capability-box">
+          <strong>Current Astraa focus</strong>
+          <p>Track campaign actions, content tasks, owners, due dates, status, and blockers.</p>
+        </div>
+        <div class="astraa-capability-box future">
+          <strong>Later capability</strong>
+          <p>Campaign automation, cross-channel attribution, real-time brand response, and automated content workflow are future-stage capabilities.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="astraa-capability-card">
+      <h4>Logistics / Field Operations</h4>
+      <div class="astraa-capability-columns">
+        <div class="astraa-capability-box">
+          <strong>Current Astraa focus</strong>
+          <p>Support task coordination, field follow-ups, project responsibilities, blocked work, and status visibility.</p>
+        </div>
+        <div class="astraa-capability-box future">
+          <strong>Later capability</strong>
+          <p>Fleet tracking, warehouse management, global rerouting, and mixed robot/drone orchestration are not part of the current tool.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="astraa-capability-card">
+      <h4>Sales Operations</h4>
+      <div class="astraa-capability-columns">
+        <div class="astraa-capability-box">
+          <strong>Current Astraa focus</strong>
+          <p>Track sales follow-ups, quote actions, customer tasks, priority, ownership, and status.</p>
+        </div>
+        <div class="astraa-capability-box future">
+          <strong>Later capability</strong>
+          <p>CRM pipeline automation, outbound sequencing, contract negotiation, and video emotion analysis are future-stage capabilities.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="astraa-capability-card">
+      <h4>Customer Service Operations</h4>
+      <div class="astraa-capability-columns">
+        <div class="astraa-capability-box">
+          <strong>Current Astraa focus</strong>
+          <p>Track customer issues, support actions, owner assignments, blockers, priorities, and completion status.</p>
+        </div>
+        <div class="astraa-capability-box future">
+          <strong>Later capability</strong>
+          <p>Omnichannel helpdesk, conversational software, deep empathy escalation, and cross-app account resolution are later-stage capabilities.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
       <div class="astraa-field-v1">
         <label for="operationTitleV1">Action item</label>
         <input id="operationTitleV1" type="text" placeholder="Follow up, test, send, review, prepare...">
@@ -3236,6 +3776,77 @@ button:disabled {
   </div>
 </section>
 
+<section id="astraa-today-testing-ground" class="astraa-today-ground">
+  <div class="astraa-today-box">
+    <span class="astraa-today-kicker">Today’s Testing Ground</span>
+    <h2>Core tool testing support</h2>
+    <p>
+      These items were unparked for today because they help test Finance, Expense, and Operations
+      without building the full backend yet.
+    </p>
+
+    <div class="astraa-today-grid">
+      <article class="astraa-today-card">
+        <h3>Saved local test records</h3>
+        <p>
+          View the current browser-saved Finance, Expense, and Operations test records.
+        </p>
+
+        <div class="astraa-today-btn-row">
+          <button class="astraa-today-btn" type="button" onclick="astraaTodayRefreshRecords()">Refresh Records</button>
+          <button class="astraa-today-btn secondary" type="button" onclick="astraaTodayExportJson()">Export JSON</button>
+          <button class="astraa-today-btn secondary" type="button" onclick="astraaTodayClearToolData()">Clear Tool Test Data</button>
+        </div>
+
+        <pre class="astraa-today-output" id="astraaTodayRecordsOutput">Click Refresh Records to inspect saved local test data.</pre>
+      </article>
+
+      <article class="astraa-today-card">
+        <h3>Daily test checklist</h3>
+        <p>
+          Track the minimum checks before committing each Workspace tool patch.
+        </p>
+
+        <div class="astraa-today-checklist">
+          <label><input type="checkbox" data-astraa-check="workspaceLock"> Workspace lock redirects public access</label>
+          <label><input type="checkbox" data-astraa-check="finance"> Finance Tool calculates correctly</label>
+          <label><input type="checkbox" data-astraa-check="expense"> Expense Bonus Tool adds/copies/clears</label>
+          <label><input type="checkbox" data-astraa-check="operations"> Operations Tool adds/copies/clears</label>
+          <label><input type="checkbox" data-astraa-check="moneris"> Moneris files are untouched</label>
+        </div>
+
+        <div class="astraa-today-btn-row">
+          <button class="astraa-today-btn" type="button" onclick="astraaTodaySaveChecklist()">Save Checklist</button>
+          <button class="astraa-today-btn secondary" type="button" onclick="astraaTodayResetChecklist()">Reset</button>
+        </div>
+
+        <pre class="astraa-today-output" id="astraaTodayChecklistOutput">Checklist status will appear here.</pre>
+      </article>
+
+      <article class="astraa-today-card">
+        <h3>Build notes / parked decisions</h3>
+        <p>
+          Capture lightweight notes when ideas come up. Decide: add now, park, or test later.
+        </p>
+
+        <textarea id="astraaTodayBuildNotes" placeholder="Example: PDF export = parked. Backend saving = test later. Finance copy summary = add now."></textarea>
+
+        <div class="astraa-today-btn-row">
+          <button class="astraa-today-btn" type="button" onclick="astraaTodaySaveNotes()">Save Notes</button>
+          <button class="astraa-today-btn secondary" type="button" onclick="astraaTodayCopyReport()">Copy Test Report</button>
+        </div>
+
+        <pre class="astraa-today-output" id="astraaTodayNotesOutput">Build notes status will appear here.</pre>
+      </article>
+    </div>
+
+    <div class="astraa-today-note">
+      Build rule: build the core, protect Moneris, keep Workspace locked, park extras, and test after each patch.
+    </div>
+  </div>
+</section>
+
+
 <section id="astraa-parked-roadmap" class="astraa-parked-roadmap">
   <div class="astraa-parked-shell">
     <span class="astraa-parked-kicker">Parked for Later</span>
@@ -3285,7 +3896,7 @@ button:disabled {
       <article class="astraa-parked-card">
         <h3>Future Workspace Tools</h3>
         <ul>
-          <li>Arkastra Commerce</li>
+          <li>Astraa Commerce</li>
           <li>Data Workspace</li>
           <li>VSV Systems Intelligence</li>
           <li>Vault saved-records layer</li>
@@ -3311,7 +3922,7 @@ button:disabled {
         <ul>
           <li>Lux research preparation</li>
           <li>Historical data workflow</li>
-          <li>Arka-governed rules</li>
+          <li>Astraa platform-governed rules</li>
           <li>Decision journal and risk controls</li>
           <li>Ecosystem and HQ shift preparation</li>
         </ul>
@@ -3491,7 +4102,7 @@ button:disabled {
                   <div class="workspace-status-row">
                     <span class="workspace-status preview">Preview Tool</span>
                   </div>
-                  <h3>Astraa Commerce / Arkastra</h3>
+                  <h3>Astraa Commerce / Astraa Commerce</h3>
                   <p>
                     Commerce workflow direction for quotes, package selection, payment handoff, transaction support,
                     and future customer-facing selling flows.
@@ -3499,7 +4110,7 @@ button:disabled {
                 </div>
 
                 <div class="workspace-tool-actions">
-                  <button class="dark-btn secondary" type="button" onclick="showWorkspacePreview('Astraa Commerce / Arkastra')">Preview Commerce</button>
+                  <button class="dark-btn secondary" type="button" onclick="showWorkspacePreview('Astraa Commerce / Astraa Commerce')">Preview Commerce</button>
                 </div>
               </article>
 
@@ -3509,7 +4120,7 @@ button:disabled {
                   <div class="workspace-status-row">
                     <span class="workspace-status preview">Preview Tool</span>
                   </div>
-                  <h3>Astraa Data / Oracle</h3>
+                  <h3>Astraa Data / Astraa Data</h3>
                   <p>
                     A structured data layer for customer records, estimate history, feedback insight, reporting memory,
                     and future decision-support intelligence.
@@ -3517,7 +4128,7 @@ button:disabled {
                 </div>
 
                 <div class="workspace-tool-actions">
-                  <button class="dark-btn secondary" type="button" onclick="showWorkspacePreview('Astraa Data / Oracle')">Preview Data</button>
+                  <button class="dark-btn secondary" type="button" onclick="showWorkspacePreview('Astraa Data / Astraa Data')">Preview Data</button>
                 </div>
               </article>
 
@@ -3528,7 +4139,7 @@ button:disabled {
                     <span class="workspace-status preview">Preview Tool</span>
                     <span class="workspace-status private">Internal-first</span>
                   </div>
-                  <h3>Astraa Inference / Aruhan</h3>
+                  <h3>Astraa Inference / Astraa Inference</h3>
                   <p>
                     Future intelligence for cross-tool insights, reviewed recommendations, and interpretation of business signals
                     across Finance, Business, Commerce, and Data layers.
@@ -3536,7 +4147,7 @@ button:disabled {
                 </div>
 
                 <div class="workspace-tool-actions">
-                  <button class="dark-btn secondary" type="button" onclick="showWorkspacePreview('Astraa Inference / Aruhan')">Preview Inference</button>
+                  <button class="dark-btn secondary" type="button" onclick="showWorkspacePreview('Astraa Inference / Astraa Inference')">Preview Inference</button>
                 </div>
               </article>
 
@@ -3762,7 +4373,7 @@ button:disabled {
             </div>
           </section>
 
-          <!-- DETAILED ESTIMATOR CONSOLE -->
+          <!-- DETsoftwareLED ESTIMATOR CONSOLE -->
           <section class="estimator-console-card light-theme">
             <div class="estimator-console-header">
               <h2>Astraa Estimator</h2>
@@ -4424,7 +5035,7 @@ button:disabled {
               </div>
 
               <div class="preview-tool-card">
-                <h3>Arkastra Commerce</h3>
+                <h3>Astraa Commerce</h3>
                 <p>Service packages, quote flows, customer-ready offers, and transaction-oriented workflows.</p>
                 <span class="preview-pill addon">Coming soon</span>
                 <div class="preview-price">Basic $39.99 / Professional $79.99</div>
@@ -4477,7 +5088,7 @@ button:disabled {
             <div class="ai-note">
               <strong>Responsible technology note</strong>
               <p>
-                Astraa is a business tools company. Selected features may use AI-assisted technology to support summaries,
+                Astraa is a business tools company. Selected features may use software-assisted technology to support summaries,
                 organization, estimates, and workflow clarity. Customers remain responsible for reviewing outputs and making final decisions.
               </p>
             </div>
@@ -4512,6 +5123,72 @@ button:disabled {
 
 
 
+
+<section class="astraa-onboarding-panel" id="astraa-onboarding-assistant">
+  <div class="astraa-onboarding-box">
+    <span class="astraa-onboarding-kicker">Workspace Onboarding</span>
+    <h2>Astraa Onboarding Assistant</h2>
+    <p>
+      I’m Astraa’s onboarding assistant. I help new customers get set up using Astraa support resources
+      and approved onboarding guidance. I do not replace direct support, legal, tax, accounting,
+      investment, engineering, HR, or compliance advice.
+    </p>
+
+    <div class="astraa-onboarding-grid">
+      <article class="astraa-onboarding-card">
+        <h3>Trial</h3>
+        <ul>
+          <li>15-day Workspace trial</li>
+          <li>15 estimates total during trial</li>
+          <li>Selected tool previews</li>
+          <li>Review Trial Terms before relying on access</li>
+        </ul>
+      </article>
+
+      <article class="astraa-onboarding-card">
+        <h3>Basic</h3>
+        <ul>
+          <li>$39.99 CAD/month</li>
+          <li>30 estimates per month</li>
+          <li>$10 CAD per 10 additional estimates</li>
+          <li>Light Workspace access where assigned</li>
+        </ul>
+      </article>
+
+      <article class="astraa-onboarding-card">
+        <h3>Professional</h3>
+        <ul>
+          <li>$99.99 CAD/month</li>
+          <li>120 estimates per month</li>
+          <li>$10 CAD per 10 additional estimates</li>
+          <li>Fuller Workspace support</li>
+        </ul>
+      </article>
+
+      <article class="astraa-onboarding-card">
+        <h3>Custom</h3>
+        <ul>
+          <li>Custom tools and users</li>
+          <li>Contractor or guest access</li>
+          <li>Franchise or multi-location setup</li>
+          <li>Non-profit or special workflow review</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="astraa-onboarding-actions">
+      <a class="primary" href="support.html">Open FAQ / Support</a>
+      <a href="contact.html">Contact Astraa</a>
+      <button type="button" onclick="window.scrollTo({top:0, behavior:'smooth'});">Back to top</button>
+    </div>
+
+    <div class="astraa-onboarding-note">
+      Start simple: confirm your assigned tools, run one test workflow, review the output,
+      and contact Astraa if anything does not look right before using outputs for important business decisions.
+    </div>
+  </div>
+</section>
+
 </main>
 
   <footer>
@@ -4519,7 +5196,14 @@ button:disabled {
       <div>Astraa Systems © 2026</div>
       <div>Connected business tools · Custom packages · Burnaby, BC</div>
     </div>
-  </footer>
+  
+  <div class="footer-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="trial-terms.html">Trial Terms</a>
+    </div>
+
+</footer>
 
   <script>
 
@@ -6980,6 +7664,174 @@ Note: Operations Tool helps track business execution, priorities, blockers, and 
     document.addEventListener("DOMContentLoaded", initialize);
   } else {
     initialize();
+  }
+})();
+</script>
+
+
+<script id="astraa-today-testing-ground-script">
+(function astraaTodayTestingGround() {
+  const STORAGE_KEYS = {
+    finance: "astraa_finance_v1_summary",
+    expenses: "astraa_expenses_v1",
+    operations: "astraa_operations_v1",
+    checklist: "astraa_today_test_checklist",
+    notes: "astraa_today_build_notes"
+  };
+
+  function safeJson(key, fallback) {
+    try {
+      return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
+    } catch {
+      return fallback;
+    }
+  }
+
+  function getSnapshot() {
+    return {
+      finance: safeJson(STORAGE_KEYS.finance, null),
+      expenses: safeJson(STORAGE_KEYS.expenses, []),
+      operations: safeJson(STORAGE_KEYS.operations, []),
+      checklist: safeJson(STORAGE_KEYS.checklist, {}),
+      notes: localStorage.getItem(STORAGE_KEYS.notes) || "",
+      generatedAt: new Date().toISOString()
+    };
+  }
+
+  window.astraaTodayRefreshRecords = function() {
+    const out = document.getElementById("astraaTodayRecordsOutput");
+    if (!out) return;
+
+    out.textContent = JSON.stringify(getSnapshot(), null, 2);
+  };
+
+  window.astraaTodayExportJson = function() {
+    const snapshot = getSnapshot();
+    const text = JSON.stringify(snapshot, null, 2);
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      alert("Workspace test JSON copied.");
+    } else {
+      alert(text);
+    }
+
+    const out = document.getElementById("astraaTodayRecordsOutput");
+    if (out) out.textContent = text;
+  };
+
+  window.astraaTodayClearToolData = function() {
+    if (!confirm("Clear local Finance, Expense, and Operations test data?")) return;
+
+    localStorage.removeItem(STORAGE_KEYS.finance);
+    localStorage.removeItem(STORAGE_KEYS.expenses);
+    localStorage.removeItem(STORAGE_KEYS.operations);
+
+    astraaTodayRefreshRecords();
+
+    if (typeof astraaFinanceCalculateV1 === "function") astraaFinanceCalculateV1();
+    if (typeof astraaExpenseClearV1 === "function") {
+      localStorage.setItem(STORAGE_KEYS.expenses, "[]");
+    }
+    if (typeof astraaOperationsClearV1 === "function") {
+      localStorage.setItem(STORAGE_KEYS.operations, "[]");
+    }
+
+    alert("Local tool test data cleared.");
+  };
+
+  function loadChecklist() {
+    const saved = safeJson(STORAGE_KEYS.checklist, {});
+    document.querySelectorAll("[data-astraa-check]").forEach(function(box) {
+      box.checked = !!saved[box.getAttribute("data-astraa-check")];
+    });
+
+    updateChecklistOutput(saved);
+  }
+
+  function updateChecklistOutput(data) {
+    const out = document.getElementById("astraaTodayChecklistOutput");
+    if (!out) return;
+
+    out.textContent = JSON.stringify(data, null, 2);
+  }
+
+  window.astraaTodaySaveChecklist = function() {
+    const data = {};
+
+    document.querySelectorAll("[data-astraa-check]").forEach(function(box) {
+      data[box.getAttribute("data-astraa-check")] = box.checked;
+    });
+
+    localStorage.setItem(STORAGE_KEYS.checklist, JSON.stringify(data));
+    updateChecklistOutput(data);
+  };
+
+  window.astraaTodayResetChecklist = function() {
+    localStorage.removeItem(STORAGE_KEYS.checklist);
+    document.querySelectorAll("[data-astraa-check]").forEach(function(box) {
+      box.checked = false;
+    });
+    updateChecklistOutput({});
+  };
+
+  window.astraaTodaySaveNotes = function() {
+    const notes = document.getElementById("astraaTodayBuildNotes")?.value || "";
+    localStorage.setItem(STORAGE_KEYS.notes, notes);
+
+    const out = document.getElementById("astraaTodayNotesOutput");
+    if (out) out.textContent = "Saved notes:\\n" + notes;
+  };
+
+  window.astraaTodayCopyReport = function() {
+    astraaTodaySaveChecklist();
+    astraaTodaySaveNotes();
+
+    const snapshot = getSnapshot();
+
+    const text =
+`Astraa Workspace Test Report
+Generated: ${snapshot.generatedAt}
+
+Checklist:
+${JSON.stringify(snapshot.checklist, null, 2)}
+
+Finance:
+${JSON.stringify(snapshot.finance, null, 2)}
+
+Expenses:
+${JSON.stringify(snapshot.expenses, null, 2)}
+
+Operations:
+${JSON.stringify(snapshot.operations, null, 2)}
+
+Build Notes:
+${snapshot.notes || "No notes saved."}
+
+Rule:
+Build the core. Protect Moneris. Keep Workspace locked. Park extras. Test after each patch.`;
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      alert("Workspace test report copied.");
+    } else {
+      alert(text);
+    }
+  };
+
+  function init() {
+    const notes = localStorage.getItem(STORAGE_KEYS.notes) || "";
+    const noteBox = document.getElementById("astraaTodayBuildNotes");
+    if (noteBox) noteBox.value = notes;
+
+    loadChecklist();
+    astraaTodayRefreshRecords();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
   }
 })();
 </script>

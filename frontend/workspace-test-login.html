@@ -191,7 +191,7 @@
   </main>
 
   <script>
-    const TEST_EMAIL = "astraa.live.test@astraasystems.com";
+    const TEST_EMsoftwareL = "astraa.live.test@astraasystems.com";
     const TEST_CODE = "ASTRAA-WORKSPACE-TEST-2026";
 
     function setStatus(message, type) {
@@ -249,7 +249,7 @@
       const email = String(document.getElementById("email").value || "").trim().toLowerCase();
       const code = String(document.getElementById("code").value || "").trim();
 
-      if (email !== TEST_EMAIL || code !== TEST_CODE) {
+      if (email !== TEST_EMsoftwareL || code !== TEST_CODE) {
         setStatus("Access denied. Use the internal Astraa Workspace test account.", "bad");
         return;
       }
@@ -262,7 +262,7 @@
       }, 500);
     });
 
-    document.getElementById("email").value = TEST_EMAIL;
+    document.getElementById("email").value = TEST_EMsoftwareL;
   </script>
 </body>
 </html>

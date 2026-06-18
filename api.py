@@ -2791,6 +2791,7 @@ def astraa_estimator_execution_blueprint():
         }
 
         ASTRAA_CORE_ENTITIES.append(core_project_entity)
+        astraa_core_save_store()
         core_os_commit["entityCreated"] = core_project_entity
 
         core_os_commit["activityWritten"].append(
@@ -2809,6 +2810,7 @@ def astraa_estimator_execution_blueprint():
 
         # 2. Store Vault record in Core OS Vault store.
         ASTRAA_CORE_VAULT_RECORDS.append(vault_record)
+        astraa_core_save_store()
         core_os_commit["vaultRecordStored"] = vault_record
 
         core_os_commit["activityWritten"].append(
@@ -2849,6 +2851,7 @@ def astraa_estimator_execution_blueprint():
         }
 
         ASTRAA_CORE_EVENTS.append(core_event)
+        astraa_core_save_store()
         core_os_commit["eventPublished"] = core_event
 
         core_os_commit["activityWritten"].append(
@@ -2916,11 +2919,66 @@ def astraa_estimator_execution_blueprint():
 #   activity stream, Vault records, event automation, and search.
 # ============================================================
 
-ASTRAA_CORE_TENANTS = {}
-ASTRAA_CORE_ENTITIES = []
-ASTRAA_CORE_ACTIVITY = []
-ASTRAA_CORE_EVENTS = []
-ASTRAA_CORE_VAULT_RECORDS = []
+# ASTRAA_CORE_OS_PERSISTENCE_V1
+ASTRAA_CORE_STORE_PATH = os.path.join("astraa_data", "astraa_core_os_store.json")
+
+def astraa_core_default_store():
+    return {
+        "tenants": {},
+        "entities": [],
+        "activity": [],
+        "events": [],
+        "vaultRecords": []
+    }
+
+def astraa_core_load_store():
+    os.makedirs("astraa_data", exist_ok=True)
+
+    if not os.path.exists(ASTRAA_CORE_STORE_PATH):
+        return astraa_core_default_store()
+
+    try:
+        with open(ASTRAA_CORE_STORE_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        if not isinstance(data, dict):
+            return astraa_core_default_store()
+
+        data.setdefault("tenants", {})
+        data.setdefault("entities", [])
+        data.setdefault("activity", [])
+        data.setdefault("events", [])
+        data.setdefault("vaultRecords", [])
+        return data
+
+    except Exception:
+        return astraa_core_default_store()
+
+def astraa_core_save_store():
+    os.makedirs("astraa_data", exist_ok=True)
+
+    payload = {
+        "tenants": ASTRAA_CORE_TENANTS,
+        "entities": ASTRAA_CORE_ENTITIES,
+        "activity": ASTRAA_CORE_ACTIVITY,
+        "events": ASTRAA_CORE_EVENTS,
+        "vaultRecords": ASTRAA_CORE_VAULT_RECORDS,
+        "savedAt": datetime.utcnow().isoformat() + "Z"
+    }
+
+    tmp_path = ASTRAA_CORE_STORE_PATH + ".tmp"
+
+    with open(tmp_path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2, sort_keys=True)
+
+    os.replace(tmp_path, ASTRAA_CORE_STORE_PATH)
+
+ASTRAA_CORE_STORE = astraa_core_load_store()
+ASTRAA_CORE_TENANTS = ASTRAA_CORE_STORE.get("tenants", {})
+ASTRAA_CORE_ENTITIES = ASTRAA_CORE_STORE.get("entities", [])
+ASTRAA_CORE_ACTIVITY = ASTRAA_CORE_STORE.get("activity", [])
+ASTRAA_CORE_EVENTS = ASTRAA_CORE_STORE.get("events", [])
+ASTRAA_CORE_VAULT_RECORDS = ASTRAA_CORE_STORE.get("vaultRecords", [])
 
 ASTRAA_CORE_ENABLED_TOOLS = [
     "estimator",
@@ -2983,6 +3041,7 @@ def astraa_core_write_activity(event_type, tenant_id, project_id, tool, summary,
         "timestamp": astraa_core_now()
     }
     ASTRAA_CORE_ACTIVITY.append(record)
+    astraa_core_save_store()
     return record
 
 @app.post("/api/astraa/core/session")
@@ -3012,6 +3071,7 @@ def astraa_core_session():
     }
 
     ASTRAA_CORE_TENANTS[tenant_id] = session
+    astraa_core_save_store()
 
     activity = astraa_core_write_activity(
         "EVENT_CORE_SESSION_VALIDATED",
@@ -3061,6 +3121,7 @@ def astraa_core_entity():
     }
 
     ASTRAA_CORE_ENTITIES.append(entity)
+    astraa_core_save_store()
 
     activity = astraa_core_write_activity(
         "EVENT_CORE_ENTITY_CREATED",
@@ -3151,6 +3212,7 @@ def astraa_core_vault_record():
     }
 
     ASTRAA_CORE_VAULT_RECORDS.append(record)
+    astraa_core_save_store()
 
     activity = astraa_core_write_activity(
         "EVENT_CORE_VAULT_RECORD_CREATED",
@@ -3193,6 +3255,7 @@ def astraa_core_event():
     }
 
     ASTRAA_CORE_EVENTS.append(event)
+    astraa_core_save_store()
 
     triggered = []
 

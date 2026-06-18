@@ -44,6 +44,7 @@ import os
 import json
 import uuid
 import requests
+import hashlib
 
 # -------------------------------------------------
 # Load environment variables
@@ -4050,6 +4051,49 @@ def astraa_payment_record_id(prefix="PAY"):
     return prefix + "-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S%f")
 
 
+
+
+# ASTRAA_PAYMENT_IDEMPOTENCY_V1
+def astraa_payment_idempotency_key(account_email, purchase_type, ticket):
+    raw = "|".join([
+        str(account_email or "").strip().lower(),
+        str(purchase_type or "").strip(),
+        str(ticket or "").strip()
+    ])
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
+def astraa_find_verified_payment_by_idempotency(payment_db, idempotency_key):
+    for record in payment_db:
+        if (
+            record.get("idempotency_key") == idempotency_key
+            and record.get("verified") is True
+        ):
+            return record
+    return None
+
+
+def astraa_usage_summary_for_account(account_email):
+    db = astraa_load_usage_db()
+    account_email = str(account_email or "").strip().lower()
+    record = db.get(account_email)
+
+    if not record:
+        return None
+
+    return {
+        "account_id": record.get("account_id"),
+        "selected_plan": record.get("selected_plan"),
+        "payment_status": record.get("payment_status"),
+        "subscription_status": record.get("subscription_status"),
+        "estimate_limit": record.get("estimate_limit"),
+        "estimate_used": record.get("estimate_used"),
+        "extra_estimate_credits_total": record.get("extra_estimate_credits_total"),
+        "extra_estimate_credits_used": record.get("extra_estimate_credits_used"),
+        "billing_period_key": record.get("billing_period_key")
+    }
+
+
 def astraa_moneris_env():
     return (os.getenv("MONERIS_ENV") or "qa").strip().lower()
 
@@ -4279,11 +4323,38 @@ def astraa_verify_moneris_receipt_route():
             "errors": ["Only Astraa Estimator payment verification is supported in this route version."]
         }), 400
 
+    account_email_normalized = str(account_email or "").strip().lower()
+    idempotency_key = astraa_payment_idempotency_key(
+        account_email_normalized,
+        purchase_type,
+        ticket
+    )
+
+    payment_db = astraa_load_payment_db()
+    existing_verified_payment = astraa_find_verified_payment_by_idempotency(
+        payment_db,
+        idempotency_key
+    )
+
+    if existing_verified_payment:
+        return jsonify({
+            "status": "ok",
+            "gateway": "Astraa Gateway",
+            "payment_verified": True,
+            "idempotent_replay": True,
+            "reason": "Payment was already verified and applied. No duplicate usage update was performed.",
+            "payment": existing_verified_payment,
+            "usage": astraa_usage_summary_for_account(account_email_normalized),
+            "review_note": "Backend idempotency prevented duplicate payment application."
+        }), 200
+
     verification = astraa_verify_moneris_receipt(ticket)
 
     payment_record = {
         "payment_id": astraa_payment_record_id(),
-        "account_email": str(account_email or "").strip().lower(),
+        "idempotency_key": idempotency_key,
+        "idempotent_replay": False,
+        "account_email": account_email_normalized,
         "selected_tool": selected_tool,
         "selected_plan": selected_plan,
         "purchase_type": purchase_type,
@@ -4296,7 +4367,6 @@ def astraa_verify_moneris_receipt_route():
         "created_at": astraa_payment_now()
     }
 
-    payment_db = astraa_load_payment_db()
     payment_db.append(payment_record)
     astraa_save_payment_db(payment_db)
 

@@ -738,6 +738,17 @@
     </div>
 
     <div class="advanced-cockpit-field-v1">
+      <label for="aecAccountEmail">Estimator account email</label>
+      <input id="aecAccountEmail" value="professional.active.test@astraasystems.com" />
+    </div>
+
+    <div class="advanced-cockpit-field-v1">
+      <label for="aecSelectedPlan">Estimator selected plan</label>
+      <input id="aecSelectedPlan" value="Professional" />
+    </div>
+
+
+    <div class="advanced-cockpit-field-v1">
       <label for="aecBaseCost">Base cost</label>
       <input id="aecBaseCost" value="120000" />
     </div>
@@ -795,6 +806,9 @@
 
   <div class="advanced-cockpit-actions-v1">
     <button class="primary" type="button" onclick="generateExecutionBlueprintV1()">Generate Execution Blueprint</button>
+
+    <button type="button" onclick="runEstimatorWithBackendEnforcementV1()">Run Enforced Estimator</button>
+
     <button type="button" onclick="copyExecutionBlueprintV1()">Copy Blueprint</button>
     <button type="button" onclick="clearExecutionBlueprintV1()">Clear Output</button>
   </div>
@@ -1271,6 +1285,9 @@ function clearExecutionBlueprintV1() {
 <script id="astraa-core-os-panel-v1-script">
 var ASTRAA_CORE_BASE_V1 = window.astraaApiUrl("/api/astraa/core");
 
+
+var ASTRAA_ESTIMATOR_ENFORCED_RUN_ENDPOINT = window.astraaApiUrl("/api/astraa/estimator/enforced-run");
+
 function astraaCoreTenantContextV1() {
   return {
     test_email: "astraa.live.test@astraasystems.com",
@@ -1364,5 +1381,79 @@ function astraaCoreSearchV1() {
   });
 }
 </script>
+
+<script id="astraa-estimator-enforced-run-v1-script">
+async function runEstimatorWithBackendEnforcementV1() {
+  const payload = {
+    inputs: {
+      account_email:
+        document.getElementById("aecAccountEmail")?.value ||
+        "professional.active.test@astraasystems.com",
+
+      selected_plan:
+        document.getElementById("aecSelectedPlan")?.value ||
+        "Professional",
+
+      base_cost:
+        document.getElementById("aecBaseCost")?.value ||
+        "100000",
+
+      complexity_factor:
+        document.getElementById("aecComplexityFactor")?.value ||
+        "1.1",
+
+      material_multiplier:
+        document.getElementById("aecMaterialMultiplier")?.value ||
+        "1",
+
+      labor_multiplier:
+        document.getElementById("aecLaborMultiplier")?.value ||
+        "1",
+
+      location_multiplier:
+        document.getElementById("aecLocationMultiplier")?.value ||
+        "1"
+    }
+  };
+
+  const payloadBox = document.getElementById("aecPayloadOutput");
+  const responseBox = document.getElementById("aecResponseOutput");
+
+  if (payloadBox) {
+    payloadBox.textContent = JSON.stringify(payload, null, 2);
+  }
+
+  if (responseBox) {
+    responseBox.textContent = "Sending Estimator request through backend usage enforcement...";
+  }
+
+  try {
+    const res = await fetch(ASTRAA_ESTIMATOR_ENFORCED_RUN_ENDPOINT, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if (responseBox) {
+      responseBox.textContent = JSON.stringify(data, null, 2);
+    }
+
+    return data;
+  } catch (error) {
+    if (responseBox) {
+      responseBox.textContent = JSON.stringify({
+        status: "frontend_error",
+        message: error.message,
+        next_step: "Confirm backend is running and /api/astraa/estimator/enforced-run exists."
+      }, null, 2);
+    }
+
+    return null;
+  }
+}
+</script>
+
 </body>
 </html>

@@ -39,7 +39,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 from decimal import Decimal, InvalidOperation
-from datetime import datetime
+from datetime import datetime, timezone
 import os
 import json
 import uuid
@@ -109,7 +109,7 @@ else:
 # Utility helpers
 # -------------------------------------------------
 def now_iso():
-    return datetime.utcnow().isoformat() + "Z"
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def append_jsonl(path, record):
@@ -234,7 +234,7 @@ def preload():
     plan, amount = get_plan_amount(requested_plan)
     plan_label = get_plan_label(plan)
 
-    order_no = "ASTRAA-" + datetime.utcnow().strftime("%Y%m%d%H%M%S") + "-" + uuid.uuid4().hex[:6].upper()
+    order_no = "ASTRAA-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S") + "-" + uuid.uuid4().hex[:6].upper()
 
     payload = {
         "store_id": MONERIS_STORE_ID,
@@ -517,7 +517,7 @@ def lead():
 import json
 import os
 from pathlib import Path
-from datetime import datetime, date, timedelta
+from datetime import datetime, date, timedelta, timezone
 
 ASTRAA_DATA_DIR = Path(os.getenv("ASTRAA_DATA_DIR", "astraa_data"))
 ASTRAA_DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -552,7 +552,7 @@ def astraa_month_key():
 
 
 def astraa_now_iso():
-    return datetime.utcnow().isoformat() + "Z"
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def astraa_normalize_email(value):
@@ -2069,7 +2069,7 @@ def astraa_add_estimate_credits():
 # ============================================================
 
 from flask import request, jsonify
-from datetime import datetime
+from datetime import datetime, timezone
 import html
 import re
 
@@ -2357,7 +2357,7 @@ def astraa_tool_response(tool_key, inputs):
             "milestoneId": milestone_id or "ASTRAA-QA-MILESTONE",
             "verification": {
                 "status": "VERIFIED",
-                "timestamp": datetime.utcnow().isoformat() + "Z",
+                "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                 "method": inputs.get("verification_method", "QA_FIELD_UPDATE_PROTOCOL")
             },
             "operationalMetrics": {
@@ -2527,7 +2527,7 @@ def astraa_workspace_tool_test():
             "schema_validated": True,
             "tenant_isolation_checked": True,
             "vault_route_ready": True,
-            "timestamp": datetime.utcnow().isoformat() + "Z"
+            "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
         },
         **response
     }), 200
@@ -2700,7 +2700,7 @@ def astraa_estimator_execution_blueprint():
     }
 
     vault_record = {
-        "vaultRecordId": "VAULT-EST-QA-" + datetime.utcnow().strftime("%Y%m%d%H%M%S"),
+        "vaultRecordId": "VAULT-EST-QA-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S"),
         "recordType": "ESTIMATOR_EXECUTION_BLUEPRINT",
         "tenantId": tenant_id,
         "projectId": project_id,
@@ -2726,7 +2726,7 @@ def astraa_estimator_execution_blueprint():
             "payloadSanitized": True,
             "schemaValidated": True,
             "tenantIsolationChecked": True,
-            "createdAt": datetime.utcnow().isoformat() + "Z"
+            "createdAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
         }
     }
 
@@ -2889,7 +2889,7 @@ def astraa_estimator_execution_blueprint():
             "schema_validated": True,
             "tenant_isolation_checked": True,
             "vault_record_ready": True,
-            "timestamp": datetime.utcnow().isoformat() + "Z"
+            "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
         },
         "core_os_commit": core_os_commit,
         "estimator_result": {
@@ -2965,7 +2965,7 @@ def astraa_core_save_store():
         "activity": ASTRAA_CORE_ACTIVITY,
         "events": ASTRAA_CORE_EVENTS,
         "vaultRecords": ASTRAA_CORE_VAULT_RECORDS,
-        "savedAt": datetime.utcnow().isoformat() + "Z"
+        "savedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     }
 
     tmp_path = ASTRAA_CORE_STORE_PATH + ".tmp"
@@ -3069,10 +3069,10 @@ ASTRAA_CORE_ENTITY_TYPES = {
 }
 
 def astraa_core_now():
-    return datetime.utcnow().isoformat() + "Z"
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 def astraa_core_id(prefix):
-    return prefix + "-" + datetime.utcnow().strftime("%Y%m%d%H%M%S%f")
+    return prefix + "-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S%f")
 
 def astraa_core_validate_tenant_context(payload):
     tenant = payload.get("tenant_context", {})

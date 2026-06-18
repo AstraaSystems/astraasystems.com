@@ -2758,6 +2758,118 @@ def astraa_estimator_execution_blueprint():
         }
     ]
 
+    # ASTRAA_ESTIMATOR_BLUEPRINT_CORE_OS_COMMIT_V1
+    # Connect this execution blueprint into the Astraa Core OS in-memory stores.
+    # This turns the Estimator route from a standalone response into a Core OS event.
+    core_os_commit = {
+        "entityCreated": None,
+        "vaultRecordStored": None,
+        "eventPublished": None,
+        "activityWritten": []
+    }
+
+    try:
+        # 1. Create/update project entity in Common Data Model store.
+        core_project_entity = {
+            "entityId": "PROJECT-" + project_id,
+            "entityType": "project",
+            "tenantId": tenant_id,
+            "projectId": project_id,
+            "name": project_name,
+            "sector": inputs.get("sector") or "contractor",
+            "location": project_location,
+            "data": {
+                "source": "Estimator Execution Blueprint",
+                "estimateId": estimate_id,
+                "executionBudget": round(execution_budget, 2),
+                "materialProfile": material_profile,
+                "projectScope": project_scope,
+                "connectedTools": ["estimator", "operations", "distribution", "finance", "commerce", "vault"]
+            },
+            "createdAt": astraa_core_now(),
+            "source": "Astraa Gateway"
+        }
+
+        ASTRAA_CORE_ENTITIES.append(core_project_entity)
+        core_os_commit["entityCreated"] = core_project_entity
+
+        core_os_commit["activityWritten"].append(
+            astraa_core_write_activity(
+                "EVENT_CORE_ENTITY_CREATED",
+                tenant_id,
+                project_id,
+                "estimator",
+                "Estimator execution blueprint created/updated project entity.",
+                {
+                    "entityId": core_project_entity["entityId"],
+                    "estimateId": estimate_id
+                }
+            )
+        )
+
+        # 2. Store Vault record in Core OS Vault store.
+        ASTRAA_CORE_VAULT_RECORDS.append(vault_record)
+        core_os_commit["vaultRecordStored"] = vault_record
+
+        core_os_commit["activityWritten"].append(
+            astraa_core_write_activity(
+                "EVENT_CORE_VAULT_RECORD_CREATED",
+                tenant_id,
+                project_id,
+                "vault",
+                "Estimator execution blueprint stored as Vault record.",
+                {
+                    "vaultRecordId": vault_record.get("vaultRecordId"),
+                    "estimateId": estimate_id
+                }
+            )
+        )
+
+        # 3. Publish Core OS event.
+        core_event = {
+            "eventId": astraa_core_id("EVT"),
+            "eventType": "EVENT_ESTIMATE_BLUEPRINT_GENERATED",
+            "tenantId": tenant_id,
+            "projectId": project_id,
+            "tool": "estimator",
+            "payload": {
+                "estimateId": estimate_id,
+                "projectName": project_name,
+                "executionBudget": round(execution_budget, 2),
+                "spawnedPayloads": {
+                    "operations": operations_blueprint.get("payloadType"),
+                    "distribution": distribution_blueprint.get("payloadType"),
+                    "finance": finance_blueprint.get("payloadType"),
+                    "commerce": commerce_blueprint.get("payloadType"),
+                    "vaultRecord": vault_record.get("vaultRecordId")
+                }
+            },
+            "timestamp": astraa_core_now(),
+            "source": "Astraa Gateway"
+        }
+
+        ASTRAA_CORE_EVENTS.append(core_event)
+        core_os_commit["eventPublished"] = core_event
+
+        core_os_commit["activityWritten"].append(
+            astraa_core_write_activity(
+                "EVENT_ESTIMATE_BLUEPRINT_GENERATED",
+                tenant_id,
+                project_id,
+                "estimator",
+                "Estimator generated execution blueprint and connected it to Core OS.",
+                {
+                    "eventId": core_event["eventId"],
+                    "estimateId": estimate_id,
+                    "vaultRecordId": vault_record.get("vaultRecordId")
+                }
+            )
+        )
+
+    except Exception as core_error:
+        core_os_commit["error"] = str(core_error)
+
+
     return jsonify({
         "status": "ok",
         "gateway": "Astraa Gateway",
@@ -2774,6 +2886,7 @@ def astraa_estimator_execution_blueprint():
             "vault_record_ready": True,
             "timestamp": datetime.utcnow().isoformat() + "Z"
         },
+        "core_os_commit": core_os_commit,
         "estimator_result": {
             "baseCost": round(base_cost, 2),
             "adjustedBudget": round(adjusted_budget, 2),

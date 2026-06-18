@@ -798,7 +798,7 @@
 </main>
 
 <script>
-const ASTRAA_GATEWAY_ENDPOINT = "http://localhost:5000/api/astraa/workspace/tool-test";
+const ASTRAA_GATEWAY_ENDPOINT = window.astraaApiUrl("/api/astraa/workspace/tool-test");
 let currentToolKey = "";
 
 const tools = [
@@ -1169,7 +1169,7 @@ initTools();
 </script>
 
 <script id="advanced-estimator-cockpit-v1-script">
-const ASTRAA_EXECUTION_BLUEPRINT_ENDPOINT = "http://localhost:5000/api/astraa/estimator/execution-blueprint";
+const ASTRAA_EXECUTION_BLUEPRINT_ENDPOINT = window.astraaApiUrl("/api/astraa/estimator/execution-blueprint");
 
 function getValue(id) {
   const el = document.getElementById(id);
@@ -1254,7 +1254,7 @@ function clearExecutionBlueprintV1() {
 
 
 <script id="astraa-core-os-panel-v1-script">
-const ASTRAA_CORE_BASE_V1 = "http://localhost:5000/api/astraa/core";
+const ASTRAA_CORE_BASE_V1 = window.astraaApiUrl("/api/astraa/core");
 
 function astraaCoreTenantContextV1() {
   return {
@@ -1348,6 +1348,25 @@ function astraaCoreSearchV1() {
     query: "Burnaby"
   });
 }
+</script>
+
+
+<script id="astraa-api-base-config-v1">
+(function () {
+  const isLocal =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "0.0.0.0";
+
+  window.ASTRAA_API_BASE =
+    window.ASTRAA_API_BASE ||
+    (isLocal ? "http://localhost:5000" : "");
+
+  window.astraaApiUrl = function astraaApiUrl(path) {
+    const base = window.ASTRAA_API_BASE || "";
+    return base + path;
+  };
+})();
 </script>
 
 </body>

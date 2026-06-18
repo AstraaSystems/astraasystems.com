@@ -19,3 +19,4 @@ SAFE_SNAPSHOTS/
 __pycache__/
 venv/
 .venv/
+astraa_data/

@@ -3995,6 +3995,25 @@ def astraa_record_successful_estimator_usage(db, record, estimate_summary):
 def astraa_estimator_enforced_run():
     raw_payload = request.get_json(silent=True)
 
+
+    # ASTRAA_ESTIMATOR_ACCOUNT_AUTHORITY_GUARD_V1
+    try:
+        estimator_payload_for_authority = raw_payload if "raw_payload" in locals() else payload if "payload" in locals() else data if "data" in locals() else {}
+    except Exception:
+        estimator_payload_for_authority = {}
+
+    estimator_account_authority = astraa_resolve_account_authority(estimator_payload_for_authority, request)
+
+    if not estimator_account_authority.get("allowed"):
+        return jsonify({
+            "status": "blocked",
+            "gateway": "Astraa Gateway",
+            "reason": estimator_account_authority.get("reason"),
+            "identity_source": estimator_account_authority.get("identity_source"),
+            "review_note": "Estimator request blocked by account authority guard."
+        }), 403
+
+
     if raw_payload is None:
         return jsonify({
             "status": "rejected",
@@ -4660,12 +4679,20 @@ def astraa_verify_moneris_receipt_route():
 
     payload = astraa_sanitize(raw_payload)
 
-    account_email = (
-        payload.get("account_email")
-        or payload.get("email")
-        or payload.get("customer_email")
-        or payload.get("tenant_context", {}).get("test_email")
-    )
+    # ASTRAA_ACCOUNT_AUTHORITY_ROUTE_WIRING_V1
+    account_authority = astraa_resolve_account_authority(payload, request)
+
+    if not account_authority.get("allowed"):
+        return jsonify({
+            "status": "blocked",
+            "gateway": "Astraa Gateway",
+            "payment_verified": False,
+            "reason": account_authority.get("reason"),
+            "identity_source": account_authority.get("identity_source"),
+            "review_note": "Payment verification blocked by account authority guard."
+        }), 403
+
+    account_email = account_authority.get("account_email")
 
     selected_tool = payload.get("selected_tool") or "Astraa Estimator"
     selected_plan = payload.get("selected_plan") or payload.get("plan") or ""

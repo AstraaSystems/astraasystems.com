@@ -5359,6 +5359,28 @@ def astraa_verify_moneris_receipt_route():
             "review_note": "Backend idempotency prevented duplicate payment application."
         }), 200
 
+    # ASTRAA_PAYMENT_SCHEMA_VALIDATION_ROUTE_GUARD_V2
+    # Validate payment verification input before calling Moneris receipt verification
+    # or creating a payment record.
+    valid_payment_payload, payment_payload_errors, clean_payment_payload = astraa_validate_payment_verification_payload(payload)
+
+    if not valid_payment_payload:
+        return jsonify({
+            "status": "blocked",
+            "gateway": "Astraa Gateway",
+            "payment_verified": False,
+            "reason": "Invalid payment verification input.",
+            "errors": payment_payload_errors,
+            "review_note": "Payment verification blocked by schema validation before Moneris receipt verification."
+        }), 400
+
+    payload.update(clean_payment_payload)
+
+    selected_tool = payload.get("selected_tool") or "Astraa Estimator"
+    selected_plan = payload.get("selected_plan") or selected_plan
+    purchase_type = payload.get("purchase_type") or purchase_type
+    ticket = payload.get("moneris_ticket") or ticket
+
     verification = astraa_verify_moneris_receipt(ticket)
 
     payment_record = {

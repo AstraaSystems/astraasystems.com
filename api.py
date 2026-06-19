@@ -680,6 +680,112 @@ def astraa_auth_me():
     }), 200
 
 
+
+
+# ASTRAA_REQUEST_GUARD_V1
+ASTRAA_RATE_LIMIT_BUCKETS = {}
+
+
+def astraa_request_guard_enabled():
+    return (
+        os.getenv("ASTRAA_REQUEST_GUARD_ENABLED", "true")
+        .strip()
+        .lower()
+        in ["1", "true", "yes"]
+    )
+
+
+def astraa_max_request_bytes():
+    try:
+        return int(os.getenv("ASTRAA_MAX_REQUEST_BYTES", "262144"))
+    except Exception:
+        return 262144
+
+
+def astraa_client_ip(req):
+    forwarded = req.headers.get("X-Forwarded-For", "")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return req.remote_addr or "unknown"
+
+
+def astraa_route_rate_limit(path):
+    """
+    Returns (limit, window_seconds).
+    These are conservative local defaults and can be tuned by env later.
+    """
+    if path == "/preload":
+        return 20, 60
+
+    if path == "/api/payment/verify-moneris-receipt":
+        return 30, 60
+
+    if path == "/api/astraa/estimator/enforced-run":
+        return 60, 60
+
+    if path == "/api/auth/dev-login":
+        return 20, 60
+
+    return 120, 60
+
+
+def astraa_rate_limit_check(req):
+    import time
+
+    path = req.path or "/"
+    ip = astraa_client_ip(req)
+    limit, window = astraa_route_rate_limit(path)
+
+    now = time.time()
+    key = f"{ip}:{path}"
+
+    entries = ASTRAA_RATE_LIMIT_BUCKETS.get(key, [])
+    entries = [ts for ts in entries if now - ts < window]
+
+    if len(entries) >= limit:
+        ASTRAA_RATE_LIMIT_BUCKETS[key] = entries
+        return False, {
+            "status": "blocked",
+            "gateway": "Astraa Gateway",
+            "reason": "Rate limit exceeded.",
+            "route": path,
+            "retry_after_seconds": window,
+            "review_note": "Request blocked by Astraa request guard."
+        }
+
+    entries.append(now)
+    ASTRAA_RATE_LIMIT_BUCKETS[key] = entries
+    return True, None
+
+
+@app.before_request
+def astraa_request_guard():
+    if not astraa_request_guard_enabled():
+        return None
+
+    if request.method == "OPTIONS":
+        return None
+
+    max_bytes = astraa_max_request_bytes()
+    content_length = request.content_length
+
+    if content_length is not None and content_length > max_bytes:
+        return jsonify({
+            "status": "blocked",
+            "gateway": "Astraa Gateway",
+            "reason": "Request body too large.",
+            "max_request_bytes": max_bytes,
+            "review_note": "Request blocked by Astraa request size guard."
+        }), 413
+
+    ok, payload = astraa_rate_limit_check(request)
+
+    if not ok:
+        return jsonify(payload), 429
+
+    return None
+
+
 # Moneris Checkout Preload
 # -------------------------------------------------
 @app.route("/preload", methods=["POST"])

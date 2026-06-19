@@ -224,7 +224,7 @@ def astraa_month_end():
     return (next_month.date() - timedelta(days=1)).isoformat()
 
 
-def astraa_load_usage_db():
+def astraa_storage_load_usage_db():
     os.makedirs("astraa_data", exist_ok=True)
 
     if not os.path.exists(ASTRAA_USAGE_DB_PATH):
@@ -240,7 +240,7 @@ def astraa_load_usage_db():
         return {}
 
 
-def astraa_save_usage_db(db):
+def astraa_storage_save_usage_db(db):
     os.makedirs("astraa_data", exist_ok=True)
 
     tmp_path = ASTRAA_USAGE_DB_PATH + ".tmp"
@@ -285,7 +285,8 @@ def astraa_default_usage_record(account_email, plan):
 
 
 def astraa_get_usage_record(account_email, requested_plan="Trial"):
-    db = astraa_load_usage_db()
+    # ASTRAA_USAGE_STORAGE_WRAPPER_ADOPTION_V1
+    db = astraa_storage_load_usage_db()
 
     account_email = str(account_email or "").strip().lower()
     if not account_email:
@@ -293,7 +294,7 @@ def astraa_get_usage_record(account_email, requested_plan="Trial"):
 
     if account_email not in db:
         db[account_email] = astraa_default_usage_record(account_email, requested_plan)
-        astraa_save_usage_db(db)
+        astraa_storage_save_usage_db(db)
 
     return db, db[account_email]
 
@@ -413,7 +414,7 @@ def astraa_record_successful_estimator_usage(db, record, estimate_summary):
     record["updated_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
     db[record["account_id"]] = record
-    astraa_save_usage_db(db)
+    astraa_storage_save_usage_db(db)
 
     return record
 
@@ -1369,7 +1370,7 @@ def astraa_get_query_arg(name, default=""):
         return _request.args.get(name, default)
 
 
-def astraa_load_usage_db():
+def astraa_storage_load_usage_db():
     if not ASTRAA_USAGE_DB_PATH.exists():
         return {}
 
@@ -1385,7 +1386,7 @@ def astraa_load_usage_db():
         return {}
 
 
-def astraa_save_usage_db(db):
+def astraa_storage_save_usage_db(db):
     ASTRAA_USAGE_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     tmp = ASTRAA_USAGE_DB_PATH.with_suffix(".tmp")
@@ -1492,7 +1493,7 @@ def astraa_create_or_update_account_usage(
     if not email:
         return None, "Missing email"
 
-    db = astraa_load_usage_db()
+    db = astraa_storage_load_usage_db()
     key = astraa_account_key(email)
     config = astraa_plan_config(selected_plan)
     period_start, period_end = astraa_default_period(config)
@@ -1558,7 +1559,7 @@ def astraa_create_or_update_account_usage(
                 record["saved_estimates"] = []
 
     db[key] = record
-    astraa_save_usage_db(db)
+    astraa_storage_save_usage_db(db)
 
     return record, None
 
@@ -1569,7 +1570,7 @@ def astraa_get_usage_record(email):
     if not email:
         return None
 
-    db = astraa_load_usage_db()
+    db = astraa_storage_load_usage_db()
     return db.get(astraa_account_key(email))
 
 
@@ -2023,7 +2024,7 @@ def astraa_create_estimate():
 
     estimate_result = astraa_calculate_estimate(payload)
 
-    db = astraa_load_usage_db()
+    db = astraa_storage_load_usage_db()
     key = astraa_account_key(email)
     record = db.get(key, record)
 
@@ -2046,7 +2047,7 @@ def astraa_create_estimate():
     record["updated_at"] = astraa_now_iso()
 
     db[key] = record
-    astraa_save_usage_db(db)
+    astraa_storage_save_usage_db(db)
 
     return astraa_json_response({
         "success": True,
@@ -2091,9 +2092,9 @@ def astraa_reset_account_usage():
     record["period_label"] = config["period_label"]
     record["updated_at"] = astraa_now_iso()
 
-    db = astraa_load_usage_db()
+    db = astraa_storage_load_usage_db()
     db[astraa_account_key(email)] = record
-    astraa_save_usage_db(db)
+    astraa_storage_save_usage_db(db)
 
     return astraa_json_response({
         "success": True,
@@ -2842,9 +2843,9 @@ def astraa_add_estimate_credits():
             "error": str(error)
         }, 400)
 
-    db = astraa_load_usage_db()
+    db = astraa_storage_load_usage_db()
     db[astraa_account_key(email)] = record
-    astraa_save_usage_db(db)
+    astraa_storage_save_usage_db(db)
 
     return astraa_json_response({
         "success": True,
@@ -4256,7 +4257,7 @@ def astraa_month_end():
     return (next_month.date() - timedelta(days=1)).isoformat()
 
 
-def astraa_load_usage_db():
+def astraa_storage_load_usage_db():
     os.makedirs("astraa_data", exist_ok=True)
 
     if not os.path.exists(ASTRAA_USAGE_DB_PATH):
@@ -4272,7 +4273,7 @@ def astraa_load_usage_db():
         return {}
 
 
-def astraa_save_usage_db(db):
+def astraa_storage_save_usage_db(db):
     os.makedirs("astraa_data", exist_ok=True)
 
     tmp_path = ASTRAA_USAGE_DB_PATH + ".tmp"
@@ -4317,7 +4318,7 @@ def astraa_default_usage_record(account_email, plan):
 
 
 def astraa_get_usage_record(account_email, requested_plan="Trial"):
-    db = astraa_load_usage_db()
+    db = astraa_storage_load_usage_db()
 
     account_email = str(account_email or "").strip().lower()
     if not account_email:
@@ -4325,7 +4326,7 @@ def astraa_get_usage_record(account_email, requested_plan="Trial"):
 
     if account_email not in db:
         db[account_email] = astraa_default_usage_record(account_email, requested_plan)
-        astraa_save_usage_db(db)
+        astraa_storage_save_usage_db(db)
 
     return db, db[account_email]
 
@@ -4445,7 +4446,7 @@ def astraa_record_successful_estimator_usage(db, record, estimate_summary):
     record["updated_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
     db[record["account_id"]] = record
-    astraa_save_usage_db(db)
+    astraa_storage_save_usage_db(db)
 
     return record
 
@@ -4722,7 +4723,7 @@ def astraa_storage_load_usage_db():
     Currently delegates to the active JSON implementation.
     """
     if astraa_storage_backend_is_json():
-        return astraa_load_usage_db()
+        return astraa_storage_load_usage_db()
 
     raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for usage DB. Only json is active.")
 
@@ -4733,7 +4734,7 @@ def astraa_storage_save_usage_db(db):
     Currently delegates to the active JSON implementation.
     """
     if astraa_storage_backend_is_json():
-        return astraa_save_usage_db(db)
+        return astraa_storage_save_usage_db(db)
 
     raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for usage DB. Only json is active.")
 
@@ -4916,7 +4917,7 @@ def astraa_find_verified_payment_by_idempotency(payment_db, idempotency_key):
 
 
 def astraa_usage_summary_for_account(account_email):
-    db = astraa_load_usage_db()
+    db = astraa_storage_load_usage_db()
     account_email = str(account_email or "").strip().lower()
     record = db.get(account_email)
 
@@ -5309,7 +5310,7 @@ def astraa_apply_verified_payment_to_usage(account_email, purchase_type, selecte
     selected_plan = str(selected_plan or "").strip()
     purchase_type = str(purchase_type or "").strip()
 
-    db = astraa_load_usage_db()
+    db = astraa_storage_load_usage_db()
 
     if not account_email:
         return False, "Missing account email.", None
@@ -5374,7 +5375,7 @@ def astraa_apply_verified_payment_to_usage(account_email, purchase_type, selecte
     record = astraa_normalize_usage_record(record)
 
     db[account_email] = record
-    astraa_save_usage_db(db)
+    astraa_storage_save_usage_db(db)
 
     return True, "Usage record updated after verified payment.", record
 

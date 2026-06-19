@@ -542,11 +542,8 @@
       Replace this with your current ngrok/backend URL before live payment testing.
 
       Example:
-      const BACKEND_PRELOAD_URL = "https://your-ngrok-url.ngrok-free.app/preload";
-    */
-    const BACKEND_PRELOAD_URL = "https://YOUR-ACTIVE-NGROK-URL/preload";
-
-    function normalizeEmail(value) {
+*/
+function normalizeEmail(value) {
       return String(value || "").trim().toLowerCase();
     }
 
@@ -614,6 +611,26 @@
       sessionStorage.setItem("astraa_selected_price", selection.price);
     }
 
+    
+    // ASTRAA_PAYMENT_PRELOAD_GLOBAL_CONFIG_V2
+    var ASTRAA_PAYMENT_API_BASE_V2 =
+      window.ASTRAA_API_BASE ||
+      sessionStorage.getItem("astraa_api_base") ||
+      (
+        location.hostname === "localhost" ||
+        location.hostname === "127.0.0.1" ||
+        location.hostname === "0.0.0.0"
+          ? "http://localhost:5000"
+          : ""
+      );
+
+    ASTRAA_PAYMENT_API_BASE_V2 = String(ASTRAA_PAYMENT_API_BASE_V2 || "").replace(/\/+$/, "");
+
+    window.BACKEND_PRELOAD_URL =
+      window.BACKEND_PRELOAD_URL ||
+      (ASTRAA_PAYMENT_API_BASE_V2 + "/preload");
+
+
     async function startCheckout() {
       const selection = getAstraaSelection();
       const email = normalizeEmail(document.getElementById("checkoutEmail").value);
@@ -667,7 +684,7 @@
       );
 
       try {
-        const response = await fetch(BACKEND_PRELOAD_URL, {
+        const response = await fetch(window.BACKEND_PRELOAD_URL, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"

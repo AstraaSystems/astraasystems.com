@@ -1881,7 +1881,13 @@ def astraa_get_account_usage():
             "error": "Missing email query parameter."
         }, 400)
 
-    record = astraa_get_usage_record(email)
+    # ASTRAA_ACCOUNT_USAGE_GET_TUPLE_FIX_V1
+    usage_lookup = astraa_get_usage_record(email)
+
+    if isinstance(usage_lookup, tuple):
+        _, record = usage_lookup
+    else:
+        record = usage_lookup
 
     if not record:
         return astraa_json_response({

@@ -509,6 +509,177 @@ def astraa_allow_public_checkout_preload(req):
 
 
 
+
+
+# ASTRAA_DEV_SESSION_AUTH_V1
+ASTRAA_SESSIONS_DB_PATH = os.path.join("astraa_data", "astraa_sessions.json")
+
+
+def astraa_load_sessions_db():
+    os.makedirs("astraa_data", exist_ok=True)
+
+    if not os.path.exists(ASTRAA_SESSIONS_DB_PATH):
+        return {}
+
+    try:
+        with open(ASTRAA_SESSIONS_DB_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def astraa_save_sessions_db(db):
+    os.makedirs("astraa_data", exist_ok=True)
+
+    tmp_path = ASTRAA_SESSIONS_DB_PATH + ".tmp"
+
+    with open(tmp_path, "w", encoding="utf-8") as f:
+        json.dump(db, f, indent=2, sort_keys=True)
+
+    os.replace(tmp_path, ASTRAA_SESSIONS_DB_PATH)
+
+
+def astraa_extract_bearer_token(req):
+    try:
+        auth_header = req.headers.get("Authorization", "")
+    except Exception:
+        return ""
+
+    if not auth_header:
+        return ""
+
+    parts = auth_header.strip().split(" ", 1)
+
+    if len(parts) != 2:
+        return ""
+
+    scheme, token = parts
+
+    if scheme.lower() != "bearer":
+        return ""
+
+    return token.strip()
+
+
+def astraa_session_now():
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def astraa_create_dev_session(account_email, selected_plan="Professional"):
+    account_email = astraa_clean_email(account_email)
+
+    if not account_email:
+        return None
+
+    token = "astraa_dev_" + uuid.uuid4().hex + uuid.uuid4().hex
+
+    db = astraa_load_sessions_db()
+
+    db[token] = {
+        "account_email": account_email,
+        "account_id": account_email,
+        "tenant_id": "tenant_" + account_email.replace("@", "_").replace(".", "_"),
+        "selected_plan": selected_plan or "Professional",
+        "identity_source": "dev_session",
+        "created_at": astraa_session_now(),
+        "updated_at": astraa_session_now()
+    }
+
+    astraa_save_sessions_db(db)
+
+    return token
+
+
+def astraa_resolve_session_identity(req):
+    token = astraa_extract_bearer_token(req)
+
+    if not token:
+        return None
+
+    db = astraa_load_sessions_db()
+    session = db.get(token)
+
+    if not session:
+        return None
+
+    account_email = astraa_clean_email(session.get("account_email"))
+
+    if not account_email:
+        return None
+
+    return {
+        "allowed": True,
+        "account_email": account_email,
+        "account_id": session.get("account_id") or account_email,
+        "tenant_id": session.get("tenant_id"),
+        "selected_plan": session.get("selected_plan"),
+        "identity_source": "dev_session_bearer_token",
+        "reason": "Backend session token resolved account identity."
+    }
+
+
+@app.post("/api/auth/dev-login")
+def astraa_dev_login():
+    """
+    Development/staging account session endpoint.
+    This is a bridge toward proper backend-authenticated identity.
+    Do not treat this as final public authentication.
+    """
+    payload = request.get_json(silent=True) or {}
+
+    account_email = astraa_clean_email(
+        payload.get("account_email")
+        or payload.get("email")
+        or payload.get("checkout_email")
+    )
+
+    selected_plan = payload.get("selected_plan") or payload.get("plan") or "Professional"
+
+    if not account_email or "@" not in account_email:
+        return jsonify({
+            "status": "blocked",
+            "gateway": "Astraa Gateway",
+            "reason": "Valid account_email is required for dev login."
+        }), 400
+
+    token = astraa_create_dev_session(account_email, selected_plan)
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "token": token,
+        "account_email": account_email,
+        "selected_plan": selected_plan,
+        "identity_source": "dev_session",
+        "review_note": "Development session issued. Replace with production auth/session before public launch."
+    }), 200
+
+
+@app.get("/api/auth/me")
+def astraa_auth_me():
+    identity = astraa_resolve_session_identity(request)
+
+    if not identity:
+        return jsonify({
+            "status": "blocked",
+            "gateway": "Astraa Gateway",
+            "reason": "No valid backend session token found."
+        }), 401
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "identity": {
+            "account_email": identity.get("account_email"),
+            "account_id": identity.get("account_id"),
+            "tenant_id": identity.get("tenant_id"),
+            "selected_plan": identity.get("selected_plan"),
+            "identity_source": identity.get("identity_source")
+        }
+    }), 200
+
+
 # Moneris Checkout Preload
 # -------------------------------------------------
 @app.route("/preload", methods=["POST"])
@@ -4205,17 +4376,20 @@ def astraa_extract_requested_account_email(payload):
 
 def astraa_resolve_account_authority(payload, req=None):
     """
-    Current modes:
-
     controlled_dev:
       Allows account_email from request payload for internal/local testing.
 
     public_launch:
-      Blocks browser-submitted account identity until real auth/session is added.
+      Requires backend-authenticated account identity.
 
-    Future target:
-      Resolve account_id/email from authenticated backend session/JWT/OIDC.
+    Current backend-authenticated bridge:
+      Authorization: Bearer <dev-session-token>
     """
+    if req is not None:
+        session_identity = astraa_resolve_session_identity(req)
+        if session_identity:
+            return session_identity
+
     requested_email = astraa_extract_requested_account_email(payload)
 
     if astraa_public_launch_mode_enabled():

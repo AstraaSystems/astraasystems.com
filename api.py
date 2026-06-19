@@ -574,7 +574,8 @@ def astraa_create_dev_session(account_email, selected_plan="Professional"):
 
     token = "astraa_dev_" + uuid.uuid4().hex + uuid.uuid4().hex
 
-    db = astraa_load_sessions_db()
+    # ASTRAA_SESSION_STORAGE_WRAPPER_ADOPTION_V1
+    db = astraa_storage_load_sessions_db()
 
     db[token] = {
         "account_email": account_email,
@@ -586,7 +587,7 @@ def astraa_create_dev_session(account_email, selected_plan="Professional"):
         "updated_at": astraa_session_now()
     }
 
-    astraa_save_sessions_db(db)
+    astraa_storage_save_sessions_db(db)
 
     return token
 
@@ -597,7 +598,7 @@ def astraa_resolve_session_identity(req):
     if not token:
         return None
 
-    db = astraa_load_sessions_db()
+    db = astraa_storage_load_sessions_db()
     session = db.get(token)
 
     if not session:

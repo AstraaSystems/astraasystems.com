@@ -2804,6 +2804,7 @@ def astraa_add_estimate_credits_to_record(record, credits, amount_cad, source="m
 
 
 @app.route("/api/account/estimate-credits/add", methods=["POST"])
+# ASTRAA_ESTIMATE_CREDITS_STORAGE_WRAPPER_ADOPTION_V1
 def astraa_add_estimate_credits():
     payload = astraa_get_request_json()
 
@@ -2818,7 +2819,14 @@ def astraa_add_estimate_credits():
             "error": "Missing email."
         }, 400)
 
-    record = astraa_get_usage_record(email)
+    # ASTRAA_ESTIMATE_CREDITS_TUPLE_FIX_V1
+    usage_lookup = astraa_get_usage_record(email)
+
+    if isinstance(usage_lookup, tuple):
+        db, record = usage_lookup
+    else:
+        db = astraa_storage_load_usage_db()
+        record = usage_lookup
 
     if not record:
         record, error = astraa_create_or_update_account_usage(

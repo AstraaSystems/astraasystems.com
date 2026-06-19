@@ -1029,7 +1029,8 @@ def preload():
         "status": "initiated"
     }
 
-    append_jsonl(PRELOADS_FILE, preload_record)
+    # ASTRAA_EVENT_LOG_STORAGE_ADOPTION_V1
+    astraa_storage_append_event_log("preloads", preload_record)
 
     try:
         response = requests.post(
@@ -1061,13 +1062,13 @@ def preload():
 
             preload_record["status"] = "failed_non_json"
             preload_record["raw_response"] = raw_text
-            append_jsonl(PRELOADS_FILE, preload_record)
+            astraa_storage_append_event_log("preloads", preload_record)
 
             return jsonify(error_payload), 500
 
         preload_record["status"] = "response_received"
         preload_record["moneris_response"] = moneris_data
-        append_jsonl(PRELOADS_FILE, preload_record)
+        astraa_storage_append_event_log("preloads", preload_record)
 
         # Log payment session if ticket received
         if (
@@ -1084,7 +1085,7 @@ def preload():
                 "ticket": moneris_data["response"]["ticket"],
                 "status": "ticket_created"
             }
-            append_jsonl(PAYMENTS_FILE, payment_record)
+            astraa_storage_append_event_log("payments", payment_record)
 
         # ASTRAA_PRELOAD_RESPONSE_COMPAT_V1
         # Return both the original Moneris response and top-level compatibility fields
@@ -1135,7 +1136,7 @@ def preload():
 
         preload_record["status"] = "request_exception"
         preload_record["error"] = str(e)
-        append_jsonl(PRELOADS_FILE, preload_record)
+        astraa_storage_append_event_log("preloads", preload_record)
 
         return jsonify(error_payload), 500
 
@@ -1194,7 +1195,7 @@ def receipt():
         "status": "initiated"
     }
 
-    append_jsonl(RECEIPTS_FILE, receipt_record)
+    astraa_storage_append_event_log("receipts", receipt_record)
 
     try:
         response = requests.post(
@@ -1213,7 +1214,7 @@ def receipt():
         except Exception:
             receipt_record["status"] = "failed_non_json"
             receipt_record["raw_response"] = raw_text
-            append_jsonl(RECEIPTS_FILE, receipt_record)
+            astraa_storage_append_event_log("receipts", receipt_record)
 
             return jsonify({
                 "response": {
@@ -1230,14 +1231,14 @@ def receipt():
 
         receipt_record["status"] = "response_received"
         receipt_record["moneris_response"] = moneris_data
-        append_jsonl(RECEIPTS_FILE, receipt_record)
+        astraa_storage_append_event_log("receipts", receipt_record)
 
         return jsonify(moneris_data)
 
     except requests.exceptions.RequestException as e:
         receipt_record["status"] = "request_exception"
         receipt_record["error"] = str(e)
-        append_jsonl(RECEIPTS_FILE, receipt_record)
+        astraa_storage_append_event_log("receipts", receipt_record)
 
         return jsonify({
             "response": {
@@ -1273,7 +1274,7 @@ def lead():
         "message": data.get("message", "")
     }
 
-    append_jsonl("leads.jsonl", record)
+    astraa_storage_append_event_log("leads", record)
 
     return jsonify({
         "status": "ok",
@@ -4796,6 +4797,51 @@ def astraa_storage_save_sessions_db(db):
         return astraa_save_sessions_db(db)
 
     raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for sessions DB. Only json is active.")
+
+
+
+
+# ASTRAA_EVENT_LOG_STORAGE_ABSTRACTION_V1
+def astraa_storage_event_log_path(log_name):
+    """
+    Map logical event log names to current JSONL files.
+
+    Current backend:
+    - JSONL files remain active.
+    - Future backend:
+      - these logical names can map to DB event tables.
+    """
+    name = str(log_name or "").strip().lower()
+
+    mapping = {
+        "preloads": PRELOADS_FILE,
+        "payments": PAYMENTS_FILE,
+        "receipts": RECEIPTS_FILE if "RECEIPTS_FILE" in globals() else "receipts.jsonl",
+        "leads": "leads.jsonl",
+    }
+
+    if name not in mapping:
+        raise ValueError(f"Unsupported Astraa event log name: {log_name}")
+
+    return mapping[name]
+
+
+def astraa_storage_append_event_log(log_name, record):
+    """
+    Storage abstraction wrapper for append-only JSONL event logs.
+
+    Current behavior:
+    - delegates to append_jsonl(...)
+    - does not change event record shape
+    - keeps JSONL backend active
+
+    Future behavior:
+    - can route to managed DB event tables using log_name.
+    """
+    if astraa_storage_backend_is_json():
+        return append_jsonl(astraa_storage_event_log_path(log_name), record)
+
+    raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for event logs. Only json is active.")
 
 
 def astraa_payment_record_id(prefix="PAY"):

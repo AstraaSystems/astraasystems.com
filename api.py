@@ -453,14 +453,72 @@ def health():
 
 
 # -------------------------------------------------
+
+# ASTRAA_PRELOAD_PUBLIC_CHECKOUT_AUTH_V1
+def astraa_allow_public_checkout_preload(req):
+    """
+    Allows the public Astraa payment page to request a Moneris Checkout preload ticket.
+
+    This does not activate user access.
+    This does not verify payment.
+    This does not expose Moneris credentials.
+    It only creates a checkout ticket using server-side credentials.
+    """
+    try:
+        data = req.get_json(silent=True) or {}
+
+        email = (
+            data.get("email")
+            or data.get("checkout_email")
+            or data.get("account_email")
+            or ""
+        ).strip().lower()
+
+        selected_tool = (
+            data.get("selected_tool")
+            or data.get("tool")
+            or ""
+        ).strip().lower()
+
+        selected_plan = (
+            data.get("selected_plan")
+            or data.get("plan")
+            or ""
+        ).strip().lower()
+
+        allowed_tool = (
+            selected_tool in ["astraa estimator", "estimator", ""]
+            or "estimator" in selected_tool
+        )
+
+        allowed_plan = selected_plan in [
+            "trial",
+            "basic",
+            "professional",
+            "estimate_pack",
+            "estimate_pack_10",
+            ""
+        ]
+
+        valid_email = "@" in email and "." in email
+
+        return bool(allowed_tool and allowed_plan and valid_email)
+
+    except Exception:
+        return False
+
+
+
 # Moneris Checkout Preload
 # -------------------------------------------------
 @app.route("/preload", methods=["POST"])
 def preload():
-    if not authorized(request):
+    if not authorized(request) and not astraa_allow_public_checkout_preload(request):
         return jsonify({
             "status": "error",
-            "message": "unauthorized"
+            "message": "unauthorized",
+            "moneris_error": {},
+            "review_note": "Astraa preload request was blocked before Moneris. Request was not authorized and did not match the public checkout preload shape."
         }), 403
 
     if not MONERIS_STORE_ID or not MONERIS_API_TOKEN or not MONERIS_CHECKOUT_ID:
@@ -485,6 +543,8 @@ def preload():
 
     order_no = "ASTRAA-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S") + "-" + uuid.uuid4().hex[:6].upper()
 
+    # ASTRAA_PRELOAD_KNOWN_GOOD_PAYLOAD_V1
+    # This payload shape matches the direct Moneris diagnostic that successfully returned a ticket.
     payload = {
         "store_id": MONERIS_STORE_ID,
         "api_token": MONERIS_API_TOKEN,
@@ -493,14 +553,9 @@ def preload():
         "environment": MONERIS_ENV_VALUE,
         "action": "preload",
         "order_no": order_no,
-        "cust_id": email if email else order_no,
-        "dynamic_descriptor": "ASTRAA",
         "language": "en",
-        "contact_details": {
-            "first_name": "Astraa",
-            "last_name": "Customer",
-            "email": email if email else "customer@astraasystems.com",
-            "phone": ""
+        "cust_info": {
+            "email": email if email else "customer@astraasystems.com"
         },
         "cart": {
             "items": [

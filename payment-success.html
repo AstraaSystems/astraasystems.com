@@ -923,6 +923,16 @@ Note: Confirm official transaction details in Moneris admin for accounting and r
     return sessionStorage.getItem(key) || fallback || "";
   }
 
+  // ASTRAA_BACKEND_PAYMENT_URL_TICKET_FIX_V1
+  function astraaPaymentGetParam(name) {
+    try {
+      return new URLSearchParams(window.location.search).get(name) || "";
+    } catch (error) {
+      return "";
+    }
+  }
+
+
   function inferEstimatorPurchaseType() {
     const selectedTool = safeGet("astraa_selected_tool", "Astraa Estimator");
     const selectedPlan = safeGet("astraa_selected_plan", "");
@@ -984,9 +994,15 @@ Note: Confirm official transaction details in Moneris admin for accounting and r
 
   async function verifyMonerisReceiptWithBackend() {
     const ticket =
+      astraaPaymentGetParam("ticket") ||
+      astraaPaymentGetParam("moneris_ticket") ||
       safeGet("astraa_moneris_ticket", "") ||
       safeGet("astraa_payment_ticket", "") ||
       safeGet("moneris_ticket", "");
+
+    if (ticket) {
+      sessionStorage.setItem("astraa_moneris_ticket", ticket);
+    }
 
     const accountEmail =
       safeGet("astraa_checkout_email", "") ||

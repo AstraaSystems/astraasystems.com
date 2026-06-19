@@ -4184,6 +4184,48 @@ def astraa_estimator_enforced_run():
             "review_note": "Estimator request blocked by account authority guard."
         }), 403
 
+    # ASTRAA_ESTIMATOR_ACCOUNT_AUTHORITY_OVERRIDE_V1
+    # Once account authority is resolved, force downstream Estimator logic to use
+    # the backend-authorized account identity instead of any frontend-submitted email.
+    try:
+        authoritative_account_email = estimator_account_authority.get("account_email")
+        authoritative_selected_plan = estimator_account_authority.get("selected_plan")
+
+        if authoritative_account_email:
+            if "raw_payload" in locals() and isinstance(raw_payload, dict):
+                raw_payload.setdefault("inputs", {})
+                raw_payload["inputs"]["account_email"] = authoritative_account_email
+                raw_payload["account_email"] = authoritative_account_email
+
+            if "payload" in locals() and isinstance(payload, dict):
+                payload.setdefault("inputs", {})
+                payload["inputs"]["account_email"] = authoritative_account_email
+                payload["account_email"] = authoritative_account_email
+
+            if "data" in locals() and isinstance(data, dict):
+                data.setdefault("inputs", {})
+                data["inputs"]["account_email"] = authoritative_account_email
+                data["account_email"] = authoritative_account_email
+
+        if authoritative_selected_plan:
+            if "raw_payload" in locals() and isinstance(raw_payload, dict):
+                raw_payload.setdefault("inputs", {})
+                raw_payload["inputs"]["selected_plan"] = authoritative_selected_plan
+                raw_payload["selected_plan"] = authoritative_selected_plan
+
+            if "payload" in locals() and isinstance(payload, dict):
+                payload.setdefault("inputs", {})
+                payload["inputs"]["selected_plan"] = authoritative_selected_plan
+                payload["selected_plan"] = authoritative_selected_plan
+
+            if "data" in locals() and isinstance(data, dict):
+                data.setdefault("inputs", {})
+                data["inputs"]["selected_plan"] = authoritative_selected_plan
+                data["selected_plan"] = authoritative_selected_plan
+
+    except Exception:
+        pass
+
 
     if raw_payload is None:
         return jsonify({

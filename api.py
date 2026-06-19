@@ -854,10 +854,112 @@ def astraa_request_guard():
     return None
 
 
+
+
+# ASTRAA_PRELOAD_SCHEMA_VALIDATION_V1
+def astraa_validate_preload_payload(payload):
+    """
+    Validate public checkout preload input before creating a Moneris ticket.
+    Billing amount is still controlled server-side by get_plan_amount / ASTRAA_TEST_AMOUNT.
+    """
+    if not isinstance(payload, dict):
+        return False, ["payload must be an object."], {}
+
+    errors = []
+    clean = dict(payload)
+
+    email = (
+        payload.get("email")
+        or payload.get("checkout_email")
+        or payload.get("account_email")
+        or ""
+    )
+    email = str(email or "").strip().lower()
+
+    if not email or "@" not in email or "." not in email:
+        errors.append("email must be valid.")
+
+    clean["email"] = email
+    clean["checkout_email"] = email
+
+    selected_tool = str(
+        payload.get("selected_tool")
+        or payload.get("tool")
+        or "Astraa Estimator"
+    ).strip()
+
+    selected_tool_l = selected_tool.lower()
+
+    allowed_tools = {
+        "astraa estimator",
+        "estimator",
+        ""
+    }
+
+    if selected_tool_l not in allowed_tools:
+        errors.append("selected_tool must be Astraa Estimator for this checkout flow.")
+
+    clean["selected_tool"] = "Astraa Estimator"
+    clean["tool"] = "Astraa Estimator"
+
+    selected_plan = str(
+        payload.get("selected_plan")
+        or payload.get("plan")
+        or "professional"
+    ).strip().lower()
+
+    allowed_plans = {
+        "trial",
+        "basic",
+        "professional",
+        "custom",
+        "estimate_pack",
+        "estimate_pack_10",
+        "extra_estimate_pack",
+        "extra_estimate_pack_10"
+    }
+
+    if selected_plan not in allowed_plans:
+        errors.append("selected_plan/plan must be a known Astraa checkout plan.")
+
+    clean["plan"] = selected_plan
+    clean["selected_plan"] = selected_plan.title() if selected_plan in ["trial", "basic", "professional", "custom"] else selected_plan
+
+    amount = payload.get("amount")
+
+    if amount not in [None, ""]:
+        try:
+            amount_value = float(amount)
+            if amount_value <= 0:
+                errors.append("amount must be greater than 0 when provided.")
+            if amount_value > 100000:
+                errors.append("amount is too large.")
+        except Exception:
+            errors.append("amount must be numeric when provided.")
+
+    return len(errors) == 0, errors, clean
+
+
 # Moneris Checkout Preload
 # -------------------------------------------------
 @app.route("/preload", methods=["POST"])
 def preload():
+    # ASTRAA_PRELOAD_SCHEMA_VALIDATION_ROUTE_GUARD_V1
+    preload_payload = request.get_json(silent=True) or {}
+    valid_preload_payload, preload_payload_errors, clean_preload_payload = astraa_validate_preload_payload(preload_payload)
+
+    if not valid_preload_payload:
+        return jsonify({
+            "status": "blocked",
+            "gateway": "Astraa Gateway",
+            "reason": "Invalid preload input.",
+            "errors": preload_payload_errors,
+            "review_note": "Preload request blocked by schema validation before Moneris."
+        }), 400
+
+    # Use sanitized preload data downstream.
+    preload_payload = clean_preload_payload
+
     if not authorized(request) and not astraa_allow_public_checkout_preload(request):
         return jsonify({
             "status": "error",
@@ -878,7 +980,7 @@ def preload():
             }
         }), 500
 
-    data = request.json or {}
+    data = preload_payload
 
     email = (data.get("email") or "").strip()
     requested_plan = (data.get("plan") or "professional").strip().lower()

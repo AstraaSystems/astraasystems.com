@@ -35,12 +35,34 @@ WRAPPER_REPLACEMENTS = {
     "astraa_save_sessions_db(": "astraa_storage_save_sessions_db(",
 }
 
-ACTIVE_ZONE_HINTS = [
-    "ASTRAA_DEV_SESSION_AUTH_V1",
-    "ASTRAA_ESTIMATOR_ACCOUNT_AUTHORITY_OVERRIDE_V1",
-    "ASTRAA PAYMENT VERIFICATION",
-    "ASTRAA_STORAGE_ABSTRACTION_V1",
-]
+
+def classify_line(line_number: int) -> str:
+    """
+    Coarse classification based on the active function map we already generated.
+    This helps avoid blindly patching older shadowed helper blocks.
+    """
+    if 500 <= line_number <= 700:
+        return "ACTIVE_SESSION_AUTH_ZONE"
+
+    if 4200 <= line_number <= 4455:
+        return "ACTIVE_ESTIMATOR_USAGE_HELPER_ZONE"
+
+    if 4456 <= line_number <= 4645:
+        return "ACTIVE_ESTIMATOR_ROUTE_ZONE"
+
+    if 4650 <= line_number <= 5455:
+        return "ACTIVE_PAYMENT_VERIFICATION_ZONE"
+
+    if 900 <= line_number <= 1150:
+        return "ACTIVE_PRELOAD_RECEIPT_JSONL_ZONE"
+
+    if 1800 <= line_number <= 2105:
+        return "LEGACY_OR_ACCOUNT_USAGE_ROUTE_ZONE_REVIEW"
+
+    if line_number < 4200:
+        return "EARLIER_OR_SHADOWED_ZONE_REVIEW"
+
+    return "GENERAL_REVIEW"
 
 
 def main():
@@ -56,6 +78,7 @@ def main():
             if call in line:
                 matches.append({
                     "line": lineno,
+                    "zone": classify_line(lineno),
                     "call": call,
                     "replacement": WRAPPER_REPLACEMENTS[call],
                     "text": line.rstrip(),
@@ -72,11 +95,20 @@ def main():
     for item in matches:
         print(json.dumps(item, indent=2, sort_keys=True))
 
+    print("\nSummary by zone:")
+    zone_counts = {}
+    for item in matches:
+        zone_counts[item["zone"]] = zone_counts.get(item["zone"], 0) + 1
+
+    for zone, count in sorted(zone_counts.items(), key=lambda x: (-x[1], x[0])):
+        print(f"{zone}: {count}")
+
     print("\nRecommended replacement order:")
-    print("1. Session functions: dev-login and auth/me path.")
-    print("2. Payment DB functions: payment verification route.")
-    print("3. Active Estimator usage functions around active function map lines ~4258-4447.")
-    print("4. Leave shadowed/legacy definitions untouched until cleanup pass.")
+    print("1. ACTIVE_SESSION_AUTH_ZONE")
+    print("2. ACTIVE_PAYMENT_VERIFICATION_ZONE")
+    print("3. ACTIVE_ESTIMATOR_USAGE_HELPER_ZONE")
+    print("4. ACTIVE_ESTIMATOR_ROUTE_ZONE")
+    print("5. Leave EARLIER_OR_SHADOWED_ZONE_REVIEW untouched until cleanup pass.")
 
     print("\nREAD-ONLY CONFIRMATION:")
     print("This script did not modify any file.")

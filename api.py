@@ -4697,6 +4697,90 @@ def astraa_save_payment_db(records):
     os.replace(tmp_path, ASTRAA_PAYMENT_DB_PATH)
 
 
+
+
+# ASTRAA_STORAGE_ABSTRACTION_V1
+def astraa_storage_backend():
+    """
+    Storage backend selector.
+
+    Current public-launch hardening state:
+    - json is the only active backend.
+    - db is reserved for future managed database migration.
+    """
+    return os.getenv("ASTRAA_STORAGE_BACKEND", "json").strip().lower()
+
+
+def astraa_storage_backend_is_json():
+    return astraa_storage_backend() in ["", "json", "local_json"]
+
+
+def astraa_storage_load_usage_db():
+    """
+    Storage abstraction wrapper for usage records.
+    Currently delegates to the active JSON implementation.
+    """
+    if astraa_storage_backend_is_json():
+        return astraa_load_usage_db()
+
+    raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for usage DB. Only json is active.")
+
+
+def astraa_storage_save_usage_db(db):
+    """
+    Storage abstraction wrapper for usage records.
+    Currently delegates to the active JSON implementation.
+    """
+    if astraa_storage_backend_is_json():
+        return astraa_save_usage_db(db)
+
+    raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for usage DB. Only json is active.")
+
+
+def astraa_storage_load_payment_db():
+    """
+    Storage abstraction wrapper for payment records.
+    Currently delegates to the active JSON implementation.
+    """
+    if astraa_storage_backend_is_json():
+        return astraa_load_payment_db()
+
+    raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for payment DB. Only json is active.")
+
+
+def astraa_storage_save_payment_db(records):
+    """
+    Storage abstraction wrapper for payment records.
+    Currently delegates to the active JSON implementation.
+    """
+    if astraa_storage_backend_is_json():
+        return astraa_save_payment_db(records)
+
+    raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for payment DB. Only json is active.")
+
+
+def astraa_storage_load_sessions_db():
+    """
+    Storage abstraction wrapper for session records.
+    Currently delegates to the active JSON implementation.
+    """
+    if astraa_storage_backend_is_json():
+        return astraa_load_sessions_db()
+
+    raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for sessions DB. Only json is active.")
+
+
+def astraa_storage_save_sessions_db(db):
+    """
+    Storage abstraction wrapper for session records.
+    Currently delegates to the active JSON implementation.
+    """
+    if astraa_storage_backend_is_json():
+        return astraa_save_sessions_db(db)
+
+    raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for sessions DB. Only json is active.")
+
+
 def astraa_payment_record_id(prefix="PAY"):
     return prefix + "-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S%f")
 

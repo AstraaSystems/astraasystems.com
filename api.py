@@ -3794,6 +3794,40 @@ def astraa_core_save_store():
 
 
 # ASTRAA_CORE_OS_UPSERT_V1
+
+# ASTRAA_CORE_OS_STORAGE_ABSTRACTION_V1
+def astraa_storage_load_core_store():
+    """
+    Storage abstraction wrapper for Astraa Core OS store.
+
+    Current backend:
+    - JSON file: astraa_data/astraa_core_os_store.json
+
+    Future backend:
+    - managed DB tables for entities, activity, events, and vault records.
+    """
+    if astraa_storage_backend_is_json():
+        return astraa_core_load_store()
+
+    raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for Core OS store. Only json is active.")
+
+
+def astraa_storage_save_core_store():
+    """
+    Storage abstraction wrapper for Astraa Core OS store.
+
+    Current backend:
+    - delegates to astraa_core_save_store()
+
+    Future backend:
+    - managed DB writes for entities, activity, events, and vault records.
+    """
+    if astraa_storage_backend_is_json():
+        return astraa_core_save_store()
+
+    raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for Core OS store. Only json is active.")
+
+
 def astraa_core_upsert_entity(entity):
     """
     Upsert entity by tenantId + projectId + entityType.

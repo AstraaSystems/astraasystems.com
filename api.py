@@ -224,7 +224,7 @@ def astraa_month_end():
     return (next_month.date() - timedelta(days=1)).isoformat()
 
 
-def astraa_storage_load_usage_db():
+def astraa_load_usage_db():
     os.makedirs("astraa_data", exist_ok=True)
 
     if not os.path.exists(ASTRAA_USAGE_DB_PATH):
@@ -240,7 +240,7 @@ def astraa_storage_load_usage_db():
         return {}
 
 
-def astraa_storage_save_usage_db(db):
+def astraa_save_usage_db(db):
     os.makedirs("astraa_data", exist_ok=True)
 
     tmp_path = ASTRAA_USAGE_DB_PATH + ".tmp"
@@ -1370,7 +1370,7 @@ def astraa_get_query_arg(name, default=""):
         return _request.args.get(name, default)
 
 
-def astraa_storage_load_usage_db():
+def astraa_load_usage_db():
     if not ASTRAA_USAGE_DB_PATH.exists():
         return {}
 
@@ -1386,7 +1386,7 @@ def astraa_storage_load_usage_db():
         return {}
 
 
-def astraa_storage_save_usage_db(db):
+def astraa_save_usage_db(db):
     ASTRAA_USAGE_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     tmp = ASTRAA_USAGE_DB_PATH.with_suffix(".tmp")
@@ -4257,7 +4257,7 @@ def astraa_month_end():
     return (next_month.date() - timedelta(days=1)).isoformat()
 
 
-def astraa_storage_load_usage_db():
+def astraa_load_usage_db():
     os.makedirs("astraa_data", exist_ok=True)
 
     if not os.path.exists(ASTRAA_USAGE_DB_PATH):
@@ -4273,7 +4273,7 @@ def astraa_storage_load_usage_db():
         return {}
 
 
-def astraa_storage_save_usage_db(db):
+def astraa_save_usage_db(db):
     os.makedirs("astraa_data", exist_ok=True)
 
     tmp_path = ASTRAA_USAGE_DB_PATH + ".tmp"
@@ -4723,7 +4723,7 @@ def astraa_storage_load_usage_db():
     Currently delegates to the active JSON implementation.
     """
     if astraa_storage_backend_is_json():
-        return astraa_storage_load_usage_db()
+        return astraa_load_usage_db()
 
     raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for usage DB. Only json is active.")
 
@@ -4734,7 +4734,7 @@ def astraa_storage_save_usage_db(db):
     Currently delegates to the active JSON implementation.
     """
     if astraa_storage_backend_is_json():
-        return astraa_storage_save_usage_db(db)
+        return astraa_save_usage_db(db)
 
     raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for usage DB. Only json is active.")
 

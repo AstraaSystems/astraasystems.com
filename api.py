@@ -637,7 +637,40 @@ def preload():
             }
             append_jsonl(PAYMENTS_FILE, payment_record)
 
-        return jsonify(moneris_data)
+        # ASTRAA_PRELOAD_RESPONSE_COMPAT_V1
+        # Return both the original Moneris response and top-level compatibility fields
+        # so payment.html can reliably start checkout.
+        try:
+            response_obj = moneris_data.get("response", {}) if isinstance(moneris_data, dict) else {}
+            ticket = response_obj.get("ticket")
+            success = response_obj.get("success")
+            moneris_error = response_obj.get("error", {})
+
+            if str(success).lower() == "true" and ticket:
+                return jsonify({
+                    "status": "ok",
+                    "success": True,
+                    "ticket": ticket,
+                    "order_no": order_no,
+                    "environment": MONERIS_ENV_VALUE,
+                    "response": response_obj
+                })
+
+            return jsonify({
+                "status": "error",
+                "success": False,
+                "message": (
+                    moneris_error.get("message")
+                    if isinstance(moneris_error, dict)
+                    else "Payment preload failed."
+                ) or "Payment preload failed.",
+                "moneris_error": moneris_error,
+                "response": response_obj,
+                "review_note": "Moneris preload did not return a usable checkout ticket."
+            }), 403
+
+        except Exception:
+            return jsonify(moneris_data)
 
     except requests.exceptions.RequestException as e:
         error_payload = {
@@ -4123,6 +4156,7 @@ def astraa_find_verified_payment_by_idempotency(payment_db, idempotency_key):
         if (
             record.get("idempotency_key") == idempotency_key
             and record.get("verified") is True
+            and record.get("receipt_approved") is True
         ):
             return record
     return None
@@ -4186,6 +4220,114 @@ def astraa_moneris_environment_guard():
         )
 
     return True, "Environment guard passed."
+
+
+
+
+# ASTRAA_MONERIS_APPROVAL_GUARD_V1
+def astraa_iter_nested_values(obj):
+    """
+    Recursively yields (key, value) pairs from nested dict/list structures.
+    """
+    if isinstance(obj, dict):
+        for key, value in obj.items():
+            yield str(key), value
+            yield from astraa_iter_nested_values(value)
+    elif isinstance(obj, list):
+        for item in obj:
+            yield from astraa_iter_nested_values(item)
+
+
+def astraa_moneris_receipt_declined(raw):
+    """
+    Conservative decline detector.
+    If any obvious declined/cancelled/not-approved marker exists, block activation.
+    """
+    declined_words = [
+        "declined",
+        "decline",
+        "not approved",
+        "not_approved",
+        "cancelled",
+        "canceled",
+        "failed",
+        "failure"
+    ]
+
+    approval_keys = {
+        "approval_code",
+        "auth_code",
+        "authorization_code",
+        "authorizationcode",
+        "authcode"
+    }
+
+    for key, value in astraa_iter_nested_values(raw):
+        key_l = str(key or "").strip().lower()
+        value_s = str(value or "").strip()
+        value_l = value_s.lower()
+
+        if any(word in value_l for word in declined_words):
+            return True, f"Decline marker found: {key}={value_s}"
+
+        if key_l in approval_keys and value_s in ["", "000000", "0", "00000"]:
+            return True, f"Invalid approval/auth code: {key}={value_s}"
+
+    return False, ""
+
+
+def astraa_moneris_receipt_approved(raw):
+    """
+    Conservative approval detector.
+    We require explicit approval evidence and no decline markers.
+
+    Important:
+    response.success=true only means the receipt request succeeded.
+    It does not by itself prove the transaction was approved.
+    """
+    declined, decline_reason = astraa_moneris_receipt_declined(raw)
+    if declined:
+        return False, decline_reason
+
+    approval_keys = {
+        "approval_code",
+        "auth_code",
+        "authorization_code",
+        "authorizationcode",
+        "authcode"
+    }
+
+    approved_keys = {
+        "approved",
+        "is_approved",
+        "transaction_approved",
+        "payment_approved"
+    }
+
+    status_keys = {
+        "status",
+        "transaction_status",
+        "payment_status",
+        "result",
+        "decision"
+    }
+
+    for key, value in astraa_iter_nested_values(raw):
+        key_l = str(key or "").strip().lower()
+        value_s = str(value or "").strip()
+        value_l = value_s.lower()
+
+        if key_l in approval_keys and value_s not in ["", "000000", "0", "00000", "none", "null"]:
+            return True, f"Approval/auth code found: {key}"
+
+        if key_l in approved_keys and value_l in ["true", "yes", "approved", "approve", "1"]:
+            return True, f"Approved flag found: {key}={value_s}"
+
+        if key_l in status_keys and value_l in ["approved", "approve", "completed", "complete", "success", "successful"]:
+            return True, f"Approved status found: {key}={value_s}"
+
+    return False, "Receipt request succeeded, but no explicit approval evidence was found."
+
 
 
 def astraa_verify_moneris_receipt(ticket):
@@ -4291,17 +4433,26 @@ def astraa_verify_moneris_receipt(ticket):
         raw = response.json() if response.content else {}
 
         # Moneris response schemas can contain nested response objects depending on setup.
-        # Keep approval extraction conservative. If not clearly true, do not activate.
+        # Receipt request success means the lookup succeeded; payment approval must be verified separately.
         response_obj = raw.get("response", {}) if isinstance(raw, dict) else {}
         success_value = str(response_obj.get("success", "")).lower()
 
-        verified = success_value == "true"
+        receipt_request_ok = success_value == "true"
+        approved, approval_reason = astraa_moneris_receipt_approved(raw)
+
+        verified = bool(receipt_request_ok and approved)
 
         return {
             "verified": verified,
+            "approved": approved,
+            "receipt_request_ok": receipt_request_ok,
             "source": "moneris_receipt_request",
             "raw": raw,
-            "reason": "Moneris receipt verified." if verified else "Moneris receipt not approved or not clearly verified."
+            "reason": (
+                "Moneris receipt verified and transaction approved."
+                if verified
+                else "Moneris receipt request did not prove an approved transaction: " + approval_reason
+            )
         }
 
     except Exception as exc:
@@ -4458,6 +4609,8 @@ def astraa_verify_moneris_receipt_route():
         "purchase_type": purchase_type,
         "ticket_reference": str(ticket)[-12:] if ticket else "",
         "verified": bool(verification.get("verified")),
+        "receipt_approved": bool(verification.get("approved")),
+        "receipt_request_ok": bool(verification.get("receipt_request_ok")),
         "verification_source": verification.get("source"),
         "verification_reason": verification.get("reason"),
         "verified_at": astraa_payment_now() if verification.get("verified") else None,

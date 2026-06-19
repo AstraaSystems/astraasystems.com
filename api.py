@@ -4141,6 +4141,34 @@ def astraa_payment_record_id(prefix="PAY"):
 
 
 
+
+
+# ASTRAA_USAGE_NORMALIZATION_V1
+def astraa_int_or_zero(value):
+    try:
+        if value is None or value == "":
+            return 0
+        return int(value)
+    except Exception:
+        return 0
+
+
+def astraa_normalize_usage_record(record):
+    """
+    Normalize usage fields so public API responses do not expose null counters.
+    This is safe for local JSON and future DB-backed records.
+    """
+    if not isinstance(record, dict):
+        return record
+
+    record["estimate_used"] = astraa_int_or_zero(record.get("estimate_used"))
+    record["estimate_limit"] = astraa_int_or_zero(record.get("estimate_limit"))
+    record["extra_estimate_credits_total"] = astraa_int_or_zero(record.get("extra_estimate_credits_total"))
+    record["extra_estimate_credits_used"] = astraa_int_or_zero(record.get("extra_estimate_credits_used"))
+
+    return record
+
+
 # ASTRAA_PAYMENT_IDEMPOTENCY_V1
 def astraa_payment_idempotency_key(account_email, purchase_type, ticket):
     raw = "|".join([
@@ -4169,6 +4197,8 @@ def astraa_usage_summary_for_account(account_email):
 
     if not record:
         return None
+
+    record = astraa_normalize_usage_record(record)
 
     return {
         "account_id": record.get("account_id"),
@@ -4533,6 +4563,8 @@ def astraa_apply_verified_payment_to_usage(account_email, purchase_type, selecte
     })
 
     record["updated_at"] = astraa_payment_now()
+
+    record = astraa_normalize_usage_record(record)
 
     db[account_email] = record
     astraa_save_usage_db(db)

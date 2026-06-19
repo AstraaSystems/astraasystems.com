@@ -22,108 +22,13 @@ Estimator status:
 
 ## Public launch blockers
 
-### 1. Backend-authenticated account identity
-
-Current controlled-test behavior accepts account_email from browser/session/curl.
-
-Public-production target:
-
-- User logs in.
-- Backend identifies account_id / tenant_id.
-- Payment and Estimator actions attach to backend identity.
-- Browser cannot activate or run another user's account by submitting an email.
-
-### 2. Managed database/storage
-
-Current local proof uses JSON files:
-
-- astraa_data/astraa_usage_db.json
-- astraa_data/astraa_payment_db.json
-- preloads.jsonl
-- payments.jsonl
-
-Public-production target:
-
-- Managed DB/storage.
-- Transactional payment activation.
-- Unique payment idempotency constraints.
-- Backups and audit trail.
-
-### 3. Route-level authorization
-
-Protect:
-
-- /preload
-- /api/payment/verify-moneris-receipt
-- /api/astraa/estimator/enforced-run
-
-Public-production target:
-
-- Authenticated user/session required where appropriate.
-- Tenant/account ownership enforced.
-- Public preload allowed only for valid checkout session.
-
-### 4. Rate limiting and abuse protection
-
-Protect against:
-
-- repeated preload calls
-- repeated receipt verification calls
-- repeated estimator calls
-- malformed payloads
-- replay attempts
-
-### 5. Estimate-pack approved-payment proof
-
-Still required:
-
-- Approved estimate-pack payment.
-- Add exactly 10 credits.
-- Same ticket replay does not duplicate credits.
-
-### 6. Production logging and monitoring
-
-Required event logs:
-
-- preload requested
-- ticket created
-- receipt verified
-- receipt declined
-- account activated
-- estimator allowed
-- estimator blocked
-- idempotent replay
-- limit reached
-
-Do not log:
-
-- card numbers
-- CVV/CVC
-- full API tokens
-- secrets
-
-### 7. Test data cleanup
-
-Before public launch:
-
-- Mark internal QA accounts.
-- Remove or archive test records.
-- Confirm no test-only state is required for real users.
-
-## Launch classification
-
-Safe now:
-
-- Internal QA.
-- Controlled pilot.
-- Trusted live demos.
-- Supervised payment proof.
-
-Not yet safe:
-
-- Unrestricted public self-serve launch.
-- Unknown users at scale.
-- Multi-tenant customer base without authenticated backend identity and managed storage.
+1. Backend-authenticated account identity.
+2. Managed database/storage.
+3. Route-level authorization.
+4. Rate limiting and abuse protection.
+5. Estimate-pack approved-payment proof.
+6. Production logging and monitoring.
+7. Test data cleanup.
 
 ## Next engineering priority
 

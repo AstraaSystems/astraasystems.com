@@ -682,6 +682,74 @@ def astraa_auth_me():
 
 
 
+
+
+# ASTRAA_ESTIMATOR_SCHEMA_VALIDATION_V1
+def astraa_parse_float_field(value, field_name, minimum=None, maximum=None, required=True):
+    if value is None or value == "":
+        if required:
+            return None, f"{field_name} is required."
+        return None, None
+
+    try:
+        parsed = float(value)
+    except Exception:
+        return None, f"{field_name} must be numeric."
+
+    if minimum is not None and parsed < minimum:
+        return None, f"{field_name} must be at least {minimum}."
+
+    if maximum is not None and parsed > maximum:
+        return None, f"{field_name} must be at most {maximum}."
+
+    return parsed, None
+
+
+def astraa_validate_estimator_inputs(inputs):
+    if not isinstance(inputs, dict):
+        return False, ["inputs must be an object."], {}
+
+    errors = []
+    clean = {}
+
+    allowed_plans = {"trial", "basic", "professional", "custom", ""}
+    selected_plan = str(inputs.get("selected_plan") or "").strip().lower()
+
+    if selected_plan not in allowed_plans:
+        errors.append("selected_plan must be Trial, Basic, Professional, or Custom.")
+
+    clean["selected_plan"] = selected_plan
+
+    field_specs = {
+        "base_cost": (0, 100000000),
+        "complexity_factor": (0.1, 10),
+        "material_multiplier": (0.1, 10),
+        "labor_multiplier": (0.1, 10),
+        "location_multiplier": (0.1, 10),
+    }
+
+    for field, (minimum, maximum) in field_specs.items():
+        required = field in ["base_cost", "complexity_factor"]
+        parsed, error = astraa_parse_float_field(
+            inputs.get(field),
+            field,
+            minimum=minimum,
+            maximum=maximum,
+            required=required
+        )
+
+        if error:
+            errors.append(error)
+        elif parsed is not None:
+            clean[field] = parsed
+
+    clean.setdefault("material_multiplier", 1.0)
+    clean.setdefault("labor_multiplier", 1.0)
+    clean.setdefault("location_multiplier", 1.0)
+
+    return len(errors) == 0, errors, clean
+
+
 # ASTRAA_REQUEST_GUARD_V1
 ASTRAA_RATE_LIMIT_BUCKETS = {}
 
@@ -4331,6 +4399,45 @@ def astraa_estimator_enforced_run():
 
     except Exception:
         pass
+
+    # ASTRAA_ESTIMATOR_SCHEMA_VALIDATION_ROUTE_GUARD_V1
+    try:
+        estimator_inputs_for_validation = {}
+
+        if "raw_payload" in locals() and isinstance(raw_payload, dict):
+            estimator_inputs_for_validation = raw_payload.get("inputs") or {}
+        elif "payload" in locals() and isinstance(payload, dict):
+            estimator_inputs_for_validation = payload.get("inputs") or {}
+        elif "data" in locals() and isinstance(data, dict):
+            estimator_inputs_for_validation = data.get("inputs") or {}
+
+        valid_estimator_inputs, estimator_input_errors, clean_estimator_inputs = astraa_validate_estimator_inputs(
+            estimator_inputs_for_validation
+        )
+
+        if not valid_estimator_inputs:
+            return jsonify({
+                "status": "blocked",
+                "gateway": "Astraa Gateway",
+                "reason": "Invalid Estimator input.",
+                "errors": estimator_input_errors,
+                "review_note": "Estimator request blocked by schema validation."
+            }), 400
+
+        for target_name in ["raw_payload", "payload", "data"]:
+            target = locals().get(target_name)
+            if isinstance(target, dict):
+                target.setdefault("inputs", {})
+                target["inputs"].update(clean_estimator_inputs)
+
+    except Exception as validation_error:
+        return jsonify({
+            "status": "blocked",
+            "gateway": "Astraa Gateway",
+            "reason": "Estimator input validation failed.",
+            "errors": [str(validation_error)],
+            "review_note": "Estimator request blocked by schema validation."
+        }), 400
 
 
     if raw_payload is None:

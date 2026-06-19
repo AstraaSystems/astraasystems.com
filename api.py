@@ -1796,6 +1796,21 @@ def astraa_create_account_usage():
     payload = astraa_get_request_json()
 
     email = astraa_normalize_email(payload.get("email"))
+    # ASTRAA_PAYMENT_SCHEMA_VALIDATION_ROUTE_GUARD_V1
+    valid_payment_payload, payment_payload_errors, clean_payment_payload = astraa_validate_payment_verification_payload(payload)
+
+    if not valid_payment_payload:
+        return jsonify({
+            "status": "blocked",
+            "gateway": "Astraa Gateway",
+            "payment_verified": False,
+            "reason": "Invalid payment verification input.",
+            "errors": payment_payload_errors,
+            "review_note": "Payment verification blocked by schema validation."
+        }), 400
+
+    payload.update(clean_payment_payload)
+
     selected_tool = payload.get("selected_tool") or "Astraa Estimator"
     selected_plan = payload.get("selected_plan") or "Trial"
     selected_price = payload.get("selected_price") or "$0 / 15 days"
@@ -4775,6 +4790,88 @@ def astraa_moneris_environment_guard():
     return True, "Environment guard passed."
 
 
+
+
+
+
+# ASTRAA_PAYMENT_SCHEMA_VALIDATION_V1
+def astraa_validate_payment_verification_payload(payload):
+    """
+    Validate payment verification request shape before receipt verification.
+    Account identity is resolved separately by account authority.
+    """
+    if not isinstance(payload, dict):
+        return False, ["payload must be an object."], {}
+
+    errors = []
+    clean = {}
+
+    selected_tool = str(payload.get("selected_tool") or payload.get("tool") or "Astraa Estimator").strip()
+    selected_tool_l = selected_tool.lower()
+
+    allowed_tools = {
+        "astraa estimator",
+        "estimator"
+    }
+
+    if selected_tool_l not in allowed_tools:
+        errors.append("selected_tool must be Astraa Estimator for this payment flow.")
+
+    clean["selected_tool"] = "Astraa Estimator"
+
+    selected_plan = str(payload.get("selected_plan") or payload.get("plan") or "").strip()
+    selected_plan_l = selected_plan.lower()
+
+    allowed_plans = {
+        "trial",
+        "basic",
+        "professional",
+        "custom",
+        ""
+    }
+
+    if selected_plan_l not in allowed_plans:
+        errors.append("selected_plan must be Trial, Basic, Professional, or Custom.")
+
+    clean["selected_plan"] = selected_plan or "Professional"
+
+    purchase_type = str(payload.get("purchase_type") or "").strip().lower()
+
+    allowed_purchase_types = {
+        "subscription_trial",
+        "subscription_basic",
+        "subscription_professional",
+        "subscription_custom",
+        "estimate_pack",
+        "estimate_pack_10",
+        "extra_estimate_pack",
+        "extra_estimate_pack_10"
+    }
+
+    if purchase_type not in allowed_purchase_types:
+        errors.append("purchase_type is required and must be a known Astraa purchase type.")
+
+    clean["purchase_type"] = purchase_type
+
+    moneris_ticket = str(
+        payload.get("moneris_ticket")
+        or payload.get("ticket")
+        or payload.get("astraa_moneris_ticket")
+        or ""
+    ).strip()
+
+    if not moneris_ticket:
+        errors.append("moneris_ticket is required.")
+    elif len(moneris_ticket) < 12:
+        errors.append("moneris_ticket is too short.")
+    elif len(moneris_ticket) > 256:
+        errors.append("moneris_ticket is too long.")
+    elif not re.match(r"^[A-Za-z0-9_\-]+$", moneris_ticket):
+        errors.append("moneris_ticket contains invalid characters.")
+
+    clean["moneris_ticket"] = moneris_ticket
+
+    return len(errors) == 0, errors, clean
 
 
 # ASTRAA_MONERIS_APPROVAL_GUARD_V1

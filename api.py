@@ -3740,6 +3740,7 @@ def astraa_estimator_execution_blueprint():
 
 # ASTRAA_CORE_OS_PERSISTENCE_V1
 ASTRAA_CORE_STORE_PATH = os.path.join("astraa_data", "astraa_core_os_store.json")
+# ASTRAA_CORE_OS_RAW_FUNCTION_RESTORE_V1
 
 def astraa_core_default_store():
     return {
@@ -3796,6 +3797,8 @@ def astraa_core_save_store():
 # ASTRAA_CORE_OS_UPSERT_V1
 
 # ASTRAA_CORE_OS_STORAGE_ABSTRACTION_V1
+# ASTRAA_CORE_OS_STORAGE_RECURSION_FIX_V1
+# ASTRAA_CORE_OS_STORAGE_STARTUP_ORDER_FIX_V1
 def astraa_storage_load_core_store():
     """
     Storage abstraction wrapper for Astraa Core OS store.
@@ -3806,7 +3809,7 @@ def astraa_storage_load_core_store():
     Future backend:
     - managed DB tables for entities, activity, events, and vault records.
     """
-    if astraa_storage_backend_is_json():
+    if os.getenv("ASTRAA_STORAGE_BACKEND", "json").strip().lower() in ["", "json", "local_json"]:
         return astraa_core_load_store()
 
     raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for Core OS store. Only json is active.")
@@ -3817,12 +3820,12 @@ def astraa_storage_save_core_store():
     Storage abstraction wrapper for Astraa Core OS store.
 
     Current backend:
-    - delegates to astraa_core_save_store()
+    - delegates to astraa_storage_save_core_store()
 
     Future backend:
     - managed DB writes for entities, activity, events, and vault records.
     """
-    if astraa_storage_backend_is_json():
+    if os.getenv("ASTRAA_STORAGE_BACKEND", "json").strip().lower() in ["", "json", "local_json"]:
         return astraa_core_save_store()
 
     raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for Core OS store. Only json is active.")
@@ -3847,11 +3850,11 @@ def astraa_core_upsert_entity(entity):
             merged.update(entity)
             merged["updatedAt"] = astraa_core_now()
             ASTRAA_CORE_ENTITIES[idx] = merged
-            astraa_core_save_store()
+            astraa_storage_save_core_store()
             return merged, "updated"
 
     ASTRAA_CORE_ENTITIES.append(entity)
-    astraa_core_save_store()
+    astraa_storage_save_core_store()
     return entity, "created"
 
 
@@ -3877,15 +3880,16 @@ def astraa_core_upsert_vault_record(record):
             merged.setdefault("audit", {})
             merged["audit"]["updatedAt"] = astraa_core_now()
             ASTRAA_CORE_VAULT_RECORDS[idx] = merged
-            astraa_core_save_store()
+            astraa_storage_save_core_store()
             return merged, "updated"
 
     ASTRAA_CORE_VAULT_RECORDS.append(record)
-    astraa_core_save_store()
+    astraa_storage_save_core_store()
     return record, "created"
 
 
-ASTRAA_CORE_STORE = astraa_core_load_store()
+# ASTRAA_CORE_OS_STORAGE_ADOPTION_V1
+ASTRAA_CORE_STORE = astraa_storage_load_core_store()
 ASTRAA_CORE_TENANTS = ASTRAA_CORE_STORE.get("tenants", {})
 ASTRAA_CORE_ENTITIES = ASTRAA_CORE_STORE.get("entities", [])
 ASTRAA_CORE_ACTIVITY = ASTRAA_CORE_STORE.get("activity", [])
@@ -3953,7 +3957,7 @@ def astraa_core_write_activity(event_type, tenant_id, project_id, tool, summary,
         "timestamp": astraa_core_now()
     }
     ASTRAA_CORE_ACTIVITY.append(record)
-    astraa_core_save_store()
+    astraa_storage_save_core_store()
     return record
 
 @app.post("/api/astraa/core/session")
@@ -3983,7 +3987,7 @@ def astraa_core_session():
     }
 
     ASTRAA_CORE_TENANTS[tenant_id] = session
-    astraa_core_save_store()
+    astraa_storage_save_core_store()
 
     activity = astraa_core_write_activity(
         "EVENT_CORE_SESSION_VALIDATED",
@@ -4167,7 +4171,7 @@ def astraa_core_event():
     }
 
     ASTRAA_CORE_EVENTS.append(event)
-    astraa_core_save_store()
+    astraa_storage_save_core_store()
 
     triggered = []
 

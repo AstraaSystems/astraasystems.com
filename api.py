@@ -5426,7 +5426,8 @@ def astraa_verify_moneris_receipt_route():
         ticket
     )
 
-    payment_db = astraa_load_payment_db()
+    # ASTRAA_PAYMENT_STORAGE_WRAPPER_ADOPTION_V1
+    payment_db = astraa_storage_load_payment_db()
     existing_verified_payment = astraa_find_verified_payment_by_idempotency(
         payment_db,
         idempotency_key
@@ -5488,7 +5489,7 @@ def astraa_verify_moneris_receipt_route():
     }
 
     payment_db.append(payment_record)
-    astraa_save_payment_db(payment_db)
+    astraa_storage_save_payment_db(payment_db)
 
     if not verification.get("verified"):
         return jsonify({

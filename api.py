@@ -4143,6 +4143,81 @@ def astraa_payment_record_id(prefix="PAY"):
 
 
 
+
+
+# ASTRAA_ACCOUNT_AUTHORITY_V1
+def astraa_public_launch_mode_enabled():
+    """
+    Public launch mode is intentionally stricter.
+    In this mode, payment/usage routes should not trust browser-submitted account_email.
+    """
+    return (
+        os.getenv("ASTRAA_PUBLIC_LAUNCH_MODE", "false")
+        .strip()
+        .lower()
+        in ["1", "true", "yes"]
+    )
+
+
+def astraa_clean_email(value):
+    return str(value or "").strip().lower()
+
+
+def astraa_extract_requested_account_email(payload):
+    """
+    Controlled-dev extractor.
+    This preserves current testing behavior while making the trust boundary explicit.
+    """
+    if not isinstance(payload, dict):
+        return ""
+
+    tenant_context = payload.get("tenant_context") or {}
+    inputs = payload.get("inputs") or {}
+
+    return astraa_clean_email(
+        payload.get("account_email")
+        or payload.get("email")
+        or payload.get("customer_email")
+        or tenant_context.get("test_email")
+        or inputs.get("account_email")
+        or inputs.get("email")
+    )
+
+
+def astraa_resolve_account_authority(payload, req=None):
+    """
+    Current modes:
+
+    controlled_dev:
+      Allows account_email from request payload for internal/local testing.
+
+    public_launch:
+      Blocks browser-submitted account identity until real auth/session is added.
+
+    Future target:
+      Resolve account_id/email from authenticated backend session/JWT/OIDC.
+    """
+    requested_email = astraa_extract_requested_account_email(payload)
+
+    if astraa_public_launch_mode_enabled():
+        return {
+            "allowed": False,
+            "account_email": requested_email,
+            "identity_source": "blocked_frontend_submitted_identity",
+            "reason": (
+                "Public launch mode is enabled. Backend-authenticated account identity "
+                "is required before accepting account-scoped payment or Estimator actions."
+            )
+        }
+
+    return {
+        "allowed": bool(requested_email),
+        "account_email": requested_email,
+        "identity_source": "controlled_dev_payload",
+        "reason": "Controlled-dev mode allowed request payload account identity."
+    }
+
+
 # ASTRAA_USAGE_NORMALIZATION_V1
 def astraa_int_or_zero(value):
     try:

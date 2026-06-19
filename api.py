@@ -1871,6 +1871,7 @@ def astraa_calculate_estimate(payload):
 
 
 @app.route("/api/account/usage", methods=["GET"])
+# ASTRAA_ACCOUNT_USAGE_STORAGE_WRAPPER_ADOPTION_V1
 def astraa_get_account_usage():
     email = astraa_normalize_email(astraa_get_query_arg("email"))
 

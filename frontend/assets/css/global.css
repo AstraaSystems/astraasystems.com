@@ -1,0 +1,28 @@
+/*
+  Astraa global compatibility stylesheet.
+
+  Purpose:
+  - Prevent broken stylesheet references on public pages.
+  - Keep styling minimal and non-invasive.
+  - Main page styling remains handled by existing page CSS.
+*/
+
+:root {
+  --astraa-navy: #0b1f3a;
+  --astraa-blue: #1d4ed8;
+  --astraa-black: #111827;
+  --astraa-white: #ffffff;
+  --astraa-muted: #64748b;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+}

@@ -22,3 +22,4 @@ venv/
 # Astraa local runtime / QA data
 astraa_data/*
 !astraa_data/.gitkeep
+LOCAL_LEADS/

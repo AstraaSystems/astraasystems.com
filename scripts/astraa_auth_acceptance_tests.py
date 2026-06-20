@@ -126,13 +126,45 @@ def main():
     results.append(check(health_status == 200 and health_body.get("status") == "ok", "Health endpoint returns ok", health_body))
 
     section("2. DEV LOGIN")
+    # ASTRAA_AUTH_ACCEPTANCE_DEV_LOGIN_BLOCK_TESTS_V1
     login_status, login_body = post_json("/api/auth/dev-login", {
         "account_email": TEST_ACCOUNT,
         "selected_plan": "Professional",
     })
 
     token = login_body.get("token")
-    results.append(check(login_status == 200 and login_body.get("status") == "ok" and bool(token), "Dev login returns token", login_body))
+
+    if login_status == 403 and login_body.get("status") == "blocked":
+        results.append(check(
+            login_body.get("reason") == "Development login is disabled in public launch mode.",
+            "Dev login is blocked in public launch mode when internal QA override is not enabled",
+            login_body,
+        ))
+
+        section("STOP")
+        print("Dev-login is blocked as expected.")
+        print("To run full auth acceptance tests, restart backend with:")
+        print("export ASTRAA_ALLOW_DEV_LOGIN_PUBLIC_MODE=true")
+        print("Then rerun scripts/astraa_auth_acceptance_tests.py")
+
+        passed = sum(1 for result in results if result)
+        total = len(results)
+
+        section("SUMMARY")
+        print(f"Passed: {passed}/{total}")
+
+        if passed == total:
+            print("✅ AUTH ACCEPTANCE BLOCK-MODE TESTS PASSED")
+            raise SystemExit(0)
+
+        print("❌ AUTH ACCEPTANCE BLOCK-MODE TESTS FAILED")
+        raise SystemExit(1)
+
+    results.append(check(
+        login_status == 200 and login_body.get("status") == "ok" and bool(token),
+        "Dev login returns token when internal QA override/local mode permits it",
+        login_body,
+    ))
 
     if not token:
         section("STOP")

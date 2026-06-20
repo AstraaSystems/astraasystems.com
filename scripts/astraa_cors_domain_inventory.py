@@ -6,13 +6,8 @@ READ-ONLY SCRIPT.
 
 Purpose:
 - Inventory current CORS/domain behavior before patching.
-- Locate:
-  - flask_cors imports
-  - CORS(app, ...)
-  - Access-Control-Allow-Origin headers
-  - after_request hooks
-  - Origin/header handling
-  - localhost/domain references
+- Locate flask_cors usage, CORS(app, ...), Access-Control-Allow-Origin headers,
+  after_request hooks, Origin/header handling, localhost/domain references.
 
 Does NOT:
 - modify api.py
@@ -47,7 +42,6 @@ PATTERNS = [
     "CORS",
 ]
 
-ROUTE_RE = re.compile(r'^\s*@app\.(route|get|post|put|delete|patch)\((.*)\)\s*$')
 DEF_RE = re.compile(r'^\s*def\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(')
 
 
@@ -81,8 +75,6 @@ def main():
 
     matches = []
     functions = []
-    routes = []
-    pending_routes = []
 
     for idx, line in enumerate(lines, 1):
         matched = [p for p in PATTERNS if p.lower() in line.lower()]
@@ -94,19 +86,9 @@ def main():
                 "context": context(lines, idx, 1),
             })
 
-        route_match = ROUTE_RE.match(line)
-        if route_match:
-            pending_routes.append({
-                "line": idx,
-                "decorator": route_match.group(1),
-                "raw": line.strip(),
-            })
-            continue
-
         def_match = DEF_RE.match(line)
         if def_match:
             function_name = def_match.group(1)
-
             if (
                 "cors" in function_name.lower()
                 or "origin" in function_name.lower()
@@ -119,18 +101,9 @@ def main():
                     "context": context(lines, idx, 1),
                 })
 
-            if pending_routes:
-                for route in pending_routes:
-                    routes.append({
-                        **route,
-                        "function": function_name,
-                    })
-                pending_routes = []
-
     section("SUMMARY")
     print("Pattern matches:", len(matches))
     print("CORS/header-related functions:", len(functions))
-    print("Routes discovered:", len(routes))
 
     section("MATCHES BY PATTERN")
     counts = Counter()

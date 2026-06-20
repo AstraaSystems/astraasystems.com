@@ -8,8 +8,9 @@ Default behavior:
 - Refuses to import unless ASTRAA_ALLOW_STAGING_IMPORT=true.
 - Refuses if staging DB does not exist.
 - Refuses if required tables are missing.
-- Imports KEEP_AS_PROOF records only.
+- Imports KEEP_AS_PROOF rows only.
 - Never imports ARCHIVE_LATER, DO_NOT_MIGRATE, or MANUAL_REVIEW.
+- Does not modify JSON/JSONL source files.
 
 This script is intended for local staging SQLite only.
 """
@@ -130,7 +131,7 @@ def classify_payment(record):
         and record.get("purchase_type") in {
             "subscription_professional",
             "subscription_basic",
-            "estimate_pack_10"
+            "estimate_pack_10",
         }
     ):
         return "KEEP_AS_PROOF"

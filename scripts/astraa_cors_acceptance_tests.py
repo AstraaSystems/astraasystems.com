@@ -22,7 +22,6 @@ from __future__ import annotations
 
 import json
 import os
-import sys
 import urllib.request
 import urllib.error
 from datetime import datetime, timezone
@@ -43,6 +42,7 @@ def section(title):
 
 def request_with_origin(path, origin, method="GET", extra_headers=None):
     headers = {"Origin": origin}
+
     if extra_headers:
         headers.update(extra_headers)
 
@@ -69,8 +69,10 @@ def check(condition, label, details=None):
         return True
 
     print(f"FAIL: {label}")
+
     if details is not None:
         print(json.dumps(details, indent=2, sort_keys=True))
+
     return False
 
 
@@ -96,25 +98,35 @@ def main():
     section("1. ALLOWED PRODUCTION ORIGIN")
     status, headers, body = request_with_origin("/health", ALLOWED_ORIGIN)
     acao = header(headers, "Access-Control-Allow-Origin")
+
     results.append(check(
         status == 200 and acao == ALLOWED_ORIGIN,
         "Allowed production origin receives matching Access-Control-Allow-Origin",
-        {"status": status, "acao": acao, "headers": headers},
+        {
+            "status": status,
+            "access_control_allow_origin": acao,
+        },
     ))
 
     section("2. UNKNOWN ORIGIN")
     status, headers, body = request_with_origin("/health", UNKNOWN_ORIGIN)
     acao = header(headers, "Access-Control-Allow-Origin")
+
     results.append(check(
         status == 200 and acao not in {"*", UNKNOWN_ORIGIN},
         "Unknown origin is not wildcard-allowed and not echoed",
-        {"status": status, "acao": acao, "headers": headers},
+        {
+            "status": status,
+            "access_control_allow_origin": acao,
+        },
     ))
 
     section("3. LOCALHOST ORIGIN")
     status, headers, body = request_with_origin("/health", LOCALHOST_ORIGIN)
     acao = header(headers, "Access-Control-Allow-Origin")
+
     localhost_expected = os.getenv("ASTRAA_ALLOW_LOCALHOST_CORS", "false").strip().lower() == "true"
+
     if localhost_expected:
         condition = status == 200 and acao == LOCALHOST_ORIGIN
         label = "Localhost origin is allowed when ASTRAA_ALLOW_LOCALHOST_CORS=true"
@@ -122,7 +134,14 @@ def main():
         condition = status == 200 and acao not in {"*", LOCALHOST_ORIGIN}
         label = "Localhost origin is denied when ASTRAA_ALLOW_LOCALHOST_CORS is not true"
 
-    results.append(check(condition, label, {"status": status, "acao": acao, "headers": headers}))
+    results.append(check(
+        condition,
+        label,
+        {
+            "status": status,
+            "access_control_allow_origin": acao,
+        },
+    ))
 
     section("4. ALLOWED ORIGIN PREFLIGHT")
     status, headers, body = request_with_origin(
@@ -134,16 +153,23 @@ def main():
             "Access-Control-Request-Headers": "Authorization, Content-Type",
         },
     )
+
     acao = header(headers, "Access-Control-Allow-Origin")
+
     results.append(check(
         status in {200, 204} and acao == ALLOWED_ORIGIN,
         "Allowed production origin preflight receives matching Access-Control-Allow-Origin",
-        {"status": status, "acao": acao, "headers": headers, "body": body[:300]},
+        {
+            "status": status,
+            "access_control_allow_origin": acao,
+            "body_preview": body[:300],
+        },
     ))
 
     section("SUMMARY")
     passed = sum(1 for result in results if result)
     total = len(results)
+
     print(f"Passed: {passed}/{total}")
 
     if passed == total:

@@ -623,6 +623,18 @@ def astraa_resolve_session_identity(req):
 
 @app.post("/api/auth/dev-login")
 def astraa_dev_login():
+    # ASTRAA_DEV_LOGIN_PUBLIC_MODE_BLOCK_V1
+    public_launch_mode = os.getenv("ASTRAA_PUBLIC_LAUNCH_MODE", "false").strip().lower() == "true"
+    allow_dev_login_public_mode = os.getenv("ASTRAA_ALLOW_DEV_LOGIN_PUBLIC_MODE", "false").strip().lower() == "true"
+
+    if public_launch_mode and not allow_dev_login_public_mode:
+        return jsonify({
+            "gateway": "Astraa Gateway",
+            "status": "blocked",
+            "reason": "Development login is disabled in public launch mode.",
+            "review_note": "Set ASTRAA_ALLOW_DEV_LOGIN_PUBLIC_MODE=true only for intentional internal QA."
+        }), 403
+
     """
     Development/staging account session endpoint.
     This is a bridge toward proper backend-authenticated identity.

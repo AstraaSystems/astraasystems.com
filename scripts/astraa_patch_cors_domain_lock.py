@@ -110,6 +110,7 @@ def main():
         return
 
     cors_pos = text.find("CORS(app")
+
     if cors_pos == -1:
         raise SystemExit("❌ Could not find CORS(app...) call in api.py")
 

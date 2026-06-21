@@ -694,6 +694,98 @@ def astraa_resolve_session_identity(req):
     }
 
 
+# ASTRAA_PRODUCTION_IDENTITY_RESOLVER_STUB_V1_START
+def astraa_auth_mode():
+    """
+    Return the configured Astraa auth mode.
+
+    Current safe default:
+    - internal_qa_dev_session
+
+    Future production modes:
+    - production_session
+    - production_jwt
+    - provider_oidc
+    - managed_auth
+
+    This helper does not enable production auth by itself.
+    """
+    return os.getenv("ASTRAA_AUTH_MODE", "internal_qa_dev_session").strip().lower()
+
+
+def astraa_production_identity_stub_enabled():
+    """
+    Explicit guard for the production identity resolver stub.
+
+    This must remain false unless intentionally testing the stub.
+    It does not connect a real auth provider.
+    """
+    return (
+        os.getenv("ASTRAA_ENABLE_PRODUCTION_IDENTITY_STUB", "false")
+        .strip()
+        .lower()
+        == "true"
+    )
+
+
+def astraa_resolve_production_identity(req):
+    """
+    Disabled-by-default production identity resolver stub.
+
+    Future purpose:
+    - Resolve managed auth / OIDC / JWT / secure session identity.
+    - Map provider identity into Astraa account_id, primary_email, tenant_id, roles.
+    - Preserve the rule that frontend account_email never controls authorization.
+
+    Current behavior:
+    - Always fails closed.
+    - Does not trust request payload.
+    - Does not create sessions.
+    - Does not open paid SaaS access.
+    """
+
+    mode = astraa_auth_mode()
+
+    allowed_future_modes = {
+        "production_session",
+        "production_jwt",
+        "provider_oidc",
+        "managed_auth",
+    }
+
+    if mode not in allowed_future_modes:
+        return None, {
+            "status": "blocked",
+            "auth_mode": mode,
+            "identity_source": "production_identity_disabled",
+            "reason": (
+                "Production identity resolver is disabled for the current auth mode. "
+                "Current internal QA/dev-session behavior remains separate."
+            ),
+        }
+
+    if not astraa_production_identity_stub_enabled():
+        return None, {
+            "status": "blocked",
+            "auth_mode": mode,
+            "identity_source": "production_identity_stub_disabled",
+            "reason": (
+                "Production identity resolver stub is present but disabled. "
+                "Connect and prove a managed auth provider before using production identity."
+            ),
+        }
+
+    return None, {
+        "status": "blocked",
+        "auth_mode": mode,
+        "identity_source": "production_identity_provider_not_connected",
+        "reason": (
+            "Production identity provider adapter is not implemented yet. "
+            "No production identity was resolved and no customer access was opened."
+        ),
+    }
+# ASTRAA_PRODUCTION_IDENTITY_RESOLVER_STUB_V1_END
+
 @app.post("/api/auth/dev-login")
 def astraa_dev_login():
     # ASTRAA_DEV_LOGIN_PUBLIC_MODE_BLOCK_V1

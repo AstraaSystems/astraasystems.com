@@ -126,12 +126,13 @@ def main() -> int:
         if status is None:
             failures.append(f"Health endpoint request failed: {body}")
             fail_line(f"Health endpoint request failed: {body}")
-        elif 200 <= status < 500:
+        elif 200 <= status < 300:
             pass_line(f"Health endpoint responded with HTTP {status}.")
             print("Response preview:", body[:300].replace("\n", " "))
         else:
-            failures.append(f"Unexpected health endpoint status: HTTP {status}")
-            fail_line(f"Unexpected health endpoint status: HTTP {status}")
+            failures.append(f"Health endpoint must return HTTP 2xx, got HTTP {status}")
+            fail_line(f"Health endpoint must return HTTP 2xx, got HTTP {status}")
+            print("Response preview:", body[:300].replace("\n", " "))
     else:
         warn_line("Skipped health request because base URL failed URL validation.")
 
@@ -154,8 +155,8 @@ def main() -> int:
         return 1
 
     print("DEPLOYED HOST SMOKE PROOF: PASS")
-    print("Deployed HTTPS host responded to guarded smoke proof.")
-    print("Next blocker after deployed host smoke proof: deployed Moneris regression.")
+    print("Deployed HTTPS API health endpoint responded successfully over TLS.")
+    print("Next blocker after deployed Host/TLS smoke proof: deployed CORS smoke proof.")
     return 0
 
 

@@ -52,14 +52,12 @@ import hashlib
 load_dotenv(override=True)
 
 app = Flask(__name__)
-
 @app.route("/health", methods=["GET"])
 def astraa_health():
     return {
         "status": "ok",
         "service": "astraa-api",
     }, 200
-
 
 
 # ASTRAA_CORS_DOMAIN_LOCK_V1
@@ -521,15 +519,6 @@ def home():
     return jsonify({
         "status": "ok",
         "message": "Astraa API running",
-        "config": config_status()
-    })
-
-
-@app.route("/health", methods=["GET"])
-def health():
-    return jsonify({
-        "status": "ok",
-        "timestamp": now_iso(),
         "config": config_status()
     })
 

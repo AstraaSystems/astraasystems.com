@@ -1,15 +1,9 @@
 """
-Astraa WSGI Entry Point
+Astraa WSGI entrypoint.
 
-Production WSGI servers such as Gunicorn or uWSGI can import this module.
-
-Example:
-    gunicorn wsgi:app
-
-Local/internal QA can still run:
-    python3 api.py
+Used by Gunicorn/WSGI production runtimes.
 """
 
 from api import app
 
-application = app
+__all__ = ["app"]

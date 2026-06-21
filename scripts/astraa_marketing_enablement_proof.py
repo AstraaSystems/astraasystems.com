@@ -29,7 +29,9 @@ COMMANDS = [
     ("Marketing copy library", [sys.executable, "scripts/astraa_marketing_copy_library.py"]),
     ("Public website risk classifier", [sys.executable, "scripts/astraa_public_website_risk_classifier.py"]),
     ("Public website file inventory", [sys.executable, "scripts/astraa_public_website_file_inventory.py"]),
-    ("Launch tracks master plan", [sys.executable, "scripts/astraa_launch_tracks_master_plan.py"]),
+    ("Paid SaaS blocker execution plan", [sys.executable, "scripts/astraa_paid_saas_blocker_execution_plan.py"]),
+    ("Paid SaaS implementation lane", [sys.executable, "scripts/astraa_paid_saas_implementation_lane.py"]),
+    ("Production auth provider selection decision", [sys.executable, "scripts/astraa_production_auth_provider_selection_decision.py"]),
     ("Git status", ["git", "status", "-sb"]),
     ("Git log", ["git", "log", "--oneline", "-n", "12"]),
 ]

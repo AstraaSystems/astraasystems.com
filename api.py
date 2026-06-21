@@ -785,6 +785,106 @@ def astraa_resolve_production_identity(req):
         ),
     }
 # ASTRAA_PRODUCTION_IDENTITY_RESOLVER_STUB_V1_END
+# ASTRAA_MANAGED_AUTH_PROVIDER_ADAPTER_SKELETON_V1_START
+def astraa_managed_auth_provider():
+    """
+    Return the configured managed auth provider name.
+
+    Expected future values:
+    - supabase
+    - clerk
+    - auth0
+    - microsoft_entra
+    - custom_oidc
+
+    This helper does not connect to the provider.
+    """
+    return os.getenv("ASTRAA_MANAGED_AUTH_PROVIDER", "").strip().lower()
+
+
+def astraa_managed_auth_required_env():
+    """
+    Provider-neutral required environment variable names.
+
+    These are placeholders for future provider integration.
+    Presence checks must never print secret values.
+    """
+    return [
+        "ASTRAA_AUTH_MODE",
+        "ASTRAA_MANAGED_AUTH_PROVIDER",
+        "ASTRAA_AUTH_ISSUER",
+        "ASTRAA_AUTH_AUDIENCE",
+        "ASTRAA_AUTH_JWKS_URL",
+        "ASTRAA_AUTH_CLIENT_ID",
+    ]
+
+
+def astraa_managed_auth_config_status():
+    """
+    Return provider configuration status without exposing secret values.
+
+    This is a safe presence check only.
+    It does not validate tokens, connect to JWKS, or create sessions.
+    """
+    required = astraa_managed_auth_required_env()
+    missing = [
+        name for name in required
+        if not os.getenv(name, "").strip()
+    ]
+
+    provider = astraa_managed_auth_provider()
+
+    return {
+        "configured": not missing and bool(provider),
+        "provider": provider or None,
+        "missing": missing,
+        "secret_values_exposed": False,
+    }
+
+
+def astraa_resolve_managed_auth_identity(req):
+    """
+    Fail-closed managed auth provider adapter skeleton.
+
+    Future purpose:
+    - Validate provider session/JWT/OIDC identity.
+    - Map provider subject to Astraa account_id.
+    - Map verified email to primary_email.
+    - Map organization/account context to tenant_id.
+    - Return the canonical Astraa identity contract.
+
+    Current behavior:
+    - Always returns blocked.
+    - Does not trust request payload.
+    - Does not create sessions.
+    - Does not open customer access.
+    """
+    status = astraa_managed_auth_config_status()
+
+    if not status.get("configured"):
+        return None, {
+            "status": "blocked",
+            "identity_source": "managed_auth_provider_not_configured",
+            "provider": status.get("provider"),
+            "missing": status.get("missing"),
+            "reason": (
+                "Managed auth provider adapter skeleton is present but provider configuration "
+                "is incomplete. No production identity was resolved."
+            ),
+        }
+
+    return None, {
+        "status": "blocked",
+        "identity_source": "managed_auth_provider_adapter_not_implemented",
+        "provider": status.get("provider"),
+        "reason": (
+            "Managed auth provider configuration is present, but token/session validation "
+            "is not implemented yet. No customer access was opened."
+        ),
+    }
+# ASTRAA_MANAGED_AUTH_PROVIDER_ADAPTER_SKELETON_V1_END
+
+
 
 @app.post("/api/auth/dev-login")
 def astraa_dev_login():

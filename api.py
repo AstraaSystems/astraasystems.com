@@ -53,6 +53,14 @@ load_dotenv(override=True)
 
 app = Flask(__name__)
 
+@app.route("/health", methods=["GET"])
+def astraa_health():
+    return {
+        "status": "ok",
+        "service": "astraa-api",
+    }, 200
+
+
 
 # ASTRAA_CORS_DOMAIN_LOCK_V1
 def astraa_cors_public_launch_mode():

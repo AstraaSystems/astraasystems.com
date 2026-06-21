@@ -5092,6 +5092,121 @@ def astraa_storage_save_payment_db(records):
     raise RuntimeError("Unsupported ASTRAA_STORAGE_BACKEND for payment DB. Only json is active.")
 
 
+# ASTRAA_MANAGED_DB_ADAPTER_SKELETON_V1_START
+def astraa_storage_backend():
+    """
+    Return configured storage backend.
+
+    Safe default:
+    - json
+
+    Future backend:
+    - managed_db
+
+    This helper does not connect to a database.
+    """
+    return os.getenv("ASTRAA_STORAGE_BACKEND", "json").strip().lower()
+
+
+def astraa_managed_db_adapter_selected():
+    """
+    Return whether managed DB backend is explicitly selected.
+
+    Selecting managed_db does not mean it is implemented or safe to use yet.
+    """
+    return astraa_storage_backend() in {"managed_db", "postgres", "postgresql"}
+
+
+def astraa_managed_db_required_env():
+    """
+    Required environment names for future managed DB adapter use.
+
+    Presence checks must never print secret values.
+    """
+    return [
+        "ASTRAA_STORAGE_BACKEND",
+        "ASTRAA_MANAGED_DB_ENGINE",
+        "ASTRAA_MANAGED_DB_URL",
+    ]
+
+
+def astraa_managed_db_config_status():
+    """
+    Return managed DB configuration status without exposing secret values.
+
+    This is a safe presence/shape check only.
+    It does not connect to managed DB.
+    It does not create tables.
+    It does not migrate data.
+    """
+    backend = astraa_storage_backend()
+    engine = os.getenv("ASTRAA_MANAGED_DB_ENGINE", "").strip().lower()
+    has_url = bool(os.getenv("ASTRAA_MANAGED_DB_URL", "").strip())
+
+    missing = []
+
+    if backend in {"managed_db", "postgres", "postgresql"}:
+        if not engine:
+            missing.append("ASTRAA_MANAGED_DB_ENGINE")
+        if engine in {"postgres", "postgresql", "managed_db"} and not has_url:
+            missing.append("ASTRAA_MANAGED_DB_URL")
+
+    return {
+        "storage_backend": backend,
+        "managed_db_selected": backend in {"managed_db", "postgres", "postgresql"},
+        "engine": engine or None,
+        "configured": not missing if backend in {"managed_db", "postgres", "postgresql"} else False,
+        "missing": missing,
+        "secret_values_exposed": False,
+    }
+
+
+def astraa_managed_db_adapter_blocked(operation, store_name):
+    """
+    Return a standard fail-closed managed DB adapter response.
+
+    Future adapter implementation should replace this only after:
+    - managed staging DB proof exists
+    - schema/index proof exists
+    - import/reconcile proof exists
+    - production secrets are secure
+    """
+    status = astraa_managed_db_config_status()
+
+    return {
+        "status": "blocked",
+        "storage_backend": status.get("storage_backend"),
+        "managed_db_selected": status.get("managed_db_selected"),
+        "engine": status.get("engine"),
+        "configured": status.get("configured"),
+        "missing": status.get("missing"),
+        "operation": operation,
+        "store_name": store_name,
+        "reason": (
+            "Managed DB adapter skeleton is present but real managed DB storage "
+            "operations are not implemented yet. JSON/local storage remains the safe default."
+        ),
+    }
+
+
+def astraa_managed_db_load_store_stub(store_name):
+    """
+    Fail-closed placeholder for future managed DB load operations.
+
+    Does not connect to a database.
+    """
+    raise RuntimeError(str(astraa_managed_db_adapter_blocked("load", store_name)))
+
+
+def astraa_managed_db_save_store_stub(store_name, data):
+    """
+    Fail-closed placeholder for future managed DB save operations.
+
+    Does not connect to a database.
+    """
+    raise RuntimeError(str(astraa_managed_db_adapter_blocked("save", store_name)))
+# ASTRAA_MANAGED_DB_ADAPTER_SKELETON_V1_END
+
 def astraa_storage_load_sessions_db():
     """
     Storage abstraction wrapper for session records.

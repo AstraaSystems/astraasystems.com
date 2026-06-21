@@ -45,6 +45,7 @@ REQUIRED_ARTIFACTS = [
     "scripts/astraa_deployed_moneris_regression_plan.py",
     "scripts/astraa_deployed_moneris_regression_guard.py",
     "scripts/astraa_paid_saas_activation_decision_guard.py",
+    "scripts/astraa_final_deployment_target_decision_guard.py",
 ]
 
 
@@ -61,6 +62,11 @@ REQUIRED_MARKETING_PAID_SEPARATION_TERMS = {
         "ASTRAA_DEPLOYED_HOST_TLS_SMOKE_PASSED",
         "ASTRAA_DEPLOYED_CORS_SMOKE_PASSED",
         "ASTRAA_MONERIS_CONTROLLED_TEST_ACCOUNT_CONFIRMED",
+    ],
+    "scripts/astraa_final_deployment_target_decision_guard.py": [
+        "ASTRAA_FINAL_DEPLOYMENT_TARGET_CONFIRMED",
+        "FINAL DEPLOYMENT TARGET DECISION",
+        "ASTRAA_DEPLOYED_BASE_URL",
     ],
 }
 

@@ -696,3 +696,186 @@ section {
     font-size: 0.76rem !important;
   }
 }
+
+/* Astraa Mobile Header Brand Hero Fix
+   Purpose: make the logo and company name clearly visible and premium on mobile.
+*/
+@media (max-width: 900px) {
+  header,
+  .site-header,
+  .topbar,
+  .navbar {
+    padding-top: 1rem !important;
+    padding-bottom: 0.85rem !important;
+  }
+
+  /* Brand row: logo + Astraa Systems */
+  header .brand,
+  header .logo,
+  header .site-brand,
+  header .site-title,
+  header .brand-name,
+  .site-header .brand,
+  .site-header .logo,
+  .site-header .site-brand,
+  .site-header .site-title,
+  .site-header .brand-name,
+  .navbar .brand,
+  .navbar .logo,
+  .navbar .site-title,
+  .navbar .brand-name {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.65rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    text-align: center !important;
+    font-size: 2rem !important;
+    font-weight: 950 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.055em !important;
+    color: #050816 !important;
+    margin: 0 auto 0.25rem auto !important;
+  }
+
+  /* Logo image in header */
+  header img,
+  .site-header img,
+  .navbar img,
+  header .brand img,
+  header .logo img,
+  .site-header .brand img,
+  .site-header .logo img,
+  .navbar .brand img,
+  .navbar .logo img {
+    width: 58px !important;
+    height: 58px !important;
+    max-width: 58px !important;
+    max-height: 58px !important;
+    min-width: 58px !important;
+    min-height: 58px !important;
+    object-fit: contain !important;
+    display: inline-block !important;
+    flex: 0 0 58px !important;
+    margin: 0 !important;
+  }
+
+  /* If company name is inside strong/span/a */
+  header strong,
+  header .brand strong,
+  header .logo strong,
+  header .site-title strong,
+  header .brand-name strong,
+  header .brand span,
+  header .logo span,
+  header .site-title span,
+  header .brand-name span,
+  .site-header strong,
+  .site-header .brand strong,
+  .site-header .logo strong,
+  .site-header .site-title strong,
+  .site-header .brand-name strong,
+  .site-header .brand span,
+  .site-header .logo span,
+  .site-header .site-title span,
+  .site-header .brand-name span {
+    font-size: 2rem !important;
+    font-weight: 950 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.055em !important;
+    color: #050816 !important;
+  }
+
+  /* Tagline under company name */
+  header small,
+  header .tagline,
+  header .subtitle,
+  .site-header small,
+  .site-header .tagline,
+  .site-header .subtitle,
+  .navbar small,
+  .navbar .tagline,
+  .navbar .subtitle {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 1.05rem !important;
+    font-weight: 750 !important;
+    line-height: 1.15 !important;
+    color: #64748b !important;
+    margin-top: 0.1rem !important;
+  }
+}
+
+@media (max-width: 430px) {
+  header .brand,
+  header .logo,
+  header .site-brand,
+  header .site-title,
+  header .brand-name,
+  .site-header .brand,
+  .site-header .logo,
+  .site-header .site-brand,
+  .site-header .site-title,
+  .site-header .brand-name,
+  .navbar .brand,
+  .navbar .logo,
+  .navbar .site-title,
+  .navbar .brand-name {
+    font-size: 1.8rem !important;
+    gap: 0.55rem !important;
+  }
+
+  header img,
+  .site-header img,
+  .navbar img,
+  header .brand img,
+  header .logo img,
+  .site-header .brand img,
+  .site-header .logo img,
+  .navbar .brand img,
+  .navbar .logo img {
+    width: 52px !important;
+    height: 52px !important;
+    max-width: 52px !important;
+    max-height: 52px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    flex-basis: 52px !important;
+  }
+
+  header strong,
+  header .brand strong,
+  header .logo strong,
+  header .site-title strong,
+  header .brand-name strong,
+  header .brand span,
+  header .logo span,
+  header .site-title span,
+  header .brand-name span,
+  .site-header strong,
+  .site-header .brand strong,
+  .site-header .logo strong,
+  .site-header .site-title strong,
+  .site-header .brand-name strong,
+  .site-header .brand span,
+  .site-header .logo span,
+  .site-header .site-title span,
+  .site-header .brand-name span {
+    font-size: 1.8rem !important;
+  }
+
+  header small,
+  header .tagline,
+  header .subtitle,
+  .site-header small,
+  .site-header .tagline,
+  .site-header .subtitle,
+  .navbar small,
+  .navbar .tagline,
+  .navbar .subtitle {
+    font-size: 0.95rem !important;
+  }
+}

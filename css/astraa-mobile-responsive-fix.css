@@ -1139,3 +1139,147 @@ section {
     font-size: 2.55rem !important;
   }
 }
+
+/* Astraa Mobile Header Brand Block XXXL
+   Purpose: make the top brand block/logo/title/tagline clearly larger on mobile.
+*/
+@media (max-width: 900px) {
+  /* The first header row usually contains logo + Astraa Systems + tagline */
+  header > :first-child,
+  .site-header > :first-child,
+  .topbar > :first-child,
+  .navbar > :first-child {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    gap: 0.35rem !important;
+    margin: 0 auto 0.7rem auto !important;
+  }
+
+  /* Logo inside brand block */
+  header > :first-child img,
+  .site-header > :first-child img,
+  .topbar > :first-child img,
+  .navbar > :first-child img {
+    width: 92px !important;
+    height: 92px !important;
+    max-width: 92px !important;
+    max-height: 92px !important;
+    min-width: 92px !important;
+    min-height: 92px !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto 0.25rem auto !important;
+  }
+
+  /* Main company name */
+  header > :first-child strong,
+  header > :first-child b,
+  header > :first-child .brand,
+  header > :first-child .brand-name,
+  header > :first-child .site-title,
+  header > :first-child .brand-title,
+  header > :first-child h1,
+  header > :first-child h2,
+  header > :first-child a,
+  .site-header > :first-child strong,
+  .site-header > :first-child b,
+  .site-header > :first-child .brand,
+  .site-header > :first-child .brand-name,
+  .site-header > :first-child .site-title,
+  .site-header > :first-child .brand-title,
+  .site-header > :first-child h1,
+  .site-header > :first-child h2,
+  .site-header > :first-child a {
+    font-size: 3.65rem !important;
+    font-weight: 950 !important;
+    line-height: 0.95 !important;
+    letter-spacing: -0.075em !important;
+    color: #050816 !important;
+    text-align: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* If title is plain text/span/div inside first block */
+  header > :first-child span,
+  header > :first-child div,
+  .site-header > :first-child span,
+  .site-header > :first-child div {
+    font-size: inherit;
+  }
+
+  /* Tagline / second line */
+  header > :first-child small,
+  header > :first-child .tagline,
+  header > :first-child .subtitle,
+  header > :first-child .brand-subtitle,
+  header > :first-child .brand-tagline,
+  .site-header > :first-child small,
+  .site-header > :first-child .tagline,
+  .site-header > :first-child .subtitle,
+  .site-header > :first-child .brand-subtitle,
+  .site-header > :first-child .brand-tagline {
+    display: block !important;
+    width: 100% !important;
+    font-size: 1.85rem !important;
+    font-weight: 850 !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.055em !important;
+    color: #64748b !important;
+    text-align: center !important;
+    margin: 0.15rem 0 0 0 !important;
+  }
+}
+
+@media (max-width: 430px) {
+  header > :first-child img,
+  .site-header > :first-child img,
+  .topbar > :first-child img,
+  .navbar > :first-child img {
+    width: 82px !important;
+    height: 82px !important;
+    max-width: 82px !important;
+    max-height: 82px !important;
+    min-width: 82px !important;
+    min-height: 82px !important;
+  }
+
+  header > :first-child strong,
+  header > :first-child b,
+  header > :first-child .brand,
+  header > :first-child .brand-name,
+  header > :first-child .site-title,
+  header > :first-child .brand-title,
+  header > :first-child h1,
+  header > :first-child h2,
+  header > :first-child a,
+  .site-header > :first-child strong,
+  .site-header > :first-child b,
+  .site-header > :first-child .brand,
+  .site-header > :first-child .brand-name,
+  .site-header > :first-child .site-title,
+  .site-header > :first-child .brand-title,
+  .site-header > :first-child h1,
+  .site-header > :first-child h2,
+  .site-header > :first-child a {
+    font-size: 3.05rem !important;
+  }
+
+  header > :first-child small,
+  header > :first-child .tagline,
+  header > :first-child .subtitle,
+  header > :first-child .brand-subtitle,
+  header > :first-child .brand-tagline,
+  .site-header > :first-child small,
+  .site-header > :first-child .tagline,
+  .site-header > :first-child .subtitle,
+  .site-header > :first-child .brand-subtitle,
+  .site-header > :first-child .brand-tagline {
+    font-size: 1.55rem !important;
+  }
+}

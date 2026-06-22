@@ -821,26 +821,30 @@
 
 </style>
   <link rel="stylesheet" href="css/astraa-mobile-responsive-fix.css?v=20260621-mobile-nav-single-row">
+  <link rel="stylesheet" href="css/astraa-mobile-header-final.css?v=20260621-final-mobile-header">
 </head>
 
 <body>
-<header data-astraa-header="emergency-v9" style="position:sticky;top:0;z-index:99999;background:rgba(255,255,255,.98);backdrop-filter:blur(16px);border-bottom:1px solid #e5e7eb;width:100%;">
-  <nav style="max-width:1120px;margin:0 auto;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;gap:20px;">
-    <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:950;color:#05070f;white-space:nowrap;">
-      <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" style="width:38px;height:38px;object-fit:contain;display:block;" />
-      <div style="line-height:1.15;">Astraa Systems<span style="display:block;font-size:12px;color:#64748b;font-weight:700;">Connected business tools</span></div>
-    </a>
-
-    <div style="display:flex;align-items:center;gap:22px;font-size:14px;font-weight:750;visibility:visible;opacity:1;">
-      <a href="index.html" style="display:inline-flex;text-decoration:none;color:#475569;">Home</a>
-      <a href="tools.html" style="display:inline-flex;text-decoration:none;color:#475569;">Tools</a>
-      <a href="pricing.html" style="display:inline-flex;text-decoration:none;color:#475569;">Pricing</a>
-      <a href="support.html" style="display:inline-flex;text-decoration:none;color:#475569;">FAQ / Support</a>
-      <a href="contact.html" style="display:inline-flex;text-decoration:none;color:#475569;">Contact</a>
+<header class="astraa-final-mobile-header">
+  <div class="astraa-final-brand-row">
+    <img class="astraa-final-logo" src="assets/images/astraa_logo.png" alt="Astraa Systems logo">
+    <div class="astraa-final-brand-copy">
+      <div class="astraa-final-brand-title">Astraa Systems</div>
+      <div class="astraa-final-brand-tagline">Connected business tools</div>
     </div>
+  </div>
 
-    <a href="workspace-test-login.html" style="display:inline-flex;padding:10px 15px;border-radius:999px;background:#1d4ed8;color:white;text-decoration:none;font-weight:900;white-space:nowrap;">Open Workspace</a>
+  <nav class="astraa-final-mobile-nav" aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a href="tools.html">Tools</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="support.html">FAQ / Support</a>
+    <a href="contact.html">Contact</a>
   </nav>
+
+  <div class="astraa-final-workspace-row">
+    <a class="astraa-final-workspace-button" href="customer-portal.html">Open Workspace</a>
+  </div>
 </header>
 
 

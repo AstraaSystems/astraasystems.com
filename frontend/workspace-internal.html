@@ -598,21 +598,30 @@
 </script>
 
   <link rel="stylesheet" href="../css/astraa-mobile-responsive-fix.css?v=20260621-mobile-nav-single-row">
+  <link rel="stylesheet" href="../css/astraa-mobile-header-final.css?v=20260621-final-mobile-header">
 </head>
 
 <body>
-<header class="workspace-header">
-  <nav class="workspace-nav">
-    <div class="workspace-brand">
-      <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
-      <div>Astraa Workspace<span>Internal QA portal</span></div>
+<header class="astraa-final-mobile-header">
+  <div class="astraa-final-brand-row">
+    <img class="astraa-final-logo" src="assets/images/astraa_logo.png" alt="Astraa Systems logo">
+    <div class="astraa-final-brand-copy">
+      <div class="astraa-final-brand-title">Astraa Systems</div>
+      <div class="astraa-final-brand-tagline">Connected business tools</div>
     </div>
+  </div>
 
-    <div class="workspace-actions">
-      <button class="btn secondary" type="button" onclick="openSupport()">Support</button>
-      <button class="btn primary" type="button" onclick="workspaceLogout()">Logout</button>
-    </div>
+  <nav class="astraa-final-mobile-nav" aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a href="tools.html">Tools</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="support.html">FAQ / Support</a>
+    <a href="contact.html">Contact</a>
   </nav>
+
+  <div class="astraa-final-workspace-row">
+    <a class="astraa-final-workspace-button" href="customer-portal.html">Open Workspace</a>
+  </div>
 </header>
 
 <main class="shell">

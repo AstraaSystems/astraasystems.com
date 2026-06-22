@@ -1,0 +1,177 @@
+/* Astraa Mobile Responsive Fix
+   Purpose: keep public website clean, aligned, and readable on phones.
+*/
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+a,
+button {
+  max-width: 100%;
+}
+
+.container,
+.page-container,
+.section-container,
+.content,
+.wrapper,
+main,
+section {
+  max-width: 100%;
+}
+
+@media (max-width: 900px) {
+  header,
+  .site-header,
+  .navbar,
+  .nav,
+  .topbar {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .nav,
+  .navbar,
+  .nav-links,
+  .menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.65rem;
+  }
+
+  .hero,
+  .hero-section,
+  .landing-hero,
+  .pricing-hero {
+    text-align: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .hero h1,
+  .landing-hero h1,
+  h1 {
+    font-size: clamp(2rem, 9vw, 3.1rem);
+    line-height: 1.08;
+  }
+
+  .hero p,
+  .landing-hero p,
+  .lead,
+  .subtitle {
+    font-size: 1rem;
+    line-height: 1.55;
+    max-width: 100%;
+  }
+
+  .grid,
+  .cards,
+  .pricing-grid,
+  .tools-grid,
+  .features-grid,
+  .dashboard-grid,
+  .workspace-grid,
+  .plans-grid {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .card,
+  .pricing-card,
+  .tool-card,
+  .feature-card,
+  .plan-card,
+  .panel {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-row,
+  .button-row,
+  .actions,
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .cta-row a,
+  .button-row a,
+  .actions a,
+  .hero-actions a,
+  .btn,
+  .button {
+    width: 100%;
+    text-align: center;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  header,
+  .site-header,
+  main,
+  section,
+  footer {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .logo,
+  .brand {
+    max-width: 100%;
+  }
+
+  .pricing-card,
+  .tool-card,
+  .feature-card,
+  .card {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  h2 {
+    font-size: clamp(1.55rem, 7vw, 2.2rem);
+    line-height: 1.15;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+
+  p,
+  li {
+    font-size: 0.98rem;
+  }
+}

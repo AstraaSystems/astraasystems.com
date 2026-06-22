@@ -51,7 +51,12 @@ import hashlib
 # -------------------------------------------------
 load_dotenv(override=True)
 
+from lead_capture import astraa_leads
 app = Flask(__name__)
+app.register_blueprint(astraa_leads)
+
+
+
 @app.route("/health", methods=["GET"])
 def astraa_health():
     return {

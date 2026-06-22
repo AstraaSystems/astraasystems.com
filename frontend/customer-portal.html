@@ -20,5 +20,81 @@
 </head>
 <body>
   <p>Redirecting to <a href="workspace-test-login.html">Astraa Workspace</a>.</p>
+
+<section class="astraa-lead-section" style="max-width:900px;margin:3rem auto;padding:2rem;border-radius:24px;background:#f8fafc;border:1px solid #e2e8f0;">
+  <h2>Start a Guided 15-Day Astraa Workspace Trial</h2>
+  <p>Tell Astraa what your business needs. We will review your request and guide the best setup path for Estimator, Finance, Operations, or full Workspace access.</p>
+
+  <form id="astraaLeadForm" class="astraa-lead-form">
+    <label>Full name<br><input name="name" required></label><br><br>
+    <label>Business name<br><input name="business_name" required></label><br><br>
+    <label>Email<br><input name="email" type="email" required></label><br><br>
+    <label>Phone optional<br><input name="phone"></label><br><br>
+    <label>Province / location<br><input name="province"></label><br><br>
+    <label>Industry<br><input name="industry" placeholder="Construction, service business, non-profit, franchise..."></label><br><br>
+    <label>Business size<br><input name="business_size" placeholder="Solo, crew of 3, 10 employees..."></label><br><br>
+    <label>Interested tool<br>
+      <select name="tool_interest" required>
+        <option value="">Choose one</option>
+        <option value="estimator">Estimator</option>
+        <option value="finance">Finance</option>
+        <option value="operations">Operations</option>
+        <option value="full workspace">Full Workspace</option>
+        <option value="custom">Custom setup</option>
+      </select>
+    </label><br><br>
+    <label>Current challenge<br>
+      <textarea name="current_challenge" rows="5" placeholder="What are you trying to organize, estimate, track, or improve?"></textarea>
+    </label><br><br>
+
+    <label style="display:block;">
+      <input name="consent_accepted" type="checkbox" required>
+      I agree that Astraa Systems may contact me about my trial request, onboarding, and related Astraa services. I can unsubscribe or ask to stop receiving messages at any time.
+    </label><br>
+
+    <button type="submit">Submit Trial Request</button>
+    <p id="astraaLeadFormResult" aria-live="polite"></p>
+  </form>
+</section>
+
+<script>
+(function () {
+  const form = document.getElementById("astraaLeadForm");
+  if (!form) return;
+
+  const result = document.getElementById("astraaLeadFormResult");
+
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.consent_accepted = form.elements["consent_accepted"].checked;
+    data.source_page = window.location.pathname;
+
+    result.textContent = "Submitting your Astraa trial request...";
+
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+      });
+
+      const body = await response.json();
+
+      if (!response.ok || !body.ok) {
+        result.textContent = "Please check the form and try again.";
+        return;
+      }
+
+      result.textContent = "Your Astraa trial request was received. Astraa will follow up with the next setup step.";
+      form.reset();
+    } catch (error) {
+      result.textContent = "The trial request could not be submitted from this page yet. Please contact Astraa support directly.";
+    }
+  });
+})();
+</script>
+
 </body>
 </html>

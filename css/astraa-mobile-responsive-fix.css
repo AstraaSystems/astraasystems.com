@@ -326,3 +326,110 @@ section {
     padding: 0.42rem 0.3rem !important;
   }
 }
+
+/* Astraa Mobile Background / Overflow Cleanup
+   Purpose: stop large decorative/background images from breaking mobile layout.
+*/
+@media (max-width: 900px) {
+  html,
+  body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    background: #ffffff !important;
+  }
+
+  body {
+    position: relative !important;
+  }
+
+  main,
+  section,
+  .content,
+  .wrapper,
+  .container,
+  .page-container,
+  .section-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    background-color: #ffffff;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Remove large decorative/mobile-breaking background imagery. */
+  [style*="background-image"],
+  [class*="background"],
+  [class*="Background"],
+  [class*="bg-"],
+  [class*="blueprint"],
+  [class*="Blueprint"],
+  [class*="diagram"],
+  [class*="Diagram"],
+  [class*="decor"],
+  [class*="Decor"],
+  [class*="orb"],
+  [class*="glow"],
+  [class*="Glow"],
+  [class*="watermark"],
+  [class*="Watermark"] {
+    background-image: none !important;
+  }
+
+  /* Hide direct decorative image layers that commonly cause mobile overflow. */
+  body > .background,
+  body > .page-background,
+  body > .hero-background,
+  body > .blueprint,
+  body > .decor,
+  body > .glow,
+  body > .orb {
+    display: none !important;
+  }
+
+  /* Keep visible content cards clean and above any remaining layers. */
+  .card,
+  .panel,
+  .tool-card,
+  .feature-card,
+  .pricing-card,
+  .workspace-card,
+  .dashboard-card,
+  .hero,
+  .hero-section,
+  .landing-hero {
+    position: relative !important;
+    z-index: 2 !important;
+    background-color: #ffffff;
+  }
+
+  /* Prevent any oversized child from forcing sideways scroll. */
+  body * {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  main,
+  section,
+  .content,
+  .wrapper,
+  .container,
+  .page-container,
+  .section-container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .card,
+  .panel,
+  .tool-card,
+  .feature-card,
+  .pricing-card,
+  .workspace-card,
+  .dashboard-card {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}

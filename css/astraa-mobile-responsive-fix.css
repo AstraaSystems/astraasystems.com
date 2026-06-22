@@ -551,3 +551,130 @@ section {
     font-size: 1.35rem !important;
   }
 }
+
+/* Astraa Final Mobile Header Correction
+   Purpose: only brand title is large; nav and workspace button stay normal.
+*/
+@media (max-width: 900px) {
+  header,
+  .site-header,
+  .navbar,
+  .topbar {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0.9rem 0.85rem 0.8rem !important;
+    gap: 0.55rem !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Logo */
+  header img,
+  .site-header img,
+  .navbar img {
+    width: 58px !important;
+    height: 58px !important;
+    max-width: 58px !important;
+    max-height: 58px !important;
+    object-fit: contain !important;
+  }
+
+  /* Brand text only */
+  header .brand-name,
+  header .brand-title,
+  header .site-title,
+  .site-header .brand-name,
+  .site-header .brand-title,
+  .site-header .site-title,
+  .navbar .brand-name,
+  .navbar .brand-title,
+  .navbar .site-title {
+    font-size: 2.6rem !important;
+    font-weight: 950 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.055em !important;
+    color: #050816 !important;
+    text-align: center !important;
+  }
+
+  /* Tagline */
+  header .tagline,
+  header .subtitle,
+  header .brand-tagline,
+  header .brand-subtitle,
+  .site-header .tagline,
+  .site-header .subtitle,
+  .site-header .brand-tagline,
+  .site-header .brand-subtitle,
+  .navbar .tagline,
+  .navbar .subtitle,
+  .navbar .brand-tagline,
+  .navbar .brand-subtitle {
+    font-size: 1.05rem !important;
+    font-weight: 750 !important;
+    line-height: 1.15 !important;
+    color: #64748b !important;
+    text-align: center !important;
+  }
+
+  /* Nav must stay normal size */
+  header nav,
+  header .nav,
+  header .nav-links,
+  header .menu,
+  .site-header nav,
+  .site-header .nav,
+  .site-header .nav-links,
+  .site-header .menu,
+  .navbar nav,
+  .navbar .nav,
+  .navbar .nav-links,
+  .navbar .menu {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.35rem 0.55rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  header nav a,
+  header .nav a,
+  header .nav-links a,
+  header .menu a,
+  .site-header nav a,
+  .site-header .nav a,
+  .site-header .nav-links a,
+  .site-header .menu a,
+  .navbar nav a,
+  .navbar .nav a,
+  .navbar .nav-links a,
+  .navbar .menu a {
+    font-size: 0.82rem !important;
+    font-weight: 750 !important;
+    line-height: 1.15 !important;
+    padding: 0.25rem 0.42rem !important;
+    white-space: nowrap !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+
+  /* Workspace button normal */
+  header a[href*="workspace"],
+  .site-header a[href*="workspace"],
+  .navbar a[href*="workspace"],
+  header a[href*="customer-portal"],
+  .site-header a[href*="customer-portal"],
+  .navbar a[href*="customer-portal"] {
+    width: min(92%, 340px) !important;
+    max-width: 340px !important;
+    font-size: 1rem !important;
+    font-weight: 850 !important;
+    padding: 0.65rem 1rem !important;
+    margin-top: 0.35rem !important;
+  }
+}

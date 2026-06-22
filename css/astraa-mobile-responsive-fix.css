@@ -879,3 +879,166 @@ section {
     font-size: 0.95rem !important;
   }
 }
+
+/* Astraa Mobile Header Brand XL
+   Purpose: make "Astraa Systems" and "Connected business tools" large and readable on mobile.
+*/
+@media (max-width: 900px) {
+  /* Header brand container */
+  header,
+  .site-header,
+  .topbar,
+  .navbar {
+    padding-top: 1.15rem !important;
+    padding-bottom: 0.95rem !important;
+  }
+
+  /* Logo */
+  header img,
+  .site-header img,
+  .navbar img,
+  header .brand img,
+  header .logo img,
+  .site-header .brand img,
+  .site-header .logo img,
+  .navbar .brand img,
+  .navbar .logo img {
+    width: 72px !important;
+    height: 72px !important;
+    max-width: 72px !important;
+    max-height: 72px !important;
+    min-width: 72px !important;
+    min-height: 72px !important;
+    object-fit: contain !important;
+  }
+
+  /* Company name: Astraa Systems */
+  header .brand,
+  header .logo,
+  header .site-brand,
+  header .site-title,
+  header .brand-name,
+  header strong,
+  .site-header .brand,
+  .site-header .logo,
+  .site-header .site-brand,
+  .site-header .site-title,
+  .site-header .brand-name,
+  .site-header strong,
+  .navbar .brand,
+  .navbar .logo,
+  .navbar .site-title,
+  .navbar .brand-name,
+  .navbar strong {
+    font-size: 2.45rem !important;
+    font-weight: 950 !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.06em !important;
+    color: #050816 !important;
+  }
+
+  /* Catch nested brand text spans/links */
+  header .brand *,
+  header .logo *,
+  header .site-brand *,
+  header .site-title *,
+  header .brand-name *,
+  .site-header .brand *,
+  .site-header .logo *,
+  .site-header .site-brand *,
+  .site-header .site-title *,
+  .site-header .brand-name *,
+  .navbar .brand *,
+  .navbar .logo *,
+  .navbar .site-title *,
+  .navbar .brand-name * {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    letter-spacing: inherit !important;
+  }
+
+  /* Tagline: Connected business tools */
+  header small,
+  header .tagline,
+  header .subtitle,
+  header .brand-subtitle,
+  header .brand-tagline,
+  .site-header small,
+  .site-header .tagline,
+  .site-header .subtitle,
+  .site-header .brand-subtitle,
+  .site-header .brand-tagline,
+  .navbar small,
+  .navbar .tagline,
+  .navbar .subtitle,
+  .navbar .brand-subtitle,
+  .navbar .brand-tagline {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.035em !important;
+    color: #64748b !important;
+    margin-top: 0.25rem !important;
+  }
+}
+
+@media (max-width: 430px) {
+  header img,
+  .site-header img,
+  .navbar img,
+  header .brand img,
+  header .logo img,
+  .site-header .brand img,
+  .site-header .logo img,
+  .navbar .brand img,
+  .navbar .logo img {
+    width: 64px !important;
+    height: 64px !important;
+    max-width: 64px !important;
+    max-height: 64px !important;
+    min-width: 64px !important;
+    min-height: 64px !important;
+  }
+
+  header .brand,
+  header .logo,
+  header .site-brand,
+  header .site-title,
+  header .brand-name,
+  header strong,
+  .site-header .brand,
+  .site-header .logo,
+  .site-header .site-brand,
+  .site-header .site-title,
+  .site-header .brand-name,
+  .site-header strong,
+  .navbar .brand,
+  .navbar .logo,
+  .navbar .site-title,
+  .navbar .brand-name,
+  .navbar strong {
+    font-size: 2.15rem !important;
+  }
+
+  header small,
+  header .tagline,
+  header .subtitle,
+  header .brand-subtitle,
+  header .brand-tagline,
+  .site-header small,
+  .site-header .tagline,
+  .site-header .subtitle,
+  .site-header .brand-subtitle,
+  .site-header .brand-tagline,
+  .navbar small,
+  .navbar .tagline,
+  .navbar .subtitle,
+  .navbar .brand-subtitle,
+  .navbar .brand-tagline {
+    font-size: 1.18rem !important;
+  }
+}

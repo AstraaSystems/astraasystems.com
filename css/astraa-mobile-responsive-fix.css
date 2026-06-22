@@ -176,236 +176,18 @@ section {
   }
 }
 
-/* Mobile header stacking fix
-   Purpose: move navigation below company name/logo on phones.
-*/
-@media (max-width: 900px) {
-  header,
-  .site-header,
-  .topbar,
-  .navbar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    text-align: center;
-  }
-
-  .brand,
-  .logo,
-  .site-brand,
-  .site-title {
-    display: block;
-    width: 100%;
-    text-align: center;
-    margin-bottom: 0.25rem;
-  }
-
-  nav,
-  .nav,
-  .navbar nav,
-  .nav-links,
-  .menu {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 0.55rem 0.8rem;
-    text-align: center;
-  }
-
-  nav a,
-  .nav a,
-  .nav-links a,
-  .menu a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    white-space: normal;
-    line-height: 1.2;
-  }
-}
-
-@media (max-width: 600px) {
-  nav,
-  .nav,
-  .navbar nav,
-  .nav-links,
-  .menu {
-    gap: 0.45rem 0.65rem;
-  }
-
-  nav a,
-  .nav a,
-  .nav-links a,
-  .menu a {
-    font-size: 0.95rem;
-    padding: 0.35rem 0.45rem;
-  }
-}
-
-/* Astraa Mobile Header Two-Row Navigation
-   Purpose: place nav below company name and organize links into clean rows on mobile.
-*/
-@media (max-width: 900px) {
-  header,
-  .site-header,
-  .topbar,
-  .navbar {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    gap: 0.75rem !important;
-  }
-
-  .brand,
-  .logo,
-  .site-brand,
-  .site-title,
-  .brand-name {
-    width: 100% !important;
-    max-width: 100% !important;
-    display: block !important;
-    text-align: center !important;
-    margin: 0 auto 0.25rem auto !important;
-  }
-
-  nav,
-  .nav,
-  .navbar nav,
-  .nav-links,
-  .menu {
-    width: 100% !important;
-    max-width: 100% !important;
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 0.5rem 0.55rem !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-  }
-
-  nav a,
-  .nav a,
-  .navbar nav a,
-  .nav-links a,
-  .menu a {
-    width: 100% !important;
-    min-width: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    white-space: normal !important;
-    line-height: 1.2 !important;
-    padding: 0.45rem 0.35rem !important;
-    font-size: 0.95rem !important;
-  }
-}
-
-@media (max-width: 430px) {
-  nav,
-  .nav,
-  .navbar nav,
-  .nav-links,
-  .menu {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 0.45rem 0.5rem !important;
-  }
-
-  nav a,
-  .nav a,
-  .navbar nav a,
-  .nav-links a,
-  .menu a {
-    font-size: 0.92rem !important;
-    padding: 0.42rem 0.3rem !important;
-  }
-}
-
-/* Astraa Mobile Emergency Layout Stabilizer
-   Purpose: prevent large decorative/network/diagram images from breaking mobile pages.
+/* Astraa Final Mobile Header Structure
+   Row 1: logo + brand name + tagline
+   Row 2: Home / Tools / Pricing / Support-FAQ / Contact
+   Row 3: Workspace button
 */
 @media (max-width: 900px) {
   html,
   body {
-    width: 100% !important;
     max-width: 100% !important;
     overflow-x: hidden !important;
   }
 
-  body {
-    margin: 0 !important;
-    background: #ffffff !important;
-  }
-
-  main,
-  section,
-  .container,
-  .page-container,
-  .section-container,
-  .content,
-  .wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: hidden !important;
-    position: relative !important;
-  }
-
-  /* Hide page-level decorative images that are breaking mobile layout.
-     Keeps header/logo images safer by only targeting direct large layout layers. */
-  body > img,
-  body > picture,
-  main > img,
-  main > picture,
-  section > img.background,
-  section > img.decor,
-  section > img.diagram,
-  section > img.blueprint,
-  section > picture.background,
-  section > picture.decor,
-  section > picture.diagram,
-  section > picture.blueprint,
-  [class*="blueprint"],
-  [class*="Blueprint"],
-  [class*="diagram"],
-  [class*="Diagram"],
-  [class*="topology"],
-  [class*="Topology"],
-  [class*="network"],
-  [class*="Network"],
-  [class*="watermark"],
-  [class*="Watermark"],
-  [class*="decorative"],
-  [class*="Decorative"] {
-    display: none !important;
-  }
-
-  /* Remove CSS background images on mobile only. */
-  [style*="background-image"],
-  [class*="background"],
-  [class*="Background"],
-  [class*="bg-"] {
-    background-image: none !important;
-  }
-
-  img,
-  svg,
-  video,
-  canvas {
-    max-width: 100% !important;
-    height: auto !important;
-  }
-}
-
-/* Astraa Safe Mobile Header
-   Purpose: company name first row, navigation below, without vertical letter stacking.
-*/
-@media (max-width: 900px) {
   header,
   .site-header,
   .topbar,
@@ -417,548 +199,118 @@ section {
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
-    gap: 0.45rem !important;
-    padding: 0.65rem 0.75rem !important;
+    padding: 0.9rem 0.85rem 0.8rem !important;
+    gap: 0.55rem !important;
     overflow-x: hidden !important;
   }
 
+  /* ROW 1 — logo + brand/title area */
   header .brand,
   header .logo,
   header .site-brand,
   header .site-title,
   header .brand-name,
+  header .brand-title,
   .site-header .brand,
   .site-header .logo,
   .site-header .site-brand,
   .site-header .site-title,
-  .site-header .brand-name {
+  .site-header .brand-name,
+  .site-header .brand-title,
+  .navbar .brand,
+  .navbar .logo,
+  .navbar .site-brand,
+  .navbar .site-title,
+  .navbar .brand-name,
+  .navbar .brand-title {
     width: 100% !important;
     max-width: 100% !important;
-    display: block !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
     text-align: center !important;
-    margin: 0 auto 0.25rem auto !important;
+    gap: 0.18rem !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
     white-space: normal !important;
-    overflow-wrap: normal !important;
     word-break: normal !important;
-  }
-
-  header nav,
-  header .nav,
-  header .nav-links,
-  header .menu,
-  .site-header nav,
-  .site-header .nav,
-  .site-header .nav-links,
-  .site-header .menu,
-  .navbar nav,
-  .navbar .nav,
-  .navbar .nav-links {
-    width: 100% !important;
-    max-width: 100% !important;
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 0.32rem 0.45rem !important;
-    text-align: center !important;
-  }
-
-  header nav a,
-  header .nav a,
-  header .nav-links a,
-  header .menu a,
-  .site-header nav a,
-  .site-header .nav a,
-  .site-header .nav-links a,
-  .site-header .menu a,
-  .navbar nav a,
-  .navbar .nav a,
-  .navbar .nav-links a {
-    flex: 0 1 auto !important;
-    min-width: auto !important;
-    max-width: none !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    white-space: nowrap !important;
     overflow-wrap: normal !important;
-    word-break: normal !important;
-    line-height: 1.15 !important;
-    font-size: 0.76rem !important;
-    padding: 0.24rem 0.32rem !important;
-  }
-}
-
-@media (max-width: 430px) {
-  header nav a,
-  header .nav a,
-  header .nav-links a,
-  header .menu a,
-  .site-header nav a,
-  .site-header .nav a,
-  .site-header .nav-links a,
-  .site-header .menu a,
-  .navbar nav a,
-  .navbar .nav a,
-  .navbar .nav-links a {
-    font-size: 0.68rem !important;
-    padding: 0.2rem 0.24rem !important;
-  }
-}
-
-
-/* Astraa Mobile Brand Size Fix
-   Purpose: make company name readable on mobile header.
-*/
-@media (max-width: 900px) {
-  header .brand,
-  header .logo,
-  header .site-brand,
-  header .site-title,
-  header .brand-name,
-  header strong,
-  .site-header .brand,
-  .site-header .logo,
-  .site-header .site-brand,
-  .site-header .site-title,
-  .site-header .brand-name,
-  .site-header strong,
-  .navbar .brand,
-  .navbar .logo,
-  .navbar .site-title,
-  .navbar .brand-name,
-  .navbar strong {
-    font-size: 1.05rem !important;
-    font-weight: 800 !important;
-    line-height: 1.15 !important;
-    letter-spacing: -0.02em !important;
-    color: #050816 !important;
   }
 
-  header small,
-  header .tagline,
-  header .subtitle,
-  .site-header small,
-  .site-header .tagline,
-  .site-header .subtitle,
-  .navbar small,
-  .navbar .tagline,
-  .navbar .subtitle {
-    font-size: 0.72rem !important;
-    line-height: 1.2 !important;
-    color: #334155 !important;
-  }
-}
-
-@media (max-width: 430px) {
-  header .brand,
-  header .logo,
-  header .site-brand,
-  header .site-title,
-  header .brand-name,
-  header strong,
-  .site-header .brand,
-  .site-header .logo,
-  .site-header .site-brand,
-  .site-header .site-title,
-  .site-header .brand-name,
-  .site-header strong,
-  .navbar .brand,
-  .navbar .logo,
-  .navbar .site-title,
-  .navbar .brand-name,
-  .navbar strong {
-    font-size: 1rem !important;
-  }
-
-  header small,
-  header .tagline,
-  header .subtitle,
-  .site-header small,
-  .site-header .tagline,
-  .site-header .subtitle,
-  .navbar small,
-  .navbar .tagline,
-  .navbar .subtitle {
-    font-size: 0.68rem !important;
-  }
-}
-
-/* Astraa Mobile Logo + Company Name Size Fix
-   Purpose: make the logo and Astraa Systems brand readable and premium on mobile.
-*/
-@media (max-width: 900px) {
-  header img,
-  .site-header img,
-  .navbar img,
-  header .logo img,
-  .site-header .logo img,
-  .navbar .logo img,
-  header .brand img,
-  .site-header .brand img,
-  .navbar .brand img {
-    width: 34px !important;
-    height: 34px !important;
-    max-width: 34px !important;
-    max-height: 34px !important;
-    object-fit: contain !important;
-    display: inline-block !important;
-    vertical-align: middle !important;
-    margin-right: 0.45rem !important;
-  }
-
-  header .brand,
-  header .logo,
-  header .site-brand,
-  header .site-title,
-  header .brand-name,
-  header strong,
-  .site-header .brand,
-  .site-header .logo,
-  .site-header .site-brand,
-  .site-header .site-title,
-  .site-header .brand-name,
-  .site-header strong,
-  .navbar .brand,
-  .navbar .logo,
-  .navbar .site-title,
-  .navbar .brand-name,
-  .navbar strong {
-    font-size: 1.35rem !important;
-    font-weight: 900 !important;
-    line-height: 1.05 !important;
-    letter-spacing: -0.035em !important;
-    color: #050816 !important;
-  }
-
-  header small,
-  header .tagline,
-  header .subtitle,
-  .site-header small,
-  .site-header .tagline,
-  .site-header .subtitle,
-  .navbar small,
-  .navbar .tagline,
-  .navbar .subtitle {
-    font-size: 0.82rem !important;
-    font-weight: 650 !important;
-    line-height: 1.15 !important;
-    color: #64748b !important;
-  }
-}
-
-@media (max-width: 430px) {
-  header img,
-  .site-header img,
-  .navbar img,
-  header .logo img,
-  .site-header .logo img,
-  .navbar .logo img,
-  header .brand img,
-  .site-header .brand img,
-  .navbar .brand img {
-    width: 32px !important;
-    height: 32px !important;
-    max-width: 32px !important;
-    max-height: 32px !important;
-  }
-
-  header .brand,
-  header .logo,
-  header .site-brand,
-  header .site-title,
-  header .brand-name,
-  header strong,
-  .site-header .brand,
-  .site-header .logo,
-  .site-header .site-brand,
-  .site-header .site-title,
-  .site-header .brand-name,
-  .site-header strong,
-  .navbar .brand,
-  .navbar .logo,
-  .navbar .site-title,
-  .navbar .brand-name,
-  .navbar strong {
-    font-size: 1.25rem !important;
-  }
-
-  header small,
-  header .tagline,
-  header .subtitle,
-  .site-header small,
-  .site-header .tagline,
-  .site-header .subtitle,
-  .navbar small,
-  .navbar .tagline,
-  .navbar .subtitle {
-    font-size: 0.76rem !important;
-  }
-}
-
-/* Astraa Mobile Header Brand Hero Fix
-   Purpose: make the logo and company name clearly visible and premium on mobile.
-*/
-@media (max-width: 900px) {
-  header,
-  .site-header,
-  .topbar,
-  .navbar {
-    padding-top: 1rem !important;
-    padding-bottom: 0.85rem !important;
-  }
-
-  /* Brand row: logo + Astraa Systems */
-  header .brand,
-  header .logo,
-  header .site-brand,
-  header .site-title,
-  header .brand-name,
-  .site-header .brand,
-  .site-header .logo,
-  .site-header .site-brand,
-  .site-header .site-title,
-  .site-header .brand-name,
-  .navbar .brand,
-  .navbar .logo,
-  .navbar .site-title,
-  .navbar .brand-name {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 0.65rem !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    text-align: center !important;
-    font-size: 2rem !important;
-    font-weight: 950 !important;
-    line-height: 1 !important;
-    letter-spacing: -0.055em !important;
-    color: #050816 !important;
-    margin: 0 auto 0.25rem auto !important;
-  }
-
-  /* Logo image in header */
-  header img,
-  .site-header img,
-  .navbar img,
+  /* Logo only */
   header .brand img,
   header .logo img,
+  header .site-brand img,
+  header .site-title img,
   .site-header .brand img,
   .site-header .logo img,
+  .site-header .site-brand img,
+  .site-header .site-title img,
   .navbar .brand img,
-  .navbar .logo img {
-    width: 58px !important;
-    height: 58px !important;
-    max-width: 58px !important;
-    max-height: 58px !important;
-    min-width: 58px !important;
-    min-height: 58px !important;
+  .navbar .logo img,
+  .navbar .site-brand img,
+  .navbar .site-title img {
+    width: 70px !important;
+    height: 70px !important;
+    max-width: 70px !important;
+    max-height: 70px !important;
     object-fit: contain !important;
-    display: inline-block !important;
-    flex: 0 0 58px !important;
-    margin: 0 !important;
-  }
-
-  /* If company name is inside strong/span/a */
-  header strong,
-  header .brand strong,
-  header .logo strong,
-  header .site-title strong,
-  header .brand-name strong,
-  header .brand span,
-  header .logo span,
-  header .site-title span,
-  header .brand-name span,
-  .site-header strong,
-  .site-header .brand strong,
-  .site-header .logo strong,
-  .site-header .site-title strong,
-  .site-header .brand-name strong,
-  .site-header .brand span,
-  .site-header .logo span,
-  .site-header .site-title span,
-  .site-header .brand-name span {
-    font-size: 2rem !important;
-    font-weight: 950 !important;
-    line-height: 1 !important;
-    letter-spacing: -0.055em !important;
-    color: #050816 !important;
-  }
-
-  /* Tagline under company name */
-  header small,
-  header .tagline,
-  header .subtitle,
-  .site-header small,
-  .site-header .tagline,
-  .site-header .subtitle,
-  .navbar small,
-  .navbar .tagline,
-  .navbar .subtitle {
     display: block !important;
-    width: 100% !important;
-    text-align: center !important;
-    font-size: 1.05rem !important;
-    font-weight: 750 !important;
-    line-height: 1.15 !important;
-    color: #64748b !important;
-    margin-top: 0.1rem !important;
-  }
-}
-
-@media (max-width: 430px) {
-  header .brand,
-  header .logo,
-  header .site-brand,
-  header .site-title,
-  header .brand-name,
-  .site-header .brand,
-  .site-header .logo,
-  .site-header .site-brand,
-  .site-header .site-title,
-  .site-header .brand-name,
-  .navbar .brand,
-  .navbar .logo,
-  .navbar .site-title,
-  .navbar .brand-name {
-    font-size: 1.8rem !important;
-    gap: 0.55rem !important;
+    margin: 0 auto 0.15rem auto !important;
   }
 
-  header img,
-  .site-header img,
-  .navbar img,
-  header .brand img,
-  header .logo img,
-  .site-header .brand img,
-  .site-header .logo img,
-  .navbar .brand img,
-  .navbar .logo img {
-    width: 52px !important;
-    height: 52px !important;
-    max-width: 52px !important;
-    max-height: 52px !important;
-    min-width: 52px !important;
-    min-height: 52px !important;
-    flex-basis: 52px !important;
-  }
-
-  header strong,
+  /* Astraa Systems — make only the brand name bigger */
   header .brand strong,
+  header .brand b,
+  header .brand .brand-name,
+  header .brand .brand-title,
+  header .brand .site-title,
   header .logo strong,
-  header .site-title strong,
-  header .brand-name strong,
-  header .brand span,
-  header .logo span,
-  header .site-title span,
-  header .brand-name span,
-  .site-header strong,
-  .site-header .brand strong,
-  .site-header .logo strong,
-  .site-header .site-title strong,
-  .site-header .brand-name strong,
-  .site-header .brand span,
-  .site-header .logo span,
-  .site-header .site-title span,
-  .site-header .brand-name span {
-    font-size: 1.8rem !important;
-  }
-
-  header small,
-  header .tagline,
-  header .subtitle,
-  .site-header small,
-  .site-header .tagline,
-  .site-header .subtitle,
-  .navbar small,
-  .navbar .tagline,
-  .navbar .subtitle {
-    font-size: 0.95rem !important;
-  }
-}
-
-/* Astraa Mobile Header Brand XL
-   Purpose: make "Astraa Systems" and "Connected business tools" large and readable on mobile.
-*/
-@media (max-width: 900px) {
-  /* Header brand container */
-  header,
-  .site-header,
-  .topbar,
-  .navbar {
-    padding-top: 1.15rem !important;
-    padding-bottom: 0.95rem !important;
-  }
-
-  /* Logo */
-  header img,
-  .site-header img,
-  .navbar img,
-  header .brand img,
-  header .logo img,
-  .site-header .brand img,
-  .site-header .logo img,
-  .navbar .brand img,
-  .navbar .logo img {
-    width: 72px !important;
-    height: 72px !important;
-    max-width: 72px !important;
-    max-height: 72px !important;
-    min-width: 72px !important;
-    min-height: 72px !important;
-    object-fit: contain !important;
-  }
-
-  /* Company name: Astraa Systems */
-  header .brand,
-  header .logo,
-  header .site-brand,
+  header .logo b,
+  header .logo .brand-name,
+  header .logo .brand-title,
+  header .logo .site-title,
   header .site-title,
   header .brand-name,
-  header strong,
-  .site-header .brand,
-  .site-header .logo,
-  .site-header .site-brand,
+  header .brand-title,
+  .site-header .brand strong,
+  .site-header .brand b,
+  .site-header .brand .brand-name,
+  .site-header .brand .brand-title,
+  .site-header .brand .site-title,
+  .site-header .logo strong,
+  .site-header .logo b,
+  .site-header .logo .brand-name,
+  .site-header .logo .brand-title,
+  .site-header .logo .site-title,
   .site-header .site-title,
   .site-header .brand-name,
-  .site-header strong,
-  .navbar .brand,
-  .navbar .logo,
+  .site-header .brand-title,
+  .navbar .brand strong,
+  .navbar .brand b,
+  .navbar .brand .brand-name,
+  .navbar .brand .brand-title,
+  .navbar .brand .site-title,
+  .navbar .logo strong,
+  .navbar .logo b,
+  .navbar .logo .brand-name,
+  .navbar .logo .brand-title,
+  .navbar .logo .site-title,
   .navbar .site-title,
   .navbar .brand-name,
-  .navbar strong {
-    font-size: 2.45rem !important;
+  .navbar .brand-title {
+    font-size: 2.6rem !important;
     font-weight: 950 !important;
-    line-height: 1.02 !important;
-    letter-spacing: -0.06em !important;
+    line-height: 0.95 !important;
+    letter-spacing: -0.065em !important;
     color: #050816 !important;
+    text-align: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  /* Catch nested brand text spans/links */
-  header .brand *,
-  header .logo *,
-  header .site-brand *,
-  header .site-title *,
-  header .brand-name *,
-  .site-header .brand *,
-  .site-header .logo *,
-  .site-header .site-brand *,
-  .site-header .site-title *,
-  .site-header .brand-name *,
-  .navbar .brand *,
-  .navbar .logo *,
-  .navbar .site-title *,
-  .navbar .brand-name * {
-    font-size: inherit !important;
-    font-weight: inherit !important;
-    line-height: inherit !important;
-    letter-spacing: inherit !important;
-  }
-
-  /* Tagline: Connected business tools */
+  /* Connected business tools — bigger than before, but clearly secondary */
   header small,
   header .tagline,
   header .subtitle,
@@ -976,51 +328,154 @@ section {
   .navbar .brand-tagline {
     display: block !important;
     width: 100% !important;
-    text-align: center !important;
-    font-size: 1.35rem !important;
-    font-weight: 800 !important;
-    line-height: 1.12 !important;
+    font-size: 1.15rem !important;
+    font-weight: 750 !important;
+    line-height: 1.08 !important;
     letter-spacing: -0.035em !important;
     color: #64748b !important;
-    margin-top: 0.25rem !important;
+    text-align: center !important;
+    margin: 0.08rem 0 0 0 !important;
+    padding: 0 !important;
+  }
+
+  /* ROW 2 — navigation below brand */
+  header nav,
+  header .nav,
+  header .nav-links,
+  header .menu,
+  .site-header nav,
+  .site-header .nav,
+  .site-header .nav-links,
+  .site-header .menu,
+  .navbar nav,
+  .navbar .nav,
+  .navbar .nav-links,
+  .navbar .menu {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.35rem 0.55rem !important;
+    text-align: center !important;
+    margin: 0.25rem auto 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Normal nav links */
+  header nav a,
+  header .nav a,
+  header .nav-links a,
+  header .menu a,
+  .site-header nav a,
+  .site-header .nav a,
+  .site-header .nav-links a,
+  .site-header .menu a,
+  .navbar nav a,
+  .navbar .nav a,
+  .navbar .nav-links a,
+  .navbar .menu a {
+    flex: 0 1 auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
+    min-width: auto !important;
+    max-width: none !important;
+    white-space: nowrap !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    padding: 0.25rem 0.42rem !important;
+    text-align: center !important;
+  }
+
+  /* ROW 3 — Workspace button below nav */
+  header a[href*="workspace"],
+  header a[href*="Workspace"],
+  header a[href*="customer-portal"],
+  .site-header a[href*="workspace"],
+  .site-header a[href*="Workspace"],
+  .site-header a[href*="customer-portal"],
+  .navbar a[href*="workspace"],
+  .navbar a[href*="Workspace"],
+  .navbar a[href*="customer-portal"] {
+    display: flex !important;
+    width: min(92%, 340px) !important;
+    max-width: 340px !important;
+    margin: 0.45rem auto 0 !important;
+    padding: 0.62rem 1rem !important;
+    border-radius: 999px !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-size: 0.96rem !important;
+    font-weight: 850 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
   }
 }
 
 @media (max-width: 430px) {
-  header img,
-  .site-header img,
-  .navbar img,
   header .brand img,
   header .logo img,
+  header .site-brand img,
+  header .site-title img,
   .site-header .brand img,
   .site-header .logo img,
+  .site-header .site-brand img,
+  .site-header .site-title img,
   .navbar .brand img,
-  .navbar .logo img {
-    width: 64px !important;
-    height: 64px !important;
-    max-width: 64px !important;
-    max-height: 64px !important;
-    min-width: 64px !important;
-    min-height: 64px !important;
+  .navbar .logo img,
+  .navbar .site-brand img,
+  .navbar .site-title img {
+    width: 62px !important;
+    height: 62px !important;
+    max-width: 62px !important;
+    max-height: 62px !important;
   }
 
-  header .brand,
-  header .logo,
-  header .site-brand,
+  header .brand strong,
+  header .brand b,
+  header .brand .brand-name,
+  header .brand .brand-title,
+  header .brand .site-title,
+  header .logo strong,
+  header .logo b,
+  header .logo .brand-name,
+  header .logo .brand-title,
+  header .logo .site-title,
   header .site-title,
   header .brand-name,
-  header strong,
-  .site-header .brand,
-  .site-header .logo,
-  .site-header .site-brand,
+  header .brand-title,
+  .site-header .brand strong,
+  .site-header .brand b,
+  .site-header .brand .brand-name,
+  .site-header .brand .brand-title,
+  .site-header .brand .site-title,
+  .site-header .logo strong,
+  .site-header .logo b,
+  .site-header .logo .brand-name,
+  .site-header .logo .brand-title,
+  .site-header .logo .site-title,
   .site-header .site-title,
   .site-header .brand-name,
-  .site-header strong,
-  .navbar .brand,
-  .navbar .logo,
+  .site-header .brand-title,
+  .navbar .brand strong,
+  .navbar .brand b,
+  .navbar .brand .brand-name,
+  .navbar .brand .brand-title,
+  .navbar .brand .site-title,
+  .navbar .logo strong,
+  .navbar .logo b,
+  .navbar .logo .brand-name,
+  .navbar .logo .brand-title,
+  .navbar .logo .site-title,
   .navbar .site-title,
   .navbar .brand-name,
-  .navbar strong {
+  .navbar .brand-title {
     font-size: 2.15rem !important;
   }
 
@@ -1039,247 +494,23 @@ section {
   .navbar .subtitle,
   .navbar .brand-subtitle,
   .navbar .brand-tagline {
-    font-size: 1.18rem !important;
+    font-size: 1rem !important;
+  }
+
+  header nav a,
+  header .nav a,
+  header .nav-links a,
+  header .menu a,
+  .site-header nav a,
+  .site-header .nav a,
+  .site-header .nav-links a,
+  .site-header .menu a,
+  .navbar nav a,
+  .navbar .nav a,
+  .navbar .nav-links a,
+  .navbar .menu a {
+    font-size: 0.72rem !important;
+    padding: 0.22rem 0.34rem !important;
   }
 }
 
-/* Astraa Mobile Company Name XXL
-   Purpose: make "Astraa Systems" clearly larger in the mobile header while keeping nav below.
-*/
-@media (max-width: 900px) {
-  header .brand,
-  header .site-brand,
-  header .site-title,
-  header .brand-name,
-  header .brand-title,
-  .site-header .brand,
-  .site-header .site-brand,
-  .site-header .site-title,
-  .site-header .brand-name,
-  .site-header .brand-title,
-  .navbar .brand,
-  .navbar .site-brand,
-  .navbar .site-title,
-  .navbar .brand-name,
-  .navbar .brand-title {
-    font-size: 3rem !important;
-    font-weight: 950 !important;
-    line-height: 1 !important;
-    letter-spacing: -0.065em !important;
-    color: #050816 !important;
-  }
-
-  header .brand strong,
-  header .site-brand strong,
-  header .site-title strong,
-  header .brand-name strong,
-  header .brand-title strong,
-  header .brand span,
-  header .site-brand span,
-  header .site-title span,
-  header .brand-name span,
-  header .brand-title span,
-  .site-header .brand strong,
-  .site-header .site-brand strong,
-  .site-header .site-title strong,
-  .site-header .brand-name strong,
-  .site-header .brand-title strong,
-  .site-header .brand span,
-  .site-header .site-brand span,
-  .site-header .site-title span,
-  .site-header .brand-name span,
-  .site-header .brand-title span {
-    font-size: 3rem !important;
-    font-weight: 950 !important;
-    line-height: 1 !important;
-    letter-spacing: -0.065em !important;
-    color: #050816 !important;
-  }
-}
-
-@media (max-width: 430px) {
-  header .brand,
-  header .site-brand,
-  header .site-title,
-  header .brand-name,
-  header .brand-title,
-  .site-header .brand,
-  .site-header .site-brand,
-  .site-header .site-title,
-  .site-header .brand-name,
-  .site-header .brand-title,
-  .navbar .brand,
-  .navbar .site-brand,
-  .navbar .site-title,
-  .navbar .brand-name,
-  .navbar .brand-title {
-    font-size: 2.55rem !important;
-  }
-
-  header .brand strong,
-  header .site-brand strong,
-  header .site-title strong,
-  header .brand-name strong,
-  header .brand-title strong,
-  header .brand span,
-  header .site-brand span,
-  header .site-title span,
-  header .brand-name span,
-  header .brand-title span,
-  .site-header .brand strong,
-  .site-header .site-brand strong,
-  .site-header .site-title strong,
-  .site-header .brand-name strong,
-  .site-header .brand-title strong,
-  .site-header .brand span,
-  .site-header .site-brand span,
-  .site-header .site-title span,
-  .site-header .brand-name span,
-  .site-header .brand-title span {
-    font-size: 2.55rem !important;
-  }
-}
-
-/* Astraa Mobile Header Brand Block XXXL
-   Purpose: make the top brand block/logo/title/tagline clearly larger on mobile.
-*/
-@media (max-width: 900px) {
-  /* The first header row usually contains logo + Astraa Systems + tagline */
-  header > :first-child,
-  .site-header > :first-child,
-  .topbar > :first-child,
-  .navbar > :first-child {
-    width: 100% !important;
-    max-width: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    gap: 0.35rem !important;
-    margin: 0 auto 0.7rem auto !important;
-  }
-
-  /* Logo inside brand block */
-  header > :first-child img,
-  .site-header > :first-child img,
-  .topbar > :first-child img,
-  .navbar > :first-child img {
-    width: 92px !important;
-    height: 92px !important;
-    max-width: 92px !important;
-    max-height: 92px !important;
-    min-width: 92px !important;
-    min-height: 92px !important;
-    object-fit: contain !important;
-    display: block !important;
-    margin: 0 auto 0.25rem auto !important;
-  }
-
-  /* Main company name */
-  header > :first-child strong,
-  header > :first-child b,
-  header > :first-child .brand,
-  header > :first-child .brand-name,
-  header > :first-child .site-title,
-  header > :first-child .brand-title,
-  header > :first-child h1,
-  header > :first-child h2,
-  header > :first-child a,
-  .site-header > :first-child strong,
-  .site-header > :first-child b,
-  .site-header > :first-child .brand,
-  .site-header > :first-child .brand-name,
-  .site-header > :first-child .site-title,
-  .site-header > :first-child .brand-title,
-  .site-header > :first-child h1,
-  .site-header > :first-child h2,
-  .site-header > :first-child a {
-    font-size: 3.65rem !important;
-    font-weight: 950 !important;
-    line-height: 0.95 !important;
-    letter-spacing: -0.075em !important;
-    color: #050816 !important;
-    text-align: center !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* If title is plain text/span/div inside first block */
-  header > :first-child span,
-  header > :first-child div,
-  .site-header > :first-child span,
-  .site-header > :first-child div {
-    font-size: inherit;
-  }
-
-  /* Tagline / second line */
-  header > :first-child small,
-  header > :first-child .tagline,
-  header > :first-child .subtitle,
-  header > :first-child .brand-subtitle,
-  header > :first-child .brand-tagline,
-  .site-header > :first-child small,
-  .site-header > :first-child .tagline,
-  .site-header > :first-child .subtitle,
-  .site-header > :first-child .brand-subtitle,
-  .site-header > :first-child .brand-tagline {
-    display: block !important;
-    width: 100% !important;
-    font-size: 1.85rem !important;
-    font-weight: 850 !important;
-    line-height: 1.05 !important;
-    letter-spacing: -0.055em !important;
-    color: #64748b !important;
-    text-align: center !important;
-    margin: 0.15rem 0 0 0 !important;
-  }
-}
-
-@media (max-width: 430px) {
-  header > :first-child img,
-  .site-header > :first-child img,
-  .topbar > :first-child img,
-  .navbar > :first-child img {
-    width: 82px !important;
-    height: 82px !important;
-    max-width: 82px !important;
-    max-height: 82px !important;
-    min-width: 82px !important;
-    min-height: 82px !important;
-  }
-
-  header > :first-child strong,
-  header > :first-child b,
-  header > :first-child .brand,
-  header > :first-child .brand-name,
-  header > :first-child .site-title,
-  header > :first-child .brand-title,
-  header > :first-child h1,
-  header > :first-child h2,
-  header > :first-child a,
-  .site-header > :first-child strong,
-  .site-header > :first-child b,
-  .site-header > :first-child .brand,
-  .site-header > :first-child .brand-name,
-  .site-header > :first-child .site-title,
-  .site-header > :first-child .brand-title,
-  .site-header > :first-child h1,
-  .site-header > :first-child h2,
-  .site-header > :first-child a {
-    font-size: 3.05rem !important;
-  }
-
-  header > :first-child small,
-  header > :first-child .tagline,
-  header > :first-child .subtitle,
-  header > :first-child .brand-subtitle,
-  header > :first-child .brand-tagline,
-  .site-header > :first-child small,
-  .site-header > :first-child .tagline,
-  .site-header > :first-child .subtitle,
-  .site-header > :first-child .brand-subtitle,
-  .site-header > :first-child .brand-tagline {
-    font-size: 1.55rem !important;
-  }
-}

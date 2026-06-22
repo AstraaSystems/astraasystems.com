@@ -29,6 +29,7 @@ from pathlib import Path
 from typing import Any
 
 from flask import Blueprint, jsonify, request
+from astraa_arka_bridge import send_astraa_event_to_arka
 
 
 astraa_leads = Blueprint("astraa_leads", __name__)
@@ -314,6 +315,27 @@ def create_lead():
     lead["next_action"] = next_action(score, tool_interest)
 
     append_jsonl(LEADS_FILE, lead)
+
+    # Send safe structured event to Arka internal bridge.
+    send_astraa_event_to_arka(
+        "lead.created",
+        {
+            "name": lead.get("name"),
+            "business_name": lead.get("business_name"),
+            "email": lead.get("email"),
+            "province": lead.get("province"),
+            "industry": lead.get("industry"),
+            "business_size": lead.get("business_size"),
+            "tool_interest": lead.get("tool_interest"),
+            "lead_score": lead.get("lead_score"),
+            "status": lead.get("status"),
+            "next_action": lead.get("next_action"),
+            "source_page": lead.get("source_page"),
+            "consent_accepted": lead.get("consent_accepted"),
+            "consent_timestamp": lead.get("consent_timestamp"),
+        },
+        requires_operator_approval=True,
+    )
 
     email_queue_item = build_confirmation_email(lead)
     append_jsonl(EMAIL_QUEUE_FILE, email_queue_item)

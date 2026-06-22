@@ -584,3 +584,115 @@ section {
     font-size: 0.68rem !important;
   }
 }
+
+/* Astraa Mobile Logo + Company Name Size Fix
+   Purpose: make the logo and Astraa Systems brand readable and premium on mobile.
+*/
+@media (max-width: 900px) {
+  header img,
+  .site-header img,
+  .navbar img,
+  header .logo img,
+  .site-header .logo img,
+  .navbar .logo img,
+  header .brand img,
+  .site-header .brand img,
+  .navbar .brand img {
+    width: 34px !important;
+    height: 34px !important;
+    max-width: 34px !important;
+    max-height: 34px !important;
+    object-fit: contain !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+    margin-right: 0.45rem !important;
+  }
+
+  header .brand,
+  header .logo,
+  header .site-brand,
+  header .site-title,
+  header .brand-name,
+  header strong,
+  .site-header .brand,
+  .site-header .logo,
+  .site-header .site-brand,
+  .site-header .site-title,
+  .site-header .brand-name,
+  .site-header strong,
+  .navbar .brand,
+  .navbar .logo,
+  .navbar .site-title,
+  .navbar .brand-name,
+  .navbar strong {
+    font-size: 1.35rem !important;
+    font-weight: 900 !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.035em !important;
+    color: #050816 !important;
+  }
+
+  header small,
+  header .tagline,
+  header .subtitle,
+  .site-header small,
+  .site-header .tagline,
+  .site-header .subtitle,
+  .navbar small,
+  .navbar .tagline,
+  .navbar .subtitle {
+    font-size: 0.82rem !important;
+    font-weight: 650 !important;
+    line-height: 1.15 !important;
+    color: #64748b !important;
+  }
+}
+
+@media (max-width: 430px) {
+  header img,
+  .site-header img,
+  .navbar img,
+  header .logo img,
+  .site-header .logo img,
+  .navbar .logo img,
+  header .brand img,
+  .site-header .brand img,
+  .navbar .brand img {
+    width: 32px !important;
+    height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+  }
+
+  header .brand,
+  header .logo,
+  header .site-brand,
+  header .site-title,
+  header .brand-name,
+  header strong,
+  .site-header .brand,
+  .site-header .logo,
+  .site-header .site-brand,
+  .site-header .site-title,
+  .site-header .brand-name,
+  .site-header strong,
+  .navbar .brand,
+  .navbar .logo,
+  .navbar .site-title,
+  .navbar .brand-name,
+  .navbar strong {
+    font-size: 1.25rem !important;
+  }
+
+  header small,
+  header .tagline,
+  header .subtitle,
+  .site-header small,
+  .site-header .tagline,
+  .site-header .subtitle,
+  .navbar small,
+  .navbar .tagline,
+  .navbar .subtitle {
+    font-size: 0.76rem !important;
+  }
+}

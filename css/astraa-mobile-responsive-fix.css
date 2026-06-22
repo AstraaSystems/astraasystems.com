@@ -1042,3 +1042,100 @@ section {
     font-size: 1.18rem !important;
   }
 }
+
+/* Astraa Mobile Company Name XXL
+   Purpose: make "Astraa Systems" clearly larger in the mobile header while keeping nav below.
+*/
+@media (max-width: 900px) {
+  header .brand,
+  header .site-brand,
+  header .site-title,
+  header .brand-name,
+  header .brand-title,
+  .site-header .brand,
+  .site-header .site-brand,
+  .site-header .site-title,
+  .site-header .brand-name,
+  .site-header .brand-title,
+  .navbar .brand,
+  .navbar .site-brand,
+  .navbar .site-title,
+  .navbar .brand-name,
+  .navbar .brand-title {
+    font-size: 3rem !important;
+    font-weight: 950 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.065em !important;
+    color: #050816 !important;
+  }
+
+  header .brand strong,
+  header .site-brand strong,
+  header .site-title strong,
+  header .brand-name strong,
+  header .brand-title strong,
+  header .brand span,
+  header .site-brand span,
+  header .site-title span,
+  header .brand-name span,
+  header .brand-title span,
+  .site-header .brand strong,
+  .site-header .site-brand strong,
+  .site-header .site-title strong,
+  .site-header .brand-name strong,
+  .site-header .brand-title strong,
+  .site-header .brand span,
+  .site-header .site-brand span,
+  .site-header .site-title span,
+  .site-header .brand-name span,
+  .site-header .brand-title span {
+    font-size: 3rem !important;
+    font-weight: 950 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.065em !important;
+    color: #050816 !important;
+  }
+}
+
+@media (max-width: 430px) {
+  header .brand,
+  header .site-brand,
+  header .site-title,
+  header .brand-name,
+  header .brand-title,
+  .site-header .brand,
+  .site-header .site-brand,
+  .site-header .site-title,
+  .site-header .brand-name,
+  .site-header .brand-title,
+  .navbar .brand,
+  .navbar .site-brand,
+  .navbar .site-title,
+  .navbar .brand-name,
+  .navbar .brand-title {
+    font-size: 2.55rem !important;
+  }
+
+  header .brand strong,
+  header .site-brand strong,
+  header .site-title strong,
+  header .brand-name strong,
+  header .brand-title strong,
+  header .brand span,
+  header .site-brand span,
+  header .site-title span,
+  header .brand-name span,
+  header .brand-title span,
+  .site-header .brand strong,
+  .site-header .site-brand strong,
+  .site-header .site-title strong,
+  .site-header .brand-name strong,
+  .site-header .brand-title strong,
+  .site-header .brand span,
+  .site-header .site-brand span,
+  .site-header .site-title span,
+  .site-header .brand-name span,
+  .site-header .brand-title span {
+    font-size: 2.55rem !important;
+  }
+}

@@ -222,4 +222,38 @@ class StorageEngineV14Omniversal:
         shards = []
         missing = []
 
-        for
+        for shard_id in shard_ids:
+            shard = None
+
+            # Conservative compatibility path:
+            # Some restored storage engines may use self.shards, self.storage,
+            # or volume-local shard maps. Try safe lookups only.
+            if hasattr(self, "shards") and isinstance(getattr(self, "shards"), dict):
+                shard = self.shards.get(shard_id)
+
+            if shard is None and hasattr(self, "storage") and isinstance(getattr(self, "storage"), dict):
+                shard = self.storage.get(shard_id)
+
+            if shard is None:
+                missing.append(shard_id)
+            else:
+                shards.append(shard)
+
+        self.telemetry["reads"] = self.telemetry.get("reads", 0) + 1
+
+        if missing:
+            return {
+                "status": "partial",
+                "volume_id": volume_id,
+                "origin_reality": origin_reality,
+                "shards": shards,
+                "missing": missing,
+            }
+
+        return {
+            "status": "read",
+            "volume_id": volume_id,
+            "origin_reality": origin_reality,
+            "shards": shards,
+            "missing": missing,
+        }

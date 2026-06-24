@@ -21,7 +21,7 @@ class ReflectionRecord:
     reflection_summary: str
     recommended_adjustments: List[str] = field(default_factory=list)
 
-@staticmethod
+    @staticmethod
     def now():
         # Use explicit timezone-aware UTC to resolve the deprecation warning
         from datetime import timezone

@@ -167,3 +167,33 @@ class ArkastraKernel:
             await asyncio.sleep(0.02)
 
             # MANIFEST BUILD
+            manifest = {
+                "designs_generated": meta.designs_generated,
+                "skus_compiled": meta.skus_compiled,
+                "designs": designs,
+                "skus": skus,
+                "validation": "delegated",
+            }
+
+            try:
+                meta.state = ArkastraState.MANIFEST_BUILD
+            except Exception:
+                pass
+
+            return {
+                "status": "manifest_ready",
+                "manifest": manifest,
+                "meta": meta,
+            }
+
+        except Exception as exc:
+            try:
+                meta.state = ArkastraState.ERROR
+            except Exception:
+                pass
+
+            return {
+                "status": "error",
+                "error": str(exc),
+                "meta": meta,
+            }

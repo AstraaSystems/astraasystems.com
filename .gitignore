@@ -23,3 +23,5 @@ venv/
 astraa_data/*
 !astraa_data/.gitkeep
 LOCAL_LEADS/
+
+.venv_win/

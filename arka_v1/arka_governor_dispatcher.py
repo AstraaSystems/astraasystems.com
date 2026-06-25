@@ -8,6 +8,7 @@ import subprocess
 import time
 import urllib.request
 from pathlib import Path
+from astraa_website_hygiene_connector import astraa_website_hygiene_answer
 from urllib.parse import quote_plus
 
 GOVERNOR_DISPATCHER_VERSION = "1.0"
@@ -693,6 +694,24 @@ def governor_generated_ecosystem_registry(raw: str) -> str:
     return "\n".join(lines)
 
 
+
+
+def _is_website_hygiene_question(raw: str) -> bool:
+    w = (raw or "").lower()
+    triggers = [
+        "likely astraa website files",
+        "website files found locally",
+        "bring website files",
+        "bring astraa website files",
+        "website file hygiene",
+        "web-like files",
+        "active/review count",
+        "recommended excluded count",
+        "how to bring",
+    ]
+    return ("website" in w or "astraa" in w) and any(t in w for t in triggers)
+
+
 def arka_governor_dispatch(raw: str, web_func=None) -> str:
     raw = (raw or "").strip()
     if not raw:
@@ -705,6 +724,10 @@ def arka_governor_dispatch(raw: str, web_func=None) -> str:
     # Generated ecosystem registry route: self-discovered internal AIs/agents/engines before web fallback.
     if _is_generated_ecosystem_question(raw):
         return governor_generated_ecosystem_registry(raw)
+
+    # Astraa website file hygiene route before generic web fallback.
+    if _is_website_hygiene_question(raw):
+        return astraa_website_hygiene_answer(raw)
 
     # Specific business/system routes first.
     if _is_website_status(raw):

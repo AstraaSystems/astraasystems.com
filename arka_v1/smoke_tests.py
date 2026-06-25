@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from arka_governor_dispatcher import arka_governor_dispatch
 
@@ -14,6 +14,7 @@ TESTS = [
     ("who is lux", "Self-Discovered Ecosystem Registry"),
     ("Name all the Ai inside our ecosystem", "Generated from local ecosystem self-discovery"),
     ("tell me about the new VW ID.4? how many packages are available and what is it priced at?", "Astraa Safe Web Access"),
+    ("How to bring Likely Astraa website files found locally: 255 down ?", "Astraa Website File Hygiene"),
 ]
 
 def main():

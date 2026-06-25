@@ -21,4 +21,3 @@ class AgentRegistry:
     def list(self):
         return list(self._agents.keys())
 
-"aruhan": AruhanAgent,

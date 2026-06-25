@@ -1,0 +1,27 @@
+{
+  "name": "Arka Personal AI Evolution Policy",
+  "version": "0.4.0",
+  "default_bind_host": "127.0.0.1",
+  "default_port": 8787,
+  "approval_env_var": "ARKA_APPROVAL_KEY",
+  "remote_mode_env_var": "ARKA_REMOTE_MODE",
+  "hq_root_env_var": "ARKA_HQ_ROOT",
+  "memory_file": "arka_memory.json",
+  "identity_file": "arka_identity.json",
+  "allowlisted_commands": [
+    "python --version",
+    "git --version",
+    "git status --short",
+    "git log --oneline -5",
+    "dir",
+    "Get-ChildItem",
+    "pytest -q"
+  ],
+  "risk_rules": {
+    "read_only": "Allowed directly.",
+    "memory_write": "Requires explicit memory phrase and approval key.",
+    "local_exec": "Requires approval key and allowlisted command.",
+    "external_web": "Research connector planned; disabled in this package.",
+    "travel_booking_payment": "Never automatic in this package; final booking/payment remains manual or future dedicated connector with approval."
+  }
+}

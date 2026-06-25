@@ -1,0 +1,266 @@
+{
+  "schema": "arka_memory_v1",
+  "owner": "Keshanth Sivayogampillai",
+  "created_for": "Arka personal AI evolution",
+  "memories": [
+    {
+      "id": "19392a92",
+      "type": "user_memory",
+      "text": "Context - Work schedule: daily or 3 days/week",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782368229.320255
+    },
+    {
+      "id": "3a43c7f9",
+      "type": "user_memory",
+      "text": "Context - Goal: $50,000/year",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782368229.2990685
+    },
+    {
+      "id": "5f071096",
+      "type": "user_memory",
+      "text": "Context - EV charging: $20/week",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782368229.2767248
+    },
+    {
+      "id": "8915be6f",
+      "type": "user_memory",
+      "text": "Context - Platforms: DoorDash + Instacart + Uber Eats",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782368229.2615402
+    },
+    {
+      "id": "1351363d",
+      "type": "user_memory",
+      "text": "CEO directive: get Astraa to start working on Commerce, Data, Inference, Distribution, Vault",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782360262.1431212
+    },
+    {
+      "id": "aea0cdf5",
+      "type": "user_memory",
+      "text": "CEO directive: Arka, I need you get Astraa to get these product up and running fully and find competitive pricing\n\u2022 Commerce: open\n\u2022 Data: open\n\u2022 Inference: open\n\u2022 Distribution: open\n\u2022 Vault: open",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782360208.101775
+    },
+    {
+      "id": "c413a799",
+      "type": "user_memory",
+      "text": "my son's name is is Bhirav Aditya",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782348635.789412
+    },
+    {
+      "id": "ce67d8bb",
+      "type": "user_memory",
+      "text": "my first-born son's name is is Bhirav Aditya",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782348635.769294
+    },
+    {
+      "id": "0b4c3bd7",
+      "type": "user_memory",
+      "text": "my son's name is Bhirav Aditya",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782348635.7495406
+    },
+    {
+      "id": "8620bcd5",
+      "type": "user_memory",
+      "text": "my first-born son's name is Bhirav Aditya",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782348635.7301047
+    },
+    {
+      "id": "0bc0f909",
+      "type": "user_memory",
+      "text": "my wife's name is Thrilochana",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782348635.707993
+    },
+    {
+      "id": "48533694",
+      "type": "family_memory",
+      "text": "my son's name is Bhirav Aditya",
+      "source": "explicit_user_command_hotfix",
+      "status": "active",
+      "created_at": 1782348533.6949713
+    },
+    {
+      "id": "48533694",
+      "type": "family_memory",
+      "text": "my first born son's name is Bhirav Aditya",
+      "source": "explicit_user_command_hotfix",
+      "status": "active",
+      "created_at": 1782348533.6949701
+    },
+    {
+      "id": "48533694",
+      "type": "family_memory",
+      "text": "my first-born son's name is Bhirav Aditya",
+      "source": "explicit_user_command_hotfix",
+      "status": "active",
+      "created_at": 1782348533.6949682
+    },
+    {
+      "id": "48533694",
+      "type": "family_memory",
+      "text": "my wife's name is Thrilochana",
+      "source": "explicit_user_command_hotfix",
+      "status": "active",
+      "created_at": 1782348533.6949646
+    },
+    {
+      "id": "97363f97",
+      "type": "user_memory",
+      "text": "astraasystems.com is Astraa's online source of income and must be monitored as business-critical",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782348093.9485345
+    },
+    {
+      "id": "931304af",
+      "type": "user_memory",
+      "text": "Arka V1 is the internal CEO COO operating system",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782344884.7690065
+    },
+    {
+      "id": "core-001",
+      "type": "identity",
+      "text": "The uploaded Astraa Systems logo is the current company logo to use across Arka HQ and Astraa until a future trademarked logo is official.",
+      "source": "user-confirmed",
+      "status": "active"
+    },
+    {
+      "id": "core-002",
+      "type": "persona",
+      "text": "Arka should speak in a friendly, easy-going, calm, direct, protective, founder-aligned tone.",
+      "source": "user-confirmed",
+      "status": "active"
+    },
+    {
+      "id": "core-003",
+      "type": "architecture",
+      "text": "Arka should evolve through explicit memories, approved skills, and auditable changes, not silent self-modification.",
+      "source": "assistant-safety-architecture",
+      "status": "active"
+    }
+  ],
+  "pending_memories": [
+    {
+      "id": "8410b7e0",
+      "type": "user_memory",
+      "text": "that Portal Prime is my preferred Arka HQ interface",
+      "source": "conversation",
+      "status": "pending",
+      "created_at": 1782319329.0148456
+    }
+  ],
+  "audit": [
+    {
+      "event": "memory_saved_active",
+      "id": "19392a92",
+      "created_at": 1782368229.3202562
+    },
+    {
+      "event": "memory_saved_active",
+      "id": "3a43c7f9",
+      "created_at": 1782368229.29907
+    },
+    {
+      "event": "memory_saved_active",
+      "id": "5f071096",
+      "created_at": 1782368229.276727
+    },
+    {
+      "event": "memory_saved_active",
+      "id": "8915be6f",
+      "created_at": 1782368229.2615442
+    },
+    {
+      "event": "memory_saved_active",
+      "id": "1351363d",
+      "created_at": 1782360262.1431246
+    },
+    {
+      "event": "memory_saved_active",
+      "id": "aea0cdf5",
+      "created_at": 1782360208.101778
+    },
+    {
+      "event": "memory_saved_active",
+      "id": "c413a799",
+      "created_at": 1782348635.7894137
+    },
+    {
+      "event": "memory_saved_active",
+      "id": "ce67d8bb",
+      "created_at": 1782348635.769296
+    },
+    {
+      "event": "memory_saved_active",
+      "id": "0b4c3bd7",
+      "created_at": 1782348635.7495425
+    },
+    {
+      "event": "memory_saved_active",
+      "id": "8620bcd5",
+      "created_at": 1782348635.7301068
+    },
+    {
+      "event": "memory_saved_active",
+      "id": "0bc0f909",
+      "created_at": 1782348635.7079954
+    },
+    {
+      "event": "memory_seeded_family_hotfix",
+      "text": "my son's name is Bhirav Aditya",
+      "created_at": 1782348533.6949718
+    },
+    {
+      "event": "memory_seeded_family_hotfix",
+      "text": "my first born son's name is Bhirav Aditya",
+      "created_at": 1782348533.6949706
+    },
+    {
+      "event": "memory_seeded_family_hotfix",
+      "text": "my first-born son's name is Bhirav Aditya",
+      "created_at": 1782348533.6949692
+    },
+    {
+      "event": "memory_seeded_family_hotfix",
+      "text": "my wife's name is Thrilochana",
+      "created_at": 1782348533.694966
+    },
+    {
+      "event": "memory_saved_active",
+      "id": "97363f97",
+      "created_at": 1782348093.9485376
+    },
+    {
+      "event": "memory_saved_active",
+      "id": "931304af",
+      "created_at": 1782344884.7690084
+    },
+    {
+      "event": "memory_drafted",
+      "id": "8410b7e0",
+      "created_at": 1782319329.014848
+    }
+  ]
+}

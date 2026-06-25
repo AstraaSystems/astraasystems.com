@@ -198,4 +198,4 @@ class StorageEngineV5ReedSolomon:
         if len(nodes) < self.k + self.m:
             raise ValueError("Not enough nodes for RS(K+M)")
 
-        vid = f"RSVOL-{
+        vid = f"RSVOL-{name}-{len(self.volumes) + 1}"

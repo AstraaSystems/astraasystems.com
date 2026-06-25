@@ -1,0 +1,245 @@
+{
+  "items": [
+    {
+      "id": "4f190769",
+      "created_at": 1782319339.6045241,
+      "user_words": "Master_Key_2026",
+      "kind": "chat",
+      "status": "chat",
+      "output": "Got it. I can talk this through with you, draft a plan, or queue a safe task. If it turns into an action, I will ask for approval.",
+      "command": ""
+    },
+    {
+      "id": "951fbbab",
+      "created_at": 1782319329.015362,
+      "user_words": "remember that Portal Prime is my preferred Arka HQ interface",
+      "kind": "memory",
+      "status": "pending_approval",
+      "output": "I drafted that as a memory. Approve it from the Pending Memories panel if you want me to keep it. Memory ID: 8410b7e0",
+      "command": ""
+    },
+    {
+      "id": "97af74ff",
+      "created_at": 1782319221.7962973,
+      "user_words": "what have you learned?",
+      "kind": "chat",
+      "status": "chat",
+      "output": "I currently have 3 active memories and 0 pending memory drafts.\n\nRecent active memories:\n- The uploaded Astraa Systems logo is the current company logo to use across Arka HQ and Astraa until a future trademarked logo is official.\n- Arka should speak in a friendly, easy-going, calm, direct, protective, founder-aligned tone.\n- Arka should evolve through explicit memories, approved skills, and auditable changes, not silent self-modification.",
+      "command": ""
+    },
+    {
+      "id": "c9661332",
+      "created_at": 1782319185.1127725,
+      "user_words": "Arka, who are you?",
+      "kind": "chat",
+      "status": "chat",
+      "output": "I am Arka, your personal AI and internal CEO support layer. I am designed to be friendly, easy-going, calm, direct, protective, and founder-aligned. Right now I am in foundation mode, but I can evolve through approved memories, preferences, and future skills.",
+      "command": ""
+    },
+    {
+      "id": "61b58c14",
+      "created_at": 1782319168.6570492,
+      "user_words": "Hey Arka",
+      "kind": "chat",
+      "status": "chat",
+      "output": "Hey Keshanth. I am here. Portal Prime HQ is active. Tell me what you want to do next.",
+      "command": ""
+    },
+    {
+      "id": "2a218e65",
+      "created_at": 1782318963.027522,
+      "user_words": "hey arka",
+      "kind": "chat",
+      "status": "chat",
+      "output": "Got it. I can talk it through, draft a plan, or queue a safe task. If it turns into an action, I will ask for approval.",
+      "command": ""
+    },
+    {
+      "id": "45bc0f4d",
+      "created_at": 1782318330.9384568,
+      "user_words": "give me status",
+      "kind": "READ_ONLY",
+      "status": "ran",
+      "output": "?? arka_personal_ai_v04_evolution/",
+      "command": "git status --short"
+    },
+    {
+      "id": "35b19802",
+      "created_at": 1782318304.704372,
+      "user_words": "Hows your day for so ?\r\n",
+      "kind": "chat",
+      "status": "chat",
+      "output": "Got it. I can talk it through, draft a plan, or queue a safe task. If this becomes an action, I will ask for approval.",
+      "command": ""
+    },
+    {
+      "id": "b480146c",
+      "created_at": 1782317710.8095715,
+      "user_words": "Hi",
+      "kind": "chat",
+      "status": "chat",
+      "output": "Got it. I can talk it through, draft a plan, or queue a safe task. If this becomes an action, I will ask for approval.",
+      "command": ""
+    }
+  ],
+  "chat": [
+    {
+      "id": "7f25670d",
+      "role": "user",
+      "text": "hey Arka",
+      "created_at": 1782320331.3253636
+    },
+    {
+      "id": "1a21694a",
+      "role": "arka",
+      "text": "Hey Keshanth. I am here. Portal Prime HQ is active. What are we working on next?",
+      "created_at": 1782320331.3335023
+    },
+    {
+      "id": "afe2aace",
+      "role": "user",
+      "text": "this does not feel like a conversation yet",
+      "created_at": 1782320361.14797
+    },
+    {
+      "id": "36817c3e",
+      "role": "arka",
+      "text": "I hear you. I am keeping your approved context in mind. Tell me a little more, or say what you want me to do next. If it is a safe discussion, I will keep talking it through. If it becomes an action, I will separate it into the Action Queue and ask for approval.",
+      "created_at": 1782320361.1595697
+    },
+    {
+      "id": "a30c873d",
+      "role": "user",
+      "text": "who are you? and who am I ?",
+      "created_at": 1782320410.3222675
+    },
+    {
+      "id": "c86d9315",
+      "role": "arka",
+      "text": "I am Arka, your personal AI and internal CEO support layer for Arka HQ. My personality is meant to be friendly, easy-going, calm, direct, protective, and founder-aligned. Right now I am not a full independent AI brain yet. I am the foundation: interface, memory, approvals, local checks, and future skill hooks.",
+      "created_at": 1782320410.3314114
+    },
+    {
+      "id": "79c056a9",
+      "role": "user",
+      "text": "who Am I Arka",
+      "created_at": 1782320438.5838668
+    },
+    {
+      "id": "fe821908",
+      "role": "arka",
+      "text": "I hear you. I am keeping your approved context in mind. Tell me a little more, or say what you want me to do next. If it is a safe discussion, I will keep talking it through. If it becomes an action, I will separate it into the Action Queue and ask for approval.",
+      "created_at": 1782320438.5936978
+    },
+    {
+      "id": "1917944a",
+      "role": "user",
+      "text": "Hi Arka, I am Bhirav Aditya, How are you?",
+      "created_at": 1782321129.4385953
+    },
+    {
+      "id": "9375ec1f",
+      "role": "arka",
+      "text": "I'm good, Keshanth. Ready when you are.",
+      "created_at": 1782321129.446577
+    },
+    {
+      "id": "3e33fcd8",
+      "role": "user",
+      "text": "Arka record this Bhirav Aditya is my first born son",
+      "created_at": 1782321170.603411
+    },
+    {
+      "id": "858cf2ac",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me a bit more, or say what you want me to do next. If it's just conversation, I'll stay with you. If it's an action, I'll move it to the Action Queue.",
+      "created_at": 1782321170.6130557
+    },
+    {
+      "id": "b459f0de",
+      "role": "user",
+      "text": "hi",
+      "created_at": 1782331921.4467208
+    },
+    {
+      "id": "ae8a45b3",
+      "role": "arka",
+      "text": "Hi Keshanth, I'm here.",
+      "created_at": 1782331921.4561863
+    },
+    {
+      "id": "21f06a03",
+      "role": "user",
+      "text": "what's my son's name",
+      "created_at": 1782331944.3015018
+    },
+    {
+      "id": "e859587a",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me a bit more, or say what you want me to do next. If it's just conversation, I'll stay with you. If it's an action, I'll move it to the Action Queue.",
+      "created_at": 1782331944.311118
+    },
+    {
+      "id": "84c9ceda",
+      "role": "user",
+      "text": "I told what name my son's name is that correct ?",
+      "created_at": 1782332089.521378
+    },
+    {
+      "id": "4a4eee63",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me a bit more, or say what you want me to do next. If it's just conversation, I'll stay with you. If it's an action, I'll move it to the Action Queue.",
+      "created_at": 1782332089.5318155
+    },
+    {
+      "id": "193e08bd",
+      "role": "user",
+      "text": "hi arka",
+      "created_at": 1782338364.2277954
+    },
+    {
+      "id": "2b7627ce",
+      "role": "arka",
+      "text": "Hi Keshanth, I'm here.",
+      "created_at": 1782338364.2366974
+    },
+    {
+      "id": "9cc76b2e",
+      "role": "user",
+      "text": "I am gonna give you few information that I need you add to the memory and recall it when I ask it",
+      "created_at": 1782338412.5357163
+    },
+    {
+      "id": "9e70c3e9",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me a bit more, or say what you want me to do next. If it's just conversation, I'll stay with you. If it's an action, I'll move it to the Action Queue.",
+      "created_at": 1782338412.5469656
+    },
+    {
+      "id": "58bc8cee",
+      "role": "user",
+      "text": "I want you to save my son name and date of birth for now.\nName Bhirav Aditya\ndate of birth june 4 2023\ncould you add those to the record",
+      "created_at": 1782338490.5539565
+    },
+    {
+      "id": "800c13d4",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me a bit more, or say what you want me to do next. If it's just conversation, I'll stay with you. If it's an action, I'll move it to the Action Queue.",
+      "created_at": 1782338490.5622184
+    },
+    {
+      "id": "fe2f58cd",
+      "role": "user",
+      "text": "whats my son's name ?",
+      "created_at": 1782338510.2017326
+    },
+    {
+      "id": "a41c5b72",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me a bit more, or say what you want me to do next. If it's just conversation, I'll stay with you. If it's an action, I'll move it to the Action Queue.",
+      "created_at": 1782338510.211298
+    }
+  ],
+  "tasks": [],
+  "last_topic": ""
+}

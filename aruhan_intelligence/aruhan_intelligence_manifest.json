@@ -1,0 +1,23 @@
+﻿{
+  "layer": "Aruhan Intelligence",
+  "status": "canon_structural_fill",
+  "role": "Deep intelligence and security AI",
+  "protected": true,
+  "responsibilities": [
+    "deep intelligence",
+    "local cognition",
+    "security reasoning",
+    "risk awareness",
+    "threat monitoring",
+    "audit awareness",
+    "trusted internal analysis"
+  ],
+  "related_existing_files": [
+    "aruhan_runtime_loop.py",
+    "aruhan_ledger.jsonl",
+    "aruhan/",
+    "aruhan_core/",
+    "aruhan_security/"
+  ],
+  "notes": "This manifest fills the missing aruhan_intelligence canon candidate without modifying runtime logic."
+}

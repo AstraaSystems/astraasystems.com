@@ -1,0 +1,13 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500">
+  <rect width="900" height="500" fill="#050505"/>
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#00D5FF"/>
+      <stop offset=".55" stop-color="#6D3BFF"/>
+      <stop offset="1" stop-color="#FF2E85"/>
+    </linearGradient>
+  </defs>
+  <path d="M450 95 L650 405 H560 L450 235 L340 405 H250 Z" fill="url(#g)"/>
+  <path d="M450 270 L505 350 H395 Z" fill="url(#g)"/>
+  <text x="450" y="465" text-anchor="middle" font-family="Arial" font-size="52" font-weight="800" fill="white">Astraa Systems</text>
+</svg>

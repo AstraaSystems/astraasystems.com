@@ -1,0 +1,45 @@
+{
+  "schema": "arka_memory_v1",
+  "owner": "Keshanth Sivayogampillai",
+  "created_for": "Arka personal AI evolution",
+  "memories": [
+    {
+      "id": "core-001",
+      "type": "identity",
+      "text": "The uploaded Astraa Systems logo is the current company logo to use across Arka HQ and Astraa until a future trademarked logo is official.",
+      "source": "user-confirmed",
+      "status": "active"
+    },
+    {
+      "id": "core-002",
+      "type": "persona",
+      "text": "Arka should speak in a friendly, easy-going, calm, direct, protective, founder-aligned tone.",
+      "source": "user-confirmed",
+      "status": "active"
+    },
+    {
+      "id": "core-003",
+      "type": "architecture",
+      "text": "Arka should evolve through explicit memories, approved skills, and auditable changes, not silent self-modification.",
+      "source": "assistant-safety-architecture",
+      "status": "active"
+    }
+  ],
+  "pending_memories": [
+    {
+      "id": "8410b7e0",
+      "type": "user_memory",
+      "text": "that Portal Prime is my preferred Arka HQ interface",
+      "source": "conversation",
+      "status": "pending",
+      "created_at": 1782319329.0148456
+    }
+  ],
+  "audit": [
+    {
+      "event": "memory_drafted",
+      "id": "8410b7e0",
+      "created_at": 1782319329.014848
+    }
+  ]
+}

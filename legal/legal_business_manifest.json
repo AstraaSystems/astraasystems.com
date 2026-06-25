@@ -1,0 +1,21 @@
+﻿{
+  "layer": "Legal / Business Layer",
+  "status": "canon_structural_fill",
+  "protected": true,
+  "entities": [
+    {
+      "name": "Arka Pillai Holdings Ltd",
+      "role": "Parent entity / IP / equity / capital ownership"
+    },
+    {
+      "name": "Astraa Systems",
+      "role": "Public-facing brand / website / customers / revenue"
+    }
+  ],
+  "future_verticals": [
+    "Construction AI",
+    "Distribution AI",
+    "Finance AI"
+  ],
+  "notes": "This manifest fills the missing legal canon candidate without modifying runtime logic."
+}

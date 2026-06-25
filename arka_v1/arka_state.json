@@ -1,0 +1,1516 @@
+{
+  "chat": [
+    {
+      "id": "50dac430",
+      "role": "user",
+      "text": "hi",
+      "created_at": 1782344758.742117
+    },
+    {
+      "id": "fabdab2b",
+      "role": "arka",
+      "text": "Hi Keshanth, I'm here.",
+      "created_at": 1782344758.749012
+    },
+    {
+      "id": "2b777608",
+      "role": "user",
+      "text": "check website health",
+      "created_at": 1782344766.0801797
+    },
+    {
+      "id": "9ec59083",
+      "role": "arka",
+      "text": "Website health audit completed.\n\n- Public site reachable from local connector.\n- Local website/code file candidates found: 975\n- Likely Astraa website files found locally: 248\n\nCEO/COO recommendation: fix website positioning first, then lead capture, then pricing/trial conversion.",
+      "created_at": 1782344770.386053
+    },
+    {
+      "id": "43655dbc",
+      "role": "user",
+      "text": "how are sales",
+      "created_at": 1782344796.1699898
+    },
+    {
+      "id": "03ace0e7",
+      "role": "arka",
+      "text": "Sales / revenue status from connected local data:\n\n- Leads: 0\n- Trials: 0\n- Customers: 0\n- Payments: 0\n- Subscriptions: 0\n\nI do not see connected customer/payment records in the local Arka DB yet. Connect Moneris/customer logs for real sales reporting.",
+      "created_at": 1782344796.1838474
+    },
+    {
+      "id": "7c0b2cab",
+      "role": "user",
+      "text": "I will check on Moneris. Thanks for the update!",
+      "created_at": 1782344844.2337742
+    },
+    {
+      "id": "7e0083ca",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me what you want me to do next.",
+      "created_at": 1782344844.241244
+    },
+    {
+      "id": "73745eeb",
+      "role": "user",
+      "text": "create marketing plan",
+      "created_at": 1782344850.601022
+    },
+    {
+      "id": "d8484ae1",
+      "role": "arka",
+      "text": "Astraa customer-growth plan:\n\n1. Fix astraasystems.com homepage first: clean Tools/Workspace positioning, not old Engines language.\n2. Make Estimator, Finance, Operations, Expense, and Workspace pages clear and conversion-focused.\n3. Add strong calls to action: Start trial, View pricing, Contact Astraa, Login to Workspace.\n4. Create lead capture logging for every contact/trial request.\n5. Create industry landing pages for contractors, franchises, nonprofits, and regular businesses.\n6. Track each lead source and follow-up status.\n7. Use CASL-safe inbound follow-up only where consent exists.",
+      "created_at": 1782344850.7009704
+    },
+    {
+      "id": "5adf33c3",
+      "role": "user",
+      "text": "assign Astraa tools",
+      "created_at": 1782344867.6511323
+    },
+    {
+      "id": "8a0ac523",
+      "role": "arka",
+      "text": "Astraa tool work queue assigned:\n\n- Estimator: Review and improve Astraa Estimator website/tool readiness.\n- Expense: Review and improve Astraa Expense website/tool readiness.\n- Finance: Review and improve Astraa Finance website/tool readiness.\n- Operations: Review and improve Astraa Operations website/tool readiness.\n- Commerce: Review and improve Astraa Commerce website/tool readiness.\n- Data: Review and improve Astraa Data website/tool readiness.\n- Inference: Review and improve Astraa Inference website/tool readiness.\n- Distribution: Review and improve Astraa Distribution website/tool readiness.\n- Vault: Review and improve Astraa Vault website/tool readiness.\n- Workspace: Review and improve Astraa Workspace website/tool readiness.",
+      "created_at": 1782344867.8236268
+    },
+    {
+      "id": "db4d690a",
+      "role": "user",
+      "text": "Arka record this: Arka V1 is the internal CEO COO operating system",
+      "created_at": 1782344884.7685513
+    },
+    {
+      "id": "c4507b06",
+      "role": "arka",
+      "text": "Saved. I'll remember: Arka V1 is the internal CEO COO operating system",
+      "created_at": 1782344884.7990825
+    },
+    {
+      "id": "73ebc501",
+      "role": "user",
+      "text": "show memory",
+      "created_at": 1782344895.3785098
+    },
+    {
+      "id": "82e6a64e",
+      "role": "arka",
+      "text": "Here's what I remember:\n- Arka V1 is the internal CEO COO operating system\n- The uploaded Astraa Systems logo is the current company logo to use across Arka HQ and Astraa until a future trademarked logo is official.\n- Arka should speak in a friendly, easy-going, calm, direct, protective, founder-aligned tone.\n- Arka should evolve through explicit memories, approved skills, and auditable changes, not silent self-modification.",
+      "created_at": 1782344895.3862994
+    },
+    {
+      "id": "ddb41ae2",
+      "role": "user",
+      "text": "Arka, My wife's name Thrilochana, and my first born son's name is Bhirav Aditya. record these two important information please",
+      "created_at": 1782345394.0050561
+    },
+    {
+      "id": "dd177e67",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me what you want me to do next.",
+      "created_at": 1782345394.0144923
+    },
+    {
+      "id": "caa0afc4",
+      "role": "user",
+      "text": "who names did I give you ?",
+      "created_at": 1782345434.7448661
+    },
+    {
+      "id": "b7a61ae1",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me what you want me to do next.",
+      "created_at": 1782345434.7560403
+    },
+    {
+      "id": "550ef80d",
+      "role": "user",
+      "text": "Find me a flight ticket to India, Hyderabad from dec 25 for two weeks",
+      "created_at": 1782345583.4207788
+    },
+    {
+      "id": "2a7a093d",
+      "role": "arka",
+      "text": "I tried to find flight-price sources, but I could not pull reliable results. I won't invent prices or claim ticket holds.",
+      "created_at": 1782345583.650309
+    },
+    {
+      "id": "22e79bff",
+      "role": "user",
+      "text": "Tell me how to make a good cup of english tea",
+      "created_at": 1782345724.192916
+    },
+    {
+      "id": "785bb9e3",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me what you want me to do next.",
+      "created_at": 1782345724.2044792
+    },
+    {
+      "id": "a8f74889",
+      "role": "user",
+      "text": "the website is our online source of income and it must work properly",
+      "created_at": 1782348049.6678836
+    },
+    {
+      "id": "c0449026",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me what you want me to do next.",
+      "created_at": 1782348049.7335148
+    },
+    {
+      "id": "b6740de1",
+      "role": "user",
+      "text": "what did I say about website?",
+      "created_at": 1782348071.2439
+    },
+    {
+      "id": "ee7282d1",
+      "role": "arka",
+      "text": "Here's what I found about website:\\n- user: what did I say about website?\\n- user: the website is our online source of income and it must work properly",
+      "created_at": 1782348071.3100667
+    },
+    {
+      "id": "881b8ed4",
+      "role": "user",
+      "text": "Arka record this: astraasystems.com is Astraa's online source of income and must be monitored as business-critical",
+      "created_at": 1782348093.893055
+    },
+    {
+      "id": "f641a43e",
+      "role": "arka",
+      "text": "Saved. I'll remember: astraasystems.com is Astraa's online source of income and must be monitored as business-critical",
+      "created_at": 1782348093.9726775
+    },
+    {
+      "id": "a246941b",
+      "role": "user",
+      "text": "Saved. I'll remember: astraasystems.com is Astraa's online source of income and must be monitored as business-critical",
+      "created_at": 1782348137.9507709
+    },
+    {
+      "id": "7f1dafa0",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me what you want me to do next.",
+      "created_at": 1782348138.015205
+    },
+    {
+      "id": "8eef720f",
+      "role": "user",
+      "text": "what do you remember about astraasystems.com?",
+      "created_at": 1782348164.0283573
+    },
+    {
+      "id": "c8406980",
+      "role": "arka",
+      "text": "Here's what I remember about astraasystems.com:\\n- Active memory: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- user: what do you remember about astraasystems.com?\\n- user: Saved. I'll remember: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- user: Arka record this: astraasystems.com is Astraa's online source of income and must be monitored as business-critical",
+      "created_at": 1782348164.0942993
+    },
+    {
+      "id": "68b0ef77",
+      "role": "user",
+      "text": "show journal",
+      "created_at": 1782348181.7240078
+    },
+    {
+      "id": "66dcfb49",
+      "role": "arka",
+      "text": "Recent conversation journal:\\n- 2026-06-24T17:43:01 | user: show journal\\n- 2026-06-24T17:42:44 | arka: Here's what I remember about astraasystems.com:\\n- Active memory: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- user: what do you remember about astraasystems.com?\\n- user: Saved. I'll remember: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- user: Arka record this: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- 2026-06-24T17:42:44 | user: what do you remember about astraasystems.com?\\n- 2026-06-24T17:42:18 | arka: Yeah, I got you. Tell me what you want me to do next.\\n- 2026-06-24T17:42:17 | user: Saved. I'll remember: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- 2026-06-24T17:41:33 | arka: Saved. I'll remember: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- 2026-06-24T17:41:33 | user: Arka record this: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- 2026-06-24T17:41:11 | arka: Here's what I found about website:\\n- user: what did I say about website?\\n- user: the website is our online source of income and it must work properly\\n- 2026-06-24T17:41:11 | user: what did I say about website?\\n- 2026-06-24T17:40:49 | arka: Yeah, I got you. Tell me what you want me to do next.\\n- 2026-06-24T17:40:49 | user: the website is our online source of income and it must work properly",
+      "created_at": 1782348181.7528138
+    },
+    {
+      "id": "ab9b3d17",
+      "role": "user",
+      "text": "Arka, My wife's name Thrilochana, and my first born son's name is Bhirav Aditya. record these two important information please",
+      "created_at": 1782348241.9136686
+    },
+    {
+      "id": "bd75645f",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me what you want me to do next.",
+      "created_at": 1782348241.9801767
+    },
+    {
+      "id": "e7991930",
+      "role": "user",
+      "text": "what is my wife's name ?",
+      "created_at": 1782348261.9321663
+    },
+    {
+      "id": "a42ed6d6",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me what you want me to do next.",
+      "created_at": 1782348261.9450667
+    },
+    {
+      "id": "0bd5a3f6",
+      "role": "user",
+      "text": "what is my wife's name?",
+      "created_at": 1782348575.968089
+    },
+    {
+      "id": "765f0781",
+      "role": "arka",
+      "text": "Your wife's name is Thrilochana.",
+      "created_at": 1782348576.0319667
+    },
+    {
+      "id": "65f17496",
+      "role": "user",
+      "text": "what is my son's name?",
+      "created_at": 1782348626.3911881
+    },
+    {
+      "id": "8b09ef11",
+      "role": "arka",
+      "text": "Your son's name is Bhirav Aditya.",
+      "created_at": 1782348626.4564638
+    },
+    {
+      "id": "b326a2a1",
+      "role": "user",
+      "text": "Arka, My wife's name Thrilochana, and my first born son's name is Bhirav Aditya. record these two important information please",
+      "created_at": 1782348635.6507676
+    },
+    {
+      "id": "2338e9c2",
+      "role": "arka",
+      "text": "Saved. I'll remember:\n- my wife's name is Thrilochana\n- my first-born son's name is Bhirav Aditya\n- my son's name is Bhirav Aditya\n- my first-born son's name is is Bhirav Aditya\n- my son's name is is Bhirav Aditya",
+      "created_at": 1782348635.8099718
+    },
+    {
+      "id": "2228cbc7",
+      "role": "user",
+      "text": "Do best flight prices for Hyderabad India leaving from vancouver on Dec 2026",
+      "created_at": 1782349117.6465313
+    },
+    {
+      "id": "92014df1",
+      "role": "arka",
+      "text": "I tried to find flight-price sources, but I could not pull reliable results. I won't invent prices or claim ticket holds.",
+      "created_at": 1782349117.962083
+    },
+    {
+      "id": "92581496",
+      "role": "user",
+      "text": "search the web for Astraa Systems competitors",
+      "created_at": 1782349125.5949605
+    },
+    {
+      "id": "4650ba8e",
+      "role": "arka",
+      "text": "I tried searching for: Astraa Systems competitors\n\nI could not pull reliable web results from the local connector. I won't make anything up.",
+      "created_at": 1782349125.8012955
+    },
+    {
+      "id": "d510602a",
+      "role": "user",
+      "text": "read website https://astraasystems.com/",
+      "created_at": 1782358496.321505
+    },
+    {
+      "id": "373b2279",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me what you want me to do next.",
+      "created_at": 1782358496.3868177
+    },
+    {
+      "id": "a67094c6",
+      "role": "user",
+      "text": "web search Moneris online payment gateway Canada",
+      "created_at": 1782358511.7567306
+    },
+    {
+      "id": "d596d808",
+      "role": "arka",
+      "text": "Yeah, I got you. Tell me what you want me to do next.",
+      "created_at": 1782358511.7824783
+    },
+    {
+      "id": "0bf24c48",
+      "role": "user",
+      "text": "hi",
+      "created_at": 1782358746.2142868
+    },
+    {
+      "id": "004b21a1",
+      "role": "arka",
+      "text": "Hi Keshanth, I'm here.",
+      "created_at": 1782358746.2788897
+    },
+    {
+      "id": "668898e9",
+      "role": "user",
+      "text": "what is my wife's name?",
+      "created_at": 1782358755.5597196
+    },
+    {
+      "id": "0eaa04fe",
+      "role": "arka",
+      "text": "Your wife's name is Thrilochana.",
+      "created_at": 1782358755.624689
+    },
+    {
+      "id": "2bc48ce6",
+      "role": "user",
+      "text": "what is my son's name?",
+      "created_at": 1782358762.6470997
+    },
+    {
+      "id": "37ddaea3",
+      "role": "arka",
+      "text": "Your son's name is is Bhirav Aditya.",
+      "created_at": 1782358762.712115
+    },
+    {
+      "id": "0626efe9",
+      "role": "user",
+      "text": "what do you remember about astraasystems.com?",
+      "created_at": 1782358772.0391927
+    },
+    {
+      "id": "44b6c808",
+      "role": "arka",
+      "text": "Here's what I remember about astraasystems.com:\\n- Active memory: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- user: what do you remember about astraasystems.com?\\n- user: read website https://astraasystems.com/\\n- arka: Recent conversation journal:\\n- 2026-06-24T17:43:01 | user: show journal\\n- 2026-06-24T17:42:44 | arka: Here's what I remember about astraasystems.com:\\n- Active memory: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- user: what do you remember about astraasystems.com?\\n- user: Saved. I'll remember: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- user: Arka record this: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- 2026-06-24T17:42:44 | user: what do you remember about astraasystems.com?\\n- 2026-06-24T17:42:18 | arka: Yeah, I got you. Tell me what you want me to do next.\\n- 2026-06-24T17:42:17 | user: Saved. I'll remember: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- 2026-06-24T17:41:33 | arka: Saved. I'll remember: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- 2026-06-24T17:41:33 | user: Arka record this: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- 2026-06-24T17:41:11 | arka: Here's what I found about website:\\n- user: what did I say about website?\\n- user: the website is our online source of income and it must work properly\\n- 2026-06-24T17:41:11 | user: what did I say about website?\\n- 2026-06-24T17:40:49 | arka: Yeah, I got you. Tell me what you want me to do next.\\n- 2026-06-24T17:40:49 | user: the website is our online source of income and it must work properly\\n- arka: Here's what I remember about astraasystems.com:\\n- Active memory: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- user: what do you remember about astraasystems.com?\\n- user: Saved. I'll remember: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- user: Arka record this: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- user: Saved. I'll remember: astraasystems.com is Astraa's online source of income and must be monitored as business-critical\\n- user: Arka record this: astraasystems.com is Astraa's online source of income and must be monitored as business-critical",
+      "created_at": 1782358772.1048295
+    },
+    {
+      "id": "cfc6b7f7",
+      "role": "user",
+      "text": "check website health",
+      "created_at": 1782358792.7184243
+    },
+    {
+      "id": "0c67dc41",
+      "role": "arka",
+      "text": "Website health audit completed.\n\n- Public site reachable from local connector.\n- Local website/code file candidates found: 981\n- Likely Astraa website files found locally: 253\n\nCEO/COO recommendation: fix website positioning first, then lead capture, then pricing/trial conversion.",
+      "created_at": 1782358793.5668159
+    },
+    {
+      "id": "93a6a3e1",
+      "role": "user",
+      "text": "search the web for Astraa Systems competitors",
+      "created_at": 1782358809.100132
+    },
+    {
+      "id": "75433db7",
+      "role": "arka",
+      "text": "I could not pull reliable live snippets from the local web connector.\\nI won't make anything up, but here are source links you can open/check:\\n\\n- Bing search: https://www.bing.com/search?q=Astraa+Systems+competitors\\n- DuckDuckGo search: https://duckduckgo.com/?q=Astraa+Systems+competitors\\n- Google search: https://www.google.com/search?q=Astraa+Systems+competitors",
+      "created_at": 1782358809.3065991
+    },
+    {
+      "id": "bf7c000e",
+      "role": "user",
+      "text": "Do best flight prices for Hyderabad India leaving from Vancouver on Dec 2026",
+      "created_at": 1782358829.2815537
+    },
+    {
+      "id": "811b8091",
+      "role": "arka",
+      "text": "I could not pull verified live fare snippets from the local connector.\\nI won't invent prices and I won't claim ticket holds.\\n\\nBest source pages for Vancouver/YVR to Hyderabad/HYD:\\n- Google Flights route page: https://www.google.com/travel/flights/flights-from-vancouver-to-hyderabad.html\\n- Skyscanner Canada route page: https://www.skyscanner.ca/routes/yvra/hyd/vancouver-to-hyderabad.html\\n- Skyscanner YVR-HYD route page: https://www.skyscanner.com/routes/yvr/hyd/vancouver-international-to-hyderabad.html\\n\\nFor December 2026, use the date grid / month view on those pages to verify live fares.",
+      "created_at": 1782358829.3175066
+    },
+    {
+      "id": "0f34b5a3",
+      "role": "user",
+      "text": "what is my son's name?",
+      "created_at": 1782359178.31598
+    },
+    {
+      "id": "5dbde61c",
+      "role": "arka",
+      "text": "Your son's name is Bhirav Aditya.",
+      "created_at": 1782359178.3818784
+    },
+    {
+      "id": "1e6c7268",
+      "role": "user",
+      "text": "what do you remember about astraasystems.com?",
+      "created_at": 1782359185.5754244
+    },
+    {
+      "id": "fc97a0e6",
+      "role": "arka",
+      "text": "Here's what I remember about astraasystems.com:\\n- Active memory: astraasystems.com is Astraa's online source of income and must be monitored as business-critical",
+      "created_at": 1782359185.6396751
+    },
+    {
+      "id": "56d1f322",
+      "role": "user",
+      "text": "Arka, I need you get Astraa to get these product up and running fully and find competitive pricing \n\u2022 Commerce: open\n\n\u2022 Data: open\n\n\u2022 Inference: open\n\n\u2022 Distribution: open\n\n\u2022 Vault: open",
+      "created_at": 1782359347.602822
+    },
+    {
+      "id": "b8085795",
+      "role": "arka",
+      "text": "I\u2019m with you. Tell me if you want me to record it, research it, check Astraa, or turn it into an action.",
+      "created_at": 1782359347.6673386
+    },
+    {
+      "id": "1467b17e",
+      "role": "user",
+      "text": "hi",
+      "created_at": 1782360019.40278
+    },
+    {
+      "id": "ffb2dad8",
+      "role": "arka",
+      "text": "Hi Keshanth, I'm here.",
+      "created_at": 1782360019.467184
+    },
+    {
+      "id": "5fef8ad1",
+      "role": "user",
+      "text": "what is my wife's name?",
+      "created_at": 1782360025.436906
+    },
+    {
+      "id": "2e5a5a02",
+      "role": "arka",
+      "text": "Your wife's name is Thrilochana.",
+      "created_at": 1782360025.4623952
+    },
+    {
+      "id": "084c2d43",
+      "role": "user",
+      "text": "what is my son's name?\n``",
+      "created_at": 1782360031.6942742
+    },
+    {
+      "id": "c29f8be1",
+      "role": "arka",
+      "text": "Your son's name is Bhirav Aditya.",
+      "created_at": 1782360031.7207851
+    },
+    {
+      "id": "a6da60b6",
+      "role": "user",
+      "text": "check website health",
+      "created_at": 1782360037.958334
+    },
+    {
+      "id": "9d29ea55",
+      "role": "arka",
+      "text": "Website health audit completed.\n\n- Public site reachable from local connector.\n- Local website/code file candidates found: 983\n- Likely Astraa website files found locally: 255\n\nCEO/COO recommendation: fix website positioning first, then lead capture, then pricing/trial conversion.",
+      "created_at": 1782360038.7634354
+    },
+    {
+      "id": "b4db28e0",
+      "role": "user",
+      "text": "search the web for Astraa Systems competitors",
+      "created_at": 1782360047.7019725
+    },
+    {
+      "id": "f940849a",
+      "role": "arka",
+      "text": "I could not pull reliable live snippets from the local web connector.\\nI won't make anything up, but here are source links you can open/check:\\n\\n- Bing search: https://www.bing.com/search?q=Astraa+Systems+competitors\\n- DuckDuckGo search: https://duckduckgo.com/?q=Astraa+Systems+competitors\\n- Google search: https://www.google.com/search?q=Astraa+Systems+competitors",
+      "created_at": 1782360047.9259539
+    },
+    {
+      "id": "f133d5e6",
+      "role": "user",
+      "text": "Do best flight prices for Hyderabad India leaving from Vancouver on Dec 2026",
+      "created_at": 1782360056.5937338
+    },
+    {
+      "id": "d248c483",
+      "role": "arka",
+      "text": "I could not pull verified live fare snippets from the local connector.\\nI won't invent prices and I won't claim ticket holds.\\n\\nBest source pages for Vancouver/YVR to Hyderabad/HYD:\\n- Google Flights route page: https://www.google.com/travel/flights/flights-from-vancouver-to-hyderabad.html\\n- Skyscanner Canada route page: https://www.skyscanner.ca/routes/yvra/hyd/vancouver-to-hyderabad.html\\n- Skyscanner YVR-HYD route page: https://www.skyscanner.com/routes/yvr/hyd/vancouver-international-to-hyderabad.html\\n\\nFor December 2026, use the date grid / month view on those pages to verify live fares.",
+      "created_at": 1782360056.6228251
+    },
+    {
+      "id": "d8f2591c",
+      "role": "user",
+      "text": "Arka, I need you get Astraa to get these product up and running fully and find competitive pricing\n\u2022 Commerce: open\n\u2022 Data: open\n\u2022 Inference: open\n\u2022 Distribution: open\n\u2022 Vault: open",
+      "created_at": 1782360208.0467517
+    },
+    {
+      "id": "fe33cfae",
+      "role": "arka",
+      "text": "Got it. I created CEO/COO product work assignments for Astraa.\n\nProducts assigned:\n- Commerce: open \u2192 product readiness + website page + competitive pricing\n- Data: open \u2192 product readiness + website page + competitive pricing\n- Inference: open \u2192 product readiness + website page + competitive pricing\n- Distribution: open \u2192 product readiness + website page + competitive pricing\n- Vault: open \u2192 product readiness + website page + competitive pricing\n\nImmediate operating plan:\n1. Audit each product\u2019s local files/pages/modules.\n2. Build or update website positioning for each product.\n3. Find competitive pricing references.\n4. Recommend Astraa Basic / Professional / Custom packaging.\n5. Log readiness gaps and next actions.\n\nUse: show product work queue\nUse: show competitive pricing",
+      "created_at": 1782360208.3370209
+    },
+    {
+      "id": "bdd309b1",
+      "role": "user",
+      "text": "show product work queue",
+      "created_at": 1782360233.6039271
+    },
+    {
+      "id": "f594c6ac",
+      "role": "arka",
+      "text": "Astraa product work queue:\n\n- Vault | open | high\n  Mission: Get Astraa Vault up and running fully: product page, feature scope, pricing, lead path, and readiness checks.\n  - Audit local Astraa Vault files/pages/modules.\n  - Create or update public website positioning for Vault.\n  - Find competitive pricing references for Vault.\n  - Prepare Basic / Professional / Custom packaging recommendation for Vault.\n  - Log readiness gaps and action queue items for Vault.\n\n- Distribution | open | high\n  Mission: Get Astraa Distribution up and running fully: product page, feature scope, pricing, lead path, and readiness checks.\n  - Audit local Astraa Distribution files/pages/modules.\n  - Create or update public website positioning for Distribution.\n  - Find competitive pricing references for Distribution.\n  - Prepare Basic / Professional / Custom packaging recommendation for Distribution.\n  - Log readiness gaps and action queue items for Distribution.\n\n- Inference | open | high\n  Mission: Get Astraa Inference up and running fully: product page, feature scope, pricing, lead path, and readiness checks.\n  - Audit local Astraa Inference files/pages/modules.\n  - Create or update public website positioning for Inference.\n  - Find competitive pricing references for Inference.\n  - Prepare Basic / Professional / Custom packaging recommendation for Inference.\n  - Log readiness gaps and action queue items for Inference.\n\n- Data | open | high\n  Mission: Get Astraa Data up and running fully: product page, feature scope, pricing, lead path, and readiness checks.\n  - Audit local Astraa Data files/pages/modules.\n  - Create or update public website positioning for Data.\n  - Find competitive pricing references for Data.\n  - Prepare Basic / Professional / Custom packaging recommendation for Data.\n  - Log readiness gaps and action queue items for Data.\n\n- Commerce | open | high\n  Mission: Get Astraa Commerce up and running fully: product page, feature scope, pricing, lead path, and readiness checks.\n  - Audit local Astraa Commerce files/pages/modules.\n  - Create or update public website positioning for Commerce.\n  - Find competitive pricing references for Commerce.\n  - Prepare Basic / Professional / Custom packaging recommendation for Commerce.\n  - Log readiness gaps and action queue items for Commerce.",
+      "created_at": 1782360233.6395414
+    },
+    {
+      "id": "bbeca111",
+      "role": "user",
+      "text": "show competitive pricing",
+      "created_at": 1782360247.3039074
+    },
+    {
+      "id": "d460b289",
+      "role": "arka",
+      "text": "Competitive pricing work queue:\n\n- Vault | open | high\n  Reference market: Dropbox Business / Box / secure file vault and document storage\n  Starter direction: Astraa Vault can be bundled with other tools or sold as secure document/audit storage.\n  Source notes:\n  - Dropbox Business pricing uses per-user tiers for team storage and security features.\n  - Astraa Vault should include secure document storage, audit, retention, and client access controls.\n\n- Distribution | open | high\n  Reference market: Shippo / ShipStation / shipping and logistics software\n  Starter direction: Astraa Distribution should start as Professional/Custom for logistics-heavy businesses.\n  Source notes:\n  - Shippo has Starter/Pro/Premier-style pricing with label and shipment volume considerations.\n  - Astraa Distribution should be priced by shipment/location/operation complexity.\n\n- Inference | open | high\n  Reference market: OpenAI API / inference API / agent pricing\n  Starter direction: Astraa Inference should be gated carefully with included requests/tokens and strict overage controls.\n  Source notes:\n  - OpenAI API pricing is token-based and model-dependent.\n  - Astraa Inference should price by included usage plus overage or custom contract.\n\n- Data | open | high\n  Reference market: Snowflake / data cloud / warehouse / workspace tools\n  Starter direction: Astraa Data should use packaged tiers with usage caps, then custom pricing for larger data volumes.\n  Source notes:\n  - Snowflake uses consumption-based pricing with compute credits and storage pricing.\n  - Astraa Data should avoid uncontrolled usage costs for small businesses.\n\n- Commerce | open | high\n  Reference market: Shopify / BigCommerce / WooCommerce-style commerce platforms\n  Starter direction: Astraa Commerce should likely be priced as a business tool, not a cheap widget. Start with Basic/Professional/Custom.\n  Source notes:\n  - Shopify-style market references commonly show tiered pricing around Basic, Grow, Advanced, and Plus.\n  - Use official provider pages before final pricing.",
+      "created_at": 1782360247.3788567
+    },
+    {
+      "id": "a8ae1390",
+      "role": "user",
+      "text": "get Astraa to start working on Commerce, Data, Inference, Distribution, Vault",
+      "created_at": 1782360262.1255248
+    },
+    {
+      "id": "f8135f6c",
+      "role": "arka",
+      "text": "Got it. I created CEO/COO product work assignments for Astraa.\n\nProducts assigned:\n- Commerce: open \u2192 product readiness + website page + competitive pricing\n- Data: open \u2192 product readiness + website page + competitive pricing\n- Inference: open \u2192 product readiness + website page + competitive pricing\n- Distribution: open \u2192 product readiness + website page + competitive pricing\n- Vault: open \u2192 product readiness + website page + competitive pricing\n\nImmediate operating plan:\n1. Audit each product\u2019s local files/pages/modules.\n2. Build or update website positioning for each product.\n3. Find competitive pricing references.\n4. Recommend Astraa Basic / Professional / Custom packaging.\n5. Log readiness gaps and next actions.\n\nUse: show product work queue\nUse: show competitive pricing",
+      "created_at": 1782360262.2358296
+    },
+    {
+      "id": "f6a18cb0",
+      "role": "user",
+      "text": "Arka, build a Ai that will generate income using Astraa website other than the exciting tools",
+      "created_at": 1782360383.4584594
+    },
+    {
+      "id": "21043a2f",
+      "role": "arka",
+      "text": "I\u2019m with you. Tell me if you want me to record it, research it, check Astraa, or turn it into an action.",
+      "created_at": 1782360383.5257437
+    },
+    {
+      "id": "ef7b5bdc",
+      "role": "user",
+      "text": "Arka, If I want to make $50,000 in one year how much monthly I need to say and how many door dash delivery I need to do per day or three time a week ?",
+      "created_at": 1782360481.9484782
+    },
+    {
+      "id": "b7483a99",
+      "role": "arka",
+      "text": "I could not pull reliable live snippets from the local web connector.\\nI won't make anything up, but here are source links you can open/check:\\n\\n- Bing search: https://www.bing.com/search?q=Arka%2C+If+I+want+to+make+%2450%2C000+in+one+year+how+much+monthly+I+need+to+say+and+how+many+door+dash+delivery+I+need+to+do+per+day+or+three+time+a+week+%3F\\n- DuckDuckGo search: https://duckduckgo.com/?q=Arka%2C+If+I+want+to+make+%2450%2C000+in+one+year+how+much+monthly+I+need+to+say+and+how+many+door+dash+delivery+I+need+to+do+per+day+or+three+time+a+week+%3F\\n- Google search: https://www.google.com/search?q=Arka%2C+If+I+want+to+make+%2450%2C000+in+one+year+how+much+monthly+I+need+to+say+and+how+many+door+dash+delivery+I+need+to+do+per+day+or+three+time+a+week+%3F",
+      "created_at": 1782360482.2424438
+    },
+    {
+      "id": "208c6c21",
+      "role": "user",
+      "text": "calculate 50000 / 12",
+      "created_at": 1782365027.1315877
+    },
+    {
+      "id": "776c4409",
+      "role": "arka",
+      "text": "Math OS goal breakdown for $50,000.00 over 1 year(s):\n\n- Monthly target: $4,166.67\n- Weekly target: $961.54\n- Daily target: $136.99",
+      "created_at": 1782365027.2089176
+    },
+    {
+      "id": "a1545e1e",
+      "role": "user",
+      "text": "Arka, If I want to make $50,000 in one year how many DoorDash deliveries do I need per day or three times a week?",
+      "created_at": 1782365064.0705078
+    },
+    {
+      "id": "27911fab",
+      "role": "arka",
+      "text": "Math OS DoorDash / delivery scenario for $50,000.00 over 1 year(s):\n\n- Monthly target: $4,166.67\n- Weekly target: $961.54\n\nGross delivery count estimate before expenses/tax:\n\n| Avg pay per delivery | Deliveries/day if working daily | Deliveries/workday if working 3 days/week |\n|---:|---:|---:|\n| $6 | 23/day | 54/workday |\n| $8 | 18/day | 41/workday |\n| $10 | 14/day | 33/workday |\n| $12 | 12/day | 27/workday |\n| $15 | 10/day | 22/workday |\n\nConservative take-home scenario using 25% expenses and 15.3% self-employment tax:\n\n- Estimated gross needed: $78,709.17\n- Monthly gross needed: $6,559.10\n- Weekly gross needed: $1,513.64\n\n| Avg pay per delivery | Deliveries/day if working daily | Deliveries/workday if working 3 days/week |\n|---:|---:|---:|\n| $6 | 37/day | 85/workday |\n| $8 | 28/day | 64/workday |\n| $10 | 22/day | 51/workday |\n| $12 | 19/day | 43/workday |\n| $15 | 15/day | 34/workday |\n\nMath OS note: this is a planning estimate, not guaranteed earnings. Actual DoorDash earnings depend on market, hours, tips, distance, gas, vehicle costs, and taxes.",
+      "created_at": 1782365064.1491172
+    },
+    {
+      "id": "f7325758",
+      "role": "user",
+      "text": "I drive an EV so gas price dont really matter for me expect if I charge once a week it would cost me $20",
+      "created_at": 1782365147.7214198
+    },
+    {
+      "id": "ee8dcaca",
+      "role": "arka",
+      "text": "I\u2019m with you. Tell me if you want me to record it, research it, check Astraa, or turn it into an action.",
+      "created_at": 1782365147.7882495
+    },
+    {
+      "id": "8bc7ac70",
+      "role": "user",
+      "text": "how many $99.99 customers do we need to make $10,000/month?",
+      "created_at": 1782365175.9229646
+    },
+    {
+      "id": "0d48a3c3",
+      "role": "arka",
+      "text": "Math OS revenue/customer target:\n\n- Target revenue: $10,000.00\n- Price per customer/plan: $99.99\n- Customers needed: 101\n- Revenue at 101 customers: $10,098.99",
+      "created_at": 1782365175.9999616
+    },
+    {
+      "id": "29dc9dbf",
+      "role": "user",
+      "text": "what is the margin if cost is $40 and price is $99.99?",
+      "created_at": 1782365192.2248755
+    },
+    {
+      "id": "5a6557d4",
+      "role": "arka",
+      "text": "Math OS profit/margin:\n\n- Cost: $40.00\n- Price: $99.99\n- Profit: $59.99\n- Margin: 59.996%\n- Markup: 149.975%",
+      "created_at": 1782365192.3020258
+    },
+    {
+      "id": "7f2f3512",
+      "role": "user",
+      "text": "compound $10,000 at 8% for 5 years",
+      "created_at": 1782365207.992786
+    },
+    {
+      "id": "69f57e6c",
+      "role": "arka",
+      "text": "Math OS compound growth:\n\n- Starting amount: $10,000.00\n- Growth rate: 8%\n- Years: 5\n- Future value: $14,693.28",
+      "created_at": 1782365208.0695348
+    },
+    {
+      "id": "29f5dc63",
+      "role": "user",
+      "text": "loan $50,000 at 7% for 5 years payment",
+      "created_at": 1782365220.7087111
+    },
+    {
+      "id": "6fa2e09a",
+      "role": "arka",
+      "text": "Math OS loan/payment estimate:\n\n- Principal: $50,000.00\n- Annual rate: 7%\n- Term: 5 year(s)\n- Monthly payment: $990.06\n- Total paid: $59,403.60\n- Estimated interest: $9,403.60",
+      "created_at": 1782365220.78539
+    },
+    {
+      "id": "3efdb6c9",
+      "role": "user",
+      "text": "Platforms: DoorDash + Instacart + Uber Eats\nEV charging: $20/week\nGoal: $50,000/year\nWork schedule: daily or 3 days/week\n3 days can just be between 6pm to 10pm or two weekends and one week nights.",
+      "created_at": 1782368229.196106
+    },
+    {
+      "id": "40ae513f",
+      "role": "arka",
+      "text": "Got it. I updated my context brain with this information:\n\n- Platforms: DoorDash + Instacart + Uber Eats\n- EV charging: $20/week\n- Goal: $50,000/year\n- Work schedule: daily or 3 days/week\n\nI\u2019ll use this context in future answers instead of treating every question from scratch.",
+      "created_at": 1782368229.3550322
+    },
+    {
+      "id": "912263ae",
+      "role": "user",
+      "text": "show context brain",
+      "created_at": 1782368254.5236971
+    },
+    {
+      "id": "7bdb8da3",
+      "role": "arka",
+      "text": "Here is my current context brain:\n\nStructured context:\n- Platforms: DoorDash + Instacart + Uber Eats\n- EV charging: $20/week\n- Goal: $50,000/year\n- Work schedule: daily or 3 days/week",
+      "created_at": 1782368254.5506718
+    },
+    {
+      "id": "340d595a",
+      "role": "user",
+      "text": "Create a plan to use this gig income context with Astraa revenue goals",
+      "created_at": 1782368267.047217
+    },
+    {
+      "id": "47a3eaf9",
+      "role": "arka",
+      "text": "Got it. I turned that into a universal Arka work item.\n\n- Area: astraa_business\n- Status: open\n- Request: Create a plan to use this gig income context with Astraa revenue goals\n\nUse: show universal work queue",
+      "created_at": 1782368267.0982397
+    }
+  ],
+  "tasks": [],
+  "executive_log": [
+    {
+      "id": "952e8abe",
+      "timestamp": "2026-06-24T23:17:47",
+      "event_type": "business_event",
+      "content": "astraa_business | universal_work_item_created | {\"id\": \"a58214b7\", \"timestamp\": \"2026-06-24T23:17:47\", \"area\": \"astraa_business\", \"status\": \"open\", \"priority\": \"normal\", \"request\": \"Create a plan to use this gig income context with Astraa revenue goals\", \"next_step\": \"Review, classify, route to the right Arka skill/module, and log outcome.\"} | open"
+    },
+    {
+      "id": "bdddf55c",
+      "timestamp": "2026-06-24T23:17:09",
+      "event_type": "universal_context_saved",
+      "content": "[{\"key\": \"platforms\", \"label\": \"Platforms\", \"value\": \"DoorDash + Instacart + Uber Eats\", \"raw\": \"Platforms: DoorDash + Instacart + Uber Eats\"}, {\"key\": \"ev_charging\", \"label\": \"EV charging\", \"value\": \"$20/week\", \"raw\": \"EV charging: $20/week\"}, {\"key\": \"goal\", \"label\": \"Goal\", \"value\": \"$50,000/year\", \"raw\": \"Goal: $50,000/year\"}, {\"key\": \"work_schedule\", \"label\": \"Work schedule\", \"value\": \"daily or 3 days/week\", \"raw\": \"Work schedule: daily or 3 days/week\"}]"
+    },
+    {
+      "id": "363974aa",
+      "timestamp": "2026-06-24T22:27:00",
+      "event_type": "math_os_calculation",
+      "content": "loan $50,000 at 7% for 5 years payment"
+    },
+    {
+      "id": "ac89df59",
+      "timestamp": "2026-06-24T22:26:48",
+      "event_type": "math_os_calculation",
+      "content": "compound $10,000 at 8% for 5 years"
+    },
+    {
+      "id": "034ae87c",
+      "timestamp": "2026-06-24T22:26:32",
+      "event_type": "math_os_calculation",
+      "content": "what is the margin if cost is $40 and price is $99.99?"
+    },
+    {
+      "id": "1c4c81b4",
+      "timestamp": "2026-06-24T22:26:15",
+      "event_type": "math_os_calculation",
+      "content": "how many $99.99 customers do we need to make $10,000/month?"
+    },
+    {
+      "id": "592a8312",
+      "timestamp": "2026-06-24T22:24:24",
+      "event_type": "math_os_calculation",
+      "content": "Arka, If I want to make $50,000 in one year how many DoorDash deliveries do I need per day or three times a week?"
+    },
+    {
+      "id": "81876f87",
+      "timestamp": "2026-06-24T22:23:47",
+      "event_type": "math_os_calculation",
+      "content": "calculate 50000 / 12"
+    },
+    {
+      "id": "3fa7726a",
+      "timestamp": "2026-06-24T21:08:02",
+      "event_type": "web_source_fallback",
+      "content": "Arka, If I want to make $50,000 in one year how much monthly I need to say and how many door dash delivery I need to do per day or three time a week ?"
+    },
+    {
+      "id": "5ba070d2",
+      "timestamp": "2026-06-24T21:08:02",
+      "event_type": "web_search",
+      "content": "Arka, If I want to make $50,000 in one year how much monthly I need to say and how many door dash delivery I need to do per day or three time a week ?"
+    },
+    {
+      "id": "6cc5fafe",
+      "timestamp": "2026-06-24T21:04:22",
+      "event_type": "memory_saved",
+      "content": "CEO directive: get Astraa to start working on Commerce, Data, Inference, Distribution, Vault"
+    },
+    {
+      "id": "c2626d91",
+      "timestamp": "2026-06-24T21:03:28",
+      "event_type": "business_event",
+      "content": "pricing | competitive_pricing_assigned | {\"id\": \"8c452840\", \"timestamp\": \"2026-06-24T21:03:28\", \"product\": \"Vault\", \"status\": \"open\", \"priority\": \"high\", \"mission\": \"Find competitive pricing and package recommendation for Astraa Vault.\", \"competitive_reference\": \"Dropbox Business / Box / secure file vault and document storage\", \"starter_direction\": \"Astraa Vault can be bundled with other tools or sold as secure document/audit storage.\", \"research_sources_needed\": [\"Official pricing pages for top Vault competitors\", \"Current monthly pricing\", \"Usage limits\", \"Free trial model\", \"Feature differences\", \"Best Astraa Basic / Professional / Custom fit\"]} | open"
+    },
+    {
+      "id": "33af502f",
+      "timestamp": "2026-06-24T21:03:28",
+      "event_type": "business_event",
+      "content": "product_tools | product_work_assigned | {\"id\": \"fffd5eaf\", \"timestamp\": \"2026-06-24T21:03:28\", \"product\": \"Vault\", \"status\": \"open\", \"priority\": \"high\", \"directive\": \"Arka, I need you get Astraa to get these product up and running fully and find competitive pricing\\n\\u2022 Commerce: open\\n\\u2022 Data: open\\n\\u2022 Inference: open\\n\\u2022 Distribution: open\\n\\u2022 Vault: open\", \"mission\": \"Get Astraa Vault up and running fully: product page, feature scope, pricing, lead path, and readiness checks.\", \"next_actions\": [\"Audit local Astraa Vault files/pages/modules.\", \"Create or update public website positioning for Vault.\", \"Find competitive pricing references for Vault.\", \"Prepare Basic / Professional / Custom packaging recommendation for Vault.\", \"Log readiness gaps and action queue items for Vault.\"]} | open"
+    },
+    {
+      "id": "bb7a30b0",
+      "timestamp": "2026-06-24T21:03:28",
+      "event_type": "business_event",
+      "content": "pricing | competitive_pricing_assigned | {\"id\": \"0003857c\", \"timestamp\": \"2026-06-24T21:03:28\", \"product\": \"Distribution\", \"status\": \"open\", \"priority\": \"high\", \"mission\": \"Find competitive pricing and package recommendation for Astraa Distribution.\", \"competitive_reference\": \"Shippo / ShipStation / shipping and logistics software\", \"starter_direction\": \"Astraa Distribution should start as Professional/Custom for logistics-heavy businesses.\", \"research_sources_needed\": [\"Official pricing pages for top Distribution competitors\", \"Current monthly pricing\", \"Usage limits\", \"Free trial model\", \"Feature differences\", \"Best Astraa Basic / Professional / Custom fit\"]} | open"
+    },
+    {
+      "id": "a7c0649b",
+      "timestamp": "2026-06-24T21:03:28",
+      "event_type": "business_event",
+      "content": "product_tools | product_work_assigned | {\"id\": \"021ee338\", \"timestamp\": \"2026-06-24T21:03:28\", \"product\": \"Distribution\", \"status\": \"open\", \"priority\": \"high\", \"directive\": \"Arka, I need you get Astraa to get these product up and running fully and find competitive pricing\\n\\u2022 Commerce: open\\n\\u2022 Data: open\\n\\u2022 Inference: open\\n\\u2022 Distribution: open\\n\\u2022 Vault: open\", \"mission\": \"Get Astraa Distribution up and running fully: product page, feature scope, pricing, lead path, and readiness checks.\", \"next_actions\": [\"Audit local Astraa Distribution files/pages/modules.\", \"Create or update public website positioning for Distribution.\", \"Find competitive pricing references for Distribution.\", \"Prepare Basic / Professional / Custom packaging recommendation for Distribution.\", \"Log readiness gaps and action queue items for Distribution.\"]} | open"
+    },
+    {
+      "id": "7d924ed0",
+      "timestamp": "2026-06-24T21:03:28",
+      "event_type": "business_event",
+      "content": "pricing | competitive_pricing_assigned | {\"id\": \"dd0c359b\", \"timestamp\": \"2026-06-24T21:03:28\", \"product\": \"Inference\", \"status\": \"open\", \"priority\": \"high\", \"mission\": \"Find competitive pricing and package recommendation for Astraa Inference.\", \"competitive_reference\": \"OpenAI API / inference API / agent pricing\", \"starter_direction\": \"Astraa Inference should be gated carefully with included requests/tokens and strict overage controls.\", \"research_sources_needed\": [\"Official pricing pages for top Inference competitors\", \"Current monthly pricing\", \"Usage limits\", \"Free trial model\", \"Feature differences\", \"Best Astraa Basic / Professional / Custom fit\"]} | open"
+    },
+    {
+      "id": "a2ab98aa",
+      "timestamp": "2026-06-24T21:03:28",
+      "event_type": "business_event",
+      "content": "product_tools | product_work_assigned | {\"id\": \"49f246db\", \"timestamp\": \"2026-06-24T21:03:28\", \"product\": \"Inference\", \"status\": \"open\", \"priority\": \"high\", \"directive\": \"Arka, I need you get Astraa to get these product up and running fully and find competitive pricing\\n\\u2022 Commerce: open\\n\\u2022 Data: open\\n\\u2022 Inference: open\\n\\u2022 Distribution: open\\n\\u2022 Vault: open\", \"mission\": \"Get Astraa Inference up and running fully: product page, feature scope, pricing, lead path, and readiness checks.\", \"next_actions\": [\"Audit local Astraa Inference files/pages/modules.\", \"Create or update public website positioning for Inference.\", \"Find competitive pricing references for Inference.\", \"Prepare Basic / Professional / Custom packaging recommendation for Inference.\", \"Log readiness gaps and action queue items for Inference.\"]} | open"
+    },
+    {
+      "id": "c2bb85a2",
+      "timestamp": "2026-06-24T21:03:28",
+      "event_type": "business_event",
+      "content": "pricing | competitive_pricing_assigned | {\"id\": \"4ab21be7\", \"timestamp\": \"2026-06-24T21:03:28\", \"product\": \"Data\", \"status\": \"open\", \"priority\": \"high\", \"mission\": \"Find competitive pricing and package recommendation for Astraa Data.\", \"competitive_reference\": \"Snowflake / data cloud / warehouse / workspace tools\", \"starter_direction\": \"Astraa Data should use packaged tiers with usage caps, then custom pricing for larger data volumes.\", \"research_sources_needed\": [\"Official pricing pages for top Data competitors\", \"Current monthly pricing\", \"Usage limits\", \"Free trial model\", \"Feature differences\", \"Best Astraa Basic / Professional / Custom fit\"]} | open"
+    },
+    {
+      "id": "a76ed80d",
+      "timestamp": "2026-06-24T21:03:28",
+      "event_type": "business_event",
+      "content": "product_tools | product_work_assigned | {\"id\": \"7b61dbd6\", \"timestamp\": \"2026-06-24T21:03:28\", \"product\": \"Data\", \"status\": \"open\", \"priority\": \"high\", \"directive\": \"Arka, I need you get Astraa to get these product up and running fully and find competitive pricing\\n\\u2022 Commerce: open\\n\\u2022 Data: open\\n\\u2022 Inference: open\\n\\u2022 Distribution: open\\n\\u2022 Vault: open\", \"mission\": \"Get Astraa Data up and running fully: product page, feature scope, pricing, lead path, and readiness checks.\", \"next_actions\": [\"Audit local Astraa Data files/pages/modules.\", \"Create or update public website positioning for Data.\", \"Find competitive pricing references for Data.\", \"Prepare Basic / Professional / Custom packaging recommendation for Data.\", \"Log readiness gaps and action queue items for Data.\"]} | open"
+    },
+    {
+      "id": "a7df5501",
+      "timestamp": "2026-06-24T21:03:28",
+      "event_type": "business_event",
+      "content": "pricing | competitive_pricing_assigned | {\"id\": \"792fcbfd\", \"timestamp\": \"2026-06-24T21:03:28\", \"product\": \"Commerce\", \"status\": \"open\", \"priority\": \"high\", \"mission\": \"Find competitive pricing and package recommendation for Astraa Commerce.\", \"competitive_reference\": \"Shopify / BigCommerce / WooCommerce-style commerce platforms\", \"starter_direction\": \"Astraa Commerce should likely be priced as a business tool, not a cheap widget. Start with Basic/Professional/Custom.\", \"research_sources_needed\": [\"Official pricing pages for top Commerce competitors\", \"Current monthly pricing\", \"Usage limits\", \"Free trial model\", \"Feature differences\", \"Best Astraa Basic / Professional / Custom fit\"]} | open"
+    },
+    {
+      "id": "45458e62",
+      "timestamp": "2026-06-24T21:03:28",
+      "event_type": "business_event",
+      "content": "product_tools | product_work_assigned | {\"id\": \"6d9c8063\", \"timestamp\": \"2026-06-24T21:03:28\", \"product\": \"Commerce\", \"status\": \"open\", \"priority\": \"high\", \"directive\": \"Arka, I need you get Astraa to get these product up and running fully and find competitive pricing\\n\\u2022 Commerce: open\\n\\u2022 Data: open\\n\\u2022 Inference: open\\n\\u2022 Distribution: open\\n\\u2022 Vault: open\", \"mission\": \"Get Astraa Commerce up and running fully: product page, feature scope, pricing, lead path, and readiness checks.\", \"next_actions\": [\"Audit local Astraa Commerce files/pages/modules.\", \"Create or update public website positioning for Commerce.\", \"Find competitive pricing references for Commerce.\", \"Prepare Basic / Professional / Custom packaging recommendation for Commerce.\", \"Log readiness gaps and action queue items for Commerce.\"]} | open"
+    },
+    {
+      "id": "05314727",
+      "timestamp": "2026-06-24T21:03:28",
+      "event_type": "memory_saved",
+      "content": "CEO directive: Arka, I need you get Astraa to get these product up and running fully and find competitive pricing\n\u2022 Commerce: open\n\u2022 Data: open\n\u2022 Inference: open\n\u2022 Distribution: open\n\u2022 Vault: open"
+    },
+    {
+      "id": "d4278b5e",
+      "timestamp": "2026-06-24T21:00:56",
+      "event_type": "flight_source_fallback",
+      "content": "Do best flight prices for Hyderabad India leaving from Vancouver on Dec 2026"
+    },
+    {
+      "id": "a51d3745",
+      "timestamp": "2026-06-24T21:00:47",
+      "event_type": "web_source_fallback",
+      "content": "Astraa Systems competitors"
+    },
+    {
+      "id": "8813ecfc",
+      "timestamp": "2026-06-24T21:00:47",
+      "event_type": "web_search",
+      "content": "Astraa Systems competitors"
+    },
+    {
+      "id": "a254565b",
+      "timestamp": "2026-06-24T21:00:38",
+      "event_type": "business_event",
+      "content": "website | audit_finding | Likely Astraa website files found locally: 255 | open"
+    },
+    {
+      "id": "418e9e6d",
+      "timestamp": "2026-06-24T21:00:38",
+      "event_type": "business_event",
+      "content": "website | audit_finding | Local website/code file candidates found: 983 | open"
+    },
+    {
+      "id": "1865ed38",
+      "timestamp": "2026-06-24T21:00:38",
+      "event_type": "business_event",
+      "content": "website | audit_finding | Public site reachable from local connector. | open"
+    },
+    {
+      "id": "5964b7a2",
+      "timestamp": "2026-06-24T20:40:29",
+      "event_type": "flight_source_fallback",
+      "content": "Do best flight prices for Hyderabad India leaving from Vancouver on Dec 2026"
+    },
+    {
+      "id": "5221ae39",
+      "timestamp": "2026-06-24T20:40:09",
+      "event_type": "web_source_fallback",
+      "content": "Astraa Systems competitors"
+    },
+    {
+      "id": "6310ba7b",
+      "timestamp": "2026-06-24T20:40:09",
+      "event_type": "web_search",
+      "content": "Astraa Systems competitors"
+    },
+    {
+      "id": "5c5b1d0c",
+      "timestamp": "2026-06-24T20:39:53",
+      "event_type": "business_event",
+      "content": "website | audit_finding | Likely Astraa website files found locally: 253 | open"
+    },
+    {
+      "id": "23cf8924",
+      "timestamp": "2026-06-24T20:39:53",
+      "event_type": "business_event",
+      "content": "website | audit_finding | Local website/code file candidates found: 981 | open"
+    },
+    {
+      "id": "fe0989c6",
+      "timestamp": "2026-06-24T20:39:53",
+      "event_type": "business_event",
+      "content": "website | audit_finding | Public site reachable from local connector. | open"
+    },
+    {
+      "id": "f0a76959",
+      "timestamp": "2026-06-24T17:58:45",
+      "event_type": "web_search",
+      "content": "Astraa Systems competitors"
+    },
+    {
+      "id": "c65a45c7",
+      "timestamp": "2026-06-24T17:58:37",
+      "event_type": "web_search",
+      "content": "Do best flight prices for Hyderabad India leaving from vancouver on Dec 2026 flight prices official airline Google Flights Expedia Kayak Skyscanner"
+    },
+    {
+      "id": "4ea0473a",
+      "timestamp": "2026-06-24T17:50:35",
+      "event_type": "memory_saved",
+      "content": "my son's name is is Bhirav Aditya"
+    },
+    {
+      "id": "920d92f7",
+      "timestamp": "2026-06-24T17:50:35",
+      "event_type": "memory_saved",
+      "content": "my first-born son's name is is Bhirav Aditya"
+    },
+    {
+      "id": "7a2479bb",
+      "timestamp": "2026-06-24T17:50:35",
+      "event_type": "memory_saved",
+      "content": "my son's name is Bhirav Aditya"
+    },
+    {
+      "id": "4b5c08c7",
+      "timestamp": "2026-06-24T17:50:35",
+      "event_type": "memory_saved",
+      "content": "my first-born son's name is Bhirav Aditya"
+    },
+    {
+      "id": "27d233a1",
+      "timestamp": "2026-06-24T17:50:35",
+      "event_type": "memory_saved",
+      "content": "my wife's name is Thrilochana"
+    },
+    {
+      "id": "5073bcc4",
+      "timestamp": "2026-06-24T17:41:33",
+      "event_type": "memory_saved",
+      "content": "astraasystems.com is Astraa's online source of income and must be monitored as business-critical"
+    },
+    {
+      "id": "e065df93",
+      "timestamp": "2026-06-24T16:59:43",
+      "event_type": "web_search",
+      "content": "Find me a flight ticket to India, Hyderabad from dec 25 for two weeks flight prices official airline Google Flights Expedia Kayak Skyscanner"
+    },
+    {
+      "id": "a12b2d7c",
+      "timestamp": "2026-06-24T16:48:04",
+      "event_type": "memory_saved",
+      "content": "Arka V1 is the internal CEO COO operating system"
+    },
+    {
+      "id": "433a215d",
+      "timestamp": "2026-06-24T16:47:47",
+      "event_type": "business_event",
+      "content": "product_tools | tool_work_assigned | Review and improve Astraa Workspace website/tool readiness. | open"
+    },
+    {
+      "id": "f6d33575",
+      "timestamp": "2026-06-24T16:47:47",
+      "event_type": "business_event",
+      "content": "product_tools | tool_work_assigned | Review and improve Astraa Vault website/tool readiness. | open"
+    },
+    {
+      "id": "58f89125",
+      "timestamp": "2026-06-24T16:47:47",
+      "event_type": "business_event",
+      "content": "product_tools | tool_work_assigned | Review and improve Astraa Distribution website/tool readiness. | open"
+    },
+    {
+      "id": "b0515e47",
+      "timestamp": "2026-06-24T16:47:47",
+      "event_type": "business_event",
+      "content": "product_tools | tool_work_assigned | Review and improve Astraa Inference website/tool readiness. | open"
+    },
+    {
+      "id": "eeffe16a",
+      "timestamp": "2026-06-24T16:47:47",
+      "event_type": "business_event",
+      "content": "product_tools | tool_work_assigned | Review and improve Astraa Data website/tool readiness. | open"
+    },
+    {
+      "id": "dbeeb9c0",
+      "timestamp": "2026-06-24T16:47:47",
+      "event_type": "business_event",
+      "content": "product_tools | tool_work_assigned | Review and improve Astraa Commerce website/tool readiness. | open"
+    },
+    {
+      "id": "14bb2d49",
+      "timestamp": "2026-06-24T16:47:47",
+      "event_type": "business_event",
+      "content": "product_tools | tool_work_assigned | Review and improve Astraa Operations website/tool readiness. | open"
+    },
+    {
+      "id": "601a6e77",
+      "timestamp": "2026-06-24T16:47:47",
+      "event_type": "business_event",
+      "content": "product_tools | tool_work_assigned | Review and improve Astraa Finance website/tool readiness. | open"
+    },
+    {
+      "id": "135abe1d",
+      "timestamp": "2026-06-24T16:47:47",
+      "event_type": "business_event",
+      "content": "product_tools | tool_work_assigned | Review and improve Astraa Expense website/tool readiness. | open"
+    },
+    {
+      "id": "293d2d68",
+      "timestamp": "2026-06-24T16:47:47",
+      "event_type": "business_event",
+      "content": "product_tools | tool_work_assigned | Review and improve Astraa Estimator website/tool readiness. | open"
+    },
+    {
+      "id": "36e6b930",
+      "timestamp": "2026-06-24T16:47:30",
+      "event_type": "business_event",
+      "content": "marketing | plan_item | Use CASL-safe inbound follow-up only where consent exists. | open"
+    },
+    {
+      "id": "f3186201",
+      "timestamp": "2026-06-24T16:47:30",
+      "event_type": "business_event",
+      "content": "marketing | plan_item | Track each lead source and follow-up status. | open"
+    },
+    {
+      "id": "c7cb8a2c",
+      "timestamp": "2026-06-24T16:47:30",
+      "event_type": "business_event",
+      "content": "marketing | plan_item | Create industry landing pages for contractors, franchises, nonprofits, and regular businesses. | open"
+    },
+    {
+      "id": "ba5abb1a",
+      "timestamp": "2026-06-24T16:47:30",
+      "event_type": "business_event",
+      "content": "marketing | plan_item | Create lead capture logging for every contact/trial request. | open"
+    },
+    {
+      "id": "46c852ad",
+      "timestamp": "2026-06-24T16:47:30",
+      "event_type": "business_event",
+      "content": "marketing | plan_item | Add strong calls to action: Start trial, View pricing, Contact Astraa, Login to Workspace. | open"
+    },
+    {
+      "id": "f7caca64",
+      "timestamp": "2026-06-24T16:47:30",
+      "event_type": "business_event",
+      "content": "marketing | plan_item | Make Estimator, Finance, Operations, Expense, and Workspace pages clear and conversion-focused. | open"
+    },
+    {
+      "id": "ef561c54",
+      "timestamp": "2026-06-24T16:47:30",
+      "event_type": "business_event",
+      "content": "marketing | plan_item | Fix astraasystems.com homepage first: clean Tools/Workspace positioning, not old Engines language. | open"
+    },
+    {
+      "id": "0ef99654",
+      "timestamp": "2026-06-24T16:46:10",
+      "event_type": "business_event",
+      "content": "website | audit_finding | Likely Astraa website files found locally: 248 | open"
+    },
+    {
+      "id": "7c2b880b",
+      "timestamp": "2026-06-24T16:46:10",
+      "event_type": "business_event",
+      "content": "website | audit_finding | Local website/code file candidates found: 975 | open"
+    },
+    {
+      "id": "23b6b722",
+      "timestamp": "2026-06-24T16:46:10",
+      "event_type": "business_event",
+      "content": "website | audit_finding | Public site reachable from local connector. | open"
+    }
+  ],
+  "website_findings": [
+    {
+      "id": "2faaf438",
+      "timestamp": "2026-06-24T21:00:38",
+      "finding": "Public site reachable from local connector."
+    },
+    {
+      "id": "5854dcf2",
+      "timestamp": "2026-06-24T21:00:38",
+      "finding": "Local website/code file candidates found: 983"
+    },
+    {
+      "id": "f656c95d",
+      "timestamp": "2026-06-24T21:00:38",
+      "finding": "Likely Astraa website files found locally: 255"
+    }
+  ],
+  "sales_snapshot": {
+    "timestamp": "2026-06-24T16:46:36",
+    "counts": {
+      "lead": 0,
+      "trial": 0,
+      "customer": 0,
+      "payment": 0,
+      "subscription": 0,
+      "memory": 0,
+      "web_research_request": 0,
+      "travel_research_request": 0
+    }
+  },
+  "marketing_plan": [
+    {
+      "id": "efe727f6",
+      "status": "open",
+      "item": "Fix astraasystems.com homepage first: clean Tools/Workspace positioning, not old Engines language."
+    },
+    {
+      "id": "35d02e96",
+      "status": "open",
+      "item": "Make Estimator, Finance, Operations, Expense, and Workspace pages clear and conversion-focused."
+    },
+    {
+      "id": "5861de8e",
+      "status": "open",
+      "item": "Add strong calls to action: Start trial, View pricing, Contact Astraa, Login to Workspace."
+    },
+    {
+      "id": "c22ab239",
+      "status": "open",
+      "item": "Create lead capture logging for every contact/trial request."
+    },
+    {
+      "id": "31b10fcc",
+      "status": "open",
+      "item": "Create industry landing pages for contractors, franchises, nonprofits, and regular businesses."
+    },
+    {
+      "id": "39a75589",
+      "status": "open",
+      "item": "Track each lead source and follow-up status."
+    },
+    {
+      "id": "7494348b",
+      "status": "open",
+      "item": "Use CASL-safe inbound follow-up only where consent exists."
+    }
+  ],
+  "tool_work_queue": [
+    {
+      "id": "3bc029f0",
+      "tool": "Estimator",
+      "status": "open",
+      "mission": "Review and improve Astraa Estimator website/tool readiness."
+    },
+    {
+      "id": "15d769ac",
+      "tool": "Expense",
+      "status": "open",
+      "mission": "Review and improve Astraa Expense website/tool readiness."
+    },
+    {
+      "id": "8c65f3d8",
+      "tool": "Finance",
+      "status": "open",
+      "mission": "Review and improve Astraa Finance website/tool readiness."
+    },
+    {
+      "id": "5cc725ab",
+      "tool": "Operations",
+      "status": "open",
+      "mission": "Review and improve Astraa Operations website/tool readiness."
+    },
+    {
+      "id": "8decbab6",
+      "tool": "Commerce",
+      "status": "open",
+      "mission": "Review and improve Astraa Commerce website/tool readiness."
+    },
+    {
+      "id": "7c977e55",
+      "tool": "Data",
+      "status": "open",
+      "mission": "Review and improve Astraa Data website/tool readiness."
+    },
+    {
+      "id": "f3eb6af8",
+      "tool": "Inference",
+      "status": "open",
+      "mission": "Review and improve Astraa Inference website/tool readiness."
+    },
+    {
+      "id": "0d529015",
+      "tool": "Distribution",
+      "status": "open",
+      "mission": "Review and improve Astraa Distribution website/tool readiness."
+    },
+    {
+      "id": "5c4ac6b7",
+      "tool": "Vault",
+      "status": "open",
+      "mission": "Review and improve Astraa Vault website/tool readiness."
+    },
+    {
+      "id": "f91dd722",
+      "tool": "Workspace",
+      "status": "open",
+      "mission": "Review and improve Astraa Workspace website/tool readiness."
+    }
+  ],
+  "started_at": 1782344721.838354,
+  "product_work_queue": [
+    {
+      "id": "fffd5eaf",
+      "timestamp": "2026-06-24T21:03:28",
+      "product": "Vault",
+      "status": "open",
+      "priority": "high",
+      "directive": "Arka, I need you get Astraa to get these product up and running fully and find competitive pricing\n\u2022 Commerce: open\n\u2022 Data: open\n\u2022 Inference: open\n\u2022 Distribution: open\n\u2022 Vault: open",
+      "mission": "Get Astraa Vault up and running fully: product page, feature scope, pricing, lead path, and readiness checks.",
+      "next_actions": [
+        "Audit local Astraa Vault files/pages/modules.",
+        "Create or update public website positioning for Vault.",
+        "Find competitive pricing references for Vault.",
+        "Prepare Basic / Professional / Custom packaging recommendation for Vault.",
+        "Log readiness gaps and action queue items for Vault."
+      ]
+    },
+    {
+      "id": "021ee338",
+      "timestamp": "2026-06-24T21:03:28",
+      "product": "Distribution",
+      "status": "open",
+      "priority": "high",
+      "directive": "Arka, I need you get Astraa to get these product up and running fully and find competitive pricing\n\u2022 Commerce: open\n\u2022 Data: open\n\u2022 Inference: open\n\u2022 Distribution: open\n\u2022 Vault: open",
+      "mission": "Get Astraa Distribution up and running fully: product page, feature scope, pricing, lead path, and readiness checks.",
+      "next_actions": [
+        "Audit local Astraa Distribution files/pages/modules.",
+        "Create or update public website positioning for Distribution.",
+        "Find competitive pricing references for Distribution.",
+        "Prepare Basic / Professional / Custom packaging recommendation for Distribution.",
+        "Log readiness gaps and action queue items for Distribution."
+      ]
+    },
+    {
+      "id": "49f246db",
+      "timestamp": "2026-06-24T21:03:28",
+      "product": "Inference",
+      "status": "open",
+      "priority": "high",
+      "directive": "Arka, I need you get Astraa to get these product up and running fully and find competitive pricing\n\u2022 Commerce: open\n\u2022 Data: open\n\u2022 Inference: open\n\u2022 Distribution: open\n\u2022 Vault: open",
+      "mission": "Get Astraa Inference up and running fully: product page, feature scope, pricing, lead path, and readiness checks.",
+      "next_actions": [
+        "Audit local Astraa Inference files/pages/modules.",
+        "Create or update public website positioning for Inference.",
+        "Find competitive pricing references for Inference.",
+        "Prepare Basic / Professional / Custom packaging recommendation for Inference.",
+        "Log readiness gaps and action queue items for Inference."
+      ]
+    },
+    {
+      "id": "7b61dbd6",
+      "timestamp": "2026-06-24T21:03:28",
+      "product": "Data",
+      "status": "open",
+      "priority": "high",
+      "directive": "Arka, I need you get Astraa to get these product up and running fully and find competitive pricing\n\u2022 Commerce: open\n\u2022 Data: open\n\u2022 Inference: open\n\u2022 Distribution: open\n\u2022 Vault: open",
+      "mission": "Get Astraa Data up and running fully: product page, feature scope, pricing, lead path, and readiness checks.",
+      "next_actions": [
+        "Audit local Astraa Data files/pages/modules.",
+        "Create or update public website positioning for Data.",
+        "Find competitive pricing references for Data.",
+        "Prepare Basic / Professional / Custom packaging recommendation for Data.",
+        "Log readiness gaps and action queue items for Data."
+      ]
+    },
+    {
+      "id": "6d9c8063",
+      "timestamp": "2026-06-24T21:03:28",
+      "product": "Commerce",
+      "status": "open",
+      "priority": "high",
+      "directive": "Arka, I need you get Astraa to get these product up and running fully and find competitive pricing\n\u2022 Commerce: open\n\u2022 Data: open\n\u2022 Inference: open\n\u2022 Distribution: open\n\u2022 Vault: open",
+      "mission": "Get Astraa Commerce up and running fully: product page, feature scope, pricing, lead path, and readiness checks.",
+      "next_actions": [
+        "Audit local Astraa Commerce files/pages/modules.",
+        "Create or update public website positioning for Commerce.",
+        "Find competitive pricing references for Commerce.",
+        "Prepare Basic / Professional / Custom packaging recommendation for Commerce.",
+        "Log readiness gaps and action queue items for Commerce."
+      ]
+    }
+  ],
+  "competitive_pricing_queue": [
+    {
+      "id": "8c452840",
+      "timestamp": "2026-06-24T21:03:28",
+      "product": "Vault",
+      "status": "open",
+      "priority": "high",
+      "mission": "Find competitive pricing and package recommendation for Astraa Vault.",
+      "competitive_reference": "Dropbox Business / Box / secure file vault and document storage",
+      "starter_direction": "Astraa Vault can be bundled with other tools or sold as secure document/audit storage.",
+      "research_sources_needed": [
+        "Official pricing pages for top Vault competitors",
+        "Current monthly pricing",
+        "Usage limits",
+        "Free trial model",
+        "Feature differences",
+        "Best Astraa Basic / Professional / Custom fit"
+      ]
+    },
+    {
+      "id": "0003857c",
+      "timestamp": "2026-06-24T21:03:28",
+      "product": "Distribution",
+      "status": "open",
+      "priority": "high",
+      "mission": "Find competitive pricing and package recommendation for Astraa Distribution.",
+      "competitive_reference": "Shippo / ShipStation / shipping and logistics software",
+      "starter_direction": "Astraa Distribution should start as Professional/Custom for logistics-heavy businesses.",
+      "research_sources_needed": [
+        "Official pricing pages for top Distribution competitors",
+        "Current monthly pricing",
+        "Usage limits",
+        "Free trial model",
+        "Feature differences",
+        "Best Astraa Basic / Professional / Custom fit"
+      ]
+    },
+    {
+      "id": "dd0c359b",
+      "timestamp": "2026-06-24T21:03:28",
+      "product": "Inference",
+      "status": "open",
+      "priority": "high",
+      "mission": "Find competitive pricing and package recommendation for Astraa Inference.",
+      "competitive_reference": "OpenAI API / inference API / agent pricing",
+      "starter_direction": "Astraa Inference should be gated carefully with included requests/tokens and strict overage controls.",
+      "research_sources_needed": [
+        "Official pricing pages for top Inference competitors",
+        "Current monthly pricing",
+        "Usage limits",
+        "Free trial model",
+        "Feature differences",
+        "Best Astraa Basic / Professional / Custom fit"
+      ]
+    },
+    {
+      "id": "4ab21be7",
+      "timestamp": "2026-06-24T21:03:28",
+      "product": "Data",
+      "status": "open",
+      "priority": "high",
+      "mission": "Find competitive pricing and package recommendation for Astraa Data.",
+      "competitive_reference": "Snowflake / data cloud / warehouse / workspace tools",
+      "starter_direction": "Astraa Data should use packaged tiers with usage caps, then custom pricing for larger data volumes.",
+      "research_sources_needed": [
+        "Official pricing pages for top Data competitors",
+        "Current monthly pricing",
+        "Usage limits",
+        "Free trial model",
+        "Feature differences",
+        "Best Astraa Basic / Professional / Custom fit"
+      ]
+    },
+    {
+      "id": "792fcbfd",
+      "timestamp": "2026-06-24T21:03:28",
+      "product": "Commerce",
+      "status": "open",
+      "priority": "high",
+      "mission": "Find competitive pricing and package recommendation for Astraa Commerce.",
+      "competitive_reference": "Shopify / BigCommerce / WooCommerce-style commerce platforms",
+      "starter_direction": "Astraa Commerce should likely be priced as a business tool, not a cheap widget. Start with Basic/Professional/Custom.",
+      "research_sources_needed": [
+        "Official pricing pages for top Commerce competitors",
+        "Current monthly pricing",
+        "Usage limits",
+        "Free trial model",
+        "Feature differences",
+        "Best Astraa Basic / Professional / Custom fit"
+      ]
+    }
+  ],
+  "competitive_pricing_map": {
+    "Commerce": {
+      "competitive_reference": "Shopify / BigCommerce / WooCommerce-style commerce platforms",
+      "source_notes": [
+        "Shopify-style market references commonly show tiered pricing around Basic, Grow, Advanced, and Plus.",
+        "Use official provider pages before final pricing."
+      ],
+      "starter_direction": "Astraa Commerce should likely be priced as a business tool, not a cheap widget. Start with Basic/Professional/Custom."
+    },
+    "Data": {
+      "competitive_reference": "Snowflake / data cloud / warehouse / workspace tools",
+      "source_notes": [
+        "Snowflake uses consumption-based pricing with compute credits and storage pricing.",
+        "Astraa Data should avoid uncontrolled usage costs for small businesses."
+      ],
+      "starter_direction": "Astraa Data should use packaged tiers with usage caps, then custom pricing for larger data volumes."
+    },
+    "Inference": {
+      "competitive_reference": "OpenAI API / inference API / agent pricing",
+      "source_notes": [
+        "OpenAI API pricing is token-based and model-dependent.",
+        "Astraa Inference should price by included usage plus overage or custom contract."
+      ],
+      "starter_direction": "Astraa Inference should be gated carefully with included requests/tokens and strict overage controls."
+    },
+    "Distribution": {
+      "competitive_reference": "Shippo / ShipStation / shipping and logistics software",
+      "source_notes": [
+        "Shippo has Starter/Pro/Premier-style pricing with label and shipment volume considerations.",
+        "Astraa Distribution should be priced by shipment/location/operation complexity."
+      ],
+      "starter_direction": "Astraa Distribution should start as Professional/Custom for logistics-heavy businesses."
+    },
+    "Vault": {
+      "competitive_reference": "Dropbox Business / Box / secure file vault and document storage",
+      "source_notes": [
+        "Dropbox Business pricing uses per-user tiers for team storage and security features.",
+        "Astraa Vault should include secure document storage, audit, retention, and client access controls."
+      ],
+      "starter_direction": "Astraa Vault can be bundled with other tools or sold as secure document/audit storage."
+    }
+  },
+  "universal_context": {
+    "platforms": {
+      "label": "Platforms",
+      "value": "DoorDash + Instacart + Uber Eats",
+      "source": "structured_user_context",
+      "updated_at": "2026-06-24T23:17:09"
+    },
+    "ev_charging": {
+      "label": "EV charging",
+      "value": "$20/week",
+      "source": "structured_user_context",
+      "updated_at": "2026-06-24T23:17:09"
+    },
+    "goal": {
+      "label": "Goal",
+      "value": "$50,000/year",
+      "source": "structured_user_context",
+      "updated_at": "2026-06-24T23:17:09"
+    },
+    "work_schedule": {
+      "label": "Work schedule",
+      "value": "daily or 3 days/week",
+      "source": "structured_user_context",
+      "updated_at": "2026-06-24T23:17:09"
+    }
+  },
+  "universal_context_log": [
+    {
+      "id": "cd05e9bd",
+      "timestamp": "2026-06-24T23:17:09",
+      "key": "work_schedule",
+      "label": "Work schedule",
+      "value": "daily or 3 days/week",
+      "raw": "Work schedule: daily or 3 days/week"
+    },
+    {
+      "id": "334862c1",
+      "timestamp": "2026-06-24T23:17:09",
+      "key": "goal",
+      "label": "Goal",
+      "value": "$50,000/year",
+      "raw": "Goal: $50,000/year"
+    },
+    {
+      "id": "e606a0c6",
+      "timestamp": "2026-06-24T23:17:09",
+      "key": "ev_charging",
+      "label": "EV charging",
+      "value": "$20/week",
+      "raw": "EV charging: $20/week"
+    },
+    {
+      "id": "e29f99c4",
+      "timestamp": "2026-06-24T23:17:09",
+      "key": "platforms",
+      "label": "Platforms",
+      "value": "DoorDash + Instacart + Uber Eats",
+      "raw": "Platforms: DoorDash + Instacart + Uber Eats"
+    }
+  ],
+  "universal_work_queue": [
+    {
+      "id": "a58214b7",
+      "timestamp": "2026-06-24T23:17:47",
+      "area": "astraa_business",
+      "status": "open",
+      "priority": "normal",
+      "request": "Create a plan to use this gig income context with Astraa revenue goals",
+      "next_step": "Review, classify, route to the right Arka skill/module, and log outcome."
+    }
+  ]
+}

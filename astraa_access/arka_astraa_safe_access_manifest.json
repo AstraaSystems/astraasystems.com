@@ -1,0 +1,49 @@
+﻿{
+  "name": "Arka Governor / Astraa Safe Access Manifest",
+  "version": "1.0",
+  "status": "canon",
+  "arka": {
+    "split": "90 local / 10 cloud",
+    "role": "personal AI, governor, CEO, COO, user-facing command intelligence",
+    "authority": "can independently use safe internal ecosystem resources"
+  },
+  "astraa": {
+    "split": "10 local / 90 cloud",
+    "role": "cloud/web/public/business execution layer",
+    "website": "astraasystems.com",
+    "purpose": "safe access point for web/cloud/customer/tool information"
+  },
+  "safe_access_point": {
+    "description": "controlled communication bridge between Arka and Astraa",
+    "direction": "Arka requests external/cloud/public data through Astraa; Astraa returns results to Arka"
+  },
+  "internal_resources_arka_can_use": [
+    "memory",
+    "context brain",
+    "Math OS",
+    "Ardhanarishvara OS",
+    "Aruhan",
+    "Lux",
+    "Arkastra",
+    "Estimator",
+    "Oracle",
+    "Distribution",
+    "Bridge layer",
+    "Astraa tools",
+    "astraasystems.com tool metadata",
+    "local docs",
+    "local logs",
+    "local manifests"
+  ],
+  "approval_required_for": [
+    "public website publishing",
+    "customer communications",
+    "email sending",
+    "payment actions",
+    "Moneris live changes",
+    "Lux/IBKR trades",
+    "destructive file operations",
+    "external commitments",
+    "legal or financial claims"
+  ]
+}

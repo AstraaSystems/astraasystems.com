@@ -15,6 +15,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs
 from arka_math_os import arka_math_os_router
+from arka_governor_dispatcher import arka_governor_dispatch
 
 APP_NAME = "Arka V1"
 VERSION = "1.0"
@@ -1565,6 +1566,16 @@ def universal_brain_response(raw):
 def arka_reply(raw):
     raw = raw.strip()
     w = raw.lower()
+
+    # Arka Governor Dispatcher: runtime routing above old patch routers.
+    governor_result = arka_governor_dispatch(raw, web_func=globals().get("arka_search_or_sources"))
+    if governor_result:
+        try:
+            log_event("governor_dispatch", raw)
+        except Exception:
+            pass
+        return governor_result
+
 
     # Universal Processing Brain: structured context first.
     if is_structured_context(raw):

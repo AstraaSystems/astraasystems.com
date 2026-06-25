@@ -36,3 +36,7 @@ data/astraa_arka_bridge.jsonl
 
 # WSL/Linux virtual environment
 .venv_wsl/
+
+# Local one-off patch scripts and backup snapshots
+local_backups/
+*.backup_before_*

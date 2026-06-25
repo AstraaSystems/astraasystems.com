@@ -491,17 +491,31 @@ def governor_safe_web(raw: str, web_func=None) -> str:
 
 
 def _is_identity_question(raw: str) -> bool:
-    w = (raw or "").strip().lower()
-    return w in {
+    """
+    Identity / owner questions must resolve from local owner/profile/memory,
+    not web search. Normalize spaces/punctuation so variants like
+    'who am I ?' still match.
+    """
+    text = (raw or "").strip().lower()
+
+    # Normalize punctuation spacing:
+    # "who am i ?" -> "who am i?"
+    text = re.sub(r"\s+([?.!])", r"\1", text)
+    text = re.sub(r"[?.!]+$", "", text).strip()
+    text = re.sub(r"\s+", " ", text)
+
+    identity_forms = {
         "who am i",
-        "who am i?",
         "whoami",
         "who is the owner",
         "who owns arka",
         "who is arka built for",
         "who is the founder",
-        "who is keshanth"
+        "who is keshanth",
+        "who is keshanth sivayogampillai"
     }
+
+    return text in identity_forms
 
 
 def governor_identity_status(raw: str) -> str:
@@ -556,6 +570,129 @@ def governor_identity_status(raw: str) -> str:
     return "\n".join(lines)
 
 
+
+
+def _load_generated_registry() -> dict:
+    path = ARKA_DIR / "arka_ecosystem_registry.generated.json"
+    try:
+        return json.loads(path.read_text(encoding="utf-8-sig"))
+    except Exception:
+        return {"entities": []}
+
+
+def _generated_entity_lookup(name: str):
+    reg = _load_generated_registry()
+    wanted = (name or "").strip().lower()
+    wanted = re.sub(r"\s+([?.!])", r"\1", wanted)
+    wanted = re.sub(r"[?.!]+$", "", wanted).strip()
+
+    for item in reg.get("entities", []):
+        if item.get("name", "").lower() == wanted:
+            return item
+
+    for item in reg.get("entities", []):
+        n = item.get("name", "").lower()
+        if wanted in n or n in wanted:
+            return item
+
+    return None
+
+
+def _is_generated_ecosystem_question(raw: str) -> bool:
+    w = (raw or "").strip().lower()
+    w = re.sub(r"\s+([?.!])", r"\1", w)
+
+    list_triggers = [
+        "name all the ai",
+        "name all ai",
+        "all ai inside",
+        "ai inside our ecosystem",
+        "what ai are inside",
+        "list ai",
+        "list all ai",
+        "what engines do we have",
+        "name all engines",
+        "ecosystem ai",
+        "ecosystem engines",
+        "show ecosystem registry",
+        "show ai council"
+    ]
+
+    if any(x in w for x in list_triggers):
+        return True
+
+    if w.startswith(("who is ", "what is ", "what's ")):
+        target = (
+            w.replace("who is ", "", 1)
+             .replace("what is ", "", 1)
+             .replace("what's ", "", 1)
+             .replace("?", "")
+             .strip()
+        )
+        return _generated_entity_lookup(target) is not None
+
+    return False
+
+
+def governor_generated_ecosystem_registry(raw: str) -> str:
+    reg = _load_generated_registry()
+    w = (raw or "").strip().lower()
+
+    if w.startswith(("who is ", "what is ", "what's ")):
+        target = (
+            w.replace("who is ", "", 1)
+             .replace("what is ", "", 1)
+             .replace("what's ", "", 1)
+             .replace("?", "")
+             .strip()
+        )
+        item = _generated_entity_lookup(target)
+        if item:
+            lines = [
+                f"{item.get('name')} — Self-Discovered Ecosystem Registry",
+                "",
+                f"Detected role: {item.get('detected_role')}",
+                f"Status: {item.get('status')}",
+                f"Evidence count: {item.get('evidence_count')}",
+                f"Callable status: {item.get('callable_status')}",
+                "",
+                "Top local evidence:"
+            ]
+
+            for e in item.get("top_evidence", [])[:5]:
+                lines.append(f"- {e.get('path')} | score {e.get('score')} | role hint {e.get('role_hint')}")
+
+            if item.get("approval_required_for"):
+                lines.append("")
+                lines.append("Approval-sensitive areas detected:")
+                for a in item.get("approval_required_for", []):
+                    lines.append(f"- {a}")
+
+            lines.append("")
+            lines.append("Note: This answer comes from Arka's generated local ecosystem discovery, not web search.")
+
+            return "\n".join(lines)
+
+    lines = [
+        "AI / Agents / Engines inside the Arka-Astraa ecosystem",
+        "",
+        "Generated from local ecosystem self-discovery:"
+    ]
+
+    for item in reg.get("entities", []):
+        lines.append("")
+        lines.append(f"- {item.get('name')}")
+        lines.append(f"  Detected role: {item.get('detected_role')}")
+        lines.append(f"  Status: {item.get('status')}")
+        lines.append(f"  Evidence count: {item.get('evidence_count')}")
+        lines.append(f"  Callable status: {item.get('callable_status')}")
+
+    lines.append("")
+    lines.append("Note: This registry is generated from local files. If files change, run ecosystem self-discovery again.")
+
+    return "\n".join(lines)
+
+
 def arka_governor_dispatch(raw: str, web_func=None) -> str:
     raw = (raw or "").strip()
     if not raw:
@@ -564,6 +701,10 @@ def arka_governor_dispatch(raw: str, web_func=None) -> str:
     # Identity / owner route must run before web/source fallback.
     if _is_identity_question(raw):
         return governor_identity_status(raw)
+
+    # Generated ecosystem registry route: self-discovered internal AIs/agents/engines before web fallback.
+    if _is_generated_ecosystem_question(raw):
+        return governor_generated_ecosystem_registry(raw)
 
     # Specific business/system routes first.
     if _is_website_status(raw):

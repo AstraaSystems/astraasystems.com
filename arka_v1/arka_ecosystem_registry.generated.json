@@ -1,0 +1,4339 @@
+{
+  "version": "generated-1.0",
+  "created_at": "2026-06-25T06:01:27",
+  "root": "D:\\ARKA_HQ\\repos\\ardhanarishvara_git",
+  "purpose": "Generated ecosystem registry from local filesystem evidence. This is Arka's self-discovered map, not manually taught one-off answers.",
+  "entities": [
+    {
+      "name": "Arka",
+      "status": "present",
+      "detected_role": "governance_kernel",
+      "confidence_score": 1439,
+      "evidence_count": 287,
+      "top_evidence": [
+        {
+          "path": "arka_v1/arka_governor_dispatcher.backup_before_identity_normalization.py",
+          "score": 22,
+          "role_hint": "website_business",
+          "functions": [
+            "_run",
+            "_read_json",
+            "_source_links",
+            "_is_exact_status",
+            "_is_website_status",
+            "_is_leads_or_signups",
+            "_is_market_position",
+            "_is_current_external_question",
+            "governor_system_status",
+            "_http_check",
+            "governor_website_status",
+            "_summarize_json_file",
+            "_db_table_counts",
+            "governor_leads_status",
+            "governor_market_position",
+            "governor_safe_web",
+            "_is_identity_question",
+            "governor_identity_status",
+            "arka_governor_dispatch"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import json import os import re import sqlite3 import subprocess import time import urllib.request from pathlib import Path from urllib.parse import quote_plus GOVERNOR_DISPATCHER_VERSION = \"1.0\" ROOT = Path(os.getenv(\"ARKA_HQ_ROOT\", r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\")) ARKA_DIR = ROOT / \"arka_v1\" DATA_DIR = Path(r\"D:\\ARKA_HQ\\data\") DB_PATH = DATA_DIR / \"arka_core.db\" def _run(cmd: str, timeout: int = 30) -> dict: try: p = subprocess.run("
+        },
+        {
+          "path": "arka_v1/arka_governor_dispatcher.py",
+          "score": 22,
+          "role_hint": "website_business",
+          "functions": [
+            "_run",
+            "_read_json",
+            "_source_links",
+            "_is_exact_status",
+            "_is_website_status",
+            "_is_leads_or_signups",
+            "_is_market_position",
+            "_is_current_external_question",
+            "governor_system_status",
+            "_http_check",
+            "governor_website_status",
+            "_summarize_json_file",
+            "_db_table_counts",
+            "governor_leads_status",
+            "governor_market_position",
+            "governor_safe_web",
+            "_is_identity_question",
+            "governor_identity_status",
+            "arka_governor_dispatch"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import json import os import re import sqlite3 import subprocess import time import urllib.request from pathlib import Path from urllib.parse import quote_plus GOVERNOR_DISPATCHER_VERSION = \"1.0\" ROOT = Path(os.getenv(\"ARKA_HQ_ROOT\", r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\")) ARKA_DIR = ROOT / \"arka_v1\" DATA_DIR = Path(r\"D:\\ARKA_HQ\\data\") DB_PATH = DATA_DIR / \"arka_core.db\" def _run(cmd: str, timeout: int = 30) -> dict: try: p = subprocess.run("
+        },
+        {
+          "path": "arka_v1/patch_governor_identity_route.py",
+          "score": 20,
+          "role_hint": "governor_interface",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "from pathlib import Path import py_compile path = Path(\"arka_governor_dispatcher.py\") code = path.read_text(encoding=\"utf-8-sig\") identity_helpers = r''' def _is_identity_question(raw: str) -> bool: w = (raw or \"\").strip().lower() return w in { \"who am i\", \"who am i?\", \"whoami\", \"who is the owner\", \"who owns arka\", \"who is arka built for\", \"who is the founder\", \"who is keshanth\" } def governor_identity_status(raw: s"
+        },
+        {
+          "path": "arka_v1/docs/ARKA_GOVERNOR_ASTRAA_SAFE_ACCESS_CANON.md",
+          "score": 20,
+          "role_hint": "governor_interface",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "# Arka Governor Canon \u2014 Astraa Safe Access Model ## Core Split Arka: - 90% local - 10% cloud - Personal AI - Governor / CEO / COO - User-facing command intelligence Astraa: - 10% local - 90% cloud - Public/business/cloud execution layer - Website/tools/customer/revenue interface The 10% overlap is the safe communication/access point between Arka and Astraa. ## Operating Principle Arka should independently use everything available to her inside the ecosystem. That includes: - Astraa tools"
+        },
+        {
+          "path": "arka_v1/arka_ecosystem_discovery.py",
+          "score": 19,
+          "role_hint": "security_intelligence",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "list_files",
+            "detect_functions_classes",
+            "score_entity",
+            "infer_role",
+            "infer_approval_required",
+            "discover",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import ast import json import os import re import time from pathlib import Path from typing import Any, Dict, List ROOT = Path(os.getenv(\"ARKA_HQ_ROOT\", r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\")) ARKA_DIR = ROOT / \"arka_v1\" REGISTRY_OUT = ARKA_DIR / \"arka_ecosystem_registry.generated.json\" CONTRACTS_OUT = ARKA_DIR / \"arka_capability_contracts.generated.json\" MISSING_OUT = ARKA_DIR / \"arka_missing_entrypoints_report.json\" SKIP_PARTS = [\".git\", \".venv\", \"__pyc"
+        },
+        {
+          "path": "arka_v1/patch_product_ceo_router.py",
+          "score": 18,
+          "role_hint": "website_business",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "from pathlib import Path import re import json import py_compile app = Path(\"arka_v1.py\") if not app.exists(): raise FileNotFoundError(\"arka_v1.py not found. Run this inside D:\\\\ARKA_HQ\\\\repos\\\\ardhanarishvara_git\\\\arka_v1\") code = app.read_text(encoding=\"utf-8-sig\") helpers = r''' PRODUCTS = [\"Commerce\", \"Data\", \"Inference\", \"Distribution\", \"Vault\"] DEFAULT_PRICING_MAP = { \"Commerce\": { \"competitive_reference\": \"Shopify / BigCommerce / WooCommerce-style commerce platforms\","
+        },
+        {
+          "path": "arka_v1/arka_state.json",
+          "score": 17,
+          "role_hint": "math_reasoning",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "{ \"chat\": [ { \"id\": \"50dac430\", \"role\": \"user\", \"text\": \"hi\", \"created_at\": 1782344758.742117 }, { \"id\": \"fabdab2b\", \"role\": \"arka\", \"text\": \"Hi Keshanth, I'm here.\", \"created_at\": 1782344758.749012 }, { \"id\": \"2b777608\", \"role\": \"user\", \"text\": \"check website health\", \"created_at\": 1782344766.0801797 }, { \"id\": \"9ec59083\", \"role\": \"arka\", \"text\": \"Website health audit complete"
+        },
+        {
+          "path": "arka_v1/arka_memory.json",
+          "score": 15,
+          "role_hint": "governor_interface",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "{ \"schema\": \"arka_memory_v1\", \"owner\": \"Keshanth Sivayogampillai\", \"created_for\": \"Arka personal AI evolution\", \"memories\": [ { \"id\": \"19392a92\", \"type\": \"user_memory\", \"text\": \"Context - Work schedule: daily or 3 days/week\", \"source\": \"explicit_user_command\", \"status\": \"active\", \"created_at\": 1782368229.320255 }, { \"id\": \"3a43c7f9\", \"type\": \"user_memory\", \"text\": \"Context - Goal: $50,000/year\", \"source\": \"explicit_u"
+        },
+        {
+          "path": "arka_v1/arka_v1.py",
+          "score": 15,
+          "role_hint": "website_business",
+          "functions": [
+            "uid",
+            "now",
+            "esc",
+            "load_json",
+            "save_json",
+            "init",
+            "state",
+            "save_state",
+            "memory",
+            "save_memory",
+            "log_event",
+            "business_event",
+            "lifecycle_insert",
+            "add_chat",
+            "add_task",
+            "save_active_memory",
+            "extract_save_command",
+            "active_memory_texts",
+            "recall_memory",
+            "web_get"
+          ],
+          "classes": [
+            "Handler"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 from __future__ import annotations import json import os import re import sqlite3 import subprocess import time import urllib.parse import urllib.request import uuid from html import unescape from http.server import BaseHTTPRequestHandler, HTTPServer from pathlib import Path from urllib.parse import parse_qs from arka_math_os import arka_math_os_router from arka_governor_dispatcher import arka_governor_dispatch APP_NAME = \"Arka V1\" VERSION = \"1.0\" ROOT = Path(__file__).p"
+        },
+        {
+          "path": "astraa_access/arka_astraa_safe_access_manifest.json",
+          "score": 15,
+          "role_hint": "governor_interface",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "{ \"name\": \"Arka Governor / Astraa Safe Access Manifest\", \"version\": \"1.0\", \"status\": \"canon\", \"arka\": { \"split\": \"90 local / 10 cloud\", \"role\": \"personal AI, governor, CEO, COO, user-facing command intelligence\", \"authority\": \"can independently use safe internal ecosystem resources\" }, \"astraa\": { \"split\": \"10 local / 90 cloud\", \"role\": \"cloud/web/public/business execution layer\", \"website\": \"astraasystems.com\", \"purpose\": \"safe access point for web/cloud/"
+        },
+        {
+          "path": "arka_v1/patch_governor_dispatcher.py",
+          "score": 14,
+          "role_hint": "governor_interface",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "from pathlib import Path import py_compile app = Path(\"arka_v1.py\") code = app.read_text(encoding=\"utf-8-sig\") import_line = \"from arka_governor_dispatcher import arka_governor_dispatch\" if import_line not in code: # Prefer placing after existing imports if possible. if \"from arka_math_os import\" in code: code = code.replace( \"from arka_math_os import arka_math_os_router\", \"from arka_math_os import arka_math_os_router\\n\" + import_line, 1"
+        },
+        {
+          "path": "ARCHIVE_LEGACY/coordination/arka_multi_agent.py",
+          "score": 14,
+          "role_hint": "governor_interface",
+          "functions": [
+            "__init__",
+            "_log",
+            "send_to_astra",
+            "request_validation",
+            "request_fusion",
+            "request_budget",
+            "broadcast"
+          ],
+          "classes": [
+            "ArkaMultiAgentCoordinator"
+          ],
+          "callable_like": true,
+          "preview": "import json from datetime import datetime class ArkaMultiAgentCoordinator: \"\"\" Permanent multi-agent coordination subsystem. ARKA can: - delegate tasks to Astra - request validation from Aruhan - request fusion from Arkastra - request budget from Lux - track agent responses \"\"\" def __init__(self): self.log_file = \"arka_multi_agent_log.json\" # Initialize log file if missing try: with open(self.log_file, \"r\") as f:"
+        }
+      ],
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api_server.py",
+          "functions": [
+            "evaluate",
+            "health"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_action_guard.py",
+          "functions": [
+            "now_utc",
+            "append_jsonl",
+            "check_action",
+            "guard_status"
+          ],
+          "classes": [
+            "GuardResult"
+          ]
+        },
+        {
+          "path": "arka_ardhanarishvara_estimator_integration.py",
+          "functions": [
+            "execute_strategy",
+            "build_system"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "astraa_arka_bridge.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "append_jsonl",
+            "read_jsonl",
+            "send_astraa_event_to_arka",
+            "write_arka_recommendation",
+            "get_bridge_summary"
+          ],
+          "classes": []
+        },
+        {
+          "path": "boot.py",
+          "functions": [
+            "handle_shutdown"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "fusion_runtime.py",
+          "functions": [
+            "__init__",
+            "compute_weight",
+            "fuse",
+            "decide",
+            "__init__",
+            "process_cycle"
+          ],
+          "classes": [
+            "Signal",
+            "TrustEngine",
+            "FusionEngine",
+            "DecisionGate",
+            "ArkaFusionRuntime"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ]
+    },
+    {
+      "name": "Aruhan",
+      "status": "present",
+      "detected_role": "general",
+      "confidence_score": 1624,
+      "evidence_count": 318,
+      "top_evidence": [
+        {
+          "path": "aruhan_intelligence/aruhan_intelligence_manifest.json",
+          "score": 20,
+          "role_hint": "security_intelligence",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "{ \"layer\": \"Aruhan Intelligence\", \"status\": \"canon_structural_fill\", \"role\": \"Deep intelligence and security AI\", \"protected\": true, \"responsibilities\": [ \"deep intelligence\", \"local cognition\", \"security reasoning\", \"risk awareness\", \"threat monitoring\", \"audit awareness\", \"trusted internal analysis\" ], \"related_existing_files\": [ \"aruhan_runtime_loop.py\", \"aruhan_ledger.jsonl\", \"aruhan/\", \"aruhan_core/\", \"aruhan_security/\" ], \"n"
+        },
+        {
+          "path": "aruhan_intelligence/README.md",
+          "score": 20,
+          "role_hint": "security_intelligence",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "# Aruhan Intelligence Layer ## Canon Role Aruhan is the deep intelligence and security AI within the Astraa / Arka / Ardhanarishvara OS ecosystem. Aruhan is not a public-facing product. It is an internal protected subsystem. ## Responsibilities - Deep intelligence - Local cognition - Security reasoning - Risk awareness - Threat monitoring - Audit awareness - Trusted internal analysis - Intelligence support for Arka Commander ## Relationship to Other Layers - Arka: Commander / CEO interface -"
+        },
+        {
+          "path": "arka_v1/arka_ecosystem_discovery.py",
+          "score": 14,
+          "role_hint": "security_intelligence",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "list_files",
+            "detect_functions_classes",
+            "score_entity",
+            "infer_role",
+            "infer_approval_required",
+            "discover",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import ast import json import os import re import time from pathlib import Path from typing import Any, Dict, List ROOT = Path(os.getenv(\"ARKA_HQ_ROOT\", r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\")) ARKA_DIR = ROOT / \"arka_v1\" REGISTRY_OUT = ARKA_DIR / \"arka_ecosystem_registry.generated.json\" CONTRACTS_OUT = ARKA_DIR / \"arka_capability_contracts.generated.json\" MISSING_OUT = ARKA_DIR / \"arka_missing_entrypoints_report.json\" SKIP_PARTS = [\".git\", \".venv\", \"__pyc"
+        },
+        {
+          "path": "tools/aruhan_emotional_intelligence/emotion_classifier.py",
+          "score": 14,
+          "role_hint": "general",
+          "functions": [
+            "__init__",
+            "classify",
+            "_keyword_emotion",
+            "_merge_tone_emotion",
+            "_detect_intensity"
+          ],
+          "classes": [
+            "EmotionClassifier"
+          ],
+          "callable_like": true,
+          "preview": "import re class EmotionClassifier: \"\"\" EMOTION CLASSIFIER MODULE Maps tone + keywords + intensity into emotional states. \"\"\" def __init__(self): # Emotion keyword dictionary self.emotion_keywords = { \"anger\": [\"angry\", \"furious\", \"rage\", \"irritated\", \"pissed\"], \"sadness\": [\"sad\", \"hurt\", \"crying\", \"broken\", \"upset\"], \"fear\": [\"scared\", \"afraid\", \"terrified\", \"worried\", \"anxious\"], \"joy\": [\"happy\", \"excited\", \"j"
+        },
+        {
+          "path": "tools/aruhan_emotional_intelligence/tone_analyzer.py",
+          "score": 14,
+          "role_hint": "general",
+          "functions": [
+            "__init__",
+            "analyze",
+            "_keyword_tone",
+            "_punctuation_tone",
+            "_merge_tones"
+          ],
+          "classes": [
+            "ToneAnalyzer"
+          ],
+          "callable_like": true,
+          "preview": "import re class ToneAnalyzer: \"\"\" TONE ANALYZER MODULE Lightweight rule-based tone detection for Aruhan Core. \"\"\" def __init__(self): # Keyword dictionaries for tone detection self.tone_keywords = { \"anger\": [\"angry\", \"mad\", \"furious\", \"pissed\", \"annoyed\", \"irritated\"], \"sadness\": [\"sad\", \"upset\", \"depressed\", \"down\", \"hurt\", \"heartbroken\"], \"fear\": [\"scared\", \"afraid\", \"worried\", \"anxious\", \"nervous\", \"terrified\"],"
+        },
+        {
+          "path": "tools/aruhan_emotional_intelligence/__init__.py",
+          "score": 14,
+          "role_hint": "general",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        },
+        {
+          "path": "tools/aruhan_emotional_intelligence/digestion/emotional_digestion.py",
+          "score": 14,
+          "role_hint": "math_reasoning",
+          "functions": [
+            "__init__",
+            "ingest",
+            "digest",
+            "get_residue"
+          ],
+          "classes": [
+            "EmotionalDigestionEngine"
+          ],
+          "callable_like": true,
+          "preview": "import time import math class EmotionalDigestionEngine: \"\"\" EMOTIONAL DIGESTION ENGINE Non-linear cognitive latency system. Simulates: - emotional processing delay - cognitive load - emotional residue - digestion curve (logarithmic decay) \"\"\" def __init__(self): self.residue = 0.0 # emotional leftover self.last_update = time.time() def ingest(self, emotion, intensity): # Convert emotion to numeric weight emotion_weig"
+        },
+        {
+          "path": "tools/aruhan_emotional_intelligence/digestion/__init__.py",
+          "score": 14,
+          "role_hint": "general",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        },
+        {
+          "path": "tools/aruhan_emotional_intelligence/emotion_memory/emotional_memory_engine.py",
+          "score": 14,
+          "role_hint": "general",
+          "functions": [
+            "__init__",
+            "_initial_weight",
+            "store",
+            "decay",
+            "reinforce",
+            "dominant_themes",
+            "process"
+          ],
+          "classes": [
+            "EmotionalMemoryEngine"
+          ],
+          "callable_like": true,
+          "preview": "import time class EmotionalMemoryEngine: \"\"\" LONG-TERM EMOTIONAL MEMORY ENGINE Stores emotional experiences with: - weighted emotional significance - decay over time - reinforcement when similar emotions recur - emotional tagging - retrieval of dominant emotional themes Memory entries: { \"emotion\": str, \"intensity\": str, \"tone\": str, \"timestamp\": float, \"weight\": float } \"\"\" def __init__(self):"
+        },
+        {
+          "path": "tools/aruhan_emotional_intelligence/emotion_memory/__init__.py",
+          "score": 14,
+          "role_hint": "general",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        },
+        {
+          "path": "tools/aruhan_emotional_intelligence/mood/mood_engine.py",
+          "score": 14,
+          "role_hint": "general",
+          "functions": [
+            "__init__",
+            "update_mood",
+            "_mood_to_value",
+            "_value_to_mood",
+            "get_mood"
+          ],
+          "classes": [
+            "MoodEngine"
+          ],
+          "callable_like": true,
+          "preview": "class MoodEngine: \"\"\" MOOD ENGINE Tracks Aruhan's internal emotional baseline over time. Supports: - dynamic mood drift - mood stabilization - mood influence from user emotion - emotional inertia (slow changes) \"\"\" def __init__(self): self.mood = \"neutral\" self.stability = 1.0 # higher = slower mood changes self.mood_weights = { \"joy\": 1, \"sadness\": -1, \"anger\": -2, \"fear\": -1,"
+        },
+        {
+          "path": "tools/aruhan_emotional_intelligence/mood/__init__.py",
+          "score": 14,
+          "role_hint": "general",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        }
+      ],
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api.py",
+          "functions": [
+            "astraa_health",
+            "astraa_cors_public_launch_mode",
+            "astraa_cors_allowed_origins",
+            "astraa_cors_remove_permissive_headers",
+            "astraa_apply_cors_domain_lock",
+            "now_iso",
+            "append_jsonl",
+            "authorized",
+            "safe_amount",
+            "get_plan_amount",
+            "get_plan_label",
+            "config_status",
+            "astraa_today_date",
+            "astraa_today_key",
+            "astraa_month_key",
+            "astraa_month_start",
+            "astraa_month_end",
+            "astraa_load_usage_db",
+            "astraa_save_usage_db",
+            "astraa_default_usage_record"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "astraa_arka_bridge.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "append_jsonl",
+            "read_jsonl",
+            "send_astraa_event_to_arka",
+            "write_arka_recommendation",
+            "get_bridge_summary"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "elite_estimator_v2.py",
+          "functions": [
+            "__init__",
+            "normalize",
+            "vector",
+            "base_calc",
+            "monte",
+            "apply_env",
+            "risk",
+            "similarity",
+            "find_similar",
+            "archetype",
+            "archetype_memory",
+            "learn",
+            "log",
+            "predict"
+          ],
+          "classes": [
+            "EliteEstimator"
+          ]
+        },
+        {
+          "path": "reflection_prototype.py",
+          "functions": [
+            "now",
+            "__init__",
+            "save",
+            "analyse",
+            "recommend",
+            "trend_score",
+            "__init__",
+            "reflect",
+            "_build_summary"
+          ],
+          "classes": [
+            "ReflectionRecord",
+            "ReflectionStore",
+            "DeviationAnalyzer",
+            "AdaptationRouter",
+            "TemporalIndex",
+            "ReflectionEngine"
+          ]
+        },
+        {
+          "path": "SupervisorCore.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "dbg_eng",
+            "dbg_route",
+            "dbg_auto",
+            "dbg_ledger_last",
+            "dbg_context",
+            "dbg_wrapper",
+            "dbg_all",
+            "stress_all_wrappers",
+            "stress_repeat",
+            "stress_burn",
+            "stress_auto_shift",
+            "stress_full_system"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        },
+        {
+          "path": "SupervisorCore_DEPLOYED.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "__init__",
+            "load",
+            "save",
+            "log",
+            "norm",
+            "profit",
+            "failrec",
+            "blocked",
+            "__init__",
+            "allow",
+            "rec",
+            "tick"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ]
+    },
+    {
+      "name": "Astraa",
+      "status": "present",
+      "detected_role": "website_business",
+      "confidence_score": 2602,
+      "evidence_count": 317,
+      "top_evidence": [
+        {
+          "path": "scripts/astraa_paid_customer_operating_checklist.py",
+          "score": 20,
+          "role_hint": "website_business",
+          "functions": [
+            "section",
+            "print_list",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Astraa Paid Customer Operating Checklist READ-ONLY SCRIPT. Purpose: - Provide a daily operating checklist for paid customer acquisition and onboarding follow-up. - Help convert website/support leads into paid onboarding or package discussions. - Keep trial available but secondary to paid onboarding. - Keep real customer data local and out of git. Does NOT: - send emails - create drafts - schedule calls - open customer access - store customer data in git - modify bac"
+        },
+        {
+          "path": "scripts/astraa_public_launch_paid_lead_capture_proof.py",
+          "score": 20,
+          "role_hint": "website_business",
+          "functions": [
+            "section",
+            "run",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Astraa Public Launch + Paid Lead Capture Proof DEFAULT-SAFE SCRIPT. Purpose: - Prove Astraa is ready for marketing/public website visibility and manual paid lead capture. - Confirm paid onboarding follow-up process exists. - Confirm local lead tracker is protected from git. - Confirm broad automated paid SaaS onboarding remains blocked until production auth, managed DB, secure deployed secrets, host/TLS, and deployed Moneris regression are complete. Does NOT: - se"
+        },
+        {
+          "path": "scripts/astraa_public_website_qa_checklist.py",
+          "score": 20,
+          "role_hint": "website_business",
+          "functions": [
+            "section",
+            "print_list",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Astraa Public Website QA Checklist READ-ONLY SCRIPT. Purpose: - Define final marketing/public website QA before public visibility. - Keep Workspace/customer tool access controlled. - Separate marketing launch from paid SaaS launch. Does NOT: - modify files - deploy Astraa - open customer access - change auth/payment/backend behavior \"\"\" from __future__ import annotations from datetime import datetime, timezone def section(title): print(\"\\n\" + \"=\" * 100)"
+        },
+        {
+          "path": "scripts/astraa_deployed_moneris_regression_plan.py",
+          "score": 18,
+          "role_hint": "website_business",
+          "functions": [
+            "section",
+            "print_list",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Astraa Deployed Moneris Regression Plan READ-ONLY SCRIPT. Purpose: - Define the deployed Moneris regression gate after final Host/TLS and CORS smoke proofs. - Keep payment regression separate from deployment, auth, DB, and CORS setup. - Confirm that payment/account activation should only be tested after deployed HTTPS runtime is proven. Does NOT: - deploy Astraa - start services - modify Nginx/systemd - request TLS certificates - print secrets - connect to Moneris -"
+        },
+        {
+          "path": "scripts/astraa_public_website_risk_classifier.py",
+          "score": 18,
+          "role_hint": "website_business",
+          "functions": [
+            "section",
+            "classify_file",
+            "run_inventory",
+            "extract_json_blocks",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Astraa Public Website Risk Classifier READ-ONLY SCRIPT. Purpose: - Run the public website inventory. - Extract internal/public wording risk hits. - Classify risk hits into review buckets for marketing launch QA. Does NOT: - modify website files - deploy Astraa - change backend behavior - change auth/payment behavior \"\"\" from __future__ import annotations import json import subprocess import sys from pathlib import Path from datetime import datetime, timezone ROO"
+        },
+        {
+          "path": "scripts/astraa_wsgi_deployment_plan.py",
+          "score": 17,
+          "role_hint": "website_business",
+          "functions": [
+            "section",
+            "print_list",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Astraa Production Deployment / WSGI Plan READ-ONLY SCRIPT. Purpose: - Plan the move from Flask development server to production WSGI deployment. - Define deployment target, environment variables, process manager, reverse proxy, TLS, secrets, logs, health checks, and acceptance tests. Does NOT: - modify api.py - start production services - create systemd files - create nginx/apache files - deploy to a server - change secrets - migrate data \"\"\" from __future__ impo"
+        },
+        {
+          "path": "ASTRAA_WORKSPACE_REQUIRED_SCOPE.md",
+          "score": 16,
+          "role_hint": "website_business",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "# Astraa Workspace Required Scope Astraa does not require an Android/iOS mobile app for the current SaaS system. Astraa does require a browser-based Workspace portal. ## Not Required - Android app - iOS app - App Store deployment - Google Play deployment ## Required SaaS Workspace Capabilities - Secure customer login - Customer account dashboard - Payment flow - Automatic tool unlock after approved payment - Saved customer data - Estimator online - Finance tool online - Operations tool onl"
+        },
+        {
+          "path": "scripts/astraa_create_local_paid_lead_tracker.py",
+          "score": 16,
+          "role_hint": "website_business",
+          "functions": [
+            "section",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Astraa Local Paid Lead Tracker Creator LOCAL-ONLY UTILITY. Purpose: - Create a local paid onboarding lead tracker CSV under LOCAL_LEADS/. - Keep real customer lead data out of git. - Support manual paid onboarding follow-up. Does NOT: - send emails - store data in backend - open customer access - modify auth/payment behavior - deploy Astraa \"\"\" from __future__ import annotations from pathlib import Path from datetime import datetime, timezone import csv ROOT = P"
+        },
+        {
+          "path": "scripts/astraa_deployed_moneris_regression_guard.py",
+          "score": 16,
+          "role_hint": "commerce",
+          "functions": [
+            "section",
+            "pass_line",
+            "fail_line",
+            "warn_line",
+            "env_true",
+            "env_false_or_unset",
+            "validate_https_base_url",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Astraa Deployed Moneris Regression Guard READ-ONLY SCRIPT. Purpose: - Guard the deployed Moneris regression lane. - Confirm required deployment preconditions are explicitly represented before any live/controlled payment regression. - Prevent accidental payment testing before Host/TLS, CORS, auth, DB, and secret gates are acknowledged. Does NOT: - deploy Astraa - start services - modify Nginx/systemd - request TLS certificates - print secrets - connect to Moneris - r"
+        },
+        {
+          "path": "scripts/astraa_paid_customer_acquisition_plan.py",
+          "score": 16,
+          "role_hint": "website_business",
+          "functions": [
+            "section",
+            "print_list",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Astraa Paid Customer Acquisition Plan READ-ONLY SCRIPT. Purpose: - Shift Astraa from trial-only interest to paid-first customer acquisition. - Keep trial available but position paid plans and controlled onboarding as the primary path. - Preserve paid SaaS safety boundaries while production auth/DB/deployment are pending. Does NOT: - send emails - post to social media - open broad customer access - change backend/auth/payment behavior - deploy Astraa \"\"\" from __futu"
+        },
+        {
+          "path": "scripts/astraa_public_website_file_inventory.py",
+          "score": 16,
+          "role_hint": "website_business",
+          "functions": [
+            "section",
+            "should_ignore",
+            "html_files",
+            "classify_page",
+            "scan_risk_terms",
+            "extract_hrefs",
+            "is_external_href",
+            "local_href_target",
+            "scan_local_links",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Astraa Public Website File Inventory READ-ONLY SCRIPT. Purpose: - Inventory public website files before marketing/public launch. - Identify likely homepage/tool/pricing/legal/workspace pages. - Scan for public wording risks and internal-name exposure risks. - Scan local href references and report missing local targets. Does NOT: - modify website files - deploy Astraa - change backend behavior - change auth/payment behavior \"\"\" from __future__ import annotations fr"
+        },
+        {
+          "path": "workspace-internal.html",
+          "score": 15,
+          "role_hint": "commerce",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "<!DOCTYPE html> <html lang=\"en\"> <head> <!-- ASTRAA_WORKSPACE_ECOSYSTEM_QA_V1 --> <meta charset=\"UTF-8\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /> <title>Astraa Workspace | Ecosystem QA Ground</title> <style> :root { --black:#05070f; --navy:#071426; --royal:#1d4ed8; --white:#ffffff; --off:#f8fafc; --line:#dbe3ef; --text:#0f172a; --muted:#475569; --gray:#64748b; --light:#dbeafe; --gr"
+        }
+      ],
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api.py",
+          "functions": [
+            "astraa_health",
+            "astraa_cors_public_launch_mode",
+            "astraa_cors_allowed_origins",
+            "astraa_cors_remove_permissive_headers",
+            "astraa_apply_cors_domain_lock",
+            "now_iso",
+            "append_jsonl",
+            "authorized",
+            "safe_amount",
+            "get_plan_amount",
+            "get_plan_label",
+            "config_status",
+            "astraa_today_date",
+            "astraa_today_key",
+            "astraa_month_key",
+            "astraa_month_start",
+            "astraa_month_end",
+            "astraa_load_usage_db",
+            "astraa_save_usage_db",
+            "astraa_default_usage_record"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_action_guard.py",
+          "functions": [
+            "now_utc",
+            "append_jsonl",
+            "check_action",
+            "guard_status"
+          ],
+          "classes": [
+            "GuardResult"
+          ]
+        },
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "astraa_arka_bridge.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "append_jsonl",
+            "read_jsonl",
+            "send_astraa_event_to_arka",
+            "write_arka_recommendation",
+            "get_bridge_summary"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "lead_capture.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "normalize",
+            "lower",
+            "append_jsonl",
+            "read_jsonl",
+            "score_lead",
+            "lead_status",
+            "next_action",
+            "build_confirmation_email",
+            "update_sales_signal",
+            "create_lead",
+            "leads_report"
+          ],
+          "classes": []
+        },
+        {
+          "path": "SupervisorCore.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "dbg_eng",
+            "dbg_route",
+            "dbg_auto",
+            "dbg_ledger_last",
+            "dbg_context",
+            "dbg_wrapper",
+            "dbg_all",
+            "stress_all_wrappers",
+            "stress_repeat",
+            "stress_burn",
+            "stress_auto_shift",
+            "stress_full_system"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        },
+        {
+          "path": "agents/business_engine.py",
+          "functions": [
+            "business_engine",
+            "generate_quote",
+            "business_engine"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_core/ardhanarishvara_os.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "__init__",
+            "stop"
+          ],
+          "classes": [
+            "EngineType",
+            "EngineEnvelope",
+            "SharedHardwareRegulator",
+            "SharedASTValidator",
+            "ArdhanarishvaraOS"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ]
+    },
+    {
+      "name": "Ardhanarishvara OS",
+      "status": "present",
+      "detected_role": "governance_kernel",
+      "confidence_score": 2876,
+      "evidence_count": 421,
+      "top_evidence": [
+        {
+          "path": "aruhan/governance/fusion/signal_models.py",
+          "score": 21,
+          "role_hint": "telemetry_oracle",
+          "functions": [],
+          "classes": [
+            "Signal",
+            "FusionResult"
+          ],
+          "callable_like": true,
+          "preview": "from dataclasses import dataclass @dataclass class Signal: source: str value: float # Normalized score in [-1, 1] confidence: float # [0, 1] trend: str # IMPROVING / DECLINING / STABLE regime: str = \"NORMAL\" # NORMAL / VOLATILE trust_weight: float = 0.0 note: str = \"\" @dataclass class FusionResult: score: float confidence: float direction: str agreement: float instability: float"
+        },
+        {
+          "path": "aruhan/governance/fusion/adaptive_trust_learner.py",
+          "score": 16,
+          "role_hint": "telemetry_oracle",
+          "functions": [
+            "__init__",
+            "_score_record",
+            "source_reliability",
+            "source_summary"
+          ],
+          "classes": [
+            "AdaptiveTrustLearner"
+          ],
+          "callable_like": true,
+          "preview": "# aruhan/governance/fusion/adaptive_trust_learner.py from aruhan.os.memory.json_ledger import JsonLedger class AdaptiveTrustLearner: \"\"\" Upgraded Arka Trust Learner. Distinctly grades directional tracking nodes vs structural governance nodes to guarantee balanced ecosystem evaluation. \"\"\" def __init__(self, max_lookback=300): self.ledger = JsonLedger() self.max_lookback = max_lookback def _score_record(self, source_name, source_entry, record):"
+        },
+        {
+          "path": "aruhan/governance/fusion/arka_fusion_runtime.py",
+          "score": 16,
+          "role_hint": "telemetry_oracle",
+          "functions": [
+            "__init__",
+            "process_cycle"
+          ],
+          "classes": [
+            "ArkaFusionRuntime"
+          ],
+          "callable_like": true,
+          "preview": "from typing import List from datetime import datetime, timezone from .signal_models import Signal from .trust_engine import TrustEngine from .fusion_engine import FusionEngine from .decision_gate import DecisionGate from .dissonance_governor import DissonanceGovernor # <-- ADD THIS IMPORT class ArkaFusionRuntime: def __init__(self, current_kalman_q: float = 0.5): self.trust_engine = TrustEngine() self.fusion_engine = FusionEngine() self.decision_gate = DecisionGate("
+        },
+        {
+          "path": "aruhan/governance/fusion/dissonance_governor.py",
+          "score": 16,
+          "role_hint": "math_reasoning",
+          "functions": [
+            "run_cybernetic_cycle",
+            "__init__",
+            "evaluate_and_tune"
+          ],
+          "classes": [
+            "DissonanceGovernor"
+          ],
+          "callable_like": true,
+          "preview": "# ====== DISSONANCE GOVERNOR (The Feedback Hook) ====== class DissonanceGovernor: def __init__(self, sensitivity_alpha: float = 1.5): self.alpha = sensitivity_alpha def evaluate_and_tune(self, signals: list, fused_result: dict, current_q: float) -> tuple: \"\"\" Measures how far the mathematical estimator has drifted from the collective ecosystem mind, and derives an optimized parameter correction factor for the Kalman filter. \"\"\" fused_scor"
+        },
+        {
+          "path": "aruhan/governance/fusion/fusion_engine.py",
+          "score": 16,
+          "role_hint": "telemetry_oracle",
+          "functions": [
+            "fuse",
+            "_compute_agreement",
+            "_compute_instability"
+          ],
+          "classes": [
+            "FusionEngine"
+          ],
+          "callable_like": true,
+          "preview": "from typing import List from .signal_models import Signal from aruhan.governance.fusion.signal_models import FusionResult class FusionEngine: def fuse(self, signals): if not signals: return FusionResult(0.0, 0.0, \"NEUTRAL\", 0.0, 0.0) total_weight = 0.0 weighted_sum = 0.0 confidence_sum = 0.0 for s in signals: total_weight += s.trust_weight weighted_sum += s.value * s.trust_weight confidence_sum += s.co"
+        },
+        {
+          "path": "aruhan/governance/fusion/runtime.py",
+          "score": 16,
+          "role_hint": "telemetry_oracle",
+          "functions": [
+            "__init__",
+            "run"
+          ],
+          "classes": [
+            "ArkaFusionRuntime"
+          ],
+          "callable_like": true,
+          "preview": "# aruhan/governance/fusion/runtime.py from .trust_engine import TrustEngine from .fusion_engine import FusionEngine from .decision_gate import DecisionGate class ArkaFusionRuntime: \"\"\" Upgraded Arka Governance Runtime that exposes calibration maps and ledger-based learning wrappers to the underlying TrustEngine. \"\"\" def __init__(self, calibrators=None, adaptive_learner=None): # Pass the subsystems straight into the trust matrix engine self.trust_engine = Tr"
+        },
+        {
+          "path": "aruhan/governance/fusion/trust_engine.py",
+          "score": 16,
+          "role_hint": "wealth_treasury",
+          "functions": [
+            "__init__",
+            "compute_weight"
+          ],
+          "classes": [
+            "TrustEngine"
+          ],
+          "callable_like": true,
+          "preview": "class TrustEngine: def __init__(self, calibrators=None, adaptive_learner=None): self.calibrators = calibrators or {} self.adaptive_learner = adaptive_learner self.base_weights = { \"dataoracle\": 1.00, \"estimator\": 1.00, \"reflection\": 0.90, \"temporal\": 0.85, } def compute_weight(self, signal): base_weight = self.base_weights.get(signal.source, 0.5) # 1. Calibrated Confidence Evaluation"
+        },
+        {
+          "path": "ArdhanarishvaraOS/kernel/clock_timing_engine.py",
+          "score": 16,
+          "role_hint": "telemetry_oracle",
+          "functions": [
+            "__init__",
+            "now",
+            "monotonic",
+            "timer",
+            "interval",
+            "cancel",
+            "snapshot"
+          ],
+          "classes": [
+            "ClockTimingEngine"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 #=============================================================================== # ARDHANARISHVARA OS KERNEL MODULE # SovereignOS Clock & Timing Engine \u2014 System Clock, Timers & Scheduler Signals # File: clock_timing_engine.py #=============================================================================== import time import uuid import asyncio from typing import Dict, Any, Callable, List class ClockTimingEngine: \"\"\" Provides: \u2022 system monotonic clock"
+        },
+        {
+          "path": "ArdhanarishvaraOS/kernel/kernel_health_monitor.py",
+          "score": 16,
+          "role_hint": "telemetry_oracle",
+          "functions": [
+            "__init__",
+            "register_engine",
+            "heartbeat",
+            "_drift",
+            "_system_metrics",
+            "_engine_health",
+            "snapshot",
+            "get_history"
+          ],
+          "classes": [
+            "KernelHealthMonitor"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 #=============================================================================== # ARDHANARISHVARA OS KERNEL MODULE # Kernel Health Monitor \u2014 Autonomous System Vitality & Stability Scanner # File: kernel_health_monitor.py #=============================================================================== import time import uuid import psutil import asyncio import numpy as np from typing import Dict, Any, List class KernelHealthMonitor: \"\"\" Monitors: \u2022 CPU l"
+        },
+        {
+          "path": "ArdhanarishvaraOS/kernel/power_management_engine.py",
+          "score": 16,
+          "role_hint": "governance_kernel",
+          "functions": [
+            "__init__",
+            "set_state",
+            "update_thermal",
+            "update_battery",
+            "apply_policy",
+            "snapshot"
+          ],
+          "classes": [
+            "PowerManagementEngine"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 #=============================================================================== # ARDHANARISHVARA OS KERNEL MODULE # SovereignOS Power Management Engine \u2014 Power States, Thermal Control & Battery # File: power_management_engine.py #=============================================================================== import time import uuid from typing import Dict, Any, Optional class PowerManagementEngine: \"\"\" Provides: \u2022 system power states (active, idle, sle"
+        },
+        {
+          "path": "aruhan/governance/fusion/decision_gate.py",
+          "score": 14,
+          "role_hint": "governance_kernel",
+          "functions": [
+            "decide"
+          ],
+          "classes": [
+            "DecisionGate"
+          ],
+          "callable_like": true,
+          "preview": "class DecisionGate: def decide(self, fused): if fused.confidence < 0.55: return \"HOLD (low confidence)\" if fused.direction == \"POSITIVE\" and fused.score > 0.5: return \"ACT POSITIVE\" if fused.direction == \"NEGATIVE\" and fused.score < -0.5: return \"ACT DEFENSIVE\" return \"MONITOR\""
+        },
+        {
+          "path": "aruhan/governance/fusion/__init__.py",
+          "score": 14,
+          "role_hint": "governance_kernel",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        }
+      ],
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api_server.py",
+          "functions": [
+            "evaluate",
+            "health"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_action_guard.py",
+          "functions": [
+            "now_utc",
+            "append_jsonl",
+            "check_action",
+            "guard_status"
+          ],
+          "classes": [
+            "GuardResult"
+          ]
+        },
+        {
+          "path": "arka_ardhanarishvara_estimator_integration.py",
+          "functions": [
+            "execute_strategy",
+            "build_system"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "boot.py",
+          "functions": [
+            "handle_shutdown"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "elite_estimator_v2.py",
+          "functions": [
+            "__init__",
+            "normalize",
+            "vector",
+            "base_calc",
+            "monte",
+            "apply_env",
+            "risk",
+            "similarity",
+            "find_similar",
+            "archetype",
+            "archetype_memory",
+            "learn",
+            "log",
+            "predict"
+          ],
+          "classes": [
+            "EliteEstimator"
+          ]
+        },
+        {
+          "path": "fusion_runtime.py",
+          "functions": [
+            "__init__",
+            "compute_weight",
+            "fuse",
+            "decide",
+            "__init__",
+            "process_cycle"
+          ],
+          "classes": [
+            "Signal",
+            "TrustEngine",
+            "FusionEngine",
+            "DecisionGate",
+            "ArkaFusionRuntime"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ]
+    },
+    {
+      "name": "Math OS",
+      "status": "present",
+      "detected_role": "website_business",
+      "confidence_score": 395,
+      "evidence_count": 146,
+      "top_evidence": [
+        {
+          "path": "arka_v1/arka_math_os.py",
+          "score": 19,
+          "role_hint": "math_reasoning",
+          "functions": [
+            "money",
+            "whole",
+            "number",
+            "parse_money_values",
+            "parse_percent",
+            "extract_years",
+            "safe_eval_expr",
+            "looks_like_arithmetic",
+            "arithmetic_response",
+            "goal_breakdown",
+            "revenue_customer_count",
+            "doordash_scenario",
+            "percent_math",
+            "margin_profit",
+            "break_even",
+            "compound_growth",
+            "loan_payment",
+            "is_math_intent",
+            "arka_math_os_router",
+            "_eval"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import ast import math import operator import re from decimal import Decimal, ROUND_HALF_UP MATH_OS_NAME = \"Arka Math OS\" MATH_OS_VERSION = \"1.0\" # ------------------------------------------------------------ # Formatting helpers # ------------------------------------------------------------ def money(value): try: return f\"${float(value):,.2f}\" except Exception: return str(value) def whole(value): try: return f\"{math.cei"
+        },
+        {
+          "path": "arka_v1/arka_ecosystem_discovery.py",
+          "score": 14,
+          "role_hint": "security_intelligence",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "list_files",
+            "detect_functions_classes",
+            "score_entity",
+            "infer_role",
+            "infer_approval_required",
+            "discover",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import ast import json import os import re import time from pathlib import Path from typing import Any, Dict, List ROOT = Path(os.getenv(\"ARKA_HQ_ROOT\", r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\")) ARKA_DIR = ROOT / \"arka_v1\" REGISTRY_OUT = ARKA_DIR / \"arka_ecosystem_registry.generated.json\" CONTRACTS_OUT = ARKA_DIR / \"arka_capability_contracts.generated.json\" MISSING_OUT = ARKA_DIR / \"arka_missing_entrypoints_report.json\" SKIP_PARTS = [\".git\", \".venv\", \"__pyc"
+        },
+        {
+          "path": "arka_v1/arka_state.json",
+          "score": 12,
+          "role_hint": "math_reasoning",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "{ \"chat\": [ { \"id\": \"50dac430\", \"role\": \"user\", \"text\": \"hi\", \"created_at\": 1782344758.742117 }, { \"id\": \"fabdab2b\", \"role\": \"arka\", \"text\": \"Hi Keshanth, I'm here.\", \"created_at\": 1782344758.749012 }, { \"id\": \"2b777608\", \"role\": \"user\", \"text\": \"check website health\", \"created_at\": 1782344766.0801797 }, { \"id\": \"9ec59083\", \"role\": \"arka\", \"text\": \"Website health audit complete"
+        },
+        {
+          "path": "arka_v1/docs/ARKA_V1_CAPABILITY_CANON.md",
+          "score": 12,
+          "role_hint": "math_reasoning",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "# Arka V1 Capability Canon ## Purpose This document records the confirmed Arka V1 capability map after canon stabilization. Arka V1 is the local CEO/command console for the Astraa / Arka / Aruhan / Ardhanarishvara ecosystem. ## Confirmed Working Capabilities ### Health / Runtime - Local server responds at `/health` - Mode: local - Name: Arka V1 - Version: 1.0 ### Memory - Active memory supports saving and recalling important facts - Family memory verified: - Wife: Thrilochana - First-bo"
+        },
+        {
+          "path": "arka_v1/arka_capability_manifest.json",
+          "score": 10,
+          "role_hint": "math_reasoning",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "{ \"name\": \"Arka V1 Capability Manifest\", \"version\": \"1.0\", \"status\": \"canon_stable\", \"runtime\": { \"health_endpoint\": \"/health\", \"mode\": \"local\", \"name\": \"Arka V1\", \"version\": \"1.0\" }, \"capabilities\": { \"memory_active\": { \"status\": \"present\", \"notes\": \"Active memory and family/business recall verified.\" }, \"conversation_journal\": { \"status\": \"present\", \"notes\": \"Journal exists; noisy recall cleaned.\" }, \"context_brain\": {"
+        },
+        {
+          "path": "core/system_goal.json",
+          "score": 9,
+          "role_hint": "math_reasoning",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "{ \"version\": \"2.0\", \"meta\": { \"last_update\": \"auto\", \"intent_priority\": [\"safety\", \"finance\", \"operations\", \"business\"] }, \"safety\": { \"kill_switch\": true, \"human_required\": [\"fund_transfer\", \"logic_modification\", \"daemon_upgrade\"], \"max_risk_score\": 0.25 }, \"finance\": { \"target_margin\": 0.25, \"min_margin\": 0.18, \"max_daily_spend\": 5000, \"weights\": { \"margin\": 0.6, \"risk\": 0.4 } }, \"operations\": { \"max_route_delay_min\": 1"
+        },
+        {
+          "path": "ARCHIVE_LEGACY/autonomy/goal_decomposition.py",
+          "score": 7,
+          "role_hint": "math_reasoning",
+          "functions": [
+            "decompose"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "import re def decompose(goal: str): \"\"\" Permanent, general-purpose semantic decomposition engine. No hardcoded tasks. No bandaids. \"\"\" # Normalize goal_clean = goal.strip().lower() # Extract verbs and objects (very lightweight semantic parsing) verbs = re.findall(r\"\\b(prepare|deploy|analyze|optimize|build|configure|test|validate|monitor|repair|upgrade|install|remove|plan|design)\\b\", goal_clean) nouns = re.findall(r\"\\b(system|environment|deployment|network|s"
+        },
+        {
+          "path": "arka_full_layer_audit.py",
+          "score": 6,
+          "role_hint": "website_business",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import json import re import sqlite3 import subprocess import time from pathlib import Path REPO = Path(r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\") REPORT_DIR = Path(r\"D:\\ARKA_HQ\\reports\") DATA_DIR = Path(r\"D:\\ARKA_HQ\\data\") DB_PATH = DATA_DIR / \"arka_core.db\" timestamp = time.strftime(\"%Y%m%d_%H%M%S\") REPORT_JSON = REPORT_DIR / f\"ARKA_FULL_LAYER_AUDIT_{timestamp}.json\" REPORT_MD = REPORT_DIR / f\"ARKA_FULL_LAYER_AUDIT_{timestamp}.md\" EXCLUDE = [\".git\", \".venv\""
+        },
+        {
+          "path": "arka_v1/arka_v1.py",
+          "score": 6,
+          "role_hint": "website_business",
+          "functions": [
+            "uid",
+            "now",
+            "esc",
+            "load_json",
+            "save_json",
+            "init",
+            "state",
+            "save_state",
+            "memory",
+            "save_memory",
+            "log_event",
+            "business_event",
+            "lifecycle_insert",
+            "add_chat",
+            "add_task",
+            "save_active_memory",
+            "extract_save_command",
+            "active_memory_texts",
+            "recall_memory",
+            "web_get"
+          ],
+          "classes": [
+            "Handler"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 from __future__ import annotations import json import os import re import sqlite3 import subprocess import time import urllib.parse import urllib.request import uuid from html import unescape from http.server import BaseHTTPRequestHandler, HTTPServer from pathlib import Path from urllib.parse import parse_qs from arka_math_os import arka_math_os_router from arka_governor_dispatcher import arka_governor_dispatch APP_NAME = \"Arka V1\" VERSION = \"1.0\" ROOT = Path(__file__).p"
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "score": 4,
+          "role_hint": "website_business",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import json import os import re import sqlite3 import subprocess import sys import time from pathlib import Path REPO = Path(r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\") REPORT_DIR = Path(r\"D:\\ARKA_HQ\\reports\") DATA_DIR = Path(r\"D:\\ARKA_HQ\\data\") DB_PATH = DATA_DIR / \"arka_core.db\" REPORT_DIR.mkdir(parents=True, exist_ok=True) timestamp = time.strftime(\"%Y%m%d_%H%M%S\") REPORT_JSON = REPORT_DIR / f\"ARKA_ECOSYSTEM_GAP_AUDIT_{timestamp}.json\" REPORT_MD = REPORT_D"
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "score": 4,
+          "role_hint": "construction_estimator",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 from __future__ import annotations import math import random from collections import deque from typing import Dict, List, Optional, Tuple class OnlineNormalizer: def __init__(self, eps: float = 1e-8): self.n = 0 self.mean = 0.0 self.m2 = 0.0 self.eps = eps def update(self, x: float) -> None: self.n += 1 delta = x - self.mean self.mean += delta / self.n delta2 = x - self.mean self.m2 += delta"
+        },
+        {
+          "path": "reflection_ledger.json",
+          "score": 4,
+          "role_hint": "math_reasoning",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "[ { \"timestamp\": \"2026-06-10T16:26:45.940196Z\", \"task_action\": \"SIMULATE_VALUE_FLOW\", \"metrics_evaluated\": { \"input_volatility\": 0.65, \"estimated_velocity\": 53.379, \"calculated_system_tension\": 61.3858 }, \"evaluation\": { \"regime_status\": \"HIGH_SYSTEM_LAG_DETECTED\", \"updated_system_confidence\": 0.95, \"remedial_action\": \"Kalman regime variance multiplier under-indexed relative to input volatility spikes.\" } }, { \"timestamp\": \"20"
+        }
+      ],
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "simulate_cybernetic_loop.py",
+          "functions": [
+            "__init__",
+            "compute",
+            "fuse",
+            "decide",
+            "__init__",
+            "compute_multiplier",
+            "__init__",
+            "adapt_process_noise",
+            "cycle",
+            "__init__",
+            "run_tick"
+          ],
+          "classes": [
+            "Signal",
+            "FusionResult",
+            "TrustEngine",
+            "FusionEngine",
+            "DecisionGate",
+            "QTuningPolicy",
+            "FinancialKalmanFilter",
+            "CyberneticGovernor"
+          ]
+        },
+        {
+          "path": "SupervisorCore.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "dbg_eng",
+            "dbg_route",
+            "dbg_auto",
+            "dbg_ledger_last",
+            "dbg_context",
+            "dbg_wrapper",
+            "dbg_all",
+            "stress_all_wrappers",
+            "stress_repeat",
+            "stress_burn",
+            "stress_auto_shift",
+            "stress_full_system"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        },
+        {
+          "path": "vsv_construction_ai.py",
+          "functions": [
+            "build_system",
+            "__init__",
+            "update",
+            "std",
+            "normalize",
+            "__init__",
+            "predict",
+            "__init__",
+            "route_request",
+            "snapshot",
+            "__init__",
+            "evaluate_project"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "VSVEstimator",
+            "ArdhanarishvaraOS",
+            "Arka"
+          ]
+        },
+        {
+          "path": "agents/business_engine.py",
+          "functions": [
+            "business_engine",
+            "generate_quote",
+            "business_engine"
+          ],
+          "classes": []
+        },
+        {
+          "path": "agents/finance_engine.py",
+          "functions": [
+            "generate_invoice",
+            "finance_engine"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_personal_ai_v04_evolution/arka_personal_ai_v04.backup_before_conversation_mode.py",
+          "functions": [
+            "load_json",
+            "save_json",
+            "state",
+            "memory",
+            "esc",
+            "add_item",
+            "draft_memory",
+            "approve_memory",
+            "run_command",
+            "arka_reply",
+            "latest_items_html",
+            "pending_memories_html",
+            "logo_img",
+            "page",
+            "do_GET",
+            "do_POST"
+          ],
+          "classes": [
+            "Item",
+            "Handler"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ]
+    },
+    {
+      "name": "Lux",
+      "status": "present",
+      "detected_role": "wealth_treasury",
+      "confidence_score": 427,
+      "evidence_count": 103,
+      "top_evidence": [
+        {
+          "path": "arka_v1/arka_ecosystem_discovery.py",
+          "score": 12,
+          "role_hint": "security_intelligence",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "list_files",
+            "detect_functions_classes",
+            "score_entity",
+            "infer_role",
+            "infer_approval_required",
+            "discover",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import ast import json import os import re import time from pathlib import Path from typing import Any, Dict, List ROOT = Path(os.getenv(\"ARKA_HQ_ROOT\", r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\")) ARKA_DIR = ROOT / \"arka_v1\" REGISTRY_OUT = ARKA_DIR / \"arka_ecosystem_registry.generated.json\" CONTRACTS_OUT = ARKA_DIR / \"arka_capability_contracts.generated.json\" MISSING_OUT = ARKA_DIR / \"arka_missing_entrypoints_report.json\" SKIP_PARTS = [\".git\", \".venv\", \"__pyc"
+        },
+        {
+          "path": "execution/ibkr_execution_hub.py",
+          "score": 11,
+          "role_hint": "wealth_treasury",
+          "functions": [
+            "__init__"
+          ],
+          "classes": [
+            "IBKRExecutionHub"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 # ============================================================ # SYSTEM: ARDHANARISHVARA EXECUTION LAYER # MODULE: IBKR EXECUTION HUB (Unified with Lux Harvest Routing) # ENGINE: ib_async (Asynchronous Event Loop Gateway) # ============================================================ import asyncio import logging import time import pandas as pd from ib_async import IB, Stock, LimitOrder, util class IBKRExecutionHub: def __init__(self, ipc, host=\"127.0.0.1\", port=7497"
+        },
+        {
+          "path": "lux_auto_terminal.py",
+          "score": 9,
+          "role_hint": "wealth_treasury",
+          "functions": [
+            "__init__",
+            "spawn_new_agent",
+            "print_active_loops",
+            "execute_queued_proposals",
+            "_log_outcome"
+          ],
+          "classes": [
+            "AgentBasket",
+            "PoolManager"
+          ],
+          "callable_like": true,
+          "preview": "import asyncio # --- MODERN PYTHON EVENT LOOP PATCH --- try: asyncio.get_event_loop() except RuntimeError: loop = asyncio.new_event_loop() asyncio.set_event_loop(loop) # --- SYSTEM IMPORTS --- import os import json import time import uuid import math from datetime import datetime from dataclasses import dataclass, asdict from pathlib import Path from ib_insync import IB, Stock, LimitOrder # --- CONFIGURATION & PATHS --- BASE_DIR = Path(__file__).resolve().parent LUX_DIR = BASE_DIR"
+        },
+        {
+          "path": "entities/lux.py",
+          "score": 9,
+          "role_hint": "wealth_treasury",
+          "functions": [
+            "__init__"
+          ],
+          "classes": [
+            "LuxAgent"
+          ],
+          "callable_like": true,
+          "preview": "\"\"\" LuxAgent \u2014 Minimal Integration Version Purpose: - Provide a stable, importable capital engine - Accept payloads from AruhanAgent or Supervisor - Return structured capital/treasury responses \"\"\" import hashlib import logging logger = logging.getLogger(\"LuxAgent\") class LuxAgent: \"\"\" Capital Intelligence Engine Gateway Minimal version required for system boot and engine mounting. \"\"\" def __init__(self): self.version = \"1.0-minimal\" logger.inf"
+        },
+        {
+          "path": "entities/lux_kernel.py",
+          "score": 9,
+          "role_hint": "telemetry_oracle",
+          "functions": [
+            "__init__",
+            "register"
+          ],
+          "classes": [
+            "LuxState",
+            "LuxTelemetry",
+            "LuxAlphaEngine",
+            "LuxAllocationEngine",
+            "LuxKernel"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Lux Sovereign Alpha Engine \u2014 Extreme Complexity Edition Role: Trading Engine, Alpha Sourcing, Treasury Optimization, Capital Accelerator Architecture: 100% Local / Air-Gapped / Multi-Engine Capital Fabric \"\"\" import asyncio import os import json import uuid import logging import random import statistics from enum import Enum from dataclasses import dataclass, asdict, field from typing import Dict, Any, List, Optional logging.basicConfig( level=logging.INFO, f"
+        },
+        {
+          "path": "execution/unified_engine.py",
+          "score": 8,
+          "role_hint": "wealth_treasury",
+          "functions": [
+            "__init__",
+            "_ensure",
+            "_log",
+            "get",
+            "__init__",
+            "_ensure",
+            "_read",
+            "_write",
+            "update",
+            "get",
+            "__init__",
+            "_tick",
+            "__init__",
+            "_process",
+            "__init__",
+            "__init__",
+            "__init__",
+            "__init__",
+            "__init__",
+            "__init__"
+          ],
+          "classes": [
+            "IPCBroker",
+            "GlobalIPC",
+            "Ledger",
+            "MathEngine",
+            "TreasuryAgent",
+            "IBKRExecution",
+            "Lux",
+            "Astraa",
+            "Arka",
+            "Aruhan",
+            "Disturition",
+            "UnifiedAutonomousSystem"
+          ],
+          "callable_like": true,
+          "preview": "# File: /home/keshanth/ARKA/ardhanarishvara/execution/unified_engine.py #!/usr/bin/env python3 \"\"\" Unified Engine \u2014 Single\u2011Process Simulation Mode ----------------------------------------------- This file contains a monolithic version of the entire Ardhanarishvara engine. It is used for: - Debugging - Simulation - Offline testing - Verifying IPC flow - Running the system without launching multiple processes This file includes: - IPC Broker - Math Engine - Treasur"
+        },
+        {
+          "path": "entities/lux_enhanced.py",
+          "score": 7,
+          "role_hint": "wealth_treasury",
+          "functions": [
+            "__init__",
+            "intake",
+            "compress",
+            "distill",
+            "anchor",
+            "illuminate",
+            "_reduce",
+            "_extract",
+            "cycle",
+            "snapshot"
+          ],
+          "classes": [
+            "LuxEnhanced"
+          ],
+          "callable_like": true,
+          "preview": "# ============================================================ # LUX \u2014 ENHANCED COGNITIVE LOOP # Y\u2011PRIME EDITION # ============================================================ import time import threading class LuxEnhanced: def __init__(self, ipc, reflection_engine, synthesis_engine, compaction_engine): self.ipc = ipc self.reflector = reflection_engine self.synth = synthesis_engine self.compactor = compaction_engine self.lock = threading.Lock()"
+        },
+        {
+          "path": "execution/ibkr_execution.py",
+          "score": 7,
+          "role_hint": "governor_interface",
+          "functions": [
+            "__init__"
+          ],
+          "classes": [
+            "IBKRExecution"
+          ],
+          "callable_like": true,
+          "preview": "# File: /home/keshanth/ARKA/ardhanarishvara/execution/ibkr_execution.py #!/usr/bin/env python3 \"\"\" IBKR Execution Layer -------------------- Responsibilities: - Receive order instructions from Aruhan - Submit orders to IBKR via ib_insync - Handle confirmations, errors, and retries - Publish execution events back into IPC - Update ledger with executed order count and profit This module is async-safe and fully decoupled from the rest of the system. \"\"\" import asyncio from typ"
+        },
+        {
+          "path": "execution/treasury_agent.py",
+          "score": 7,
+          "role_hint": "wealth_treasury",
+          "functions": [
+            "__init__",
+            "_process_income",
+            "_allocate"
+          ],
+          "classes": [
+            "TreasuryAgent"
+          ],
+          "callable_like": true,
+          "preview": "# File: /home/keshanth/ARKA/ardhanarishvara/execution/treasury_agent.py #!/usr/bin/env python3 \"\"\" Treasury Agent \u2014 Income Allocation & Harvesting ------------------------------------------------ Responsibilities: - Receive income events from Astraa - Apply 20% harvesting rule - Allocate harvested funds to TFSA/RRSP/RESP buckets - Update ledger state - Publish treasury updates to IPC channels This module ensures all income is routed correctly and consistently. \"\"\" import as"
+        },
+        {
+          "path": "legacy_modules/kernel/lux_allocator.py",
+          "score": 7,
+          "role_hint": "wealth_treasury",
+          "functions": [
+            "allocate"
+          ],
+          "classes": [
+            "LuxAllocator"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 # ============================================================ # LUX ALLOCATOR v17 \u2014 Arka Pillai Holdings Ltd # Automatically allocates 20% of profit to Lux account # ============================================================ class LuxAllocator: def allocate(self, total_profit: float) -> dict: lux_share = round(total_profit * 0.20, 2) retained = round(total_profit - lux_share, 2) return { \"lux_allocation\": lux_share,"
+        },
+        {
+          "path": "execution/ibkr/__init__.py",
+          "score": 7,
+          "role_hint": "wealth_treasury",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        },
+        {
+          "path": "execution/ibkr_execution/__init__.py",
+          "score": 7,
+          "role_hint": "wealth_treasury",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        }
+      ],
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "lux_auto_terminal.py",
+          "functions": [
+            "__init__",
+            "spawn_new_agent",
+            "print_active_loops",
+            "execute_queued_proposals",
+            "_log_outcome"
+          ],
+          "classes": [
+            "AgentBasket",
+            "PoolManager"
+          ]
+        },
+        {
+          "path": "reflection_prototype.py",
+          "functions": [
+            "now",
+            "__init__",
+            "save",
+            "analyse",
+            "recommend",
+            "trend_score",
+            "__init__",
+            "reflect",
+            "_build_summary"
+          ],
+          "classes": [
+            "ReflectionRecord",
+            "ReflectionStore",
+            "DeviationAnalyzer",
+            "AdaptationRouter",
+            "TemporalIndex",
+            "ReflectionEngine"
+          ]
+        },
+        {
+          "path": "vsv_construction_portfolio_ai.py",
+          "functions": [
+            "__init__",
+            "cycle",
+            "__init__",
+            "set_mode",
+            "route",
+            "__init__",
+            "evaluate",
+            "apply_corrections",
+            "__init__",
+            "analyze"
+          ],
+          "classes": [
+            "StrategyMode",
+            "ArdhanarishvaraOS",
+            "Arka",
+            "GovernanceEngine",
+            "SelfHealingEngine",
+            "DebugEngine"
+          ]
+        },
+        {
+          "path": "arka_core/ardhanarishvara_os.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "__init__",
+            "stop"
+          ],
+          "classes": [
+            "EngineType",
+            "EngineEnvelope",
+            "SharedHardwareRegulator",
+            "SharedASTValidator",
+            "ArdhanarishvaraOS"
+          ]
+        },
+        {
+          "path": "arka_core/arka_ultimate_supervisor.py",
+          "functions": [
+            "__init__",
+            "__init__"
+          ],
+          "classes": [
+            "ArkaState",
+            "ArkaTelemetry",
+            "ArkaUltimateSupervisor",
+            "ArkaUltimateSupervisor"
+          ]
+        },
+        {
+          "path": "arka_v1/arka_ecosystem_discovery.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "list_files",
+            "detect_functions_classes",
+            "score_entity",
+            "infer_role",
+            "infer_approval_required",
+            "discover",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "entities/astraa_kernel.py",
+          "functions": [
+            "validate_contract",
+            "__init__",
+            "register"
+          ],
+          "classes": [
+            "AstraaState",
+            "AstraaTelemetry",
+            "AstraaFinancialValidator",
+            "AstraaKernel"
+          ]
+        },
+        {
+          "path": "entities/astraa_trivertical_hyperengine.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "business",
+            "finance",
+            "construction",
+            "__init__"
+          ],
+          "classes": [
+            "Tier",
+            "Domain",
+            "Envelope",
+            "Registry",
+            "ComputeGate",
+            "ASTValidator",
+            "Pipelines",
+            "AstraaTriVerticalHyperEngine"
+          ]
+        },
+        {
+          "path": "entities/astraa_trivertical_sovengine.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "business",
+            "finance",
+            "construction",
+            "__init__",
+            "build_envelope"
+          ],
+          "classes": [
+            "Tier",
+            "Domain",
+            "Envelope",
+            "Registry",
+            "ComputeGate",
+            "ASTValidator",
+            "Pipelines",
+            "AstraaTriVerticalSovEngine"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ]
+    },
+    {
+      "name": "Arkastra",
+      "status": "present",
+      "detected_role": "website_business",
+      "confidence_score": 763,
+      "evidence_count": 223,
+      "top_evidence": [
+        {
+          "path": "entities/arkastra.py",
+          "score": 11,
+          "role_hint": "commerce",
+          "functions": [
+            "__init__"
+          ],
+          "classes": [
+            "ArkastraAgent"
+          ],
+          "callable_like": true,
+          "preview": "\"\"\" ArkastraAgent \u2014 Minimal Integration Version Purpose: - Provide a stable, importable creative-commerce engine - Accept payloads from AruhanAgent or Supervisor - Return structured creative/commerce responses \"\"\" import hashlib import logging logger = logging.getLogger(\"ArkastraAgent\") class ArkastraAgent: \"\"\" Creative Commerce Engine Gateway Minimal version required for system boot and engine mounting. \"\"\" def __init__(self): self.version = \"1.0-mini"
+        },
+        {
+          "path": "arka_v1/arka_ecosystem_discovery.py",
+          "score": 10,
+          "role_hint": "security_intelligence",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "list_files",
+            "detect_functions_classes",
+            "score_entity",
+            "infer_role",
+            "infer_approval_required",
+            "discover",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import ast import json import os import re import time from pathlib import Path from typing import Any, Dict, List ROOT = Path(os.getenv(\"ARKA_HQ_ROOT\", r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\")) ARKA_DIR = ROOT / \"arka_v1\" REGISTRY_OUT = ARKA_DIR / \"arka_ecosystem_registry.generated.json\" CONTRACTS_OUT = ARKA_DIR / \"arka_capability_contracts.generated.json\" MISSING_OUT = ARKA_DIR / \"arka_missing_entrypoints_report.json\" SKIP_PARTS = [\".git\", \".venv\", \"__pyc"
+        },
+        {
+          "path": "tool-commerce.html",
+          "score": 9,
+          "role_hint": "commerce",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"UTF-8\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /> <title>Astraa Commerce | Astraa Systems</title> <meta name=\"description\" content=\"Astraa Commerce is designed to support product, quote, transaction, and business-to-business workflow readiness for companies that need cleaner commerce operations.\" /> <style> :root { --black:#05070f; --navy:#071426; --royal:#1d4ed8; --white:#ffffff; --off:#"
+        },
+        {
+          "path": "entities/arkastra_kernel.py",
+          "score": 9,
+          "role_hint": "telemetry_oracle",
+          "functions": [
+            "__init__",
+            "register"
+          ],
+          "classes": [
+            "ArkastraState",
+            "ArkastraTelemetry",
+            "ArkastraDesignEngine",
+            "ArkastraSKUCompiler",
+            "ArkastraKernel"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Arkastra Sovereign Creative Commerce Kernel \u2014 Extreme Complexity Edition Role: Autonomous Apparel Designer, SKU Compiler, Storefront Provisioner Architecture: 100% Local / Air-Gapped / Multi-Engine Creative Fabric \"\"\" import asyncio import os import json import uuid import logging import random from enum import Enum from dataclasses import dataclass, asdict, field from typing import Dict, Any, List, Optional logging.basicConfig( level=logging.INFO, format=\"%("
+        },
+        {
+          "path": "frontend/tool-commerce.html",
+          "score": 9,
+          "role_hint": "commerce",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"UTF-8\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /> <title>Astraa Commerce | Astraa Systems</title> <meta name=\"description\" content=\"Astraa Commerce is designed to support product, quote, transaction, and business-to-business workflow readiness for companies that need cleaner commerce operations.\" /> <style> :root { --black:#05070f; --navy:#071426; --royal:#1d4ed8; --white:#ffffff; --off:#"
+        },
+        {
+          "path": "ARCHIVE_LEGACY/coordination/task_routing.py",
+          "score": 9,
+          "role_hint": "governor_interface",
+          "functions": [
+            "route"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "def route(task: dict, target_ai: str) -> bool: \"\"\" Routes tasks between ARKA, Astra, Arkastra, Lux. \"\"\" return True"
+        },
+        {
+          "path": "arka_core/arka_ultimate_supervisor.py",
+          "score": 8,
+          "role_hint": "wealth_treasury",
+          "functions": [
+            "__init__",
+            "__init__"
+          ],
+          "classes": [
+            "ArkaState",
+            "ArkaTelemetry",
+            "ArkaUltimateSupervisor",
+            "ArkaUltimateSupervisor"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Arka Ultimate Supervisor \u2014 Extreme Complexity Edition Role: Sovereign Governor, Evolution Director, Treasury Guardian, Multi-Engine Coordinator Architecture: 100% Local / Air-Gapped / Unified Sovereign AI Governance Layer \"\"\" import asyncio import os import json import uuid import logging from enum import Enum from dataclasses import dataclass, asdict, field from typing import Dict, Any, Optional from entities.aruhan import AruhanAgent from entities.astraa import Ast"
+        },
+        {
+          "path": "docs/README.md",
+          "score": 8,
+          "role_hint": "governance_kernel",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "\ud83d\udf02 1. Executive Summary The ARKA Sovereign Ecosystem is a multi\u2011engine, sovereign\u2011grade AI architecture designed for: autonomous decision systems financial intelligence business logic automation construction workflow modeling capital flow optimization OS\u2011level AI governance At its core is the AstraaTriVerticalSovEngine \u2014 a unified Business, Finance, and Construction engine with: AST\u2011validated mutation logic async compute fabric quantum envelope routing ledger persistence tiered execut"
+        },
+        {
+          "path": "execution/routing_layer.py",
+          "score": 7,
+          "role_hint": "logistics_distribution",
+          "functions": [
+            "__init__",
+            "register_engine",
+            "register_sector",
+            "route",
+            "_route_engine",
+            "_route_sector",
+            "__init__",
+            "handle",
+            "__init__",
+            "handle"
+          ],
+          "classes": [
+            "TaskRouter",
+            "EngineAdapter",
+            "SectorAdapter"
+          ],
+          "callable_like": true,
+          "preview": "import threading from ardhanarishvara.execution.observer import observer # ========================================================= # Task Router # ========================================================= class TaskRouter: \"\"\" Central routing system that: - receives tasks - determines destination engine/sector - dispatches tasks - emits observer events \"\"\" def __init__(self): self.engine_adapters = {} self.sector_adapters = {} self.lo"
+        },
+        {
+          "path": "legacy_modules/engines/arkastra_engine.py",
+          "score": 7,
+          "role_hint": "governor_interface",
+          "functions": [
+            "run"
+          ],
+          "classes": [
+            "ArkastraEngine"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 # ============================================================ # ARKASTRA ENGINE v17 # Handles: deep reasoning, complex logic, multi\u2011domain tasks # ============================================================ class ArkastraEngine: def run(self, user_input, context): return { \"status\": \"success\", \"engine\": \"ArkastraEngine\", \"action\": \"deep_reasoning\", \"input\": user_input, \"context_used\": list(contex"
+        },
+        {
+          "path": "governance/routing/__init__.py",
+          "score": 7,
+          "role_hint": "governance_kernel",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        },
+        {
+          "path": "execution/routing/__init__.py",
+          "score": 7,
+          "role_hint": "general",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        }
+      ],
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api.py",
+          "functions": [
+            "astraa_health",
+            "astraa_cors_public_launch_mode",
+            "astraa_cors_allowed_origins",
+            "astraa_cors_remove_permissive_headers",
+            "astraa_apply_cors_domain_lock",
+            "now_iso",
+            "append_jsonl",
+            "authorized",
+            "safe_amount",
+            "get_plan_amount",
+            "get_plan_label",
+            "config_status",
+            "astraa_today_date",
+            "astraa_today_key",
+            "astraa_month_key",
+            "astraa_month_start",
+            "astraa_month_end",
+            "astraa_load_usage_db",
+            "astraa_save_usage_db",
+            "astraa_default_usage_record"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_action_guard.py",
+          "functions": [
+            "now_utc",
+            "append_jsonl",
+            "check_action",
+            "guard_status"
+          ],
+          "classes": [
+            "GuardResult"
+          ]
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "lux_auto_terminal.py",
+          "functions": [
+            "__init__",
+            "spawn_new_agent",
+            "print_active_loops",
+            "execute_queued_proposals",
+            "_log_outcome"
+          ],
+          "classes": [
+            "AgentBasket",
+            "PoolManager"
+          ]
+        },
+        {
+          "path": "reflection_prototype.py",
+          "functions": [
+            "now",
+            "__init__",
+            "save",
+            "analyse",
+            "recommend",
+            "trend_score",
+            "__init__",
+            "reflect",
+            "_build_summary"
+          ],
+          "classes": [
+            "ReflectionRecord",
+            "ReflectionStore",
+            "DeviationAnalyzer",
+            "AdaptationRouter",
+            "TemporalIndex",
+            "ReflectionEngine"
+          ]
+        },
+        {
+          "path": "SupervisorCore.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "dbg_eng",
+            "dbg_route",
+            "dbg_auto",
+            "dbg_ledger_last",
+            "dbg_context",
+            "dbg_wrapper",
+            "dbg_all",
+            "stress_all_wrappers",
+            "stress_repeat",
+            "stress_burn",
+            "stress_auto_shift",
+            "stress_full_system"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        },
+        {
+          "path": "vsv_construction_ai.py",
+          "functions": [
+            "build_system",
+            "__init__",
+            "update",
+            "std",
+            "normalize",
+            "__init__",
+            "predict",
+            "__init__",
+            "route_request",
+            "snapshot",
+            "__init__",
+            "evaluate_project"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "VSVEstimator",
+            "ArdhanarishvaraOS",
+            "Arka"
+          ]
+        },
+        {
+          "path": "agents/operations_engine.py",
+          "functions": [
+            "generate_route_plan",
+            "operations_engine"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_core/ardhanarishvara_os.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "__init__",
+            "stop"
+          ],
+          "classes": [
+            "EngineType",
+            "EngineEnvelope",
+            "SharedHardwareRegulator",
+            "SharedASTValidator",
+            "ArdhanarishvaraOS"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ]
+    },
+    {
+      "name": "Estimator",
+      "status": "present",
+      "detected_role": "website_business",
+      "confidence_score": 933,
+      "evidence_count": 234,
+      "top_evidence": [
+        {
+          "path": "ArdhanarishvaraOS/kernel/construction_estimator.py",
+          "score": 18,
+          "role_hint": "construction_estimator",
+          "functions": [
+            "__init__",
+            "_normalize",
+            "_drift",
+            "material_cost",
+            "labor_cost",
+            "estimate",
+            "batch"
+          ],
+          "classes": [
+            "ConstructionEstimator"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 #=============================================================================== # ARDHANARISHVARA OS KERNEL MODULE # Construction Estimator \u2014 Autonomous Material, Labor & Cost Modeling Engine # File: construction_estimator.py #=============================================================================== import time import uuid import numpy as np from typing import Dict, Any, List class ConstructionEstimator: \"\"\" Computes construction estimates using:"
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "score": 17,
+          "role_hint": "construction_estimator",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 from __future__ import annotations import math import random from collections import deque from typing import Dict, List, Optional, Tuple class OnlineNormalizer: def __init__(self, eps: float = 1e-8): self.n = 0 self.mean = 0.0 self.m2 = 0.0 self.eps = eps def update(self, x: float) -> None: self.n += 1 delta = x - self.mean self.mean += delta / self.n delta2 = x - self.mean self.m2 += delta"
+        },
+        {
+          "path": "elite_estimator_v2.py",
+          "score": 15,
+          "role_hint": "construction_estimator",
+          "functions": [
+            "__init__",
+            "normalize",
+            "vector",
+            "base_calc",
+            "monte",
+            "apply_env",
+            "risk",
+            "similarity",
+            "find_similar",
+            "archetype",
+            "archetype_memory",
+            "learn",
+            "log",
+            "predict"
+          ],
+          "classes": [
+            "EliteEstimator"
+          ],
+          "callable_like": true,
+          "preview": "import time import numpy as np import json import os LEDGER = \"aruhan_ledger.jsonl\" class EliteEstimator: def __init__(self): self.last = None self.learn_score = 0.0 self.weights = np.array([0.3, 0.25, 0.2]) # ------------------------- # CORE # ------------------------- def normalize(self, x): return np.tanh(x) def vector(self, d): return np.array([ self.normalize(d[\"material_cost_index\"]), self.normali"
+        },
+        {
+          "path": "ArdhanarishvaraOS/support_docs/construction_estimator/__init__.py",
+          "score": 14,
+          "role_hint": "construction_estimator",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        },
+        {
+          "path": "arka_ardhanarishvara_estimator_integration.py",
+          "score": 13,
+          "role_hint": "construction_estimator",
+          "functions": [
+            "execute_strategy",
+            "build_system"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "# Inside ArdhanarishvaraOS def execute_strategy(self, signals, market_conditions): # 1. Estimate Cost cost_data = self.registry.get(\"estimator\").predict(signals, \"commercial_ground_up\") # 2. Formulate Strategy strategist = self.registry.get(\"strategist\") decision = strategist.evaluate(cost_data, market_conditions) # 3. Governance Check if cost_data[\"confidence\"] < 0.6: return {\"status\": \"HALT\", \"reason\": \"Low Confidence\"} return {\"cost\":"
+        },
+        {
+          "path": "vsv_construction_ai.py",
+          "score": 13,
+          "role_hint": "construction_estimator",
+          "functions": [
+            "build_system",
+            "__init__",
+            "update",
+            "std",
+            "normalize",
+            "__init__",
+            "predict",
+            "__init__",
+            "route_request",
+            "snapshot",
+            "__init__",
+            "evaluate_project"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "VSVEstimator",
+            "ArdhanarishvaraOS",
+            "Arka"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" vsv_construction_ai.py VSV Construction AI =================== Construction-specific sovereign intelligence module for: - Arka (executive controller) - Ardhanarishvara OS (governance + orchestration) - VSV Estimator (adaptive cost / difficulty prediction) - Bid / No-Bid engine - Margin advisor - Capital allocator - Portfolio intelligence \"\"\" from __future__ import annotations import math, random from collections import deque from dataclasses import dataclass, field f"
+        },
+        {
+          "path": "vsv_construction_portfolio_ai.py",
+          "score": 13,
+          "role_hint": "governance_kernel",
+          "functions": [
+            "__init__",
+            "cycle",
+            "__init__",
+            "set_mode",
+            "route",
+            "__init__",
+            "evaluate",
+            "apply_corrections",
+            "__init__",
+            "analyze"
+          ],
+          "classes": [
+            "StrategyMode",
+            "ArdhanarishvaraOS",
+            "Arka",
+            "GovernanceEngine",
+            "SelfHealingEngine",
+            "DebugEngine"
+          ],
+          "callable_like": true,
+          "preview": "from enum import Enum class StrategyMode(Enum): PRESERVATION = \"PRESERVATION\" BALANCED = \"BALANCED\" GROWTH = \"GROWTH\" class ArdhanarishvaraOS: def __init__(self, estimator): self.estimator = estimator self.governance = GovernanceEngine() self.healer = SelfHealingEngine() # The new Autonomous Core def cycle(self, signals, scenario): # 1. Standard Operation result = self.estimator.predict(signals, scenario) decision = se"
+        },
+        {
+          "path": "legacy_modules/engines/spatial_estimator.py",
+          "score": 13,
+          "role_hint": "construction_estimator",
+          "functions": [
+            "run"
+          ],
+          "classes": [
+            "SpatialConstructionEstimator"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 # ============================================================ # SPATIAL CONSTRUCTION ESTIMATOR v17 # Handles: material estimation, construction cost modeling # ============================================================ class SpatialConstructionEstimator: def run(self, user_input, context): return { \"status\": \"success\", \"engine\": \"SpatialConstructionEstimator\", \"action\": \"construction_estimation\", \"input\": u"
+        },
+        {
+          "path": "arka_v1/arka_ecosystem_discovery.py",
+          "score": 12,
+          "role_hint": "security_intelligence",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "list_files",
+            "detect_functions_classes",
+            "score_entity",
+            "infer_role",
+            "infer_approval_required",
+            "discover",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import ast import json import os import re import time from pathlib import Path from typing import Any, Dict, List ROOT = Path(os.getenv(\"ARKA_HQ_ROOT\", r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\")) ARKA_DIR = ROOT / \"arka_v1\" REGISTRY_OUT = ARKA_DIR / \"arka_ecosystem_registry.generated.json\" CONTRACTS_OUT = ARKA_DIR / \"arka_capability_contracts.generated.json\" MISSING_OUT = ARKA_DIR / \"arka_missing_entrypoints_report.json\" SKIP_PARTS = [\".git\", \".venv\", \"__pyc"
+        },
+        {
+          "path": "tool-estimator.html",
+          "score": 11,
+          "role_hint": "construction_estimator",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"UTF-8\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /> <title>Astraa Estimator | Astraa Systems</title> <meta name=\"description\" content=\"Astraa Estimator helps users create structured project estimates with clear inputs, assumptions, and planning visibility.\" /> <style> :root { --black:#05070f; --navy:#071426; --royal:#1d4ed8; --white:#ffffff; --off:#f8fafc; --l"
+        },
+        {
+          "path": "frontend/tool-estimator.html",
+          "score": 11,
+          "role_hint": "construction_estimator",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"UTF-8\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /> <title>Astraa Estimator | Astraa Systems</title> <meta name=\"description\" content=\"Astraa Estimator helps users create structured project estimates with clear inputs, assumptions, and planning visibility.\" /> <style> :root { --black:#05070f; --navy:#071426; --royal:#1d4ed8; --white:#ffffff; --off:#f8fafc; --l"
+        },
+        {
+          "path": "aruhan_runtime_loop.py",
+          "score": 10,
+          "role_hint": "construction_estimator",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "import sys # Import both classes from the module file from elite_estimator_module import EliteEstimator, ArkaConstructionEstimator if __name__ == \"__main__\": # Initialize the class imported from elite_estimator_module.py arka_est = ArkaConstructionEstimator() # Input data current_signals = { \"labour_hours\": 1200, \"material_cost_index\": 1.05, \"equipment_cost\": 45000, \"site_complexity\": 0.8, \"schedule_pressure\": 0.9, \"region_fac"
+        }
+      ],
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api.py",
+          "functions": [
+            "astraa_health",
+            "astraa_cors_public_launch_mode",
+            "astraa_cors_allowed_origins",
+            "astraa_cors_remove_permissive_headers",
+            "astraa_apply_cors_domain_lock",
+            "now_iso",
+            "append_jsonl",
+            "authorized",
+            "safe_amount",
+            "get_plan_amount",
+            "get_plan_label",
+            "config_status",
+            "astraa_today_date",
+            "astraa_today_key",
+            "astraa_month_key",
+            "astraa_month_start",
+            "astraa_month_end",
+            "astraa_load_usage_db",
+            "astraa_save_usage_db",
+            "astraa_default_usage_record"
+          ],
+          "classes": []
+        },
+        {
+          "path": "api_server.py",
+          "functions": [
+            "evaluate",
+            "health"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_ardhanarishvara_estimator_integration.py",
+          "functions": [
+            "execute_strategy",
+            "build_system"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "astraa_arka_bridge.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "append_jsonl",
+            "read_jsonl",
+            "send_astraa_event_to_arka",
+            "write_arka_recommendation",
+            "get_bridge_summary"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "elite_estimator_v2.py",
+          "functions": [
+            "__init__",
+            "normalize",
+            "vector",
+            "base_calc",
+            "monte",
+            "apply_env",
+            "risk",
+            "similarity",
+            "find_similar",
+            "archetype",
+            "archetype_memory",
+            "learn",
+            "log",
+            "predict"
+          ],
+          "classes": [
+            "EliteEstimator"
+          ]
+        },
+        {
+          "path": "fusion_runtime.py",
+          "functions": [
+            "__init__",
+            "compute_weight",
+            "fuse",
+            "decide",
+            "__init__",
+            "process_cycle"
+          ],
+          "classes": [
+            "Signal",
+            "TrustEngine",
+            "FusionEngine",
+            "DecisionGate",
+            "ArkaFusionRuntime"
+          ]
+        },
+        {
+          "path": "lead_capture.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "normalize",
+            "lower",
+            "append_jsonl",
+            "read_jsonl",
+            "score_lead",
+            "lead_status",
+            "next_action",
+            "build_confirmation_email",
+            "update_sales_signal",
+            "create_lead",
+            "leads_report"
+          ],
+          "classes": []
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ]
+    },
+    {
+      "name": "Oracle",
+      "status": "present",
+      "detected_role": "governance_kernel",
+      "confidence_score": 462,
+      "evidence_count": 160,
+      "top_evidence": [
+        {
+          "path": "arka_v1/arka_ecosystem_discovery.py",
+          "score": 10,
+          "role_hint": "security_intelligence",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "list_files",
+            "detect_functions_classes",
+            "score_entity",
+            "infer_role",
+            "infer_approval_required",
+            "discover",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import ast import json import os import re import time from pathlib import Path from typing import Any, Dict, List ROOT = Path(os.getenv(\"ARKA_HQ_ROOT\", r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\")) ARKA_DIR = ROOT / \"arka_v1\" REGISTRY_OUT = ARKA_DIR / \"arka_ecosystem_registry.generated.json\" CONTRACTS_OUT = ARKA_DIR / \"arka_capability_contracts.generated.json\" MISSING_OUT = ARKA_DIR / \"arka_missing_entrypoints_report.json\" SKIP_PARTS = [\".git\", \".venv\", \"__pyc"
+        },
+        {
+          "path": "domains/data_oracle/oracle.py",
+          "score": 9,
+          "role_hint": "telemetry_oracle",
+          "functions": [
+            "run_data_oracle_node"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from app.core.mathematics_engine.core_interface import compute def run_data_oracle_node(payload: dict) -> dict: raw_price = payload.get(\"price\", 0.0) volatility = payload.get(\"volatility\", 0.0) math_truth = compute( module=\"state_space.kalman\", inputs={\"measurement\": raw_price, \"yield_spread_volatility\": volatility} ) velocity = math_truth[\"velocity\"] signal = \"NEUTRAL\" if velocity > 0.05: signal = \"BULLISH_MOMENTUM\" elif velocity < -0.05: signal"
+        },
+        {
+          "path": "aruhan/domains/data_oracle/dataoracle.py",
+          "score": 9,
+          "role_hint": "telemetry_oracle",
+          "functions": [
+            "build_signal"
+          ],
+          "classes": [
+            "DataOracle"
+          ],
+          "callable_like": true,
+          "preview": "import math from aruhan.governance.fusion.signal_models import Signal class DataOracle: def build_signal(self, measurement, recent_measurements): if len(recent_measurements) < 2: return Signal(source=\"dataoracle\", value=0.0, confidence=0.5, trend=\"STABLE\") delta = recent_measurements[-1] - recent_measurements[-2] value = max(-1.0, min(1.0, delta / 0.5)) if len(recent_measurements) >= 5: window = recent_measurements[-5:] m"
+        },
+        {
+          "path": "aruhan/domains/data_oracle/estimator_wrapper.py",
+          "score": 9,
+          "role_hint": "telemetry_oracle",
+          "functions": [
+            "__init__",
+            "run",
+            "build_signal",
+            "update_calibration"
+          ],
+          "classes": [
+            "EstimatorWrapper"
+          ],
+          "callable_like": true,
+          "preview": "import numpy as np from aruhan.governance.fusion.signal_models import Signal from aruhan.os.calibration.confidence_calibrator import ConfidenceCalibrator class EstimatorWrapper: def __init__(self, kf): self.kf = kf self.last_output = None self.last_nis = 1.0 self.calibrator = ConfidenceCalibrator() def run(self, measurement): x_pred = self.kf.A @ self.kf.x P_pred = self.kf.A @ self.kf.P @ self.kf.A.T + self.kf.Q S = self.kf.H @ P_"
+        },
+        {
+          "path": "data/astraa_sales_signal.json",
+          "score": 7,
+          "role_hint": "website_business",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "{ \"generated_at\": \"2026-06-24T11:11:57.372248Z\", \"counts\": { \"total_leads\": 2, \"qualified\": 0, \"warm\": 0, \"estimator_interest\": 1, \"finance_interest\": 0, \"operations_interest\": 0, \"workspace_interest\": 0 }, \"top_product_interest\": [ [ \"Estimator\", 1 ], [ \"Finance\", 0 ], [ \"Operations\", 0 ], [ \"Workspace\", 0 ] ], \"sales_channel_signal\": \"insufficient_data\", \"recommended_next_p"
+        },
+        {
+          "path": "domains/data_oracle/__init__.py",
+          "score": 7,
+          "role_hint": "telemetry_oracle",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        },
+        {
+          "path": "aruhan/governance/fusion/signal_models.py",
+          "score": 7,
+          "role_hint": "telemetry_oracle",
+          "functions": [],
+          "classes": [
+            "Signal",
+            "FusionResult"
+          ],
+          "callable_like": true,
+          "preview": "from dataclasses import dataclass @dataclass class Signal: source: str value: float # Normalized score in [-1, 1] confidence: float # [0, 1] trend: str # IMPROVING / DECLINING / STABLE regime: str = \"NORMAL\" # NORMAL / VOLATILE trust_weight: float = 0.0 note: str = \"\" @dataclass class FusionResult: score: float confidence: float direction: str agreement: float instability: float"
+        },
+        {
+          "path": "aruhan/domains/data_oracle/kalman_filter.py",
+          "score": 7,
+          "role_hint": "telemetry_oracle",
+          "functions": [
+            "__init__",
+            "set_q_multiplier",
+            "predict",
+            "correct",
+            "step"
+          ],
+          "classes": [
+            "FinancialKalmanFilter"
+          ],
+          "callable_like": true,
+          "preview": "import numpy as np class FinancialKalmanFilter: def __init__(self, delta_t, process_noise_var, measurement_noise_var): self.delta_t = delta_t self.A = np.array([[1, delta_t], [0, 1]], dtype=float) self.H = np.array([[1, 0]], dtype=float) self.base_Q = np.array([ [0.25 * (delta_t ** 4), 0.5 * (delta_t ** 3)], [0.5 * (delta_t ** 3), delta_t ** 2] ], dtype=float) * process_noise_var self.Q = self.base_Q.copy() s"
+        },
+        {
+          "path": "aruhan/domains/data_oracle/__init__.py",
+          "score": 7,
+          "role_hint": "telemetry_oracle",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        },
+        {
+          "path": "ArdhanarishvaraOS/kernel/error_telemetry_engine.py",
+          "score": 7,
+          "role_hint": "governance_kernel",
+          "functions": [
+            "__init__",
+            "_bootstrap_schema",
+            "_severity",
+            "record",
+            "query",
+            "severity_report"
+          ],
+          "classes": [
+            "ErrorTelemetryEngine"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 #=============================================================================== # ARDHANARISHVARA OS KERNEL MODULE # Error Telemetry Engine \u2014 Autonomous Error Capture, Classification & Analytics # File: error_telemetry_engine.py #=============================================================================== import time import uuid import sqlite3 import os import numpy as np from typing import Dict, Any, Optional, List class ErrorTelemetryEngine: \"\"\" Captures"
+        },
+        {
+          "path": "ArdhanarishvaraOS/kernel/kernel_telemetry_engine.py",
+          "score": 7,
+          "role_hint": "governance_kernel",
+          "functions": [
+            "__init__",
+            "metric",
+            "increment",
+            "event",
+            "set_health",
+            "export",
+            "snapshot"
+          ],
+          "classes": [
+            "KernelTelemetryEngine"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 #=============================================================================== # ARDHANARISHVARA OS KERNEL MODULE # SovereignOS Kernel Telemetry Engine \u2014 Metrics, Events & Health Core # File: kernel_telemetry_engine.py #=============================================================================== import time import uuid from typing import Dict, Any, List class KernelTelemetryEngine: \"\"\" Provides: \u2022 kernel event ingestion \u2022 metric counters & gau"
+        },
+        {
+          "path": "ArdhanarishvaraOS/support_docs/error_telemetry_engine/__init__.py",
+          "score": 7,
+          "role_hint": "telemetry_oracle",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        }
+      ],
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "arka_action_guard.py",
+          "functions": [
+            "now_utc",
+            "append_jsonl",
+            "check_action",
+            "guard_status"
+          ],
+          "classes": [
+            "GuardResult"
+          ]
+        },
+        {
+          "path": "arka_ardhanarishvara_estimator_integration.py",
+          "functions": [
+            "execute_strategy",
+            "build_system"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "boot.py",
+          "functions": [
+            "handle_shutdown"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "elite_estimator_v2.py",
+          "functions": [
+            "__init__",
+            "normalize",
+            "vector",
+            "base_calc",
+            "monte",
+            "apply_env",
+            "risk",
+            "similarity",
+            "find_similar",
+            "archetype",
+            "archetype_memory",
+            "learn",
+            "log",
+            "predict"
+          ],
+          "classes": [
+            "EliteEstimator"
+          ]
+        },
+        {
+          "path": "fusion_runtime.py",
+          "functions": [
+            "__init__",
+            "compute_weight",
+            "fuse",
+            "decide",
+            "__init__",
+            "process_cycle"
+          ],
+          "classes": [
+            "Signal",
+            "TrustEngine",
+            "FusionEngine",
+            "DecisionGate",
+            "ArkaFusionRuntime"
+          ]
+        },
+        {
+          "path": "lead_capture.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "normalize",
+            "lower",
+            "append_jsonl",
+            "read_jsonl",
+            "score_lead",
+            "lead_status",
+            "next_action",
+            "build_confirmation_email",
+            "update_sales_signal",
+            "create_lead",
+            "leads_report"
+          ],
+          "classes": []
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ]
+    },
+    {
+      "name": "Distribution",
+      "status": "present",
+      "detected_role": "website_business",
+      "confidence_score": 697,
+      "evidence_count": 201,
+      "top_evidence": [
+        {
+          "path": "tool-distribution.html",
+          "score": 11,
+          "role_hint": "website_business",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"UTF-8\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /> <title>Astraa Distribution | Astraa Systems</title> <meta name=\"description\" content=\"Astraa Distribution is designed to help businesses review carrier workflows, routes, fleet usage, inventory nodes, and delivery operations with a low-friction setup path.\" /> <style> :root { --black:#05070f; --navy:#071426; --royal:#1d4ed8; --white:#ffffff;"
+        },
+        {
+          "path": "frontend/tool-distribution.html",
+          "score": 11,
+          "role_hint": "website_business",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"UTF-8\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /> <title>Astraa Distribution | Astraa Systems</title> <meta name=\"description\" content=\"Astraa Distribution is designed to help businesses review carrier workflows, routes, fleet usage, inventory nodes, and delivery operations with a low-friction setup path.\" /> <style> :root { --black:#05070f; --navy:#071426; --royal:#1d4ed8; --white:#ffffff;"
+        },
+        {
+          "path": "arka_v1/arka_ecosystem_discovery.py",
+          "score": 10,
+          "role_hint": "security_intelligence",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "list_files",
+            "detect_functions_classes",
+            "score_entity",
+            "infer_role",
+            "infer_approval_required",
+            "discover",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import ast import json import os import re import time from pathlib import Path from typing import Any, Dict, List ROOT = Path(os.getenv(\"ARKA_HQ_ROOT\", r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\")) ARKA_DIR = ROOT / \"arka_v1\" REGISTRY_OUT = ARKA_DIR / \"arka_ecosystem_registry.generated.json\" CONTRACTS_OUT = ARKA_DIR / \"arka_capability_contracts.generated.json\" MISSING_OUT = ARKA_DIR / \"arka_missing_entrypoints_report.json\" SKIP_PARTS = [\".git\", \".venv\", \"__pyc"
+        },
+        {
+          "path": "arka_v1/arka_governor_dispatcher.backup_before_identity_normalization.py",
+          "score": 9,
+          "role_hint": "website_business",
+          "functions": [
+            "_run",
+            "_read_json",
+            "_source_links",
+            "_is_exact_status",
+            "_is_website_status",
+            "_is_leads_or_signups",
+            "_is_market_position",
+            "_is_current_external_question",
+            "governor_system_status",
+            "_http_check",
+            "governor_website_status",
+            "_summarize_json_file",
+            "_db_table_counts",
+            "governor_leads_status",
+            "governor_market_position",
+            "governor_safe_web",
+            "_is_identity_question",
+            "governor_identity_status",
+            "arka_governor_dispatch"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import json import os import re import sqlite3 import subprocess import time import urllib.request from pathlib import Path from urllib.parse import quote_plus GOVERNOR_DISPATCHER_VERSION = \"1.0\" ROOT = Path(os.getenv(\"ARKA_HQ_ROOT\", r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\")) ARKA_DIR = ROOT / \"arka_v1\" DATA_DIR = Path(r\"D:\\ARKA_HQ\\data\") DB_PATH = DATA_DIR / \"arka_core.db\" def _run(cmd: str, timeout: int = 30) -> dict: try: p = subprocess.run("
+        },
+        {
+          "path": "arka_v1/arka_governor_dispatcher.py",
+          "score": 9,
+          "role_hint": "website_business",
+          "functions": [
+            "_run",
+            "_read_json",
+            "_source_links",
+            "_is_exact_status",
+            "_is_website_status",
+            "_is_leads_or_signups",
+            "_is_market_position",
+            "_is_current_external_question",
+            "governor_system_status",
+            "_http_check",
+            "governor_website_status",
+            "_summarize_json_file",
+            "_db_table_counts",
+            "governor_leads_status",
+            "governor_market_position",
+            "governor_safe_web",
+            "_is_identity_question",
+            "governor_identity_status",
+            "arka_governor_dispatch"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import json import os import re import sqlite3 import subprocess import time import urllib.request from pathlib import Path from urllib.parse import quote_plus GOVERNOR_DISPATCHER_VERSION = \"1.0\" ROOT = Path(os.getenv(\"ARKA_HQ_ROOT\", r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\")) ARKA_DIR = ROOT / \"arka_v1\" DATA_DIR = Path(r\"D:\\ARKA_HQ\\data\") DB_PATH = DATA_DIR / \"arka_core.db\" def _run(cmd: str, timeout: int = 30) -> dict: try: p = subprocess.run("
+        },
+        {
+          "path": "workflows/WorkflowExecutor.py",
+          "score": 9,
+          "role_hint": "construction_estimator",
+          "functions": [
+            "__init__",
+            "run_chain",
+            "validate_financial_intent",
+            "execute_primary_engine",
+            "execute_intake_engine",
+            "execute_finance_engine",
+            "compute_profit",
+            "log_financial_event",
+            "log_geo_event",
+            "log_distribution_event",
+            "log_construction_event",
+            "log_reasoning_event",
+            "log_income_event"
+          ],
+          "classes": [
+            "WorkflowExecutor"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 # ============================================================ # WORKFLOW EXECUTOR v17 \u2014 Arka Pillai Holdings Ltd # Executes multi-step workflow chains with: # - validation gates # - context injection # - kernel integration # - ledger logging # - fallback handling # ============================================================ import traceback from datetime import datetime class WorkflowExecutor: def __init__(self, supervisor, kernel): self.supervisor"
+        },
+        {
+          "path": "legacy_modules/engines/distribution_ai.py",
+          "score": 9,
+          "role_hint": "logistics_distribution",
+          "functions": [
+            "run"
+          ],
+          "classes": [
+            "DistributionAI"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 # ============================================================ # DISTRIBUTION AI v17 # Handles: routing, delivery optimization, logistics # ============================================================ class DistributionAI: def run(self, user_input, context): return { \"status\": \"success\", \"engine\": \"DistributionAI\", \"action\": \"distribution_routing\", \"input\": user_input, \"context_used\": list(context."
+        },
+        {
+          "path": "ArdhanarishvaraOS/kernel/dispatch_engine.py",
+          "score": 9,
+          "role_hint": "logistics_distribution",
+          "functions": [
+            "__init__",
+            "register_engine",
+            "attach_supervisor",
+            "_normalize",
+            "_select_engine"
+          ],
+          "classes": [
+            "DispatchEngine"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 #=============================================================================== # ARDHANARISHVARA OS KERNEL MODULE # Dispatch Engine \u2014 Autonomous Multi\u2011Engine Task Distribution Core # File: dispatch_engine.py #=============================================================================== import time import uuid import asyncio import random from typing import Dict, Any, Callable, Optional, List class DispatchEngine: \"\"\" Routes tasks, jobs, and workloads acros"
+        },
+        {
+          "path": "ARCHIVE_LEGACY/logistics/job_scheduling_engine.py",
+          "score": 9,
+          "role_hint": "logistics_distribution",
+          "functions": [
+            "__init__",
+            "schedule",
+            "next",
+            "_log",
+            "snapshot"
+          ],
+          "classes": [
+            "JobSchedulingEngine"
+          ],
+          "callable_like": true,
+          "preview": "# ============================================================ # JOB SCHEDULING ENGINE \u2014 Y\u2011PRIME EDITION # ============================================================ import time import threading class JobSchedulingEngine: def __init__(self): self.lock = threading.Lock() self.queue = [] self.meta = {\"scheduled\": 0, \"executed\": 0} self.history = [] self.limits = {\"history\": 200} # ============================================================"
+        },
+        {
+          "path": "workspace-internal.html",
+          "score": 8,
+          "role_hint": "commerce",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "<!DOCTYPE html> <html lang=\"en\"> <head> <!-- ASTRAA_WORKSPACE_ECOSYSTEM_QA_V1 --> <meta charset=\"UTF-8\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /> <title>Astraa Workspace | Ecosystem QA Ground</title> <style> :root { --black:#05070f; --navy:#071426; --royal:#1d4ed8; --white:#ffffff; --off:#f8fafc; --line:#dbe3ef; --text:#0f172a; --muted:#475569; --gray:#64748b; --light:#dbeafe; --gr"
+        },
+        {
+          "path": "arka_v1/arka_state.json",
+          "score": 8,
+          "role_hint": "math_reasoning",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": "{ \"chat\": [ { \"id\": \"50dac430\", \"role\": \"user\", \"text\": \"hi\", \"created_at\": 1782344758.742117 }, { \"id\": \"fabdab2b\", \"role\": \"arka\", \"text\": \"Hi Keshanth, I'm here.\", \"created_at\": 1782344758.749012 }, { \"id\": \"2b777608\", \"role\": \"user\", \"text\": \"check website health\", \"created_at\": 1782344766.0801797 }, { \"id\": \"9ec59083\", \"role\": \"arka\", \"text\": \"Website health audit complete"
+        },
+        {
+          "path": "arka_v1/arka_v1.py",
+          "score": 8,
+          "role_hint": "website_business",
+          "functions": [
+            "uid",
+            "now",
+            "esc",
+            "load_json",
+            "save_json",
+            "init",
+            "state",
+            "save_state",
+            "memory",
+            "save_memory",
+            "log_event",
+            "business_event",
+            "lifecycle_insert",
+            "add_chat",
+            "add_task",
+            "save_active_memory",
+            "extract_save_command",
+            "active_memory_texts",
+            "recall_memory",
+            "web_get"
+          ],
+          "classes": [
+            "Handler"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 from __future__ import annotations import json import os import re import sqlite3 import subprocess import time import urllib.parse import urllib.request import uuid from html import unescape from http.server import BaseHTTPRequestHandler, HTTPServer from pathlib import Path from urllib.parse import parse_qs from arka_math_os import arka_math_os_router from arka_governor_dispatcher import arka_governor_dispatch APP_NAME = \"Arka V1\" VERSION = \"1.0\" ROOT = Path(__file__).p"
+        }
+      ],
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api.py",
+          "functions": [
+            "astraa_health",
+            "astraa_cors_public_launch_mode",
+            "astraa_cors_allowed_origins",
+            "astraa_cors_remove_permissive_headers",
+            "astraa_apply_cors_domain_lock",
+            "now_iso",
+            "append_jsonl",
+            "authorized",
+            "safe_amount",
+            "get_plan_amount",
+            "get_plan_label",
+            "config_status",
+            "astraa_today_date",
+            "astraa_today_key",
+            "astraa_month_key",
+            "astraa_month_start",
+            "astraa_month_end",
+            "astraa_load_usage_db",
+            "astraa_save_usage_db",
+            "astraa_default_usage_record"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_ardhanarishvara_estimator_integration.py",
+          "functions": [
+            "execute_strategy",
+            "build_system"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "lead_capture.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "normalize",
+            "lower",
+            "append_jsonl",
+            "read_jsonl",
+            "score_lead",
+            "lead_status",
+            "next_action",
+            "build_confirmation_email",
+            "update_sales_signal",
+            "create_lead",
+            "leads_report"
+          ],
+          "classes": []
+        },
+        {
+          "path": "SupervisorCore.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "dbg_eng",
+            "dbg_route",
+            "dbg_auto",
+            "dbg_ledger_last",
+            "dbg_context",
+            "dbg_wrapper",
+            "dbg_all",
+            "stress_all_wrappers",
+            "stress_repeat",
+            "stress_burn",
+            "stress_auto_shift",
+            "stress_full_system"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        },
+        {
+          "path": "SupervisorCore_DEPLOYED.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "__init__",
+            "load",
+            "save",
+            "log",
+            "norm",
+            "profit",
+            "failrec",
+            "blocked",
+            "__init__",
+            "allow",
+            "rec",
+            "tick"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        },
+        {
+          "path": "vsv_construction_ai.py",
+          "functions": [
+            "build_system",
+            "__init__",
+            "update",
+            "std",
+            "normalize",
+            "__init__",
+            "predict",
+            "__init__",
+            "route_request",
+            "snapshot",
+            "__init__",
+            "evaluate_project"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "VSVEstimator",
+            "ArdhanarishvaraOS",
+            "Arka"
+          ]
+        },
+        {
+          "path": "agents/operations_engine.py",
+          "functions": [
+            "generate_route_plan",
+            "operations_engine"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_core/ardhanarishvara_os.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "__init__",
+            "stop"
+          ],
+          "classes": [
+            "EngineType",
+            "EngineEnvelope",
+            "SharedHardwareRegulator",
+            "SharedASTValidator",
+            "ArdhanarishvaraOS"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ]
+    },
+    {
+      "name": "Bridge Layer",
+      "status": "present",
+      "detected_role": "governance_kernel",
+      "confidence_score": 451,
+      "evidence_count": 149,
+      "top_evidence": [
+        {
+          "path": "astraa_arka_bridge.py",
+          "score": 14,
+          "role_hint": "website_business",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "append_jsonl",
+            "read_jsonl",
+            "send_astraa_event_to_arka",
+            "write_arka_recommendation",
+            "get_bridge_summary"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "\"\"\" Astraa \u2194 Arka Internal Bridge Purpose: - Let Astraa send structured business events to Arka. - Let Arka write recommendations back to Astraa. - Keep public website/Workspace separated from internal intelligence. - Require operator approval before production actions. Does NOT: - expose Arka publicly - let website visitors call Arka directly - unlock customer accounts - run payments - send emails automatically - perform trading \"\"\" from __future__ import annotations import json import uuid"
+        },
+        {
+          "path": "scripts/astraa_arka_bridge_report.py",
+          "score": 14,
+          "role_hint": "website_business",
+          "functions": [
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 \"\"\" Astraa \u2194 Arka Bridge Report Shows internal communication status between Astraa event logging and Arka recommendations. \"\"\" from __future__ import annotations import sys from pathlib import Path ROOT = Path(__file__).resolve().parents[1] sys.path.insert(0, str(ROOT)) from astraa_arka_bridge import get_bridge_summary def main() -> int: summary = get_bridge_summary() print(\"=\" * 80) print(\"ASTRAA \u2194 ARKA BRIDGE REPORT\") print(\"=\" * 80) print(\"E"
+        },
+        {
+          "path": "ArdhanarishvaraOS/kernel/supervisor_bridge.py",
+          "score": 9,
+          "role_hint": "governance_kernel",
+          "functions": [
+            "__init__",
+            "register_engine",
+            "register_escalation"
+          ],
+          "classes": [
+            "SupervisorBridge"
+          ],
+          "callable_like": true,
+          "preview": "#!/usr/bin/env python3 #=============================================================================== # ARDHANARISHVARA OS KERNEL MODULE # Supervisor Bridge \u2014 Autonomous Multi\u2011Engine Oversight + Escalation Core # File: supervisor_bridge.py #=============================================================================== import time import uuid import asyncio import random from typing import Dict, Any, Callable, Optional class SupervisorBridge: \"\"\" Oversees all ARKA engines, handles"
+        },
+        {
+          "path": "ARCHIVE_LEGACY/infrastructure/astra_legacy/bridge/astra_bridge.py",
+          "score": 9,
+          "role_hint": "governor_interface",
+          "functions": [
+            "__init__",
+            "send_to_astra",
+            "get_astra_memory"
+          ],
+          "classes": [
+            "ASTRABridge"
+          ],
+          "callable_like": true,
+          "preview": "class ASTRABridge: def __init__(self, astra, arka, sync_engine): self.astra = astra self.arka = arka self.sync = sync_engine def send_to_astra(self, text): result = self.arka.process(text) self.sync.astra_memory.save(\"last_message\", result) return result def get_astra_memory(self): return self.sync.astra_memory.all()"
+        },
+        {
+          "path": "arka_v1/arka_ecosystem_discovery.py",
+          "score": 8,
+          "role_hint": "security_intelligence",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "list_files",
+            "detect_functions_classes",
+            "score_entity",
+            "infer_role",
+            "infer_approval_required",
+            "discover",
+            "main"
+          ],
+          "classes": [],
+          "callable_like": true,
+          "preview": "from __future__ import annotations import ast import json import os import re import time from pathlib import Path from typing import Any, Dict, List ROOT = Path(os.getenv(\"ARKA_HQ_ROOT\", r\"D:\\ARKA_HQ\\repos\\ardhanarishvara_git\")) ARKA_DIR = ROOT / \"arka_v1\" REGISTRY_OUT = ARKA_DIR / \"arka_ecosystem_registry.generated.json\" CONTRACTS_OUT = ARKA_DIR / \"arka_capability_contracts.generated.json\" MISSING_OUT = ARKA_DIR / \"arka_missing_entrypoints_report.json\" SKIP_PARTS = [\".git\", \".venv\", \"__pyc"
+        },
+        {
+          "path": "ArdhanarishvaraOS/support_docs/supervisor_bridge/__init__.py",
+          "score": 7,
+          "role_hint": "governance_kernel",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        },
+        {
+          "path": "ARCHIVE_LEGACY/infrastructure/sync_engine.py",
+          "score": 7,
+          "role_hint": "governor_interface",
+          "functions": [
+            "__init__",
+            "sync_heartbeat",
+            "sync_health",
+            "attach_memory"
+          ],
+          "classes": [
+            "ASTRASync"
+          ],
+          "callable_like": true,
+          "preview": "class ASTRASync: def __init__(self, astra, arka): self.astra = astra self.arka = arka def sync_heartbeat(self): hb = self.arka.os.health.heartbeat() self.astra_memory.save(\"arka_heartbeat\", hb) return hb def sync_health(self): health = self.arka.os.health.health_score() self.astra_memory.save(\"arka_health\", health) return health def attach_memory(self, memory_engine): self.astra_memory = memory_engine"
+        },
+        {
+          "path": "ARCHIVE_LEGACY/memory/aruhan_memory_hooks/memory_bridge.py",
+          "score": 7,
+          "role_hint": "governance_kernel",
+          "functions": [
+            "__init__",
+            "write",
+            "read"
+          ],
+          "classes": [
+            "AruhanMemoryBridge"
+          ],
+          "callable_like": true,
+          "preview": "from ardhanarishvara.memory.long_term_memory import LongTermMemory class AruhanMemoryBridge: def __init__(self): self.shared = LongTermMemory() def write(self, data): self.shared.store(data) def read(self): return self.shared.retrieve()"
+        },
+        {
+          "path": "ARCHIVE_LEGACY/infrastructure/astra_legacy/bridge/__init__.py",
+          "score": 7,
+          "role_hint": "general",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        },
+        {
+          "path": "ARCHIVE_LEGACY/infrastructure/astra_legacy/sync/__init__.py",
+          "score": 7,
+          "role_hint": "general",
+          "functions": [],
+          "classes": [],
+          "callable_like": false,
+          "preview": ""
+        },
+        {
+          "path": "ARCHIVE_LEGACY/engines/shared/aruhan_bridge.py",
+          "score": 7,
+          "role_hint": "governance_kernel",
+          "functions": [
+            "__init__",
+            "execute"
+          ],
+          "classes": [
+            "EngineAruhanBridge"
+          ],
+          "callable_like": true,
+          "preview": "from ardhanarishvara.autonomy.aruhan_execution.integration_bridge import AruhanIntegrationBridge class EngineAruhanBridge: def __init__(self): self.bridge = AruhanIntegrationBridge() def execute(self, task): return self.bridge.route(task)"
+        },
+        {
+          "path": "ARCHIVE_LEGACY/autonomy/aruhan_execution/integration_bridge.py",
+          "score": 7,
+          "role_hint": "governance_kernel",
+          "functions": [
+            "__init__",
+            "route"
+          ],
+          "classes": [
+            "AruhanIntegrationBridge"
+          ],
+          "callable_like": true,
+          "preview": "from ardhanarishvara.routing.agents.astra_agent import AstraAgent from ardhanarishvara.routing.agents.arka_agent import ArkaAgent class AruhanIntegrationBridge: def __init__(self): self.astra = AstraAgent() self.arka = ArkaAgent() def route(self, task): if task.type == \"reasoning\": return self.astra.execute(task) return self.arka.execute(task)"
+        }
+      ],
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api.py",
+          "functions": [
+            "astraa_health",
+            "astraa_cors_public_launch_mode",
+            "astraa_cors_allowed_origins",
+            "astraa_cors_remove_permissive_headers",
+            "astraa_apply_cors_domain_lock",
+            "now_iso",
+            "append_jsonl",
+            "authorized",
+            "safe_amount",
+            "get_plan_amount",
+            "get_plan_label",
+            "config_status",
+            "astraa_today_date",
+            "astraa_today_key",
+            "astraa_month_key",
+            "astraa_month_start",
+            "astraa_month_end",
+            "astraa_load_usage_db",
+            "astraa_save_usage_db",
+            "astraa_default_usage_record"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_action_guard.py",
+          "functions": [
+            "now_utc",
+            "append_jsonl",
+            "check_action",
+            "guard_status"
+          ],
+          "classes": [
+            "GuardResult"
+          ]
+        },
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "astraa_arka_bridge.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "append_jsonl",
+            "read_jsonl",
+            "send_astraa_event_to_arka",
+            "write_arka_recommendation",
+            "get_bridge_summary"
+          ],
+          "classes": []
+        },
+        {
+          "path": "boot.py",
+          "functions": [
+            "handle_shutdown"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "lead_capture.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "normalize",
+            "lower",
+            "append_jsonl",
+            "read_jsonl",
+            "score_lead",
+            "lead_status",
+            "next_action",
+            "build_confirmation_email",
+            "update_sales_signal",
+            "create_lead",
+            "leads_report"
+          ],
+          "classes": []
+        },
+        {
+          "path": "lux_auto_terminal.py",
+          "functions": [
+            "__init__",
+            "spawn_new_agent",
+            "print_active_loops",
+            "execute_queued_proposals",
+            "_log_outcome"
+          ],
+          "classes": [
+            "AgentBasket",
+            "PoolManager"
+          ]
+        },
+        {
+          "path": "arka_core/ardhanarishvara_os.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "__init__",
+            "stop"
+          ],
+          "classes": [
+            "EngineType",
+            "EngineEnvelope",
+            "SharedHardwareRegulator",
+            "SharedASTValidator",
+            "ArdhanarishvaraOS"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ]
+    }
+  ]
+}

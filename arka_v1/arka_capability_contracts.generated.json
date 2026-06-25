@@ -1,0 +1,2320 @@
+{
+  "version": "generated-1.0",
+  "created_at": "2026-06-25T06:01:27",
+  "purpose": "Generated capability contracts. A capability is callable only when entrypoints are detected and safety/approval status is known.",
+  "contracts": [
+    {
+      "name": "Arka",
+      "detected_role": "governance_kernel",
+      "status": "present",
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api_server.py",
+          "functions": [
+            "evaluate",
+            "health"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_action_guard.py",
+          "functions": [
+            "now_utc",
+            "append_jsonl",
+            "check_action",
+            "guard_status"
+          ],
+          "classes": [
+            "GuardResult"
+          ]
+        },
+        {
+          "path": "arka_ardhanarishvara_estimator_integration.py",
+          "functions": [
+            "execute_strategy",
+            "build_system"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "astraa_arka_bridge.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "append_jsonl",
+            "read_jsonl",
+            "send_astraa_event_to_arka",
+            "write_arka_recommendation",
+            "get_bridge_summary"
+          ],
+          "classes": []
+        },
+        {
+          "path": "boot.py",
+          "functions": [
+            "handle_shutdown"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "fusion_runtime.py",
+          "functions": [
+            "__init__",
+            "compute_weight",
+            "fuse",
+            "decide",
+            "__init__",
+            "process_cycle"
+          ],
+          "classes": [
+            "Signal",
+            "TrustEngine",
+            "FusionEngine",
+            "DecisionGate",
+            "ArkaFusionRuntime"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ],
+      "safe_read_only_use": true,
+      "safe_execute_use": false,
+      "input_schema": "not_declared",
+      "output_schema": "not_declared",
+      "notes": "Generated from filesystem evidence. Promote to explicit contract before autonomous execution."
+    },
+    {
+      "name": "Aruhan",
+      "detected_role": "general",
+      "status": "present",
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api.py",
+          "functions": [
+            "astraa_health",
+            "astraa_cors_public_launch_mode",
+            "astraa_cors_allowed_origins",
+            "astraa_cors_remove_permissive_headers",
+            "astraa_apply_cors_domain_lock",
+            "now_iso",
+            "append_jsonl",
+            "authorized",
+            "safe_amount",
+            "get_plan_amount",
+            "get_plan_label",
+            "config_status",
+            "astraa_today_date",
+            "astraa_today_key",
+            "astraa_month_key",
+            "astraa_month_start",
+            "astraa_month_end",
+            "astraa_load_usage_db",
+            "astraa_save_usage_db",
+            "astraa_default_usage_record"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "astraa_arka_bridge.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "append_jsonl",
+            "read_jsonl",
+            "send_astraa_event_to_arka",
+            "write_arka_recommendation",
+            "get_bridge_summary"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "elite_estimator_v2.py",
+          "functions": [
+            "__init__",
+            "normalize",
+            "vector",
+            "base_calc",
+            "monte",
+            "apply_env",
+            "risk",
+            "similarity",
+            "find_similar",
+            "archetype",
+            "archetype_memory",
+            "learn",
+            "log",
+            "predict"
+          ],
+          "classes": [
+            "EliteEstimator"
+          ]
+        },
+        {
+          "path": "reflection_prototype.py",
+          "functions": [
+            "now",
+            "__init__",
+            "save",
+            "analyse",
+            "recommend",
+            "trend_score",
+            "__init__",
+            "reflect",
+            "_build_summary"
+          ],
+          "classes": [
+            "ReflectionRecord",
+            "ReflectionStore",
+            "DeviationAnalyzer",
+            "AdaptationRouter",
+            "TemporalIndex",
+            "ReflectionEngine"
+          ]
+        },
+        {
+          "path": "SupervisorCore.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "dbg_eng",
+            "dbg_route",
+            "dbg_auto",
+            "dbg_ledger_last",
+            "dbg_context",
+            "dbg_wrapper",
+            "dbg_all",
+            "stress_all_wrappers",
+            "stress_repeat",
+            "stress_burn",
+            "stress_auto_shift",
+            "stress_full_system"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        },
+        {
+          "path": "SupervisorCore_DEPLOYED.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "__init__",
+            "load",
+            "save",
+            "log",
+            "norm",
+            "profit",
+            "failrec",
+            "blocked",
+            "__init__",
+            "allow",
+            "rec",
+            "tick"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ],
+      "safe_read_only_use": true,
+      "safe_execute_use": false,
+      "input_schema": "not_declared",
+      "output_schema": "not_declared",
+      "notes": "Generated from filesystem evidence. Promote to explicit contract before autonomous execution."
+    },
+    {
+      "name": "Astraa",
+      "detected_role": "website_business",
+      "status": "present",
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api.py",
+          "functions": [
+            "astraa_health",
+            "astraa_cors_public_launch_mode",
+            "astraa_cors_allowed_origins",
+            "astraa_cors_remove_permissive_headers",
+            "astraa_apply_cors_domain_lock",
+            "now_iso",
+            "append_jsonl",
+            "authorized",
+            "safe_amount",
+            "get_plan_amount",
+            "get_plan_label",
+            "config_status",
+            "astraa_today_date",
+            "astraa_today_key",
+            "astraa_month_key",
+            "astraa_month_start",
+            "astraa_month_end",
+            "astraa_load_usage_db",
+            "astraa_save_usage_db",
+            "astraa_default_usage_record"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_action_guard.py",
+          "functions": [
+            "now_utc",
+            "append_jsonl",
+            "check_action",
+            "guard_status"
+          ],
+          "classes": [
+            "GuardResult"
+          ]
+        },
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "astraa_arka_bridge.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "append_jsonl",
+            "read_jsonl",
+            "send_astraa_event_to_arka",
+            "write_arka_recommendation",
+            "get_bridge_summary"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "lead_capture.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "normalize",
+            "lower",
+            "append_jsonl",
+            "read_jsonl",
+            "score_lead",
+            "lead_status",
+            "next_action",
+            "build_confirmation_email",
+            "update_sales_signal",
+            "create_lead",
+            "leads_report"
+          ],
+          "classes": []
+        },
+        {
+          "path": "SupervisorCore.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "dbg_eng",
+            "dbg_route",
+            "dbg_auto",
+            "dbg_ledger_last",
+            "dbg_context",
+            "dbg_wrapper",
+            "dbg_all",
+            "stress_all_wrappers",
+            "stress_repeat",
+            "stress_burn",
+            "stress_auto_shift",
+            "stress_full_system"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        },
+        {
+          "path": "agents/business_engine.py",
+          "functions": [
+            "business_engine",
+            "generate_quote",
+            "business_engine"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_core/ardhanarishvara_os.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "__init__",
+            "stop"
+          ],
+          "classes": [
+            "EngineType",
+            "EngineEnvelope",
+            "SharedHardwareRegulator",
+            "SharedASTValidator",
+            "ArdhanarishvaraOS"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ],
+      "safe_read_only_use": true,
+      "safe_execute_use": false,
+      "input_schema": "not_declared",
+      "output_schema": "not_declared",
+      "notes": "Generated from filesystem evidence. Promote to explicit contract before autonomous execution."
+    },
+    {
+      "name": "Ardhanarishvara OS",
+      "detected_role": "governance_kernel",
+      "status": "present",
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api_server.py",
+          "functions": [
+            "evaluate",
+            "health"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_action_guard.py",
+          "functions": [
+            "now_utc",
+            "append_jsonl",
+            "check_action",
+            "guard_status"
+          ],
+          "classes": [
+            "GuardResult"
+          ]
+        },
+        {
+          "path": "arka_ardhanarishvara_estimator_integration.py",
+          "functions": [
+            "execute_strategy",
+            "build_system"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "boot.py",
+          "functions": [
+            "handle_shutdown"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "elite_estimator_v2.py",
+          "functions": [
+            "__init__",
+            "normalize",
+            "vector",
+            "base_calc",
+            "monte",
+            "apply_env",
+            "risk",
+            "similarity",
+            "find_similar",
+            "archetype",
+            "archetype_memory",
+            "learn",
+            "log",
+            "predict"
+          ],
+          "classes": [
+            "EliteEstimator"
+          ]
+        },
+        {
+          "path": "fusion_runtime.py",
+          "functions": [
+            "__init__",
+            "compute_weight",
+            "fuse",
+            "decide",
+            "__init__",
+            "process_cycle"
+          ],
+          "classes": [
+            "Signal",
+            "TrustEngine",
+            "FusionEngine",
+            "DecisionGate",
+            "ArkaFusionRuntime"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ],
+      "safe_read_only_use": true,
+      "safe_execute_use": false,
+      "input_schema": "not_declared",
+      "output_schema": "not_declared",
+      "notes": "Generated from filesystem evidence. Promote to explicit contract before autonomous execution."
+    },
+    {
+      "name": "Math OS",
+      "detected_role": "website_business",
+      "status": "present",
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "simulate_cybernetic_loop.py",
+          "functions": [
+            "__init__",
+            "compute",
+            "fuse",
+            "decide",
+            "__init__",
+            "compute_multiplier",
+            "__init__",
+            "adapt_process_noise",
+            "cycle",
+            "__init__",
+            "run_tick"
+          ],
+          "classes": [
+            "Signal",
+            "FusionResult",
+            "TrustEngine",
+            "FusionEngine",
+            "DecisionGate",
+            "QTuningPolicy",
+            "FinancialKalmanFilter",
+            "CyberneticGovernor"
+          ]
+        },
+        {
+          "path": "SupervisorCore.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "dbg_eng",
+            "dbg_route",
+            "dbg_auto",
+            "dbg_ledger_last",
+            "dbg_context",
+            "dbg_wrapper",
+            "dbg_all",
+            "stress_all_wrappers",
+            "stress_repeat",
+            "stress_burn",
+            "stress_auto_shift",
+            "stress_full_system"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        },
+        {
+          "path": "vsv_construction_ai.py",
+          "functions": [
+            "build_system",
+            "__init__",
+            "update",
+            "std",
+            "normalize",
+            "__init__",
+            "predict",
+            "__init__",
+            "route_request",
+            "snapshot",
+            "__init__",
+            "evaluate_project"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "VSVEstimator",
+            "ArdhanarishvaraOS",
+            "Arka"
+          ]
+        },
+        {
+          "path": "agents/business_engine.py",
+          "functions": [
+            "business_engine",
+            "generate_quote",
+            "business_engine"
+          ],
+          "classes": []
+        },
+        {
+          "path": "agents/finance_engine.py",
+          "functions": [
+            "generate_invoice",
+            "finance_engine"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_personal_ai_v04_evolution/arka_personal_ai_v04.backup_before_conversation_mode.py",
+          "functions": [
+            "load_json",
+            "save_json",
+            "state",
+            "memory",
+            "esc",
+            "add_item",
+            "draft_memory",
+            "approve_memory",
+            "run_command",
+            "arka_reply",
+            "latest_items_html",
+            "pending_memories_html",
+            "logo_img",
+            "page",
+            "do_GET",
+            "do_POST"
+          ],
+          "classes": [
+            "Item",
+            "Handler"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ],
+      "safe_read_only_use": true,
+      "safe_execute_use": false,
+      "input_schema": "not_declared",
+      "output_schema": "not_declared",
+      "notes": "Generated from filesystem evidence. Promote to explicit contract before autonomous execution."
+    },
+    {
+      "name": "Lux",
+      "detected_role": "wealth_treasury",
+      "status": "present",
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "lux_auto_terminal.py",
+          "functions": [
+            "__init__",
+            "spawn_new_agent",
+            "print_active_loops",
+            "execute_queued_proposals",
+            "_log_outcome"
+          ],
+          "classes": [
+            "AgentBasket",
+            "PoolManager"
+          ]
+        },
+        {
+          "path": "reflection_prototype.py",
+          "functions": [
+            "now",
+            "__init__",
+            "save",
+            "analyse",
+            "recommend",
+            "trend_score",
+            "__init__",
+            "reflect",
+            "_build_summary"
+          ],
+          "classes": [
+            "ReflectionRecord",
+            "ReflectionStore",
+            "DeviationAnalyzer",
+            "AdaptationRouter",
+            "TemporalIndex",
+            "ReflectionEngine"
+          ]
+        },
+        {
+          "path": "vsv_construction_portfolio_ai.py",
+          "functions": [
+            "__init__",
+            "cycle",
+            "__init__",
+            "set_mode",
+            "route",
+            "__init__",
+            "evaluate",
+            "apply_corrections",
+            "__init__",
+            "analyze"
+          ],
+          "classes": [
+            "StrategyMode",
+            "ArdhanarishvaraOS",
+            "Arka",
+            "GovernanceEngine",
+            "SelfHealingEngine",
+            "DebugEngine"
+          ]
+        },
+        {
+          "path": "arka_core/ardhanarishvara_os.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "__init__",
+            "stop"
+          ],
+          "classes": [
+            "EngineType",
+            "EngineEnvelope",
+            "SharedHardwareRegulator",
+            "SharedASTValidator",
+            "ArdhanarishvaraOS"
+          ]
+        },
+        {
+          "path": "arka_core/arka_ultimate_supervisor.py",
+          "functions": [
+            "__init__",
+            "__init__"
+          ],
+          "classes": [
+            "ArkaState",
+            "ArkaTelemetry",
+            "ArkaUltimateSupervisor",
+            "ArkaUltimateSupervisor"
+          ]
+        },
+        {
+          "path": "arka_v1/arka_ecosystem_discovery.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "list_files",
+            "detect_functions_classes",
+            "score_entity",
+            "infer_role",
+            "infer_approval_required",
+            "discover",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "entities/astraa_kernel.py",
+          "functions": [
+            "validate_contract",
+            "__init__",
+            "register"
+          ],
+          "classes": [
+            "AstraaState",
+            "AstraaTelemetry",
+            "AstraaFinancialValidator",
+            "AstraaKernel"
+          ]
+        },
+        {
+          "path": "entities/astraa_trivertical_hyperengine.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "business",
+            "finance",
+            "construction",
+            "__init__"
+          ],
+          "classes": [
+            "Tier",
+            "Domain",
+            "Envelope",
+            "Registry",
+            "ComputeGate",
+            "ASTValidator",
+            "Pipelines",
+            "AstraaTriVerticalHyperEngine"
+          ]
+        },
+        {
+          "path": "entities/astraa_trivertical_sovengine.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "business",
+            "finance",
+            "construction",
+            "__init__",
+            "build_envelope"
+          ],
+          "classes": [
+            "Tier",
+            "Domain",
+            "Envelope",
+            "Registry",
+            "ComputeGate",
+            "ASTValidator",
+            "Pipelines",
+            "AstraaTriVerticalSovEngine"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ],
+      "safe_read_only_use": true,
+      "safe_execute_use": false,
+      "input_schema": "not_declared",
+      "output_schema": "not_declared",
+      "notes": "Generated from filesystem evidence. Promote to explicit contract before autonomous execution."
+    },
+    {
+      "name": "Arkastra",
+      "detected_role": "website_business",
+      "status": "present",
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api.py",
+          "functions": [
+            "astraa_health",
+            "astraa_cors_public_launch_mode",
+            "astraa_cors_allowed_origins",
+            "astraa_cors_remove_permissive_headers",
+            "astraa_apply_cors_domain_lock",
+            "now_iso",
+            "append_jsonl",
+            "authorized",
+            "safe_amount",
+            "get_plan_amount",
+            "get_plan_label",
+            "config_status",
+            "astraa_today_date",
+            "astraa_today_key",
+            "astraa_month_key",
+            "astraa_month_start",
+            "astraa_month_end",
+            "astraa_load_usage_db",
+            "astraa_save_usage_db",
+            "astraa_default_usage_record"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_action_guard.py",
+          "functions": [
+            "now_utc",
+            "append_jsonl",
+            "check_action",
+            "guard_status"
+          ],
+          "classes": [
+            "GuardResult"
+          ]
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "lux_auto_terminal.py",
+          "functions": [
+            "__init__",
+            "spawn_new_agent",
+            "print_active_loops",
+            "execute_queued_proposals",
+            "_log_outcome"
+          ],
+          "classes": [
+            "AgentBasket",
+            "PoolManager"
+          ]
+        },
+        {
+          "path": "reflection_prototype.py",
+          "functions": [
+            "now",
+            "__init__",
+            "save",
+            "analyse",
+            "recommend",
+            "trend_score",
+            "__init__",
+            "reflect",
+            "_build_summary"
+          ],
+          "classes": [
+            "ReflectionRecord",
+            "ReflectionStore",
+            "DeviationAnalyzer",
+            "AdaptationRouter",
+            "TemporalIndex",
+            "ReflectionEngine"
+          ]
+        },
+        {
+          "path": "SupervisorCore.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "dbg_eng",
+            "dbg_route",
+            "dbg_auto",
+            "dbg_ledger_last",
+            "dbg_context",
+            "dbg_wrapper",
+            "dbg_all",
+            "stress_all_wrappers",
+            "stress_repeat",
+            "stress_burn",
+            "stress_auto_shift",
+            "stress_full_system"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        },
+        {
+          "path": "vsv_construction_ai.py",
+          "functions": [
+            "build_system",
+            "__init__",
+            "update",
+            "std",
+            "normalize",
+            "__init__",
+            "predict",
+            "__init__",
+            "route_request",
+            "snapshot",
+            "__init__",
+            "evaluate_project"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "VSVEstimator",
+            "ArdhanarishvaraOS",
+            "Arka"
+          ]
+        },
+        {
+          "path": "agents/operations_engine.py",
+          "functions": [
+            "generate_route_plan",
+            "operations_engine"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_core/ardhanarishvara_os.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "__init__",
+            "stop"
+          ],
+          "classes": [
+            "EngineType",
+            "EngineEnvelope",
+            "SharedHardwareRegulator",
+            "SharedASTValidator",
+            "ArdhanarishvaraOS"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ],
+      "safe_read_only_use": true,
+      "safe_execute_use": false,
+      "input_schema": "not_declared",
+      "output_schema": "not_declared",
+      "notes": "Generated from filesystem evidence. Promote to explicit contract before autonomous execution."
+    },
+    {
+      "name": "Estimator",
+      "detected_role": "website_business",
+      "status": "present",
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api.py",
+          "functions": [
+            "astraa_health",
+            "astraa_cors_public_launch_mode",
+            "astraa_cors_allowed_origins",
+            "astraa_cors_remove_permissive_headers",
+            "astraa_apply_cors_domain_lock",
+            "now_iso",
+            "append_jsonl",
+            "authorized",
+            "safe_amount",
+            "get_plan_amount",
+            "get_plan_label",
+            "config_status",
+            "astraa_today_date",
+            "astraa_today_key",
+            "astraa_month_key",
+            "astraa_month_start",
+            "astraa_month_end",
+            "astraa_load_usage_db",
+            "astraa_save_usage_db",
+            "astraa_default_usage_record"
+          ],
+          "classes": []
+        },
+        {
+          "path": "api_server.py",
+          "functions": [
+            "evaluate",
+            "health"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_ardhanarishvara_estimator_integration.py",
+          "functions": [
+            "execute_strategy",
+            "build_system"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "astraa_arka_bridge.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "append_jsonl",
+            "read_jsonl",
+            "send_astraa_event_to_arka",
+            "write_arka_recommendation",
+            "get_bridge_summary"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "elite_estimator_v2.py",
+          "functions": [
+            "__init__",
+            "normalize",
+            "vector",
+            "base_calc",
+            "monte",
+            "apply_env",
+            "risk",
+            "similarity",
+            "find_similar",
+            "archetype",
+            "archetype_memory",
+            "learn",
+            "log",
+            "predict"
+          ],
+          "classes": [
+            "EliteEstimator"
+          ]
+        },
+        {
+          "path": "fusion_runtime.py",
+          "functions": [
+            "__init__",
+            "compute_weight",
+            "fuse",
+            "decide",
+            "__init__",
+            "process_cycle"
+          ],
+          "classes": [
+            "Signal",
+            "TrustEngine",
+            "FusionEngine",
+            "DecisionGate",
+            "ArkaFusionRuntime"
+          ]
+        },
+        {
+          "path": "lead_capture.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "normalize",
+            "lower",
+            "append_jsonl",
+            "read_jsonl",
+            "score_lead",
+            "lead_status",
+            "next_action",
+            "build_confirmation_email",
+            "update_sales_signal",
+            "create_lead",
+            "leads_report"
+          ],
+          "classes": []
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ],
+      "safe_read_only_use": true,
+      "safe_execute_use": false,
+      "input_schema": "not_declared",
+      "output_schema": "not_declared",
+      "notes": "Generated from filesystem evidence. Promote to explicit contract before autonomous execution."
+    },
+    {
+      "name": "Oracle",
+      "detected_role": "governance_kernel",
+      "status": "present",
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "arka_action_guard.py",
+          "functions": [
+            "now_utc",
+            "append_jsonl",
+            "check_action",
+            "guard_status"
+          ],
+          "classes": [
+            "GuardResult"
+          ]
+        },
+        {
+          "path": "arka_ardhanarishvara_estimator_integration.py",
+          "functions": [
+            "execute_strategy",
+            "build_system"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "boot.py",
+          "functions": [
+            "handle_shutdown"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "elite_estimator_v2.py",
+          "functions": [
+            "__init__",
+            "normalize",
+            "vector",
+            "base_calc",
+            "monte",
+            "apply_env",
+            "risk",
+            "similarity",
+            "find_similar",
+            "archetype",
+            "archetype_memory",
+            "learn",
+            "log",
+            "predict"
+          ],
+          "classes": [
+            "EliteEstimator"
+          ]
+        },
+        {
+          "path": "fusion_runtime.py",
+          "functions": [
+            "__init__",
+            "compute_weight",
+            "fuse",
+            "decide",
+            "__init__",
+            "process_cycle"
+          ],
+          "classes": [
+            "Signal",
+            "TrustEngine",
+            "FusionEngine",
+            "DecisionGate",
+            "ArkaFusionRuntime"
+          ]
+        },
+        {
+          "path": "lead_capture.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "normalize",
+            "lower",
+            "append_jsonl",
+            "read_jsonl",
+            "score_lead",
+            "lead_status",
+            "next_action",
+            "build_confirmation_email",
+            "update_sales_signal",
+            "create_lead",
+            "leads_report"
+          ],
+          "classes": []
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ],
+      "safe_read_only_use": true,
+      "safe_execute_use": false,
+      "input_schema": "not_declared",
+      "output_schema": "not_declared",
+      "notes": "Generated from filesystem evidence. Promote to explicit contract before autonomous execution."
+    },
+    {
+      "name": "Distribution",
+      "detected_role": "website_business",
+      "status": "present",
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api.py",
+          "functions": [
+            "astraa_health",
+            "astraa_cors_public_launch_mode",
+            "astraa_cors_allowed_origins",
+            "astraa_cors_remove_permissive_headers",
+            "astraa_apply_cors_domain_lock",
+            "now_iso",
+            "append_jsonl",
+            "authorized",
+            "safe_amount",
+            "get_plan_amount",
+            "get_plan_label",
+            "config_status",
+            "astraa_today_date",
+            "astraa_today_key",
+            "astraa_month_key",
+            "astraa_month_start",
+            "astraa_month_end",
+            "astraa_load_usage_db",
+            "astraa_save_usage_db",
+            "astraa_default_usage_record"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_ardhanarishvara_estimator_integration.py",
+          "functions": [
+            "execute_strategy",
+            "build_system"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "elite_estimator_module.py",
+          "functions": [
+            "__init__",
+            "update",
+            "normalize",
+            "__init__",
+            "predict",
+            "update",
+            "__init__",
+            "estimate",
+            "update_actuals",
+            "__init__",
+            "evaluate"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "EliteEstimator",
+            "ArkaConstructionEstimator",
+            "BidStrategist"
+          ]
+        },
+        {
+          "path": "lead_capture.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "normalize",
+            "lower",
+            "append_jsonl",
+            "read_jsonl",
+            "score_lead",
+            "lead_status",
+            "next_action",
+            "build_confirmation_email",
+            "update_sales_signal",
+            "create_lead",
+            "leads_report"
+          ],
+          "classes": []
+        },
+        {
+          "path": "SupervisorCore.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "dbg_eng",
+            "dbg_route",
+            "dbg_auto",
+            "dbg_ledger_last",
+            "dbg_context",
+            "dbg_wrapper",
+            "dbg_all",
+            "stress_all_wrappers",
+            "stress_repeat",
+            "stress_burn",
+            "stress_auto_shift",
+            "stress_full_system"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        },
+        {
+          "path": "SupervisorCore_DEPLOYED.py",
+          "functions": [
+            "_fin",
+            "_int",
+            "_geo",
+            "_dis",
+            "_con",
+            "_deep",
+            "_inc",
+            "handle",
+            "__init__",
+            "load",
+            "save",
+            "log",
+            "norm",
+            "profit",
+            "failrec",
+            "blocked",
+            "__init__",
+            "allow",
+            "rec",
+            "tick"
+          ],
+          "classes": [
+            "K",
+            "A",
+            "E",
+            "WFX",
+            "PFX",
+            "NFX",
+            "AFX",
+            "Core"
+          ]
+        },
+        {
+          "path": "vsv_construction_ai.py",
+          "functions": [
+            "build_system",
+            "__init__",
+            "update",
+            "std",
+            "normalize",
+            "__init__",
+            "predict",
+            "__init__",
+            "route_request",
+            "snapshot",
+            "__init__",
+            "evaluate_project"
+          ],
+          "classes": [
+            "OnlineNormalizer",
+            "VSVEstimator",
+            "ArdhanarishvaraOS",
+            "Arka"
+          ]
+        },
+        {
+          "path": "agents/operations_engine.py",
+          "functions": [
+            "generate_route_plan",
+            "operations_engine"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_core/ardhanarishvara_os.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "__init__",
+            "stop"
+          ],
+          "classes": [
+            "EngineType",
+            "EngineEnvelope",
+            "SharedHardwareRegulator",
+            "SharedASTValidator",
+            "ArdhanarishvaraOS"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ],
+      "safe_read_only_use": true,
+      "safe_execute_use": false,
+      "input_schema": "not_declared",
+      "output_schema": "not_declared",
+      "notes": "Generated from filesystem evidence. Promote to explicit contract before autonomous execution."
+    },
+    {
+      "name": "Bridge Layer",
+      "detected_role": "governance_kernel",
+      "status": "present",
+      "callable_status": "candidate_entrypoints_found",
+      "candidate_entrypoints": [
+        {
+          "path": "api.py",
+          "functions": [
+            "astraa_health",
+            "astraa_cors_public_launch_mode",
+            "astraa_cors_allowed_origins",
+            "astraa_cors_remove_permissive_headers",
+            "astraa_apply_cors_domain_lock",
+            "now_iso",
+            "append_jsonl",
+            "authorized",
+            "safe_amount",
+            "get_plan_amount",
+            "get_plan_label",
+            "config_status",
+            "astraa_today_date",
+            "astraa_today_key",
+            "astraa_month_key",
+            "astraa_month_start",
+            "astraa_month_end",
+            "astraa_load_usage_db",
+            "astraa_save_usage_db",
+            "astraa_default_usage_record"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_action_guard.py",
+          "functions": [
+            "now_utc",
+            "append_jsonl",
+            "check_action",
+            "guard_status"
+          ],
+          "classes": [
+            "GuardResult"
+          ]
+        },
+        {
+          "path": "arka_full_layer_audit.py",
+          "functions": [
+            "should_skip",
+            "rel",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "arka_related_files",
+            "expected_check",
+            "capability_scan",
+            "python_syntax",
+            "arka_state_summary",
+            "db_summary",
+            "backup_clutter",
+            "recommendations",
+            "score",
+            "write_md",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "arka_missing_layers_audit.py",
+          "functions": [
+            "rel",
+            "should_skip",
+            "safe_read",
+            "run_cmd",
+            "list_files",
+            "exists_loose",
+            "keyword_hits",
+            "layer_check",
+            "python_syntax",
+            "ast_routes_summary",
+            "db_summary",
+            "recommendations",
+            "write_md",
+            "main"
+          ],
+          "classes": []
+        },
+        {
+          "path": "astraa_arka_bridge.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "append_jsonl",
+            "read_jsonl",
+            "send_astraa_event_to_arka",
+            "write_arka_recommendation",
+            "get_bridge_summary"
+          ],
+          "classes": []
+        },
+        {
+          "path": "boot.py",
+          "functions": [
+            "handle_shutdown"
+          ],
+          "classes": []
+        },
+        {
+          "path": "ecosystem_gap_audit.py",
+          "functions": [
+            "rel",
+            "exists_rel",
+            "run_cmd",
+            "safe_read",
+            "should_skip",
+            "list_files",
+            "python_files",
+            "site_files",
+            "syntax_check",
+            "expected_check",
+            "keyword_scan",
+            "arka_state_scan",
+            "db_scan",
+            "duplicate_patch_scan",
+            "readiness_score",
+            "gap_recommendations",
+            "write_markdown",
+            "main",
+            "add"
+          ],
+          "classes": []
+        },
+        {
+          "path": "lead_capture.py",
+          "functions": [
+            "utc_now",
+            "ensure_data_dir",
+            "normalize",
+            "lower",
+            "append_jsonl",
+            "read_jsonl",
+            "score_lead",
+            "lead_status",
+            "next_action",
+            "build_confirmation_email",
+            "update_sales_signal",
+            "create_lead",
+            "leads_report"
+          ],
+          "classes": []
+        },
+        {
+          "path": "lux_auto_terminal.py",
+          "functions": [
+            "__init__",
+            "spawn_new_agent",
+            "print_active_loops",
+            "execute_queued_proposals",
+            "_log_outcome"
+          ],
+          "classes": [
+            "AgentBasket",
+            "PoolManager"
+          ]
+        },
+        {
+          "path": "arka_core/ardhanarishvara_os.py",
+          "functions": [
+            "__init__",
+            "validate",
+            "__init__",
+            "stop"
+          ],
+          "classes": [
+            "EngineType",
+            "EngineEnvelope",
+            "SharedHardwareRegulator",
+            "SharedASTValidator",
+            "ArdhanarishvaraOS"
+          ]
+        }
+      ],
+      "approval_required_for": [
+        "destructive_file_action",
+        "payment_or_customer",
+        "public_website",
+        "trading_or_capital"
+      ],
+      "safe_read_only_use": true,
+      "safe_execute_use": false,
+      "input_schema": "not_declared",
+      "output_schema": "not_declared",
+      "notes": "Generated from filesystem evidence. Promote to explicit contract before autonomous execution."
+    }
+  ]
+}

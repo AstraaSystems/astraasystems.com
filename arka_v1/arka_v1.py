@@ -1569,6 +1569,41 @@ def arka_reply(raw):
 
     # Arka Governor Dispatcher: runtime routing above old patch routers.
     governor_result = arka_governor_dispatch(raw, web_func=globals().get("arka_search_or_sources"))
+    # ARKA_RESPONSE_VALIDATOR_PHASE1
+    # Validate governor output before it is returned to the owner.
+    if governor_result:
+        try:
+            try:
+                from arka_v1.core.response_validator import validate_response, ValidationStatus
+            except Exception:
+                from core.response_validator import validate_response, ValidationStatus
+
+            validation = validate_response(
+                prompt=raw,
+                response=governor_result,
+                context={
+                    "owner_name": "Keshanth Sivayogampillai",
+                    "requires_source": False,
+                    "sources": [],
+                    "verified_actions": [],
+                },
+                strict_mode=True,
+            )
+
+            if validation.status == ValidationStatus.FAIL:
+                issue_codes = ", ".join(issue.code for issue in validation.issues)
+                governor_result = (
+                    "I need to correct that before answering. "
+                    "The response did not pass Arka Phase 1 validation. "
+                    f"Issues: {issue_codes}"
+                )
+
+        except Exception as validator_error:
+            governor_result = (
+                "I generated a response, but the Phase 1 response validator failed "
+                f"before final output: {validator_error}"
+            )
+
     if governor_result:
         try:
             log_event("governor_dispatch", raw)

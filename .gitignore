@@ -33,3 +33,6 @@ data/astraa_sales_signal.json
 data/astraa_leads.jsonl
 data/astraa_email_queue.jsonl
 data/astraa_arka_bridge.jsonl
+
+# WSL/Linux virtual environment
+.venv_wsl/

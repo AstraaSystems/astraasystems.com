@@ -1,0 +1,78 @@
+﻿{
+  "name": "Arka V1 Capability Manifest",
+  "version": "1.0",
+  "status": "canon_stable",
+  "runtime": {
+    "health_endpoint": "/health",
+    "mode": "local",
+    "name": "Arka V1",
+    "version": "1.0"
+  },
+  "capabilities": {
+    "memory_active": {
+      "status": "present",
+      "notes": "Active memory and family/business recall verified."
+    },
+    "conversation_journal": {
+      "status": "present",
+      "notes": "Journal exists; noisy recall cleaned."
+    },
+    "context_brain": {
+      "status": "present_early",
+      "notes": "Structured context save/recall works; deeper reasoning belongs in V2 Brain Kernel."
+    },
+    "math_os": {
+      "status": "present",
+      "file": "arka_math_os.py",
+      "notes": "Local arithmetic, goals, revenue, delivery, margin, compound, and loan calculations."
+    },
+    "web_source_mode": {
+      "status": "present_guarded",
+      "notes": "Returns source links and refuses fabrication when live snippets fail."
+    },
+    "product_ceo_router": {
+      "status": "present",
+      "notes": "Product work queue and competitive pricing queue exist."
+    },
+    "revenue_ai": {
+      "status": "concept_and_queue_present",
+      "name": "Astraa Growth AI",
+      "notes": "Website revenue/lead-generation agent concept exists; production integration is future work."
+    },
+    "website_health": {
+      "status": "present",
+      "notes": "Website health/audit behavior tested."
+    },
+    "approval_guard": {
+      "status": "present",
+      "notes": "Approval-only autonomy guard exists."
+    },
+    "bridge_layer": {
+      "status": "present",
+      "notes": "Astraa-Arka bridge evidence exists."
+    },
+    "skill_registry": {
+      "status": "present_basic",
+      "notes": "Module registry exists; future V2 should make it plugin-based."
+    },
+    "planner_kernel": {
+      "status": "present_basic",
+      "notes": "Planner/kernel evidence exists, but true LLM-based orchestration belongs in V2."
+    },
+    "procedural_memory": {
+      "status": "present_basic",
+      "notes": "Generated plans and patterns exist but need V2 maturity."
+    },
+    "remote_start": {
+      "status": "present",
+      "file": "start_arka_v1.ps1"
+    }
+  },
+  "known_limitations": [
+    "Live web extraction is not equivalent to full search API.",
+    "Revenue AI is concept/task layer, not full production website agent yet.",
+    "Context brain is functional but early.",
+    "Patch/repair files should be archived after V1 freeze.",
+    "Future intelligence should move into Arka V2 Brain Kernel."
+  ]
+}

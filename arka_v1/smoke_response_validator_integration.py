@@ -219,26 +219,29 @@ def _test_integrated_pipeline_allows_good_identity(runtime: ModuleType) -> None:
     print("[OK] Integrated pipeline allows good identity response")
 
 
-def _snapshot_runtime_state() -> str | None:
+def _snapshot_runtime_state() -> bytes | None:
     """
-    Snapshot arka_state.json so smoke tests do not leave runtime log changes.
+    Snapshot arka_state.json as raw bytes so smoke tests do not leave runtime
+    log changes or line-ending/encoding changes.
     """
 
     if not ARKA_STATE.exists():
         return None
 
-    return ARKA_STATE.read_text(encoding="utf-8")
+    return ARKA_STATE.read_bytes()
 
 
-def _restore_runtime_state(snapshot: str | None) -> None:
+def _restore_runtime_state(snapshot: bytes | None) -> None:
     """
     Restore arka_state.json after integrated arka_reply() smoke tests.
+
+    Uses raw bytes to preserve the file exactly.
     """
 
     if snapshot is None:
         return
 
-    ARKA_STATE.write_text(snapshot, encoding="utf-8")
+    ARKA_STATE.write_bytes(snapshot)
     print("[OK] Restored arka_state.json after smoke test")
 
 

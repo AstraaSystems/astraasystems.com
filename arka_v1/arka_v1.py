@@ -1576,19 +1576,20 @@ def arka_reply(raw):
             try:
                 from arka_v1.core.response_validator import validate_response, ValidationStatus
                 from arka_v1.core.response_repairer import repair_response
+                from arka_v1.core.context_builder import build_context
             except Exception:
                 from core.response_validator import validate_response, ValidationStatus
                 from core.response_repairer import repair_response
+                from core.context_builder import build_context
+
+            # ARKA_CONTEXT_BUILDER_PHASE3
+            # Build trusted runtime context once and pass it through validator/repairer.
+            arka_context = build_context(raw)
 
             validation = validate_response(
                 prompt=raw,
                 response=governor_result,
-                context={
-                    "owner_name": "Keshanth Sivayogampillai",
-                    "requires_source": False,
-                    "sources": [],
-                    "verified_actions": [],
-                },
+                context=arka_context,
                 strict_mode=True,
             )
 
@@ -1599,12 +1600,7 @@ def arka_reply(raw):
                     prompt=raw,
                     response=governor_result,
                     issues=validation.issues,
-                    context={
-                        "owner_name": "Keshanth Sivayogampillai",
-                        "requires_source": False,
-                        "sources": [],
-                        "verified_actions": [],
-                    },
+                    context=arka_context,
                     strict_mode=True,
                 )
 
@@ -1612,12 +1608,7 @@ def arka_reply(raw):
                     repaired_validation = validate_response(
                         prompt=raw,
                         response=repair.response,
-                        context={
-                            "owner_name": "Keshanth Sivayogampillai",
-                            "requires_source": False,
-                            "sources": [],
-                            "verified_actions": [],
-                        },
+                        context=arka_context,
                         strict_mode=True,
                     )
 

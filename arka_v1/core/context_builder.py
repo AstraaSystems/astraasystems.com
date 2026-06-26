@@ -18,7 +18,12 @@ It only creates trusted context for validator, repairer, and future dispatch lay
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+
+try:
+    from arka_v1.core.profile_loader import load_profile
+except Exception:
+    from core.profile_loader import load_profile
 
 
 @dataclass
@@ -56,6 +61,10 @@ class ArkaContext:
     sources: List[str] = field(default_factory=list)
     verified_actions: List[str] = field(default_factory=list)
 
+    family: Dict[str, Any] = field(default_factory=dict)
+    ecosystem: Dict[str, Any] = field(default_factory=dict)
+    profile: Dict[str, Any] = field(default_factory=dict)
+
     prompt_flags: PromptFlags = field(default_factory=PromptFlags)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
@@ -72,6 +81,9 @@ class ArkaContext:
             "requires_source": self.requires_source,
             "sources": list(self.sources),
             "verified_actions": list(self.verified_actions),
+            "family": dict(self.family),
+            "ecosystem": dict(self.ecosystem),
+            "profile": dict(self.profile),
             "prompt_flags": {
                 "is_identity_question": self.prompt_flags.is_identity_question,
                 "is_source_question": self.prompt_flags.is_source_question,
@@ -100,15 +112,19 @@ class ContextBuilder:
 
     def __init__(
         self,
-        owner_name: str = "Keshanth Sivayogampillai",
-        system_name: str = "Arka V1",
-        mode: str = "local",
-        authority: str = "owner",
+        profile: Optional[Dict[str, Any]] = None,
     ) -> None:
-        self.owner_name = owner_name
-        self.system_name = system_name
-        self.mode = mode
-        self.authority = authority
+        # ARKA_PROFILE_LOADER_PHASE4
+        # Load trusted local profile facts for context construction.
+        self.profile = profile or load_profile()
+
+        owner = self.profile.get("owner", {})
+        system = self.profile.get("system", {})
+
+        self.owner_name = str(owner.get("name", "Keshanth Sivayogampillai"))
+        self.system_name = str(system.get("name", "Arka V1"))
+        self.mode = str(system.get("mode", "local"))
+        self.authority = str(owner.get("authority", "owner"))
 
     def build(self, prompt: str) -> Dict[str, Any]:
         """
@@ -139,10 +155,15 @@ class ContextBuilder:
             requires_source=requires_source,
             sources=[],
             verified_actions=[],
+            family=dict(self.profile.get("family", {})),
+            ecosystem=dict(self.profile.get("ecosystem", {})),
+            profile=dict(self.profile),
             prompt_flags=flags,
             metadata={
-                "context_version": "phase3",
+                "context_version": "phase4",
                 "builder": "arka_v1.core.context_builder",
+                "profile_loaded": bool(self.profile.get("metadata", {}).get("profile_loaded", False)),
+                "profile_version": self.profile.get("metadata", {}).get("profile_version"),
                 "external_calls": False,
                 "memory_mutation": False,
             },

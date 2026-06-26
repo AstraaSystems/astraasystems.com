@@ -36,6 +36,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ARKA_DIR = ROOT / "arka_v1"
 ARKA_APP = ARKA_DIR / "arka_v1.py"
 VALIDATOR = ARKA_DIR / "core" / "response_validator.py"
+CONTEXT_BUILDER = ARKA_DIR / "core" / "context_builder.py"
 ARKA_STATE = ARKA_DIR / "arka_state.json"
 
 
@@ -56,6 +57,7 @@ def _compile_targets() -> None:
     """
 
     py_compile.compile(str(VALIDATOR), doraise=True)
+    py_compile.compile(str(CONTEXT_BUILDER), doraise=True)
     py_compile.compile(str(ARKA_APP), doraise=True)
 
     print("[OK] Compile passed for response_validator.py and arka_v1.py")
@@ -104,6 +106,23 @@ def _load_validator_module() -> ModuleType:
     print("[OK] Loaded response_validator.py directly and registered core alias")
 
     return validator_module
+
+
+def _load_context_builder_module() -> ModuleType:
+    """
+    Load context_builder.py directly and register core.context_builder alias.
+    """
+
+    context_builder_module = _load_module_from_path(
+        "context_builder_smoke_module",
+        CONTEXT_BUILDER,
+    )
+
+    sys.modules["core.context_builder"] = context_builder_module
+
+    print("[OK] Loaded context_builder.py directly and registered core alias")
+
+    return context_builder_module
 
 
 def _load_arka_runtime() -> ModuleType:
@@ -253,6 +272,7 @@ def main() -> int:
     _compile_targets()
 
     validator_module = _load_validator_module()
+    context_builder_module = _load_context_builder_module()
 
     _test_direct_validator_pass(validator_module)
     _test_direct_validator_fail(validator_module)

@@ -4,12 +4,22 @@ smoke_response_validator_integration.py
 
 Smoke test for Arka Phase 1 response validator integration.
 
-This test verifies both:
-1. Direct validator behavior
-2. Actual arka_reply() pipeline behavior after governor dispatch
+This test verifies:
+1. response_validator.py compiles
+2. arka_v1.py compiles
+3. direct validator PASS behavior
+4. direct validator FAIL behavior
+5. integrated arka_reply() blocks a bad identity response
+6. integrated arka_reply() allows a good identity response
 
-It intentionally monkeypatches arka_governor_dispatch so we can test the
-validator integration without depending on live web, routes, or external tools.
+Important:
+The repo currently contains both:
+- arka_v1/ directory
+- arka_v1/arka_v1.py file
+
+That means normal package imports can be shadowed by the arka_v1.py module.
+To avoid false failures, this smoke test loads the validator directly from file
+and registers a core.response_validator alias for the integrated runtime path.
 """
 
 from __future__ import annotations
@@ -17,7 +27,9 @@ from __future__ import annotations
 import importlib.util
 import py_compile
 import sys
+import types
 from pathlib import Path
+from types import ModuleType
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -48,45 +60,79 @@ def _compile_targets() -> None:
     print("[OK] Compile passed for response_validator.py and arka_v1.py")
 
 
-def _load_arka_runtime():
+def _load_module_from_path(module_name: str, path: Path) -> ModuleType:
     """
-    Load arka_v1.py as an isolated runtime module.
-
-    We avoid normal package import here because the repo has both:
-    - arka_v1/ directory
-    - arka_v1/arka_v1.py file
+    Load a Python module directly from a file path.
     """
 
-    spec = importlib.util.spec_from_file_location("arka_runtime_smoke", ARKA_APP)
+    spec = importlib.util.spec_from_file_location(module_name, path)
 
     if spec is None or spec.loader is None:
-        raise RuntimeError("Could not create import spec for arka_v1.py")
+        raise RuntimeError(f"Could not create import spec for {path}")
 
     module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
     spec.loader.exec_module(module)
-
-    if not hasattr(module, "arka_reply"):
-        raise RuntimeError("arka_v1.py does not expose arka_reply(raw)")
-
-    if not hasattr(module, "arka_governor_dispatch"):
-        raise RuntimeError("arka_v1.py does not expose arka_governor_dispatch")
-
-    print("[OK] Loaded arka_v1.py runtime module")
 
     return module
 
 
-def _test_direct_validator_pass() -> None:
+def _load_validator_module() -> ModuleType:
+    """
+    Load response_validator.py directly and register import aliases.
+
+    The integrated arka_v1.py code tries:
+    1. from arka_v1.core.response_validator import ...
+    2. from core.response_validator import ...
+
+    Because arka_v1.py can shadow the arka_v1 package during this smoke test,
+    we make sure core.response_validator is available.
+    """
+
+    validator_module = _load_module_from_path(
+        "response_validator_smoke_module",
+        VALIDATOR,
+    )
+
+    core_pkg = types.ModuleType("core")
+    core_pkg.__path__ = [str(ARKA_DIR / "core")]
+
+    sys.modules["core"] = core_pkg
+    sys.modules["core.response_validator"] = validator_module
+
+    print("[OK] Loaded response_validator.py directly and registered core alias")
+
+    return validator_module
+
+
+def _load_arka_runtime() -> ModuleType:
+    """
+    Load arka_v1.py as an isolated runtime module.
+
+    We avoid normal package import because the repo has both:
+    - arka_v1/ directory
+    - arka_v1/arka_v1.py file
+    """
+
+    runtime = _load_module_from_path("arka_runtime_smoke_module", ARKA_APP)
+
+    if not hasattr(runtime, "arka_reply"):
+        raise RuntimeError("arka_v1.py does not expose arka_reply(raw)")
+
+    if not hasattr(runtime, "arka_governor_dispatch"):
+        raise RuntimeError("arka_v1.py does not expose arka_governor_dispatch")
+
+    print("[OK] Loaded arka_v1.py runtime module")
+
+    return runtime
+
+
+def _test_direct_validator_pass(validator_module: ModuleType) -> None:
     """
     Direct validator PASS test.
     """
 
-    try:
-        from arka_v1.core.response_validator import validate_response, ValidationStatus
-    except Exception:
-        from core.response_validator import validate_response, ValidationStatus
-
-    result = validate_response(
+    result = validator_module.validate_response(
         prompt="who am I?",
         response="You are Keshanth Sivayogampillai.",
         context={
@@ -97,24 +143,19 @@ def _test_direct_validator_pass() -> None:
         strict_mode=True,
     )
 
-    assert result.status == ValidationStatus.PASS, result
+    assert result.status == validator_module.ValidationStatus.PASS, result
     assert result.ok is True, result
     assert result.issues == [], result.issues
 
     print("[OK] Direct validator PASS case works")
 
 
-def _test_direct_validator_fail() -> None:
+def _test_direct_validator_fail(validator_module: ModuleType) -> None:
     """
     Direct validator FAIL test.
     """
 
-    try:
-        from arka_v1.core.response_validator import validate_response, ValidationStatus
-    except Exception:
-        from core.response_validator import validate_response, ValidationStatus
-
-    result = validate_response(
+    result = validator_module.validate_response(
         prompt="who am I?",
         response="I could not pull reliable live snippets.",
         context={
@@ -125,19 +166,19 @@ def _test_direct_validator_fail() -> None:
 
     issue_codes = [issue.code for issue in result.issues]
 
-    assert result.status == ValidationStatus.FAIL, result
+    assert result.status == validator_module.ValidationStatus.FAIL, result
     assert result.ok is False, result
     assert "OWNER_IDENTITY_CONFUSION" in issue_codes, issue_codes
 
     print("[OK] Direct validator FAIL case works")
 
 
-def _test_integrated_pipeline_blocks_bad_identity(runtime) -> None:
+def _test_integrated_pipeline_blocks_bad_identity(runtime: ModuleType) -> None:
     """
     Integrated pipeline test.
 
     Monkeypatch governor dispatch to return a bad identity response.
-    arka_reply() should pass it through the Phase 1 validator and block it.
+    arka_reply() should pass it through Phase 1 validation and block it.
     """
 
     def fake_bad_dispatch(raw: str, web_func=None) -> str:
@@ -154,7 +195,7 @@ def _test_integrated_pipeline_blocks_bad_identity(runtime) -> None:
     print("[OK] Integrated pipeline blocks bad identity response")
 
 
-def _test_integrated_pipeline_allows_good_identity(runtime) -> None:
+def _test_integrated_pipeline_allows_good_identity(runtime: ModuleType) -> None:
     """
     Integrated pipeline test.
 
@@ -181,8 +222,10 @@ def main() -> int:
     _add_paths()
     _compile_targets()
 
-    _test_direct_validator_pass()
-    _test_direct_validator_fail()
+    validator_module = _load_validator_module()
+
+    _test_direct_validator_pass(validator_module)
+    _test_direct_validator_fail(validator_module)
 
     runtime = _load_arka_runtime()
 

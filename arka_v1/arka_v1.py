@@ -1575,8 +1575,10 @@ def arka_reply(raw):
         try:
             try:
                 from arka_v1.core.response_validator import validate_response, ValidationStatus
+                from arka_v1.core.response_repairer import repair_response
             except Exception:
                 from core.response_validator import validate_response, ValidationStatus
+                from core.response_repairer import repair_response
 
             validation = validate_response(
                 prompt=raw,
@@ -1591,12 +1593,51 @@ def arka_reply(raw):
             )
 
             if validation.status == ValidationStatus.FAIL:
-                issue_codes = ", ".join(issue.code for issue in validation.issues)
-                governor_result = (
-                    "I need to correct that before answering. "
-                    "The response did not pass Arka Phase 1 validation. "
-                    f"Issues: {issue_codes}"
+                # ARKA_RESPONSE_REPAIRER_PHASE2
+                # Attempt safe repair before blocking the answer.
+                repair = repair_response(
+                    prompt=raw,
+                    response=governor_result,
+                    issues=validation.issues,
+                    context={
+                        "owner_name": "Keshanth Sivayogampillai",
+                        "requires_source": False,
+                        "sources": [],
+                        "verified_actions": [],
+                    },
+                    strict_mode=True,
                 )
+
+                if repair.repaired:
+                    repaired_validation = validate_response(
+                        prompt=raw,
+                        response=repair.response,
+                        context={
+                            "owner_name": "Keshanth Sivayogampillai",
+                            "requires_source": False,
+                            "sources": [],
+                            "verified_actions": [],
+                        },
+                        strict_mode=True,
+                    )
+
+                    if repaired_validation.status == ValidationStatus.PASS:
+                        governor_result = repair.response
+                    else:
+                        issue_codes = ", ".join(issue.code for issue in repaired_validation.issues)
+                        governor_result = (
+                            "I attempted to repair the response, but the repaired response "
+                            "did not pass Arka Phase 2 validation. "
+                            f"Issues: {issue_codes}"
+                        )
+                else:
+                    issue_codes = ", ".join(issue.code for issue in validation.issues)
+                    governor_result = (
+                        "I need to correct that before answering. "
+                        "The response did not pass Arka Phase 1 validation, "
+                        "and Phase 2 could not safely repair it. "
+                        f"Issues: {issue_codes}"
+                    )
 
         except Exception as validator_error:
             governor_result = (

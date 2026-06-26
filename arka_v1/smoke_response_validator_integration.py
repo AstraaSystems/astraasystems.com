@@ -37,6 +37,7 @@ ARKA_DIR = ROOT / "arka_v1"
 ARKA_APP = ARKA_DIR / "arka_v1.py"
 VALIDATOR = ARKA_DIR / "core" / "response_validator.py"
 CONTEXT_BUILDER = ARKA_DIR / "core" / "context_builder.py"
+PROFILE_LOADER = ARKA_DIR / "core" / "profile_loader.py"
 ARKA_STATE = ARKA_DIR / "arka_state.json"
 
 
@@ -58,6 +59,7 @@ def _compile_targets() -> None:
 
     py_compile.compile(str(VALIDATOR), doraise=True)
     py_compile.compile(str(CONTEXT_BUILDER), doraise=True)
+    py_compile.compile(str(PROFILE_LOADER), doraise=True)
     py_compile.compile(str(ARKA_APP), doraise=True)
 
     print("[OK] Compile passed for response_validator.py and arka_v1.py")
@@ -108,6 +110,23 @@ def _load_validator_module() -> ModuleType:
     return validator_module
 
 
+def _load_profile_loader_module() -> ModuleType:
+    """
+    Load profile_loader.py directly and register core.profile_loader alias.
+    """
+
+    profile_loader_module = _load_module_from_path(
+        "profile_loader_smoke_module",
+        PROFILE_LOADER,
+    )
+
+    sys.modules["core.profile_loader"] = profile_loader_module
+
+    print("[OK] Loaded profile_loader.py directly and registered core alias")
+
+    return profile_loader_module
+
+
 def _load_context_builder_module() -> ModuleType:
     """
     Load context_builder.py directly and register core.context_builder alias.
@@ -145,6 +164,26 @@ def _load_arka_runtime() -> ModuleType:
     print("[OK] Loaded arka_v1.py runtime module")
 
     return runtime
+
+
+def _test_profile_backed_context(context_builder_module: ModuleType) -> None:
+    """
+    Direct Phase 4 profile-backed context test.
+    """
+
+    context = context_builder_module.build_context("what is my son's name?")
+
+    assert context["metadata"].get("context_version") == "phase4", context
+    assert context["metadata"].get("profile_loaded") is True, context
+
+    family = context.get("family", {})
+
+    assert family.get("wife_name") == "Thrilochana", family
+    assert family.get("first_born_son_name") == "Bhirav Aditya", family
+    assert context["requires_source"] is False, context
+    assert context["prompt_flags"]["is_family_identity_question"] is True, context
+
+    print("[OK] Direct Phase 4 profile-backed context works")
 
 
 def _test_direct_validator_pass(validator_module: ModuleType) -> None:
@@ -272,8 +311,10 @@ def main() -> int:
     _compile_targets()
 
     validator_module = _load_validator_module()
+    profile_loader_module = _load_profile_loader_module()
     context_builder_module = _load_context_builder_module()
 
+    _test_profile_backed_context(context_builder_module)
     _test_direct_validator_pass(validator_module)
     _test_direct_validator_fail(validator_module)
 

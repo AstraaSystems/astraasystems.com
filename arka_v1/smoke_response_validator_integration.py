@@ -9,7 +9,7 @@ This test verifies:
 2. arka_v1.py compiles
 3. direct validator PASS behavior
 4. direct validator FAIL behavior
-5. integrated arka_reply() blocks a bad identity response
+5. integrated arka_reply() repairs a bad identity response
 6. integrated arka_reply() allows a good identity response
 
 Important:
@@ -174,12 +174,13 @@ def _test_direct_validator_fail(validator_module: ModuleType) -> None:
     print("[OK] Direct validator FAIL case works")
 
 
-def _test_integrated_pipeline_blocks_bad_identity(runtime: ModuleType) -> None:
+def _test_integrated_pipeline_repairs_bad_identity(runtime: ModuleType) -> None:
     """
     Integrated pipeline test.
 
     Monkeypatch governor dispatch to return a bad identity response.
-    arka_reply() should pass it through Phase 1 validation and block it.
+    arka_reply() should pass it through Phase 1 validation, repair it through
+    Phase 2, validate the repaired response, and return the repaired answer.
     """
 
     def fake_bad_dispatch(raw: str, web_func=None) -> str:
@@ -190,10 +191,11 @@ def _test_integrated_pipeline_blocks_bad_identity(runtime: ModuleType) -> None:
     response = runtime.arka_reply("who am I?")
 
     assert isinstance(response, str), type(response)
-    assert "Phase 1 validation" in response, response
-    assert "OWNER_IDENTITY_CONFUSION" in response, response
+    assert "You are Keshanth Sivayogampillai" in response, response
+    assert "Phase 1 validation" not in response, response
+    assert "OWNER_IDENTITY_CONFUSION" not in response, response
 
-    print("[OK] Integrated pipeline blocks bad identity response")
+    print("[OK] Integrated pipeline repairs bad identity response")
 
 
 def _test_integrated_pipeline_allows_good_identity(runtime: ModuleType) -> None:
@@ -260,7 +262,7 @@ def main() -> int:
     try:
         runtime = _load_arka_runtime()
 
-        _test_integrated_pipeline_blocks_bad_identity(runtime)
+        _test_integrated_pipeline_repairs_bad_identity(runtime)
         _test_integrated_pipeline_allows_good_identity(runtime)
     finally:
         _restore_runtime_state(state_snapshot)

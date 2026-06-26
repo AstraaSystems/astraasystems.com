@@ -36,6 +36,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ARKA_DIR = ROOT / "arka_v1"
 ARKA_APP = ARKA_DIR / "arka_v1.py"
 VALIDATOR = ARKA_DIR / "core" / "response_validator.py"
+ARKA_STATE = ARKA_DIR / "arka_state.json"
 
 
 def _add_paths() -> None:
@@ -218,6 +219,30 @@ def _test_integrated_pipeline_allows_good_identity(runtime: ModuleType) -> None:
     print("[OK] Integrated pipeline allows good identity response")
 
 
+def _snapshot_runtime_state() -> str | None:
+    """
+    Snapshot arka_state.json so smoke tests do not leave runtime log changes.
+    """
+
+    if not ARKA_STATE.exists():
+        return None
+
+    return ARKA_STATE.read_text(encoding="utf-8")
+
+
+def _restore_runtime_state(snapshot: str | None) -> None:
+    """
+    Restore arka_state.json after integrated arka_reply() smoke tests.
+    """
+
+    if snapshot is None:
+        return
+
+    ARKA_STATE.write_text(snapshot, encoding="utf-8")
+    print("[OK] Restored arka_state.json after smoke test")
+
+
+
 def main() -> int:
     _add_paths()
     _compile_targets()
@@ -227,10 +252,15 @@ def main() -> int:
     _test_direct_validator_pass(validator_module)
     _test_direct_validator_fail(validator_module)
 
-    runtime = _load_arka_runtime()
+    state_snapshot = _snapshot_runtime_state()
 
-    _test_integrated_pipeline_blocks_bad_identity(runtime)
-    _test_integrated_pipeline_allows_good_identity(runtime)
+    try:
+        runtime = _load_arka_runtime()
+
+        _test_integrated_pipeline_blocks_bad_identity(runtime)
+        _test_integrated_pipeline_allows_good_identity(runtime)
+    finally:
+        _restore_runtime_state(state_snapshot)
 
     print("")
     print("[OK] Arka Phase 1 response validator integration smoke test passed.")

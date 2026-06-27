@@ -26,6 +26,11 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 import subprocess
 
+try:
+    from arka_v1.core.capability_registry import decide_capability_for_context
+except Exception:
+    from core.capability_registry import decide_capability_for_context
+
 
 READ_ONLY_GIT_COMMANDS: Dict[str, List[str]] = {
     "git_status_short": ["git", "status", "--short"],
@@ -154,6 +159,25 @@ class SourceExecutionBridge:
         if route in {"LOCAL_PROFILE", "GENERAL_KNOWLEDGE", "MATH_REQUIRED", "UNKNOWN"}:
             return self._no_execution_needed(route, source_type)
 
+        # ARKA_CAPABILITY_REGISTRY_PHASE11C
+        # Consult capability registry before any source/tool execution route.
+        capability_decision = decide_capability_for_context(context)
+
+        if not getattr(capability_decision, "matched", False):
+            return self._capability_not_registered(route, source_type, capability_decision)
+
+        if getattr(capability_decision, "requires_approval", False):
+            return self._capability_requires_approval(route, source_type, capability_decision)
+
+        if getattr(capability_decision, "mutates_state", False):
+            return self._capability_mutation_blocked(route, source_type, capability_decision)
+
+        if not getattr(capability_decision, "enabled", False):
+            return self._capability_disabled(route, source_type, capability_decision)
+
+        if not getattr(capability_decision, "read_only", False):
+            return self._capability_not_read_only(route, source_type, capability_decision)
+
         if route == "GITHUB_REQUIRED":
             return self._execute_git_read_only_route(normalized_prompt, route, source_type)
 
@@ -186,6 +210,184 @@ class SourceExecutionBridge:
             "tool_execution": "safe_read_only_only",
             "repo_root": str(self.repo_root),
         }
+
+    def _capability_metadata(
+        self,
+        capability_decision: Any,
+    ) -> Dict[str, Any]:
+        """
+        Return safe capability decision metadata.
+        """
+
+        if capability_decision is None:
+            return {}
+
+        if hasattr(capability_decision, "to_dict"):
+            return capability_decision.to_dict()
+
+        return {
+            "capability_decision": str(capability_decision),
+        }
+
+    def _capability_not_registered(
+        self,
+        route: str,
+        source_type: Optional[str],
+        capability_decision: Any,
+    ) -> SourceExecutionResult:
+        """
+        Return structured result when no capability is registered for route.
+        """
+
+        return SourceExecutionResult(
+            executed=False,
+            route=route,
+            source_type=source_type,
+            status="not_registered",
+            message="No registered capability matched this source route.",
+            evidence=[],
+            sources=[],
+            source_results=[],
+            verified_actions=[],
+            blocked_reason="capability_not_registered",
+            metadata={
+                **self._metadata(),
+                "capability_decision": self._capability_metadata(capability_decision),
+            },
+        )
+
+    def _capability_disabled(
+        self,
+        route: str,
+        source_type: Optional[str],
+        capability_decision: Any,
+    ) -> SourceExecutionResult:
+        """
+        Return structured result when capability exists but is disabled.
+        """
+
+        capability_name = getattr(capability_decision, "capability_name", None)
+
+        return SourceExecutionResult(
+            executed=False,
+            route=route,
+            source_type=source_type,
+            status="not_implemented",
+            message=(
+                "This source route is recognized, but the registered capability "
+                "is not enabled yet."
+            ),
+            evidence=[],
+            sources=[],
+            source_results=[],
+            verified_actions=[],
+            blocked_reason="capability_disabled",
+            metadata={
+                **self._metadata(),
+                "capability_name": capability_name,
+                "capability_decision": self._capability_metadata(capability_decision),
+            },
+        )
+
+    def _capability_requires_approval(
+        self,
+        route: str,
+        source_type: Optional[str],
+        capability_decision: Any,
+    ) -> SourceExecutionResult:
+        """
+        Return structured result when capability requires approval.
+        """
+
+        capability_name = getattr(capability_decision, "capability_name", None)
+
+        return SourceExecutionResult(
+            executed=False,
+            route=route,
+            source_type=source_type,
+            status="blocked",
+            message=(
+                "This route matched a capability that requires approval. "
+                "Phase 11C does not execute approval-required capabilities."
+            ),
+            evidence=[],
+            sources=[],
+            source_results=[],
+            verified_actions=[],
+            blocked_reason="capability_requires_approval",
+            metadata={
+                **self._metadata(),
+                "capability_name": capability_name,
+                "capability_decision": self._capability_metadata(capability_decision),
+            },
+        )
+
+    def _capability_mutation_blocked(
+        self,
+        route: str,
+        source_type: Optional[str],
+        capability_decision: Any,
+    ) -> SourceExecutionResult:
+        """
+        Return structured result when capability would mutate state.
+        """
+
+        capability_name = getattr(capability_decision, "capability_name", None)
+
+        return SourceExecutionResult(
+            executed=False,
+            route=route,
+            source_type=source_type,
+            status="blocked",
+            message=(
+                "This route matched a mutating capability. Phase 11C only allows "
+                "read-only execution."
+            ),
+            evidence=[],
+            sources=[],
+            source_results=[],
+            verified_actions=[],
+            blocked_reason="capability_mutates_state",
+            metadata={
+                **self._metadata(),
+                "capability_name": capability_name,
+                "capability_decision": self._capability_metadata(capability_decision),
+            },
+        )
+
+    def _capability_not_read_only(
+        self,
+        route: str,
+        source_type: Optional[str],
+        capability_decision: Any,
+    ) -> SourceExecutionResult:
+        """
+        Return structured result when capability is not read-only.
+        """
+
+        capability_name = getattr(capability_decision, "capability_name", None)
+
+        return SourceExecutionResult(
+            executed=False,
+            route=route,
+            source_type=source_type,
+            status="blocked",
+            message=(
+                "This route matched a capability that is not read-only. "
+                "Phase 11C blocks non-read-only capabilities."
+            ),
+            evidence=[],
+            sources=[],
+            source_results=[],
+            verified_actions=[],
+            blocked_reason="capability_not_read_only",
+            metadata={
+                **self._metadata(),
+                "capability_name": capability_name,
+                "capability_decision": self._capability_metadata(capability_decision),
+            },
+        )
+
 
     def _no_execution_needed(
         self,

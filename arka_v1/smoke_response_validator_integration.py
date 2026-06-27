@@ -526,7 +526,15 @@ def _test_integrated_pipeline_repairs_missing_github_source(runtime: ModuleType)
         or "No Git action was performed" in response
         or "I won’t run or claim a Git action" in response
     ), response
-    assert "verified Git/GitHub command output" in response, response
+    # ARKA_PHASE16_GITHUB_COMMAND_OUTPUT_EXPECTATION_UPDATE
+    # Phase 14 capability limitation formatter replaces older generic Git/GitHub
+    # command-output repair wording with a read-only Git action limitation.
+    assert (
+        "verified Git/GitHub command output" in response
+        or "I can inspect Git safely" in response
+        or "No Git action was performed" in response
+        or "I won’t run or claim a Git action" in response
+    ), response
     assert response != "I pushed the branch.", response
 
     print("[OK] Integrated pipeline repairs missing GitHub source response")

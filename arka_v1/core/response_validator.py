@@ -330,20 +330,66 @@ class ResponseValidator:
         context: Dict[str, Any],
     ) -> List[ValidationIssue]:
         """
-        Require source context when the caller marks the response as source-required.
+        ARKA_SOURCE_AWARE_VALIDATOR_PHASE6C
+
+        Require source/evidence context only for source-required routes.
+
+        General knowledge, local profile, and math routes should not fail just
+        because sources are empty. Explicit source/tool/status routes must have
+        evidence before Arka claims a grounded result.
         """
 
         issues: List[ValidationIssue] = []
 
         requires_source = bool(context.get("requires_source", False))
         sources = context.get("sources", [])
+        source_results = context.get("source_results", [])
+        verified_actions = context.get("verified_actions", [])
 
-        if requires_source and not sources:
+        source_route = context.get("source_route", {}) or {}
+        route = str(source_route.get("route", "") or "")
+        source_type = source_route.get("source_type")
+        allowed_without_source = bool(source_route.get("allowed_without_source", False))
+
+        has_source_evidence = bool(sources or source_results)
+
+        if route == "ACTION_VERIFICATION_REQUIRED":
+            has_source_evidence = has_source_evidence or bool(verified_actions)
+
+        source_required_routes = {
+            "WEB_SOURCE_REQUIRED": "MISSING_WEB_SOURCE",
+            "ASTRAA_STATUS_REQUIRED": "MISSING_ASTRAA_STATUS_SOURCE",
+            "GITHUB_REQUIRED": "MISSING_GITHUB_SOURCE",
+            "SERVER_REQUIRED": "MISSING_SERVER_SOURCE",
+            "PAYMENT_REQUIRED": "MISSING_PAYMENT_SOURCE",
+            "ACTION_VERIFICATION_REQUIRED": "MISSING_ACTION_VERIFICATION",
+        }
+
+        if route in source_required_routes:
+            if not has_source_evidence:
+                issues.append(
+                    ValidationIssue(
+                        code=source_required_routes[route],
+                        message=(
+                            "Response requires source/evidence for route "
+                            f"{route} but none was provided."
+                        ),
+                        severity="fail" if self.strict_mode else "warn",
+                        field="source_route",
+                    )
+                )
+
+            return issues
+
+        if requires_source and not allowed_without_source and not has_source_evidence:
             issues.append(
                 ValidationIssue(
-                    code="MISSING_SOURCE",
-                    message="Response requires a source but no source was provided.",
+                    code="MISSING_REQUIRED_SOURCE",
+                    message=(
+                        "Response requires a source but no source/evidence was provided."
+                    ),
                     severity="fail" if self.strict_mode else "warn",
+                    field="sources",
                 )
             )
 

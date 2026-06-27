@@ -64,6 +64,15 @@ class PolicyObservation:
     capability_mutates_state: Optional[bool] = None
     capability_blocked_reason: Optional[str] = None
 
+    # ARKA_ENABLEMENT_OBSERVER_PHASE16A
+    # Safe enablement contract metadata only.
+    enablement_contract: Optional[str] = None
+    enablement_can_enable: Optional[bool] = None
+    enablement_missing_requirement_count: Optional[int] = None
+    enablement_requires_approval: Optional[bool] = None
+    enablement_allows_mutation: Optional[bool] = None
+    enablement_read_only_required: Optional[bool] = None
+
     warnings: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
@@ -94,6 +103,12 @@ class PolicyObservation:
             "capability_requires_approval": self.capability_requires_approval,
             "capability_mutates_state": self.capability_mutates_state,
             "capability_blocked_reason": self.capability_blocked_reason,
+            "enablement_contract": self.enablement_contract,
+            "enablement_can_enable": self.enablement_can_enable,
+            "enablement_missing_requirement_count": self.enablement_missing_requirement_count,
+            "enablement_requires_approval": self.enablement_requires_approval,
+            "enablement_allows_mutation": self.enablement_allows_mutation,
+            "enablement_read_only_required": self.enablement_read_only_required,
             "warnings": list(self.warnings),
             "metadata": dict(self.metadata),
         }
@@ -183,6 +198,8 @@ class PolicyObserver:
             source_execution=source_execution,
         )
 
+        enablement_info = self._enablement_info(capability_info)
+
         action_blocked = style in self.ACTION_BLOCKED_STYLES
         limitation_selected = style in self.LIMITATION_STYLES
 
@@ -215,6 +232,12 @@ class PolicyObserver:
             capability_requires_approval=capability_info.get("capability_requires_approval"),
             capability_mutates_state=capability_info.get("capability_mutates_state"),
             capability_blocked_reason=capability_info.get("capability_blocked_reason"),
+            enablement_contract=enablement_info.get("enablement_contract"),
+            enablement_can_enable=enablement_info.get("enablement_can_enable"),
+            enablement_missing_requirement_count=enablement_info.get("enablement_missing_requirement_count"),
+            enablement_requires_approval=enablement_info.get("enablement_requires_approval"),
+            enablement_allows_mutation=enablement_info.get("enablement_allows_mutation"),
+            enablement_read_only_required=enablement_info.get("enablement_read_only_required"),
             warnings=warnings,
             metadata=self._metadata(enabled=enabled),
         )
@@ -353,6 +376,67 @@ class PolicyObserver:
             return None
 
         return None
+
+    def _enablement_info(
+        self,
+        capability_info: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        """
+        Return safe enablement contract metadata.
+
+        This does not execute tools or connectors. It only evaluates contract metadata.
+        """
+
+        capability_name = capability_info.get("capability_name")
+
+        if not capability_name:
+            return {
+                "enablement_contract": None,
+                "enablement_can_enable": None,
+                "enablement_missing_requirement_count": None,
+                "enablement_requires_approval": None,
+                "enablement_allows_mutation": None,
+                "enablement_read_only_required": None,
+            }
+
+        try:
+            try:
+                from arka_v1.core.capability_enablement_contracts import (
+                    evaluate_enablement,
+                )
+            except Exception:
+                from core.capability_enablement_contracts import (
+                    evaluate_enablement,
+                )
+
+            decision = evaluate_enablement(capability_name, [])
+
+            return {
+                "enablement_contract": capability_name,
+                "enablement_can_enable": bool(getattr(decision, "can_enable", False)),
+                "enablement_missing_requirement_count": len(
+                    getattr(decision, "missing_requirements", []) or []
+                ),
+                "enablement_requires_approval": bool(
+                    getattr(decision, "requires_approval", False)
+                ),
+                "enablement_allows_mutation": bool(
+                    getattr(decision, "allows_mutation", False)
+                ),
+                "enablement_read_only_required": bool(
+                    getattr(decision, "read_only_required", True)
+                ),
+            }
+
+        except Exception:
+            return {
+                "enablement_contract": capability_name,
+                "enablement_can_enable": None,
+                "enablement_missing_requirement_count": None,
+                "enablement_requires_approval": None,
+                "enablement_allows_mutation": None,
+                "enablement_read_only_required": None,
+            }
 
     def _metadata(self, enabled: bool) -> Dict[str, Any]:
         return {

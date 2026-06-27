@@ -85,6 +85,7 @@ class ResponseValidator:
 
         issues.extend(self._check_empty_response(response))
         issues.extend(self._check_owner_identity(prompt, response, context))
+        issues.extend(self._check_family_identity(prompt, response, context))
         issues.extend(self._check_overconfidence(response, context))
         issues.extend(self._check_source_grounding(response, context))
         issues.extend(self._check_unsafe_actions(response, context))
@@ -166,6 +167,123 @@ class ResponseValidator:
                 )
 
         return issues
+
+    def _check_family_identity(
+        self,
+        prompt: str,
+        response: str,
+        context: Dict[str, Any],
+    ) -> List[ValidationIssue]:
+        """
+        ARKA_FAMILY_IDENTITY_VALIDATOR_PHASE5A
+
+        Ensure family identity questions use trusted profile-backed context.
+
+        This check is intentionally conservative:
+        - It only applies when the context flags a family identity question.
+        - It only fails when the trusted family profile contains the expected answer.
+        - It does not call web/search or mutate memory.
+        """
+
+        issues: List[ValidationIssue] = []
+
+        prompt_flags = context.get("prompt_flags", {})
+        is_family_identity_question = bool(
+            prompt_flags.get("is_family_identity_question", False)
+        )
+
+        if not is_family_identity_question:
+            return issues
+
+        normalized_prompt = prompt.lower().strip()
+        lower_response = response.lower()
+        family = context.get("family", {})
+
+        wife_name = str(family.get("wife_name", "")).strip()
+        son_name = str(family.get("first_born_son_name", "")).strip()
+
+        asks_about_wife = self._prompt_asks_about_wife(normalized_prompt)
+        asks_about_son = self._prompt_asks_about_son(normalized_prompt)
+
+        if asks_about_wife:
+            if not wife_name:
+                issues.append(
+                    ValidationIssue(
+                        code="FAMILY_IDENTITY_MISSING_CONTEXT_WIFE",
+                        message="Family identity question asked about wife, but wife_name was missing from context.",
+                        severity="warn",
+                    )
+                )
+            elif wife_name.lower() not in lower_response:
+                issues.append(
+                    ValidationIssue(
+                        code="FAMILY_IDENTITY_CONFUSION_WIFE",
+                        message="Family identity question did not use trusted wife_name from profile-backed context.",
+                        severity="fail",
+                    )
+                )
+
+        if asks_about_son:
+            if not son_name:
+                issues.append(
+                    ValidationIssue(
+                        code="FAMILY_IDENTITY_MISSING_CONTEXT_SON",
+                        message="Family identity question asked about son, but first_born_son_name was missing from context.",
+                        severity="warn",
+                    )
+                )
+            elif son_name.lower() not in lower_response:
+                issues.append(
+                    ValidationIssue(
+                        code="FAMILY_IDENTITY_CONFUSION_SON",
+                        message="Family identity question did not use trusted first_born_son_name from profile-backed context.",
+                        severity="fail",
+                    )
+                )
+
+        if not asks_about_wife and not asks_about_son:
+            issues.append(
+                ValidationIssue(
+                    code="FAMILY_IDENTITY_UNCLASSIFIED",
+                    message="Family identity question was detected, but validator could not classify wife or son target.",
+                    severity="warn",
+                )
+            )
+
+        return issues
+
+    def _prompt_asks_about_wife(self, text: str) -> bool:
+        """
+        Detect wife-name questions.
+        """
+
+        wife_terms = [
+            "wife",
+            "wife's name",
+            "wifes name",
+            "my wife's name",
+            "my wife name",
+        ]
+
+        return any(term in text for term in wife_terms)
+
+    def _prompt_asks_about_son(self, text: str) -> bool:
+        """
+        Detect son-name questions.
+        """
+
+        son_terms = [
+            "son",
+            "son's name",
+            "sons name",
+            "my son's name",
+            "my son name",
+            "first born",
+            "first-born",
+        ]
+
+        return any(term in text for term in son_terms)
+
 
     def _check_overconfidence(
         self,

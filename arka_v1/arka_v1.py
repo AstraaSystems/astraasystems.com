@@ -1654,10 +1654,30 @@ def arka_reply(raw):
             log_event("governor_dispatch", raw)
         except Exception:
             pass
+        # ARKA_RESPONSE_POLICY_PHASE9C
+        # Decide final answer policy before applying evidence formatting.
+        try:
+            if "arka_context" in locals():
+                try:
+                    from arka_v1.core.response_policy import decide_response_policy
+                except Exception:
+                    from core.response_policy import decide_response_policy
+        
+                response_policy_decision = decide_response_policy(
+                    prompt=raw,
+                    response=governor_result,
+                    context=arka_context,
+                )
+            else:
+                response_policy_decision = None
+        except Exception:
+            # Response policy must never break Arka's main response path.
+            response_policy_decision = None
+
         # ARKA_EVIDENCE_FORMATTER_PHASE8C
         # Format already-collected source evidence into clearer final response text.
         try:
-            if "arka_context" in locals():
+            if "arka_context" in locals() and (response_policy_decision is None or bool(getattr(response_policy_decision, "allow_evidence_formatting", False))):
                 try:
                     from arka_v1.core.evidence_response_formatter import format_response_with_evidence
                 except Exception:

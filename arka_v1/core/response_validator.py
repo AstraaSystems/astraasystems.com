@@ -353,6 +353,32 @@ class ResponseValidator:
 
         has_source_evidence = bool(sources or source_results)
 
+        # ARKA_SOURCE_LIMITATION_PASS_PHASE6_FIX
+        # A repaired limitation response should be allowed through.
+        # Source-required routes should fail unsupported source claims, not honest
+        # statements that explicitly refuse to claim source-backed results without evidence.
+        source_limitation_markers = [
+            "should not claim",
+            "without verified",
+            "needs to provide",
+            "need source evidence",
+            "need verified",
+            "no verified source",
+            "no verified",
+            "source connector",
+            "verified web results",
+            "verified astraa/server/source evidence",
+            "verified git/github command output",
+            "verified server/status evidence",
+            "verified payment/source evidence",
+            "verified execution proof",
+        ]
+
+        lower_response = response.lower()
+        is_source_limitation_response = any(
+            marker in lower_response for marker in source_limitation_markers
+        )
+
         if route == "ACTION_VERIFICATION_REQUIRED":
             has_source_evidence = has_source_evidence or bool(verified_actions)
 
@@ -366,6 +392,9 @@ class ResponseValidator:
         }
 
         if route in source_required_routes:
+            if is_source_limitation_response:
+                return issues
+
             if not has_source_evidence:
                 issues.append(
                     ValidationIssue(

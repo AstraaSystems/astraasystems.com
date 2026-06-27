@@ -188,7 +188,7 @@ class CapabilityRegistry:
                 executor_name=None,
                 evidence_types=[],
                 description="Trusted local profile/family context already loaded by profile_loader.",
-                metadata={"phase": "phase11"},
+                metadata={"phase": "phase11", "enablement_contract": "profile_context", "ARKA_CAPABILITY_ENABLEMENT_REGISTRY_LINK_PHASE15C": True},
             ),
             Capability(
                 name="local_git_readonly",
@@ -207,7 +207,7 @@ class CapabilityRegistry:
                     "git_remote_verbose",
                 ],
                 description="Safe read-only local Git evidence collection.",
-                metadata={"phase": "phase11"},
+                metadata={"phase": "phase11", "enablement_contract": "local_git_readonly", "ARKA_CAPABILITY_ENABLEMENT_REGISTRY_LINK_PHASE15C": True},
             ),
             Capability(
                 name="math_executor_placeholder",
@@ -220,7 +220,7 @@ class CapabilityRegistry:
                 executor_name="math_executor_placeholder",
                 evidence_types=[],
                 description="Placeholder for future safe Math OS execution.",
-                metadata={"phase": "phase11", "placeholder": True},
+                metadata={"phase": "phase11", "placeholder": True, "enablement_contract": "math_executor_placeholder", "ARKA_CAPABILITY_ENABLEMENT_REGISTRY_LINK_PHASE15C": True},
             ),
             Capability(
                 name="astraa_status_placeholder",
@@ -233,7 +233,7 @@ class CapabilityRegistry:
                 executor_name="astraa_status_connector_placeholder",
                 evidence_types=[],
                 description="Placeholder for future read-only Astraa status connector.",
-                metadata={"phase": "phase11", "placeholder": True},
+                metadata={"phase": "phase11", "placeholder": True, "enablement_contract": "astraa_status_placeholder", "ARKA_CAPABILITY_ENABLEMENT_REGISTRY_LINK_PHASE15C": True},
             ),
             Capability(
                 name="server_health_placeholder",
@@ -246,7 +246,7 @@ class CapabilityRegistry:
                 executor_name="server_health_connector_placeholder",
                 evidence_types=[],
                 description="Placeholder for future read-only server/API health connector.",
-                metadata={"phase": "phase11", "placeholder": True},
+                metadata={"phase": "phase11", "placeholder": True, "enablement_contract": "server_health_placeholder", "ARKA_CAPABILITY_ENABLEMENT_REGISTRY_LINK_PHASE15C": True},
             ),
             Capability(
                 name="web_source_placeholder",
@@ -259,7 +259,7 @@ class CapabilityRegistry:
                 executor_name="web_source_connector_placeholder",
                 evidence_types=[],
                 description="Placeholder for future web/source connector.",
-                metadata={"phase": "phase11", "placeholder": True},
+                metadata={"phase": "phase11", "placeholder": True, "enablement_contract": "web_source_placeholder", "ARKA_CAPABILITY_ENABLEMENT_REGISTRY_LINK_PHASE15C": True},
             ),
             Capability(
                 name="payment_status_placeholder",

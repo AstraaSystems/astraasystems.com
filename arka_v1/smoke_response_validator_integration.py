@@ -39,6 +39,7 @@ VALIDATOR = ARKA_DIR / "core" / "response_validator.py"
 CONTEXT_BUILDER = ARKA_DIR / "core" / "context_builder.py"
 PROFILE_LOADER = ARKA_DIR / "core" / "profile_loader.py"
 SOURCE_ROUTER = ARKA_DIR / "core" / "source_router.py"
+SOURCE_EXECUTION_BRIDGE = ARKA_DIR / "core" / "source_execution_bridge.py"
 ARKA_STATE = ARKA_DIR / "arka_state.json"
 
 
@@ -62,6 +63,7 @@ def _compile_targets() -> None:
     py_compile.compile(str(CONTEXT_BUILDER), doraise=True)
     py_compile.compile(str(PROFILE_LOADER), doraise=True)
     py_compile.compile(str(SOURCE_ROUTER), doraise=True)
+    py_compile.compile(str(SOURCE_EXECUTION_BRIDGE), doraise=True)
     py_compile.compile(str(ARKA_APP), doraise=True)
 
     print("[OK] Compile passed for response_validator.py and arka_v1.py")
@@ -146,6 +148,23 @@ def _load_source_router_module() -> ModuleType:
     return source_router_module
 
 
+def _load_source_execution_bridge_module() -> ModuleType:
+    """
+    Load source_execution_bridge.py directly and register core.source_execution_bridge alias.
+    """
+
+    source_execution_bridge_module = _load_module_from_path(
+        "source_execution_bridge_smoke_module",
+        SOURCE_EXECUTION_BRIDGE,
+    )
+
+    sys.modules["core.source_execution_bridge"] = source_execution_bridge_module
+
+    print("[OK] Loaded source_execution_bridge.py directly and registered core alias")
+
+    return source_execution_bridge_module
+
+
 def _load_context_builder_module() -> ModuleType:
     """
     Load context_builder.py directly and register core.context_builder alias.
@@ -183,6 +202,45 @@ def _load_arka_runtime() -> ModuleType:
     print("[OK] Loaded arka_v1.py runtime module")
 
     return runtime
+
+
+def _test_phase7_source_execution_bridge(
+    context_builder_module: ModuleType,
+    source_execution_bridge_module: ModuleType,
+) -> None:
+    """
+    Direct Phase 7 source execution bridge test.
+
+    Proves read-only Git prompts collect local_git evidence and unsafe Git
+    action prompts remain blocked.
+    """
+
+    cases = [
+        ("show git status", True, "success", "GITHUB_REQUIRED"),
+        ("what branch am I on?", True, "success", "GITHUB_REQUIRED"),
+        ("show recent commits", True, "success", "GITHUB_REQUIRED"),
+        ("what remote is configured?", True, "success", "GITHUB_REQUIRED"),
+        ("git push origin main", False, "blocked", "GITHUB_REQUIRED"),
+        ("how to cook rice", False, "not_required", "GENERAL_KNOWLEDGE"),
+    ]
+
+    for prompt, expected_executed, expected_status, expected_route in cases:
+        context = context_builder_module.build_context(prompt)
+        result = source_execution_bridge_module.execute_source_route(prompt, context)
+        merged = source_execution_bridge_module.merge_source_execution(context, result)
+
+        assert context["source_route"]["route"] == expected_route, context
+        assert result["executed"] is expected_executed, result
+        assert result["status"] == expected_status, result
+
+        if expected_executed:
+            assert "local_git" in merged.get("sources", []), merged
+            assert len(merged.get("source_results", [])) >= 1, merged
+
+        if expected_status == "blocked":
+            assert result.get("blocked_reason") == "unsafe_git_action_blocked", result
+
+    print("[OK] Direct Phase 7 source execution bridge works")
 
 
 def _test_phase6_source_routes(context_builder_module: ModuleType) -> None:
@@ -394,6 +452,31 @@ def _test_integrated_pipeline_repairs_missing_astraa_status_source(runtime: Modu
     print("[OK] Integrated pipeline repairs missing Astraa status source response")
 
 
+def _test_integrated_pipeline_uses_git_source_execution(runtime: ModuleType) -> None:
+    """
+    Integrated Phase 7 test.
+
+    Because Phase 7C executes read-only Git evidence before validation, a Git
+    evidence prompt should not fail with MISSING_GITHUB_SOURCE when local_git
+    evidence is available in context.
+    """
+
+    def fake_git_status_response(raw: str, web_func=None) -> str:
+        return "Git status evidence is available from local Git."
+
+    runtime.arka_governor_dispatch = fake_git_status_response
+
+    response = runtime.arka_reply("show git status")
+
+    assert isinstance(response, str), type(response)
+    assert "Git status evidence is available" in response, response
+    assert "MISSING_GITHUB_SOURCE" not in response, response
+    assert "I should not claim Git or GitHub" not in response, response
+    assert "Phase 1 validation" not in response, response
+
+    print("[OK] Integrated pipeline uses read-only Git source execution evidence")
+
+
 def _test_integrated_pipeline_repairs_missing_github_source(runtime: ModuleType) -> None:
     """
     Integrated Phase 6 test.
@@ -474,8 +557,10 @@ def main() -> int:
     validator_module = _load_validator_module()
     profile_loader_module = _load_profile_loader_module()
     source_router_module = _load_source_router_module()
+    source_execution_bridge_module = _load_source_execution_bridge_module()
     context_builder_module = _load_context_builder_module()
 
+    _test_phase7_source_execution_bridge(context_builder_module, source_execution_bridge_module)
     _test_phase6_source_routes(context_builder_module)
     _test_profile_backed_context(context_builder_module)
     _test_direct_validator_pass(validator_module)
@@ -491,13 +576,14 @@ def main() -> int:
         _test_integrated_pipeline_repairs_bad_wife_identity(runtime)
         _test_integrated_pipeline_repairs_missing_web_source(runtime)
         _test_integrated_pipeline_repairs_missing_astraa_status_source(runtime)
+        _test_integrated_pipeline_uses_git_source_execution(runtime)
         _test_integrated_pipeline_repairs_missing_github_source(runtime)
         _test_integrated_pipeline_allows_good_identity(runtime)
     finally:
         _restore_runtime_state(state_snapshot)
 
     print("")
-    print("[OK] Arka response validation, repair, context, profile, family repair, and source-aware routing smoke test passed.")
+    print("[OK] Arka response validation, repair, context, profile, family repair, source-aware routing, and source execution smoke test passed.")
     return 0
 
 

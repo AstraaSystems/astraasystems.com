@@ -107,6 +107,24 @@ class SourceRouter:
                 metadata=self._metadata(),
             )
 
+        # ARKA_GIT_PRIORITY_BEFORE_WEB_PHASE7B_FIX
+        # Read-only Git prompts like "show current branch" contain words such as
+        # "current", but should route to Git evidence, not web search.
+        if self._is_github_prompt(text):
+            secondary = self._secondary_action_routes(text)
+
+            return SourceRouteDecision(
+                route=SourceRoute.GITHUB_REQUIRED,
+                requires_source=True,
+                source_type="github_or_git",
+                allowed_without_source=False,
+                reason="Prompt requires Git/GitHub/local repository evidence or command output.",
+                confidence="high",
+                required_capabilities=["git_or_github_source"],
+                secondary_routes=secondary,
+                metadata=self._metadata(),
+            )
+
         # Explicit web/source request must not be treated as generic knowledge.
         if self._explicit_web_source_request(text):
             return SourceRouteDecision(
@@ -131,22 +149,6 @@ class SourceRouter:
                 confidence="high",
                 required_capabilities=["astraa_status_source"],
                 secondary_routes=self._secondary_action_routes(text),
-                metadata=self._metadata(),
-            )
-
-        # Git / GitHub / repo workflow prompts.
-        if self._is_github_prompt(text):
-            secondary = self._secondary_action_routes(text)
-
-            return SourceRouteDecision(
-                route=SourceRoute.GITHUB_REQUIRED,
-                requires_source=True,
-                source_type="github_or_git",
-                allowed_without_source=False,
-                reason="Prompt requires Git/GitHub/local repository evidence or command output.",
-                confidence="high",
-                required_capabilities=["git_or_github_source"],
-                secondary_routes=secondary,
                 metadata=self._metadata(),
             )
 

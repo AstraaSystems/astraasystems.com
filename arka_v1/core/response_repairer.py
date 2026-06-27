@@ -66,8 +66,24 @@ class ResponseRepairer:
         if "FAMILY_IDENTITY_CONFUSION_WIFE" in issue_codes:
             return self._repair_wife_identity(prompt, response, context)
 
-        if "MISSING_SOURCE" in issue_codes:
-            return self._repair_missing_source(prompt, response, context)
+        source_missing_codes = {
+            "MISSING_WEB_SOURCE",
+            "MISSING_ASTRAA_STATUS_SOURCE",
+            "MISSING_GITHUB_SOURCE",
+            "MISSING_SERVER_SOURCE",
+            "MISSING_PAYMENT_SOURCE",
+            "MISSING_ACTION_VERIFICATION",
+            "MISSING_REQUIRED_SOURCE",
+            "MISSING_SOURCE",
+        }
+
+        if any(code in issue_codes for code in source_missing_codes):
+            return self._repair_missing_route_source(
+                prompt=prompt,
+                response=response,
+                issue_codes=issue_codes,
+                context=context,
+            )
 
         if "UNVERIFIED_ACTION_CLAIM" in issue_codes:
             return self._repair_unverified_action_claim(prompt, response, context)
@@ -202,6 +218,90 @@ class ResponseRepairer:
             applied_repairs=["FAMILY_IDENTITY_REPAIR_WIFE"],
             metadata={
                 "family_field_used": "wife_name",
+            },
+        )
+
+
+    def _repair_missing_route_source(
+        self,
+        prompt: str,
+        response: str,
+        issue_codes: List[str],
+        context: Dict[str, Any],
+    ) -> RepairResult:
+        """
+        ARKA_SOURCE_AWARE_REPAIRER_PHASE6D
+
+        Repair source-required failures into honest route-aware limitation wording.
+
+        This does not fabricate sources or claim tool execution.
+        """
+
+        source_route = context.get("source_route", {}) or {}
+        route = str(source_route.get("route", "") or "UNKNOWN")
+        source_type = source_route.get("source_type")
+        reason = source_route.get("reason") or "The prompt requires source evidence."
+
+        if "MISSING_WEB_SOURCE" in issue_codes:
+            repaired_response = (
+                "I should not claim a web-sourced answer without verified web results. "
+                "A web/source connector needs to provide results first, or I can answer "
+                "as general knowledge without claiming it came from live web sources."
+            )
+            applied = "MISSING_WEB_SOURCE_REPAIR"
+
+        elif "MISSING_ASTRAA_STATUS_SOURCE" in issue_codes:
+            repaired_response = (
+                "I should not claim Astraa website, signup, or status information "
+                "without verified Astraa/server/source evidence."
+            )
+            applied = "MISSING_ASTRAA_STATUS_SOURCE_REPAIR"
+
+        elif "MISSING_GITHUB_SOURCE" in issue_codes:
+            repaired_response = (
+                "I should not claim Git or GitHub status/action results without "
+                "verified Git/GitHub command output or repository evidence."
+            )
+            applied = "MISSING_GITHUB_SOURCE_REPAIR"
+
+        elif "MISSING_SERVER_SOURCE" in issue_codes:
+            repaired_response = (
+                "I should not claim server, API, backend, frontend, or Netlify status "
+                "without verified server/status evidence."
+            )
+            applied = "MISSING_SERVER_SOURCE_REPAIR"
+
+        elif "MISSING_PAYMENT_SOURCE" in issue_codes:
+            repaired_response = (
+                "I should not claim payment, Moneris, billing, receipt, or transaction "
+                "status without verified payment/source evidence."
+            )
+            applied = "MISSING_PAYMENT_SOURCE_REPAIR"
+
+        elif "MISSING_ACTION_VERIFICATION" in issue_codes:
+            repaired_response = (
+                "I should not claim that action was completed without verified execution "
+                "proof. I need action evidence before saying it was done."
+            )
+            applied = "MISSING_ACTION_VERIFICATION_REPAIR"
+
+        else:
+            repaired_response = (
+                "I should not claim a source-backed answer without verified source "
+                "evidence for this request."
+            )
+            applied = "MISSING_REQUIRED_SOURCE_REPAIR"
+
+        return RepairResult(
+            repaired=True,
+            response=repaired_response,
+            reason="Repaired missing source/evidence failure into honest route-aware limitation wording.",
+            applied_repairs=[applied],
+            metadata={
+                "route": route,
+                "source_type": source_type,
+                "source_reason": reason,
+                "issue_codes": list(issue_codes),
             },
         )
 

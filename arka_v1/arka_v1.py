@@ -1577,14 +1577,27 @@ def arka_reply(raw):
                 from arka_v1.core.response_validator import validate_response, ValidationStatus
                 from arka_v1.core.response_repairer import repair_response
                 from arka_v1.core.context_builder import build_context
+                from arka_v1.core.source_execution_bridge import (
+                    execute_source_route,
+                    merge_source_execution,
+                )
             except Exception:
                 from core.response_validator import validate_response, ValidationStatus
                 from core.response_repairer import repair_response
                 from core.context_builder import build_context
+                from core.source_execution_bridge import (
+                    execute_source_route,
+                    merge_source_execution,
+                )
 
             # ARKA_CONTEXT_BUILDER_PHASE3
             # Build trusted runtime context once and pass it through validator/repairer.
             arka_context = build_context(raw)
+
+            # ARKA_SOURCE_EXECUTION_BRIDGE_PHASE7C
+            # Execute safe read-only source/tool evidence collection before validation.
+            source_execution = execute_source_route(raw, arka_context)
+            arka_context = merge_source_execution(arka_context, source_execution)
 
             validation = validate_response(
                 prompt=raw,

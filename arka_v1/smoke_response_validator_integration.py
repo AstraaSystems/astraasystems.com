@@ -469,12 +469,21 @@ def _test_integrated_pipeline_uses_git_source_execution(runtime: ModuleType) -> 
     response = runtime.arka_reply("show git status")
 
     assert isinstance(response, str), type(response)
-    assert "Git status evidence is available" in response, response
+
+    # Phase 8 evidence formatter should replace the generic governor response
+    # with formatted local_git evidence.
+    assert "Source: local_git" in response, response
+    assert (
+        "You are on branch" in response
+        or "Git status evidence was captured" in response
+        or "Git working tree changes shown" in response
+    ), response
+
     assert "MISSING_GITHUB_SOURCE" not in response, response
     assert "I should not claim Git or GitHub" not in response, response
     assert "Phase 1 validation" not in response, response
 
-    print("[OK] Integrated pipeline uses read-only Git source execution evidence")
+    print("[OK] Integrated pipeline formats read-only Git source execution evidence")
 
 
 def _test_integrated_pipeline_repairs_missing_github_source(runtime: ModuleType) -> None:
@@ -583,7 +592,7 @@ def main() -> int:
         _restore_runtime_state(state_snapshot)
 
     print("")
-    print("[OK] Arka response validation, repair, context, profile, family repair, source-aware routing, and source execution smoke test passed.")
+    print("[OK] Arka response validation, repair, context, profile, family repair, source-aware routing, source execution, and evidence formatting smoke test passed.")
     return 0
 
 

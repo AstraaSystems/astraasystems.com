@@ -107,36 +107,10 @@ class SourceRouter:
                 metadata=self._metadata(),
             )
 
-        # ARKA_GIT_PRIORITY_BEFORE_WEB_PHASE7B_FIX
-        # Read-only Git prompts like "show current branch" contain words such as
-        # "current", but should route to Git evidence, not web search.
-        if self._is_github_prompt(text):
-            secondary = self._secondary_action_routes(text)
-
-            return SourceRouteDecision(
-                route=SourceRoute.GITHUB_REQUIRED,
-                requires_source=True,
-                source_type="github_or_git",
-                allowed_without_source=False,
-                reason="Prompt requires Git/GitHub/local repository evidence or command output.",
-                confidence="high",
-                required_capabilities=["git_or_github_source"],
-                secondary_routes=secondary,
-                metadata=self._metadata(),
-            )
-
-        # Explicit web/source request must not be treated as generic knowledge.
-        if self._explicit_web_source_request(text):
-            return SourceRouteDecision(
-                route=SourceRoute.WEB_SOURCE_REQUIRED,
-                requires_source=True,
-                source_type="web",
-                allowed_without_source=False,
-                reason="Prompt explicitly requests web/search/latest/current source-backed information.",
-                confidence="high",
-                required_capabilities=["web_source"],
-                metadata=self._metadata(),
-            )
+        # ARKA_OPERATIONAL_ROUTE_PRIORITY_PHASE7D
+        # Specific operational/status routes must win before broad Git/web routing.
+        # Example: "check astraasystems.com website status" should route to
+        # ASTRAA_STATUS_REQUIRED, not GITHUB_REQUIRED.
 
         # Astraa / website / signup / app status checks.
         if self._is_astraa_status_prompt(text):
@@ -177,6 +151,36 @@ class SourceRouter:
                 confidence="high",
                 required_capabilities=["payment_source"],
                 secondary_routes=self._secondary_action_routes(text),
+                metadata=self._metadata(),
+            )
+
+        # Read-only Git prompts like "show current branch" contain words such as
+        # "current", but should route to Git evidence, not web search.
+        if self._is_github_prompt(text):
+            secondary = self._secondary_action_routes(text)
+
+            return SourceRouteDecision(
+                route=SourceRoute.GITHUB_REQUIRED,
+                requires_source=True,
+                source_type="github_or_git",
+                allowed_without_source=False,
+                reason="Prompt requires Git/GitHub/local repository evidence or command output.",
+                confidence="high",
+                required_capabilities=["git_or_github_source"],
+                secondary_routes=secondary,
+                metadata=self._metadata(),
+            )
+
+        # Explicit web/source request must not be treated as generic knowledge.
+        if self._explicit_web_source_request(text):
+            return SourceRouteDecision(
+                route=SourceRoute.WEB_SOURCE_REQUIRED,
+                requires_source=True,
+                source_type="web",
+                allowed_without_source=False,
+                reason="Prompt explicitly requests web/search/latest/current source-backed information.",
+                confidence="high",
+                required_capabilities=["web_source"],
                 metadata=self._metadata(),
             )
 

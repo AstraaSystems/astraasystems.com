@@ -310,21 +310,46 @@ class SourceRouter:
         return any(term in text for term in astraa_terms)
 
     def _is_github_prompt(self, text: str) -> bool:
+        """
+        ARKA_GIT_READONLY_ROUTING_PHASE7B
+
+        Detect Git/GitHub prompts, including read-only repository evidence
+        requests such as branch/status/log/remote checks.
+        """
+
         github_terms = [
             "github",
+            "git",
             "git status",
             "git log",
             "git push",
             "git pull",
             "git fetch",
+            "git branch",
+            "git remote",
             "commit",
+            "commits",
             "branch",
+            "current branch",
+            "what branch",
+            "show branch",
+            "show current branch",
+            "status",
+            "repo status",
+            "repository status",
+            "recent commits",
+            "latest commits",
+            "show recent commits",
+            "show git log",
             "tag",
             "repo",
             "repository",
             "origin/main",
-            "pull request",
+            "origin remote",
+            "what is origin",
+            "show remotes",
             "remote",
+            "pull request",
         ]
 
         return any(term in text for term in github_terms)

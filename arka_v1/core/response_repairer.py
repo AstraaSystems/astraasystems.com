@@ -60,6 +60,12 @@ class ResponseRepairer:
         if "OWNER_IDENTITY_CONFUSION" in issue_codes:
             return self._repair_owner_identity(prompt, response, context)
 
+        if "FAMILY_IDENTITY_CONFUSION_SON" in issue_codes:
+            return self._repair_son_identity(prompt, response, context)
+
+        if "FAMILY_IDENTITY_CONFUSION_WIFE" in issue_codes:
+            return self._repair_wife_identity(prompt, response, context)
+
         if "MISSING_SOURCE" in issue_codes:
             return self._repair_missing_source(prompt, response, context)
 
@@ -122,6 +128,83 @@ class ResponseRepairer:
                 "owner_name_used": owner_name,
             },
         )
+
+    def _repair_son_identity(
+        self,
+        prompt: str,
+        response: str,
+        context: Dict[str, Any],
+    ) -> RepairResult:
+        """
+        ARKA_FAMILY_IDENTITY_REPAIRER_PHASE5B
+
+        Repair son's name answers using trusted profile-backed family context.
+        """
+
+        family = context.get("family", {})
+        son_name = str(family.get("first_born_son_name", "")).strip()
+
+        if not son_name:
+            return RepairResult(
+                repaired=False,
+                response=response,
+                reason="Cannot repair son's name because first_born_son_name is missing from context.",
+                applied_repairs=[],
+                metadata={
+                    "missing_context": "family.first_born_son_name",
+                },
+            )
+
+        repaired_response = f"Your first-born son's name is {son_name}."
+
+        return RepairResult(
+            repaired=True,
+            response=repaired_response,
+            reason="Repaired son's name response using trusted profile-backed family context.",
+            applied_repairs=["FAMILY_IDENTITY_REPAIR_SON"],
+            metadata={
+                "family_field_used": "first_born_son_name",
+            },
+        )
+
+    def _repair_wife_identity(
+        self,
+        prompt: str,
+        response: str,
+        context: Dict[str, Any],
+    ) -> RepairResult:
+        """
+        ARKA_FAMILY_IDENTITY_REPAIRER_PHASE5B
+
+        Repair wife's name answers using trusted profile-backed family context.
+        """
+
+        family = context.get("family", {})
+        wife_name = str(family.get("wife_name", "")).strip()
+
+        if not wife_name:
+            return RepairResult(
+                repaired=False,
+                response=response,
+                reason="Cannot repair wife's name because wife_name is missing from context.",
+                applied_repairs=[],
+                metadata={
+                    "missing_context": "family.wife_name",
+                },
+            )
+
+        repaired_response = f"Your wife's name is {wife_name}."
+
+        return RepairResult(
+            repaired=True,
+            response=repaired_response,
+            reason="Repaired wife's name response using trusted profile-backed family context.",
+            applied_repairs=["FAMILY_IDENTITY_REPAIR_WIFE"],
+            metadata={
+                "family_field_used": "wife_name",
+            },
+        )
+
 
     def _repair_missing_source(
         self,

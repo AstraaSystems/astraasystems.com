@@ -453,7 +453,15 @@ def _test_integrated_pipeline_repairs_missing_astraa_status_source(runtime: Modu
 
     assert isinstance(response, str), type(response)
     assert "Astraa website" in response, response
-    assert "verified Astraa/server/source evidence" in response, response
+    # ARKA_PHASE16_ASTRAA_LIMITATION_EXPECTATION_UPDATE
+    # Phase 14 capability limitation formatter replaces the older generic
+    # Astraa/source repair text with a capability-aware user-facing limitation.
+    assert (
+        "verified Astraa/server/source evidence" in response
+        or "verify Astraa website/app status" in response
+        or "Astraa status capability is registered" in response
+        or "without verified evidence" in response
+    ), response
     assert response != "The Astraa website is live.", response
 
     print("[OK] Integrated pipeline repairs missing Astraa status source response")

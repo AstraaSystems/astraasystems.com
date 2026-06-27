@@ -1695,6 +1695,33 @@ def arka_reply(raw):
             # Evidence formatting must never break Arka's main response path.
             pass
 
+        # ARKA_POLICY_OBSERVER_PHASE10C
+        # Build a safe compact policy observation with persistence disabled.
+        # This must never log raw prompt/response/source content or break the response path.
+        try:
+            if "arka_context" in locals() and "response_policy_decision" in locals():
+                try:
+                    from arka_v1.core.policy_observer import observe_response_policy
+                except Exception:
+                    from core.policy_observer import observe_response_policy
+
+                policy_observation = observe_response_policy(
+                    prompt=raw,
+                    response=governor_result,
+                    context=arka_context,
+                    policy_decision=response_policy_decision,
+                    formatter_result=formatted_response if "formatted_response" in locals() else None,
+                    validation_result=validation if "validation" in locals() else None,
+                    enabled=False,
+                )
+
+                # Keep observation in local runtime scope only.
+                # No persistence/file writes in Phase 10C.
+                _arka_policy_observation = policy_observation
+        except Exception:
+            # Policy observability must never break Arka's main response path.
+            pass
+
         return governor_result
 
 

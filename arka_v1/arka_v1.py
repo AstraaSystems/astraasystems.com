@@ -1695,6 +1695,27 @@ def arka_reply(raw):
             # Evidence formatting must never break Arka's main response path.
             pass
 
+        # ARKA_CAPABILITY_LIMITATION_FORMATTER_PHASE14C
+        # Convert capability-disabled/blocked execution states into user-facing limitation messages.
+        try:
+            if "arka_context" in locals():
+                try:
+                    from arka_v1.core.capability_limitation_formatter import format_capability_limitation
+                except Exception:
+                    from core.capability_limitation_formatter import format_capability_limitation
+        
+                capability_limitation_response = format_capability_limitation(
+                    prompt=raw,
+                    response=governor_result,
+                    context=arka_context,
+                )
+        
+                if getattr(capability_limitation_response, "formatted", False):
+                    governor_result = capability_limitation_response.response
+        except Exception:
+            # Capability limitation formatting must never break Arka's main response path.
+            pass
+
         # ARKA_POLICY_OBSERVER_PHASE10C
         # Build a safe compact policy observation with persistence disabled.
         # This must never log raw prompt/response/source content or break the response path.

@@ -54,6 +54,16 @@ class PolicyObservation:
     source_execution_status: Optional[str] = None
     source_execution_executed: Optional[bool] = None
     validation_status: Optional[str] = None
+
+    # ARKA_CAPABILITY_OBSERVER_PHASE13A
+    # Safe capability metadata only. No raw prompt, raw response, or source content.
+    capability_name: Optional[str] = None
+    capability_enabled: Optional[bool] = None
+    capability_read_only: Optional[bool] = None
+    capability_requires_approval: Optional[bool] = None
+    capability_mutates_state: Optional[bool] = None
+    capability_blocked_reason: Optional[str] = None
+
     warnings: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
@@ -78,6 +88,12 @@ class PolicyObservation:
             "source_execution_status": self.source_execution_status,
             "source_execution_executed": self.source_execution_executed,
             "validation_status": self.validation_status,
+            "capability_name": self.capability_name,
+            "capability_enabled": self.capability_enabled,
+            "capability_read_only": self.capability_read_only,
+            "capability_requires_approval": self.capability_requires_approval,
+            "capability_mutates_state": self.capability_mutates_state,
+            "capability_blocked_reason": self.capability_blocked_reason,
             "warnings": list(self.warnings),
             "metadata": dict(self.metadata),
         }
@@ -162,6 +178,11 @@ class PolicyObserver:
 
         validation_status = self._validation_status(validation_result)
 
+        capability_info = self._capability_info(
+            context=context,
+            source_execution=source_execution,
+        )
+
         action_blocked = style in self.ACTION_BLOCKED_STYLES
         limitation_selected = style in self.LIMITATION_STYLES
 
@@ -188,6 +209,12 @@ class PolicyObserver:
                 source_execution.get("executed")
             ),
             validation_status=validation_status,
+            capability_name=capability_info.get("capability_name"),
+            capability_enabled=capability_info.get("capability_enabled"),
+            capability_read_only=capability_info.get("capability_read_only"),
+            capability_requires_approval=capability_info.get("capability_requires_approval"),
+            capability_mutates_state=capability_info.get("capability_mutates_state"),
+            capability_blocked_reason=capability_info.get("capability_blocked_reason"),
             warnings=warnings,
             metadata=self._metadata(enabled=enabled),
         )
@@ -232,6 +259,100 @@ class PolicyObserver:
             return None
 
         return bool(value)
+
+    def _capability_info(
+        self,
+        context: Dict[str, Any],
+        source_execution: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        """
+        Return safe capability metadata.
+
+        This intentionally excludes raw prompt, raw response, and source content.
+        """
+
+        capability_decision = self._capability_decision_from_source_execution(
+            source_execution
+        )
+
+        if capability_decision is None:
+            capability_decision = self._capability_decision_from_registry(context)
+
+        return {
+            "capability_name": self._safe_str(
+                capability_decision.get("capability_name")
+                if capability_decision
+                else None
+            ),
+            "capability_enabled": self._safe_bool_or_none(
+                capability_decision.get("enabled")
+                if capability_decision
+                else None
+            ),
+            "capability_read_only": self._safe_bool_or_none(
+                capability_decision.get("read_only")
+                if capability_decision
+                else None
+            ),
+            "capability_requires_approval": self._safe_bool_or_none(
+                capability_decision.get("requires_approval")
+                if capability_decision
+                else None
+            ),
+            "capability_mutates_state": self._safe_bool_or_none(
+                capability_decision.get("mutates_state")
+                if capability_decision
+                else None
+            ),
+            "capability_blocked_reason": self._safe_str(
+                source_execution.get("blocked_reason")
+            ),
+        }
+
+    def _capability_decision_from_source_execution(
+        self,
+        source_execution: Dict[str, Any],
+    ) -> Optional[Dict[str, Any]]:
+        """
+        Extract capability decision from source execution metadata when present.
+        """
+
+        metadata = source_execution.get("metadata", {}) or {}
+        decision = metadata.get("capability_decision")
+
+        if isinstance(decision, dict):
+            return decision
+
+        return None
+
+    def _capability_decision_from_registry(
+        self,
+        context: Dict[str, Any],
+    ) -> Optional[Dict[str, Any]]:
+        """
+        Safely ask capability_registry for route metadata when available.
+
+        This does not execute tools. It only reads registry metadata.
+        """
+
+        try:
+            try:
+                from arka_v1.core.capability_registry import decide_capability_for_context
+            except Exception:
+                from core.capability_registry import decide_capability_for_context
+
+            decision = decide_capability_for_context(context)
+
+            if hasattr(decision, "to_dict"):
+                return decision.to_dict()
+
+            if isinstance(decision, dict):
+                return decision
+
+        except Exception:
+            return None
+
+        return None
 
     def _metadata(self, enabled: bool) -> Dict[str, Any]:
         return {

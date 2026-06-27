@@ -38,6 +38,7 @@ ARKA_APP = ARKA_DIR / "arka_v1.py"
 VALIDATOR = ARKA_DIR / "core" / "response_validator.py"
 CONTEXT_BUILDER = ARKA_DIR / "core" / "context_builder.py"
 PROFILE_LOADER = ARKA_DIR / "core" / "profile_loader.py"
+SOURCE_ROUTER = ARKA_DIR / "core" / "source_router.py"
 ARKA_STATE = ARKA_DIR / "arka_state.json"
 
 
@@ -60,6 +61,7 @@ def _compile_targets() -> None:
     py_compile.compile(str(VALIDATOR), doraise=True)
     py_compile.compile(str(CONTEXT_BUILDER), doraise=True)
     py_compile.compile(str(PROFILE_LOADER), doraise=True)
+    py_compile.compile(str(SOURCE_ROUTER), doraise=True)
     py_compile.compile(str(ARKA_APP), doraise=True)
 
     print("[OK] Compile passed for response_validator.py and arka_v1.py")
@@ -127,6 +129,23 @@ def _load_profile_loader_module() -> ModuleType:
     return profile_loader_module
 
 
+def _load_source_router_module() -> ModuleType:
+    """
+    Load source_router.py directly and register core.source_router alias.
+    """
+
+    source_router_module = _load_module_from_path(
+        "source_router_smoke_module",
+        SOURCE_ROUTER,
+    )
+
+    sys.modules["core.source_router"] = source_router_module
+
+    print("[OK] Loaded source_router.py directly and registered core alias")
+
+    return source_router_module
+
+
 def _load_context_builder_module() -> ModuleType:
     """
     Load context_builder.py directly and register core.context_builder alias.
@@ -166,6 +185,30 @@ def _load_arka_runtime() -> ModuleType:
     return runtime
 
 
+def _test_phase6_source_routes(context_builder_module: ModuleType) -> None:
+    """
+    Direct Phase 6 source-aware routing test through build_context().
+    """
+
+    cases = [
+        ("how to cook rice", "GENERAL_KNOWLEDGE", False),
+        ("do a web search about how to cook rice", "WEB_SOURCE_REQUIRED", True),
+        ("check astraasystems.com website status", "ASTRAA_STATUS_REQUIRED", True),
+        ("git push origin main", "GITHUB_REQUIRED", True),
+        ("calculate income from DoorDash", "MATH_REQUIRED", False),
+    ]
+
+    for prompt, expected_route, expected_requires_source in cases:
+        context = context_builder_module.build_context(prompt)
+        source_route = context.get("source_route", {})
+
+        assert context["metadata"].get("context_version") == "phase6", context
+        assert source_route.get("route") == expected_route, source_route
+        assert context.get("requires_source") is expected_requires_source, context
+
+    print("[OK] Direct Phase 6 source-aware routing works")
+
+
 def _test_profile_backed_context(context_builder_module: ModuleType) -> None:
     """
     Direct Phase 4 profile-backed context test.
@@ -173,7 +216,8 @@ def _test_profile_backed_context(context_builder_module: ModuleType) -> None:
 
     context = context_builder_module.build_context("what is my son's name?")
 
-    assert context["metadata"].get("context_version") == "phase4", context
+    assert context["metadata"].get("context_version") == "phase6", context
+    assert context["metadata"].get("profile_version") == "phase4", context
     assert context["metadata"].get("profile_loaded") is True, context
 
     family = context.get("family", {})
@@ -304,6 +348,75 @@ def _test_integrated_pipeline_repairs_bad_wife_identity(runtime: ModuleType) -> 
     print("[OK] Integrated pipeline repairs bad wife identity response")
 
 
+def _test_integrated_pipeline_repairs_missing_web_source(runtime: ModuleType) -> None:
+    """
+    Integrated Phase 6 test.
+
+    If governor claims web results without source evidence, arka_reply()
+    should return source-aware limitation wording instead of fake web evidence.
+    """
+
+    def fake_bad_dispatch(raw: str, web_func=None) -> str:
+        return "Here are web search results about cooking rice."
+
+    runtime.arka_governor_dispatch = fake_bad_dispatch
+
+    response = runtime.arka_reply("do a web search about how to cook rice")
+
+    assert isinstance(response, str), type(response)
+    assert "web-sourced answer" in response, response
+    assert "verified web results" in response, response
+    assert "Here are web search results" not in response, response
+
+    print("[OK] Integrated pipeline repairs missing web source response")
+
+
+def _test_integrated_pipeline_repairs_missing_astraa_status_source(runtime: ModuleType) -> None:
+    """
+    Integrated Phase 6 test.
+
+    If governor claims Astraa status without source evidence, arka_reply()
+    should return source-aware limitation wording.
+    """
+
+    def fake_bad_dispatch(raw: str, web_func=None) -> str:
+        return "The Astraa website is live."
+
+    runtime.arka_governor_dispatch = fake_bad_dispatch
+
+    response = runtime.arka_reply("check astraasystems.com website status")
+
+    assert isinstance(response, str), type(response)
+    assert "Astraa website" in response, response
+    assert "verified Astraa/server/source evidence" in response, response
+    assert response != "The Astraa website is live.", response
+
+    print("[OK] Integrated pipeline repairs missing Astraa status source response")
+
+
+def _test_integrated_pipeline_repairs_missing_github_source(runtime: ModuleType) -> None:
+    """
+    Integrated Phase 6 test.
+
+    If governor claims Git/GitHub action results without evidence, arka_reply()
+    should return source-aware limitation wording.
+    """
+
+    def fake_bad_dispatch(raw: str, web_func=None) -> str:
+        return "I pushed the branch."
+
+    runtime.arka_governor_dispatch = fake_bad_dispatch
+
+    response = runtime.arka_reply("git push origin main")
+
+    assert isinstance(response, str), type(response)
+    assert "Git or GitHub" in response, response
+    assert "verified Git/GitHub command output" in response, response
+    assert response != "I pushed the branch.", response
+
+    print("[OK] Integrated pipeline repairs missing GitHub source response")
+
+
 def _test_integrated_pipeline_allows_good_identity(runtime: ModuleType) -> None:
     """
     Integrated pipeline test.
@@ -360,8 +473,10 @@ def main() -> int:
 
     validator_module = _load_validator_module()
     profile_loader_module = _load_profile_loader_module()
+    source_router_module = _load_source_router_module()
     context_builder_module = _load_context_builder_module()
 
+    _test_phase6_source_routes(context_builder_module)
     _test_profile_backed_context(context_builder_module)
     _test_direct_validator_pass(validator_module)
     _test_direct_validator_fail(validator_module)
@@ -374,12 +489,15 @@ def main() -> int:
         _test_integrated_pipeline_repairs_bad_identity(runtime)
         _test_integrated_pipeline_repairs_bad_son_identity(runtime)
         _test_integrated_pipeline_repairs_bad_wife_identity(runtime)
+        _test_integrated_pipeline_repairs_missing_web_source(runtime)
+        _test_integrated_pipeline_repairs_missing_astraa_status_source(runtime)
+        _test_integrated_pipeline_repairs_missing_github_source(runtime)
         _test_integrated_pipeline_allows_good_identity(runtime)
     finally:
         _restore_runtime_state(state_snapshot)
 
     print("")
-    print("[OK] Arka response validation, repair, context, profile, and family repair smoke test passed.")
+    print("[OK] Arka response validation, repair, context, profile, family repair, and source-aware routing smoke test passed.")
     return 0
 
 

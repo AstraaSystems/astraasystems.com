@@ -25,6 +25,11 @@ try:
 except Exception:
     from core.profile_loader import load_profile
 
+try:
+    from arka_v1.core.source_router import route_source
+except Exception:
+    from core.source_router import route_source
+
 
 @dataclass
 class PromptFlags:
@@ -64,6 +69,7 @@ class ArkaContext:
     family: Dict[str, Any] = field(default_factory=dict)
     ecosystem: Dict[str, Any] = field(default_factory=dict)
     profile: Dict[str, Any] = field(default_factory=dict)
+    source_route: Dict[str, Any] = field(default_factory=dict)
 
     prompt_flags: PromptFlags = field(default_factory=PromptFlags)
     metadata: Dict[str, Any] = field(default_factory=dict)
@@ -84,6 +90,7 @@ class ArkaContext:
             "family": dict(self.family),
             "ecosystem": dict(self.ecosystem),
             "profile": dict(self.profile),
+            "source_route": dict(self.source_route),
             "prompt_flags": {
                 "is_identity_question": self.prompt_flags.is_identity_question,
                 "is_source_question": self.prompt_flags.is_source_question,
@@ -145,7 +152,33 @@ class ContextBuilder:
             is_arka_question=self._is_arka_question(normalized),
         )
 
-        requires_source = self._requires_source(flags)
+        prompt_flags_dict = {
+            "is_identity_question": flags.is_identity_question,
+            "is_source_question": flags.is_source_question,
+            "is_action_claim_sensitive": flags.is_action_claim_sensitive,
+            "is_math_question": flags.is_math_question,
+            "is_website_status_question": flags.is_website_status_question,
+            "is_github_question": flags.is_github_question,
+            "is_family_identity_question": flags.is_family_identity_question,
+            "is_astraa_question": flags.is_astraa_question,
+            "is_arka_question": flags.is_arka_question,
+        }
+
+        # ARKA_SOURCE_ROUTER_PHASE6B
+        # Route source/tool requirement from prompt + prompt flags.
+        source_route = route_source(
+            prompt,
+            context={
+                "prompt_flags": prompt_flags_dict,
+            },
+        )
+
+        requires_source = bool(
+            source_route.get(
+                "requires_source",
+                self._requires_source(flags),
+            )
+        )
 
         context = ArkaContext(
             owner_name=self.owner_name,
@@ -158,9 +191,10 @@ class ContextBuilder:
             family=dict(self.profile.get("family", {})),
             ecosystem=dict(self.profile.get("ecosystem", {})),
             profile=dict(self.profile),
+            source_route=source_route,
             prompt_flags=flags,
             metadata={
-                "context_version": "phase4",
+                "context_version": "phase6",
                 "builder": "arka_v1.core.context_builder",
                 "profile_loaded": bool(self.profile.get("metadata", {}).get("profile_loaded", False)),
                 "profile_version": self.profile.get("metadata", {}).get("profile_version"),

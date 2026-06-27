@@ -1654,6 +1654,27 @@ def arka_reply(raw):
             log_event("governor_dispatch", raw)
         except Exception:
             pass
+        # ARKA_EVIDENCE_FORMATTER_PHASE8C
+        # Format already-collected source evidence into clearer final response text.
+        try:
+            if "arka_context" in locals():
+                try:
+                    from arka_v1.core.evidence_response_formatter import format_response_with_evidence
+                except Exception:
+                    from core.evidence_response_formatter import format_response_with_evidence
+        
+                formatted_response = format_response_with_evidence(
+                    prompt=raw,
+                    response=governor_result,
+                    context=arka_context,
+                )
+        
+                if getattr(formatted_response, "formatted", False):
+                    governor_result = formatted_response.response
+        except Exception:
+            # Evidence formatting must never break Arka's main response path.
+            pass
+
         return governor_result
 
 

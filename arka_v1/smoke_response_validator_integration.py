@@ -423,7 +423,14 @@ def _test_integrated_pipeline_repairs_missing_web_source(runtime: ModuleType) ->
 
     assert isinstance(response, str), type(response)
     assert "web-sourced answer" in response, response
-    assert "verified web results" in response, response
+    # ARKA_PHASE14_LIMITATION_EXPECTATION_UPDATE
+    # Phase 14 capability limitation formatter replaces the older generic web-source
+    # repair text with a capability-aware user-facing limitation.
+    assert (
+        "verified web results" in response
+        or "live web lookup" in response
+        or "web source capability is registered" in response
+    ), response
     assert "Here are web search results" not in response, response
 
     print("[OK] Integrated pipeline repairs missing web source response")

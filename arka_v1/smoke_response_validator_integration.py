@@ -517,7 +517,15 @@ def _test_integrated_pipeline_repairs_missing_github_source(runtime: ModuleType)
     response = runtime.arka_reply("git push origin main")
 
     assert isinstance(response, str), type(response)
-    assert "Git or GitHub" in response, response
+    # ARKA_PHASE16_GITHUB_ACTION_LIMITATION_EXPECTATION_UPDATE
+    # Phase 14 capability limitation formatter replaces older generic Git/GitHub
+    # repair wording with a capability-aware read-only Git action limitation.
+    assert (
+        "Git or GitHub" in response
+        or "I can inspect Git safely" in response
+        or "No Git action was performed" in response
+        or "I won’t run or claim a Git action" in response
+    ), response
     assert "verified Git/GitHub command output" in response, response
     assert response != "I pushed the branch.", response
 

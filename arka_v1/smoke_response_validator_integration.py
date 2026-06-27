@@ -256,6 +256,54 @@ def _test_integrated_pipeline_repairs_bad_identity(runtime: ModuleType) -> None:
     print("[OK] Integrated pipeline repairs bad identity response")
 
 
+def _test_integrated_pipeline_repairs_bad_son_identity(runtime: ModuleType) -> None:
+    """
+    Integrated Phase 5 test.
+
+    Monkeypatch governor dispatch to return a bad son's-name response.
+    arka_reply() should validate, repair using profile-backed family context,
+    revalidate, and return the repaired son's-name answer.
+    """
+
+    def fake_bad_dispatch(raw: str, web_func=None) -> str:
+        return "I could not pull reliable live snippets."
+
+    runtime.arka_governor_dispatch = fake_bad_dispatch
+
+    response = runtime.arka_reply("what is my son's name?")
+
+    assert isinstance(response, str), type(response)
+    assert "Bhirav Aditya" in response, response
+    assert "Phase 1 validation" not in response, response
+    assert "FAMILY_IDENTITY_CONFUSION" not in response, response
+
+    print("[OK] Integrated pipeline repairs bad son identity response")
+
+
+def _test_integrated_pipeline_repairs_bad_wife_identity(runtime: ModuleType) -> None:
+    """
+    Integrated Phase 5 test.
+
+    Monkeypatch governor dispatch to return a bad wife's-name response.
+    arka_reply() should validate, repair using profile-backed family context,
+    revalidate, and return the repaired wife's-name answer.
+    """
+
+    def fake_bad_dispatch(raw: str, web_func=None) -> str:
+        return "I could not pull reliable live snippets."
+
+    runtime.arka_governor_dispatch = fake_bad_dispatch
+
+    response = runtime.arka_reply("what is my wife's name?")
+
+    assert isinstance(response, str), type(response)
+    assert "Thrilochana" in response, response
+    assert "Phase 1 validation" not in response, response
+    assert "FAMILY_IDENTITY_CONFUSION" not in response, response
+
+    print("[OK] Integrated pipeline repairs bad wife identity response")
+
+
 def _test_integrated_pipeline_allows_good_identity(runtime: ModuleType) -> None:
     """
     Integrated pipeline test.
@@ -324,12 +372,14 @@ def main() -> int:
         runtime = _load_arka_runtime()
 
         _test_integrated_pipeline_repairs_bad_identity(runtime)
+        _test_integrated_pipeline_repairs_bad_son_identity(runtime)
+        _test_integrated_pipeline_repairs_bad_wife_identity(runtime)
         _test_integrated_pipeline_allows_good_identity(runtime)
     finally:
         _restore_runtime_state(state_snapshot)
 
     print("")
-    print("[OK] Arka Phase 1 response validator integration smoke test passed.")
+    print("[OK] Arka response validation, repair, context, profile, and family repair smoke test passed.")
     return 0
 
 

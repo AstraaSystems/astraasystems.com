@@ -7,3 +7,34 @@ header a, nav a, .nav-links a {
 header a:last-child, nav a:last-child {
     margin-right: 0 !important;
 }
+
+/* ==========================================================================
+   PRODUCTION WIDESCREEN ALIGNMENT MATRIX
+   ========================================================================== */
+* {
+    box-sizing: border-box !important;
+}
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+}
+/* Force standard headers/nav elements into a balanced, un-smashed row layout */
+header, nav, .navbar, .header-container {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 15px 20px !important;
+}
+/* Force proper horizontal breathing room for navigation links */
+header a, nav a, .navbar a, .nav-links a {
+    margin: 0 16px !important;
+    display: inline-block !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+}

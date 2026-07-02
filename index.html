@@ -799,15 +799,18 @@ a { color:inherit; }
     
 
 
+    
+
+
     <style id="production-desktop-layout-fix">
-        /* 1. Global Core Reset & Modern Typography */
+        /* 1. Global Modern Typeface Enforcer */
         * {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
             -webkit-font-smoothing: antialiased !important;
             -moz-osx-font-smoothing: grayscale !important;
         }
 
-        /* 2. Main Navigation Bar Flex Grid Baseline */
+        /* 2. Top-Level Flex Row Matrix */
         header, nav, .navbar, .header, body > div:first-of-type {
             display: flex !important;
             flex-direction: row !important;
@@ -815,45 +818,46 @@ a { color:inherit; }
             align-items: center !important;
             max-width: 1200px !important;
             margin: 0 auto !important;
-            padding: 20px 24px !important;
+            padding: 24px 20px !important;
             box-sizing: border-box !important;
             background-color: #ffffff !important;
         }
 
-        /* 3. Tight Brand Lockup (Logo + Text Container Fix) */
-        header > div:first-child, body > div:first-of-type > div:first-child, .brand-container {
+        /* 3. Safe Brand Stacking (Stops text from dropping or floating away) */
+        .brand, [class*="logo"]-container, header > div:first-child, body > div:first-of-type > div:first-child {
             display: flex !important;
             flex-direction: column !important;
             align-items: flex-start !important;
-            justify-content: flex-start !important;
-            gap: 2px !important; /* Closes the giant vertical gap completely */
+            justify-content: center !important;
+            gap: 2px !important;
             margin: 0 !important;
             padding: 0 !important;
+            height: auto !important;
         }
 
-        /* Force logo image proportions */
+        /* Force logo proportions and reset bounding box padding */
         header img, body > div:first-of-type img, [class*="logo"] img {
-            height: 32px !important;
+            height: 34px !important;
             width: auto !important;
-            margin: 0 0 4px 0 !important;
+            margin: 0 0 2px 0 !important;
             display: block !important;
         }
 
-        /* Format branding copy precisely without letting it affect sibling wrappers */
-        .brand-text, 
-        header > div:first-child span, 
-        header > div:first-child p,
-        body > div:first-of-type > div:first-child div {
+        /* Target text nodes explicitly instead of targeting generic wrapper divs */
+        header span, header p, 
+        body > div:first-of-type > div:first-child text,
+        body > div:first-of-type > div:first-child p,
+        body > div:first-of-type > div:first-child span {
             font-size: 12px !important;
             line-height: 1.4 !important;
-            color: #64748b !important; /* Modern slate grey */
+            color: #64748b !important;
             font-weight: 400 !important;
             margin: 0 !important;
             padding: 0 !important;
             display: block !important;
         }
 
-        /* 4. Navigation Links Structure & Dynamic Spacing */
+        /* 4. Link Spacing & Navigation Alignment */
         a, header a, nav a, .navbar a, body > div:first-of-type a {
             text-decoration: none !important;
             text-decoration-line: none !important;
@@ -862,42 +866,35 @@ a { color:inherit; }
             font-weight: 500 !important;
             display: inline-block !important;
             margin: 0 14px !important;
-            padding: 6px 2px !important;
+            padding: 4px 2px !important;
             transition: color 0.15s ease !important;
         }
         
         a:hover {
-            color: #2563eb !important; /* Clean corporate blue hover state */
+            color: #2563eb !important;
         }
 
-        /* Highlight the 'Open Workspace' anchor link as a professional action button */
+        /* Separate and stylize the Workspace Action CTA Button */
         a[href*="workspace"], body > div:first-of-type a:last-of-type {
-            background-color: #0f172a !important; /* Slate 900 */
+            background-color: #0f172a !important; /* Premium Dark Slate */
             color: #ffffff !important;
             padding: 8px 16px !important;
             border-radius: 6px !important;
-            margin-left: 20px !important;
+            margin-left: 24px !important;
+            font-weight: 500 !important;
         }
 
         a[href*="workspace"]:hover, body > div:first-of-type a:last-of-type:hover {
             background-color: #1e293b !important;
-            color: #ffffff !important;
         }
 
-        /* 5. Production Content Constancy Layout */
+        /* 5. Root Document Constants */
         body {
             margin: 0 !important;
             padding: 0 !important;
             width: 100% !important;
             overflow-x: hidden !important;
             background-color: #ffffff !important;
-        }
-        
-        .container, .wrapper, main, section {
-            max-width: 1200px !important;
-            margin: 0 auto !important;
-            width: 100% !important;
-            box-sizing: border-box !important;
         }
     </style>
 

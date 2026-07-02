@@ -689,6 +689,55 @@ a { color:inherit; }
   <link rel="apple-touch-icon" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
   <link rel="manifest" href="site.webmanifest?v=20260621-astraa-logo-icon">
 
+
+<style id="arka-root-desktop-enforcer">
+/* ========================================================================
+   ASTRAA SYSTEMS - GLOBAL DESKTOP GRID ENFORCER
+   ======================================================================== */
+@media screen and (min-width: 1025px) {
+    body, .wrapper, main, .main-content {
+        max-width: 1240px !important;
+        width: 1240px !important;
+        margin: 0 auto !important;
+        padding: 40px 20px !important;
+        display: block !important;
+    }
+
+    /* Snap workflow items (Estimate, Track, Operate) back into a 3-column row */
+    div[class*="workflow"], .grid, .features-grid, .workflow-container {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: stretch !important;
+        gap: 24px !important;
+        width: 100% !important;
+        margin: 40px 0 !important;
+    }
+
+    div[class*="workflow"] > *, .grid > *, .features-grid > *, .workflow-container > * {
+        flex: 1 !important;
+        max-width: 32% !important;
+        margin: 0 !important;
+        display: block !important;
+    }
+
+    /* Expand the layout hero panel */
+    div[class*="hero"], .hero-banner, .connected-tools-title {
+        text-align: left !important;
+        width: 100% !important;
+    }
+
+    /* Properly expand and space out the blue trial CTA box */
+    div[class*="trial"], .cta-box {
+        max-width: 850px !important;
+        width: 850px !important;
+        margin: 60px auto !important;
+        text-align: center !important;
+        display: block !important;
+    }
+}
+</style>
+
 </head>
 <body>
 <header class="astraa-final-mobile-header">

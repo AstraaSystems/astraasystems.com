@@ -690,48 +690,92 @@ a { color:inherit; }
   <link rel="manifest" href="site.webmanifest?v=20260621-astraa-logo-icon">
 
 
-<style id="arka-root-desktop-enforcer">
+<style>
+/* ==========================================
+   ARKA AUTOMATED DESKTOP INJECTION PATCH
+   ========================================== */
+@media screen and (min-width: 1151px) {
+    body, .main-content, main, .container {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        font-size: 16px !important;
+    }
+    .grid, .form-container, .tool-layout {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 40px !important;
+    }
+    input, button, .cta-box {
+        max-width: 450px !important;
+    }
+}
+</style>
+
+
+<style id="arka-desktop-restoration">
 /* ========================================================================
-   ASTRAA SYSTEMS - GLOBAL DESKTOP GRID ENFORCER
+   EMERGENCY DESKTOP STRUCTURE RESTORATION - ASTRAA SYSTEMS
    ======================================================================== */
 @media screen and (min-width: 1025px) {
-    body, .wrapper, main, .main-content {
-        max-width: 1240px !important;
-        width: 1240px !important;
-        margin: 0 auto !important;
-        padding: 40px 20px !important;
-        display: block !important;
+    /* Force canvas reset and clear rogue mobile constraints */
+    html, body {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 16px !important;
+        background-color: #ffffff !important;
     }
 
-    /* Snap workflow items (Estimate, Track, Operate) back into a 3-column row */
-    div[class*="workflow"], .grid, .features-grid, .workflow-container {
+    /* Wrap contents in a clean centered executive grid */
+    header, main, .main-container, #root, .workspace-wrapper {
+        max-width: 1280px !important;
+        margin: 0 auto !important;
+        padding: 0 40px !important;
+    }
+
+    /* Normalize the header logo layout */
+    .logo-container, img[src*="logo"] {
+        max-width: 180px !important;
+        height: auto !important;
+        display: block !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* Standardize typography sizes across main sections */
+    h1, .hero-title, .connected-tools-title {
+        font-size: 2.5rem !important;
+        line-height: 1.2 !important;
+        width: 100% !important;
+    }
+    
+    p, .hero-subtitle {
+        font-size: 1.1rem !important;
+        line-height: 1.6 !important;
+        width: 100% !important;
+    }
+
+    /* Snap the Estimate/Track/Operate workflow cards back into a 3-column row */
+    .workflow-container, .features-grid, .grid {
         display: flex !important;
         flex-direction: row !important;
         justify-content: space-between !important;
-        align-items: stretch !important;
         gap: 24px !important;
         width: 100% !important;
-        margin: 40px 0 !important;
+        margin: 30px 0 !important;
     }
 
-    div[class*="workflow"] > *, .grid > *, .features-grid > *, .workflow-container > * {
+    .workflow-container > *, .features-grid > *, .grid > * {
         flex: 1 !important;
-        max-width: 32% !important;
-        margin: 0 !important;
-        display: block !important;
+        min-width: 250px !important;
+        padding: 24px !important;
     }
 
-    /* Expand the layout hero panel */
-    div[class*="hero"], .hero-banner, .connected-tools-title {
-        text-align: left !important;
-        width: 100% !important;
-    }
-
-    /* Properly expand and space out the blue trial CTA box */
-    div[class*="trial"], .cta-box {
-        max-width: 850px !important;
-        width: 850px !important;
-        margin: 60px auto !important;
+    /* Snapping the blue trial CTA back into structured corporate alignment */
+    div[class*="trial"], .cta-box, .trial-banner-blueprint {
+        max-width: 800px !important;
+        margin: 50px auto !important;
+        padding: 40px !important;
         text-align: center !important;
         display: block !important;
     }

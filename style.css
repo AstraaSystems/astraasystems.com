@@ -1,0 +1,9 @@
+
+/* --- Terminal UI Spacing Hotfix --- */
+header a, nav a, .nav-links a {
+    margin-right: 1.25rem !important;
+    display: inline-block !important;
+}
+header a:last-child, nav a:last-child {
+    margin-right: 0 !important;
+}

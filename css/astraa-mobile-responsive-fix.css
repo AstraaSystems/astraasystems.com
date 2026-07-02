@@ -1,3 +1,5 @@
+/* GLOBAL_MOBILE_SAFETY_SANDBOX */
+@media screen and (max-width: 1024px) {
 /* Astraa Mobile Responsive Fix
    Purpose: keep public website clean, aligned, and readable on phones.
 */
@@ -1038,4 +1040,6 @@ section {
         margin: 40px auto !important;
         display: block !important;
     }
+}
+
 }

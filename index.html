@@ -793,29 +793,18 @@ a { color:inherit; }
     
 
 
+    
+
+
     <style id="production-desktop-layout-fix">
-        /* 1. Global Typography & Reset Enforcer */
+        /* 1. Global Modern Sans-Serif Base */
         * {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
             -webkit-font-smoothing: antialiased !important;
             -moz-osx-font-smoothing: grayscale !important;
         }
 
-        /* 2. Radical Link Reset - Strips underlines and forces modern slate color */
-        a, a *, li a, nav a, .navbar a, header a {
-            text-decoration: none !important;
-            text-decoration-line: none !important;
-            color: #334155 !important;
-            font-size: 14px !important;
-            font-weight: 500 !important;
-            transition: color 0.15s ease-time !important;
-        }
-        
-        a:hover, a:hover * {
-            color: #2563eb !important; /* Premium Blue */
-        }
-
-        /* 3. Top-Level Main Navigation Wrapper */
+        /* 2. Primary Navigation Header Wrapper */
         header, nav, .navbar, .header, body > div:first-of-type {
             display: flex !important;
             flex-direction: row !important;
@@ -827,34 +816,42 @@ a { color:inherit; }
             box-sizing: border-box !important;
         }
 
-        /* 4. Brand Grouping (Forces Logo and Subtext into a clean alignment block) */
+        /* 3. Un-smash Links: Force individual margins directly on anchor tags */
+        a, header a, nav a, .navbar a, body > div:first-of-type a {
+            text-decoration: none !important;
+            text-decoration-line: none !important;
+            color: #334155 !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            display: inline-block !important;
+            margin-left: 16px !important;
+            margin-right: 16px !important;
+            padding: 4px 2px !important;
+            transition: color 0.15s ease !important;
+        }
+        
+        a:hover {
+            color: #2563eb !important;
+        }
+
+        /* 4. Format and align the corporate branding block under the logo */
         .brand, [class*="logo"], header > div:first-child, body > div:first-of-type > div:first-child {
             display: flex !important;
             flex-direction: column !important;
             align-items: flex-start !important;
-            gap: 4px !important;
+            text-align: left !important;
         }
 
-        /* Clean up branding metadata text formatting */
+        /* Style the subtext explicitly so it doesn't look like raw markup */
         header div, .brand-text, body > div:first-of-type div {
             font-size: 12px !important;
-            line-height: 1.4 !important;
+            line-height: 1.5 !important;
             color: #64748b !important;
             font-weight: 400 !important;
-        }
-
-        /* 5. Navigation Links Group Container */
-        header ul, nav ul, .nav-links, body > div:first-of-type div:last-child {
-            display: flex !important;
-            flex-direction: row !important;
-            align-items: center !important;
-            gap: 28px !important;
-            list-style: none !important;
             margin: 0 !important;
-            padding: 0 !important;
         }
 
-        /* Global Viewport Constraints */
+        /* 5. Keep page layout bounded nicely */
         body {
             margin: 0 !important;
             padding: 0 !important;

@@ -783,8 +783,11 @@ a { color:inherit; }
 </style>
 
 
+    
+
+
     <style id="production-desktop-layout-fix">
-        /* Force unstyled header elements into a clean, horizontal desktop row */
+        /* Main Navigation Bar Alignment */
         header, nav, .header, .navbar, #header {
             display: flex !important;
             flex-direction: row !important;
@@ -793,23 +796,59 @@ a { color:inherit; }
             width: 100% !important;
             max-width: 1200px !important;
             margin: 0 auto !important;
-            padding: 20px !important;
+            padding: 24px !important;
             box-sizing: border-box !important;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+            -webkit-font-smoothing: antialiased !important;
         }
         
-        /* Force navigation links or list elements to sit side-by-side instead of stacking vertical */
-        header a, nav a, .header a, .navbar a, header li, nav li {
+        /* Clean up the branding text under/around the logo */
+        header div, header span, .brand-text {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+            color: #64748b !important; /* Professional muted slate */
+            margin: 0 !important;
+        }
+        
+        /* Make the main brand name slightly prominent if it exists as text */
+        header text, header strong {
+            color: #0f172a !important;
+            font-weight: 600 !important;
+            font-size: 15px !important;
+        }
+        
+        /* Horizontal Link Grouping & Spacing */
+        header nav, .nav-links-container {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            gap: 28px !important;
+        }
+        
+        /* Modern Minimalist Navigation Links */
+        header a, nav a, .header a, .navbar a {
             display: inline-block !important;
-            margin: 0 15px !important;
+            text-decoration: none !important;
+            color: #334155 !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            margin: 0 !important;
             white-space: nowrap !important;
+            transition: color 0.15s ease !important;
         }
         
-        /* Restrain the global blown-out view from expanding endlessly edge-to-edge */
+        /* Interactive Hover State */
+        header a:hover, nav a:hover {
+            color: #2563eb !important; /* Clean corporate blue */
+        }
+        
+        /* Global Desktop View Constraint */
         body {
             margin: 0 !important;
             padding: 0 !important;
             width: 100% !important;
             overflow-x: hidden !important;
+            background-color: #ffffff !important;
         }
         
         .container, .wrapper, main, #main-content, section {

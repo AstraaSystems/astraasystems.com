@@ -1,0 +1,38 @@
+/* ========================================================================
+   ASTRAA SYSTEMS RESPONSIVE DESKTOP OVERRIDE
+   ======================================================================== */
+
+@media screen and (min-width: 1024px) {
+    /* 1. Constrain the infinite horizontal stretching */
+    body, .main-container, main, #root {
+        max-width: 1280px;
+        margin: 0 auto !important;
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+        font-size: 16px; /* Normalize blown-up mobile typography */
+    }
+
+    /* 2. Convert stacked mobile items into clean side-by-side desktop columns */
+    .hero-section, .features-grid, .estimator-form-wrapper {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 3rem !important;
+        align-items: center !important;
+        text-align: left !important;
+    }
+
+    /* 3. Re-scale massive buttons and input fields to look professional */
+    input, button, .cta-button {
+        max-width: 400px !important;
+        padding: 0.75rem 1.5rem !important;
+    }
+
+    /* 4. Fix navigation bar wrapping on wide displays */
+    header, nav {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+}

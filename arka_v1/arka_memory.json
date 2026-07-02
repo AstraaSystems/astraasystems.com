@@ -4,6 +4,22 @@
   "created_for": "Arka personal AI evolution",
   "memories": [
     {
+      "id": "71c8879c",
+      "type": "user_memory",
+      "text": "Context note: website is it working and can anyone able find our site",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782798375.7533948
+    },
+    {
+      "id": "a20ae88c",
+      "type": "user_memory",
+      "text": "Context note: I need three things from you",
+      "source": "explicit_user_command",
+      "status": "active",
+      "created_at": 1782797940.0099947
+    },
+    {
       "id": "19392a92",
       "type": "user_memory",
       "text": "Context - Work schedule: daily or 3 days/week",
@@ -172,6 +188,16 @@
     }
   ],
   "audit": [
+    {
+      "event": "memory_saved_active",
+      "id": "71c8879c",
+      "created_at": 1782798375.753396
+    },
+    {
+      "event": "memory_saved_active",
+      "id": "a20ae88c",
+      "created_at": 1782797940.0099986
+    },
     {
       "event": "memory_saved_active",
       "id": "19392a92",

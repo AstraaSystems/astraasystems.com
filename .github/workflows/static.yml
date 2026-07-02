@@ -5,13 +5,11 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
-# Grant explicit security clearances for high-priority edge deployments
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Prevent concurrency collisions by dropping stale, mid-flight runs safely
 concurrency:
   group: "pages"
   cancel-in-progress: true

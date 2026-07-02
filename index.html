@@ -782,6 +782,44 @@ a { color:inherit; }
 }
 </style>
 
+
+    <style id="production-desktop-layout-fix">
+        /* Force unstyled header elements into a clean, horizontal desktop row */
+        header, nav, .header, .navbar, #header {
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            width: 100% !important;
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+        }
+        
+        /* Force navigation links or list elements to sit side-by-side instead of stacking vertical */
+        header a, nav a, .header a, .navbar a, header li, nav li {
+            display: inline-block !important;
+            margin: 0 15px !important;
+            white-space: nowrap !important;
+        }
+        
+        /* Restrain the global blown-out view from expanding endlessly edge-to-edge */
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            overflow-x: hidden !important;
+        }
+        
+        .container, .wrapper, main, #main-content, section {
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
+
 </head>
 <body>
 <header class="astraa-final-mobile-header">

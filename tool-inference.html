@@ -353,14 +353,26 @@ footer {
 <header style="background: #ffffff !important; border-bottom: 1px solid #e2e8f0 !important; padding: 16px 24px !important; box-sizing: border-box !important; width: 100% !important; display: block !important; font-family: system-ui, -apple-system, sans-serif !important;">
     <div style="max-width: 1200px !important; margin: 0 auto !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; box-sizing: border-box !important;">
         
+        <!-- Left Side: Brand Unit with Inline SVG -->
         <a href="index.html" style="display: flex !important; flex-direction: row !important; align-items: center !important; gap: 12px !important; text-decoration: none !important; color: inherit !important; cursor: pointer !important; border: none !important; padding: 0 !important; margin: 0 !important;">
-            <img src="logo.png" alt="Astraa Logo" style="height: 36px !important; width: auto !important; display: block !important; border: none !important;" onerror="this.style.display='none';">
+            <svg width="34" height="34" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0 !important; display: block !important;">
+                <defs>
+                    <linearGradient id="astraa-logo-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#2563eb"/>
+                        <stop offset="50%" stop-color="#7c3aed"/>
+                        <stop offset="100%" stop-color="#db2777"/>
+                    </linearGradient>
+                </defs>
+                <path d="M16 2L2 28H9L16 14L23 28H30L16 2Z" fill="url(#astraa-logo-grad)"/>
+                <path d="M16 18L20 26H12L16 18Z" fill="#ffffff"/>
+            </svg>
             <div style="display: flex !important; flex-direction: column !important; align-items: flex-start !important; justify-content: center !important;">
                 <span style="font-weight: 700 !important; font-size: 16px !important; letter-spacing: -0.3px !important; color: #0f172a !important; line-height: 1.2 !important;">Astraa Systems</span>
                 <span style="font-size: 11px !important; color: #64748b !important; margin-top: 1px !important; white-space: nowrap !important;">Connected business tools</span>
             </div>
         </a>
 
+        <!-- Right Side: Navigation Rails -->
         <nav style="display: flex !important; flex-direction: row !important; align-items: center !important; gap: 24px !important; margin: 0 !important; padding: 0 !important;">
             <a href="index.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; color: #475569 !important; display: inline-block !important;">Home</a>
             <a href="tools.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; color: #475569 !important; display: inline-block !important;">Tools</a>

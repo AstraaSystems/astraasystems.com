@@ -1,0 +1,27 @@
+<div id="astraaMonerisCheckoutShell" style="max-width:960px;margin:24px auto;padding:0 18px;">
+  <div id="monerisCheckout"></div>
+</div>
+
+<script id="astraa-moneris-checkout-object-v1">
+(function () {
+  console.log("Astraa Moneris Checkout integration initialized.");
+
+  // Dynamically determine the correct environment endpoint
+  var monerisEnv = sessionStorage.getItem("astraa_moneris_env") || "qa";
+  var scriptUrl = (monerisEnv === "prod")
+    ? "https://gateway.moneris.com/chkt/request/chkt_v1.00.js"
+    : "https://gatewayt.moneris.com/chkt/request/chkt_v1.00.js";
+
+  // Append the official Moneris script element to the document head
+  var script = document.createElement("script");
+  script.src = scriptUrl;
+  script.async = true;
+  script.onload = function() {
+    console.log("Moneris Checkout JavaScript engine loaded successfully from: " + scriptUrl);
+  };
+  script.onerror = function() {
+    console.error("Failed to load Moneris Checkout engine from: " + scriptUrl);
+  };
+  document.head.appendChild(script);
+})();
+</script>

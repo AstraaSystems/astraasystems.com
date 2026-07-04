@@ -17,8 +17,88 @@
   <link rel="apple-touch-icon" href="../assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
   <link rel="manifest" href="../site.webmanifest?v=20260621-astraa-logo-icon">
 
+<style>
+
+  /* Guaranteed Header Layout Alignment Rules */
+  .nav {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 9999 !important;
+    padding: 14px 24px !important;
+    box-sizing: border-box !important;
+    font-family: sans-serif;
+  }
+  .nav-inner {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    text-decoration: none !important;
+    font-weight: 700 !important;
+    font-size: 1.25rem !important;
+    color: #0f172a !important;
+    white-space: nowrap !important;
+  }
+  .brand img {
+    height: 32px !important;
+    width: auto !important;
+    display: block !important;
+    margin: 0 !important;
+  }
+  .nav-links {
+    display: flex !important;
+    align-items: center !important;
+    gap: 24px !important;
+  }
+  .nav-links a {
+    color: #475569 !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    font-size: 0.95rem !important;
+    transition: color 0.15s ease !important;
+  }
+  .nav-links a:hover {
+    color: #2563eb !important;
+  }
+  .nav-cta {
+    background: linear-gradient(135deg, #2563eb, #8b5cf6) !important;
+    color: #ffffff !important;
+    padding: 10px 20px !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.2) !important;
+  }
+
+</style>
 </head>
 <body>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
+      Astraa Systems
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="faq.html">FAQ / Support</a>
+      <a href="customer-portal.html">Workspace</a>
+      <a href="contact.html">Custom Packages</a>
+      <a class="nav-cta" href="login.html">Login / Register</a>
+    </div>
+  </div>
+</nav>
   <p>Redirecting to <a href="workspace-test-login.html">Astraa Workspace</a>.</p>
 
 <section class="astraa-lead-section" style="max-width:900px;margin:3rem auto;padding:2rem;border-radius:24px;background:#f8fafc;border:1px solid #e2e8f0;">

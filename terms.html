@@ -229,6 +229,69 @@ footer {
         header > div:first-child, .brand-container { display: flex !important; flex-direction: column !important; align-items: flex-start !important; width: auto !important; }
         header span, .brand-text { white-space: nowrap !important; }
     </style>
+<style>
+
+  /* Guaranteed Header Layout Alignment Rules */
+  .nav {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 9999 !important;
+    padding: 14px 24px !important;
+    box-sizing: border-box !important;
+    font-family: sans-serif;
+  }
+  .nav-inner {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    text-decoration: none !important;
+    font-weight: 700 !important;
+    font-size: 1.25rem !important;
+    color: #0f172a !important;
+    white-space: nowrap !important;
+  }
+  .brand img {
+    height: 32px !important;
+    width: auto !important;
+    display: block !important;
+    margin: 0 !important;
+  }
+  .nav-links {
+    display: flex !important;
+    align-items: center !important;
+    gap: 24px !important;
+  }
+  .nav-links a {
+    color: #475569 !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    font-size: 0.95rem !important;
+    transition: color 0.15s ease !important;
+  }
+  .nav-links a:hover {
+    color: #2563eb !important;
+  }
+  .nav-cta {
+    background: linear-gradient(135deg, #2563eb, #8b5cf6) !important;
+    color: #ffffff !important;
+    padding: 10px 20px !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.2) !important;
+  }
+
+</style>
 </head>
 
 <body>

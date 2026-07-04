@@ -820,40 +820,170 @@
 }
 
 </style>
-  <link rel="stylesheet" href="../css/astraa-mobile-responsive-fix.css?v=20260621-mobile-nav-single-row">
-  <link rel="stylesheet" href="../css/astraa-mobile-header-final.css?v=20260621-final-mobile-header">
+  <link rel="stylesheet" href="css/astraa-mobile-responsive-fix.css?v=20260621-mobile-nav-single-row">
+  <link rel="stylesheet" href="css/astraa-mobile-header-final.css?v=20260621-final-mobile-header">
 
 
   <!-- Astraa site icons -->
-  <link rel="icon" type="image/png" href="../assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
-  <link rel="shortcut icon" type="image/png" href="../assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
-  <link rel="apple-touch-icon" href="../assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
-  <link rel="manifest" href="../site.webmanifest?v=20260621-astraa-logo-icon">
+  <link rel="icon" type="image/png" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
+  <link rel="shortcut icon" type="image/png" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
+  <link rel="apple-touch-icon" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
+  <link rel="manifest" href="site.webmanifest?v=20260621-astraa-logo-icon">
 
+<style id="astraa-alignment-matrix">
+        * { box-sizing: border-box !important; }
+        body { margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; overflow-x: hidden !important; }
+        body > div, main, .main-content, #root { width: 100% !important; max-width: 100% !important; margin: 0 auto !important; transform: none !important; }
+        .hero, section, main > div, .content-wrapper { max-width: 1200px !important; margin: 0 auto !important; width: 100% !important; }
+        header, nav, .navbar, .header { display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; max-width: 1200px !important; margin: 0 auto !important; padding: 20px !important; }
+        header a, nav a, .navbar a, .nav-links a { text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; margin: 0 14px !important; display: inline-block !important; white-space: nowrap !important; }
+        header > div:first-child, .brand-container { display: flex !important; flex-direction: column !important; align-items: flex-start !important; width: auto !important; }
+        header span, .brand-text { white-space: nowrap !important; }
+    </style>
+<style>
+    /* Unified Header Navigation Styles */
+    .nav {
+      background: white;
+      border-bottom: 1px solid var(--border, #e5e7eb);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 12px 0;
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--navy, #0f172a);
+    }
+    .brand img {
+      height: 24px;
+      width: auto;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .nav-links a {
+      color: var(--text, #334155);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--blue, #2563eb);
+    }
+    .nav-cta {
+      background: linear-gradient(135deg, #2563eb, #8b5cf6);
+      color: white !important;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+    .nav-cta:hover {
+      filter: brightness(1.05);
+    }
+</style>
+
+<style>
+
+  /* Guaranteed Header Layout Alignment Rules */
+  .nav {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 9999 !important;
+    padding: 14px 24px !important;
+    box-sizing: border-box !important;
+    font-family: sans-serif;
+  }
+  .nav-inner {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    text-decoration: none !important;
+    font-weight: 700 !important;
+    font-size: 1.25rem !important;
+    color: #0f172a !important;
+    white-space: nowrap !important;
+  }
+  .brand img {
+    height: 32px !important;
+    width: auto !important;
+    display: block !important;
+    margin: 0 !important;
+  }
+  .nav-links {
+    display: flex !important;
+    align-items: center !important;
+    gap: 24px !important;
+  }
+  .nav-links a {
+    color: #475569 !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    font-size: 0.95rem !important;
+    transition: color 0.15s ease !important;
+  }
+  .nav-links a:hover {
+    color: #2563eb !important;
+  }
+  .nav-cta {
+    background: linear-gradient(135deg, #2563eb, #8b5cf6) !important;
+    color: #ffffff !important;
+    padding: 10px 20px !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.2) !important;
+  }
+
+</style>
 </head>
 
 <body>
-<header class="astraa-final-mobile-header">
-  <div class="astraa-final-brand-row">
-    <img class="astraa-final-logo" src="assets/images/astraa_logo.png" alt="Astraa Systems logo">
-    <div class="astraa-final-brand-copy">
-      <div class="astraa-final-brand-title">Astraa Systems</div>
-      <div class="astraa-final-brand-tagline">Connected business tools</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
+      Astraa Systems
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="faq.html">FAQ / Support</a>
+      <a href="customer-portal.html">Workspace</a>
+      <a href="contact.html">Custom Packages</a>
+      <a class="nav-cta" href="login.html">Login / Register</a>
     </div>
   </div>
+</nav>
 
-  <nav class="astraa-final-mobile-nav" aria-label="Primary navigation">
-    <a href="index.html">Home</a>
-    <a href="tools.html">Tools</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="support.html">FAQ / Support</a>
-    <a href="contact.html">Contact</a>
-  </nav>
 
-  <div class="astraa-final-workspace-row">
-    <a class="astraa-final-workspace-button" href="customer-portal.html">Open Workspace</a>
-  </div>
-</header>
+
+
+
+
 
 
 

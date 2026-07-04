@@ -1,406 +1,686 @@
 <!DOCTYPE html>
+<!-- ASTRAA_PUBLIC_MARKETING_METADATA_V1_START -->
+<title>Astraa Systems | Business Tools for Estimating, Finance, Operations, and Growth</title>
+<meta name="description" content="Astraa Systems provides clean, modular business tools for estimating, finance, operations, workspace access, and practical business growth.">
+<meta property="og:title" content="Astraa Systems | Business Tools for Estimating, Finance, Operations, and Growth">
+<meta property="og:description" content="Astraa Systems provides clean, modular business tools for estimating, finance, operations, workspace access, and practical business growth.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Astraa Systems">
+<meta property="og:url" content="https://astraasystems.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Astraa Systems | Business Tools for Estimating, Finance, Operations, and Growth">
+<meta name="twitter:description" content="Astraa Systems provides clean, modular business tools for estimating, finance, operations, workspace access, and practical business growth.">
+<link rel="canonical" href="https://astraasystems.com/">
+<!-- ASTRAA_PUBLIC_MARKETING_METADATA_V1_END -->
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
-  <title>Astraa Systems — Payment</title>
-
   <style>
+:root {
+  --black:#05070f;
+  --navy:#071426;
+  --royal:#1d4ed8;
+  --blue:#2563eb;
+  --white:#ffffff;
+  --off:#f8fafc;
+  --line:#dbe3ef;
+  --text:#0f172a;
+  --muted:#475569;
+  --soft:#eff6ff;
+}
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);
+  background:var(--white);
+  line-height:1.6;
+}
+
+a { color:inherit; }
+
+.header {
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid #e5e7eb;
+}
+
+.nav {
+  max-width:1120px;
+  margin:0 auto;
+  padding:16px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+  font-weight:950;
+  color:var(--black);
+}
+
+.brand img {
+  width:38px;
+  height:38px;
+  object-fit:contain;
+}
+
+.brand span {
+  display:block;
+  font-size:12px;
+  color:#64748b;
+  font-weight:700;
+}
+
+.links {
+  display:flex;
+  gap:22px;
+  align-items:center;
+  font-size:14px;
+  font-weight:750;
+  color:var(--muted);
+}
+
+.links a {
+  text-decoration:none;
+}
+
+.links a:hover {
+  color:var(--royal);
+}
+
+.cta {
+  display:inline-flex;
+  padding:10px 15px;
+  border-radius:999px;
+  background:var(--royal);
+  color:white;
+  text-decoration:none;
+  font-weight:900;
+}
+
+.container {
+  max-width:1120px;
+  margin:0 auto;
+  padding:0 24px;
+}
+
+.hero {
+  background:linear-gradient(135deg,var(--black),var(--navy));
+  color:white;
+  padding:92px 0 82px;
+}
+
+.kicker {
+  display:inline-flex;
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16);
+  color:#dbeafe;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  margin-bottom:20px;
+}
+
+.hero h1 {
+  margin:0;
+  font-size:clamp(44px,7vw,82px);
+  line-height:.96;
+  letter-spacing:-.07em;
+  max-width:860px;
+}
+
+.hero p {
+  max-width:700px;
+  margin:24px 0 0;
+  color:#dbeafe;
+  font-size:19px;
+}
+
+.actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:30px;
+}
+
+.btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:13px 18px;
+  border-radius:999px;
+  font-weight:950;
+  text-decoration:none;
+  border:1px solid transparent;
+}
+
+.btn.primary {
+  background:var(--royal);
+  color:white;
+}
+
+.btn.secondary {
+  background:transparent;
+  color:white;
+  border-color:rgba(255,255,255,.3);
+}
+
+.section {
+  padding:72px 0;
+}
+
+.section h2 {
+  margin:0 0 12px;
+  font-size:clamp(32px,4vw,52px);
+  line-height:1.05;
+  letter-spacing:-.055em;
+  color:var(--black);
+}
+
+.section p {
+  color:var(--muted);
+  max-width:780px;
+  margin:0;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+  margin-top:28px;
+}
+
+.card {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:28px;
+  padding:26px;
+  box-shadow:0 18px 50px rgba(15,23,42,.08);
+}
+
+.card h3 {
+  margin:0 0 10px;
+  color:var(--black);
+  font-size:24px;
+  letter-spacing:-.035em;
+}
+
+.card p {
+  margin:0;
+  color:var(--muted);
+}
+
+.card .status {
+  display:inline-flex;
+  margin-bottom:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
+  color:#1e3a8a;
+  font-size:12px;
+  font-weight:900;
+}
+
+.logo-line {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo-line img {
+  width:24px;
+  height:24px;
+  object-fit:contain;
+}
+
+.band {
+  background:var(--off);
+  border-top:1px solid #e5e7eb;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.notice {
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
+  color:#1e3a8a;
+  border-radius:22px;
+  padding:20px;
+  margin-top:24px;
+}
+
+.footer {
+  border-top:1px solid #e5e7eb;
+  padding:28px 0;
+  color:#64748b;
+  font-size:14px;
+}
+
+.footer-inner {
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:18px;
+}
+
+.footer a {
+  color:#64748b;
+  text-decoration:none;
+  margin-left:14px;
+}
+
+@media(max-width:900px) {
+  .links { display:none; }
+  .grid { grid-template-columns:1fr; }
+  .hero { padding:70px 0; }
+}
+/* ASTRAA_HEADER_RESCUE_CSS */
+
     :root {
-      --navy: #0b1220;
-      --navy-soft: #162033;
-      --blue: #2563eb;
-      --violet: #8b5cf6;
-      --cyan: #22d3ee;
-      --magenta: #ec4899;
-      --white: #ffffff;
-      --soft-bg: #f8fafc;
-      --border: #e5e7eb;
-      --text: #334155;
-      --muted: #64748b;
-      --success: #16a34a;
-      --danger: #dc2626;
-      --warning: #f59e0b;
-      --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      --black:#05070f;
+      --navy:#071426;
+      --royal:#1d4ed8;
+      --white:#ffffff;
+      --off:#f8fafc;
+      --line:#dbe3ef;
+      --text:#0f172a;
+      --muted:#475569;
+      --gray:#64748b;
+      --light:#dbeafe;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing:border-box; }
 
     body {
-      margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(34,211,238,0.10), transparent 28%),
-        radial-gradient(circle at top right, rgba(139,92,246,0.10), transparent 24%),
-        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-      color: var(--navy);
-      line-height: 1.6;
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:var(--white);
+      line-height:1.6;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+    a { color:inherit; }
 
-    .container {
-      width: min(1180px, 92%);
-      margin: 0 auto;
+    .header {
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(255,255,255,.96);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid #e5e7eb;
     }
 
     .nav {
-      background: rgba(255,255,255,0.94);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(12px);
-    }
-
-    .nav-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
-      gap: 20px;
+      max-width:1120px;
+      margin:0 auto;
+      padding:16px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
     }
 
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 900;
-      font-size: 1.14rem;
-      color: var(--navy);
-      letter-spacing: -0.02em;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      font-weight:950;
+      color:var(--black);
     }
 
     .brand img {
-      width: 46px;
-      height: 46px;
-      object-fit: contain;
-      display: block;
+      width:38px;
+      height:38px;
+      object-fit:contain;
+      flex:0 0 auto;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      flex-wrap: wrap;
-      color: var(--text);
-      font-size: 0.95rem;
+    .brand span {
+      display:block;
+      font-size:12px;
+      color:var(--gray);
+      font-weight:700;
+      line-height:1.1;
     }
 
-    .nav-links a:hover {
-      color: var(--blue);
+    .links {
+      display:flex;
+      align-items:center;
+      gap:22px;
+      color:var(--muted);
+      font-size:14px;
+      font-weight:750;
     }
 
-    .nav-cta {
-      background: linear-gradient(135deg, var(--blue), var(--violet));
-      color: white !important;
-      padding: 10px 16px;
-      border-radius: 11px;
-      font-weight: 800;
-      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.20);
+    .links a { text-decoration:none; }
+    .links a:hover { color:var(--royal); }
+
+    .cta {
+      display:inline-flex;
+      padding:10px 15px;
+      border-radius:999px;
+      background:var(--royal);
+      color:white;
+      text-decoration:none;
+      font-weight:900;
     }
 
-    .page {
-      padding: 76px 0 84px;
+    .container {
+      max-width:1120px;
+      margin:0 auto;
+      padding:0 24px;
     }
 
-    .layout {
-      display: grid;
-      grid-template-columns: 0.88fr 1.12fr;
-      gap: 28px;
-      align-items: start;
+    .hero {
+      background:linear-gradient(135deg,var(--black),var(--navy));
+      color:white;
+      padding:88px 0 76px;
     }
 
-    .card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 26px;
-      padding: 34px;
-      box-shadow: var(--shadow);
+    .kicker {
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      color:var(--light);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      margin-bottom:20px;
     }
 
-    .logo {
-      width: 132px;
-      height: 132px;
-      object-fit: contain;
-      display: block;
-      margin-bottom: 22px;
+    .hero h1 {
+      margin:0;
+      max-width:940px;
+      font-size:clamp(44px,7vw,82px);
+      line-height:.96;
+      letter-spacing:-.07em;
     }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: white;
-      color: var(--blue);
-      border: 1px solid #bfdbfe;
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-weight: 900;
-      font-size: 0.9rem;
-      margin-bottom: 18px;
-      box-shadow: 0 10px 24px rgba(37,99,235,0.06);
+    .hero p {
+      max-width:780px;
+      margin:24px 0 0;
+      color:var(--light);
+      font-size:19px;
     }
 
-    h1 {
-      margin: 0;
-      font-size: clamp(2.2rem, 5vw, 3.8rem);
-      line-height: 1.08;
-      letter-spacing: -0.05em;
+    .section { padding:72px 0; }
+
+    .section h2 {
+      margin:0 0 12px;
+      color:var(--black);
+      font-size:clamp(32px,4vw,52px);
+      line-height:1.05;
+      letter-spacing:-.055em;
     }
 
-    h2 {
-      margin: 0;
-      font-size: 1.75rem;
-      letter-spacing: -0.03em;
-    }
-
-    h3 {
-      margin: 0;
-      letter-spacing: -0.02em;
-    }
-
-    p {
-      color: var(--muted);
-    }
-
-    .subhead {
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
-      font-weight: 900;
-      color: var(--navy-soft);
-      margin-top: 14px;
-      letter-spacing: -0.02em;
-    }
-
-    .summary-box {
-      margin-top: 24px;
-      background:
-        radial-gradient(circle at top left, rgba(34,211,238,0.08), transparent 30%),
-        linear-gradient(135deg, #ffffff, #eff6ff);
-      border: 1px solid #bfdbfe;
-      border-radius: 20px;
-      padding: 22px;
-    }
-
-    .summary-line {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 11px 0;
-      border-bottom: 1px solid #dbeafe;
-      color: var(--text);
-    }
-
-    .summary-line:last-child {
-      border-bottom: none;
-    }
-
-    .summary-line span {
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .summary-line strong {
-      color: var(--navy);
-      text-align: right;
-    }
-
-    .price-large {
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--blue);
-      letter-spacing: -0.04em;
-      line-height: 1.1;
-    }
-
-    label {
-      display: block;
-      margin-top: 18px;
-      margin-bottom: 8px;
-      font-weight: 900;
-      color: var(--navy);
-    }
-
-    input {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      font-size: 1rem;
-      background: white;
-      color: var(--navy);
-      font-family: inherit;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: var(--blue);
-      box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
-    }
-
-    .notice {
-      margin-top: 22px;
-      background: var(--soft-bg);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-      color: var(--text);
-    }
-
-    .notice strong {
-      color: var(--navy);
-    }
-
-    .ai-note {
-      margin-top: 22px;
-      background: #0b1220;
-      color: white;
-      border-radius: 18px;
-      padding: 20px;
-    }
-
-    .ai-note p {
-      color: #cbd5e1;
-      margin-bottom: 0;
-    }
-
-    .btn-row,
-    .action-row {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-top: 24px;
+    .section p {
+      color:var(--muted);
+      max-width:860px;
+      margin:0;
     }
 
     .btn {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      padding: 13px 22px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      font-weight: 900;
-      cursor: pointer;
-      transition: 0.2s ease;
-      text-align: center;
-      font-size: 1rem;
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+      padding:12px 15px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:950;
+      border:1px solid transparent;
+      cursor:pointer;
+      font:inherit;
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--blue), var(--violet));
-      color: white;
-      box-shadow: 0 14px 34px rgba(37, 99, 235, 0.22);
+    .btn.primary { background:var(--royal); color:white; }
+    .btn.secondary { background:white; color:var(--royal); border-color:#bfdbfe; }
+    .btn.dark { background:var(--black); color:white; }
+
+    .actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
     }
 
-    .btn-primary:hover {
-      filter: brightness(1.04);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      background: white;
-      color: var(--navy);
-      border-color: var(--border);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--blue);
-      color: var(--blue);
-    }
-
-    .btn-full {
-      width: 100%;
-    }
-
-    .status {
-      margin-top: 18px;
-      padding: 15px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: var(--soft-bg);
-      color: var(--text);
-      white-space: pre-wrap;
-      display: none;
-    }
-
-    .status.success {
-      display: block;
-      background: #f0fdf4;
-      color: #166534;
-      border-color: #bbf7d0;
-    }
-
-    .status.error {
-      display: block;
-      background: #fef2f2;
-      color: #991b1b;
-      border-color: #fecaca;
-    }
-
-    .status.warning {
-      display: block;
-      background: #fffbeb;
-      color: #92400e;
-      border-color: #fde68a;
+    .notice {
+      margin-top:26px;
+      padding:20px;
+      border-radius:22px;
+      background:#eff6ff;
+      border:1px solid #bfdbfe;
+      color:#1e3a8a;
     }
 
     footer {
-      padding: 34px 0;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.92rem;
-      background: white;
+      padding:28px 0;
+      border-top:1px solid #e5e7eb;
+      color:var(--gray);
+      font-size:14px;
     }
 
     .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
+      max-width:1120px;
+      margin:0 auto;
+      padding:0 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
     }
 
     .footer-links {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
     }
 
-    .footer-links a:hover {
-      color: var(--blue);
+    .footer-links a {
+      text-decoration:none;
+      color:var(--gray);
     }
 
-    @media (max-width: 980px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .logo {
-        width: 112px;
-        height: 112px;
-      }
-
-      .summary-line {
-        flex-direction: column;
-      }
-
-      .summary-line strong {
-        text-align: left;
-      }
+    @media(max-width:900px) {
+      .links { display:none; }
+      .hero { padding:70px 0 64px; }
     }
-  </style>
-  <link rel="stylesheet" href="css/astraa-mobile-responsive-fix.css?v=20260621-mobile-nav-single-row">
-  <link rel="stylesheet" href="css/astraa-mobile-header-final.css?v=20260621-final-mobile-header">
+
+
+/* ASTRAA_VISIBLE_PUBLIC_HEADER_V7 */
+.astraa-site-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  background: rgba(255,255,255,.97) !important;
+  backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.astraa-site-nav {
+  max-width: 1120px !important;
+  margin: 0 auto !important;
+  padding: 16px 24px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 20px !important;
+}
+
+.astraa-site-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-decoration: none !important;
+  font-weight: 950 !important;
+  color: #05070f !important;
+  white-space: nowrap !important;
+}
+
+.astraa-site-brand img {
+  width: 38px !important;
+  height: 38px !important;
+  object-fit: contain !important;
+  flex: 0 0 auto !important;
+}
+
+.astraa-site-brand span {
+  display: block !important;
+  font-size: 12px !important;
+  color: #64748b !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+}
+
+.astraa-site-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: 22px !important;
+  color: #475569 !important;
+  font-size: 14px !important;
+  font-weight: 750 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a {
+  display: inline-flex !important;
+  text-decoration: none !important;
+  color: #475569 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a:hover {
+  color: #1d4ed8 !important;
+}
+
+.astraa-site-cta {
+  display: inline-flex !important;
+  padding: 10px 15px !important;
+  border-radius: 999px !important;
+  background: #1d4ed8 !important;
+  color: white !important;
+  text-decoration: none !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+}
+
+@media(max-width: 900px) {
+  .astraa-site-links {
+    display: none !important;
+  }
+}
+
+
+/* ASTRAA_VISIBLE_PUBLIC_HEADER_V8 */
+.astraa-site-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  background: rgba(255,255,255,.97) !important;
+  backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.astraa-site-nav {
+  max-width: 1120px !important;
+  margin: 0 auto !important;
+  padding: 16px 24px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 20px !important;
+}
+
+.astraa-site-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-decoration: none !important;
+  font-weight: 950 !important;
+  color: #05070f !important;
+  white-space: nowrap !important;
+}
+
+.astraa-site-brand img {
+  width: 38px !important;
+  height: 38px !important;
+  object-fit: contain !important;
+  flex: 0 0 auto !important;
+}
+
+.astraa-site-brand span {
+  display: block !important;
+  font-size: 12px !important;
+  color: #64748b !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+}
+
+.astraa-site-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: 22px !important;
+  color: #475569 !important;
+  font-size: 14px !important;
+  font-weight: 750 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a {
+  display: inline-flex !important;
+  text-decoration: none !important;
+  color: #475569 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a:hover {
+  color: #1d4ed8 !important;
+}
+
+.astraa-site-cta {
+  display: inline-flex !important;
+  padding: 10px 15px !important;
+  border-radius: 999px !important;
+  background: #1d4ed8 !important;
+  color: white !important;
+  text-decoration: none !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+}
+
+@media(max-width: 900px) {
+  .astraa-site-links {
+    display: none !important;
+  }
+}
+
+</style>
+  <link rel="stylesheet" href="css/astraa-mobile-responsive-fix.css?v=1783020188-mobile-nav-single-row">
+  <link rel="stylesheet" href="css/astraa-mobile-header-final.css?v=1783020188-final-mobile-header">
 
 
   <!-- Astraa site icons -->
@@ -410,12 +690,239 @@
   <link rel="manifest" href="site.webmanifest?v=20260621-astraa-logo-icon">
 
 
+<style>
+/* ==========================================
+   ARKA AUTOMATED DESKTOP INJECTION PATCH
+   ========================================== */
+@media screen and (min-width: 1151px) {
+    body, .main-content, main, .container {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        font-size: 16px !important;
+    }
+    .grid, .form-container, .tool-layout {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 40px !important;
+    }
+    input, button, .cta-box {
+        max-width: 450px !important;
+    }
+}
+</style>
+
+
+<style id="arka-desktop-restoration">
+/* ========================================================================
+   EMERGENCY DESKTOP STRUCTURE RESTORATION - ASTRAA SYSTEMS
+   ======================================================================== */
+@media screen and (min-width: 1025px) {
+    /* Force canvas reset and clear rogue mobile constraints */
+    html, body {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 16px !important;
+        background-color: #ffffff !important;
+    }
+
+    /* Wrap contents in a clean centered executive grid */
+    header, main, .main-container, #root, .workspace-wrapper {
+        max-width: 1280px !important;
+        margin: 0 auto !important;
+        padding: 0 40px !important;
+    }
+
+    /* Normalize the header logo layout */
+    .logo-container, img[src*="logo"] {
+        max-width: 180px !important;
+        height: auto !important;
+        display: block !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* Standardize typography sizes across main sections */
+    h1, .hero-title, .connected-tools-title {
+        font-size: 2.5rem !important;
+        line-height: 1.2 !important;
+        width: 100% !important;
+    }
+    
+    p, .hero-subtitle {
+        font-size: 1.1rem !important;
+        line-height: 1.6 !important;
+        width: 100% !important;
+    }
+
+    /* Snap the Estimate/Track/Operate workflow cards back into a 3-column row */
+    .workflow-container, .features-grid, .grid {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        gap: 24px !important;
+        width: 100% !important;
+        margin: 30px 0 !important;
+    }
+
+    .workflow-container > *, .features-grid > *, .grid > * {
+        flex: 1 !important;
+        min-width: 250px !important;
+        padding: 24px !important;
+    }
+
+    /* Snapping the blue trial CTA back into structured corporate alignment */
+    div[class*="trial"], .cta-box, .trial-banner-blueprint {
+        max-width: 800px !important;
+        margin: 50px auto !important;
+        padding: 40px !important;
+        text-align: center !important;
+        display: block !important;
+    }
+}
+</style>
+
+
+    
+
+
+    
+
+
+    <!-- Desktop Structural Layout Hotfix -->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    <!-- Desktop Structural Layout Hotfix -->
+    <style id="production-desktop-layout-fix">
+        /* Global Reset & Typography */
+        * {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            -webkit-font-smoothing: antialiased !important;
+            box-sizing: border-box !important;
+        }
+
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            overflow-x: hidden !important;
+            background-color: #ffffff !important;
+        }
+
+        /* Full-Width Layout Restoration (Stops the page from shrinking into a narrow column) */
+        body > div, main, .main-content, #root {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 auto !important;
+            transform: none !important;
+        }
+
+        /* Centered Inner Component Containers */
+        .hero, section, main > div, .content-wrapper, [class*="Card"] {
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+        }
+
+        /* Header Navigation Grid Baseline Alignment */
+        header, nav, .navbar, .header {
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            width: 100% !important;
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 24px 20px !important;
+            background-color: #ffffff !important;
+        }
+
+        /* Prevent Brand Metadata Text from Stack-Wrapping Vulnerabilities */
+        header > div:first-child, .brand-container {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            justify-content: center !important;
+            gap: 2px !important;
+            width: auto !important;
+            min-width: 200px !important;
+        }
+
+        header img, [class*="logo"] img {
+            height: 34px !important;
+            width: auto !important;
+            display: block !important;
+            margin-bottom: 4px !important;
+        }
+
+        header span, header p, .brand-text {
+            font-size: 12px !important;
+            line-height: 1.3 !important;
+            color: #64748b !important;
+            font-weight: 400 !important;
+            margin: 0 !important;
+            white-space: nowrap !important;
+            display: block !important;
+        }
+
+        /* Desktop Horizontal Navigation Links Layout */
+        header a, nav a, .navbar a {
+            text-decoration: none !important;
+            color: #475569 !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            margin: 0 14px !important;
+            display: inline-block !important;
+            transition: color 0.15s ease !important;
+        }
+        
+        header a:hover, nav a:hover {
+            color: #2563eb !important;
+        }
+
+        /* Action Workspace CTA Layout */
+        a[href*="workspace"] {
+            background-color: #0f172a !important;
+            color: #ffffff !important;
+            padding: 8px 16px !important;
+            border-radius: 6px !important;
+            margin-left: 14px !important;
+            font-weight: 500 !important;
+        }
+    </style>
+
+<style id="astraa-alignment-matrix">
+        * { box-sizing: border-box !important; }
+        body { margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; overflow-x: hidden !important; }
+        body > div, main, .main-content, #root { width: 100% !important; max-width: 100% !important; margin: 0 auto !important; transform: none !important; }
+        .hero, section, main > div, .content-wrapper { max-width: 1200px !important; margin: 0 auto !important; width: 100% !important; }
+        header, nav, .navbar, .header { display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; max-width: 1200px !important; margin: 0 auto !important; padding: 20px !important; }
+        header a, nav a, .navbar a, .nav-links a { text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; margin: 0 14px !important; display: inline-block !important; white-space: nowrap !important; }
+        header > div:first-child, .brand-container { display: flex !important; flex-direction: column !important; align-items: flex-start !important; width: auto !important; }
+        header span, .brand-text { white-space: nowrap !important; }
+    </style>
 </head>
-
 <body>
-
-
-  <nav class="nav">
+<nav class="nav">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
         <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
@@ -434,249 +941,471 @@
     </div>
   </nav>
 
-  <main class="page">
-    <div class="container layout">
 
-        
-        
-        
-        <section style="padding: 60px 0; text-align: center;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Welcome to Astraa Systems</h2>
-            <p style="font-size: 1.2rem; color: var(--muted); max-width: 600px; margin: 0 auto;">
-                Business Tools for Estimating, Finance, Operations, and Growth.
-            </p>
-        </section>
-        
-        
-  </main>
 
-  <footer>
-    <div class="container footer-inner">
-      <div>Astraa Systems © 2026</div>
 
-      <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="engines.html">Tools</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="login.html">Login / Register</a>
-        <a href="customer-portal.html">Workspace</a>
+
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="kicker">Astraa Workspace</div>
+      <h1>Connected tools for modern business operations.</h1>
+      <p>Astraa Systems builds practical workspace tools that help businesses estimate, track, and manage work with clarity and control.</p>
+      <div class="actions">
+        <a class="btn primary" href="tools.html">Explore Tools</a>
+        <a class="btn secondary" href="pricing.html">View Pricing</a>
       </div>
     </div>
-  </footer>
+  </section>
 
-  <script>
-    /*
-      IMPORTANT:
-      Replace this with your current ngrok/backend URL before live payment testing.
+  <section class="section">
+    <div class="container">
+      <h2>A calmer way to run business workflows.</h2>
+      <p>Astraa Workspace brings business tools into one client portal. Start with the tools assigned to your plan, then expand as your needs grow.</p>
+      <div class="grid">
+        <article class="card"><h3>Estimate</h3><p>Create structured project estimates with clear inputs, assumptions, and planning visibility.</p></article>
+        <article class="card"><h3>Track</h3><p>Connect finance visibility, expenses, and business records without scattered spreadsheets.</p></article>
+        <article class="card"><h3>Operate</h3><p>Manage follow-ups, priorities, and operational actions from one Workspace.</p></article>
+      </div>
+    </div>
+  </section>
 
-      Example:
-*/
-function normalizeEmail(value) {
-      return String(value || "").trim().toLowerCase();
+  <section class="section band">
+    <div class="container">
+      <h2>Astraa Workspace</h2>
+      <p>The client portal for trial and paid users. Each client may have one tool or several tools assigned to help run their business smoothly.</p>
+      <div class="actions">
+        <a class="btn primary" href="workspace-test-login.html">Open Workspace</a>
+        <a class="btn secondary" style="color:#0f172a;border-color:#cbd5e1" href="tools.html">View Tools</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Built with clarity, privacy, and control in mind.</h2>
+      <p>Astraa is designed to help businesses work with better structure, cleaner information, and more confidence in daily operations.</p>
+    </div>
+  </section>
+</main>
+
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>Astraa Systems © 2026</div>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="workspace-test-login.html">Workspace</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+
+  <div class="footer-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="trial-terms.html">Trial Terms</a>
+    </div>
+
+</footer>
+<!-- ASTRAA_PAID_CONVERSION_CTA_V1_START -->
+<style>
+  .astraa-paid-cta {
+    max-width: 1180px;
+    margin: 44px auto;
+    padding: 0 20px;
+    font-family: inherit;
+  }
+
+  .astraa-paid-cta-inner {
+    background: linear-gradient(135deg, #0b1f3a, #1d4ed8);
+    color: #ffffff;
+    border-radius: 24px;
+    padding: clamp(24px, 4vw, 42px);
+    box-shadow: 0 24px 70px rgba(15, 23, 42, .22);
+  }
+
+  .astraa-paid-cta .eyebrow {
+    color: #bfdbfe;
+    font-size: .78rem;
+    font-weight: 900;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .astraa-paid-cta h2 {
+    margin: 0 0 12px;
+    font-size: clamp(1.8rem, 3vw, 2.7rem);
+    line-height: 1.1;
+  }
+
+  .astraa-paid-cta p {
+    color: #e0ecff;
+    line-height: 1.7;
+    max-width: 860px;
+    margin: 0 0 18px;
+  }
+
+  .astraa-paid-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .astraa-paid-cta-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: 999px;
+    padding: 12px 18px;
+    font-weight: 900;
+  }
+
+  .astraa-paid-primary {
+    background: #ffffff;
+    color: #0b1f3a;
+  }
+
+  .astraa-paid-secondary {
+    background: rgba(255, 255, 255, .12);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, .35);
+  }
+
+  .astraa-paid-cta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .astraa-paid-mini {
+    background: rgba(255, 255, 255, .1);
+    border: 1px solid rgba(255, 255, 255, .22);
+    border-radius: 16px;
+    padding: 14px;
+    color: #eff6ff;
+  }
+
+  .astraa-paid-mini strong {
+    display: block;
+    color: #ffffff;
+    margin-bottom: 5px;
+  }
+
+  @media (max-width: 900px) {
+    .astraa-paid-cta-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<section class="astraa-paid-cta" aria-label="Astraa paid onboarding">
+  <div class="astraa-paid-cta-inner">
+    <div class="eyebrow">Start with a paid plan</div>
+    <h2>Trial is available — but paid onboarding gets Astraa working for your business faster.</h2>
+    <p>
+      Astraa is built for businesses that want practical tools for estimating, finance, operations,
+      and workspace coordination. You can request trial access for evaluation, or ask Astraa to help
+      choose the right paid plan or package for your business.
+    </p>
+
+    <div class="astraa-paid-cta-actions">
+      <a class="astraa-paid-primary" href="mailto:support@astraasystems.com?subject=Astraa paid onboarding request&body=Hi Astraa Support,
+
+I am interested in starting with a paid Astraa plan or package.
+
+Business/organization:
+Tools I am interested in:
+Preferred package:
+Team size:
+Phone number:
+Questions:
+
+Thank you.">Request paid onboarding</a>
+
+      <a class="astraa-paid-secondary" href="pricing.html">View pricing</a>
+
+      <a class="astraa-paid-secondary" href="mailto:support@astraasystems.com?subject=Astraa trial or package question&body=Hi Astraa Support,
+
+I would like help choosing between trial access and a paid Astraa plan.
+
+Business/organization:
+Tools I am interested in:
+Questions:
+
+Thank you.">Ask Astraa first</a>
+    </div>
+
+    <div class="astraa-paid-cta-grid">
+      <div class="astraa-paid-mini">
+        <strong>Paid plan request</strong>
+        Choose Estimator, Finance, Operations, or a package and request setup guidance.
+      </div>
+      <div class="astraa-paid-mini">
+        <strong>Controlled trial</strong>
+        Trial access is available for evaluation, but customer access is introduced carefully.
+      </div>
+      <div class="astraa-paid-mini">
+        <strong>Custom packages</strong>
+        Contractors, franchises, non-profits, and multi-location teams can request a custom setup.
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ASTRAA_PAID_CONVERSION_CTA_V1_END -->
+
+<!-- ASTRAA_SUPPORT_CONCIERGE_V1_START -->
+<style>
+  .astraa-concierge-button {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 99998;
+    border: none;
+    border-radius: 999px;
+    background: #0b1f3a;
+    color: #ffffff;
+    padding: 14px 18px;
+    font-weight: 800;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, .22);
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .astraa-concierge-button span {
+    display: inline-block;
+    margin-left: 6px;
+    color: #bfdbfe;
+  }
+
+  .astraa-concierge-panel {
+    position: fixed;
+    right: 22px;
+    bottom: 82px;
+    width: min(390px, calc(100vw - 32px));
+    z-index: 99999;
+    background: #ffffff;
+    border: 1px solid #dbe4f0;
+    border-radius: 22px;
+    box-shadow: 0 26px 70px rgba(15, 23, 42, .22);
+    overflow: hidden;
+    font-family: inherit;
+    display: none;
+  }
+
+  .astraa-concierge-panel.open {
+    display: block;
+  }
+
+  .astraa-concierge-head {
+    background: linear-gradient(135deg, #0b1f3a, #1d4ed8);
+    color: #ffffff;
+    padding: 18px 20px;
+  }
+
+  .astraa-concierge-head strong {
+    display: block;
+    font-size: 1.05rem;
+  }
+
+  .astraa-concierge-head span {
+    display: block;
+    color: #dbeafe;
+    margin-top: 4px;
+    font-size: .9rem;
+    line-height: 1.4;
+  }
+
+  .astraa-concierge-body {
+    padding: 18px 20px 20px;
+  }
+
+  .astraa-concierge-note {
+    color: #475569;
+    line-height: 1.55;
+    margin: 0 0 14px;
+    font-size: .95rem;
+  }
+
+  .astraa-concierge-field {
+    margin-bottom: 10px;
+  }
+
+  .astraa-concierge-field label {
+    display: block;
+    font-size: .82rem;
+    color: #334155;
+    font-weight: 800;
+    margin-bottom: 5px;
+  }
+
+  .astraa-concierge-field input,
+  .astraa-concierge-field select,
+  .astraa-concierge-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dbe4f0;
+    border-radius: 12px;
+    padding: 10px 11px;
+    font-family: inherit;
+    font-size: .95rem;
+    color: #111827;
+    background: #ffffff;
+  }
+
+  .astraa-concierge-field textarea {
+    min-height: 84px;
+    resize: vertical;
+  }
+
+  .astraa-concierge-actions {
+    display: grid;
+    gap: 9px;
+    margin-top: 12px;
+  }
+
+  .astraa-concierge-actions button,
+  .astraa-concierge-actions a {
+    text-align: center;
+    text-decoration: none;
+    border-radius: 12px;
+    padding: 11px 12px;
+    font-weight: 800;
+    font-family: inherit;
+  }
+
+  .astraa-concierge-send {
+    border: none;
+    background: #1d4ed8;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  .astraa-concierge-call {
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    color: #0b1f3a;
+  }
+
+  .astraa-concierge-small {
+    color: #64748b;
+    font-size: .78rem;
+    line-height: 1.45;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 520px) {
+    .astraa-concierge-button {
+      right: 16px;
+      bottom: 16px;
     }
 
-    function isValidEmail(value) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    .astraa-concierge-panel {
+      right: 16px;
+      bottom: 74px;
     }
+  }
+</style>
 
-    function setStatus(message, type) {
-      const status = document.getElementById("status");
-      status.textContent = message;
-      status.className = "status";
+<button class="astraa-concierge-button" type="button" onclick="astraaToggleConcierge()" aria-label="Ask Astraa support">
+  Ask Astraa <span>Support</span>
+</button>
 
-      if (type === "success") status.classList.add("success");
-      if (type === "error") status.classList.add("error");
-      if (type === "warning") status.classList.add("warning");
-    }
+<section class="astraa-concierge-panel" id="astraaConciergePanel" aria-label="Astraa support concierge">
+  <div class="astraa-concierge-head">
+    <strong>Astraa Support Concierge</strong>
+    <span>This is not a bot. Send your question to Astraa support or request onboarding help.</span>
+  </div>
 
-    function getAstraaSelection() {
-      return {
-        tool: sessionStorage.getItem("astraa_selected_tool") || "Astraa Estimator",
-        plan: sessionStorage.getItem("astraa_selected_plan") || "Professional",
-        price: sessionStorage.getItem("astraa_selected_price") || "$99 CAD/month",
-        email: sessionStorage.getItem("astraa_checkout_email") || ""
-      };
-    }
+  <div class="astraa-concierge-body">
+    <p class="astraa-concierge-note">
+      Ask about tools, pricing, packages, onboarding, or controlled access. Please do not send passwords or payment card details here.
+    </p>
 
-    function loadSelection() {
-      const selection = getAstraaSelection();
+    <div class="astraa-concierge-field">
+      <label for="astraaSupportName">Name</label>
+      <input id="astraaSupportName" type="text" placeholder="Your name">
+    </div>
 
-      document.getElementById("selectedToolText").textContent = selection.tool;
-      document.getElementById("selectedPlanText").textContent = selection.plan;
-      document.getElementById("selectedPriceText").textContent = selection.price;
-      document.getElementById("checkoutEmailText").textContent = selection.email || "Not provided";
+    <div class="astraa-concierge-field">
+      <label for="astraaSupportEmail">Email</label>
+      <input id="astraaSupportEmail" type="email" placeholder="you@example.com">
+    </div>
 
-      document.getElementById("checkoutProductText").textContent = selection.tool;
-      document.getElementById("checkoutPlanText").textContent = selection.plan;
-      document.getElementById("checkoutPriceText").textContent = selection.price;
+    <div class="astraa-concierge-field">
+      <label for="astraaSupportTopic">Topic</label>
+      <select id="astraaSupportTopic">
+        <option>Pricing or package question</option>
+        <option>Estimator help</option>
+        <option>Finance help</option>
+        <option>Operations help</option>
+        <option>Onboarding request</option>
+        <option>Request a call</option>
+        <option>Other support question</option>
+      </select>
+    </div>
 
-      document.getElementById("checkoutEmail").value = selection.email || "";
+    <div class="astraa-concierge-field">
+      <label for="astraaSupportMessage">Question</label>
+      <textarea id="astraaSupportMessage" placeholder="Tell Astraa what you need help with..."></textarea>
+    </div>
 
-      if (selection.plan === "Trial") {
-        setStatus(
-          "This selection is Trial. Trial does not require payment. Use the button below to open Astraa Workspace.",
-          "warning"
-        );
-      }
+    <div class="astraa-concierge-actions">
+      <button class="astraa-concierge-send" type="button" onclick="astraaSendSupportEmail()">Send support request</button>
+      <a class="astraa-concierge-call" href="mailto:support@astraasystems.com?subject=Astraa%20call%20request&body=Hi%20Astraa%20Support%2C%0A%0AI%20would%20like%20to%20request%20a%20call%20for%20onboarding%20or%20package%20guidance.%0A%0AName%3A%0APhone%3A%0ABusiness%2Forganization%3A%0ATools%20I%20am%20interested%20in%3A%0A%0AThank%20you.">Request a call</a>
+    </div>
 
-      if (selection.plan === "Custom") {
-        setStatus(
-          "This selection is Custom. Custom packages should go through the Contact / discovery flow.",
-          "warning"
-        );
-      }
-    }
+    <div class="astraa-concierge-small">
+      Digital phone support is being prepared. Until a support number is connected, use the request form or call request option.
+    </div>
+  </div>
+</section>
 
-    function savePaidSelection(selection, email) {
-      sessionStorage.setItem("astraa_checkout_email", email);
+<script>
+  function astraaToggleConcierge() {
+    var panel = document.getElementById("astraaConciergePanel");
+    if (!panel) return;
+    panel.classList.toggle("open");
+  }
 
-      sessionStorage.setItem("astraa_paid_tool", selection.tool);
-      sessionStorage.setItem("astraa_paid_plan", selection.plan);
-      sessionStorage.setItem("astraa_paid_price", selection.price);
+  function astraaSendSupportEmail() {
+    var name = document.getElementById("astraaSupportName")?.value || "";
+    var email = document.getElementById("astraaSupportEmail")?.value || "";
+    var topic = document.getElementById("astraaSupportTopic")?.value || "Support question";
+    var message = document.getElementById("astraaSupportMessage")?.value || "";
 
-      sessionStorage.setItem("astraa_selected_tool", selection.tool);
-      sessionStorage.setItem("astraa_selected_plan", selection.plan);
-      sessionStorage.setItem("astraa_selected_price", selection.price);
-    }
+    var subject = "Astraa support request - " + topic;
+    var body = [
+      "Hi Astraa Support,",
+      "",
+      "I have a question/request from the Astraa website.",
+      "",
+      "Name: " + name,
+      "Email: " + email,
+      "Topic: " + topic,
+      "",
+      "Question:",
+      message,
+      "",
+      "Please follow up when available.",
+      "",
+      "Note: I understand this is not an automated bot and customer access remains controlled during launch hardening."
+    ].join("\n");
 
-    
-    // ASTRAA_PAYMENT_PRELOAD_GLOBAL_CONFIG_V2
-    var ASTRAA_PAYMENT_API_BASE_V2 =
-      window.ASTRAA_API_BASE ||
-      sessionStorage.getItem("astraa_api_base") ||
-      (
-        location.hostname === "localhost" ||
-        location.hostname === "127.0.0.1" ||
-        location.hostname === "0.0.0.0"
-          ? "http://localhost:5000"
-          : ""
-      );
+    var mailto = "mailto:support@astraasystems.com"
+      + "?subject=" + encodeURIComponent(subject)
+      + "&body=" + encodeURIComponent(body);
 
-    ASTRAA_PAYMENT_API_BASE_V2 = String(ASTRAA_PAYMENT_API_BASE_V2 || "").replace(/\/+$/, "");
-
-    window.BACKEND_PRELOAD_URL =
-      window.BACKEND_PRELOAD_URL ||
-      (ASTRAA_PAYMENT_API_BASE_V2 + "/preload");
-
-
-    async function startCheckout() {
-      const selection = getAstraaSelection();
-      const email = normalizeEmail(document.getElementById("checkoutEmail").value);
-
-      if (!email || !isValidEmail(email)) {
-        setStatus("Please enter a valid checkout email.", "error");
-        return;
-      }
-
-      if (selection.plan === "Trial") {
-        savePaidSelection(selection, email);
-        setStatus("Trial selected. Opening Astraa Workspace...", "success");
-
-        window.setTimeout(function() {
-          window.location.href = "customer-portal.html";
-        }, 700);
-
-        return;
-      }
-
-      if (selection.plan === "Custom") {
-        savePaidSelection(selection, email);
-        setStatus("Custom path selected. Opening Contact page...", "success");
-
-        window.setTimeout(function() {
-          window.location.href = "contact.html";
-        }, 700);
-
-        return;
-      }
-
-      savePaidSelection(selection, email);
-
-      const payload = {
-        email: email,
-        selected_tool: selection.tool,
-        selected_plan: selection.plan,
-        selected_price: selection.price,
-        source: "astraa_payment_page"
-      };
-
-      setStatus(
-        "Starting checkout for " +
-        selection.tool +
-        " — " +
-        selection.plan +
-        " — " +
-        selection.price +
-        ".",
-        "success"
-      );
-
-      try {
-        const response = await fetch(window.BACKEND_PRELOAD_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-
-        if (!response.ok || !data.success) {
-          throw new Error(data.message || data.error || (data.response && data.response.error && (data.response.error.message || JSON.stringify(data.response.error))) || "Payment preload failed.");
-        }
-
-        // ASTRAA_PAYMENT_PRELOAD_TICKET_COMPAT_V1
-        const monerisTicket =
-          data.ticket ||
-          (data.response && data.response.ticket) ||
-          "";
-
-        if (!monerisTicket) {
-          throw new Error("Payment preload did not return a Moneris ticket.");
-        }
-
-        sessionStorage.setItem("astraa_moneris_ticket", monerisTicket);
-
-        /*
-          This assumes your existing Moneris Checkout script/function is configured elsewhere.
-          If your current payment.html already uses a function like monerisCheckout.startCheckout(ticket),
-          connect it here.
-        */
-
-        if (window.monerisCheckout && typeof window.monerisCheckout.startCheckout === "function") {
-          window.monerisCheckout.startCheckout(monerisTicket);
-          return;
-        }
-
-        setStatus(
-          "Moneris ticket received: " +
-          monerisTicket +
-          "\\n\\nYour Moneris checkout object was not found on this page yet. Connect your existing Moneris checkout script to startCheckout(data.ticket).",
-          "warning"
-        );
-
-      } catch (error) {
-        setStatus(
-          "Checkout could not start. " +
-          error.message +
-          "\\n\\nConfirm BACKEND_PRELOAD_URL is your active ngrok/backend preload URL and that api.py is running.",
-          "error"
-        );
-      }
-    }
-
-    window.addEventListener("load", loadSelection);
-  </script>
-
-
-<!-- ASTRAA_MONERIS_CHECKOUT_OBJECT_V1 -->
-<div id="astraaMonerisCheckoutShell" style="max-width:960px;margin:24px auto;padding:0 18px;">
-  <div id="monerisCheckout"></div>
-</div>
-
+    window.location.href = mailto;
+  }
+</script>
+<!-- ASTRAA_SUPPORT_CONCIERGE_V1_END -->
 
 </body>
 </html>
-
-

@@ -1,28 +1,43 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('login-form');
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const statusEl = document.getElementById('auth-status');
+    // Target the specific form/button layout of the testing portal
+    const loginBtn = document.querySelector('button, input[type="submit"]');
+    const emailInput = document.querySelector('input[type="email"], input[placeholder="name@company.com"]');
+    const accessCodeInput = document.querySelector('input[type="password"], input[placeholder="Enter access code"]');
+    const productSelect = document.querySelector('select');
 
-            if (username && password) {
-                statusEl.style.color = "#22c55e";
-                statusEl.innerText = "AUTHENTICATING OPERATOR...";
+    // Handle session clearance if the user clicks "Clear Session"
+    const buttons = document.querySelectorAll('button, input[type='button']');
+    buttons.forEach(btn => {
+        if (btn.textContent.includes('Clear Session')) {
+            btn.onclick = () => {
+                localStorage.removeItem('astraa_session');
+                alert('Session Cleared.');
+            };
+        }
+    });
+
+    if (loginBtn && emailInput) {
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const email = emailInput.value.trim();
+            const accessCode = accessCodeInput ? accessCodeInput.value.trim() : '';
+            const simulatedProduct = productSelect ? productSelect.value : 'all';
+
+            if (email) {
+                // Save the session data including the product selected for evaluation
+                const sessionData = {
+                    user: email.split('@')[0],
+                    email: email,
+                    role: "Testing Operator",
+                    simulatedModule: simulatedProduct,
+                    token: "ASTRAA-TEST-SESSION-" + Date.now()
+                };
+                localStorage.setItem('astraa_session', JSON.stringify(sessionData));
                 
-                setTimeout(() => {
-                    const sessionData = {
-                        user: username,
-                        role: "Administrator",
-                        token: "ASTRAA-SESSION-" + Date.now()
-                    };
-                    localStorage.setItem('astraa_session', JSON.stringify(sessionData));
-                    window.location.href = 'index.html';
-                }, 800);
+                // Redirect directly into the motherboard workspace directory
+                window.location.href = 'workspace/index.html';
             } else {
-                statusEl.innerText = "Error: Please provide valid credentials.";
+                alert('Please enter a valid Account Email to test.');
             }
         });
     }
@@ -30,5 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function logoutAstraa() {
     localStorage.removeItem('astraa_session');
-    window.location.href = 'login.html';
+    // Bounce back out to the main test gateway route
+    window.location.href = '../workspace-test-login.html';
 }

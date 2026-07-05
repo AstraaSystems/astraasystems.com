@@ -385,7 +385,16 @@
       <input id="email" type="email" autocomplete="email" placeholder="astraa.live.test@astraasystems.com" required />
 
       <label for="code">Workspace access code</label>
-      <input id="code" type="password" autocomplete="current-password" placeholder="Enter access code" required />
+      <input id="code" type="password" autocomplete="current-password" placeholder="Enter access code"
+
+      <label for="test_tool_select">Simulate Purchased Product / Tool</label>
+      <select id="test_tool_select" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; background: #111827; color: #fff; border: 1px solid #374151; font-weight: 600;">
+        <option value="Estimator|Professional|Astraa Estimator">Astraa Estimator (Professional Tier)</option>
+        <option value="Finance|Professional|Astraa Finance">Astraa Finance (Professional Tier)</option>
+        <option value="Operations|Professional|Astraa Operations">Astraa Operations (Professional Tier)</option>
+        <option value="Full Suite|Enterprise|All Tools Enabled">Full Astraa Workspace (Enterprise Tier)</option>
+      </select>
+ required />
 
       <div class="actions">
         <button class="primary" type="submit">Open Astraa Workspace</button>
@@ -402,7 +411,7 @@
   </main>
 
   <script>
-    const TEST_EMsoftwareL = "astraa.live.test@astraasystems.com";
+    const TEST_EMAIL = "astraa.live.test@astraasystems.com";
     const TEST_CODE = "ASTRAA-WORKSPACE-TEST-2026";
 
     function setStatus(message, type) {
@@ -411,28 +420,26 @@
       status.className = "status " + type;
     }
 
-    function grantWorkspaceAccess(email) {
-      sessionStorage.setItem("astraa_workspace_test_access", "true");
-      sessionStorage.setItem("astraa_workspace_status", "active");
-      sessionStorage.setItem("astraa_test_account_email", email);
+        function grantWorkspaceAccess(email) {
+      const selector = document.getElementById("test_tool_select");
+      const [productName, planTier, activeTool] = selector.value.split('|');
 
-      sessionStorage.setItem("astraa_selected_product", "Astraa Workspace");
-      sessionStorage.setItem("astraa_selected_tool", "Astraa Estimator");
-      sessionStorage.setItem("astraa_active_tool", "Astraa Estimator");
-      sessionStorage.setItem("astraa_selected_plan", "Professional");
-      sessionStorage.setItem("astraa_plan", "Professional");
-      sessionStorage.setItem("astraa_selected_price", "Internal Test Access");
+      const sessionKeys = {
+        "astraa_workspace_test_access": "true",
+        "astraa_workspace_status": "active",
+        "astraa_test_account_email": email,
+        "astraa_selected_product": productName,
+        "astraa_selected_tool": activeTool,
+        "astraa_active_tool": activeTool,
+        "astraa_selected_plan": planTier,
+        "astraa_plan": planTier,
+        "astraa_selected_price": "Internal Test Access Triggered"
+      };
 
-      localStorage.setItem("astraa_workspace_test_access", "true");
-      localStorage.setItem("astraa_workspace_status", "active");
-      localStorage.setItem("astraa_test_account_email", email);
-
-      localStorage.setItem("astraa_selected_product", "Astraa Workspace");
-      localStorage.setItem("astraa_selected_tool", "Astraa Estimator");
-      localStorage.setItem("astraa_active_tool", "Astraa Estimator");
-      localStorage.setItem("astraa_selected_plan", "Professional");
-      localStorage.setItem("astraa_plan", "Professional");
-      localStorage.setItem("astraa_selected_price", "Internal Test Access");
+      for (const [key, val] of Object.entries(sessionKeys)) {
+        sessionStorage.setItem(key, val);
+        localStorage.setItem(key, val);
+      }
     }
 
     function clearAccess() {
@@ -460,7 +467,7 @@
       const email = String(document.getElementById("email").value || "").trim().toLowerCase();
       const code = String(document.getElementById("code").value || "").trim();
 
-      if (email !== TEST_EMsoftwareL || code !== TEST_CODE) {
+      if (email !== TEST_EMAIL || code !== TEST_CODE) {
         setStatus("Access denied. Use the internal Astraa Workspace test account.", "bad");
         return;
       }
@@ -473,7 +480,7 @@
       }, 500);
     });
 
-    document.getElementById("email").value = TEST_EMsoftwareL;
+    document.getElementById("email").value = TEST_EMAIL;
   </script>
 </body>
 </html>

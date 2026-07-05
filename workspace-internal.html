@@ -619,7 +619,51 @@
     </style>
 </head>
 
-<body>\n
+<body>
+
+<div id="astraa-commercial-sandbox" style="font-family: system-ui, -apple-system, sans-serif; background: #0f1422; border-bottom: 1px solid #1e293b; padding: 12px 24px; color: #f8fafc; display: flex; justify-content: space-between; align-items: center; z-index: 9999; position: relative;">
+    <div style="display: flex; align-items: center; gap: 16px;">
+        <span style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Customer Purchase Configuration:</span>
+        <div style="display: flex; gap: 12px;">
+            <label style="background: #141b2d; border: 1px solid #222f47; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" id="buy-estimator" checked onchange="evaluatePurchasedModules()" style="accent-color: #3b82f6;"> Estimator Tool
+            </label>
+            <label style="background: #141b2d; border: 1px solid #222f47; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" id="buy-operations" checked onchange="evaluatePurchasedModules()" style="accent-color: #10b981;"> Operations Tool
+            </label>
+            <label style="background: #141b2d; border: 1px solid #222f47; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" id="buy-finance" checked onchange="evaluatePurchasedModules()" style="accent-color: #8b5cf6;"> Finance Tool
+            </label>
+        </div>
+    </div>
+    <span style="font-size: 11px; color: #64748b; font-weight: 500;">Simulate individual vs modular bundle items</span>
+</div>
+
+<script>
+    function evaluatePurchasedModules() {
+        const ownsEstimator = document.getElementById('buy-estimator').checked;
+        const ownsOperations = document.getElementById('buy-operations').checked;
+        const ownsFinance = document.getElementById('buy-finance').checked;
+
+        // Automatically target common navigation selectors or view layouts in your dashboard
+        // If an asset wasn't purchased, we clean-sweep it from the workspace view array
+        document.querySelectorAll('[id*="estimator"], [class*="estimator"]').forEach(el => {
+            if(el.id !== 'buy-estimator') el.style.display = ownsEstimator ? '' : 'none';
+        });
+        
+        document.querySelectorAll('[id*="operations"], [class*="operations"]').forEach(el => {
+            if(el.id !== 'buy-operations') el.style.display = ownsOperations ? '' : 'none';
+        });
+        
+        document.querySelectorAll('[id*="finance"], [class*="finance"]').forEach(el => {
+            if(el.id !== 'buy-finance') el.style.display = ownsFinance ? '' : 'none';
+        });
+    }
+    // Run evaluation instantly once UI elements settle
+    document.addEventListener("DOMContentLoaded", evaluatePurchasedModules);
+    setTimeout(evaluatePurchasedModules, 200);
+</script>
+\n
 <div id="astraa-modular-workspace" style="font-family: system-ui, -apple-system, sans-serif; background: #070a13; color: #f1f5f9; min-height: 100vh; padding: 24px; box-sizing: border-box;">
 
     <div style="display: flex; justify-content: space-between; align-items: center; background: #111827; border: 1px solid #1f2937; padding: 16px 32px; border-radius: 14px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">

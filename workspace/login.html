@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="login.css">
+    <title>Astraa | Portal Authentication</title>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>ASTRAA</h1>
+            <p>SOVEREIGN OPERATING SYSTEM // GATEWAY</p>
+        </div>
+        <form id="login-form">
+            <div class="input-group">
+                <label for="username">Operator ID / Email</label>
+                <input type="text" id="username" placeholder="keshanth@astraasystems.com" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Passkey</label>
+                <input type="password" id="password" placeholder="••••••••••••" required>
+            </div>
+            <button type="submit" class="cta-button">Initialize Session</button>
+        </form>
+        <div id="auth-status"></div>
+    </div>
+    <script src="auth.js"></script>
+</body>
+</html>

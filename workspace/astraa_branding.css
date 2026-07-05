@@ -1,0 +1,13 @@
+:root {
+    --bg-dark: #0f172a;
+    --bg-panel: #1e293b;
+    --brand-blue: #3b82f6;
+    --brand-glow: rgba(59, 130, 246, 0.3);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: 1px solid rgba(255, 255, 255, 0.1);
+    --radius: 12px;
+}
+* { box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-primary); margin: 0; }

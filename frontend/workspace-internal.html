@@ -609,7 +609,178 @@
 
 </head>
 
-<body>
+<body>\n
+<div id="astraa-modular-workspace" style="font-family: system-ui, -apple-system, sans-serif; background: #070a13; color: #f1f5f9; min-height: 100vh; padding: 24px; box-sizing: border-box;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; background: #111827; border: 1px solid #1f2937; padding: 16px 32px; border-radius: 14px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+        <div style="display: flex; align-items: center; gap: 24px;">
+            <span style="font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -0.03em;">Astraa <span style="color: #3b82f6;">Workspace</span></span>
+            <nav style="display: flex; gap: 8px;">
+                <button onclick="switchMasterTool('estimator')" id="btn-master-estimator" style="background: #1d4ed8; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer;">📋 Estimator Core</button>
+                <button onclick="switchMasterTool('operations')" id="btn-master-operations" style="background: #1f2937; color: #9ca3af; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer;">⚙️ Operations Suite</button>
+                <button onclick="switchMasterTool('finance')" id="btn-master-finance" style="background: #1f2937; color: #9ca3af; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer;">💼 Financial Center</button>
+            </nav>
+        </div>
+        <div style="font-size: 12px; font-weight: 700; color: #10b981; background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; padding: 6px 14px; border-radius: 999px;">
+            ● SOVEREIGN LOCAL COMPUTE SECURE
+        </div>
+    </div>
+
+    <div id="view-master-estimator" class="master-tool-view" style="display: block;">
+        <div style="background: #111827; border: 1px solid #1f2937; padding: 24px; border-radius: 16px; margin-bottom: 24px;">
+            <h2 style="margin-top:0; font-size:22px; color:#fff;">Advanced Predictive Estimator</h2>
+            <p style="color:#94a3b8; font-size:14px; margin-bottom:20px;">Calculate multi-site base variables, raw scope adjustments, and custom project allocations.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                <div>
+                    <label style="display:block; font-size:11px; color:#94a3b8; font-weight:700; text-transform:uppercase; margin-bottom:6px;">Project Area Scale (Sq Ft)</label>
+                    <input type="number" value="2500" style="width:100%; padding:12px; background:#1f2937; border:1px solid #374151; border-radius:8px; color:#fff;">
+                </div>
+                <div>
+                    <label style="display:block; font-size:11px; color:#94a3b8; font-weight:700; text-transform:uppercase; margin-bottom:6px;">Performance Multiplier</label>
+                    <input type="text" value="1.15" style="width:100%; padding:12px; background:#1f2937; border:1px solid #374151; border-radius:8px; color:#fff;">
+                </div>
+            </div>
+            <div style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 16px; border-radius: 6px;">
+                <span style="font-size:12px; color:#94a3b8; display:block;">Calculated Base Blueprint Margin Outlay</span>
+                <strong style="font-size:24px; color:#fff; display:block; margin-top:4px;">$42,850.00 CAD</strong>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-master-operations" class="master-tool-view" style="display: none;">
+        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 24px;">
+            <div style="background: #111827; border: 1px solid #1f2937; padding: 16px; border-radius: 14px; height: fit-content;">
+                <div style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:12px; padding-left:8px;">Operational Modules</div>
+                <button onclick="switchSubFunction('ops', 'business')" id="btn-sub-ops-business" style="width:100%; text-align:left; background:#1d4ed8; color:#fff; border:none; padding:10px 12px; border-radius:6px; font-weight:600; margin-bottom:6px; cursor:pointer;">📊 Business Operations</button>
+                <button onclick="switchSubFunction('ops', 'itom')" id="btn-sub-ops-itom" style="width:100%; text-align:left; background:transparent; color:#94a3b8; border:none; padding:10px 12px; border-radius:6px; font-weight:600; margin-bottom:6px; cursor:pointer;">🖥️ IT Infrastructure (ITOM)</button>
+                <button onclick="switchSubFunction('ops', 'logistics')" id="btn-sub-ops-logistics" style="width:100%; text-align:left; background:transparent; color:#94a3b8; border:none; padding:10px 12px; border-radius:6px; font-weight:600; cursor:pointer;">📦 Material Logistics Hub</button>
+            </div>
+            
+            <div style="background: #111827; border: 1px solid #1f2937; padding: 24px; border-radius: 14px; min-height: 400px;">
+                <div id="panel-ops-business" class="sub-ops-panel" style="display:block;">
+                    <h3 style="margin-top:0; color:#fff;">Business Operations Control</h3>
+                    <p style="color:#94a3b8; font-size:14px;">Plan, execute, automate, and track daily team workflows seamlessly.</p>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:20px;">
+                        <div style="background:#0f172a; padding:16px; border-radius:8px; border:1px solid #1e293b;">
+                            <strong style="color:#3b82f6; font-size:14px; display:block; margin-bottom:10px;">📋 Kanban Workflow Task Routing</strong>
+                            <div style="background:#111827; padding:10px; border-radius:6px; font-size:12px; margin-bottom:6px;">• Sync Burnaby Deployment parameters</div>
+                            <div style="background:#111827; padding:10px; border-radius:6px; font-size:12px;">• Review Eco Packaging material thresholds</div>
+                        </div>
+                        <div style="background:#0f172a; padding:16px; border-radius:8px; border:1px solid #1e293b;">
+                            <strong style="color:#10b981; font-size:14px; display:block; margin-bottom:10px;">👥 CRM Inbound Support Follow-Up Queue</strong>
+                            <div style="font-size:12px; color:#94a3b8;">All customer interaction states tracked automatically. Zero manual data entries remaining.</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panel-ops-itom" class="sub-ops-panel" style="display:none;">
+                    <h3 style="margin-top:0; color:#fff;">IT Operations Management (ITOM)</h3>
+                    <p style="color:#94a3b8; font-size:14px;">Monitor structural server environments, local network nodes, and tech layers.</p>
+                    <div style="background:#070a12; border:1px solid #1e293b; padding:16px; border-radius:8px; font-family:monospace; font-size:12px; color:#34d399; line-height:1.6;">
+                        <div>[HEALTH ok] Local Sovereign Processing Core running at 14.2% load.</div>
+                        <div>[ACCESS granted] Automated user provisioning routines initialized securely.</div>
+                        <div style="color:#f59e0b;">[INCIDENT queue] 0 active service interruptions reported.</div>
+                    </div>
+                </div>
+                <div id="panel-ops-logistics" class="sub-ops-panel" style="display:none;">
+                    <h3 style="margin-top:0; color:#fff;">Supply Chain & Material Logistics</h3>
+                    <p style="color:#94a3b8; font-size:14px;">Real-time asset allocations, stock configurations, and automated supplier triggers.</p>
+                    <div style="background:#0f172a; padding:16px; border-radius:8px; margin-top:16px;">
+                        <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px;">
+                            <span>Warehouse Base Stocks (Coquitlam Hub)</span>
+                            <strong style="color:#10b981;">9,410 Units</strong>
+                        </div>
+                        <div style="background:#1f2937; height:6px; border-radius:999px; overflow:hidden;">
+                            <div style="background:#10b981; width:88%; height:100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-master-finance" class="master-tool-view" style="display: none;">
+        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 24px;">
+            <div style="background: #111827; border: 1px solid #1f2937; padding: 16px; border-radius: 14px; height: fit-content;">
+                <div style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:12px; padding-left:8px;">Financial Modules</div>
+                <button onclick="switchSubFunction('fin', 'ledger')" id="btn-sub-fin-ledger" style="width:100%; text-align:left; background:#1d4ed8; color:#fff; border:none; padding:10px 12px; border-radius:6px; font-weight:600; margin-bottom:6px; cursor:pointer;">📊 Core Accounting Ledger</button>
+                <button onclick="switchSubFunction('fin', 'erp')" id="btn-sub-fin-erp" style="width:100%; text-align:left; background:transparent; color:#94a3b8; border:none; padding:10px 12px; border-radius:6px; font-weight:600; margin-bottom:6px; cursor:pointer;">🏢 Corporate ERP & Forecasts</button>
+                <button onclick="switchSubFunction('fin', 'tax')" id="btn-sub-fin-tax" style="width:100%; text-align:left; background:transparent; color:#94a3b8; border:none; padding:10px 12px; border-radius:6px; font-weight:600; margin-bottom:6px; cursor:pointer;">⚖️ Tax & Strategy Hierarchies</button>
+                <button onclick="switchSubFunction('fin', 'project')" id="btn-sub-fin-project" style="width:100%; text-align:left; background:transparent; color:#94a3b8; border:none; padding:10px 12px; border-radius:6px; font-weight:600; cursor:pointer;">🏗️ Project Capital Outlays</button>
+            </div>
+            
+            <div style="background: #111827; border: 1px solid #1f2937; padding: 24px; border-radius: 14px; min-height: 400px;">
+                <div id="panel-fin-ledger" class="sub-fin-panel" style="display:block;">
+                    <h3 style="margin-top:0; color:#fff;">Core Accounting Ledger Matrix</h3>
+                    <p style="color:#94a3b8; font-size:14px;">Automated corporate bookkeeping, profit streams, and live invoicing ledgers.</p>
+                    <table style="width:100%; border-collapse:collapse; margin-top:16px; font-size:13px;">
+                        <tr style="border-bottom:1px solid #1f2937; color:#64748b; font-weight:700;">
+                            <th style="padding:10px 0; text-align:left;">Entity Pipeline Source</th>
+                            <th style="text-align:right;">Net Outflow/Inflow</th>
+                        </tr>
+                        <tr style="border-bottom:1px solid #1f2937;">
+                            <td style="padding:12px 0;">Corporate Asset Yield Inflow</td>
+                            <td style="text-align:right; color:#10b981; font-weight:700;">+$25,000.00</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="panel-fin-erp" class="sub-fin-panel" style="display:none;">
+                    <h3 style="margin-top:0; color:#fff;">Multi-Unit Enterprise Resource Planning</h3>
+                    <p style="color:#94a3b8; font-size:14px;">Consolidated organizational cash flow modeling and cross-entity balancing tools.</p>
+                    <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid #8b5cf6; padding: 16px; border-radius: 8px; margin-top:16px; color:#c084fc; font-size:13px;">
+                        <strong>🔮 Active Revenue Forecasting Projection Model</strong><br>
+                        Continuous algorithmic data reconciliation is operating via local enterprise edge computing nodes.
+                    </div>
+                </div>
+                <div id="panel-fin-tax" class="sub-fin-panel" style="display:none;">
+                    <h3 style="margin-top:0; color:#fff;">Tax Optimization & Approval Systems</h3>
+                    <p style="color:#94a3b8; font-size:14px;">Manage compliance parameters, spend alerts, and automated workflow approval paths.</p>
+                </div>
+                <div id="panel-fin-project" class="sub-fin-panel" style="display:none;">
+                    <h3 style="margin-top:0; color:#fff;">Project Financial Outlays</h3>
+                    <p style="color:#94a3b8; font-size:14px;">Monitor distinct construction phases, material costs, and field capitalization metrics.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function switchMasterTool(toolKey) {
+        document.querySelectorAll('.master-tool-view').forEach(v => v.style.display = 'none');
+        document.getElementById('view-master-' + toolKey).style.display = 'block';
+        
+        // Reset sub buttons styles
+        ['estimator', 'operations', 'finance'].forEach(k => {
+            const btn = document.getElementById('btn-master-' + k);
+            if (k === toolKey) {
+                btn.style.background = '#1d4ed8';
+                btn.style.color = '#fff';
+            } else {
+                btn.style.background = '#1f2937';
+                btn.style.color = '#9ca3af';
+            }
+        });
+    }
+
+    function switchSubFunction(suitePrefix, panelKey) {
+        document.querySelectorAll('.sub-' + suitePrefix + '-panel').forEach(p => p.style.display = 'none');
+        document.getElementById('panel-' + suitePrefix + '-' + panelKey).style.display = 'block';
+        
+        // Reset side buttons background styling dynamically
+        const sideButtons = document.getElementById('panel-' + suitePrefix + '-' + panelKey).parentElement.parentElement.firstElementChild.querySelectorAll('button');
+        sideButtons.forEach(btn => {
+            if (btn.id.includes(panelKey)) {
+                btn.style.background = '#1d4ed8';
+                btn.style.color = '#fff';
+            } else {
+                btn.style.background = 'transparent';
+                btn.style.color = '#94a3b8';
+            }
+        });
+    }
+</script>
+
 
     <style>
         /* Hide internal engineering and QA test pipelines from client view */

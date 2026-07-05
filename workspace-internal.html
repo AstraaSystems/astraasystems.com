@@ -620,6 +620,21 @@
 </head>
 
 <body>
+
+    <style>
+        /* Hide internal engineering and QA test pipelines from client view */
+        #testing-order-container, 
+        .testing-order, 
+        #core-os-panel, 
+        .core-os-panel,
+        [id*="test-panel"], 
+        [class*="test-panel"],
+        [id*="QA"], 
+        [class*="QA"] { 
+            display: none !important; 
+        }
+    </style>
+    
 <header style="background: #ffffff !important; border-bottom: 1px solid #e2e8f0 !important; padding: 16px 24px !important; box-sizing: border-box !important; width: 100% !important; display: block !important; font-family: system-ui, -apple-system, sans-serif !important;">
     <div style="max-width: 1200px !important; margin: 0 auto !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; box-sizing: border-box !important;">
         
@@ -681,7 +696,7 @@
   </section>
 
   <section class="panel">
-    <h2>Testing order.</h2>
+    <h2 style="display:none !important;">Testing order.</h2>
     <p>
       Open each tool in order. Each QA panel builds an Astraa Gateway payload, runs local validation,
       and is ready to POST to the gateway endpoint when your backend route is connected.
@@ -715,7 +730,7 @@
 
 
 <section class="astraa-core-os-panel-v1" id="astraa-core-os-panel-v1">
-  <h2>Astraa Core OS Test Panel.</h2>
+  <h2 style="display:none !important;"><span style="display:none !important;">Astraa Core OS Test Panel</span>.</h2>
   <p>
     Test the shared operating-system layer: master session, Common Data Model entity,
     universal activity stream, Vault record, event automation, and global search.

@@ -19,7 +19,7 @@
     body { font-family: Inter, system-ui, sans-serif; color: var(--text-dark); background: var(--white); line-height: 1.5; }
     a { text-decoration: none; color: inherit; }
 
-    /* STICKY HEADER V8 */
+    /* STICKY HEADER */
     .astraa-site-header {
       position: sticky !important; top: 0 !important; z-index: 9999 !important;
       background: rgba(255, 255, 255, 0.85) !important; backdrop-filter: blur(16px) !important;
@@ -37,7 +37,7 @@
     .astraa-site-cta { display: inline-flex !important; padding: 8px 16px !important; border-radius: 999px !important; background: var(--black) !important; color: white !important; font-weight: 700 !important; font-size: 13px !important; }
     @media(max-width: 900px) { .astraa-site-links { display: none !important; } }
 
-    /* REWRITTEN CONTENT MATRIX */
+    /* LAYOUT MATRIX */
     .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .page-hero { padding: 80px 0 40px; text-align: center; }
     .page-hero h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 900; letter-spacing: -0.04em; margin-bottom: 16px; color: var(--black); }
@@ -52,7 +52,9 @@
     .price-desc { color: var(--muted-dark); font-size: 14px; margin-bottom: 32px; }
     .price-features { list-style: none; margin-bottom: 40px; display: flex; flex-direction: column; gap: 14px; font-size: 14px; }
     .price-features li::before { content: "✓ "; color: var(--blue); font-weight: 900; margin-right: 6px; }
-    .price-btn { text-align: center; display: block; padding: 14px; border-radius: 8px; font-weight: 700; font-size: 14px; margin-top: auto; }
+    
+    /* PAYMENT CALL TO ACTIONS */
+    .price-btn { text-align: center; display: block; padding: 14px; border-radius: 8px; font-weight: 700; font-size: 14px; margin-top: auto; border: none; cursor: pointer; width: 100%; text-decoration: none; }
     .price-btn.secondary { background: var(--off-white); border: 1px solid var(--line-light); color: var(--text-dark); }
     .price-btn.primary { background: var(--blue); color: white; }
 
@@ -72,7 +74,8 @@
         <a href="/pricing.html">Pricing</a>
         <a href="/support.html">FAQ / Support</a>
         <a href="/contact.html">Custom Packages</a>
-        <a href="/buynow.html" class="astraa-site-cta">Buy Now</a>
+        <!-- GLOBAL MONERIS ROUTE IN NAVIGATION -->
+        <a href="https://www3.moneris.com/mpg/hpp/index.php" class="astraa-site-cta" target="_blank" rel="noopener noreferrer">Buy Now</a>
       </div>
     </nav>
   </header>
@@ -93,7 +96,8 @@
           <li>Standard Core Toolblocks</li>
           <li>Decoupled API Schemes</li>
         </ul>
-        <a href="/buynow.html" class="price-btn secondary">Deploy Standard</a>
+        <!-- REPLACE LINK WITH YOUR EXPLICIT MONERIS PS_STORE_ID GENERATED URL -->
+        <a href="https://www3.moneris.com/mpg/hpp/index.php" class="price-btn secondary" target="_blank" rel="noopener noreferrer">Deploy Standard Node</a>
       </div>
       <div class="price-card featured">
         <h3>Production Cluster</h3>
@@ -104,7 +108,8 @@
           <li>Sub-millisecond Local Telemetries</li>
           <li>Priority Developer SLA</li>
         </ul>
-        <a href="/buynow.html" class="price-btn primary">Deploy Cluster</a>
+        <!-- REPLACE LINK WITH YOUR EXPLICIT MONERIS PS_STORE_ID GENERATED URL -->
+        <a href="https://www3.moneris.com/mpg/hpp/index.php" class="price-btn primary" target="_blank" rel="noopener noreferrer">Deploy Production Cluster</a>
       </div>
     </div>
   </main>

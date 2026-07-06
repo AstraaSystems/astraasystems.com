@@ -1,136 +1,76 @@
 <!DOCTYPE html>
-<!-- ASTRAA_PUBLIC_MARKETING_METADATA_V1_START -->
-<title>Astraa Pricing | Scalable Local-First Infrastructure Plans</title>
-<meta name="description" content="Transparent tier pricing designed for modern engineering teams. Choose from individual workspace modules to dedicated enterprise edge deployments.">
-<meta property="og:title" content="Astraa Pricing | Scalable Infrastructure Plans">
-<meta property="og:description" content="Transparent tier pricing designed for modern engineering teams.">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Astraa Systems">
-<meta property="og:url" content="https://astraasystems.com/pricing.html">
-<link rel="canonical" href="https://astraasystems.com/pricing.html">
-<!-- ASTRAA_PUBLIC_MARKETING_METADATA_V1_END -->
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Astraa Systems | Pricing Parameters</title>
   <style>
     :root {
       --black: #03050a;
-      --navy: #090d16;
-      --royal: #1d4ed8;
-      --blue: #2563eb;
       --white: #ffffff;
       --off-white: #f8fafc;
       --line-light: #e2e8f0;
+      --royal: #1d4ed8;
+      --blue: #2563eb;
       --text-dark: #0f172a;
       --muted-dark: #475569;
-      --gray: #64748b;
     }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, system-ui, sans-serif; color: var(--text-dark); background: var(--white); line-height: 1.5; }
+    a { text-decoration: none; color: inherit; }
 
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text-dark);
-      background: var(--white);
-      line-height: 1.5;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    /* ASTRAA_VISIBLE_PUBLIC_HEADER_V8 */
+    /* STICKY HEADER V8 */
     .astraa-site-header {
-      position: sticky !important;
-      top: 0 !important;
-      z-index: 9999 !important;
-      background: rgba(255, 255, 255, 0.85) !important;
-      backdrop-filter: blur(16px) !important;
+      position: sticky !important; top: 0 !important; z-index: 9999 !important;
+      background: rgba(255, 255, 255, 0.85) !important; backdrop-filter: blur(16px) !important;
       border-bottom: 1px solid var(--line-light) !important;
     }
-
     .astraa-site-nav {
-      max-width: 1200px !important;
-      margin: 0 auto !important;
-      padding: 14px 24px !important;
-      display: flex !important;
-      justify-content: space-between !important;
-      align-items: center !important;
-      gap: 20px !important;
+      max-width: 1200px !important; margin: 0 auto !important; padding: 14px 24px !important;
+      display: flex !important; justify-content: space-between !important; align-items: center !important; gap: 20px !important;
     }
-
-    .astraa-site-brand {
-      display: flex !important;
-      align-items: center !important;
-      gap: 12px !important;
-      font-weight: 950 !important;
-      color: var(--black) !important;
-      white-space: nowrap !important;
-    }
-
+    .astraa-site-brand { display: flex !important; align-items: center !important; gap: 12px !important; font-weight: 950 !important; color: var(--black) !important; }
     .astraa-site-brand img { width: 34px !important; height: 34px !important; object-fit: contain !important; }
-    .astraa-site-brand span { display: block !important; font-size: 13px !important; color: var(--black) !important; font-weight: 800 !important; }
-
+    .astraa-site-brand span { font-size: 13px !important; font-weight: 800 !important; }
     .astraa-site-links { display: flex !important; align-items: center !important; gap: 28px !important; color: var(--muted-dark) !important; font-size: 14px !important; font-weight: 600 !important; }
     .astraa-site-links a:hover { color: var(--royal) !important; }
-
-    .astraa-site-cta {
-      display: inline-flex !important;
-      padding: 8px 16px !important;
-      border-radius: 999px !important;
-      background: var(--black) !important;
-      color: white !important;
-      font-weight: 700 !important;
-      font-size: 13px !important;
-    }
-    .astraa-site-cta:hover { background: var(--royal) !important; }
-
+    .astraa-site-cta { display: inline-flex !important; padding: 8px 16px !important; border-radius: 999px !important; background: var(--black) !important; color: white !important; font-weight: 700 !important; font-size: 13px !important; }
     @media(max-width: 900px) { .astraa-site-links { display: none !important; } }
 
-    .pricing-hero { background: var(--off-white); padding: 80px 0 50px; text-align: center; border-bottom: 1px solid var(--line-light); }
+    /* REWRITTEN CONTENT MATRIX */
     .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-    
-    .pricing-hero h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 900; letter-spacing: -0.04em; margin: 0 0 16px; }
-    .pricing-hero p { color: var(--muted-dark); font-size: 18px; max-width: 600px; margin: 0 auto; }
+    .page-hero { padding: 80px 0 40px; text-align: center; }
+    .page-hero h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 900; letter-spacing: -0.04em; margin-bottom: 16px; color: var(--black); }
+    .page-hero p { color: var(--muted-dark); font-size: 18px; max-width: 600px; margin: 0 auto; }
 
-    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; margin: 60px 0 90px; }
-    .price-card { background: white; border: 1px solid var(--line-light); border-radius: 16px; padding: 40px; display: flex; flex-direction: column; position: relative; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; margin: 40px 0 90px; }
+    .price-card { background: white; border: 1px solid var(--line-light); border-radius: 16px; padding: 40px; display: flex; flex-direction: column; }
     .price-card.featured { border-color: var(--blue); box-shadow: 0 10px 30px rgba(37, 99, 235, 0.06); }
-    .price-badge { position: absolute; top: 16px; right: 24px; font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--blue); background: rgba(37,99,235,0.08); padding: 4px 10px; border-radius: 999px; }
-
-    .price-card h3 { font-size: 22px; font-weight: 850; margin: 0 0 8px; letter-spacing: -0.02em; }
-    .price-num { font-size: 44px; font-weight: 900; color: var(--black); margin: 20px 0 8px; letter-spacing: -0.04em; }
-    .price-num span { font-size: 14px; font-weight: 600; color: var(--gray); letter-spacing: 0; }
-    .price-desc { color: var(--muted-dark); font-size: 14px; margin: 0 0 32px; min-height: 44px; }
-
-    .price-features { list-style: none; padding: 0; margin: 0 0 40px; display: flex; flex-direction: column; gap: 14px; font-size: 14px; color: var(--text-dark); }
-    .price-features li { display: flex; align-items: center; gap: 10px; }
-    .price-features li::before { content: "✓"; color: var(--blue); font-weight: 900; }
-
-    .price-btn { text-align: center; display: block; padding: 14px; border-radius: 8px; font-weight: 700; font-size: 14px; margin-top: auto; transition: background 0.2s; }
+    .price-card h3 { font-size: 22px; font-weight: 850; margin-bottom: 8px; letter-spacing: -0.02em; }
+    .price-num { font-size: 44px; font-weight: 900; color: var(--black); margin: 16px 0 8px; letter-spacing: -0.04em; }
+    .price-num span { font-size: 14px; font-weight: 600; color: var(--muted-dark); }
+    .price-desc { color: var(--muted-dark); font-size: 14px; margin-bottom: 32px; }
+    .price-features { list-style: none; margin-bottom: 40px; display: flex; flex-direction: column; gap: 14px; font-size: 14px; }
+    .price-features li::before { content: "✓ "; color: var(--blue); font-weight: 900; margin-right: 6px; }
+    .price-btn { text-align: center; display: block; padding: 14px; border-radius: 8px; font-weight: 700; font-size: 14px; margin-top: auto; }
     .price-btn.secondary { background: var(--off-white); border: 1px solid var(--line-light); color: var(--text-dark); }
-    .price-btn.secondary:hover { background: #f1f5f9; }
     .price-btn.primary { background: var(--blue); color: white; }
-    .price-btn.primary:hover { background: var(--royal); }
 
-    footer { border-top: 1px solid var(--line-light); padding: 32px 0; font-size: 14px; color: var(--gray); }
-    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    footer { border-top: 1px solid var(--line-light); padding: 32px 0; font-size: 14px; color: var(--muted-dark); text-align: center; }
   </style>
 </head>
 <body>
-
   <header class="astraa-site-header">
     <nav class="astraa-site-nav">
       <a href="/index.html" class="astraa-site-brand">
-        <img src="/assets/images/astraa_logo.png" alt="Astraa Systems logo" />
+        <img src="/assets/images/astraa_logo.png" alt="Logo" />
         <span>Astraa Systems</span>
       </a>
       <div class="astraa-site-links">
         <a href="/index.html">Home</a>
         <a href="/tools.html">Tools</a>
         <a href="/pricing.html">Pricing</a>
-        <a href="/faq.html">FAQ / Support</a>
+        <a href="/support.html">FAQ / Support</a>
         <a href="/contact.html">Custom Packages</a>
         <a href="/buynow.html" class="astraa-site-cta">Buy Now</a>
       </div>
@@ -138,68 +78,39 @@
   </header>
 
   <main class="container">
-    <section class="pricing-hero">
-      <h1>Simple, Predictable Tiers</h1>
-      <p>No unexpected consumption limits or unpredictable cloud resource scaling charges.</p>
+    <section class="page-hero">
+      <h1>Predictable Enterprise Tiers</h1>
+      <p>Clean pricing blueprints constructed for demanding engineering and automation teams.</p>
     </section>
 
     <div class="pricing-grid">
-      <!-- TIER 1 -->
       <div class="price-card">
         <h3>Standard Node</h3>
         <div class="price-num">$49<span>/mo</span></div>
-        <p class="price-desc">Perfect for independent developers and core localized tool staging environments.</p>
+        <p class="price-desc">Perfect for individual developers and small system workflows.</p>
         <ul class="price-features">
-          <li>1 Localized Execution Instance</li>
-          <li>Standard Toolblock Modules Included</li>
-          <li>Local Database Schema Isolation</li>
-          <li>Community Forum Access</li>
+          <li>1 Localized Compute Instance</li>
+          <li>Standard Core Toolblocks</li>
+          <li>Decoupled API Schemes</li>
         </ul>
         <a href="/buynow.html" class="price-btn secondary">Deploy Standard</a>
       </div>
-
-      <!-- TIER 2 -->
       <div class="price-card featured">
-        <div class="price-badge">Most Popular</div>
         <h3>Production Cluster</h3>
         <div class="price-num">$199<span>/mo</span></div>
-        <p class="price-desc">Built for fast-moving engineering teams demanding absolute local runtime guarantees.</p>
+        <p class="price-desc">For running complex metrics and critical infrastructure pipelines.</p>
         <ul class="price-features">
-          <li>Up to 10 Node Executions</li>
-          <li>Advanced Toolblock Integrations</li>
-          <li>Sub-millisecond Line-rate Telemetry</li>
-          <li>Priority Technical Support Matrix</li>
+          <li>Up to 10 Execution Clusters</li>
+          <li>Sub-millisecond Local Telemetries</li>
+          <li>Priority Developer SLA</li>
         </ul>
         <a href="/buynow.html" class="price-btn primary">Deploy Cluster</a>
-      </div>
-
-      <!-- TIER 3 -->
-      <div class="price-card">
-        <h3>Enterprise Core</h3>
-        <div class="price-num">Custom</div>
-        <p class="price-desc">Tailored parameters for highly segregated multi-region cluster topologies.</p>
-        <ul class="price-features">
-          <li>Unlimited Compute Nodes</li>
-          <li>Hardware-Level Isolation Vaults</li>
-          <li>Decoupled Custom Module Blocks</li>
-          <li>Dedicated Slack Operations Liaison</li>
-        </ul>
-        <a href="/contact.html" class="price-btn secondary">Request Parameters</a>
       </div>
     </div>
   </main>
 
   <footer>
-    <div class="container">
-      <div class="footer-inner">
-        <p>&copy; 2026 Astraa Systems. All rights reserved.</p>
-        <div style="display:flex; gap:16px;">
-          <a href="/index.html">Home</a>
-          <a href="/tools.html">Tools</a>
-        </div>
-      </div>
-    </div>
+    <p>&copy; 2026 Astraa Systems. All rights reserved.</p>
   </footer>
-
 </body>
 </html>

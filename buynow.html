@@ -1,135 +1,102 @@
 <!DOCTYPE html>
-<title>Astraa Systems | Secure Checkout</title>
-<meta name="description" content="Complete your subscription to Astraa Systems modular business tools.">
-<meta property="og:title" content="Astraa Systems | Secure Checkout">
-<meta property="og:description" content="Complete your subscription to Astraa Systems modular business tools.">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Astraa Systems">
-<meta property="og:url" content="https://astraasystems.com/buynow.html">
-<link rel="canonical" href="https://astraasystems.com/buynow.html">
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Astraa Systems — Secure Checkout</title>
   <style>
     :root {
-      --black: #05070f;
-      --navy: #071426;
+      --black: #03050a;
+      --white: #ffffff;
+      --off-white: #f8fafc;
+      --line-light: #e2e8f0;
       --royal: #1d4ed8;
       --blue: #2563eb;
-      --white: #ffffff;
-      --off: #f8fafc;
-      --line: #dbe3ef;
-      --text: #0f172a;
-      --muted: #475569;
-      --gray: #64748b;
+      --text-dark: #0f172a;
+      --muted-dark: #475569;
     }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, system-ui, sans-serif; color: var(--text-dark); background: var(--white); line-height: 1.5; }
+    a { text-decoration: none; color: inherit; }
 
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background: var(--white);
-      line-height: 1.6;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    /* ASTRAA_VISIBLE_PUBLIC_HEADER_V8 */
+    /* STICKY GLOBAL HEADER V8 */
     .astraa-site-header {
-      position: sticky !important;
-      top: 0 !important;
-      z-index: 9999 !important;
-      background: rgba(255,255,255,.97) !important;
-      backdrop-filter: blur(16px) !important;
-      border-bottom: 1px solid #e5e7eb !important;
+      position: sticky !important; top: 0 !important; z-index: 9999 !important;
+      background: rgba(255, 255, 255, 0.85) !important; backdrop-filter: blur(16px) !important;
+      border-bottom: 1px solid var(--line-light) !important;
     }
-
     .astraa-site-nav {
-      max-width: 1120px !important;
-      margin: 0 auto !important;
-      padding: 16px 24px !important;
-      display: flex !important;
-      justify-content: space-between !important;
-      align-items: center !important;
-      gap: 20px !important;
+      max-width: 1200px !important; margin: 0 auto !important; padding: 14px 24px !important;
+      display: flex !important; justify-content: space-between !important; align-items: center !important; gap: 20px !important;
     }
-
-    .astraa-site-brand {
-      display: flex !important;
-      align-items: center !important;
-      gap: 12px !important;
-      font-weight: 950 !important;
-      color: #05070f !important;
-      white-space: nowrap !important;
+    .astraa-site-brand { display: flex !important; align-items: center !important; gap: 12px !important; font-weight: 950 !important; color: var(--black) !important; }
+    .astraa-site-brand img { width: 34px !important; height: 34px !important; object-fit: contain !important; }
+    .astraa-site-brand span { font-size: 13px !important; font-weight: 800 !important; }
+    .astraa-site-links { display: flex !important; align-items: center !important; gap: 28px !important; color: var(--muted-dark) !important; font-size: 14px !important; font-weight: 600 !important; }
+    .astraa-site-links a:hover { color: var(--royal) !important; }
+    .astraa-site-cta { 
+      display: inline-flex !important; padding: 8px 16px !important; border-radius: 999px !important; 
+      background: var(--black) !important; color: white !important; font-weight: 700 !important; 
+      font-size: 13px !important; border: none !important; cursor: pointer !important; 
     }
-
-    .astraa-site-brand img { width: 38px !important; height: 38px !important; object-fit: contain !important; flex: 0 0 auto !important; }
-    .astraa-site-brand span { display: block !important; font-size: 12px !important; color: #64748b !important; font-weight: 700 !important; line-height: 1.1 !important; }
-
-    .astraa-site-links { display: flex !important; align-items: center !important; gap: 22px !important; color: #475569 !important; font-size: 14px !important; font-weight: 750 !important; visibility: visible !important; opacity: 1 !important; }
-    .astraa-site-links a { display: inline-flex !important; color: #475569 !important; }
-    .astraa-site-links a:hover { color: #1d4ed8 !important; }
-
-    .astraa-site-cta {
-      display: inline-flex !important;
-      padding: 10px 15px !important;
-      border-radius: 999px !important;
-      background: #1d4ed8 !important;
-      color: white !important;
-      font-weight: 900 !important;
-      white-space: nowrap !important;
-    }
-
     @media(max-width: 900px) { .astraa-site-links { display: none !important; } }
 
-    .checkout-container { max-width: 1120px; margin: 60px auto; padding: 0 24px; }
-    .checkout-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: start; }
+    /* TWO-COLUMN CHECKOUT MATRIX */
+    .container { max-width: 1100px; margin: 60px auto; padding: 0 24px; }
+    .layout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    
+    .card { background: white; border: 1px solid var(--line-light); padding: 32px; border-radius: 16px; }
+    .card h2 { font-size: 28px; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 12px; color: var(--black); }
+    .card h3 { font-size: 20px; font-weight: 850; margin-bottom: 20px; color: var(--black); letter-spacing: -0.02em; }
+    .card p { color: var(--muted-dark); font-size: 16px; line-height: 1.6; margin-bottom: 24px; }
 
-    @media (max-width: 768px) { .checkout-grid { grid-template-columns: 1fr; gap: 40px; } }
+    .feature-box { background: var(--off-white); border-radius: 8px; padding: 20px; border: 1px solid var(--line-light); }
+    .feature-box h4 { font-weight: 750; margin-bottom: 12px; color: var(--text-dark); font-size: 14px; }
+    .feature-list { padding-left: 20px; color: var(--muted-dark); font-size: 14px; display: flex; flex-direction: column; gap: 8px; list-style-type: disc; }
 
-    .info-panel h2 { font-size: clamp(28px, 4vw, 42px); line-height: 1.1; letter-spacing: -0.055em; margin: 0 0 16px; color: var(--black); }
-    .info-card { background: var(--off); border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin-top: 32px; }
+    /* FORM ELEMENTS */
+    .registration-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 13px; font-weight: 750; color: var(--text-dark); }
+    .form-group input { padding: 12px 14px; border: 1px solid var(--line-light); border-radius: 8px; font-size: 14px; background: var(--off-white); width: 100%; font-family: inherit; }
+    
+    .submit-btn { background: var(--black); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 12px; font-size: 15px; text-align: center; width: 100%; }
+    .submit-btn:hover { background: var(--blue); }
 
-    .form-card { background: var(--white); border: 1px solid var(--line); padding: 40px; border-radius: 24px; box-shadow: 0 12px 40px rgba(15, 23, 42, 0.04); }
-    .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-    .form-group label { font-size: 14px; font-weight: 750; color: var(--text); }
-    .form-group input { padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; font-size: 14px; width: 100%; background: var(--off); font-family: inherit; }
-
-    .checkout-btn { display: inline-flex; justify-content: center; align-items: center; width: 100%; padding: 14px; border-radius: 999px; background: var(--royal); color: white; font-weight: 950; border: none; cursor: pointer; font-size: 15px; margin-top: 12px; }
+    @media (max-width: 768px) { .layout-grid { grid-template-columns: 1fr; gap: 32px; } }
+    footer { text-align: center; color: var(--muted-dark); font-size: 14px; padding: 32px 0; border-top: 1px solid var(--line-light); margin-top: 80px; }
   </style>
 </head>
 <body>
 
   <header class="astraa-site-header">
     <nav class="astraa-site-nav">
-      <a href="/index.html" class="astraa-site-brand">
-        <img src="/assets/images/astraa_logo.png" alt="Astraa Systems logo" />
+      <a href="index.html" class="astraa-site-brand">
+        <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" onerror="this.style.display='none'"/>
         <span>Astraa Systems</span>
       </a>
       <div class="astraa-site-links">
-        <a href="/index.html">Home</a>
-        <a href="/tools.html">Tools</a>
-        <a href="/pricing.html">Pricing</a>
-        <a href="/faq.html">FAQ / Support</a>
-        <a href="/contact.html">Custom Packages</a>
-        <a href="/buynow.html" class="astraa-site-cta">Buy Now</a>
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="faq.html">FAQ / Support</a>
+        <a href="astraaspace/login.html">Astraa Space</a>
+        <a href="contact.html">Custom Packages</a>
+        <a class="astraa-site-cta" href="buynow.html">Buy Now</a>
       </div>
     </nav>
   </header>
 
-  <main class="checkout-container">
-    <div class="checkout-grid">
-      <section class="info-panel">
+  <main class="container">
+    <div class="layout-grid">
+      
+      <section class="card">
         <h2>Complete your Astraa Setup</h2>
-        <p style="color: var(--muted); font-size: 17px; margin-bottom: 24px;">
-          Deploy precision automation, analytics engine tools, and optimized workspace management environments directly onto your operations workflow.
-        </p>
-        <div class="info-card">
-          <h4 style="font-weight: 750; margin: 0 0 12px; color: var(--text); font-size: 15px;">Included with Deployment:</h4>
-          <ul style="padding-left: 20px; color: var(--muted); font-size: 14px; display: flex; flex-direction: column; gap: 10px; margin: 0;">
+        <p>Deploy precision automation, analytics engine tools, and optimized workspace management environments directly onto your operations workflow.</p>
+
+        <div class="feature-box">
+          <h4>Included with Deployment:</h4>
+          <ul class="feature-list">
             <li>Full production workspace environment access</li>
             <li>Astraa Estimator toolkit integration</li>
             <li>Encrypted data vault & resource logging telemetry</li>
@@ -137,26 +104,30 @@
         </div>
       </section>
 
-      <section class="form-card">
-        <h3 style="font-size: 22px; font-weight: 900; margin: 0 0 6px; color: var(--black); letter-spacing: -0.035em;">Account Registration</h3>
-        <p style="color: var(--gray); font-size: 14px; margin: 0 0 28px;">Set up your credentials to clear your setup path.</p>
-        <form onsubmit="return false;">
+      <section class="card">
+        <h3>Account Registration</h3>
+        <form class="registration-form" action="https://www3.moneris.com/mpg/hpp/index.php" method="POST" target="_blank">
+          <input type="hidden" name="ps_store_id" value="ASTRAA_STORE_ID">
+          <input type="hidden" name="hpp_id" value="ASTRAA_HPP_ID">
+          <input type="hidden" name="charge_total" value="199.00">
+
           <div class="form-group">
             <label>Full Name</label>
-            <input type="text" placeholder="Your Name" required>
+            <input type="text" name="cust_id" placeholder="Your Name" required>
           </div>
           <div class="form-group">
             <label>Email Address</label>
-            <input type="email" placeholder="you@example.com" required>
+            <input type="email" name="email" placeholder="you@example.com" required>
           </div>
-          <button type="submit" class="checkout-btn">Continue to Payment</button>
+          <button type="submit" class="submit-btn">Continue to Payment</button>
         </form>
       </section>
+
     </div>
   </main>
 
-  <footer style="padding: 28px 0; border-top: 1px solid #e5e7eb; color: var(--gray); font-size: 14px; text-align: center; margin-top: 120px;">
-    <p style="margin: 0;">&copy; 2026 Astraa Systems. All rights reserved.</p>
+  <footer>
+    <p>&copy; 2026 Astraa Systems. All rights reserved.</p>
   </footer>
 
 </body>

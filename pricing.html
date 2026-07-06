@@ -34,7 +34,13 @@
     .astraa-site-brand span { font-size: 13px !important; font-weight: 800 !important; }
     .astraa-site-links { display: flex !important; align-items: center !important; gap: 28px !important; color: var(--muted-dark) !important; font-size: 14px !important; font-weight: 600 !important; }
     .astraa-site-links a:hover { color: var(--royal) !important; }
-    .astraa-site-cta { display: inline-flex !important; padding: 8px 16px !important; border-radius: 999px !important; background: var(--black) !important; color: white !important; font-weight: 700 !important; font-size: 13px !important; }
+    
+    /* PURE CTA BUTTON BUTTONS */
+    .astraa-site-cta { 
+      display: inline-flex !important; padding: 8px 16px !important; border-radius: 999px !important; 
+      background: var(--black) !important; color: white !important; font-weight: 700 !important; 
+      font-size: 13px !important; border: none !important; cursor: pointer !important; 
+    }
     @media(max-width: 900px) { .astraa-site-links { display: none !important; } }
 
     /* LAYOUT MATRIX */
@@ -53,8 +59,8 @@
     .price-features { list-style: none; margin-bottom: 40px; display: flex; flex-direction: column; gap: 14px; font-size: 14px; }
     .price-features li::before { content: "✓ "; color: var(--blue); font-weight: 900; margin-right: 6px; }
     
-    /* PAYMENT CALL TO ACTIONS */
-    .price-btn { text-align: center; display: block; padding: 14px; border-radius: 8px; font-weight: 700; font-size: 14px; margin-top: auto; border: none; cursor: pointer; width: 100%; text-decoration: none; }
+    /* HARD OVERRIDE BUTTON CLASS */
+    .price-btn { text-align: center; display: block; padding: 14px; border-radius: 8px; font-weight: 700; font-size: 14px; margin-top: auto; border: none !important; cursor: pointer; width: 100%; text-decoration: none; }
     .price-btn.secondary { background: var(--off-white); border: 1px solid var(--line-light); color: var(--text-dark); }
     .price-btn.primary { background: var(--blue); color: white; }
 
@@ -64,18 +70,18 @@
 <body>
   <header class="astraa-site-header">
     <nav class="astraa-site-nav">
-      <a href="/index.html" class="astraa-site-brand">
-        <img src="/assets/images/astraa_logo.png" alt="Logo" />
+      <a href="index.html" class="astraa-site-brand">
+        <img src="assets/images/astraa_logo.png" alt="Logo" onerror="this.style.display='none'"/>
         <span>Astraa Systems</span>
       </a>
       <div class="astraa-site-links">
-        <a href="/index.html">Home</a>
-        <a href="/tools.html">Tools</a>
-        <a href="/pricing.html">Pricing</a>
-        <a href="/support.html">FAQ / Support</a>
-        <a href="/contact.html">Custom Packages</a>
-        <!-- GLOBAL MONERIS ROUTE IN NAVIGATION -->
-        <a href="https://www3.moneris.com/mpg/hpp/index.php" class="astraa-site-cta" target="_blank" rel="noopener noreferrer">Buy Now</a>
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="support.html">FAQ / Support</a>
+        <a href="contact.html">Custom Packages</a>
+        <!-- ONCLICK HARD ROUTE PREVENTS JS OVERRIDES -->
+        <button onclick="window.open('https://www3.moneris.com/mpg/hpp/index.php', '_blank')" class="astraa-site-cta">Buy Now</button>
       </div>
     </nav>
   </header>
@@ -96,8 +102,7 @@
           <li>Standard Core Toolblocks</li>
           <li>Decoupled API Schemes</li>
         </ul>
-        <!-- REPLACE LINK WITH YOUR EXPLICIT MONERIS PS_STORE_ID GENERATED URL -->
-        <a href="https://www3.moneris.com/mpg/hpp/index.php" class="price-btn secondary" target="_blank" rel="noopener noreferrer">Deploy Standard Node</a>
+        <button onclick="window.open('https://www3.moneris.com/mpg/hpp/index.php', '_blank', 'noopener,noreferrer')" class="price-btn secondary">Deploy Standard Node</button>
       </div>
       <div class="price-card featured">
         <h3>Production Cluster</h3>
@@ -108,8 +113,7 @@
           <li>Sub-millisecond Local Telemetries</li>
           <li>Priority Developer SLA</li>
         </ul>
-        <!-- REPLACE LINK WITH YOUR EXPLICIT MONERIS PS_STORE_ID GENERATED URL -->
-        <a href="https://www3.moneris.com/mpg/hpp/index.php" class="price-btn primary" target="_blank" rel="noopener noreferrer">Deploy Production Cluster</a>
+        <button onclick="window.open('https://www3.moneris.com/mpg/hpp/index.php', '_blank', 'noopener,noreferrer')" class="price-btn primary">Deploy Production Cluster</button>
       </div>
     </div>
   </main>

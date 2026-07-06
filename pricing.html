@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Astraa Systems | Pricing Parameters</title>
+  <title>Astraa Systems | Pricing & Workspace Packages</title>
   <style>
     :root {
       --black: #03050a;
@@ -34,8 +34,6 @@
     .astraa-site-brand span { font-size: 13px !important; font-weight: 800 !important; }
     .astraa-site-links { display: flex !important; align-items: center !important; gap: 28px !important; color: var(--muted-dark) !important; font-size: 14px !important; font-weight: 600 !important; }
     .astraa-site-links a:hover { color: var(--royal) !important; }
-    
-    /* PURE CTA BUTTON BUTTONS */
     .astraa-site-cta { 
       display: inline-flex !important; padding: 8px 16px !important; border-radius: 999px !important; 
       background: var(--black) !important; color: white !important; font-weight: 700 !important; 
@@ -43,28 +41,42 @@
     }
     @media(max-width: 900px) { .astraa-site-links { display: none !important; } }
 
-    /* LAYOUT MATRIX */
+    /* CONTENT LAYOUT */
     .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    
+    .badge {
+      display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; 
+      color: var(--blue); background: rgba(37,99,235,0.08); padding: 4px 10px; border-radius: 4px; margin-bottom: 16px;
+    }
+
     .page-hero { padding: 80px 0 40px; text-align: center; }
     .page-hero h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 900; letter-spacing: -0.04em; margin-bottom: 16px; color: var(--black); }
-    .page-hero p { color: var(--muted-dark); font-size: 18px; max-width: 600px; margin: 0 auto; }
+    .page-hero p { color: var(--muted-dark); font-size: 18px; max-width: 700px; margin: 0 auto; }
 
-    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; margin: 40px 0 90px; }
-    .price-card { background: white; border: 1px solid var(--line-light); border-radius: 16px; padding: 40px; display: flex; flex-direction: column; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; margin: 40px 0 60px; }
+    .price-card { background: white; border: 1px solid var(--line-light); border-radius: 16px; padding: 40px; display: flex; flex-direction: column; position: relative; }
     .price-card.featured { border-color: var(--blue); box-shadow: 0 10px 30px rgba(37, 99, 235, 0.06); }
-    .price-card h3 { font-size: 22px; font-weight: 850; margin-bottom: 8px; letter-spacing: -0.02em; }
+    
+    .price-card h3 { font-size: 24px; font-weight: 900; margin-bottom: 8px; letter-spacing: -0.02em; color: var(--black); }
     .price-num { font-size: 44px; font-weight: 900; color: var(--black); margin: 16px 0 8px; letter-spacing: -0.04em; }
     .price-num span { font-size: 14px; font-weight: 600; color: var(--muted-dark); }
-    .price-desc { color: var(--muted-dark); font-size: 14px; margin-bottom: 32px; }
-    .price-features { list-style: none; margin-bottom: 40px; display: flex; flex-direction: column; gap: 14px; font-size: 14px; }
-    .price-features li::before { content: "✓ "; color: var(--blue); font-weight: 900; margin-right: 6px; }
+    .price-desc { color: var(--muted-dark); font-size: 14px; margin-bottom: 28px; line-height: 1.6; }
     
-    /* HARD OVERRIDE BUTTON CLASS */
+    .price-features { list-style: none; margin-bottom: 40px; display: flex; flex-direction: column; gap: 14px; font-size: 14px; color: var(--text-dark); }
+    .price-features li { display: flex; align-items: flex-start; gap: 8px; }
+    .price-features li::before { content: "✓"; color: var(--blue); font-weight: 900; }
+    
     .price-btn { text-align: center; display: block; padding: 14px; border-radius: 8px; font-weight: 700; font-size: 14px; margin-top: auto; border: none !important; cursor: pointer; width: 100%; text-decoration: none; }
     .price-btn.secondary { background: var(--off-white); border: 1px solid var(--line-light); color: var(--text-dark); }
     .price-btn.primary { background: var(--blue); color: white; }
 
-    footer { border-top: 1px solid var(--line-light); padding: 32px 0; font-size: 14px; color: var(--muted-dark); text-align: center; }
+    /* DETAIL SECTION */
+    .detail-section { background: var(--off-white); border-top: 1px solid var(--line-light); padding: 80px 0; margin-top: 40px; }
+    .detail-meta { max-width: 700px; margin-bottom: 40px; }
+    .detail-meta h2 { font-size: 32px; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 12px; }
+    .detail-meta p { color: var(--muted-dark); }
+
+    footer { border-top: 1px solid var(--line-light); padding: 32px 0; font-size: 14px; color: var(--muted-dark); text-align: center; background: white; }
   </style>
 </head>
 <body>
@@ -80,42 +92,71 @@
         <a href="pricing.html">Pricing</a>
         <a href="support.html">FAQ / Support</a>
         <a href="contact.html">Custom Packages</a>
-        <!-- ONCLICK HARD ROUTE PREVENTS JS OVERRIDES -->
         <button onclick="window.open('https://www3.moneris.com/mpg/hpp/index.php', '_blank')" class="astraa-site-cta">Buy Now</button>
       </div>
     </nav>
   </header>
 
-  <main class="container">
-    <section class="page-hero">
-      <h1>Predictable Enterprise Tiers</h1>
-      <p>Clean pricing blueprints constructed for demanding engineering and automation teams.</p>
-    </section>
+  <main>
+    <div class="container">
+      <section class="page-hero">
+        <div class="badge">Astraa Pricing</div>
+        <h1>Choose the Workspace package that fits your business.</h1>
+        <p>Start with a trial, review tool pricing, or request a custom package built directly for your production pipeline requirements.</p>
+      </section>
 
-    <div class="pricing-grid">
-      <div class="price-card">
-        <h3>Standard Node</h3>
-        <div class="price-num">$49<span>/mo</span></div>
-        <p class="price-desc">Perfect for individual developers and small system workflows.</p>
-        <ul class="price-features">
-          <li>1 Localized Compute Instance</li>
-          <li>Standard Core Toolblocks</li>
-          <li>Decoupled API Schemes</li>
-        </ul>
-        <button onclick="window.open('https://www3.moneris.com/mpg/hpp/index.php', '_blank', 'noopener,noreferrer')" class="price-btn secondary">Deploy Standard Node</button>
-      </div>
-      <div class="price-card featured">
-        <h3>Production Cluster</h3>
-        <div class="price-num">$199<span>/mo</span></div>
-        <p class="price-desc">For running complex metrics and critical infrastructure pipelines.</p>
-        <ul class="price-features">
-          <li>Up to 10 Execution Clusters</li>
-          <li>Sub-millisecond Local Telemetries</li>
-          <li>Priority Developer SLA</li>
-        </ul>
-        <button onclick="window.open('https://www3.moneris.com/mpg/hpp/index.php', '_blank', 'noopener,noreferrer')" class="price-btn primary">Deploy Production Cluster</button>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="badge">Evaluation</div>
+          <h3>15-Day Trial</h3>
+          <div class="price-num">$0<span>/15 days</span></div>
+          <p class="price-desc">Evaluate Astraa Workspace environments before selecting a dedicated tool package or custom network configuration.</p>
+          <ul class="price-features">
+            <li>Full Workspace Core access</li>
+            <li>Astraa Estimator toolkit integration</li>
+            <li>Standard metrics processing instances</li>
+          </ul>
+          <button onclick="window.open('https://www3.moneris.com/mpg/hpp/index.php', '_blank')" class="price-btn secondary">Initialize 15-Day Trial</button>
+        </div>
+
+        <div class="price-card featured">
+          <div class="badge">Production Tier</div>
+          <h3>30-Day Paid Trial</h3>
+          <div class="price-num">$199<span>/mo</span></div>
+          <p class="price-desc">For active engineering teams requiring localized high-performance execution parameters and telemetry suites.</p>
+          <ul class="price-features">
+            <li>Up to 10 active execution nodes</li>
+            <li>Sub-millisecond localized line-rate telemetries</li>
+            <li>Full automated expense and operations calculators</li>
+            <li>Priority development response SLA link</li>
+          </ul>
+          <button onclick="window.open('https://www3.moneris.com/mpg/hpp/index.php', '_blank')" class="price-btn primary">Deploy Production Cluster</button>
+        </div>
+
+        <div class="price-card">
+          <div class="badge">Enterprise</div>
+          <h3>Custom Packages</h3>
+          <div class="price-num">Custom<span>/enterprise</span></div>
+          <p class="price-desc">Tailored parameters constructed for advanced multi-region cluster isolation and explicit service definitions.</p>
+          <ul class="price-features">
+            <li>Unlimited isolated execution instances</li>
+            <li>Hardware-level tenant data security vaults</li>
+            <li>Custom decoupling schema development support</li>
+            <li>Dedicated technical operations liaison</li>
+          </ul>
+          <button onclick="window.location.href='contact.html'" class="price-btn secondary">Request Enterprise Profile</button>
+        </div>
       </div>
     </div>
+
+    <section class="detail-section">
+      <div class="container">
+        <div class="detail-meta">
+          <h2>Workspace packages.</h2>
+          <p>Start with a 15-day trial to evaluate Astraa Workspace parameters before choosing a dedicated production tool suite configuration.</p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>

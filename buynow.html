@@ -35,7 +35,7 @@
       line-height: 1.6;
     }
 
-    a { color: inherit; }
+    a { color: inherit; text-decoration: none; }
 
     /* ASTRAA_VISIBLE_PUBLIC_HEADER_V8 */
     .astraa-site-header {
@@ -61,49 +61,17 @@
       display: flex !important;
       align-items: center !important;
       gap: 12px !important;
-      text-decoration: none !important;
       font-weight: 950 !important;
       color: #05070f !important;
       white-space: nowrap !important;
     }
 
-    .astraa-site-brand img {
-      width: 38px !important;
-      height: 38px !important;
-      object-fit: contain !important;
-      flex: 0 0 auto !important;
-    }
+    .astraa-site-brand img { width: 38px !important; height: 38px !important; object-fit: contain !important; flex: 0 0 auto !important; }
+    .astraa-site-brand span { display: block !important; font-size: 12px !important; color: #64748b !important; font-weight: 700 !important; line-height: 1.1 !important; }
 
-    .astraa-site-brand span {
-      display: block !important;
-      font-size: 12px !important;
-      color: #64748b !important;
-      font-weight: 700 !important;
-      line-height: 1.1 !important;
-    }
-
-    .astraa-site-links {
-      display: flex !important;
-      align-items: center !important;
-      gap: 22px !important;
-      color: #475569 !important;
-      font-size: 14px !important;
-      font-weight: 750 !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-    }
-
-    .astraa-site-links a {
-      display: inline-flex !important;
-      text-decoration: none !important;
-      color: #475569 !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-    }
-
-    .astraa-site-links a:hover {
-      color: #1d4ed8 !important;
-    }
+    .astraa-site-links { display: flex !important; align-items: center !important; gap: 22px !important; color: #475569 !important; font-size: 14px !important; font-weight: 750 !important; visibility: visible !important; opacity: 1 !important; }
+    .astraa-site-links a { display: inline-flex !important; color: #475569 !important; }
+    .astraa-site-links a:hover { color: #1d4ed8 !important; }
 
     .astraa-site-cta {
       display: inline-flex !important;
@@ -111,102 +79,26 @@
       border-radius: 999px !important;
       background: #1d4ed8 !important;
       color: white !important;
-      text-decoration: none !important;
       font-weight: 900 !important;
       white-space: nowrap !important;
     }
 
-    @media(max-width: 900px) {
-      .astraa-site-links {
-        display: none !important;
-      }
-    }
+    @media(max-width: 900px) { .astraa-site-links { display: none !important; } }
 
-    /* Checkout Layout Structure */
-    .checkout-container {
-      max-width: 1120px;
-      margin: 60px auto;
-      padding: 0 24px;
-    }
+    .checkout-container { max-width: 1120px; margin: 60px auto; padding: 0 24px; }
+    .checkout-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: start; }
 
-    .checkout-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 64px;
-      align-items: start;
-    }
+    @media (max-width: 768px) { .checkout-grid { grid-template-columns: 1fr; gap: 40px; } }
 
-    @media (max-width: 768px) {
-      .checkout-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-    }
+    .info-panel h2 { font-size: clamp(28px, 4vw, 42px); line-height: 1.1; letter-spacing: -0.055em; margin: 0 0 16px; color: var(--black); }
+    .info-card { background: var(--off); border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin-top: 32px; }
 
-    .info-panel h2 {
-      font-size: clamp(28px, 4vw, 42px);
-      line-height: 1.1;
-      letter-spacing: -0.055em;
-      margin: 0 0 16px;
-      color: var(--black);
-    }
+    .form-card { background: var(--white); border: 1px solid var(--line); padding: 40px; border-radius: 24px; box-shadow: 0 12px 40px rgba(15, 23, 42, 0.04); }
+    .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .form-group label { font-size: 14px; font-weight: 750; color: var(--text); }
+    .form-group input { padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; font-size: 14px; width: 100%; background: var(--off); font-family: inherit; }
 
-    .info-card {
-      background: var(--off);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 24px;
-      margin-top: 32px;
-    }
-
-    .form-card {
-      background: var(--white);
-      border: 1px solid var(--line);
-      padding: 40px;
-      border-radius: 24px;
-      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.04);
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      font-size: 14px;
-      font-weight: 750;
-      color: var(--text);
-    }
-
-    .form-group input {
-      padding: 12px 16px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      font-size: 14px;
-      width: 100%;
-      box-sizing: border-box;
-      background: var(--off);
-      font-family: inherit;
-    }
-
-    .checkout-btn {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      padding: 14px;
-      border-radius: 999px;
-      background: var(--royal);
-      color: white;
-      text-decoration: none;
-      font-weight: 950;
-      border: none;
-      cursor: pointer;
-      font-size: 15px;
-      margin-top: 12px;
-    }
+    .checkout-btn { display: inline-flex; justify-content: center; align-items: center; width: 100%; padding: 14px; border-radius: 999px; background: var(--royal); color: white; font-weight: 950; border: none; cursor: pointer; font-size: 15px; margin-top: 12px; }
   </style>
 </head>
 <body>

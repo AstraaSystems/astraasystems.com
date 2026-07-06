@@ -1,66 +1,153 @@
 <!DOCTYPE html>
+<!-- ASTRAA_PUBLIC_MARKETING_METADATA_V1_START -->
+<title>Astraa Support | FAQ & Architecture Integration Guide</title>
+<meta name="description" content="Find immediate architectural insights, deployment advice, and operational system answers for Astraa Systems tools.">
+<meta property="og:title" content="Astraa Support | FAQ & Architecture Guide">
+<meta property="og:description" content="Find immediate architectural insights, deployment advice, and operational system answers.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Astraa Systems">
+<meta property="og:url" content="https://astraasystems.com/faq.html">
+<link rel="canonical" href="https://astraasystems.com/faq.html">
+<!-- ASTRAA_PUBLIC_MARKETING_METADATA_V1_END -->
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="refresh" content="0; url=support.html" />
-  <title>FAQ / Support | Astraa Systems</title>
-  <script>window.location.replace("support.html");</script>
-  <link rel="stylesheet" href="css/astraa-mobile-responsive-fix.css?v=20260621-mobile-nav-single-row">
-  <link rel="stylesheet" href="css/astraa-mobile-header-final.css?v=20260621-final-mobile-header">
+  <style>
+    :root {
+      --black: #03050a;
+      --navy: #090d16;
+      --royal: #1d4ed8;
+      --blue: #2563eb;
+      --white: #ffffff;
+      --off-white: #f8fafc;
+      --line-light: #e2e8f0;
+      --text-dark: #0f172a;
+      --muted-dark: #475569;
+      --gray: #64748b;
+    }
 
+    * { box-sizing: border-box; }
 
-  <!-- Astraa site icons -->
-  <link rel="icon" type="image/png" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
-  <link rel="shortcut icon" type="image/png" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
-  <link rel="apple-touch-icon" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
-  <link rel="manifest" href="site.webmanifest?v=20260621-astraa-logo-icon">
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.5;
+    }
 
-<style id="astraa-alignment-matrix">
-        * { box-sizing: border-box !important; }
-        body { margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; overflow-x: hidden !important; }
-        body > div, main, .main-content, #root { width: 100% !important; max-width: 100% !important; margin: 0 auto !important; transform: none !important; }
-        .hero, section, main > div, .content-wrapper { max-width: 1200px !important; margin: 0 auto !important; width: 100% !important; }
-        header, nav, .navbar, .header { display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; max-width: 1200px !important; margin: 0 auto !important; padding: 20px !important; }
-        header a, nav a, .navbar a, .nav-links a { text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; margin: 0 14px !important; display: inline-block !important; white-space: nowrap !important; }
-        header > div:first-child, .brand-container { display: flex !important; flex-direction: column !important; align-items: flex-start !important; width: auto !important; }
-        header span, .brand-text { white-space: nowrap !important; }
-    </style>
+    a { color: inherit; text-decoration: none; }
+
+    /* ASTRAA_VISIBLE_PUBLIC_HEADER_V8 */
+    .astraa-site-header {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 9999 !important;
+      background: rgba(255, 255, 255, 0.85) !important;
+      backdrop-filter: blur(16px) !important;
+      border-bottom: 1px solid var(--line-light) !important;
+    }
+
+    .astraa-site-nav {
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      padding: 14px 24px !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      gap: 20px !important;
+    }
+
+    .astraa-site-brand {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      font-weight: 950 !important;
+      color: var(--black) !important;
+      white-space: nowrap !important;
+    }
+
+    .astraa-site-brand img { width: 34px !important; height: 34px !important; object-fit: contain !important; }
+    .astraa-site-brand span { display: block !important; font-size: 13px !important; color: var(--black) !important; font-weight: 800 !important; }
+
+    .astraa-site-links { display: flex !important; align-items: center !important; gap: 28px !important; color: var(--muted-dark) !important; font-size: 14px !important; font-weight: 600 !important; }
+    .astraa-site-links a:hover { color: var(--royal) !important; }
+
+    .astraa-site-cta {
+      display: inline-flex !important;
+      padding: 8px 16px !important;
+      border-radius: 999px !important;
+      background: var(--black) !important;
+      color: white !important;
+      font-weight: 700 !important;
+      font-size: 13px !important;
+    }
+    .astraa-site-cta:hover { background: var(--royal) !important; }
+
+    @media(max-width: 900px) { .astraa-site-links { display: none !important; } }
+
+    .faq-hero { background: var(--off-white); padding: 80px 0 50px; text-align: center; border-bottom: 1px solid var(--line-light); }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    
+    .faq-hero h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 900; letter-spacing: -0.04em; margin: 0 0 16px; }
+    .faq-hero p { color: var(--muted-dark); font-size: 18px; margin: 0 auto; }
+
+    .faq-list { margin: 60px 0 90px; display: flex; flex-direction: column; gap: 32px; }
+    .faq-item { border-bottom: 1px solid var(--line-light); padding-bottom: 32px; }
+    .faq-item h3 { font-size: 19px; font-weight: 800; margin: 0 0 12px; color: var(--black); letter-spacing: -0.02em; }
+    .faq-item p { color: var(--muted-dark); font-size: 15px; margin: 0; line-height: 1.6; }
+
+    footer { border-top: 1px solid var(--line-light); padding: 32px 0; font-size: 14px; color: var(--gray); text-align: center; }
+  </style>
 </head>
 <body>
-<header style="background: #ffffff !important; border-bottom: 1px solid #e2e8f0 !important; padding: 16px 24px !important; box-sizing: border-box !important; width: 100% !important; display: block !important; font-family: system-ui, -apple-system, sans-serif !important;">
-    <div style="max-width: 1200px !important; margin: 0 auto !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; box-sizing: border-box !important;">
-        
-        <!-- Left Side: Brand Unit with Real Logo Image Asset -->
-        <a href="index.html" style="display: flex !important; flex-direction: row !important; align-items: center !important; gap: 12px !important; text-decoration: none !important; color: inherit !important; cursor: pointer !important; border: none !important; padding: 0 !important; margin: 0 !important;">
-            <svg width="38" height="38" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0 !important; display: block !important;">
-  <defs>
-    <linearGradient id="astraa-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#2F80ED" />
-      <stop offset="60%" stop-color="#B124EA" />
-      <stop offset="100%" stop-color="#F02FC2" />
-    </linearGradient>
-  </defs>
-  <path d="M12 2L1 24H5.5L12 9L18.5 24H23L12 2Z" fill="url(#astraa-gradient)" />
-</svg>
-            <div style="display: flex !important; flex-direction: column !important; align-items: flex-start !important; justify-content: center !important;">
-                <span style="font-weight: 700 !important; font-size: 16px !important; letter-spacing: -0.3px !important; color: #0f172a !important; line-height: 1.2 !important;">Astraa Systems</span>
-                <span style="font-size: 11px !important; color: #64748b !important; margin-top: 1px !important; white-space: nowrap !important;">Connected business tools</span>
-            </div>
-        </a>
 
-        <!-- Right Side: Navigation Rails -->
-        <nav style="display: flex !important; flex-direction: row !important; align-items: center !important; gap: 24px !important; margin: 0 !important; padding: 0 !important;">
-            <a href="index.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; color: #475569 !important; display: inline-block !important;">Home</a>
-            <a href="tools.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; color: #475569 !important; display: inline-block !important;">Tools</a>
-            <a href="pricing.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; color: #475569 !important; display: inline-block !important;">Pricing</a>
-            <a href="support.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; color: #475569 !important; display: inline-block !important;">FAQ / Support</a>
-            <a href="contact.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; color: #475569 !important; display: inline-block !important;">Contact</a>
-            <a href="astraaspace/login.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 600 !important; color: #0284c7 !important; margin-left: 8px !important; display: inline-block !important;">Open Workspace</a>
-        </nav>
+  <header class="astraa-site-header">
+    <nav class="astraa-site-nav">
+      <a href="/index.html" class="astraa-site-brand">
+        <img src="/assets/images/astraa_logo.png" alt="Astraa Systems logo" />
+        <span>Astraa Systems</span>
+      </a>
+      <div class="astraa-site-links">
+        <a href="/index.html">Home</a>
+        <a href="/tools.html">Tools</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/faq.html">FAQ / Support</a>
+        <a href="/contact.html">Custom Packages</a>
+        <a href="/buynow.html" class="astraa-site-cta">Buy Now</a>
+      </div>
+    </nav>
+  </header>
 
+  <main class="container">
+    <section class="faq-hero">
+      <h1>Knowledge Base & System Support</h1>
+      <p>Technical integration specifications and clear answers to architectural questions.</p>
+    </section>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3>What does "local-first infrastructure" mean for my corporate metrics data?</h3>
+        <p>It means your application analytics processing occurs directly inside isolated execution layers under your direct network governance. Telemetries are logged securely native to your stack, cutting latency to sub-millisecond line-rates and eliminating third-party multi-tenant processing vulnerabilities.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How fast can we integrate Astraa tools with our legacy database instances?</h3>
+        <p>Astraa features clean, decoupled programmatic API boundaries. Most tech teams establish live system integrations and initial data pipeline synchronization routing profiles in under forty minutes.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Can we migrate parameters easily if our scale requirements change?</h3>
+        <p>Absolutely. Because the engine blocks avoid brittle, proprietary cloud middleware hooks, you are free to export data schemas, configurations, and internal calculations whenever you choose.</p>
+      </div>
     </div>
-</header>
-  <p>Redirecting to <a href="support.html">FAQ / Support</a>.</p>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Astraa Systems. All rights reserved.</p>
+  </footer>
+
 </body>
 </html>

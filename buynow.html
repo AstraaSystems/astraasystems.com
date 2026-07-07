@@ -32,13 +32,22 @@
     .astraa-site-brand { display: flex !important; align-items: center !important; gap: 12px !important; font-weight: 950 !important; color: var(--black) !important; }
     .astraa-site-brand img { width: 34px !important; height: 34px !important; object-fit: contain !important; }
     .astraa-site-brand span { font-size: 13px !important; font-weight: 800 !important; }
+    
     .astraa-site-links { display: flex !important; align-items: center !important; gap: 28px !important; color: var(--muted-dark) !important; font-size: 14px !important; font-weight: 600 !important; }
     .astraa-site-links a:hover { color: var(--royal) !important; }
+    
+    /* ACTION PACK CONTAINING ESSENTIAL LINKS CONSTANTLY VISIBLE */
+    .astraa-action-pack { display: flex !important; align-items: center !important; gap: 16px !important; }
+    .astraa-space-btn { font-size: 14px !important; font-weight: 600 !important; color: var(--muted-dark) !important; }
+    .astraa-space-btn:hover { color: var(--royal) !important; }
+
     .astraa-site-cta {
       display: inline-flex !important; padding: 8px 16px !important; border-radius: 999px !important;
       background: var(--black) !important; color: white !important; font-weight: 700 !important;
       font-size: 13px !important; border: none !important; cursor: pointer !important;
     }
+    
+    /* Only hide secondary marketing links on small viewports */
     @media(max-width: 900px) { .astraa-site-links { display: none !important; } }
 
     /* TWO-COLUMN CHECKOUT MATRIX */
@@ -75,13 +84,17 @@
         <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" onerror="this.style.display='none'"/>
         <span>Astraa Systems</span>
       </a>
+      
       <div class="astraa-site-links">
         <a href="index.html">Home</a>
         <a href="tools.html">Tools</a>
         <a href="pricing.html">Pricing</a>
         <a href="faq.html">FAQ / Support</a>
-        <a href="astraaspace/login.html">Astraa Space</a>
         <a href="contact.html">Custom Packages</a>
+      </div>
+
+      <div class="astraa-action-pack">
+        <a href="astraaspace/login.html" class="astraa-space-btn">Astraa Space</a>
         <a class="astraa-site-cta" href="buynow.html">Buy Now</a>
       </div>
     </nav>

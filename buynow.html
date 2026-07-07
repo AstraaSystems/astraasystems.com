@@ -104,43 +104,25 @@
         </div>
       </section>
 
-<section class="card">
+      <section class="card">
+        <h3>Account Registration</h3>
+        <form class="registration-form" action="https://gateway.moneris.com/chkt/request/request.php" method="POST">
+          <input type="hidden" name="store_id" value="MONERIS_STORE_ID">
+          <input type="hidden" name="checkout_id" value="MONERIS_CHECKOUT_ID">
+          <input type="hidden" name="charge_total" value="199.00">
+          <input type="hidden" name="environment" value="prod">
 
-  <h3>Account Registration</h3>
-
-  <form class="registration-form" action="https://gateway.moneris.com/chkt/request/request.php" method="POST">
-
-    <input type="hidden" name="store_id" value="gwca093136">
-
-    <input type="hidden" name="checkout_id" value="chktSPVV793136">
-
-    <input type="hidden" name="charge_total" value="199.00">
-
-    <input type="hidden" name="environment" value="prod">
-
-
-
-    <div class="form-group">
-
-      <label>Full Name</label>
-
-      <input type="text" name="cust_id" placeholder="Your Name" required>
-
-    </div>
-
-    <div class="form-group">
-
-      <label>Email Address</label>
-
-      <input type="email" name="email" placeholder="you@example.com" required>
-
-    </div>
-
-    <button type="submit" class="submit-btn">Continue to Payment</button>
-
-  </form>
-
-</section>
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="cust_id" placeholder="Your Name" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="you@example.com" required>
+          </div>
+          <button type="submit" class="submit-btn">Continue to Payment</button>
+        </form>
+      </section>
 
     </div>
   </main>

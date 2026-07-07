@@ -1,8 +1,9 @@
 import os
 import re
 
-# Define the exact high-priority V8 header layout to push globally
-NEW_HEADER_HTML = """  <header class="astraa-site-header">
+NEW_HEADER_HTML = """<body>
+
+  <header class="astraa-site-header">
     <nav class="astraa-site-nav">
       <a href="index.html" class="astraa-site-brand">
         <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" onerror="this.style.display='none'"/>
@@ -25,11 +26,10 @@ NEW_HEADER_HTML = """  <header class="astraa-site-header">
   </header>"""
 
 def sync_navbar_globally():
-    # Targets all root HTML utility view layers
     html_files = [f for f in os.listdir('.') if f.endswith('.html')]
     
-    # Regex to find any legacy nav structures (<nav class="nav">...</nav> or old <header>...</header>)
-    nav_pattern = re.compile(r'(<nav class="nav">.*?</nav>|<header class="astraa-site-header">.*?</header>)', re.DOTALL)
+    # Matches everything starting from <body> down through any old navigation/header wrappers
+    broad_nav_pattern = re.compile(r'<body>\s*(<nav.*?>.*?</nav>|<header.*?>.*?</header>|<div class="nav".*?>.*?</div>)', re.DOTALL | re.IGNORECASE)
 
     for file_name in html_files:
         if file_name == 'buynow.html':
@@ -38,11 +38,17 @@ def sync_navbar_globally():
         with open(file_name, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        if nav_pattern.search(content):
-            updated_content = nav_pattern.sub(NEW_HEADER_HTML, content)
+        if broad_nav_pattern.search(content):
+            updated_content = broad_nav_pattern.sub(NEW_HEADER_HTML, content)
             with open(file_name, 'w', encoding='utf-8') as f:
                 f.write(updated_content)
             print(f"Successfully injected Astraa Space navbar into: {file_name}")
+        else:
+            # Fallback block injection right below <body> tag if no matching old nav tags are detected
+            updated_content = content.replace('<body>', NEW_HEADER_HTML)
+            with open(file_name, 'w', encoding='utf-8') as f:
+                f.write(updated_content)
+            print(f"Fallback injection applied for: {file_name}")
 
 if __name__ == "__main__":
     sync_navbar_globally()

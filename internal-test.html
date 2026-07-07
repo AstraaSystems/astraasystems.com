@@ -348,39 +348,28 @@
 </head>
 
 <body>
-<header style="background: #ffffff !important; border-bottom: 1px solid #e2e8f0 !important; padding: 16px 24px !important; box-sizing: border-box !important; width: 100% !important; display: block !important; font-family: system-ui, -apple-system, sans-serif !important;">
-    <div style="max-width: 1200px !important; margin: 0 auto !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; box-sizing: border-box !important;">
-        
-        <!-- Left Side: Brand Unit with Real Logo Image Asset -->
-        <a href="index.html" style="display: flex !important; flex-direction: row !important; align-items: center !important; gap: 12px !important; text-decoration: none !important; color: inherit !important; cursor: pointer !important; border: none !important; padding: 0 !important; margin: 0 !important;">
-            <svg width="38" height="38" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0 !important; display: block !important;">
-  <defs>
-    <linearGradient id="astraa-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#2F80ED" />
-      <stop offset="60%" stop-color="#B124EA" />
-      <stop offset="100%" stop-color="#F02FC2" />
-    </linearGradient>
-  </defs>
-  <path d="M12 2L1 24H5.5L12 9L18.5 24H23L12 2Z" fill="url(#astraa-gradient)" />
-</svg>
-            <div style="display: flex !important; flex-direction: column !important; align-items: flex-start !important; justify-content: center !important;">
-                <span style="font-weight: 700 !important; font-size: 16px !important; letter-spacing: -0.3px !important; color: #0f172a !important; line-height: 1.2 !important;">Astraa Systems</span>
-                <span style="font-size: 11px !important; color: #64748b !important; margin-top: 1px !important; white-space: nowrap !important;">Connected business tools</span>
-            </div>
-        </a>
 
-        <!-- Right Side: Navigation Rails -->
-        <nav style="display: flex !important; flex-direction: row !important; align-items: center !important; gap: 24px !important; margin: 0 !important; padding: 0 !important;">
-            <a href="index.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; color: #475569 !important; display: inline-block !important;">Home</a>
-            <a href="tools.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; color: #475569 !important; display: inline-block !important;">Tools</a>
-            <a href="pricing.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; color: #475569 !important; display: inline-block !important;">Pricing</a>
-            <a href="support.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; color: #475569 !important; display: inline-block !important;">FAQ / Support</a>
-            <a href="contact.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; color: #475569 !important; display: inline-block !important;">Contact</a>
-            <a href="astraaspace/login.html" style="text-decoration: none !important; font-size: 14px !important; font-weight: 600 !important; color: #0284c7 !important; margin-left: 8px !important; display: inline-block !important;">Open Workspace</a>
-        </nav>
+  <header class="astraa-site-header">
+    <nav class="astraa-site-nav">
+      <a href="index.html" class="astraa-site-brand">
+        <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" onerror="this.style.display='none'"/>
+        <span>Astraa Systems</span>
+      </a>
+      
+      <div class="astraa-site-links">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="faq.html">FAQ / Support</a>
+        <a href="contact.html">Custom Packages</a>
+      </div>
 
-    </div>
-</header>
+      <div class="astraa-action-pack">
+        <a href="astraaspace/login.html" class="astraa-space-btn">Astraa Space</a>
+        <a class="astraa-site-cta" href="buynow.html">Buy Now</a>
+      </div>
+    </nav>
+  </header>
 
       <header class="astraa-site-header">
     <nav class="astraa-site-nav">

@@ -1,399 +1,1620 @@
 <!DOCTYPE html>
+<!-- ASTRAA_PUBLIC_MARKETING_METADATA_V1_START -->
+<title>Astraa Tools | Modular Business Software for Teams and Operations</title>
+<meta name="description" content="Explore Astraa tools for estimating, finance, operations, expense tracking, commerce, data, inference, distribution, and secure workspace workflows.">
+<meta property="og:title" content="Astraa Tools | Modular Business Software for Teams and Operations">
+<meta property="og:description" content="Explore Astraa tools for estimating, finance, operations, expense tracking, commerce, data, inference, distribution, and secure workspace workflows.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Astraa Systems">
+<meta property="og:url" content="https://astraasystems.com/tools.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Astraa Tools | Modular Business Software for Teams and Operations">
+<meta name="twitter:description" content="Explore Astraa tools for estimating, finance, operations, expense tracking, commerce, data, inference, distribution, and secure workspace workflows.">
+<link rel="canonical" href="https://astraasystems.com/tools.html">
+<!-- ASTRAA_PUBLIC_MARKETING_METADATA_V1_END -->
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
-  <title>Astraa Systems — System Tools</title>
 
   <style>
     :root {
-      --navy: #090d16;
-      --blue: #1e40af;
-      --cyan: #06b6d4;
-      --text-light: #f8fafc;
-      --text-muted: #94a3b8;
-      --border-alpha: rgba(255, 255, 255, 0.1);
-      --card-bg: rgba(255, 255, 255, 0.02);
-      --card-hover: rgba(255, 255, 255, 0.05);
+      --black: #05070f;
+      --navy: #071426;
+      --navy-2: #0f172a;
+      --royal: #1d4ed8;
+      --blue: #2563eb;
+      --white: #ffffff;
+      --offwhite: #f8fafc;
+      --line: #dbe3ef;
+      --text: #0f172a;
+      --muted: #475569;
+      --gray: #64748b;
+      --light-blue: #dbeafe;
+      --soft-blue: #eff6ff;
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-      background: var(--navy);
-      color: var(--text-light);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      position: relative;
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.58;
     }
 
-    /* Cohesive Radial Background Mesh */
-    body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: 
-        radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 20% 80%, rgba(30, 64, 175, 0.20) 0%, transparent 60%),
-        linear-gradient(145deg, #090d16 0%, #111827 100%);
-    }
-
-    .container {
-      width: min(1200px, 90%);
-      margin: 0 auto;
-    }
-
-    /* NAVIGATION HEADER */
-    header {
-      padding: 24px 0;
-      border-bottom: 1px solid var(--border-alpha);
-      background: rgba(9, 13, 22, 0.5);
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .nav-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      font-size: 1.2rem;
-      letter-spacing: -0.03em;
-      text-decoration: none;
+    a {
       color: inherit;
     }
 
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-weight: 950;
+      color: var(--black);
+      letter-spacing: -0.03em;
+    }
+
     .brand img {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       object-fit: contain;
+    }
+
+    .brand-text {
+      display: grid;
+      line-height: 1.1;
+    }
+
+    .brand-text strong {
+      font-size: 16px;
+      color: var(--black);
+    }
+
+    .brand-text span {
+      font-size: 12px;
+      color: var(--gray);
+      font-weight: 700;
+      letter-spacing: 0;
     }
 
     .nav-links {
       display: flex;
-      gap: 32px;
       align-items: center;
-      list-style: none;
+      gap: 22px;
+      font-size: 14px;
+      font-weight: 750;
+      color: var(--muted);
     }
 
     .nav-links a {
-      color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.2s ease;
     }
 
     .nav-links a:hover {
-      color: var(--text-light);
+      color: var(--royal);
     }
 
     .nav-cta {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-alpha);
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-    }
-
-    /* TITLE BANNER */
-    .page-title-section {
-      padding: 60px 0 30px;
-      text-align: center;
-    }
-
-    .page-title-section h1 {
-      font-size: clamp(2.2rem, 4vw, 3.2rem);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      margin-bottom: 16px;
-    }
-
-    .page-title-section p {
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-
-    /* PREMIUM SAAS INTERACTIVE TOOLS GRID */
-    main {
-      padding-bottom: 80px;
-    }
-
-    .tools-layout-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 32px;
-      margin-top: 20px;
-    }
-
-    .premium-tool-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-alpha);
-      border-radius: 16px;
-      padding: 40px;
-      backdrop-filter: blur(16px);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .premium-tool-card:hover {
-      background: var(--card-hover);
-      border-color: rgba(6, 182, 212, 0.3);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(6, 182, 212, 0.04);
-    }
-
-    .card-meta h3 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 14px;
-      letter-spacing: -0.02em;
-    }
-
-    .card-meta p {
-      color: var(--text-muted);
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 30px;
-    }
-
-    /* FORM UTILITIES INSIDE CARDS */
-    .card-form-group {
-      margin-bottom: 16px;
-    }
-
-    .card-form-group label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--text-muted);
-    }
-
-    .card-form-group input, .card-form-group select {
-      width: 100%;
-      background: rgba(9, 13, 22, 0.8);
-      border: 1px solid var(--border-alpha);
-      border-radius: 8px;
-      padding: 12px;
-      color: var(--text-light);
-      font-size: 0.95rem;
-      transition: border-color 0.2s;
-    }
-
-    .card-form-group input:focus, .card-form-group select:focus {
-      outline: none;
-      border-color: var(--cyan);
-    }
-
-    /* ACTION BUTTONS */
-    .action-row {
-      margin-top: auto;
-      padding-top: 20px;
-    }
-
-    .btn-action {
-      width: 100%;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 14px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.95rem;
+      padding: 10px 15px;
+      border-radius: 999px;
+      background: var(--royal);
+      color: var(--white);
       text-decoration: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      font-weight: 900;
     }
 
-    .btn-solid {
-      background: var(--text-light);
-      color: var(--navy);
-      border: none;
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
     }
 
-    .btn-solid:hover {
-      background: #e2e8f0;
+    .hero {
+      background: linear-gradient(135deg, var(--black), var(--navy));
+      color: var(--white);
+      padding: 88px 0 76px;
     }
 
-    .btn-outline {
-      background: transparent;
-      color: var(--text-light);
-      border: 1px solid var(--border-alpha);
-    }
-
-    .btn-outline:hover {
-      background: rgba(255, 255, 255, 0.03);
-      border-color: var(--text-muted);
-    }
-
-    .output-block {
-      margin-top: 20px;
-      padding: 16px;
-      background: rgba(6, 182, 212, 0.05);
-      border: 1px solid rgba(6, 182, 212, 0.2);
-      border-radius: 8px;
-      display: none;
-      text-align: center;
-    }
-
-    .output-label {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    .kicker {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      color: var(--light-blue);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .06em;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      margin-bottom: 22px;
     }
 
-    .output-value {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--cyan);
+    .hero h1 {
+      margin: 0;
+      max-width: 900px;
+      font-size: clamp(44px, 7vw, 82px);
+      line-height: .96;
+      letter-spacing: -0.07em;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 24px 0 0;
+      color: var(--light-blue);
+      font-size: 19px;
+      line-height: 1.7;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 18px;
+      border-radius: 999px;
+      font-weight: 950;
+      text-decoration: none;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--royal);
+      color: var(--white);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      border-color: rgba(255,255,255,0.30);
+    }
+
+    .section {
+      padding: 72px 0;
+    }
+
+    .section-heading {
+      max-width: 820px;
+      margin-bottom: 30px;
+    }
+
+    .section-heading h2 {
+      margin: 0 0 12px;
+      color: var(--black);
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.055em;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .tool-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      min-height: 280px;
+      display: grid;
+      align-content: space-between;
+      gap: 20px;
+    }
+
+    .tool-top {
+      display: grid;
+      gap: 14px;
+    }
+
+    .tool-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tool-title-row img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
+
+    .tool-card h3 {
+      margin: 0;
+      color: var(--black);
+      font-size: 23px;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
+
+    .tool-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .status {
+      width: fit-content;
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      border: 1px solid #bfdbfe;
+      background: var(--soft-blue);
+      color: #1e3a8a;
+    }
+
+    .status.active {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: #1d4ed8;
+    }
+
+    .status.bonus {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      color: #0f172a;
+    }
+
+    .status.soon {
+      background: #f8fafc;
+      border-color: #dbe3ef;
+      color: #64748b;
+    }
+
+    .tool-card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
       margin-top: 4px;
     }
 
-    /* FOOTER */
+    .tool-link {
+      display: inline-flex;
+      padding: 10px 13px;
+      border-radius: 999px;
+      background: var(--royal);
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .tool-link.secondary {
+      background: transparent;
+      color: var(--royal);
+      border: 1px solid #bfdbfe;
+    }
+
+    .band {
+      background: var(--offwhite);
+      border-top: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .workspace-box {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .workspace-box h2 {
+      margin: 0 0 10px;
+      color: var(--black);
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.05;
+      letter-spacing: -0.055em;
+    }
+
+    .workspace-box p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 780px;
+      line-height: 1.7;
+    }
+
+    .note {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 22px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      line-height: 1.6;
+    }
+
     footer {
-      padding: 24px 0;
-      border-top: 1px solid var(--border-alpha);
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      margin-top: auto;
+      padding: 28px 0;
+      border-top: 1px solid #e5e7eb;
+      color: var(--gray);
+      font-size: 14px;
     }
 
     .footer-inner {
       display: flex;
       justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
       align-items: center;
     }
 
-    @media (max-width: 768px) {
-      .tools-layout-grid { grid-template-columns: 1fr; }
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
     }
-  </style>
+
+    .footer-links a {
+      text-decoration: none;
+      color: var(--gray);
+    }
+
+    @media (max-width: 980px) {
+      .tools-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .workspace-box {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none;
+      }
+
+      .tools-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 70px 0 64px;
+      }
+
+      .tool-card,
+      .workspace-box {
+        padding: 22px;
+      }
+    }
+  /* ASTRAA_HEADER_RESCUE_CSS */
+
+    :root {
+      --black:#05070f;
+      --navy:#071426;
+      --royal:#1d4ed8;
+      --white:#ffffff;
+      --off:#f8fafc;
+      --line:#dbe3ef;
+      --text:#0f172a;
+      --muted:#475569;
+      --gray:#64748b;
+      --light:#dbeafe;
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:var(--white);
+      line-height:1.6;
+    }
+
+    a { color:inherit; }
+
+    .header {
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(255,255,255,.96);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid #e5e7eb;
+    }
+
+    .nav {
+      max-width:1120px;
+      margin:0 auto;
+      padding:16px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+    }
+
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      font-weight:950;
+      color:var(--black);
+    }
+
+    .brand img {
+      width:38px;
+      height:38px;
+      object-fit:contain;
+      flex:0 0 auto;
+    }
+
+    .brand span {
+      display:block;
+      font-size:12px;
+      color:var(--gray);
+      font-weight:700;
+      line-height:1.1;
+    }
+
+    .links {
+      display:flex;
+      align-items:center;
+      gap:22px;
+      color:var(--muted);
+      font-size:14px;
+      font-weight:750;
+    }
+
+    .links a { text-decoration:none; }
+    .links a:hover { color:var(--royal); }
+
+    .cta {
+      display:inline-flex;
+      padding:10px 15px;
+      border-radius:999px;
+      background:var(--royal);
+      color:white;
+      text-decoration:none;
+      font-weight:900;
+    }
+
+    .container {
+      max-width:1120px;
+      margin:0 auto;
+      padding:0 24px;
+    }
+
+    .hero {
+      background:linear-gradient(135deg,var(--black),var(--navy));
+      color:white;
+      padding:88px 0 76px;
+    }
+
+    .kicker {
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      color:var(--light);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      margin-bottom:20px;
+    }
+
+    .hero h1 {
+      margin:0;
+      max-width:940px;
+      font-size:clamp(44px,7vw,82px);
+      line-height:.96;
+      letter-spacing:-.07em;
+    }
+
+    .hero p {
+      max-width:780px;
+      margin:24px 0 0;
+      color:var(--light);
+      font-size:19px;
+    }
+
+    .section { padding:72px 0; }
+
+    .section h2 {
+      margin:0 0 12px;
+      color:var(--black);
+      font-size:clamp(32px,4vw,52px);
+      line-height:1.05;
+      letter-spacing:-.055em;
+    }
+
+    .section p {
+      color:var(--muted);
+      max-width:860px;
+      margin:0;
+    }
+
+    .btn {
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+      padding:12px 15px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:950;
+      border:1px solid transparent;
+      cursor:pointer;
+      font:inherit;
+    }
+
+    .btn.primary { background:var(--royal); color:white; }
+    .btn.secondary { background:white; color:var(--royal); border-color:#bfdbfe; }
+    .btn.dark { background:var(--black); color:white; }
+
+    .actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .notice {
+      margin-top:26px;
+      padding:20px;
+      border-radius:22px;
+      background:#eff6ff;
+      border:1px solid #bfdbfe;
+      color:#1e3a8a;
+    }
+
+    footer {
+      padding:28px 0;
+      border-top:1px solid #e5e7eb;
+      color:var(--gray);
+      font-size:14px;
+    }
+
+    .footer-inner {
+      max-width:1120px;
+      margin:0 auto;
+      padding:0 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .footer-links {
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .footer-links a {
+      text-decoration:none;
+      color:var(--gray);
+    }
+
+    @media(max-width:900px) {
+      .links { display:none; }
+      .hero { padding:70px 0 64px; }
+    }
+
+
+/* ASTRAA_VISIBLE_PUBLIC_HEADER_V7 */
+.astraa-site-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  background: rgba(255,255,255,.97) !important;
+  backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.astraa-site-nav {
+  max-width: 1120px !important;
+  margin: 0 auto !important;
+  padding: 16px 24px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 20px !important;
+}
+
+.astraa-site-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-decoration: none !important;
+  font-weight: 950 !important;
+  color: #05070f !important;
+  white-space: nowrap !important;
+}
+
+.astraa-site-brand img {
+  width: 38px !important;
+  height: 38px !important;
+  object-fit: contain !important;
+  flex: 0 0 auto !important;
+}
+
+.astraa-site-brand span {
+  display: block !important;
+  font-size: 12px !important;
+  color: #64748b !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+}
+
+.astraa-site-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: 22px !important;
+  color: #475569 !important;
+  font-size: 14px !important;
+  font-weight: 750 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a {
+  display: inline-flex !important;
+  text-decoration: none !important;
+  color: #475569 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a:hover {
+  color: #1d4ed8 !important;
+}
+
+.astraa-site-cta {
+  display: inline-flex !important;
+  padding: 10px 15px !important;
+  border-radius: 999px !important;
+  background: #1d4ed8 !important;
+  color: white !important;
+  text-decoration: none !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+}
+
+@media(max-width: 900px) {
+  .astraa-site-links {
+    display: none !important;
+  }
+}
+
+
+/* ASTRAA_VISIBLE_PUBLIC_HEADER_V8 */
+.astraa-site-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  background: rgba(255,255,255,.97) !important;
+  backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.astraa-site-nav {
+  max-width: 1120px !important;
+  margin: 0 auto !important;
+  padding: 16px 24px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 20px !important;
+}
+
+.astraa-site-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-decoration: none !important;
+  font-weight: 950 !important;
+  color: #05070f !important;
+  white-space: nowrap !important;
+}
+
+.astraa-site-brand img {
+  width: 38px !important;
+  height: 38px !important;
+  object-fit: contain !important;
+  flex: 0 0 auto !important;
+}
+
+.astraa-site-brand span {
+  display: block !important;
+  font-size: 12px !important;
+  color: #64748b !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+}
+
+.astraa-site-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: 22px !important;
+  color: #475569 !important;
+  font-size: 14px !important;
+  font-weight: 750 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a {
+  display: inline-flex !important;
+  text-decoration: none !important;
+  color: #475569 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.astraa-site-links a:hover {
+  color: #1d4ed8 !important;
+}
+
+.astraa-site-cta {
+  display: inline-flex !important;
+  padding: 10px 15px !important;
+  border-radius: 999px !important;
+  background: #1d4ed8 !important;
+  color: white !important;
+  text-decoration: none !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+}
+
+@media(max-width: 900px) {
+  .astraa-site-links {
+    display: none !important;
+  }
+}
+
+</style>
+  <link rel="stylesheet" href="css/astraa-mobile-responsive-fix.css?v=20260621-mobile-nav-single-row">
+  <link rel="stylesheet" href="css/astraa-mobile-header-final.css?v=20260621-final-mobile-header">
+
+
+  <!-- Astraa site icons -->
+  <link rel="icon" type="image/png" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
+  <link rel="shortcut icon" type="image/png" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
+  <link rel="apple-touch-icon" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
+  <link rel="manifest" href="site.webmanifest?v=20260621-astraa-logo-icon">
+
+<style id="astraa-alignment-matrix">
+        * { box-sizing: border-box !important; }
+        body { margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; overflow-x: hidden !important; }
+        body > div, main, .main-content, #root { width: 100% !important; max-width: 100% !important; margin: 0 auto !important; transform: none !important; }
+        .hero, section, main > div, .content-wrapper { max-width: 1200px !important; margin: 0 auto !important; width: 100% !important; }
+        header, nav, .navbar, .header { display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; max-width: 1200px !important; margin: 0 auto !important; padding: 20px !important; }
+        header a, nav a, .navbar a, .nav-links a { text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; margin: 0 14px !important; display: inline-block !important; white-space: nowrap !important; }
+        header > div:first-child, .brand-container { display: flex !important; flex-direction: column !important; align-items: flex-start !important; width: auto !important; }
+        header span, .brand-text { white-space: nowrap !important; }
+    </style>
+<style>
+    /* Unified Header Navigation Styles */
+    .nav {
+      background: white;
+      border-bottom: 1px solid var(--border, #e5e7eb);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 12px 0;
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--navy, #0f172a);
+    }
+    .brand img {
+      height: 24px;
+      width: auto;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .nav-links a {
+      color: var(--text, #334155);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--blue, #2563eb);
+    }
+    .nav-cta {
+      background: linear-gradient(135deg, #2563eb, #8b5cf6);
+      color: white !important;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+    .nav-cta:hover {
+      filter: brightness(1.05);
+    }
+</style>
+
+<style>
+
+  /* Guaranteed Header Layout Alignment Rules */
+  .nav {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 9999 !important;
+    padding: 14px 24px !important;
+    box-sizing: border-box !important;
+    font-family: sans-serif;
+  }
+  .nav-inner {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    text-decoration: none !important;
+    font-weight: 700 !important;
+    font-size: 1.25rem !important;
+    color: #0f172a !important;
+    white-space: nowrap !important;
+  }
+  .brand img {
+    height: 32px !important;
+    width: auto !important;
+    display: block !important;
+    margin: 0 !important;
+  }
+  .nav-links {
+    display: flex !important;
+    align-items: center !important;
+    gap: 24px !important;
+  }
+  .nav-links a {
+    color: #475569 !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    font-size: 0.95rem !important;
+    transition: color 0.15s ease !important;
+  }
+  .nav-links a:hover {
+    color: #2563eb !important;
+  }
+  .nav-cta {
+    background: linear-gradient(135deg, #2563eb, #8b5cf6) !important;
+    color: #ffffff !important;
+    padding: 10px 20px !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.2) !important;
+  }
+
+</style>
 </head>
+
 <body>
 
-  <!-- UNIVERSAL STICKY HEADER -->
-  <header>
-    <div class="container nav-inner">
-      <a class="brand" href="index.html">
-        <img src="assets/images/astraa_logo.png" alt="Astraa Systems" />
-        <span>Astraa Systems</span>
-      </a>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="index.html">Home Overview</a></li>
-          <li><a href="contact.html">Company Info</a></li>
-          <li><a class="nav-cta" href="login.html">Workspace Login</a></li>
-        </ul>
-      </nav>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" />
+      Astraa Systems
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="faq.html">FAQ / Support</a>
+      <a href="customer-portal.html">Workspace</a>
+      <a href="contact.html">Custom Packages</a>
+      <a class="nav-cta" href="login.html">Login / Register</a>
     </div>
-  </header>
+  </div>
+</nav>
 
-  <!-- HEADLINE HEADER -->
-  <section class="container page-title-section">
-    <h1>Operational Tools Matrix</h1>
-    <p>Run immediate calculations, plan multi-company logistics, and handle scope evaluations inside an optimized workspace environment.</p>
-  </section>
 
-  <!-- GRID VIEW -->
-  <main class="container">
-    <div class="tools-layout-grid">
 
-      <!-- TOOL ONE: CONFIGURABLE ESTIMATOR -->
-      <div class="premium-tool-card">
-        <div class="card-meta">
-          <h3>Scope & Material Estimator</h3>
-          <p>Instantly calculate general project volumes and track structural component estimates directly inside your session parameters.</p>
-          
-          <form id="estimatorForm" onsubmit="runCardCalc(event)">
-            <div class="card-form-group">
-              <label for="sqftInput">Project Area Size (Sq. Ft.)</label>
-              <input type="number" id="sqftInput" placeholder="e.g. 5000" required />
+
+
+
+
+
+
+  
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="kicker">Astraa Tools</div>
+        <h1>Practical tools for modern business operations.</h1>
+        <p>
+          Explore Astraa’s client-facing tool suite for estimating, finance visibility,
+          expenses, operations, commerce, data, distribution, records, and inference workflows.
+        </p>
+
+        <div class="actions">
+          <a class="btn btn-primary" href="pricing.html">View Pricing</a>
+          <a class="btn btn-secondary" href="workspace-test-login.html">Open Workspace</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Explore Astraa tools.</h2>
+          <p>
+            Astraa keeps public tool names simple and client-friendly.
+            Internal platform details are handled separately through service terms and agreements.
+          </p>
+        </div>
+
+        <div class="tools-grid">
+          <article class="tool-card">
+            <div class="tool-top">
+              <span class="status active">Active</span>
+              <div class="tool-title-row">
+                <img src="assets/images/astraa_logo.png" alt="Astraa logo" />
+                <h3>Astraa Estimator</h3>
+              </div>
+              <p>
+                Planning-grade project estimating with structured inputs, clear assumptions,
+                and practical cost visibility.
+              </p>
             </div>
-            <div class="card-form-group">
-              <label for="modifierSelect">Material Category Profile</label>
-              <select id="modifierSelect">
-                <option value="1.0">Standard Logistics Core</option>
-                <option value="1.35">Reinforced Structural Core</option>
-                <option value="1.7">Heavy Custom Load Profile</option>
-              </select>
+            <div class="tool-card-actions">
+              <a class="tool-link" href="tool-estimator.html">View Tool</a>
+              <a class="tool-link secondary" href="pricing.html">Pricing</a>
             </div>
-            <button type="submit" class="btn-action btn-solid">Process Scope Balance</button>
-          </form>
+          </article>
 
-          <div class="output-block" id="calcOutput">
-            <div class="output-label">Calculated Operational Allocation</div>
-            <div class="output-value" id="calcValue">0 Units</div>
+          <article class="tool-card">
+            <div class="tool-top">
+              <span class="status active">Active / Included</span>
+              <div class="tool-title-row">
+                <img src="assets/images/astraa_logo.png" alt="Astraa logo" />
+                <h3>Astraa Finance</h3>
+              </div>
+              <p>
+                Finance visibility for personal, business, and non-profit use cases,
+                including budget review, cashflow direction, and expense connection.
+              </p>
+            </div>
+            <div class="tool-card-actions">
+              <a class="tool-link" href="tool-finance.html">View Tool</a>
+              <a class="tool-link secondary" href="pricing.html">Pricing</a>
+            </div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-top">
+              <span class="status bonus">Bonus Tool</span>
+              <div class="tool-title-row">
+                <img src="assets/images/astraa_logo.png" alt="Astraa logo" />
+                <h3>Astraa Expense</h3>
+              </div>
+              <p>
+                Expense tracking and calculation support included as a bonus Workspace tool,
+                with limited Basic access and fuller Professional access.
+              </p>
+            </div>
+            <div class="tool-card-actions">
+              <a class="tool-link" href="tool-expense.html">View Tool</a>
+              <a class="tool-link secondary" href="pricing.html">Pricing</a>
+            </div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-top">
+              <span class="status active">Active / Included</span>
+              <div class="tool-title-row">
+                <img src="assets/images/astraa_logo.png" alt="Astraa logo" />
+                <h3>Astraa Operations</h3>
+              </div>
+              <p>
+                Business workflow support for follow-ups, actions, priorities,
+                responsibilities, and operational visibility.
+              </p>
+            </div>
+            <div class="tool-card-actions">
+              <a class="tool-link" href="tool-operations.html">View Tool</a>
+              <a class="tool-link secondary" href="pricing.html">Pricing</a>
+            </div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-top">
+              <span class="status soon">Coming Soon</span>
+              <div class="tool-title-row">
+                <img src="assets/images/astraa_logo.png" alt="Astraa logo" />
+                <h3>Astraa Commerce</h3>
+              </div>
+              <p>
+                Commerce, quote, package, and transaction workflow support
+                for future Workspace expansion.
+              </p>
+            </div>
+            <div class="tool-card-actions">
+              <a class="tool-link" href="tool-commerce.html">View Tool</a>
+              <a class="tool-link secondary" href="contact.html">Request Access</a>
+            </div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-top">
+              <span class="status soon">Coming Soon</span>
+              <div class="tool-title-row">
+                <img src="assets/images/astraa_logo.png" alt="Astraa logo" />
+                <h3>Astraa Data</h3>
+              </div>
+              <p>
+                Structured business data support, reporting preparation,
+                and client-isolated data workspace direction.
+              </p>
+            </div>
+            <div class="tool-card-actions">
+              <a class="tool-link" href="tool-data.html">View Tool</a>
+              <a class="tool-link secondary" href="contact.html">Request Access</a>
+            </div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-top">
+              <span class="status soon">Coming Soon</span>
+              <div class="tool-title-row">
+                <img src="assets/images/astraa_logo.png" alt="Astraa logo" />
+                <h3>Astraa Inference</h3>
+              </div>
+              <p>
+                Scenario review, decision support, and future connected
+                business reasoning for Workspace workflows.
+              </p>
+            </div>
+            <div class="tool-card-actions">
+              <a class="tool-link" href="tool-inference.html">View Tool</a>
+              <a class="tool-link secondary" href="contact.html">Request Access</a>
+            </div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-top">
+              <span class="status soon">Coming Soon</span>
+              <div class="tool-title-row">
+                <img src="assets/images/astraa_logo.png" alt="Astraa logo" />
+                <h3>Astraa Distribution</h3>
+              </div>
+              <p>
+                Fulfillment, carrier, route, inventory node, and delivery workflow support
+                designed for zero-overhaul data intake.
+              </p>
+            </div>
+            <div class="tool-card-actions">
+              <a class="tool-link" href="tool-distribution.html">View Tool</a>
+              <a class="tool-link secondary" href="contact.html">Request Access</a>
+            </div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-top">
+              <span class="status soon">Coming Soon</span>
+              <div class="tool-title-row">
+                <img src="assets/images/astraa_logo.png" alt="Astraa logo" />
+                <h3>Astraa Vault</h3>
+              </div>
+              <p>
+                Workspace records, saved outputs, and organized business files
+                as the platform expands.
+              </p>
+            </div>
+            <div class="tool-card-actions">
+              <a class="tool-link" href="tool-vault.html">View Tool</a>
+              <a class="tool-link secondary" href="contact.html">Request Access</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="note">
+          Astraa Estimator and Astraa Expense are calculator-style tools. Other Astraa tools are designed
+          as Workspace utilities and business workflows that can connect across the Astraa platform.
+        </div>
+      </div>
+    </section>
+
+    <section class="section band">
+      <div class="container">
+        <div class="workspace-box">
+          <div>
+            <h2>Tools are assigned through Astraa Workspace.</h2>
+            <p>
+              A client may have one tool or several tools depending on their trial,
+              paid plan, or custom package. Workspace access keeps tools organized in one client portal.
+            </p>
           </div>
+
+          <a class="btn btn-primary" href="workspace-test-login.html">Open Workspace</a>
         </div>
       </div>
-
-      <!-- TOOL TWO: PIPELINE LOGISTICS LOG -->
-      <div class="premium-tool-card">
-        <div class="card-meta">
-          <h3>Multi-Company Tracking Interface</h3>
-          <p>Organize separate field channels, sub-contract profiles, or asset pools into isolated pipeline matrix logs without mixed records.</p>
-        </div>
-        <div class="action-row">
-          <a href="login.html" class="btn-action btn-outline">Launch Tracking Shell</a>
-        </div>
-      </div>
-
-      <!-- TOOL THREE: BUY NOW LINK CONVERSION GATE -->
-      <div class="premium-tool-card">
-        <div class="card-meta">
-          <h3>Deployment Control Portal</h3>
-          <p>Ready to deploy your customized standalone workspace environment? Initialize full multi-user pipeline provisioning tools instantly.</p>
-        </div>
-        <div class="action-row">
-          <a href="buy-now-routing-placeholder" class="btn-action btn-solid" style="background: linear-gradient(135deg, var(--blue), var(--cyan)); color: white; border: none;">Activate Buy Now Route</a>
-        </div>
-      </div>
-
-    </div>
+    </section>
   </main>
 
-  <!-- FOOTER -->
   <footer>
     <div class="container footer-inner">
       <div>Astraa Systems © 2026</div>
-      <div>Operational Core Architecture</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="workspace-test-login.html">Workspace</a>
+        <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="trial-terms.html">Trial Terms</a>
+    </div>
     </div>
   </footer>
+<!-- ASTRAA_PAID_CONVERSION_CTA_V1_START -->
+<style>
+  .astraa-paid-cta {
+    max-width: 1180px;
+    margin: 44px auto;
+    padding: 0 20px;
+    font-family: inherit;
+  }
 
-  <script>
-    function runCardCalc(event) {
-      event.preventDefault();
-      const sqft = parseFloat(document.getElementById('sqftInput').value);
-      const mod = parseFloat(document.getElementById('modifierSelect').value);
-      
-      if (isNaN(sqft) || sqft <= 0) return;
+  .astraa-paid-cta-inner {
+    background: linear-gradient(135deg, #0b1f3a, #1d4ed8);
+    color: #ffffff;
+    border-radius: 24px;
+    padding: clamp(24px, 4vw, 42px);
+    box-shadow: 0 24px 70px rgba(15, 23, 42, .22);
+  }
 
-      const baseValue = 0.14;
-      const parsedUnits = Math.round(sqft * baseValue * mod);
+  .astraa-paid-cta .eyebrow {
+    color: #bfdbfe;
+    font-size: .78rem;
+    font-weight: 900;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
 
-      document.getElementById('calcValue').innerText = parsedUnits.toLocaleString() + " Operational Units";
-      document.getElementById('calcOutput').style.display = 'block';
+  .astraa-paid-cta h2 {
+    margin: 0 0 12px;
+    font-size: clamp(1.8rem, 3vw, 2.7rem);
+    line-height: 1.1;
+  }
+
+  .astraa-paid-cta p {
+    color: #e0ecff;
+    line-height: 1.7;
+    max-width: 860px;
+    margin: 0 0 18px;
+  }
+
+  .astraa-paid-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .astraa-paid-cta-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: 999px;
+    padding: 12px 18px;
+    font-weight: 900;
+  }
+
+  .astraa-paid-primary {
+    background: #ffffff;
+    color: #0b1f3a;
+  }
+
+  .astraa-paid-secondary {
+    background: rgba(255, 255, 255, .12);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, .35);
+  }
+
+  .astraa-paid-cta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .astraa-paid-mini {
+    background: rgba(255, 255, 255, .1);
+    border: 1px solid rgba(255, 255, 255, .22);
+    border-radius: 16px;
+    padding: 14px;
+    color: #eff6ff;
+  }
+
+  .astraa-paid-mini strong {
+    display: block;
+    color: #ffffff;
+    margin-bottom: 5px;
+  }
+
+  @media (max-width: 900px) {
+    .astraa-paid-cta-grid {
+      grid-template-columns: 1fr;
     }
-  </script>
+  }
+</style>
+
+<section class="astraa-paid-cta" aria-label="Astraa paid onboarding">
+  <div class="astraa-paid-cta-inner">
+    <div class="eyebrow">Start with a paid plan</div>
+    <h2>Trial is available — but paid onboarding gets Astraa working for your business faster.</h2>
+    <p>
+      Astraa is built for businesses that want practical tools for estimating, finance, operations,
+      and workspace coordination. You can request trial access for evaluation, or ask Astraa to help
+      choose the right paid plan or package for your business.
+    </p>
+
+    <div class="astraa-paid-cta-actions">
+      <a class="astraa-paid-primary" href="mailto:support@astraasystems.com?subject=Astraa paid onboarding request&body=Hi Astraa Support,
+
+I am interested in starting with a paid Astraa plan or package.
+
+Business/organization:
+Tools I am interested in:
+Preferred package:
+Team size:
+Phone number:
+Questions:
+
+Thank you.">Request paid onboarding</a>
+
+      <a class="astraa-paid-secondary" href="pricing.html">View pricing</a>
+
+      <a class="astraa-paid-secondary" href="mailto:support@astraasystems.com?subject=Astraa trial or package question&body=Hi Astraa Support,
+
+I would like help choosing between trial access and a paid Astraa plan.
+
+Business/organization:
+Tools I am interested in:
+Questions:
+
+Thank you.">Ask Astraa first</a>
+    </div>
+
+    <div class="astraa-paid-cta-grid">
+      <div class="astraa-paid-mini">
+        <strong>Paid plan request</strong>
+        Choose Estimator, Finance, Operations, or a package and request setup guidance.
+      </div>
+      <div class="astraa-paid-mini">
+        <strong>Controlled trial</strong>
+        Trial access is available for evaluation, but customer access is introduced carefully.
+      </div>
+      <div class="astraa-paid-mini">
+        <strong>Custom packages</strong>
+        Contractors, franchises, non-profits, and multi-location teams can request a custom setup.
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ASTRAA_PAID_CONVERSION_CTA_V1_END -->
+
+<!-- ASTRAA_SUPPORT_CONCIERGE_V1_START -->
+<style>
+  .astraa-concierge-button {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 99998;
+    border: none;
+    border-radius: 999px;
+    background: #0b1f3a;
+    color: #ffffff;
+    padding: 14px 18px;
+    font-weight: 800;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, .22);
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .astraa-concierge-button span {
+    display: inline-block;
+    margin-left: 6px;
+    color: #bfdbfe;
+  }
+
+  .astraa-concierge-panel {
+    position: fixed;
+    right: 22px;
+    bottom: 82px;
+    width: min(390px, calc(100vw - 32px));
+    z-index: 99999;
+    background: #ffffff;
+    border: 1px solid #dbe4f0;
+    border-radius: 22px;
+    box-shadow: 0 26px 70px rgba(15, 23, 42, .22);
+    overflow: hidden;
+    font-family: inherit;
+    display: none;
+  }
+
+  .astraa-concierge-panel.open {
+    display: block;
+  }
+
+  .astraa-concierge-head {
+    background: linear-gradient(135deg, #0b1f3a, #1d4ed8);
+    color: #ffffff;
+    padding: 18px 20px;
+  }
+
+  .astraa-concierge-head strong {
+    display: block;
+    font-size: 1.05rem;
+  }
+
+  .astraa-concierge-head span {
+    display: block;
+    color: #dbeafe;
+    margin-top: 4px;
+    font-size: .9rem;
+    line-height: 1.4;
+  }
+
+  .astraa-concierge-body {
+    padding: 18px 20px 20px;
+  }
+
+  .astraa-concierge-note {
+    color: #475569;
+    line-height: 1.55;
+    margin: 0 0 14px;
+    font-size: .95rem;
+  }
+
+  .astraa-concierge-field {
+    margin-bottom: 10px;
+  }
+
+  .astraa-concierge-field label {
+    display: block;
+    font-size: .82rem;
+    color: #334155;
+    font-weight: 800;
+    margin-bottom: 5px;
+  }
+
+  .astraa-concierge-field input,
+  .astraa-concierge-field select,
+  .astraa-concierge-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dbe4f0;
+    border-radius: 12px;
+    padding: 10px 11px;
+    font-family: inherit;
+    font-size: .95rem;
+    color: #111827;
+    background: #ffffff;
+  }
+
+  .astraa-concierge-field textarea {
+    min-height: 84px;
+    resize: vertical;
+  }
+
+  .astraa-concierge-actions {
+    display: grid;
+    gap: 9px;
+    margin-top: 12px;
+  }
+
+  .astraa-concierge-actions button,
+  .astraa-concierge-actions a {
+    text-align: center;
+    text-decoration: none;
+    border-radius: 12px;
+    padding: 11px 12px;
+    font-weight: 800;
+    font-family: inherit;
+  }
+
+  .astraa-concierge-send {
+    border: none;
+    background: #1d4ed8;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  .astraa-concierge-call {
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    color: #0b1f3a;
+  }
+
+  .astraa-concierge-small {
+    color: #64748b;
+    font-size: .78rem;
+    line-height: 1.45;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 520px) {
+    .astraa-concierge-button {
+      right: 16px;
+      bottom: 16px;
+    }
+
+    .astraa-concierge-panel {
+      right: 16px;
+      bottom: 74px;
+    }
+  }
+</style>
+
+<button class="astraa-concierge-button" type="button" onclick="astraaToggleConcierge()" aria-label="Ask Astraa support">
+  Ask Astraa <span>Support</span>
+</button>
+
+<section class="astraa-concierge-panel" id="astraaConciergePanel" aria-label="Astraa support concierge">
+  <div class="astraa-concierge-head">
+    <strong>Astraa Support Concierge</strong>
+    <span>This is not a bot. Send your question to Astraa support or request onboarding help.</span>
+  </div>
+
+  <div class="astraa-concierge-body">
+    <p class="astraa-concierge-note">
+      Ask about tools, pricing, packages, onboarding, or controlled access. Please do not send passwords or payment card details here.
+    </p>
+
+    <div class="astraa-concierge-field">
+      <label for="astraaSupportName">Name</label>
+      <input id="astraaSupportName" type="text" placeholder="Your name">
+    </div>
+
+    <div class="astraa-concierge-field">
+      <label for="astraaSupportEmail">Email</label>
+      <input id="astraaSupportEmail" type="email" placeholder="you@example.com">
+    </div>
+
+    <div class="astraa-concierge-field">
+      <label for="astraaSupportTopic">Topic</label>
+      <select id="astraaSupportTopic">
+        <option>Pricing or package question</option>
+        <option>Estimator help</option>
+        <option>Finance help</option>
+        <option>Operations help</option>
+        <option>Onboarding request</option>
+        <option>Request a call</option>
+        <option>Other support question</option>
+      </select>
+    </div>
+
+    <div class="astraa-concierge-field">
+      <label for="astraaSupportMessage">Question</label>
+      <textarea id="astraaSupportMessage" placeholder="Tell Astraa what you need help with..."></textarea>
+    </div>
+
+    <div class="astraa-concierge-actions">
+      <button class="astraa-concierge-send" type="button" onclick="astraaSendSupportEmail()">Send support request</button>
+      <a class="astraa-concierge-call" href="mailto:support@astraasystems.com?subject=Astraa%20call%20request&body=Hi%20Astraa%20Support%2C%0A%0AI%20would%20like%20to%20request%20a%20call%20for%20onboarding%20or%20package%20guidance.%0A%0AName%3A%0APhone%3A%0ABusiness%2Forganization%3A%0ATools%20I%20am%20interested%20in%3A%0A%0AThank%20you.">Request a call</a>
+    </div>
+
+    <div class="astraa-concierge-small">
+      Digital phone support is being prepared. Until a support number is connected, use the request form or call request option.
+    </div>
+  </div>
+</section>
+
+<script>
+  function astraaToggleConcierge() {
+    var panel = document.getElementById("astraaConciergePanel");
+    if (!panel) return;
+    panel.classList.toggle("open");
+  }
+
+  function astraaSendSupportEmail() {
+    var name = document.getElementById("astraaSupportName")?.value || "";
+    var email = document.getElementById("astraaSupportEmail")?.value || "";
+    var topic = document.getElementById("astraaSupportTopic")?.value || "Support question";
+    var message = document.getElementById("astraaSupportMessage")?.value || "";
+
+    var subject = "Astraa support request - " + topic;
+    var body = [
+      "Hi Astraa Support,",
+      "",
+      "I have a question/request from the Astraa website.",
+      "",
+      "Name: " + name,
+      "Email: " + email,
+      "Topic: " + topic,
+      "",
+      "Question:",
+      message,
+      "",
+      "Please follow up when available.",
+      "",
+      "Note: I understand this is not an automated bot and customer access remains controlled during launch hardening."
+    ].join("\n");
+
+    var mailto = "mailto:support@astraasystems.com"
+      + "?subject=" + encodeURIComponent(subject)
+      + "&body=" + encodeURIComponent(body);
+
+    window.location.href = mailto;
+  }
+</script>
+<!-- ASTRAA_SUPPORT_CONCIERGE_V1_END -->
 
 </body>
 </html>

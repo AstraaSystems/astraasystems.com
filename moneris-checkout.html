@@ -2,37 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Astraa Checkout Canvas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astraa Systems - Secure Checkout</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #fafafa;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .checkout-box {
+            max-width: 440px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        /* Container size requested by Moneris documentation */
+        #outerDiv {
+            width: 100%;
+            max-width: 400px;
+            min-height: 300px;
+            margin: 20px auto 0;
+        }
+    </style>
 </head>
 <body>
 
-<div id="outerDiv" style="width:100%; max-width:400px; min-height:300px; margin: 40px auto;">
-    <div id="monerisCheckout"></div>
+<div class="checkout-box">
+    <h3>Astraa Security Gateway</h3>
+    <p style="color: #64748b; font-size: 14px;">Loading encrypted transaction container...</p>
+    
+    <div id="outerDiv">
+        <div id="monerisCheckout"></div>
+    </div>
 </div>
 
-<!-- Load Moneris SDK -->
 <script src="https://gateway.moneris.com/chkt/js/chkt_v1.00.js"></script>
 
 <script>
 (function () {
-    // Production Checkout ID
+    // Verified Checkout ID configuration
     const MY_CHECKOUT_ID = "chktSPVV793136";
     const ENVIRONMENT_MODE = "prod"; 
 
+    console.log("[Astraa Moneris] Initializing engine constructor...");
+    
     var myCheckout = new monerisCheckout();
     myCheckout.setMode(ENVIRONMENT_MODE);
     myCheckout.setCheckoutDiv("monerisCheckout");
 
-    myCheckout.setCallback("page_loaded", function(resp) { console.log("[Moneris] Loaded", JSON.parse(resp)); });
-    myCheckout.setCallback("cancel_transaction", function(resp) { console.log("[Moneris] Cancelled", JSON.parse(resp)); });
-    myCheckout.setCallback("error_event", function(resp) { console.error("[Moneris] Error", JSON.parse(resp)); });
-    myCheckout.setCallback("payment_receipt", function(resp) { console.log("[Moneris] Receipt", JSON.parse(resp)); });
+    // Standard Callback Interceptors
+    myCheckout.setCallback("page_loaded", function(response) { 
+        console.log("[Astraa Moneris] Secure iframe completed loading."); 
+    });
     
-    myCheckout.setCallback("payment_complete", function(resp) {
-        var parsed = JSON.parse(resp);
+    myCheckout.setCallback("cancel_transaction", function(response) { 
+        console.log("[Astraa Moneris] Transaction cancelled by customer."); 
+    });
+    
+    myCheckout.setCallback("error_event", function(response) { 
+        console.error("[Astraa Moneris] Hardware or token exception:", response); 
+    });
+    
+    myCheckout.setCallback("payment_receipt", function(response) { 
+        console.log("[Astraa Moneris] Direct receipt payload received."); 
+    });
+    
+    myCheckout.setCallback("payment_complete", function(response) {
+        console.log("[Astraa Moneris] Success! Redirecting account routing...");
+        var parsed = JSON.parse(response);
         window.location.href = "payment-success.html?ticket=" + encodeURIComponent(parsed.ticket || "");
     });
 
+    // Fire the Checkout overlay container
     window.startAstraaCheckout = function() {
         var preloadData = {
             "amount": "29.00",
@@ -46,10 +90,16 @@
                 ]
             }
         };
-        console.log("[Moneris] Launching security container...");
-        myCheckout.startCheckoutWithCheckoutId(MY_CHECKOUT_ID, JSON.stringify(preloadData));
+        
+        try {
+            console.log("[Astraa Moneris] Spawning overlay with Checkout ID...");
+            myCheckout.startCheckoutWithCheckoutId(MY_CHECKOUT_ID, JSON.stringify(preloadData));
+        } catch (err) {
+            console.error("[Astraa Moneris] Failed to spawn iframe window:", err);
+        }
     };
 
+    // Give the global script context 300ms to register firmly before executing
     document.addEventListener("DOMContentLoaded", function() {
         setTimeout(function() {
             window.startAstraaCheckout();

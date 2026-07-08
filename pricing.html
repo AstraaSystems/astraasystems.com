@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing - Astraa Systems</title>
     <style>
-        /* Global Base Specs */
+        /* Global Base Reset matching Core Tools Workspace UI */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -17,7 +17,7 @@
             line-height: 1.5;
         }
 
-        /* 1. Sticky Header Framework */
+        /* Sticky Header Matrix Configuration */
         .global-header {
             position: sticky;
             top: 0;
@@ -31,7 +31,7 @@
             align-items: center;
         }
         .header-left { display: flex; align-items: center; gap: 2.5rem; }
-        .brand { font-weight: 700; font-size: 1.3rem; letter-spacing: -0.5px; color: #f3f4f6; }
+        .brand-logo-img { height: 32px; width: auto; display: block; }
         .nav-links { display: flex; gap: 1.75rem; list-style: none; }
         .nav-links a { color: #9ca3af; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
         .nav-links a:hover, .nav-links a.active { color: #f3f4f6; }
@@ -43,11 +43,12 @@
             padding: 0.5rem 1.2rem;
             border-radius: 6px;
             background: #1a1d29;
+            font-weight: 600;
             transition: background 0.2s;
         }
-        .header-right .btn-login:hover { background-color: #2563eb; }
+        .header-right .btn-login:hover { background-color: #3b82f6; }
 
-        /* 2. Pricing Architecture Canvas */
+        /* Canvas Grid Layout Layouts */
         .pricing-container {
             flex: 1;
             width: 100%;
@@ -105,9 +106,9 @@
         .features-list li::before { content: "✓"; color: #10b981; font-weight: bold; margin-right: 0.75rem; }
 
         .btn-action {
-            display: block; text-align: center; background: #3b82f6; color: white;
-            padding: 0.8rem; border-radius: 6px; text-decoration: none; font-weight: 600;
-            transition: background 0.2s;
+            display: block; width: 100%; text-align: center; background: #3b82f6; color: white;
+            padding: 0.8rem; border-radius: 6px; border: none; font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: background 0.2s; text-decoration: none;
         }
         .btn-action:hover { background: #2563eb; }
         .btn-alt { background: transparent; border: 1px solid #2d3142; color: #f3f4f6; }
@@ -118,7 +119,7 @@
             padding: 1.5rem; border-radius: 8px; font-size: 0.95rem; color: #9ca3af; margin-top: 2rem;
         }
 
-        /* 3. Single-Row Footer Framework */
+        /* Single-Row Footer Framework Configuration */
         .global-footer {
             background-color: #12141c;
             border-top: 1px solid #2d3142;
@@ -145,12 +146,14 @@
 
     <header class="global-header">
         <div class="header-left">
-            <a href="/index.html" style="display: flex; align-items: center;"><img src="frontend/assets/images/astraa_logo.png" alt="Astraa" style="height: 32px; width: auto;"></a>
+            <a href="/index.html" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="frontend/assets/images/astraa_logo.png" alt="Astraa Logo" class="brand-logo-img">
+            </a>
             <nav>
                 <ul class="nav-links">
                     <li><a href="/index.html">Home</a></li>
                     <li><a href="/tools.html">Tools</a></li>
-                    <li><a href="#pricing" class="active">Pricing</a></li>
+                    <li><a href="/pricing.html" class="active">Pricing</a></li>
                     <li><a href="/support.html">Support</a></li>
                 </ul>
             </nav>
@@ -179,7 +182,7 @@
                         <li>Standard tracking layout configuration</li>
                     </ul>
                 </div>
-                <a onclick="window.open('/buynow', '_self')" style="cursor: pointer;" class="btn-action">Deploy Basic</a>
+                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Basic</button>
             </div>
             <div class="pricing-card">
                 <div>
@@ -191,7 +194,7 @@
                         <li>Advanced system processing matrices</li>
                     </ul>
                 </div>
-                <a onclick="window.open('/buynow', '_self')" style="cursor: pointer;" class="btn-action">Deploy Professional</a>
+                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Professional</button>
             </div>
             <div class="pricing-card">
                 <div>
@@ -203,7 +206,7 @@
                         <li>Special system engineering & setup integrations</li>
                     </ul>
                 </div>
-                <a onclick="window.open('/contact', '_self')" style="cursor: pointer;" class="btn-action btn-alt">Contact Architect</a>
+                <button onclick="window.open('/contact', '_self')" class="btn-action btn-alt">Contact Architect</button>
             </div>
         </div>
 
@@ -222,7 +225,7 @@
                         <li>Includes fully integrated core Expenses tracking module</li>
                     </ul>
                 </div>
-                <a onclick="window.open('/buynow', '_self')" style="cursor: pointer;" class="btn-action">Deploy Basic</a>
+                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Basic</button>
             </div>
             <div class="pricing-card featured">
                 <div class="bonus-badge">Popular</div>
@@ -237,7 +240,7 @@
                         <li>Enhanced Expenses tracking framework built-in</li>
                     </ul>
                 </div>
-                <a onclick="window.open('/buynow', '_self')" style="cursor: pointer;" class="btn-action">Deploy Professional</a>
+                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Professional</button>
             </div>
             <div class="pricing-card">
                 <div>
@@ -250,7 +253,7 @@
                         <li>Package pricing matrix options available</li>
                     </ul>
                 </div>
-                <a onclick="window.open('/contact', '_self')" style="cursor: pointer;" class="btn-action btn-alt">Contact Architect</a>
+                <button onclick="window.open('/contact', '_self')" class="btn-action btn-alt">Contact Architect</button>
             </div>
         </div>
 
@@ -268,7 +271,7 @@
                         <li>Internal workflow foundation nodes</li>
                     </ul>
                 </div>
-                <a onclick="window.open('/buynow', '_self')" style="cursor: pointer;" class="btn-action">Deploy Basic</a>
+                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Basic</button>
             </div>
             <div class="pricing-card">
                 <div>
@@ -281,7 +284,7 @@
                         <li>Engineered for absolute operational visibility</li>
                     </ul>
                 </div>
-                <a onclick="window.open('/buynow', '_self')" style="cursor: pointer;" class="btn-action">Deploy Professional</a>
+                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Professional</button>
             </div>
             <div class="pricing-card">
                 <div>
@@ -294,7 +297,7 @@
                         <li>Custom package path blueprints</li>
                     </ul>
                 </div>
-                <a onclick="window.open('/buynow', '_self')" style="cursor: pointer;" class="btn-action">Deploy Plus</a>
+                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Plus</button>
             </div>
         </div>
 
@@ -310,7 +313,7 @@
                         <li>Bonus Expenses Tracking Core Module</li>
                     </ul>
                 </div>
-                <a onclick="window.open('/buynow', '_self')" style="cursor: pointer;" class="btn-action">Deploy Bundle</a>
+                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Bundle</button>
             </div>
             <div class="pricing-card">
                 <div>
@@ -321,7 +324,7 @@
                         <li>Full Expenses Analytics Suite Integration</li>
                     </ul>
                 </div>
-                <a onclick="window.open('/buynow', '_self')" style="cursor: pointer;" class="btn-action">Deploy Bundle</a>
+                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Bundle</button>
             </div>
             <div class="pricing-card featured">
                 <div class="bonus-badge">Complete Stack</div>
@@ -333,7 +336,7 @@
                         <li>Complete platform visibility mapping & sync</li>
                     </ul>
                 </div>
-                <a onclick="window.open('/buynow', '_self')" style="cursor: pointer;" class="btn-action">Deploy Comprehensive Stack</a>
+                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Comprehensive Stack</button>
             </div>
         </div>
 
@@ -344,7 +347,7 @@
                     <div class="tier-price">$199.99 <span>CAD/mo</span></div>
                     <p style="color: #9ca3af; font-size: 0.95rem;">Finance Professional + Operations Professional synchronization matrix for full structural management.</p>
                 </div>
-                <a onclick="window.open('/buynow', '_self')" style="cursor: pointer;" class="btn-action btn-alt" style="margin-top: 15px;">Deploy Operations Stack</a>
+                <button onclick="window.open('/buynow', '_self')" class="btn-action btn-alt" style="margin-top: 15px;">Deploy Operations Stack</button>
             </div>
             <div class="pricing-card">
                 <div>
@@ -352,7 +355,7 @@
                     <div class="tier-price">Variable Matrix</div>
                     <p style="color: #9ca3af; font-size: 0.95rem;">Custom architectures built specifically for enterprise, multi-location contractors, franchise structures, or specialized configurations.</p>
                 </div>
-                <a onclick="window.open('/contact', '_self')" style="cursor: pointer;" class="btn-action btn-alt" style="margin-top: 15px;">Request Tailored Suite</a>
+                <button onclick="window.open('/contact', '_self')" class="btn-action btn-alt" style="margin-top: 15px;">Request Tailored Suite</button>
             </div>
         </div>
 

@@ -1,338 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- ASTRAA_SUPPORT_PAGE_V3 -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FAQ / Support | Astraa Systems</title>
-  <meta name="description" content="FAQ and support for Astraa Workspace, Estimator, Finance, Expense, Operations, pricing, trials, and custom packages." />
-
   <style>
     :root {
-      --black:#05070f;
-      --navy:#071426;
-      --royal:#1d4ed8;
-      --white:#ffffff;
-      --off:#f8fafc;
-      --line:#dbe3ef;
-      --text:#0f172a;
-      --muted:#475569;
-      --gray:#64748b;
-      --light:#dbeafe;
+      --black: #000000;
+      --navy: #090d16;
+      --royal: #1d4ed8;
+      --blue: #2563eb;
+      --white: #ffffff;
+      --off-white: #f8fafc;
+      --line-light: #e2e8f0;
+      --text-dark: #0f172a;
+      --muted-dark: #475569;
+      --gray: #64748b;
     }
 
-    * { box-sizing:border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin:0;
-      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      color:var(--text);
-      background:var(--white);
-      line-height:1.6;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
-    a { color:inherit; }
+    a { color: inherit; text-decoration: none; }
 
-    .container {
-      max-width:1120px;
-      margin:0 auto;
-      padding:0 24px;
+    /* ASTRAA_VISIBLE_PUBLIC_HEADER_V8 */
+    .astraa-site-header {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 9999 !important;
+      background: rgba(255, 255, 255, 0.85) !important;
+      backdrop-filter: blur(16px) !important;
+      border-bottom: 1px solid var(--line-light) !important;
+      width: 100%;
     }
 
-    .hero {
-      background:linear-gradient(135deg,var(--black),var(--navy));
-      color:white;
-      padding:88px 0 76px;
+    .astraa-site-nav {
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      padding: 14px 24px !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      gap: 20px !important;
+      width: 100%;
     }
 
-    .kicker {
-      display:inline-flex;
-      padding:8px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.16);
-      color:var(--light);
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      margin-bottom:20px;
+    .astraa-site-brand {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      font-weight: 950 !important;
+      color: var(--black) !important;
+      white-space: nowrap !important;
+    }
+    .astraa-site-brand img { width: 34px !important; height: 34px !important; object-fit: contain !important; }
+    .astraa-site-brand span { display: block !important; font-size: 13px !important; color: var(--black) !important; font-weight: 800 !important; }
+
+    .astraa-site-links { display: flex !important; align-items: center !important; gap: 28px !important; color: var(--muted-dark) !important; font-size: 14px !important; font-weight: 600 !important; }
+    .astraa-site-links a { transition: color 0.2s; }
+    .astraa-site-links a:hover { color: var(--royal) !important; }
+
+    .astraa-action-pack { display: flex !important; align-items: center !important; gap: 20px !important; }
+    .astraa-space-btn { font-size: 14px; font-weight: 600; color: var(--muted-dark); text-decoration: none; transition: color 0.2s; }
+    .astraa-space-btn:hover { color: var(--royal); }
+
+    .astraa-site-cta {
+      display: inline-flex !important;
+      padding: 8px 16px !important;
+      border-radius: 999px !important;
+      background: var(--black) !important;
+      color: white !important;
+      font-weight: 700 !important;
+      font-size: 13px !important;
+      align-items: center;
+      transition: background 0.2s;
+    }
+    .astraa-site-cta:hover { background: var(--royal) !important; }
+
+    /* New Clean Light Layout Container System */
+    .support-container {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px 90px;
     }
 
-    .hero h1 {
-      margin:0;
-      max-width:940px;
-      font-size:clamp(44px,7vw,82px);
-      line-height:.96;
-      letter-spacing:-.07em;
+    .support-hero {
+      margin-bottom: 50px;
+    }
+    .support-hero .section-badge {
+      font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase;
+      letter-spacing: 0.5px; margin-bottom: 12px; display: block;
+    }
+    .support-hero h1 { font-size: clamp(32px, 5vw, 48px); font-weight: 900; color: var(--black); margin-bottom: 16px; letter-spacing: -0.04em; }
+    .support-hero p { color: var(--muted-dark); font-size: 18px; max-width: 800px; line-height: 1.6; }
+
+    .support-section-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
     }
 
-    .hero p {
-      max-width:780px;
-      margin:24px 0 0;
-      color:var(--light);
-      font-size:19px;
-    }
-
-    .section { padding:72px 0; }
-
-    .section h2 {
-      margin:0 0 12px;
-      color:var(--black);
-      font-size:clamp(32px,4vw,52px);
-      line-height:1.05;
-      letter-spacing:-.055em;
-    }
-
-    .section p {
-      color:var(--muted);
-      max-width:850px;
-      margin:0;
-    }
-
+    /* Structured Corporate Grid Configuration matching Tool/Pricing Formats */
     .support-grid {
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-      margin-top:30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+    @media(max-width: 600px) {
+      .support-grid { grid-template-columns: 1fr; }
     }
 
-    .card {
-      border:1px solid var(--line);
-      border-radius:28px;
-      padding:24px;
-      background:white;
-      box-shadow:0 14px 38px rgba(15,23,42,.06);
+    .support-card {
+      background: #ffffff;
+      border: 1px solid var(--line-light);
+      border-radius: 12px;
+      padding: 36px;
+      transition: border-color 0.2s;
     }
-
-    .card h3 {
-      margin:0 0 14px;
-      color:var(--black);
-      font-size:25px;
-      letter-spacing:-.04em;
-    }
-
-    .faq-item {
-      border-top:1px solid #e5e7eb;
-      padding:16px 0;
-    }
-
-    .faq-item:first-of-type {
-      border-top:0;
-      padding-top:0;
-    }
-
-    .faq-item strong {
-      display:block;
-      color:var(--black);
-      margin-bottom:6px;
-      font-size:15px;
-    }
-
-    .faq-item span {
-      display:block;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.55;
-    }
-
-    .notice {
-      margin-top:28px;
-      padding:20px;
-      border-radius:22px;
-      background:#eff6ff;
-      border:1px solid #bfdbfe;
-      color:#1e3a8a;
-    }
-
-    .btn {
-      display:inline-flex;
-      justify-content:center;
-      align-items:center;
-      padding:12px 15px;
-      border-radius:999px;
-      text-decoration:none;
-      font-weight:950;
-      border:1px solid transparent;
-      cursor:pointer;
-      font:inherit;
-      margin-top:18px;
-    }
-
-    .btn.primary {
-      background:var(--royal);
-      color:white;
-    }
-
-    .btn.secondary {
-      background:white;
-      color:var(--royal);
-      border-color:#bfdbfe;
-    }
+    .support-card:hover { border-color: var(--royal); }
+    
+    .card-title { font-size: 20px; font-weight: 800; color: var(--black); margin-bottom: 14px; letter-spacing: -0.02em; }
+    .card-label { font-size: 13px; font-weight: 700; color: var(--black); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.3px; display: block; }
+    .card-text { font-size: 15px; color: var(--muted-dark); line-height: 1.6; margin-bottom: 16px; }
 
     footer {
-      padding:28px 0;
-      border-top:1px solid #e5e7eb;
-      color:var(--gray);
-      font-size:14px;
+      border-top: 1px solid var(--line-light);
+      padding: 32px 24px;
+      background: var(--white);
+      width: 100%;
     }
 
-    .footer-inner {
-      max-width:1120px;
-      margin:0 auto;
-      padding:0 24px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:18px;
-      flex-wrap:wrap;
-    }
-
-    .footer-links {
-      display:flex;
-      gap:16px;
-      flex-wrap:wrap;
-    }
-
-    .footer-links a {
-      text-decoration:none;
-      color:var(--gray);
-    }
-
-    .support-chat {
-      position:fixed;
-      right:22px;
-      bottom:22px;
-      z-index:90;
-    }
-
-    .support-chat button {
-      border:0;
-      border-radius:999px;
-      background:#1d4ed8;
-      color:white;
-      padding:13px 16px;
-      font-weight:950;
-      box-shadow:0 18px 45px rgba(29,78,216,.28);
-      cursor:pointer;
-    }
-
-    @media(max-width:900px) {
-      .support-grid { grid-template-columns:1fr; }
-      .hero { padding:70px 0 64px; }
-    }
-  
-/* ASTRAA_VISIBLE_PUBLIC_HEADER_V8 */
-.astraa-site-header {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 9999 !important;
-  background: rgba(255,255,255,.97) !important;
-  backdrop-filter: blur(16px) !important;
-  border-bottom: 1px solid #e5e7eb !important;
-}
-
-.astraa-site-nav {
-  max-width: 1120px !important;
-  margin: 0 auto !important;
-  padding: 16px 24px !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  gap: 20px !important;
-}
-
-.astraa-site-brand {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  text-decoration: none !important;
-  font-weight: 950 !important;
-  color: #05070f !important;
-  white-space: nowrap !important;
-}
-
-.astraa-site-brand img {
-  width: 38px !important;
-  height: 38px !important;
-  object-fit: contain !important;
-  flex: 0 0 auto !important;
-}
-
-.astraa-site-brand span {
-  display: block !important;
-  font-size: 12px !important;
-  color: #64748b !important;
-  font-weight: 700 !important;
-  line-height: 1.1 !important;
-}
-
-.astraa-site-links {
-  display: flex !important;
-  align-items: center !important;
-  gap: 22px !important;
-  color: #475569 !important;
-  font-size: 14px !important;
-  font-weight: 750 !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-.astraa-site-links a {
-  display: inline-flex !important;
-  text-decoration: none !important;
-  color: #475569 !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-.astraa-site-links a:hover {
-  color: #1d4ed8 !important;
-}
-
-.astraa-site-cta {
-  display: inline-flex !important;
-  padding: 10px 15px !important;
-  border-radius: 999px !important;
-  background: #1d4ed8 !important;
-  color: white !important;
-  text-decoration: none !important;
-  font-weight: 900 !important;
-  white-space: nowrap !important;
-}
-
-@media(max-width: 900px) {
-  .astraa-site-links {
-    display: none !important;
-  }
-}
-
-</style>
-  <link rel="stylesheet" href="css/astraa-mobile-responsive-fix.css?v=20260621-mobile-nav-single-row">
-  <link rel="stylesheet" href="css/astraa-mobile-header-final.css?v=20260621-final-mobile-header">
-
-
-  <!-- Astraa site icons -->
-  <link rel="icon" type="image/png" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
-  <link rel="shortcut icon" type="image/png" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
-  <link rel="apple-touch-icon" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
-  <link rel="manifest" href="site.webmanifest?v=20260621-astraa-logo-icon">
-
-<style id="astraa-alignment-matrix">
-        * { box-sizing: border-box !important; }
-        body { margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; overflow-x: hidden !important; }
-        body > div, main, .main-content, #root { width: 100% !important; max-width: 100% !important; margin: 0 auto !important; transform: none !important; }
-        .hero, section, main > div, .content-wrapper { max-width: 1200px !important; margin: 0 auto !important; width: 100% !important; }
-        header, nav, .navbar, .header { display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; max-width: 1200px !important; margin: 0 auto !important; padding: 20px !important; }
-        header a, nav a, .navbar a, .nav-links a { text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; margin: 0 14px !important; display: inline-block !important; white-space: nowrap !important; }
-        header > div:first-child, .brand-container { display: flex !important; flex-direction: column !important; align-items: flex-start !important; width: auto !important; }
-        header span, .brand-text { white-space: nowrap !important; }
-    </style>
+    @media(max-width: 900px) { .astraa-site-links { display: none !important; } }
+  </style>
 </head>
-
 <body>
-<header class="astraa-site-header">
+
+  <header class="astraa-site-header">
     <nav class="astraa-site-nav">
       <a href="index.html" class="astraa-site-brand">
         <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" onerror="this.style.display='none'"/>
@@ -354,735 +172,39 @@
     </nav>
   </header>
 
-<main>
-  <section class="hero">
-    <div class="container">
-      <div class="kicker">Astraa Support</div>
+  <main class="support-container">
+    
+    <section class="support-hero">
+      <span class="section-badge">Astraa Support</span>
       <h1>FAQ, support, and troubleshooting for Astraa products.</h1>
-      <p>
-        Get help with Workspace access, Estimator, Finance, Expense, Operations,
-        pricing, trials, custom packages, and coming soon tools.
-      </p>
-    </div>
-  </section>
+      <p>Get help with Workspace access, Estimator, Finance, Expense, Operations, pricing, trials, custom packages, and coming soon tools.</p>
+    </section>
 
-  <section class="section">
-    <div class="container">
-      <h2>Support options.</h2>
-      <p>Use the FAQ resources, contact Astraa, or prepare for future phone support.</p>
+    <h2 class="support-section-title">Support options.</h2>
 
-      <div class="support-grid">
-        <article class="card">
-          <h3>FAQ / Support Assistant</h3>
-          <div class="faq-item">
-            <strong>What is this support area?</strong>
-            <span>This page helps public visitors understand Astraa tools, pricing, trial access, and support paths.</span>
-          </div>
-          <div class="faq-item">
-            <strong>Can the support assistant fix account issues?</strong>
-            <span>Not yet. Deeper account actions should happen inside Workspace or through direct support.</span>
-          </div>
-          <div class="faq-item">
-            <strong>Where should customers ask for help?</strong>
-            <span>Use the Contact page for custom packages, onboarding, account access, and troubleshooting requests.</span>
-          </div>
-          <a class="btn primary" href="contact.html">Contact Support</a>
-        </article>
-
-        <article class="card">
-          <h3>Phone support</h3>
-          <p>
-            Phone support is planned, but should not be published until the phone number,
-            routing, privacy language, and escalation flow are ready.
-          </p>
-          <div class="notice">
-            <strong>Support phone:</strong> Coming soon. Future phone support should connect callers to a support assistant and provide a clear path to direct contact when needed.
-          </div>
-        </article>
-
-        <article class="card">
-          <h3>Astraa Estimator</h3>
-          <div class="faq-item"><strong>Basic</strong><span>$39.99 CAD/month with 30 estimates per month.</span></div>
-          <div class="faq-item"><strong>Professional</strong><span>$99.99 CAD/month with 120 estimates per month.</span></div>
-          <div class="faq-item"><strong>Extra estimates</strong><span>Basic and Professional can add $10 CAD packs for 10 additional estimates.</span></div>
-        </article>
-
-        <article class="card">
-          <h3>Finance, Expense, and Operations</h3>
-          <div class="faq-item"><strong>Finance</strong><span>Supports planning visibility for budgets, cashflow direction, receivables, payables, and summaries.</span></div>
-          <div class="faq-item"><strong>Expense</strong><span>Bonus Workspace tool for expense tracking and summaries.</span></div>
-          <div class="faq-item"><strong>Operations</strong><span>Supports actions, owners, priorities, statuses, blockers, and follow-up workflows.</span></div>
-        </article>
+    <div class="support-grid">
+      
+      <div class="support-card">
+        <div class="card-title">FAQ / Support Assistant</div>
+        <div class="card-label">What is this support area?</div>
+        <p class="card-text">Helps public visitors understand Astraa tools, trial access, and support paths.</p>
       </div>
-    </div>
-  </section>
-<!-- ASTRAA_SUPPORT_PAGE_DEPTH_V1_START -->
-<style>
-  .astraa-support-depth {
-    max-width: 1180px;
-    margin: 48px auto;
-    padding: 0 20px;
-    font-family: inherit;
-  }
 
-  .astraa-support-depth .support-eyebrow {
-    color: #1d4ed8;
-    font-size: .78rem;
-    font-weight: 800;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-
-  .astraa-support-depth h2 {
-    color: #0b1f3a;
-    font-size: clamp(1.8rem, 3vw, 2.55rem);
-    line-height: 1.12;
-    margin: 0 0 12px;
-  }
-
-  .astraa-support-depth .support-note {
-    color: #475569;
-    max-width: 850px;
-    line-height: 1.7;
-    margin: 0 0 24px;
-  }
-
-  .astraa-support-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
-    margin: 24px 0;
-  }
-
-  .astraa-support-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 18px;
-    padding: 22px;
-    box-shadow: 0 14px 35px rgba(15, 23, 42, .06);
-  }
-
-  .astraa-support-card.featured {
-    border-color: rgba(29, 78, 216, .35);
-    box-shadow: 0 18px 45px rgba(29, 78, 216, .12);
-  }
-
-  .astraa-support-card h3 {
-    margin: 0 0 8px;
-    color: #111827;
-    font-size: 1.15rem;
-  }
-
-  .astraa-support-card p,
-  .astraa-support-card li {
-    color: #475569;
-    line-height: 1.6;
-  }
-
-  .astraa-support-card ul {
-    margin: 10px 0 0;
-    padding-left: 18px;
-  }
-
-  .astraa-support-band {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 18px;
-    padding: 22px;
-    margin: 22px 0;
-  }
-
-  .astraa-support-band h3 {
-    color: #0b1f3a;
-    margin: 0 0 10px;
-  }
-
-  .astraa-support-faq {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 20px;
-  }
-
-  .astraa-support-faq .faq-item {
-    border: 1px solid #e5e7eb;
-    border-radius: 16px;
-    padding: 18px;
-    background: #fff;
-  }
-
-  .astraa-support-faq strong {
-    display: block;
-    color: #111827;
-    margin-bottom: 8px;
-  }
-
-  .astraa-support-faq span {
-    color: #475569;
-    line-height: 1.6;
-  }
-
-  @media (max-width: 900px) {
-    .astraa-support-grid,
-    .astraa-support-faq {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
-
-<section class="astraa-support-depth" aria-label="Astraa support information">
-  <div class="support-eyebrow">Support</div>
-  <h2>How Astraa support can help</h2>
-  <p class="support-note">
-    Astraa support is here to help businesses understand tools, pricing, packages, trial access,
-    and controlled Workspace setup. Public marketing access is moving forward carefully while paid
-    customer SaaS access remains controlled until production authentication, managed database,
-    deployment secrets, and deployed payment regression are complete.
-  </p>
-
-  <div class="astraa-support-grid">
-    <article class="astraa-support-card featured">
-      <h3>Tool and package questions</h3>
-      <p>Ask which Astraa tools fit your business stage, team size, or workflow.</p>
-      <ul>
-        <li>Estimator, Finance, and Operations guidance</li>
-        <li>Business, contractor, franchise, and non-profit packages</li>
-        <li>Custom package discussions</li>
-      </ul>
-    </article>
-
-    <article class="astraa-support-card">
-      <h3>Pricing and plan help</h3>
-      <p>Use support to clarify launch pricing, package fit, and upgrade paths.</p>
-      <ul>
-        <li>Estimator Basic and Professional</li>
-        <li>Finance Basic, Professional, Personal, and Non-Profit</li>
-        <li>Operations Basic, Professional, Plus, and Custom</li>
-      </ul>
-    </article>
-
-    <article class="astraa-support-card">
-      <h3>Access and trial questions</h3>
-      <p>Customer access is introduced carefully while the production foundation is completed.</p>
-      <ul>
-        <li>Trial/access interest</li>
-        <li>Workspace account questions</li>
-        <li>Controlled onboarding and package requests</li>
-      </ul>
-    </article>
-  </div>
-
-  <div class="astraa-support-band">
-    <h3>Current access status</h3>
-    <p>
-      Astraa’s public website can move through marketing visibility, but broad paid customer SaaS
-      onboarding is not open yet. Production authentication, managed database setup, secure deployment
-      secrets, host/TLS configuration, and deployed Moneris regression remain required before broad
-      paid access.
-    </p>
-  </div>
-
-  <div class="astraa-support-grid">
-    <article class="astraa-support-card">
-      <h3>What to include when contacting support</h3>
-      <ul>
-        <li>Your business or organization type</li>
-        <li>Which tools you are interested in</li>
-        <li>Team size or number of users</li>
-        <li>Whether you need a standard plan or custom package</li>
-        <li>Any contractor, franchise, non-profit, or multi-location needs</li>
-      </ul>
-    </article>
-
-    <article class="astraa-support-card">
-      <h3>Best fit examples</h3>
-      <ul>
-        <li>Small business: Estimator or Finance Basic</li>
-        <li>Growing team: Professional plans or Business Professional bundle</li>
-        <li>Contractor team: Contractor Professional package</li>
-        <li>Franchise or multi-location team: Custom Suite</li>
-      </ul>
-    </article>
-
-    <article class="astraa-support-card">
-      <h3>Responsible launch approach</h3>
-      <p>
-        Astraa is being launched carefully: public website first, controlled access next,
-        and broad paid SaaS onboarding only after production systems are fully proven.
-      </p>
-    </article>
-  </div>
-
-  <div class="astraa-support-faq">
-    <div class="faq-item">
-      <strong>Can I use Astraa right now?</strong>
-      <span>
-        You can review the public website, pricing, and tools. Customer tool access is controlled
-        while production systems continue through final hardening.
-      </span>
-    </div>
-
-    <div class="faq-item">
-      <strong>Which tools are available in pricing?</strong>
-      <span>
-        Estimator, Finance, and Operations now have visible launch pricing. Custom packages are
-        available for contractors, franchises, non-profits, and special setups.
-      </span>
-    </div>
-
-    <div class="faq-item">
-      <strong>Is paid SaaS onboarding fully open?</strong>
-      <span>
-        Not yet. Broad paid SaaS access remains blocked until production auth, managed database,
-        deployed secrets, host/TLS, and deployed payment regression are complete.
-      </span>
-    </div>
-
-    <div class="faq-item">
-      <strong>How do I ask for a custom package?</strong>
-      <span>
-        Contact Astraa with your business type, team size, desired tools, and any contractor,
-        franchise, non-profit, or multi-location requirements.
-      </span>
-    </div>
-
-    <div class="faq-item">
-      <strong>Does Astraa support non-profits?</strong>
-      <span>
-        Yes. Finance Non-Profit pricing is available, and very new low-budget non-profits can
-        request additional startup discount review.
-      </span>
-    </div>
-
-    <div class="faq-item">
-      <strong>Does Astraa support contractors and field teams?</strong>
-      <span>
-        Yes. Operations and Contractor Professional packages are designed for teams that need
-        estimating, finance, scheduling, coordination, and field workflow visibility.
-      </span>
-    </div>
-  </div>
-</section>
-<!-- ASTRAA_SUPPORT_PAGE_DEPTH_V1_END -->
-
-</main>
-
-<div class="support-chat">
-  <button type="button" onclick="alert('FAQ / Support chat placeholder. Full connected support assistant will be added after Workspace resources are stable.')">FAQ / Support</button>
-</div>
-
-<footer>
-  <div class="footer-inner">
-    <div>Astraa Systems © 2026</div>
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="tools.html">Tools</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="support.html">FAQ / Support</a>
-      <a href="contact.html">Contact</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
-      <a href="trial-terms.html">Trial Terms</a>
-    </div>
-  </div>
-</footer>
-<!-- ASTRAA_PAID_CONVERSION_CTA_V1_START -->
-<style>
-  .astraa-paid-cta {
-    max-width: 1180px;
-    margin: 44px auto;
-    padding: 0 20px;
-    font-family: inherit;
-  }
-
-  .astraa-paid-cta-inner {
-    background: linear-gradient(135deg, #0b1f3a, #1d4ed8);
-    color: #ffffff;
-    border-radius: 24px;
-    padding: clamp(24px, 4vw, 42px);
-    box-shadow: 0 24px 70px rgba(15, 23, 42, .22);
-  }
-
-  .astraa-paid-cta .eyebrow {
-    color: #bfdbfe;
-    font-size: .78rem;
-    font-weight: 900;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-
-  .astraa-paid-cta h2 {
-    margin: 0 0 12px;
-    font-size: clamp(1.8rem, 3vw, 2.7rem);
-    line-height: 1.1;
-  }
-
-  .astraa-paid-cta p {
-    color: #e0ecff;
-    line-height: 1.7;
-    max-width: 860px;
-    margin: 0 0 18px;
-  }
-
-  .astraa-paid-cta-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 18px;
-  }
-
-  .astraa-paid-cta-actions a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    border-radius: 999px;
-    padding: 12px 18px;
-    font-weight: 900;
-  }
-
-  .astraa-paid-primary {
-    background: #ffffff;
-    color: #0b1f3a;
-  }
-
-  .astraa-paid-secondary {
-    background: rgba(255, 255, 255, .12);
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, .35);
-  }
-
-  .astraa-paid-cta-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 22px;
-  }
-
-  .astraa-paid-mini {
-    background: rgba(255, 255, 255, .1);
-    border: 1px solid rgba(255, 255, 255, .22);
-    border-radius: 16px;
-    padding: 14px;
-    color: #eff6ff;
-  }
-
-  .astraa-paid-mini strong {
-    display: block;
-    color: #ffffff;
-    margin-bottom: 5px;
-  }
-
-  @media (max-width: 900px) {
-    .astraa-paid-cta-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
-
-<section class="astraa-paid-cta" aria-label="Astraa paid onboarding">
-  <div class="astraa-paid-cta-inner">
-    <div class="eyebrow">Start with a paid plan</div>
-    <h2>Trial is available — but paid onboarding gets Astraa working for your business faster.</h2>
-    <p>
-      Astraa is built for businesses that want practical tools for estimating, finance, operations,
-      and workspace coordination. You can request trial access for evaluation, or ask Astraa to help
-      choose the right paid plan or package for your business.
-    </p>
-
-    <div class="astraa-paid-cta-actions">
-      <a class="astraa-paid-primary" href="mailto:support@astraasystems.com?subject=Astraa paid onboarding request&body=Hi Astraa Support,
-
-I am interested in starting with a paid Astraa plan or package.
-
-Business/organization:
-Tools I am interested in:
-Preferred package:
-Team size:
-Phone number:
-Questions:
-
-Thank you.">Request paid onboarding</a>
-
-      <a class="astraa-paid-secondary" href="pricing.html">View pricing</a>
-
-      <a class="astraa-paid-secondary" href="mailto:support@astraasystems.com?subject=Astraa trial or package question&body=Hi Astraa Support,
-
-I would like help choosing between trial access and a paid Astraa plan.
-
-Business/organization:
-Tools I am interested in:
-Questions:
-
-Thank you.">Ask Astraa first</a>
-    </div>
-
-    <div class="astraa-paid-cta-grid">
-      <div class="astraa-paid-mini">
-        <strong>Paid plan request</strong>
-        Choose Estimator, Finance, Operations, or a package and request setup guidance.
+      <div class="support-card">
+        <div class="card-title">Phone support</div>
+        <p class="card-text">Phone support is planned, but should not be published until the phone number language, and escalation flow are ready.</p>
       </div>
-      <div class="astraa-paid-mini">
-        <strong>Controlled trial</strong>
-        Trial access is available for evaluation, but customer access is introduced carefully.
-      </div>
-      <div class="astraa-paid-mini">
-        <strong>Custom packages</strong>
-        Contractors, franchises, non-profits, and multi-location teams can request a custom setup.
-      </div>
-    </div>
-  </div>
-</section>
-<!-- ASTRAA_PAID_CONVERSION_CTA_V1_END -->
 
-<!-- ASTRAA_SUPPORT_CONCIERGE_V1_START -->
-<style>
-  .astraa-concierge-button {
-    position: fixed;
-    right: 22px;
-    bottom: 22px;
-    z-index: 99998;
-    border: none;
-    border-radius: 999px;
-    background: #0b1f3a;
-    color: #ffffff;
-    padding: 14px 18px;
-    font-weight: 800;
-    box-shadow: 0 18px 45px rgba(15, 23, 42, .22);
-    cursor: pointer;
-    font-family: inherit;
-  }
-
-  .astraa-concierge-button span {
-    display: inline-block;
-    margin-left: 6px;
-    color: #bfdbfe;
-  }
-
-  .astraa-concierge-panel {
-    position: fixed;
-    right: 22px;
-    bottom: 82px;
-    width: min(390px, calc(100vw - 32px));
-    z-index: 99999;
-    background: #ffffff;
-    border: 1px solid #dbe4f0;
-    border-radius: 22px;
-    box-shadow: 0 26px 70px rgba(15, 23, 42, .22);
-    overflow: hidden;
-    font-family: inherit;
-    display: none;
-  }
-
-  .astraa-concierge-panel.open {
-    display: block;
-  }
-
-  .astraa-concierge-head {
-    background: linear-gradient(135deg, #0b1f3a, #1d4ed8);
-    color: #ffffff;
-    padding: 18px 20px;
-  }
-
-  .astraa-concierge-head strong {
-    display: block;
-    font-size: 1.05rem;
-  }
-
-  .astraa-concierge-head span {
-    display: block;
-    color: #dbeafe;
-    margin-top: 4px;
-    font-size: .9rem;
-    line-height: 1.4;
-  }
-
-  .astraa-concierge-body {
-    padding: 18px 20px 20px;
-  }
-
-  .astraa-concierge-note {
-    color: #475569;
-    line-height: 1.55;
-    margin: 0 0 14px;
-    font-size: .95rem;
-  }
-
-  .astraa-concierge-field {
-    margin-bottom: 10px;
-  }
-
-  .astraa-concierge-field label {
-    display: block;
-    font-size: .82rem;
-    color: #334155;
-    font-weight: 800;
-    margin-bottom: 5px;
-  }
-
-  .astraa-concierge-field input,
-  .astraa-concierge-field select,
-  .astraa-concierge-field textarea {
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #dbe4f0;
-    border-radius: 12px;
-    padding: 10px 11px;
-    font-family: inherit;
-    font-size: .95rem;
-    color: #111827;
-    background: #ffffff;
-  }
-
-  .astraa-concierge-field textarea {
-    min-height: 84px;
-    resize: vertical;
-  }
-
-  .astraa-concierge-actions {
-    display: grid;
-    gap: 9px;
-    margin-top: 12px;
-  }
-
-  .astraa-concierge-actions button,
-  .astraa-concierge-actions a {
-    text-align: center;
-    text-decoration: none;
-    border-radius: 12px;
-    padding: 11px 12px;
-    font-weight: 800;
-    font-family: inherit;
-  }
-
-  .astraa-concierge-send {
-    border: none;
-    background: #1d4ed8;
-    color: #ffffff;
-    cursor: pointer;
-  }
-
-  .astraa-concierge-call {
-    border: 1px solid #cbd5e1;
-    background: #f8fafc;
-    color: #0b1f3a;
-  }
-
-  .astraa-concierge-small {
-    color: #64748b;
-    font-size: .78rem;
-    line-height: 1.45;
-    margin-top: 10px;
-  }
-
-  @media (max-width: 520px) {
-    .astraa-concierge-button {
-      right: 16px;
-      bottom: 16px;
-    }
-
-    .astraa-concierge-panel {
-      right: 16px;
-      bottom: 74px;
-    }
-  }
-</style>
-
-<button class="astraa-concierge-button" type="button" onclick="astraaToggleConcierge()" aria-label="Ask Astraa support">
-  Ask Astraa <span>Support</span>
-</button>
-
-<section class="astraa-concierge-panel" id="astraaConciergePanel" aria-label="Astraa support concierge">
-  <div class="astraa-concierge-head">
-    <strong>Astraa Support Concierge</strong>
-    <span>This is not a bot. Send your question to Astraa support or request onboarding help.</span>
-  </div>
-
-  <div class="astraa-concierge-body">
-    <p class="astraa-concierge-note">
-      Ask about tools, pricing, packages, onboarding, or controlled access. Please do not send passwords or payment card details here.
-    </p>
-
-    <div class="astraa-concierge-field">
-      <label for="astraaSupportName">Name</label>
-      <input id="astraaSupportName" type="text" placeholder="Your name">
     </div>
 
-    <div class="astraa-concierge-field">
-      <label for="astraaSupportEmail">Email</label>
-      <input id="astraaSupportEmail" type="email" placeholder="you@example.com">
+  </main>
+
+  <footer>
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; gap: 16px;">
+      <p>&copy; 2026 Astraa Systems. All rights reserved.</p>
+      <a href="astraaspace/login.html" style="font-size: 14px; font-weight: 600; color: #475569; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#475569'">Astraa Space</a>
     </div>
-
-    <div class="astraa-concierge-field">
-      <label for="astraaSupportTopic">Topic</label>
-      <select id="astraaSupportTopic">
-        <option>Pricing or package question</option>
-        <option>Estimator help</option>
-        <option>Finance help</option>
-        <option>Operations help</option>
-        <option>Onboarding request</option>
-        <option>Request a call</option>
-        <option>Other support question</option>
-      </select>
-    </div>
-
-    <div class="astraa-concierge-field">
-      <label for="astraaSupportMessage">Question</label>
-      <textarea id="astraaSupportMessage" placeholder="Tell Astraa what you need help with..."></textarea>
-    </div>
-
-    <div class="astraa-concierge-actions">
-      <button class="astraa-concierge-send" type="button" onclick="astraaSendSupportEmail()">Send support request</button>
-      <a class="astraa-concierge-call" href="mailto:support@astraasystems.com?subject=Astraa%20call%20request&body=Hi%20Astraa%20Support%2C%0A%0AI%20would%20like%20to%20request%20a%20call%20for%20onboarding%20or%20package%20guidance.%0A%0AName%3A%0APhone%3A%0ABusiness%2Forganization%3A%0ATools%20I%20am%20interested%20in%3A%0A%0AThank%20you.">Request a call</a>
-    </div>
-
-    <div class="astraa-concierge-small">
-      Digital phone support is being prepared. Until a support number is connected, use the request form or call request option.
-    </div>
-  </div>
-</section>
-
-<script>
-  function astraaToggleConcierge() {
-    var panel = document.getElementById("astraaConciergePanel");
-    if (!panel) return;
-    panel.classList.toggle("open");
-  }
-
-  function astraaSendSupportEmail() {
-    var name = document.getElementById("astraaSupportName")?.value || "";
-    var email = document.getElementById("astraaSupportEmail")?.value || "";
-    var topic = document.getElementById("astraaSupportTopic")?.value || "Support question";
-    var message = document.getElementById("astraaSupportMessage")?.value || "";
-
-    var subject = "Astraa support request - " + topic;
-    var body = [
-      "Hi Astraa Support,",
-      "",
-      "I have a question/request from the Astraa website.",
-      "",
-      "Name: " + name,
-      "Email: " + email,
-      "Topic: " + topic,
-      "",
-      "Question:",
-      message,
-      "",
-      "Please follow up when available.",
-      "",
-      "Note: I understand this is not an automated bot and customer access remains controlled during launch hardening."
-    ].join("\n");
-
-    var mailto = "mailto:support@astraasystems.com"
-      + "?subject=" + encodeURIComponent(subject)
-      + "&body=" + encodeURIComponent(body);
-
-    window.location.href = mailto;
-  }
-</script>
-<!-- ASTRAA_SUPPORT_CONCIERGE_V1_END -->
+  </footer>
 
 </body>
 </html>

@@ -5,52 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing - Astraa Systems</title>
     <style>
-        /* Base Styles matching Tools & Support Layout */
+        /* Base Reset matching Support Layout Zoom Scales */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #f4f6f8;
+            background-color: #ffffff;
             color: #0b111e;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Pristine White Header Style from Screenshot */
+        /* Pristine Header matching FAQ/Support Zoom exactly */
         .global-header {
             position: sticky;
             top: 0;
             z-index: 1000;
             background-color: #ffffff;
             border-bottom: 1px solid #e5e7eb;
-            padding: 0 2rem;
-            height: 70px;
+            padding: 0 4rem; /* Matching the deep side padding of support page */
+            height: 75px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .header-left { display: flex; align-items: center; gap: 2.5rem; }
-        .brand-wrapper { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #000000; }
-        .brand-logo-img { height: 18px; width: auto; display: block; }
-        .brand-text { font-weight: 800; font-size: 1.2rem; color: #000000; letter-spacing: -0.3px; }
+        .header-left { display: flex; align-items: center; gap: 3rem; }
+        .brand-wrapper { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: #000000; }
         
-        .nav-links { display: flex; gap: 1.75rem; list-style: none; align-items: center; }
+        /* Adjusted Logo Dimensions to meet 20px spec */
+        .brand-logo-img { height: 20px; width: auto; display: block; }
+        .brand-text { font-weight: 800; font-size: 1.25rem; color: #000000; letter-spacing: -0.3px; }
+        
+        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
         .nav-links a { color: #4b5563; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
         .nav-links a:hover, .nav-links a.active { color: #0b111e; font-weight: 600; }
         
-        .header-right { display: flex; align-items: center; gap: 1.5rem; }
+        .header-right { display: flex; align-items: center; gap: 2rem; }
         .btn-space-link { color: #4b5563; text-decoration: none; font-size: 0.95rem; font-weight: 500; }
         .btn-space-link:hover { color: #0b111e; }
         
-        /* Black Pill Buy Now Button from Screenshot */
+        /* Black Pill Buy Now Button from Layout */
         .btn-buynow-pill {
             background-color: #000000;
             color: #ffffff;
             text-decoration: none;
             font-size: 0.95rem;
             font-weight: 700;
-            padding: 0.6rem 1.6rem;
+            padding: 0.65rem 1.75rem;
             border-radius: 50px;
             transition: background-color 0.2s;
             border: none;
@@ -58,75 +61,76 @@
         }
         .btn-buynow-pill:hover { background-color: #1f2937; }
 
-        /* Content Container Layout */
+        /* Structural Page Canvas - Narrowed Max-Width for Natural Layout Zoom */
         .pricing-container {
             flex: 1;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1000px; /* Reduced from 1200px to match Support View structure */
             margin: 0 auto;
-            padding: 3rem 1.5rem;
+            padding: 4rem 2rem;
         }
         
-        /* Matching the Support View Section Banner */
+        /* Support Section Styled Hero Layout */
         .pricing-hero { 
             text-align: center; 
-            margin-bottom: 3.5rem; 
-            padding: 2.5rem 1rem;
+            margin-bottom: 4rem; 
+            background-color: #f8fafc;
+            padding: 4rem 2rem;
+            border-radius: 8px;
         }
-        .pricing-hero h1 { font-size: 3rem; font-weight: 800; color: #0b111e; margin-bottom: 1rem; letter-spacing: -1px; }
-        .pricing-hero p { color: #4b5563; font-size: 1.2rem; font-weight: 400; }
+        .pricing-hero h1 { font-size: 3.2rem; font-weight: 800; color: #0b111e; margin-bottom: 1.2rem; letter-spacing: -1.5px; }
+        .pricing-hero p { color: #4b5563; font-size: 1.25rem; font-weight: 400; }
 
         .product-group-title {
             font-size: 1.8rem;
             font-weight: 700;
-            margin-top: 3.5rem;
-            margin-bottom: 0.5rem;
+            margin-top: 4rem;
+            margin-bottom: 0.75rem;
             color: #0b111e;
-            border-bottom: 2px solid #e5e7eb;
-            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.75rem;
         }
-        .product-desc { font-size: 1rem; color: #4b5563; margin-bottom: 2rem; }
+        .product-desc { font-size: 1.05rem; color: #4b5563; margin-bottom: 2.5rem; }
         
-        /* Clean Matrix Grid with White Cards from Tools Layout */
+        /* Balanced Matrix Grid */
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-bottom: 3.5rem;
+            margin-bottom: 4rem;
         }
         .pricing-card {
             background: #ffffff;
             border: 1px solid #e5e7eb;
             border-radius: 12px;
-            padding: 2.25rem;
+            padding: 2.5rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.01);
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .pricing-card:hover { 
             transform: translateY(-2px); 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+            box-shadow: 0 12px 30px rgba(0,0,0,0.04); 
         }
-        .pricing-card.featured { border: 2px solid #000000; position: relative; }
+        .pricing-card.featured { border: 2px solid #000000; }
         
         .status-badge {
             font-size: 0.8rem; font-weight: 700; color: #00bcff; text-transform: uppercase;
-            letter-spacing: 0.5px; margin-bottom: 1rem; display: block;
+            letter-spacing: 0.5px; margin-bottom: 1.25rem; display: block;
         }
         .tier-name { font-size: 1.5rem; font-weight: 700; color: #0b111e; margin-bottom: 0.5rem; }
-        .tier-price { font-size: 2.25rem; font-weight: 800; color: #000000; margin-bottom: 1.5rem; }
+        .tier-price { font-size: 2.25rem; font-weight: 800; color: #000000; margin-bottom: 1.75rem; }
         .tier-price span { font-size: 1rem; color: #4b5563; font-weight: 400; }
         
-        .features-list { list-style: none; margin-bottom: 2.25rem; flex-grow: 1; }
-        .features-list li { margin-bottom: 0.85rem; color: #4b5563; font-size: 1rem; display: flex; align-items: flex-start; }
+        .features-list { list-style: none; margin-bottom: 2.5rem; flex-grow: 1; }
+        .features-list li { margin-bottom: 0.95rem; color: #4b5563; font-size: 1rem; display: flex; align-items: flex-start; }
         .features-list li::before { content: "✓"; color: #00bcff; font-weight: bold; margin-right: 0.75rem; }
 
-        /* Integrated Card Buttons mapped directly to triggers */
         .card-btn {
             display: block; width: 100%; text-align: center; background: #000000; color: #ffffff;
-            padding: 0.85rem; border-radius: 6px; border: none; font-size: 1rem; font-weight: 700;
+            padding: 0.9rem; border-radius: 6px; border: none; font-size: 1rem; font-weight: 700;
             cursor: pointer; transition: background 0.2s; text-decoration: none;
         }
         .card-btn:hover { background: #1f2937; }
@@ -134,21 +138,22 @@
         .card-btn-alt:hover { background: #f9fafb; }
 
         .footer-note {
-            background: #ffffff; border: 1px solid #e5e7eb;
-            padding: 1.5rem; border-radius: 8px; font-size: 0.95rem; color: #4b5563; margin-top: 2rem;
+            background: #f8fafc; border: 1px solid #e5e7eb;
+            padding: 1.75rem; border-radius: 8px; font-size: 0.95rem; color: #4b5563; margin-top: 3rem;
+            line-height: 1.6;
         }
 
-        /* Matching Crisp Light Footer Layout */
+        /* Unified Light Footer */
         .global-footer {
             background-color: #ffffff;
             border-top: 1px solid #e5e7eb;
-            padding: 1.5rem 2rem;
+            padding: 1.75rem 4rem; /* Deep horizontal padding matching header alignment */
             font-size: 0.9rem;
             color: #4b5563;
             margin-top: auto;
         }
         .footer-content {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -163,7 +168,7 @@
 </head>
 <body>
 
-    <!-- Unified White Header Component from Screenshot -->
+    <!-- Unified White Header Component -->
     <header class="global-header">
         <div class="header-left">
             <a href="/index.html" class="brand-wrapper">
@@ -270,7 +275,7 @@
                         <li>Enhanced Expenses tracking framework built-in</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="card-btn" style="background: #000;">Deploy Professional</button>
+                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Professional</button>
             </div>
             <div class="pricing-card">
                 <div>
@@ -379,7 +384,7 @@
         </div>
 
         <!-- EXTRA UTILITY MATRICES -->
-        <div class="pricing-grid" style="grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));">
+        <div class="pricing-grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));">
             <div class="pricing-card">
                 <div>
                     <span class="status-badge">Sync Bundle</span>

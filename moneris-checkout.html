@@ -6,21 +6,34 @@
 (function () {
   console.log("Astraa Moneris Checkout integration initialized.");
 
-  // Dynamically determine the correct environment endpoint
-  var monerisEnv = sessionStorage.getItem("astraa_moneris_env") || "qa";
+  // Dynamically determine environment with an explicit fallback check
+  var monerisEnv = sessionStorage.getItem("astraa_moneris_env");
+  
+  if (!monerisEnv) {
+      // Force QA fallback explicitly but log it so you can track it in dev tools
+      monerisEnv = "qa";
+      console.warn("Moneris integration warning: 'astraa_moneris_env' key was absent in sessionStorage. Defaulting to: qa");
+  }
+
   var scriptUrl = (monerisEnv === "prod")
     ? "https://gateway.moneris.com/chkt/request/chkt_v1.00.js"
     : "https://gatewayt.moneris.com/chkt/request/chkt_v1.00.js";
 
-  // Append the official Moneris script element to the document head
+  console.log("Attempting to request payload from endpoint: " + scriptUrl);
+
   var script = document.createElement("script");
   script.src = scriptUrl;
   script.async = true;
   script.onload = function() {
     console.log("Moneris Checkout JavaScript engine loaded successfully from: " + scriptUrl);
+    
+    // Check if the initialization object exists after script loads
+    if (typeof monerisCheckout === "undefined") {
+        console.error("Moneris global engine loaded but 'monerisCheckout' controller is missing from window scope.");
+    }
   };
   script.onerror = function() {
-    console.error("Failed to load Moneris Checkout engine from: " + scriptUrl);
+    console.error("Critical Network Error: Failed to load Moneris Checkout engine from path: " + scriptUrl);
   };
   document.head.appendChild(script);
 })();

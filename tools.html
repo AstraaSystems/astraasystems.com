@@ -56,18 +56,26 @@
   </style>
 </head>
 <body>
-  <header>
-    <div class="container nav-inner">
-      <a href="index.html" class="brand">
-        <img src="assets/images/astraa_logo.png" alt="Astraa Systems" />
+  <header class="astraa-site-header">
+    <nav class="astraa-site-nav">
+      <a href="index.html" class="astraa-site-brand">
+        <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" onerror="this.style.display='none'"/>
         <span>Astraa Systems</span>
       </a>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="tools.html">Tools</a></li>
-        <li><a href="pricing.html">Pricing</a></li>
-      </ul>
-    </div>
+
+      <div class="astraa-site-links">
+        <a href="index.html">Home</a>
+        <a href="tools.html" style="color: var(--black, #000000) !important; font-weight: 700;">Tools</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="faq.html">FAQ / Support</a>
+        <a href="contact.html">Custom Packages</a>
+      </div>
+
+      <div class="astraa-action-pack">
+        <a href="astraaspace/login.html" class="astraa-space-btn">Astraa Space</a>
+        <a class="astraa-site-cta" href="buynow.html">Buy Now</a>
+      </div>
+    </nav>
   </header>
 
   <section class="tools-hero">

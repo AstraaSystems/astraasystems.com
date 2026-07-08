@@ -1,1 +1,34 @@
-404: Not Found
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Astraa Checkout</title>
+</head>
+<body>
+<div id="outerDiv" style="width:100%; max-width:400px; min-height:300px; margin: 40px auto;">
+    <div id="monerisCheckout"></div>
+</div>
+<script src="https://gateway.moneris.com/chkt/js/chkt_v1.00.js"></script>
+<script>
+(function () {
+    const MY_CHECKOUT_ID = "chktSPVV793136";
+    var myCheckout = new monerisCheckout();
+    myCheckout.setMode("prod");
+    myCheckout.setCheckoutDiv("monerisCheckout");
+    myCheckout.setCallback("page_loaded", function(resp) { console.log("Loaded", JSON.parse(resp)); });
+    myCheckout.setCallback("cancel_transaction", function(resp) { console.log("Cancelled", JSON.parse(resp)); });
+    myCheckout.setCallback("error_event", function(resp) { console.error("Error", JSON.parse(resp)); });
+    myCheckout.setCallback("payment_receipt", function(resp) { console.log("Receipt", JSON.parse(resp)); });
+    myCheckout.setCallback("payment_complete", function(resp) {
+        var parsed = JSON.parse(resp);
+        window.location.href = "payment-success.html?ticket=" + encodeURIComponent(parsed.ticket || "");
+    });
+    window.startAstraaCheckout = function() {
+        var preloadData = { "amount": "29.00", "cart": { "items": [{ "description": "Astraa Subscription", "quantity": "1", "price": "29.00" }] } };
+        myCheckout.startCheckoutWithCheckoutId(MY_CHECKOUT_ID, JSON.stringify(preloadData));
+    };
+    document.addEventListener("DOMContentLoaded", function() { setTimeout(window.startAstraaCheckout, 300); });
+})();
+</script>
+</body>
+</html>

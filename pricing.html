@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing - Astraa Systems</title>
     <style>
-        /* Base Reset Matching Global Support Page Configurations */
+        /* Base Styling Configuration */
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --black: #000000;
+            --line-light: #e5e7eb;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: #ffffff;
@@ -18,126 +22,122 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Exact Support.html Master CSS Framework Injection */
+        /* 1:1 Exact CSS Injection From Your support.html Layout rules */
         .astraa-site-header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: #ffffff;
-            border-bottom: 1px solid #e5e7eb;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 9999 !important;
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(16px) !important;
+            border-bottom: 1px solid var(--line-light) !important;
         }
         .astraa-site-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 14px 24px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: 20px !important;
             width: 100%;
-            max-width: 1200px;
-            padding: 0 2rem;
         }
         .astraa-site-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            font-weight: 950 !important;
+            color: var(--black) !important;
+            white-space: nowrap !important;
             text-decoration: none;
-            color: #000000;
         }
-        .astraa-site-brand img {
-            height: 20px; /* Locked down completely at exactly 20px */
-            width: auto;
-            display: block;
+        .astraa-site-brand img { 
+            width: 34px !important; 
+            height: 34px !important; 
+            object-fit: contain !important; 
         }
-        .astraa-site-brand span {
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: #000000;
-            letter-spacing: -0.3px;
+        .astraa-site-brand span { 
+            display: block !important; 
+            font-size: 13px !important; 
+            color: var(--black) !important; 
+            font-weight: 800 !important; 
         }
         .astraa-site-links {
-            display: flex;
-            gap: 1.75rem;
-            align-items: center;
+            display: flex !important;
+            gap: 1.75rem !important;
+            align-items: center !important;
         }
         .astraa-site-links a {
-            color: #4b5563;
+            color: #475569;
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 14px;
             font-weight: 500;
             transition: color 0.2s;
         }
         .astraa-site-links a:hover {
-            color: #0b111e;
+            color: var(--black);
         }
         .astraa-action-pack {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-        .astraa-space-link {
-            color: #4b5563;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-        .astraa-space-link:hover {
-            color: #0b111e;
+            display: flex !important;
+            align-items: center !important;
+            gap: 20px !important;
         }
         
-        /* Black Pill Buy Now Button Trigger */
-        .btn-buynow-pill {
-            background-color: #000000;
+        /* Interactive Nav Components from support.html */
+        .astraa-space-btn {
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .astraa-space-btn:hover {
+            color: #1d4ed8;
+        }
+        .astraa-site-cta {
+            background-color: var(--black);
             color: #ffffff;
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 14px;
             font-weight: 700;
-            padding: 0.6rem 1.6rem;
+            padding: 0.6rem 1.4rem;
             border-radius: 50px;
-            transition: background-color 0.2s;
-            border: none;
-            cursor: pointer;
+            transition: opacity 0.2s;
         }
-        .btn-buynow-pill:hover {
-            background-color: #1f2937;
+        .astraa-site-cta:hover {
+            opacity: 0.85;
         }
 
-        /* Structural Page Canvas Component */
+        /* Pricing Grid Canvas Context */
         .pricing-container {
             flex: 1;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 3rem 2rem;
+            padding: 4rem 24px;
         }
-        
         .pricing-hero { 
             text-align: center; 
-            margin-bottom: 3.5rem; 
-            padding: 2.5rem 1rem;
+            margin-bottom: 4rem; 
         }
-        .pricing-hero h1 { font-size: 3rem; font-weight: 800; color: #0b111e; margin-bottom: 1rem; letter-spacing: -1px; }
-        .pricing-hero p { color: #4b5563; font-size: 1.2rem; font-weight: 400; }
+        .pricing-hero h1 { font-size: 2.75rem; font-weight: 800; color: #0b111e; margin-bottom: 1rem; letter-spacing: -1px; }
+        .pricing-hero p { color: #4b5563; font-size: 1.15rem; }
 
         .product-group-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            margin-top: 3.5rem;
+            margin-top: 4rem;
             margin-bottom: 0.5rem;
             color: #0b111e;
             border-bottom: 2px solid #e5e7eb;
             padding-bottom: 0.5rem;
         }
-        .product-desc { font-size: 1rem; color: #4b5563; margin-bottom: 2rem; }
+        .product-desc { font-size: 0.95rem; color: #4b5563; margin-bottom: 2rem; }
         
-        /* Pricing Cards Matrix Layout */
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
             gap: 2rem;
-            margin-bottom: 3.5rem;
+            margin-bottom: 4rem;
         }
         .pricing-card {
             background: #ffffff;
@@ -147,65 +147,41 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .pricing-card:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
-        }
-        .pricing-card.featured { border: 2px solid #000000; }
+        .pricing-card.featured { border: 2px solid var(--black); }
         
         .status-badge {
             font-size: 0.8rem; font-weight: 700; color: #00bcff; text-transform: uppercase;
             letter-spacing: 0.5px; margin-bottom: 1rem; display: block;
         }
-        .tier-name { font-size: 1.5rem; font-weight: 700; color: #0b111e; margin-bottom: 0.5rem; }
-        .tier-price { font-size: 2.25rem; font-weight: 800; color: #000000; margin-bottom: 1.5rem; }
-        .tier-price span { font-size: 1rem; color: #4b5563; font-weight: 400; }
+        .tier-name { font-size: 1.4rem; font-weight: 700; color: #0b111e; margin-bottom: 0.5rem; }
+        .tier-price { font-size: 2.1rem; font-weight: 800; color: var(--black); margin-bottom: 1.5rem; }
+        .tier-price span { font-size: 0.95rem; color: #4b5563; font-weight: 400; }
         
         .features-list { list-style: none; margin-bottom: 2.25rem; flex-grow: 1; }
-        .features-list li { margin-bottom: 0.85rem; color: #4b5563; font-size: 1rem; display: flex; align-items: flex-start; }
+        .features-list li { margin-bottom: 0.85rem; color: #4b5563; font-size: 0.95rem; display: flex; align-items: flex-start; }
         .features-list li::before { content: "✓"; color: #00bcff; font-weight: bold; margin-right: 0.75rem; }
 
         .card-btn {
-            display: block; width: 100%; text-align: center; background: #000000; color: #ffffff;
-            padding: 0.85rem; border-radius: 6px; border: none; font-size: 1rem; font-weight: 700;
-            cursor: pointer; transition: background 0.2s; text-decoration: none;
+            display: block; width: 100%; text-align: center; background: var(--black); color: #ffffff;
+            padding: 0.85rem; border-radius: 6px; border: none; font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; text-decoration: none;
         }
-        .card-btn:hover { background: #1f2937; }
         .card-btn-alt { background: transparent; border: 1px solid #d1d5db; color: #0b111e; }
-        .card-btn-alt:hover { background: #f9fafb; }
 
         .footer-note {
-            background: #ffffff; border: 1px solid #e5e7eb;
+            background: #f8fafc; border: 1px solid #e5e7eb;
             padding: 1.5rem; border-radius: 8px; font-size: 0.95rem; color: #4b5563; margin-top: 2rem;
         }
 
-        /* Matching Integrated Light Footer Structure */
-        .astraa-site-footer {
-            background-color: #ffffff;
+        /* Shared Master Application Footer Layout Structure */
+        footer {
             border-top: 1px solid #e5e7eb;
-            padding: 1.5rem 2rem;
-            font-size: 0.9rem;
-            color: #4b5563;
+            padding: 1.5rem 24px;
+            background: #ffffff;
             margin-top: auto;
-            display: flex;
-            justify-content: center;
             width: 100%;
         }
-        .footer-content {
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .footer-links, .footer-legal { display: flex; gap: 1rem; list-style: none; }
-        .footer-links a, .footer-legal a { color: #4b5563; text-decoration: none; }
-        .footer-links a:hover, .footer-legal a:hover { color: #0b111e; }
     </style>
 </head>
 <body>
@@ -220,14 +196,14 @@
             <div class="astraa-site-links">
                 <a href="index.html">Home</a>
                 <a href="tools.html">Tools</a>
-                <a href="pricing.html" style="color: #0b111e; font-weight: 600;">Pricing</a>
+                <a href="pricing.html" style="color: var(--black); font-weight: 700;">Pricing</a>
                 <a href="faq.html">FAQ / Support</a>
                 <a href="contact.html">Custom Packages</a>
             </div>
 
             <div class="astraa-action-pack">
-                <a href="/workspace/login.html" class="astraa-space-link">Astraa Space</a>
-                <button onclick="window.open('/buynow', '_self')" class="btn-buynow-pill">Buy Now</button>
+                <a href="astraaspace/login.html" class="astraa-space-btn">Astraa Space</a>
+                <a class="astraa-site-cta" href="buynow.html">Buy Now</a>
             </div>
         </nav>
     </header>
@@ -252,7 +228,7 @@
                         <li>Standard tracking layout configuration</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Basic</button>
+                <a href="buynow.html" class="card-btn">Deploy Basic</a>
             </div>
             <div class="pricing-card">
                 <div>
@@ -265,7 +241,7 @@
                         <li>Advanced system processing matrices</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Professional</button>
+                <a href="buynow.html" class="card-btn">Deploy Professional</a>
             </div>
             <div class="pricing-card">
                 <div>
@@ -278,7 +254,7 @@
                         <li>Special system engineering & setup integrations</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/contact', '_self')" class="card-btn card-btn-alt">Contact Architect</button>
+                <a href="contact.html" class="card-btn card-btn-alt">Contact Architect</a>
             </div>
         </div>
 
@@ -298,7 +274,7 @@
                         <li>Includes fully integrated core Expenses tracking module</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Basic</button>
+                <a href="buynow.html" class="card-btn">Deploy Basic</a>
             </div>
             <div class="pricing-card featured">
                 <div>
@@ -313,7 +289,7 @@
                         <li>Enhanced Expenses tracking framework built-in</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Professional</button>
+                <a href="buynow.html" class="card-btn">Deploy Professional</a>
             </div>
             <div class="pricing-card">
                 <div>
@@ -327,7 +303,7 @@
                         <li>Package pricing matrix options available</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/contact', '_self')" class="card-btn card-btn-alt">Contact Architect</button>
+                <a href="contact.html" class="card-btn card-btn-alt">Contact Architect</a>
             </div>
         </div>
 
@@ -339,25 +315,10 @@
         </div>
     </main>
 
-    <footer class="astraa-site-footer">
-        <div class="footer-content">
-            <div class="footer-left">
-                &copy; 2026 Astraa Systems
-            </div>
-            <ul class="footer-links">
-                <li><a href="index.html">Home</a></li>
-                <li>&middot;</li>
-                <li><a href="tools.html">Tools</a></li>
-                <li>&middot;</li>
-                <li><a href="faq.html">Support</a></li>
-            </ul>
-            <ul class="footer-legal">
-                <li><a href="terms.html">Terms</a></li>
-                <li>&middot;</li>
-                <li><a href="privacy.html">Privacy</a></li>
-                <li>&middot;</li>
-                <li><a href="policy.html">Policy</a></li>
-            </ul>
+    <footer>
+        <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; gap: 16px;">
+            <p>&copy; 2026 Astraa Systems. All rights reserved.</p>
+            <a href="astraaspace/login.html" style="font-size: 14px; font-weight: 600; color: #475569; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#475569'">Astraa Space</a>
         </div>
     </footer>
 

@@ -1,379 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astraa Space - Platform Pricing Matrix</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        :root {
-            --bg-primary: #0a0b0d;
-            --bg-secondary: #12141c;
-            --bg-card: #1a1d29;
-            --accent-blue: #3b82f6;
-            --accent-green: #10b981;
-            --accent-purple: #8b5cf6;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border-color: #2d3142;
-        }
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.5;
-        }
-        .pricing-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        .section-title {
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            letter-spacing: -0.025em;
-        }
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-        }
-        .product-group-title {
-            font-size: 1.8rem;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .product-desc {
-            font-size: 1rem;
-            color: var(--text-muted);
-            margin-top: -15px;
-            margin-bottom: 20px;
-            max-width: 800px;
-        }
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
-            margin-bottom: 40px;
-        }
-        .pricing-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .pricing-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent-blue);
-        }
-        .pricing-card.featured {
-            border-color: var(--accent-purple);
-            position: relative;
-        }
-        .bonus-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--accent-purple);
-            color: white;
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-        .tier-name {
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .tier-price {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            color: var(--text-main);
-        }
-        .tier-price span {
-            font-size: 1rem;
-            color: var(--text-muted);
-            font-weight: normal;
-        }
-        .feature-list {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 30px 0;
-            flex-grow: 1;
-        }
-        .feature-list li {
-            margin-bottom: 12px;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-        }
-        .feature-list li::before {
-            content: "✓";
-            color: var(--accent-green);
-            margin-right: 10px;
-            font-weight: bold;
-        }
-        .btn-action {
-            display: block;
-            text-align: center;
-            background: var(--accent-blue);
-            color: white;
-            padding: 12px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-        .btn-action:hover {
-            background: #2563eb;
-        }
-        .btn-alt {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-        }
-        .btn-alt:hover {
-            background: var(--bg-secondary);
-        }
-        .footer-note {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing - Astraa Systems</title>
+  <style>
+    /* Reset & Base Layout */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #212529;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* 1. Sticky Header */
+    .global-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: #1a1d20;
+      color: #ffffff;
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .brand {
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.5px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: #adb5bd;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: #ffffff;
+    }
+    .header-right .btn-login {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      border: 1px solid #495057;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .header-right .btn-login:hover {
+      background-color: #343a40;
+    }
+
+    /* 2. Main Canvas (Pricing Content) */
+    .pricing-container {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+    .pricing-hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .pricing-hero h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+    .pricing-hero p {
+      color: #6c757d;
+      font-size: 1.1rem;
+    }
+
+    /* Grid Layout */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      align-items: start;
+    }
+    .pricing-card {
+      background: #ffffff;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .pricing-card.featured {
+      border: 2px solid #0d6efd;
+      box-shadow: 0 8px 24px rgba(13, 110, 253, 0.1);
+    }
+    .badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #0d6efd;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 50px;
+      text-transform: uppercase;
+    }
+    .card-header h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    .price span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #6c757d;
+    }
+
+    /* Features */
+    .features-list {
+      list-style: none;
+      margin-bottom: 2rem;
+      flex: 1;
+    }
+    .features-list li {
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+      color: #495057;
+      display: flex;
+      align-items: flex-start;
+    }
+    .features-list li::before {
+      content: "✓";
+      color: #198754;
+      font-weight: bold;
+      margin-right: 0.75rem;
+    }
+
+    /* Action Buttons */
+    .card-action-btn {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s;
+    }
+    .btn-secondary {
+      background-color: #f1f3f5;
+      color: #212529;
+      border: 1px solid #ced4da;
+    }
+    .btn-secondary:hover {
+      background-color: #e9ecef;
+    }
+    .btn-primary {
+      background-color: #0d6efd;
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background-color: #0b5ed7;
+    }
+
+    /* 3. Single-Row Footer */
+    .global-footer {
+      background-color: #ffffff;
+      border-top: 1px solid #dee2e6;
+      padding: 1rem 2rem;
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-links, .footer-legal {
+      display: flex;
+      gap: 1rem;
+      list-style: none;
+    }
+    .footer-links a, .footer-legal a {
+      color: #6c757d;
+      text-decoration: none;
+    }
+    .footer-links a:hover, .footer-legal a:hover {
+      color: #212529;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="pricing-container">
-        <h1 class="section-title">Astraa Space Platform Matrix</h1>
-        <p class="section-subtitle">Flexible pricing configurations for individuals, crews, and custom scaling setups.</p>
-
-        <!-- ASTRAA ESTIMATOR -->
-        <div class="product-group-title">Astraa Estimator</div>
-        <p class="product-desc">Precision estimation workflows tailored for modern contracting and commercial enterprise scales.</p>
-        <div class="pricing-grid">
-            <div class="pricing-card">
-                <div>
-                    <div class="tier-name">Estimator Basic</div>
-                    <div class="tier-price">$39.99 <span>CAD/mo</span></div>
-                    <ul class="feature-list">
-                        <li>Includes 30 estimates/month</li>
-                        <li>Extra estimate packs ($10 CAD / 10 additional estimates)</li>
-                        <li>Standard tracking layout configuration</li>
-                    </ul>
-                </div>
-                <a href="/buynow" class="btn-action">Deploy Basic</a>
-            </div>
-            <div class="pricing-card">
-                <div>
-                    <div class="tier-name">Estimator Professional</div>
-                    <div class="tier-price">$99.99 <span>CAD/mo</span></div>
-                    <ul class="feature-list">
-                        <li>Includes 120 estimates/month</li>
-                        <li>Extra estimate packs ($10 CAD / 10 additional estimates)</li>
-                        <li>Advanced system processing matrices</li>
-                    </ul>
-                </div>
-                <a href="/buynow" class="btn-action">Deploy Professional</a>
-            </div>
-            <div class="pricing-card">
-                <div>
-                    <div class="tier-name">Estimator Custom</div>
-                    <div class="tier-price">Custom Quote</div>
-                    <ul class="feature-list">
-                        <li>Larger estimate volumes</li>
-                        <li>Contractor & franchise configurations</li>
-                        <li>Special system engineering & setup integrations</li>
-                    </ul>
-                </div>
-                <a href="/contact" class="btn-action btn-alt">Contact Architect</a>
-            </div>
-        </div>
-
-        <!-- ASTRAA FINANCE & EXPENSES -->
-        <div class="product-group-title">Astraa Finance <span style="font-size: 1.1rem; color: var(--accent-purple);">+ Bonus Expenses Tool Included</span></div>
-        <p class="product-desc">Simple financial control for growing businesses. Organizes cash flow, invoices, payment tracking, and tax-ready records without enterprise complexity.</p>
-        <div class="pricing-grid">
-            <div class="pricing-card">
-                <div>
-                    <div class="tier-name">Finance Basic</div>
-                    <div class="tier-price">$29.99 <span>CAD/mo</span></div>
-                    <ul class="feature-list">
-                        <li>Single user authorization</li>
-                        <li>Basic finance workspace</li>
-                        <li>Invoice and payment visibility</li>
-                        <li>Simple reporting foundation</li>
-                        <li>Includes fully integrated core Expenses tracking module</li>
-                    </ul>
-                </div>
-                <a href="/buynow" class="btn-action">Deploy Basic</a>
-            </div>
-            <div class="pricing-card featured">
-                <div class="bonus-badge">Popular</div>
-                <div>
-                    <div class="tier-name">Finance Professional</div>
-                    <div class="tier-price">$79.99 <span>CAD/mo</span></div>
-                    <ul class="feature-list">
-                        <li>Includes up to 3 active users</li>
-                        <li>Milestone and payment tracking</li>
-                        <li>Business finance matrix views</li>
-                        <li>Designed to connect directly with other Astraa tools</li>
-                        <li>Enhanced Expenses tracking framework built-in</li>
-                    </ul>
-                </div>
-                <a href="/buynow" class="btn-action">Deploy Professional</a>
-            </div>
-            <div class="pricing-card">
-                <div>
-                    <div class="tier-name">Finance Custom</div>
-                    <div class="tier-price">Custom Quote</div>
-                    <ul class="feature-list">
-                        <li>Franchises & large contractor teams</li>
-                        <li>Multi-location workflow nodes</li>
-                        <li>Special pipeline reporting needs</li>
-                        <li>Package pricing matrix options available</li>
-                    </ul>
-                </div>
-                <a href="/contact" class="btn-action btn-alt">Contact Architect</a>
-            </div>
-        </div>
-
-        <!-- ASTRAA OPERATIONS -->
-        <div class="product-group-title">Astraa Operations</div>
-        <p class="product-desc">Operational coordination for teams, crews, and field workflows. Handles scheduling, job coordination, subcontractor routing, and deep visibility.</p>
-        <div class="pricing-grid">
-            <div class="pricing-card">
-                <div>
-                    <div class="tier-name">Operations Basic</div>
-                    <div class="tier-price">$59.99 <span>CAD/mo</span></div>
-                    <ul class="feature-list">
-                        <li>Single user framework access</li>
-                        <li>Basic scheduling support architecture</li>
-                        <li>Job coordination dashboard views</li>
-                        <li>Internal workflow foundation nodes</li>
-                    </ul>
-                </div>
-                <a href="/buynow" class="btn-action">Deploy Basic</a>
-            </div>
-            <div class="pricing-card">
-                <div>
-                    <div class="tier-name">Operations Professional</div>
-                    <div class="tier-price">$149.99 <span>CAD/mo</span></div>
-                    <ul class="feature-list">
-                        <li>Includes up to 5 user identities</li>
-                        <li>Crew and subcontractor coordination pipelines</li>
-                        <li>Certification and field-update workflow nodes</li>
-                        <li>Engineered for absolute operational visibility</li>
-                    </ul>
-                </div>
-                <a href="/buynow" class="btn-action">Deploy Professional</a>
-            </div>
-            <div class="pricing-card">
-                <div>
-                    <div class="tier-name">Operations Plus</div>
-                    <div class="tier-price">$299.99 <span>CAD/mo</span></div>
-                    <ul class="feature-list">
-                        <li>Includes up to 10 user identities</li>
-                        <li>Multi-location workflow support routing</li>
-                        <li>Staging, SLA, and check-in workflow tracking</li>
-                        <li>Custom package path blueprints</li>
-                    </ul>
-                </div>
-                <a href="/buynow" class="btn-action">Deploy Plus</a>
-            </div>
-        </div>
-
-        <!-- BUNDLE SUITES -->
-        <div class="product-group-title">Astraa Core Bundles</div>
-        <p class="product-desc">Multi-product packages optimized for expanding operations, contractors, and franchise network deployments.</p>
-        <div class="pricing-grid">
-            <div class="pricing-card">
-                <div>
-                    <div class="tier-name">Business Starter Bundle</div>
-                    <div class="tier-price">$59.99 <span>CAD/mo</span></div>
-                    <ul class="feature-list">
-                        <li>Estimator Basic</li>
-                        <li>Finance Basic</li>
-                        <li>Bonus Expenses Tracking Core</li>
-                    </ul>
-                </div>
-                <a href="/buynow" class="btn-action">Deploy Bundle</a>
-            </div>
-            <div class="pricing-card">
-                <div>
-                    <div class="tier-name">Business Professional</div>
-                    <div class="tier-price">$159.99 <span>CAD/mo</span></div>
-                    <ul class="feature-list">
-                        <li>Estimator Professional</li>
-                        <li>Finance Professional</li>
-                        <li>Full Expenses Analytics Suite</li>
-                    </ul>
-                </div>
-                <a href="/buynow" class="btn-action">Deploy Bundle</a>
-            </div>
-            <div class="pricing-card featured">
-                <div class="bonus-badge">Complete Tech Stack</div>
-                <div>
-                    <div class="tier-name">Contractor Professional</div>
-                    <div class="tier-price">$279.99 <span>CAD/mo</span></div>
-                    <ul class="feature-list">
-                        <li>Estimator Professional</li>
-                        <li>Finance Professional</li>
-                        <li>Operations Professional</li>
-                        <li>Complete platform visibility mapping</li>
-                    </ul>
-                </div>
-                <a href="/buynow" class="btn-action">Deploy Comprehensive Stack</a>
-            </div>
-        </div>
-
-        <!-- EXTRA UTILITY MATRICES -->
-        <div class="pricing-grid" style="grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));">
-            <div class="pricing-card">
-                <div>
-                    <div class="tier-name">Operations Bundle</div>
-                    <div class="tier-price">$199.99 <span>CAD/mo</span></div>
-                    <p style="color: var(--text-muted); font-size: 0.95rem;">Finance Professional + Operations Professional synchronization matrix for full structural management.</p>
-                </div>
-                <a href="/buynow" class="btn-action btn-alt" style="margin-top: 15px;">Deploy Operations Stack</a>
-            </div>
-            <div class="pricing-card">
-                <div>
-                    <div class="tier-name">Custom Suite</div>
-                    <div class="tier-price">Variable Matrix</div>
-                    <p style="color: var(--text-muted); font-size: 0.95rem;">Custom architectures built specifically for enterprise, multi-location contractors, franchise structures, or specialized compliance reporting configs.</p>
-                </div>
-                <a href="/contact" class="btn-action btn-alt" style="margin-top: 15px;">Request Tailored Suite</a>
-            </div>
-        </div>
-
-        <!-- SPECIAL DISCOUNTS / CONFIG NOTES -->
-        <div class="footer-note">
-            <strong>Ecosystem Configuration Notes:</strong><br>
-            • <strong>Finance Personal Ecosystem:</strong> Available at $24.99 CAD/month for individual ledger control.<br>
-            • <strong>Finance Non-Profit Tier:</strong> Hard-capped at $59.99 CAD/month. Additional initial setup concessions and infrastructure discounts are actively available upon review for qualified, micro-budget non-profit organizations.<br>
-            • <strong>Operations Customization:</strong> Tailored architecture paths are explicitly open for custom contractor profiles, franchises, non-profits, or complex multi-entity structural configurations.
-        </div>
+  <!-- Sticky Header -->
+  <header class="global-header">
+    <div class="header-left">
+      <div class="brand">Astraa Systems</div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#tools">Tools</a></li>
+          <li><a href="#pricing" class="active">Pricing</a></li>
+          <li><a href="#support">Support</a></li>
+        </ul>
+      </nav>
     </div>
+    <div class="header-right">
+      <a href="#login" class="btn-login">Astraa Space</a>
+    </div>
+  </header>
+
+  <!-- Pricing Content -->
+  <main class="pricing-container">
+    <section class="pricing-hero">
+      <h1>Deployment Pricing</h1>
+      <p>Predictable tiers optimized for local-first and hybrid AI workflows.</p>
+    </section>
+
+    <section class="pricing-grid">
+      <!-- Local Core -->
+      <div class="pricing-card">
+        <div class="card-header">
+          <h3>Local Core</h3>
+          <div class="price">$0 <span>/ forever</span></div>
+        </div>
+        <ul class="features-list">
+          <li><strong>100% Local Inference</strong> via Ollama</li>
+          <li>Unlimited local model swapping</li>
+          <li>Local SQLite & Vector storage</li>
+          <li>Community documentation</li>
+        </ul>
+        <button class="card-action-btn btn-secondary">Current Environment</button>
+      </div>
+
+      <!-- Hybrid Pro -->
+      <div class="pricing-card featured">
+        <span class="badge">Recommended</span>
+        <div class="card-header">
+          <h3>Hybrid Pro</h3>
+          <div class="price">$49 <span>/ month</span></div>
+        </div>
+        <ul class="features-list">
+          <li><strong>90% Local / 10% Cloud</strong> infrastructure</li>
+          <li>Automated cloud failover for heavy contexts</li>
+          <li>Secure cloud sync & encrypted backups</li>
+          <li>Priority GitHub/Email ticketing</li>
+        </ul>
+        <button class="card-action-btn btn-primary">Upgrade Workspace</button>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="pricing-card">
+        <div class="card-header">
+          <h3>Enterprise</h3>
+          <div class="price">Custom</div>
+        </div>
+        <ul class="features-list">
+          <li>Custom local/cloud compute scaling</li>
+          <li>Multi-tenant node clustering</li>
+          <li>Dedicated 24/7 technical engineering SLA</li>
+          <li>Custom compliance & legal auditing</li>
+        </ul>
+        <button class="card-action-btn btn-secondary">Contact Engineering</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Single-Row Footer -->
+  <footer class="global-footer">
+    <div class="footer-content">
+      <div class="footer-left">
+        &copy; 2026 Astraa Systems
+      </div>
+      <ul class="footer-links">
+        <li><a href="#home">Home</a></li>
+        <li>&middot;</li>
+        <li><a href="#tools">Tools</a></li>
+        <li>&middot;</li>
+        <li><a href="#support">Support</a></li>
+      </ul>
+      <ul class="footer-legal">
+        <li><a href="#terms">Terms</a></li>
+        <li>&middot;</li>
+        <li><a href="#privacy">Privacy</a></li>
+        <li>&middot;</li>
+        <li><a href="#policy">Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
 </body>
 </html>

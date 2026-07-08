@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astraa Checkout</title>
 </head>
 <body>
@@ -15,15 +16,15 @@
 (function () {
     const MY_CHECKOUT_ID = "chktSPVV793136";
 
-    console.log("[Astraa] Initializing Moneris Engine...");
+    console.log("[Astraa] Initializing Pure Client Checkout ID Flow...");
 
     var myCheckout = new monerisCheckout();
     myCheckout.setMode("prod");
     myCheckout.setCheckoutDiv("monerisCheckout");
 
-    myCheckout.setCallback("page_loaded", function(resp) { console.log("[Astraa] Canvas Loaded"); });
+    myCheckout.setCallback("page_loaded", function(resp) { console.log("[Astraa] Form mounted successfully."); });
     myCheckout.setCallback("cancel_transaction", function(resp) { console.log("[Astraa] Cancelled"); });
-    myCheckout.setCallback("error_event", function(resp) { console.error("[Astraa] Error:", resp); });
+    myCheckout.setCallback("error_event", function(resp) { console.error("[Astraa] Moneris Error:", resp); });
     
     myCheckout.setCallback("payment_complete", function(resp) {
         var parsed = JSON.parse(resp);
@@ -31,12 +32,10 @@
     });
 
     window.startAstraaCheckout = function() {
+        // Strict minimal structure for pure frontend checkout configurations
         var preloadData = {
             "checkout_id": MY_CHECKOUT_ID,
-            "txn_details": {
-                "amount": "29.00",
-                "ticket_src": "cc"
-            },
+            "amount": "29.00",
             "cart": {
                 "items": [{
                     "description": "Astraa Subscription",
@@ -45,8 +44,9 @@
                 }]
             }
         };
+
         try {
-            console.log("[Astraa] Spawning checkout...");
+            console.log("[Astraa] Spawning hosted checkout window...");
             myCheckout.startCheckout(JSON.stringify(preloadData));
         } catch(e) {
             console.error("[Astraa] Runtime crash:", e);

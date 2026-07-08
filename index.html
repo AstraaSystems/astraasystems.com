@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="assets/images/favicon.png" />
-  <title>Astraa Systems — Operational Management Infrastructure</title>
+  <title>Astraa Systems — Operational Infrastructure</title>
 
   <style>
     :root {
@@ -29,15 +29,15 @@
       position: relative;
     }
 
-    /* Radial Mesh Background */
+    /* Synchronized Radial Mesh Background */
     body::before {
       content: "";
       position: absolute;
       inset: 0;
       z-index: -1;
       background: 
-        radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 20% 80%, rgba(30, 64, 175, 0.25) 0%, transparent 60%),
+        radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(30, 64, 175, 0.20) 0%, transparent 60%),
         linear-gradient(145deg, #090d16 0%, #111827 100%);
     }
 
@@ -232,6 +232,7 @@
       border-top: 1px solid var(--border-alpha);
       color: var(--text-muted);
       font-size: 0.85rem;
+      margin-top: auto;
     }
 
     .footer-inner {
@@ -259,7 +260,7 @@
       </div>
       <nav>
         <ul class="nav-links">
-          <li><a href="engines.html">System Modules</a></li>
+          <li><a href="tools.html">System Tools</a></li>
           <li><a href="contact.html">Company Info</a></li>
           <li><a class="nav-cta" href="login.html">Workspace Login</a></li>
         </ul>
@@ -278,7 +279,7 @@
           We reject software hype and complex technical fads. Astraa Systems builds straightforward, highly reliable workspace tools designed from the ground up for companies managing active supply routes, material movement, equipment tracking, and multi-layered operations.
         </p>
         <div class="btn-group">
-          <a href="engines.html" class="btn btn-primary">Open System Tools</a>
+          <a href="tools.html" class="btn btn-primary">Open System Tools</a>
           <a href="contact.html" class="btn btn-secondary">Get in Touch</a>
         </div>
       </div>

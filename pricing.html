@@ -5,50 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing - Astraa Systems</title>
     <style>
-        /* Global Base Reset matching Core Tools Workspace UI */
+        /* Base Styles matching Tools & Support Layout */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #0a0b0d;
-            color: #f3f4f6;
+            background-color: #f4f6f8;
+            color: #0b111e;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             line-height: 1.5;
         }
 
-        /* Sticky Header Matrix Configuration */
+        /* Pristine White Header Style from Screenshot */
         .global-header {
             position: sticky;
             top: 0;
             z-index: 1000;
-            background-color: #12141c;
-            border-bottom: 1px solid #2d3142;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
             padding: 0 2rem;
-            height: 65px;
+            height: 70px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         .header-left { display: flex; align-items: center; gap: 2.5rem; }
-        .brand-logo-img { height: 32px; width: auto; display: block; }
-        .nav-links { display: flex; gap: 1.75rem; list-style: none; }
-        .nav-links a { color: #9ca3af; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
-        .nav-links a:hover, .nav-links a.active { color: #f3f4f6; }
-        .header-right .btn-login {
-            color: #f3f4f6;
+        .brand-wrapper { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #000000; }
+        .brand-logo-img { height: 18px; width: auto; display: block; }
+        .brand-text { font-weight: 800; font-size: 1.2rem; color: #000000; letter-spacing: -0.3px; }
+        
+        .nav-links { display: flex; gap: 1.75rem; list-style: none; align-items: center; }
+        .nav-links a { color: #4b5563; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: #0b111e; font-weight: 600; }
+        
+        .header-right { display: flex; align-items: center; gap: 1.5rem; }
+        .btn-space-link { color: #4b5563; text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+        .btn-space-link:hover { color: #0b111e; }
+        
+        /* Black Pill Buy Now Button from Screenshot */
+        .btn-buynow-pill {
+            background-color: #000000;
+            color: #ffffff;
             text-decoration: none;
-            font-size: 0.9rem;
-            border: 1px solid #2d3142;
-            padding: 0.5rem 1.2rem;
-            border-radius: 6px;
-            background: #1a1d29;
-            font-weight: 600;
-            transition: background 0.2s;
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 0.6rem 1.6rem;
+            border-radius: 50px;
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
         }
-        .header-right .btn-login:hover { background-color: #3b82f6; }
+        .btn-buynow-pill:hover { background-color: #1f2937; }
 
-        /* Canvas Grid Layout Layouts */
+        /* Content Container Layout */
         .pricing-container {
             flex: 1;
             width: 100%;
@@ -56,76 +66,85 @@
             margin: 0 auto;
             padding: 3rem 1.5rem;
         }
-        .pricing-hero { text-align: center; margin-bottom: 3.5rem; }
-        .pricing-hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.75rem; letter-spacing: -0.025em; }
-        .pricing-hero p { color: #9ca3af; font-size: 1.15rem; }
+        
+        /* Matching the Support View Section Banner */
+        .pricing-hero { 
+            text-align: center; 
+            margin-bottom: 3.5rem; 
+            padding: 2.5rem 1rem;
+        }
+        .pricing-hero h1 { font-size: 3rem; font-weight: 800; color: #0b111e; margin-bottom: 1rem; letter-spacing: -1px; }
+        .pricing-hero p { color: #4b5563; font-size: 1.2rem; font-weight: 400; }
 
         .product-group-title {
             font-size: 1.8rem;
             font-weight: 700;
-            margin-top: 3rem;
+            margin-top: 3.5rem;
             margin-bottom: 0.5rem;
-            border-bottom: 1px solid #2d3142;
+            color: #0b111e;
+            border-bottom: 2px solid #e5e7eb;
             padding-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
         }
-        .product-desc { font-size: 1rem; color: #9ca3af; margin-bottom: 1.75rem; max-width: 850px; }
+        .product-desc { font-size: 1rem; color: #4b5563; margin-bottom: 2rem; }
         
+        /* Clean Matrix Grid with White Cards from Tools Layout */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.75rem;
+            gap: 2rem;
             margin-bottom: 3.5rem;
         }
         .pricing-card {
-            background: #1a1d29;
-            border: 1px solid #2d3142;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
             border-radius: 12px;
-            padding: 2rem;
+            padding: 2.25rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s, border-color 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .pricing-card:hover { transform: translateY(-2px); border-color: #3b82f6; }
-        .pricing-card.featured { border-color: #8b5cf6; position: relative; }
-        
-        .bonus-badge {
-            position: absolute; top: 1rem; right: 1rem;
-            background: #8b5cf6; color: white; font-size: 0.75rem;
-            padding: 0.25rem 0.75rem; border-radius: 50px; font-weight: 700;
+        .pricing-card:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
         }
-        .tier-name { font-size: 1.35rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .tier-price { font-size: 2.25rem; font-weight: 800; margin-bottom: 1.25rem; }
-        .tier-price span { font-size: 1rem; color: #9ca3af; font-weight: 400; }
+        .pricing-card.featured { border: 2px solid #000000; position: relative; }
         
-        .features-list { list-style: none; margin-bottom: 2rem; flex-grow: 1; }
-        .features-list li { margin-bottom: 0.75rem; color: #9ca3af; font-size: 0.95rem; display: flex; align-items: flex-start; }
-        .features-list li::before { content: "✓"; color: #10b981; font-weight: bold; margin-right: 0.75rem; }
+        .status-badge {
+            font-size: 0.8rem; font-weight: 700; color: #00bcff; text-transform: uppercase;
+            letter-spacing: 0.5px; margin-bottom: 1rem; display: block;
+        }
+        .tier-name { font-size: 1.5rem; font-weight: 700; color: #0b111e; margin-bottom: 0.5rem; }
+        .tier-price { font-size: 2.25rem; font-weight: 800; color: #000000; margin-bottom: 1.5rem; }
+        .tier-price span { font-size: 1rem; color: #4b5563; font-weight: 400; }
+        
+        .features-list { list-style: none; margin-bottom: 2.25rem; flex-grow: 1; }
+        .features-list li { margin-bottom: 0.85rem; color: #4b5563; font-size: 1rem; display: flex; align-items: flex-start; }
+        .features-list li::before { content: "✓"; color: #00bcff; font-weight: bold; margin-right: 0.75rem; }
 
-        .btn-action {
-            display: block; width: 100%; text-align: center; background: #3b82f6; color: white;
-            padding: 0.8rem; border-radius: 6px; border: none; font-size: 1rem; font-weight: 600;
+        /* Integrated Card Buttons mapped directly to triggers */
+        .card-btn {
+            display: block; width: 100%; text-align: center; background: #000000; color: #ffffff;
+            padding: 0.85rem; border-radius: 6px; border: none; font-size: 1rem; font-weight: 700;
             cursor: pointer; transition: background 0.2s; text-decoration: none;
         }
-        .btn-action:hover { background: #2563eb; }
-        .btn-alt { background: transparent; border: 1px solid #2d3142; color: #f3f4f6; }
-        .btn-alt:hover { background: #12141c; }
+        .card-btn:hover { background: #1f2937; }
+        .card-btn-alt { background: transparent; border: 1px solid #d1d5db; color: #0b111e; }
+        .card-btn-alt:hover { background: #f9fafb; }
 
         .footer-note {
-            background: #12141c; border: 1px solid #2d3142;
-            padding: 1.5rem; border-radius: 8px; font-size: 0.95rem; color: #9ca3af; margin-top: 2rem;
+            background: #ffffff; border: 1px solid #e5e7eb;
+            padding: 1.5rem; border-radius: 8px; font-size: 0.95rem; color: #4b5563; margin-top: 2rem;
         }
 
-        /* Single-Row Footer Framework Configuration */
+        /* Matching Crisp Light Footer Layout */
         .global-footer {
-            background-color: #12141c;
-            border-top: 1px solid #2d3142;
-            padding: 1.25rem 2rem;
+            background-color: #ffffff;
+            border-top: 1px solid #e5e7eb;
+            padding: 1.5rem 2rem;
             font-size: 0.9rem;
-            color: #9ca3af;
+            color: #4b5563;
             margin-top: auto;
         }
         .footer-content {
@@ -138,42 +157,49 @@
             gap: 1rem;
         }
         .footer-links, .footer-legal { display: flex; gap: 1rem; list-style: none; }
-        .footer-links a, .footer-legal a { color: #9ca3af; text-decoration: none; }
-        .footer-links a:hover, .footer-legal a:hover { color: #f3f4f6; }
+        .footer-links a, .footer-legal a { color: #4b5563; text-decoration: none; }
+        .footer-links a:hover, .footer-legal a:hover { color: #0b111e; }
     </style>
 </head>
 <body>
 
+    <!-- Unified White Header Component from Screenshot -->
     <header class="global-header">
         <div class="header-left">
-            <a href="/index.html" style="display: flex; align-items: center; text-decoration: none;">
-                <img src="frontend/assets/images/astraa_logo.png" alt="Astraa Logo" class="brand-logo-img">
+            <a href="/index.html" class="brand-wrapper">
+                <img src="frontend/assets/images/astraa_logo.png" alt="Astraa Symbol" class="brand-logo-img">
+                <span class="brand-text">Astraa Systems</span>
             </a>
             <nav>
                 <ul class="nav-links">
                     <li><a href="/index.html">Home</a></li>
                     <li><a href="/tools.html">Tools</a></li>
                     <li><a href="/pricing.html" class="active">Pricing</a></li>
-                    <li><a href="/support.html">Support</a></li>
+                    <li><a href="/support.html">FAQ / Support</a></li>
+                    <li><a href="/packages.html">Custom Packages</a></li>
                 </ul>
             </nav>
         </div>
         <div class="header-right">
-            <a href="/workspace/login.html" class="btn-login">Astraa Space</a>
+            <a href="/workspace/login.html" class="btn-space-link">Astraa Space</a>
+            <button onclick="window.open('/buynow', '_self')" class="btn-buynow-pill">Buy Now</button>
         </div>
     </header>
 
+    <!-- Platform Pricing Canvas -->
     <main class="pricing-container">
         <section class="pricing-hero">
             <h1>Platform Pricing Matrix</h1>
             <p>Flexible pricing configurations for individuals, crews, and custom scaling setups.</p>
         </section>
 
+        <!-- ASTRAA ESTIMATOR -->
         <div class="product-group-title">Astraa Estimator</div>
         <p class="product-desc">Precision estimation workflows tailored for modern contracting and commercial enterprise scales.</p>
         <div class="pricing-grid">
             <div class="pricing-card">
                 <div>
+                    <span class="status-badge">Active</span>
                     <div class="tier-name">Estimator Basic</div>
                     <div class="tier-price">$39.99 <span>CAD/mo</span></div>
                     <ul class="features-list">
@@ -182,10 +208,11 @@
                         <li>Standard tracking layout configuration</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Basic</button>
+                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Basic</button>
             </div>
             <div class="pricing-card">
                 <div>
+                    <span class="status-badge">Active</span>
                     <div class="tier-name">Estimator Professional</div>
                     <div class="tier-price">$99.99 <span>CAD/mo</span></div>
                     <ul class="features-list">
@@ -194,10 +221,11 @@
                         <li>Advanced system processing matrices</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Professional</button>
+                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Professional</button>
             </div>
             <div class="pricing-card">
                 <div>
+                    <span class="status-badge">Enterprise</span>
                     <div class="tier-name">Estimator Custom</div>
                     <div class="tier-price">Custom Quote</div>
                     <ul class="features-list">
@@ -206,15 +234,17 @@
                         <li>Special system engineering & setup integrations</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/contact', '_self')" class="btn-action btn-alt">Contact Architect</button>
+                <button onclick="window.open('/contact', '_self')" class="card-btn card-btn-alt">Contact Architect</button>
             </div>
         </div>
 
-        <div class="product-group-title">Astraa Finance <span style="font-size: 1.1rem; color: #8b5cf6;">+ Bonus Expenses Tool Included</span></div>
+        <!-- ASTRAA FINANCE -->
+        <div class="product-group-title">Astraa Finance</div>
         <p class="product-desc">Simple financial control for growing businesses. Organizes cash flow, invoices, payment tracking, and tax-ready records without enterprise complexity.</p>
         <div class="pricing-grid">
             <div class="pricing-card">
                 <div>
+                    <span class="status-badge">Active</span>
                     <div class="tier-name">Finance Basic</div>
                     <div class="tier-price">$29.99 <span>CAD/mo</span></div>
                     <ul class="features-list">
@@ -225,11 +255,11 @@
                         <li>Includes fully integrated core Expenses tracking module</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Basic</button>
+                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Basic</button>
             </div>
             <div class="pricing-card featured">
-                <div class="bonus-badge">Popular</div>
                 <div>
+                    <span class="status-badge" style="color: #8b5cf6;">Bonus Tool Included</span>
                     <div class="tier-name">Finance Professional</div>
                     <div class="tier-price">$79.99 <span>CAD/mo</span></div>
                     <ul class="features-list">
@@ -240,10 +270,11 @@
                         <li>Enhanced Expenses tracking framework built-in</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Professional</button>
+                <button onclick="window.open('/buynow', '_self')" class="card-btn" style="background: #000;">Deploy Professional</button>
             </div>
             <div class="pricing-card">
                 <div>
+                    <span class="status-badge">Enterprise</span>
                     <div class="tier-name">Finance Custom</div>
                     <div class="tier-price">Custom Quote</div>
                     <ul class="features-list">
@@ -253,15 +284,17 @@
                         <li>Package pricing matrix options available</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/contact', '_self')" class="btn-action btn-alt">Contact Architect</button>
+                <button onclick="window.open('/contact', '_self')" class="card-btn card-btn-alt">Contact Architect</button>
             </div>
         </div>
 
+        <!-- ASTRAA OPERATIONS -->
         <div class="product-group-title">Astraa Operations</div>
         <p class="product-desc">Operational coordination for teams, crews, and field workflows. Handles scheduling, job coordination, subcontractor routing, and deep visibility.</p>
         <div class="pricing-grid">
             <div class="pricing-card">
                 <div>
+                    <span class="status-badge">Active</span>
                     <div class="tier-name">Operations Basic</div>
                     <div class="tier-price">$59.99 <span>CAD/mo</span></div>
                     <ul class="features-list">
@@ -271,10 +304,11 @@
                         <li>Internal workflow foundation nodes</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Basic</button>
+                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Basic</button>
             </div>
             <div class="pricing-card">
                 <div>
+                    <span class="status-badge">Active</span>
                     <div class="tier-name">Operations Professional</div>
                     <div class="tier-price">$149.99 <span>CAD/mo</span></div>
                     <ul class="features-list">
@@ -284,10 +318,11 @@
                         <li>Engineered for absolute operational visibility</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Professional</button>
+                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Professional</button>
             </div>
             <div class="pricing-card">
                 <div>
+                    <span class="status-badge">Plus Node</span>
                     <div class="tier-name">Operations Plus</div>
                     <div class="tier-price">$299.99 <span>CAD/mo</span></div>
                     <ul class="features-list">
@@ -297,15 +332,17 @@
                         <li>Custom package path blueprints</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Plus</button>
+                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Plus</button>
             </div>
         </div>
 
+        <!-- BUNDLE SUITES -->
         <div class="product-group-title">Astraa Core Bundles</div>
         <p class="product-desc">Multi-product packages optimized for expanding operations, contractors, and franchise network deployments.</p>
         <div class="pricing-grid">
             <div class="pricing-card">
                 <div>
+                    <span class="status-badge">Package</span>
                     <div class="tier-name">Business Starter Bundle</div>
                     <div class="tier-price">$59.99 <span>CAD/mo</span></div>
                     <ul class="features-list">
@@ -313,10 +350,11 @@
                         <li>Bonus Expenses Tracking Core Module</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Bundle</button>
+                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Bundle</button>
             </div>
             <div class="pricing-card">
                 <div>
+                    <span class="status-badge">Package</span>
                     <div class="tier-name">Business Professional</div>
                     <div class="tier-price">$159.99 <span>CAD/mo</span></div>
                     <ul class="features-list">
@@ -324,11 +362,11 @@
                         <li>Full Expenses Analytics Suite Integration</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Bundle</button>
+                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Bundle</button>
             </div>
             <div class="pricing-card featured">
-                <div class="bonus-badge">Complete Stack</div>
                 <div>
+                    <span class="status-badge" style="color: #00bcff;">Full Suite</span>
                     <div class="tier-name">Contractor Professional</div>
                     <div class="tier-price">$279.99 <span>CAD/mo</span></div>
                     <ul class="features-list">
@@ -336,29 +374,33 @@
                         <li>Complete platform visibility mapping & sync</li>
                     </ul>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="btn-action">Deploy Comprehensive Stack</button>
+                <button onclick="window.open('/buynow', '_self')" class="card-btn">Deploy Comprehensive Stack</button>
             </div>
         </div>
 
+        <!-- EXTRA UTILITY MATRICES -->
         <div class="pricing-grid" style="grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));">
             <div class="pricing-card">
                 <div>
+                    <span class="status-badge">Sync Bundle</span>
                     <div class="tier-name">Operations Bundle</div>
                     <div class="tier-price">$199.99 <span>CAD/mo</span></div>
-                    <p style="color: #9ca3af; font-size: 0.95rem;">Finance Professional + Operations Professional synchronization matrix for full structural management.</p>
+                    <p style="color: #4b5563; font-size: 0.95rem; margin-bottom: 1.5rem;">Finance Professional + Operations Professional synchronization matrix for full structural management.</p>
                 </div>
-                <button onclick="window.open('/buynow', '_self')" class="btn-action btn-alt" style="margin-top: 15px;">Deploy Operations Stack</button>
+                <button onclick="window.open('/buynow', '_self')" class="card-btn card-btn-alt">Deploy Operations Stack</button>
             </div>
             <div class="pricing-card">
                 <div>
+                    <span class="status-badge">Custom</span>
                     <div class="tier-name">Custom Suite</div>
                     <div class="tier-price">Variable Matrix</div>
-                    <p style="color: #9ca3af; font-size: 0.95rem;">Custom architectures built specifically for enterprise, multi-location contractors, franchise structures, or specialized configurations.</p>
+                    <p style="color: #4b5563; font-size: 0.95rem; margin-bottom: 1.5rem;">Custom architectures built specifically for enterprise, multi-location contractors, franchise structures, or specialized configurations.</p>
                 </div>
-                <button onclick="window.open('/contact', '_self')" class="btn-action btn-alt" style="margin-top: 15px;">Request Tailored Suite</button>
+                <button onclick="window.open('/contact', '_self')" class="card-btn card-btn-alt">Request Tailored Suite</button>
             </div>
         </div>
 
+        <!-- CONFIGURATION DETAILS -->
         <div class="footer-note">
             <strong>Ecosystem Configuration Notes:</strong><br>
             • <strong>Finance Personal Ecosystem:</strong> Available at $24.99 CAD/month for individual ledger control.<br>
@@ -367,6 +409,7 @@
         </div>
     </main>
 
+    <!-- Unified Single-Row Light Footer -->
     <footer class="global-footer">
         <div class="footer-content">
             <div class="footer-left">

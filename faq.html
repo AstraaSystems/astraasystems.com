@@ -1,22 +1,12 @@
 <!DOCTYPE html>
-<!-- ASTRAA_PUBLIC_MARKETING_METADATA_V1_START -->
-<title>Astraa Support | FAQ & Architecture Integration Guide</title>
-<meta name="description" content="Find immediate architectural insights, deployment advice, and operational system answers for Astraa Systems tools.">
-<meta property="og:title" content="Astraa Support | FAQ & Architecture Guide">
-<meta property="og:description" content="Find immediate architectural insights, deployment advice, and operational system answers.">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Astraa Systems">
-<meta property="og:url" content="https://astraasystems.com/faq.html">
-<link rel="canonical" href="https://astraasystems.com/faq.html">
-<!-- ASTRAA_PUBLIC_MARKETING_METADATA_V1_END -->
-
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ / Support - Astraa Systems</title>
   <style>
     :root {
-      --black: #03050a;
+      --black: #000000;
       --navy: #090d16;
       --royal: #1d4ed8;
       --blue: #2563eb;
@@ -28,14 +18,16 @@
       --gray: #64748b;
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text-dark);
       background: var(--white);
       line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -58,6 +50,7 @@
       justify-content: space-between !important;
       align-items: center !important;
       gap: 20px !important;
+      width: 100%;
     }
 
     .astraa-site-brand {
@@ -73,7 +66,25 @@
     .astraa-site-brand span { display: block !important; font-size: 13px !important; color: var(--black) !important; font-weight: 800 !important; }
 
     .astraa-site-links { display: flex !important; align-items: center !important; gap: 28px !important; color: var(--muted-dark) !important; font-size: 14px !important; font-weight: 600 !important; }
+    .astraa-site-links a { transition: color 0.2s; }
     .astraa-site-links a:hover { color: var(--royal) !important; }
+
+    .astraa-action-pack {
+      display: flex !important;
+      align-items: center !important;
+      gap: 20px !important;
+    }
+    
+    .astraa-space-btn {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted-dark);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .astraa-space-btn:hover {
+      color: var(--royal);
+    }
 
     .astraa-site-cta {
       display: inline-flex !important;
@@ -83,23 +94,32 @@
       color: white !important;
       font-weight: 700 !important;
       font-size: 13px !important;
+      align-items: center;
+      transition: background 0.2s;
     }
     .astraa-site-cta:hover { background: var(--royal) !important; }
 
     @media(max-width: 900px) { .astraa-site-links { display: none !important; } }
 
-    .faq-hero { background: var(--off-white); padding: 80px 0 50px; text-align: center; border-bottom: 1px solid var(--line-light); }
-    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
-    
-    .faq-hero h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 900; letter-spacing: -0.04em; margin: 0 0 16px; }
-    .faq-hero p { color: var(--muted-dark); font-size: 18px; margin: 0 auto; }
+    .faq-hero { padding: 60px 0 30px; text-align: center; }
+    .container { max-width: 900px; width: 100%; margin: 0 auto; padding: 0 24px; flex: 1; }
 
-    .faq-list { margin: 60px 0 90px; display: flex; flex-direction: column; gap: 32px; }
+    .faq-hero h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 900; letter-spacing: -0.04em; margin: 0 0 16px; color: var(--black); }
+    .faq-hero p { color: var(--muted-dark); font-size: 18px; margin: 0 auto; max-width: 650px; }
+
+    .faq-list { margin: 40px 0 90px; display: flex; flex-direction: column; gap: 32px; }
     .faq-item { border-bottom: 1px solid var(--line-light); padding-bottom: 32px; }
     .faq-item h3 { font-size: 19px; font-weight: 800; margin: 0 0 12px; color: var(--black); letter-spacing: -0.02em; }
     .faq-item p { color: var(--muted-dark); font-size: 15px; margin: 0; line-height: 1.6; }
 
-    footer { border-top: 1px solid var(--line-light); padding: 32px 0; font-size: 14px; color: var(--gray); text-align: center; }
+    footer { 
+      border-top: 1px solid var(--line-light); 
+      padding: 32px 24px; 
+      font-size: 14px; 
+      color: var(--gray); 
+      background: var(--white);
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -110,12 +130,12 @@
         <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" onerror="this.style.display='none'"/>
         <span>Astraa Systems</span>
       </a>
-      
+
       <div class="astraa-site-links">
         <a href="index.html">Home</a>
         <a href="tools.html">Tools</a>
         <a href="pricing.html">Pricing</a>
-        <a href="faq.html">FAQ / Support</a>
+        <a href="faq.html" style="color: var(--royal) !important;">FAQ / Support</a>
         <a href="contact.html">Custom Packages</a>
       </div>
 
@@ -145,7 +165,7 @@
 
       <div class="faq-item">
         <h3>Can we migrate parameters easily if our scale requirements change?</h3>
-        <p>Absolutely. Because the engine blocks avoid brittle, proprietary cloud middleware hooks, you are free to export data schemas, configurations, and internal calculations whenever you choose.</p>
+        <p>Astraa engine blocks entirely sidestep brittle, cloud-vendor middleware middleware hooks. Your configurations, system parameters, data schemas, and internal calculations remain fully yours to migrate or export at any time.</p>
       </div>
     </div>
   </main>

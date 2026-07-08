@@ -5,31 +5,33 @@
     <title>Astraa Checkout</title>
 </head>
 <body>
+
 <div id="outerDiv" style="width:100%; max-width:400px; min-height:300px; margin: 40px auto; border: 1px dashed #2563eb;">
     <div id="monerisCheckout"></div>
 </div>
+
 <script src="https://gateway.moneris.com/chkt/js/chkt_v1.00.js"></script>
 <script>
 (function () {
     const MY_CHECKOUT_ID = "chktSPVV793136";
-    
+
+    console.log("[Astraa] Initializing Moneris Engine...");
+
     var myCheckout = new monerisCheckout();
     myCheckout.setMode("prod");
     myCheckout.setCheckoutDiv("monerisCheckout");
-    
+
     myCheckout.setCallback("page_loaded", function(resp) { console.log("[Astraa] Canvas Loaded"); });
     myCheckout.setCallback("cancel_transaction", function(resp) { console.log("[Astraa] Cancelled"); });
-    myCheckout.setCallback("error_event", function(resp) { console.error("[Astraa] Moneris Error:", resp); });
+    myCheckout.setCallback("error_event", function(resp) { console.error("[Astraa] Error:", resp); });
     
     myCheckout.setCallback("payment_complete", function(resp) {
         var parsed = JSON.parse(resp);
         window.location.href = "payment-success.html?ticket=" + encodeURIComponent(parsed.ticket || "");
     });
-    
+
     window.startAstraaCheckout = function() {
         var preloadData = {
-            "store_id": "",
-            "api_token": "",
             "checkout_id": MY_CHECKOUT_ID,
             "txn_details": {
                 "amount": "29.00",
@@ -44,12 +46,13 @@
             }
         };
         try {
+            console.log("[Astraa] Spawning checkout...");
             myCheckout.startCheckout(JSON.stringify(preloadData));
         } catch(e) {
             console.error("[Astraa] Runtime crash:", e);
         }
     };
-    
+
     if (document.readyState === "complete") {
         setTimeout(window.startAstraaCheckout, 300);
     } else {
@@ -57,5 +60,6 @@
     }
 })();
 </script>
+
 </body>
 </html>

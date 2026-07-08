@@ -5,15 +5,21 @@
     <title>Astraa Checkout</title>
 </head>
 <body>
-<div id="outerDiv" style="width:100%; max-width:400px; min-height:300px; margin: 40px auto;">
+<div id="outerDiv" style="width:100%; max-width:400px; min-height:300px; margin: 40px auto; border: 1px dashed #ccc;">
     <div id="monerisCheckout"></div>
 </div>
 <script src="https://gateway.moneris.com/chkt/js/chkt_v1.00.js"></script>
 <script>
 (function () {
+    /* TOGGLE MODE HERE: Use "qa" for local testing, "prod" for live server */
+    const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    const ENVIRONMENT_MODE = IS_LOCAL ? "qa" : "prod";
     const MY_CHECKOUT_ID = "chktSPVV793136";
+    
+    console.log("[Astraa] Running in " + ENVIRONMENT_MODE + " mode.");
+    
     var myCheckout = new monerisCheckout();
-    myCheckout.setMode("prod");
+    myCheckout.setMode(ENVIRONMENT_MODE);
     myCheckout.setCheckoutDiv("monerisCheckout");
     myCheckout.setCallback("page_loaded", function(resp) { console.log("Loaded", JSON.parse(resp)); });
     myCheckout.setCallback("cancel_transaction", function(resp) { console.log("Cancelled", JSON.parse(resp)); });

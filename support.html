@@ -87,56 +87,57 @@
     }
     .astraa-site-cta:hover { background: var(--royal) !important; }
 
-    /* New Clean Light Layout Container System */
+    /* Core Clean Design Canvas System */
     .support-container {
       flex: 1;
       width: 100%;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 60px 24px 90px;
+      padding: 80px 24px 100px; /* Generous top padding clears the sticky layout */
     }
 
     .support-hero {
-      margin-bottom: 50px;
+      margin-bottom: 56px;
     }
     .support-hero .section-badge {
-      font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase;
+      font-size: 12px; font-weight: 700; color: var(--blue); text-transform: uppercase;
       letter-spacing: 0.5px; margin-bottom: 12px; display: block;
     }
-    .support-hero h1 { font-size: clamp(32px, 5vw, 48px); font-weight: 900; color: var(--black); margin-bottom: 16px; letter-spacing: -0.04em; }
-    .support-hero p { color: var(--muted-dark); font-size: 18px; max-width: 800px; line-height: 1.6; }
+    .support-hero h1 { font-size: clamp(32px, 4.5vw, 44px); font-weight: 900; color: var(--black); margin-bottom: 18px; letter-spacing: -0.03em; line-height: 1.2; }
+    .support-hero p { color: var(--muted-dark); font-size: 17px; max-width: 850px; line-height: 1.6; }
 
     .support-section-title {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 800;
       color: var(--black);
-      margin-top: 40px;
+      margin-top: 48px;
       margin-bottom: 24px;
       letter-spacing: -0.02em;
-      border-bottom: 1px solid var(--line-light);
-      padding-bottom: 8px;
     }
 
-    /* Structured Corporate Grid Configuration matching Tool/Pricing Formats */
+    /* Standardized Modular Card Layout Grid Matrices */
     .support-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
       gap: 24px;
-      margin-bottom: 40px;
+      margin-bottom: 16px;
+    }
+    @media(max-width: 650px) {
+      .support-grid { grid-template-columns: 1fr; }
     }
 
     .support-card {
       background: #ffffff;
       border: 1px solid var(--line-light);
       border-radius: 12px;
-      padding: 32px;
-      transition: border-color 0.2s;
+      padding: 36px;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .support-card:hover { border-color: var(--royal); }
+    .support-card:hover { border-color: var(--royal); box-shadow: 0 4px 20px rgba(0,0,0,0.01); }
     
-    .card-title { font-size: 18px; font-weight: 800; color: var(--black); margin-bottom: 12px; letter-spacing: -0.01em; }
-    .card-label { font-size: 12px; font-weight: 700; color: var(--blue); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.3px; display: block; }
-    .card-text { font-size: 14.5px; color: var(--muted-dark); line-height: 1.6; }
+    .card-title { font-size: 19px; font-weight: 800; color: var(--black); margin-bottom: 12px; letter-spacing: -0.01em; }
+    .card-label { font-size: 12px; font-weight: 700; color: var(--blue); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; display: block; }
+    .card-text { font-size: 15px; color: var(--muted-dark); line-height: 1.6; }
 
     footer {
       border-top: 1px solid var(--line-light);
@@ -175,41 +176,26 @@
   <main class="support-container">
     
     <section class="support-hero">
-      <span class="section-badge">Astraa Support Center</span>
+      <span class="section-badge">Astraa Support</span>
       <h1>FAQ, support, and troubleshooting for Astraa products.</h1>
-      <p>Get immediate validation rules, platform walkthroughs, and detailed setup instructions across our connected workspace ecosystems.</p>
+      <p>Get help with Workspace access, Estimator, Finance, Expense, Operations, pricing, trials, custom packages, and coming soon tools.</p>
     </section>
 
     <h2 class="support-section-title">Support options.</h2>
+
     <div class="support-grid">
+      
       <div class="support-card">
         <div class="card-title">FAQ / Support Assistant</div>
         <div class="card-label">What is this support area?</div>
-        <p class="card-text">Helps public visitors understand Astraa tools, trial access structures, and public system support paths.</p>
+        <p class="card-text">Helps public visitors understand Astraa tools, trial access paths, and platform support paths cleanly.</p>
       </div>
 
       <div class="support-card">
         <div class="card-title">Phone support</div>
-        <p class="card-text">Phone support is currently planned. Lines will remain under internal staging until language escalations and specific internal routing boundaries are completed.</p>
-      </div>
-    </div>
-
-    <h2 class="support-section-title">Workspace & Access FAQ</h2>
-    <div class="support-grid">
-      <div class="support-card">
-        <div class="card-title">Where do I log into my tools?</div>
-        <p class="card-text">All active services are accessible via the central **Astraa Space** gateway link in the header. Use your verified deployment registration credentials to access your local-first dashboard.</p>
+        <p class="card-text">Phone support is planned, but should not be published until the phone number language, support scheduling tiers, and escalation flows are ready.</p>
       </div>
 
-      <div class="support-card">
-        <div class="card-title">Session Expired Errors</div>
-        <p class="card-text">If your terminal drops connection or logs out instantly, check your browser context settings. Clear the local storage parameters or toggle out of isolated environments to preserve session state parameters.</p>
-      </div>
-
-      <div class="support-card">
-        <div class="card-title">Trial Extension Windows</div>
-        <p class="card-text">Evaluation access periods default to the standards set in our base configuration sheets. To upgrade standard trial tiers or request an enterprise expansion path, contact our custom modules group.</p>
-      </div>
     </div>
 
   </main>

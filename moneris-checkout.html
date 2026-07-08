@@ -1,40 +1,162 @@
+<!-- ASTRAA_MONERIS_CHECKOUT_OBJECT_V1 -->
 <div id="astraaMonerisCheckoutShell" style="max-width:960px;margin:24px auto;padding:0 18px;">
   <div id="monerisCheckout"></div>
 </div>
 
 <script id="astraa-moneris-checkout-object-v1">
 (function () {
-  console.log("Astraa Moneris Checkout integration initialized.");
+  function astraaMonerisMode() {
+    const mode =
+      sessionStorage.getItem("astraa_moneris_frontend_mode") ||
+      window.ASTRAA_MONERIS_FRONTEND_MODE ||
+      "prod";
 
-  // Dynamically determine environment with an explicit fallback check
-  var monerisEnv = sessionStorage.getItem("astraa_moneris_env");
-  
-  if (!monerisEnv) {
-      // Force QA fallback explicitly but log it so you can track it in dev tools
-      monerisEnv = "qa";
-      console.warn("Moneris integration warning: 'astraa_moneris_env' key was absent in sessionStorage. Defaulting to: qa");
+    return String(mode).toLowerCase() === "qa" ? "qa" : "prod";
   }
 
-  var scriptUrl = (monerisEnv === "prod")
-    ? "https://gateway.moneris.com/chkt/request/chkt_v1.00.js"
-    : "https://gatewayt.moneris.com/chkt/request/chkt_v1.00.js";
+  function astraaMonerisScriptUrl() {
+    return astraaMonerisMode() === "qa"
+      ? "https://gatewayt.moneris.com/chkt/js/chkt_v1.00.js"
+      : "https://gateway.moneris.com/chkt/js/chkt_v1.00.js";
+  }
 
-  console.log("Attempting to request payload from endpoint: " + scriptUrl);
+  function astraaSetPaymentStatus(message) {
+    const status =
+      document.getElementById("paymentStatus") ||
+      document.getElementById("checkoutStatus") ||
+      document.getElementById("statusText");
 
-  var script = document.createElement("script");
-  script.src = scriptUrl;
-  script.async = true;
-  script.onload = function() {
-    console.log("Moneris Checkout JavaScript engine loaded successfully from: " + scriptUrl);
-    
-    // Check if the initialization object exists after script loads
-    if (typeof monerisCheckout === "undefined") {
-        console.error("Moneris global engine loaded but 'monerisCheckout' controller is missing from window scope.");
+    if (status) {
+      status.textContent = message;
     }
+    console.log("[Astraa Moneris]", message);
+  }
+
+  function astraaParseMonerisCallback(response) {
+    if (!response) return {};
+    if (typeof response === "object") return response;
+    try {
+      return JSON.parse(response);
+    } catch (error) {
+      return { raw: response };
+    }
+  }
+
+  function astraaStoreMonerisCallback(name, response) {
+    const parsed = astraaParseMonerisCallback(response);
+    sessionStorage.setItem("astraa_moneris_callback_" + name, JSON.stringify(parsed));
+
+    if (parsed.ticket) {
+      sessionStorage.setItem("astraa_moneris_ticket", parsed.ticket);
+    }
+    if (parsed.response_code) {
+      sessionStorage.setItem("astraa_moneris_response_code", parsed.response_code);
+    }
+    if (parsed.transaction_no) {
+      sessionStorage.setItem("astraa_moneris_transaction_no", parsed.transaction_no);
+    }
+    if (parsed.txn_number) {
+      sessionStorage.setItem("astraa_moneris_transaction_no", parsed.txn_number);
+    }
+    if (parsed.approval_code) {
+      sessionStorage.setItem("astraa_moneris_approval_code", parsed.approval_code);
+    }
+    return parsed;
+  }
+
+  function astraaRedirectToPaymentSuccess() {
+    const ticket = sessionStorage.getItem("astraa_moneris_ticket") || "";
+    const url = "payment-success.html?ticket=" + encodeURIComponent(ticket) + "&v=moneris-complete";
+    window.location.href = url;
+  }
+
+  function astraaInitializeMonerisCheckoutObject() {
+    if (window.astraaMonerisCheckoutReady && window.monerisCheckout) {
+      return window.monerisCheckout;
+    }
+    if (typeof window.monerisCheckout !== "function") {
+      throw new Error("Moneris Checkout library loaded, but constructor is not available.");
+    }
+
+    const checkout = new window.monerisCheckout();
+    const mode = astraaMonerisMode();
+
+    checkout.setMode(mode);
+    checkout.setCheckoutDiv("monerisCheckout");
+
+    checkout.setCallback("page_loaded", function (response) {
+      astraaStoreMonerisCallback("page_loaded", response);
+      astraaSetPaymentStatus("Moneris Checkout loaded.");
+    });
+
+    checkout.setCallback("cancel_transaction", function (response) {
+      astraaStoreMonerisCallback("cancel_transaction", response);
+      astraaSetPaymentStatus("Moneris Checkout transaction was cancelled.");
+    });
+
+    checkout.setCallback("error_event", function (response) {
+      astraaStoreMonerisCallback("error_event", response);
+      astraaSetPaymentStatus("Moneris Checkout error encountered.");
+    });
+
+    checkout.setCallback("payment_receipt", function (response) {
+      astraaStoreMonerisCallback("payment_receipt", response);
+      astraaSetPaymentStatus("Moneris payment receipt received.");
+    });
+
+    checkout.setCallback("payment_complete", function (response) {
+      astraaStoreMonerisCallback("payment_complete", response);
+      astraaSetPaymentStatus("Moneris payment complete. Redirecting...");
+      astraaRedirectToPaymentSuccess();
+    });
+
+    window.monerisCheckout = checkout;
+    window.astraaMonerisCheckoutReady = true;
+    return checkout;
+  }
+
+  window.astraaEnsureMonerisCheckoutReady = function () {
+    return new Promise(function (resolve, reject) {
+      if (window.astraaMonerisCheckoutReady && window.monerisCheckout) {
+        resolve(window.monerisCheckout);
+        return;
+      }
+      if (typeof window.monerisCheckout === "function") {
+        try { resolve(astraaInitializeMonerisCheckoutObject()); } catch (e) { reject(e); }
+        return;
+      }
+
+      const existing = document.getElementById("astraaMonerisCheckoutScript");
+      if (existing) {
+        existing.addEventListener("load", function () {
+          try { resolve(astraaInitializeMonerisCheckoutObject()); } catch (e) { reject(e); }
+        });
+        existing.addEventListener("error", function () {
+          reject(new Error("Could not load Moneris Checkout script library."));
+        });
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.id = "astraaMonerisCheckoutScript";
+      script.src = astraaMonerisScriptUrl();
+      script.async = true;
+
+      script.onload = function () {
+        try { resolve(astraaInitializeMonerisCheckoutObject()); } catch (e) { reject(e); }
+      };
+      script.onerror = function () {
+        reject(new Error("Could not load Moneris Checkout script: " + script.src));
+      };
+
+      document.head.appendChild(script);
+    });
   };
-  script.onerror = function() {
-    console.error("Critical Network Error: Failed to load Moneris Checkout engine from path: " + scriptUrl);
-  };
-  document.head.appendChild(script);
+
+  document.addEventListener("DOMContentLoaded", function () {
+    window.astraaEnsureMonerisCheckoutReady()
+      .then(function () { astraaSetPaymentStatus("Moneris Checkout is ready."); })
+      .catch(function (error) { astraaSetPaymentStatus("Moneris setup error: " + error.message); });
+  });
 })();
 </script>

@@ -38,3 +38,44 @@ header a, nav a, .navbar a, .nav-links a {
     white-space: nowrap !important;
     text-decoration: none !important;
 }
+
+/* Target your header or navigation wrapper navbar */
+header, .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allows nav links to drop down safely instead of colliding */
+    gap: 15px;       /* Ensures minimum breathing room between logo and links */
+    width: 100%;
+}
+
+/* Ensure the nav items list handles wrapping gracefully */
+.nav-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Target the hero section container */
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    /* FIX: Never use a fixed height (like height: 500px) if text can expand */
+    min-height: 450px; 
+    height: auto; 
+    
+    /* FIX: Ensure container expands vertically with content instead of cropping it */
+    overflow: visible; 
+    padding: 40px 20px; /* Gives internal text a protective buffer */
+}
+
+/* Target the large headline text */
+.hero-title {
+    /* FIX: Use clamp() so the font dynamically resizes between a minimum and maximum scale */
+    font-size: clamp(2.5rem, 5vw, 4.5rem); 
+    line-height: 1.2;
+    margin-bottom: 20px;
+    max-width: 100%; /* Keeps text constrained to the viewport width */
+}

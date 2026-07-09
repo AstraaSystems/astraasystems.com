@@ -40,3 +40,4 @@ data/astraa_arka_bridge.jsonl
 # Local one-off patch scripts and backup snapshots
 local_backups/
 *.backup_before_*
+.env

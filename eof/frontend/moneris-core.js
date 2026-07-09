@@ -11,7 +11,7 @@
                     const monerisScript = document.createElement("script");
                     
                     // Production Moneris Live Gateway Endpoint
-                    monerisScript.src = "https://gateway.moneris.com/chkt/request/request.php"; 
+                    monerisScript.src = "https://gateway.moneris.com/chkt/js/chkt_v1.00.js"; 
                     
                     monerisScript.onload = function() {
                         initializeAstraaWrapper(resolve);

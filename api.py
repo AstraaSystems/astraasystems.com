@@ -189,6 +189,33 @@ else:
     MONERIS_REQUEST_URL = "https://gatewayt.moneris.com/chkt/request/request.php"
     MONERIS_ENV_VALUE = "qa"
 
+# ASTRAA_MONERIS_CREDENTIAL_GUARD_V1
+_MONERIS_PLACEHOLDERS = {
+    "", "LOCAL_DISABLED", "REPLACE_WITH_SECURE_SECRET",
+    "MONERIS_STORE_ID", "MONERIS_API_TOKEN", "MONERIS_CHECKOUT_ID",
+    "PASTE_STORE_ID", "PASTE_CHECKOUT_ID", "PASTE_CURRENT_API_TOKEN",
+}
+if MONERIS_ENV_VALUE == "prod":
+    _astraa_bad_creds = [
+        _name for _name, _val in (
+            ("MONERIS_STORE_ID", MONERIS_STORE_ID),
+            ("MONERIS_API_TOKEN", MONERIS_API_TOKEN),
+            ("MONERIS_CHECKOUT_ID", MONERIS_CHECKOUT_ID),
+        )
+        if (_val or "").strip() in _MONERIS_PLACEHOLDERS
+    ]
+    if _astraa_bad_creds:
+        print("=" * 64)
+        print("!!! ASTRAA PROD CHECKOUT BLOCKED - placeholder/empty credentials !!!")
+        print("Offending vars:", ", ".join(_astraa_bad_creds))
+        print("Set real Moneris values in .env before taking payments.")
+        print("=" * 64)
+        raise RuntimeError(
+            "Astraa refusing to start in prod with placeholder Moneris credentials: "
+            + ", ".join(_astraa_bad_creds)
+        )
+# END ASTRAA_MONERIS_CREDENTIAL_GUARD_V1
+
 
 # -------------------------------------------------
 # Utility helpers

@@ -348,6 +348,7 @@
     </div>
   </footer>
 
+  <script>window.ASTRAA_API_BASE = "https://family-speed-outcome.ngrok-free.dev";</script>
   <script>
     /*
       Astraa checkout recovery notes:
@@ -475,7 +476,8 @@
         const preloadResponse = await fetch(ASTRAA_API_BASE + "/preload", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "true"
           },
           body: JSON.stringify({
             name: name,

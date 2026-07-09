@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astraa Systems - Complete Purchase</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background: #f8fafc; 
+            color: #0f172a; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+        }
+        .checkout-card { 
+            background: white; 
+            padding: 32px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); 
+            width: 100%; 
+            max-width: 450px; 
+            text-align: center; 
+        }
+        .price { 
+            font-size: 36px; 
+            font-weight: 700; 
+            color: #1e3a8a; 
+            margin: 16px 0; 
+        }
+        .buy-btn { 
+            display: block; 
+            width: 100%; 
+            padding: 14px; 
+            background: #2563eb; 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            font-size: 16px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: background 0.2s; 
+        }
+        .buy-btn:hover { 
+            background: #1d4ed8; 
+        }
+        #monerisCheckout { 
+            margin-top: 24px; 
+            min-height: 250px; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="checkout-card">
+    <h2 style="margin-bottom: 8px;">Astraa Premium Subscription</h2>
+    <p style="color: #64748b; margin-top: 0;">Access your advanced machine learning tools instantly.</p>
+    
+    <div class="price">$29.00 <span style="font-size: 14px; color: #64748b; font-weight: normal;">/ month</span></div>
+    
+    <button class="buy-btn" onclick="window.launchSecureAstraaCheckout()">Buy Now</button>
+    
+    <div id="monerisCheckout"></div>
+</div>
+
+<script src="moneris-core.js"></script>
+
+<script src="astraa-bridge.js"></script>
+
+</body>
+</html>

@@ -6062,3 +6062,207 @@ def astraa_verify_moneris_receipt_route():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
+
+# =====================================================================
+# ASTRAA_PATH1_PASSKEY_AUTH_V1
+# System-generated passkey, salted-hash stored, expiry + status.
+# Reuses existing session + usage-db systems. No plaintext stored.
+# =====================================================================
+import hashlib as _astraa_hashlib
+import secrets as _astraa_secrets
+from datetime import datetime as _astraa_dt, timezone as _astraa_tz, timedelta as _astraa_td
+
+
+def _astraa_unwrap_record(r):
+    """astraa_get_usage_record may return a record, (record, err) tuple, or None."""
+    if isinstance(r, tuple):
+        return r[0] if r and len(r) >= 1 else None
+    return r
+
+ASTRAA_PASSKEY_DEFAULT_DAYS = int(os.getenv("ASTRAA_PASSKEY_DEFAULT_DAYS", "90"))
+
+# Plan-based passkey lifetime (Custom/per-client overridable later)
+ASTRAA_PASSKEY_DAYS_BY_PLAN = {
+    "basic": int(os.getenv("ASTRAA_PASSKEY_DAYS_BASIC", "90")),
+    "professional": int(os.getenv("ASTRAA_PASSKEY_DAYS_PRO", "200")),
+    "pro": int(os.getenv("ASTRAA_PASSKEY_DAYS_PRO", "200")),
+}
+
+def astraa_passkey_days_for_plan(plan):
+    plan_l = (plan or "").strip().lower()
+    return ASTRAA_PASSKEY_DAYS_BY_PLAN.get(plan_l, ASTRAA_PASSKEY_DEFAULT_DAYS)
+
+
+# Expense bonus entitlement rule (configurable per client later)
+def astraa_entitlements_for(plan, main_tool):
+    plan_l = (plan or "").strip().lower()
+    tools = [main_tool] if main_tool else []
+    if plan_l == "basic":
+        tools.append("Expense (limited)")
+    elif plan_l in ("professional", "pro"):
+        tools.append("Expense (full)")
+    elif plan_l == "custom":
+        tools.append("Expense (per-contract)")
+    else:
+        tools.append("Expense (limited)")
+    return tools
+
+def _astraa_pk_now():
+    return _astraa_dt.now(_astraa_tz.utc)
+
+def astraa_generate_passkey():
+    raw = "-".join(
+        "".join(_astraa_secrets.choice("ABCDEFGHJKLMNPQRSTUVWXYZ23456789") for _ in range(4))
+        for _ in range(3)
+    )
+    return "ASTRAA-" + raw
+
+def astraa_hash_passkey(passkey, salt):
+    return _astraa_hashlib.sha256((salt + ":" + passkey).encode("utf-8")).hexdigest()
+
+def astraa_set_account_passkey(email, days=None):
+    """Generate a passkey for an account, store salted hash + expiry. Returns plaintext ONCE."""
+    email = astraa_normalize_email(email)
+    if not email:
+        return None, "Missing email"
+
+    db = astraa_storage_load_usage_db()
+    key = astraa_account_key(email)
+    rec = db.get(key)
+    if not rec:
+        return None, "No account record for this email"
+
+    passkey = astraa_generate_passkey()
+    salt = _astraa_secrets.token_hex(16)
+    days = int(days) if days is not None else astraa_passkey_days_for_plan(rec.get("selected_plan"))
+    now = _astraa_pk_now()
+
+    rec["passkey_hash"] = astraa_hash_passkey(passkey, salt)
+    rec["passkey_salt"] = salt
+    rec["passkey_created"] = now.isoformat()
+    rec["passkey_expires"] = (now + _astraa_td(days=days)).isoformat()
+    rec["passkey_status"] = "active"
+    rec["updated_at"] = astraa_now_iso()
+
+    db[key] = rec
+    astraa_storage_save_usage_db(db)
+    return passkey, None
+
+def astraa_verify_passkey(email, passkey):
+    """Return (ok, reason)."""
+    email = astraa_normalize_email(email)
+    if not email:
+        return False, "Missing email"
+
+    rec = astraa_storage_load_usage_db().get(astraa_account_key(email))
+    if not rec:
+        return False, "Account not found"
+    if rec.get("payment_status") != "active":
+        return False, "Account is not active. Complete payment first."
+    if rec.get("passkey_status") != "active":
+        return False, "Passkey is not active. Request a new passkey."
+    if not rec.get("passkey_hash") or not rec.get("passkey_salt"):
+        return False, "No passkey set for this account."
+
+    try:
+        exp = _astraa_dt.fromisoformat(rec.get("passkey_expires"))
+        if exp.tzinfo is None:
+            exp = exp.replace(tzinfo=_astraa_tz.utc)
+        if _astraa_pk_now() > exp:
+            rec_db = astraa_storage_load_usage_db()
+            k = astraa_account_key(email)
+            if k in rec_db:
+                rec_db[k]["passkey_status"] = "expired"
+                astraa_storage_save_usage_db(rec_db)
+            return False, "Passkey expired. Request a new passkey."
+    except Exception:
+        return False, "Passkey expiry invalid."
+
+    calc = astraa_hash_passkey(passkey.strip(), rec["passkey_salt"])
+    if not _astraa_secrets.compare_digest(calc, rec["passkey_hash"]):
+        return False, "Invalid passkey."
+
+    return True, "ok"
+
+
+@app.route("/api/auth/login", methods=["POST"])
+def astraa_passkey_login():
+    payload = request.get_json(silent=True) or {}
+    email = astraa_clean_email(payload.get("email") or payload.get("username") or payload.get("account_email"))
+    passkey = (payload.get("passkey") or payload.get("password") or "").strip()
+
+    if not email or "@" not in email:
+        return jsonify({"status": "blocked", "reason": "Valid email is required."}), 400
+    if not passkey:
+        return jsonify({"status": "blocked", "reason": "Passkey is required."}), 400
+
+    ok, reason = astraa_verify_passkey(email, passkey)
+    if not ok:
+        return jsonify({"status": "blocked", "reason": reason}), 401
+
+    rec = astraa_storage_load_usage_db().get(astraa_account_key(email)) or {}
+    token = astraa_create_dev_session(email, rec.get("selected_plan") or "Professional")
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "token": token,
+        "account_email": email,
+        "selected_plan": rec.get("selected_plan"),
+        "entitlements": astraa_entitlements_for(rec.get("selected_plan"), rec.get("selected_tool")),
+        "identity_source": "passkey_session"
+    }), 200
+
+
+@app.route("/api/account/provision-passkey", methods=["POST"])
+def astraa_provision_passkey():
+    """
+    Called after a verified Moneris payment.
+    Requires the account to already be payment_status=active.
+    Generates + returns the passkey ONCE for display on payment-success.
+    """
+    payload = request.get_json(silent=True) or {}
+    email = astraa_clean_email(payload.get("email") or payload.get("checkout_email"))
+    if not email or "@" not in email:
+        return jsonify({"status": "blocked", "reason": "Valid email required."}), 400
+
+    rec = astraa_storage_load_usage_db().get(astraa_account_key(email))
+    if not rec:
+        return jsonify({"status": "blocked", "reason": "No account found. Payment may not be verified yet."}), 404
+    if rec.get("payment_status") != "active":
+        return jsonify({"status": "blocked", "reason": "Account not active. Payment must be verified first."}), 403
+
+    days = payload.get("passkey_days")
+    passkey, err = astraa_set_account_passkey(email, days=days)
+    if err:
+        return jsonify({"status": "error", "reason": err}), 500
+
+    return jsonify({
+        "status": "ok",
+        "account_email": email,
+        "passkey": passkey,                      # shown ONCE
+        "expires_days": int(days) if days else astraa_passkey_days_for_plan(rec.get("selected_plan")),
+        "selected_plan": rec.get("selected_plan"),
+        "entitlements": astraa_entitlements_for(rec.get("selected_plan"), rec.get("selected_tool")),
+        "login_url": "/astraaspace/login.html"
+    }), 200
+# END ASTRAA_PATH1_PASSKEY_AUTH_V1
+
+
+# ASTRAA_LOGIN_CHECK_ENTITLEMENTS_V1
+@app.get("/api/auth/login-check")
+def astraa_login_check():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return jsonify({"status": "blocked", "reason": "No valid session."}), 401
+    email = identity.get("account_email")
+    rec = astraa_storage_load_usage_db().get(astraa_account_key(email)) or {}
+    return jsonify({
+        "status": "ok",
+        "account_email": email,
+        "selected_plan": rec.get("selected_plan"),
+        "payment_status": rec.get("payment_status"),
+        "entitlements": astraa_entitlements_for(rec.get("selected_plan"), rec.get("selected_tool"))
+    }), 200
+# END ASTRAA_LOGIN_CHECK_ENTITLEMENTS_V1

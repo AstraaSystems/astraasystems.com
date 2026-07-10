@@ -1135,6 +1135,11 @@ Note: Confirm official transaction details in Moneris admin for accounting and r
 
       if (data.status === "ok" && data.payment_verified === true) {
         sessionStorage.setItem(guardKey, "true");
+      // ASTRAA PASSKEY PROVISIONING AFTER VERIFIED PAYMENT
+      if (data.status === "ok" && data.payment_verified === true) {
+        astraaProvisionPasskey(accountEmail);
+      }
+
         sessionStorage.setItem("astraa_backend_payment_verified", "true");
 
         if (data.usage) {
@@ -1151,6 +1156,32 @@ Note: Confirm official transaction details in Moneris admin for accounting and r
       });
     }
   }
+
+  
+  async function astraaProvisionPasskey(accountEmail) {
+    try {
+      const res = await fetch(astraaPaymentApiUrl("/api/account/provision-passkey"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "true" },
+        body: JSON.stringify({ email: accountEmail })
+      });
+      const pk = await res.json();
+      if (pk.status === "ok" && pk.passkey) {
+        const box = document.createElement("div");
+        box.style.cssText = "margin-top:24px;padding:22px;border:2px solid #1d4ed8;border-radius:16px;background:#eff6ff;";
+        box.innerHTML =
+          '<h3 style="margin:0 0 8px 0;color:#0f172a;">Your Astraa Space Passkey</h3>' +
+          '<p style="color:#475569;margin:0 0 12px 0;">Save this now — you\'ll need it to sign in. It won\'t be shown again.</p>' +
+          '<div style="font-size:22px;font-weight:900;letter-spacing:2px;color:#1d4ed8;background:#fff;border:1px solid #bfdbfe;border-radius:10px;padding:14px;text-align:center;">' +
+          pk.passkey + '</div>' +
+          '<p style="color:#64748b;font-size:13px;margin:12px 0 16px 0;">Plan: ' + (pk.selected_plan||'') +
+          ' &middot; Valid for ' + (pk.expires_days||'') + ' days &middot; Login email: ' + accountEmail + '</p>' +
+          'astraaspace/login.html:inline-block;background:#03050a;color:#fff;padding:12px 20px;border-radius:10px;font-weight:800;text-decoration:none;">Go to Astraa Space &rarr;</a>';
+        document.body.querySelector(".container").appendChild(box);
+      }
+    } catch (e) { console.error("passkey provision failed", e); }
+  }
+  window.astraaProvisionPasskey = astraaProvisionPasskey;
 
   window.verifyMonerisReceiptWithBackend = verifyMonerisReceiptWithBackend;
 

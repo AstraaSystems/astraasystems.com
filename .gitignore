@@ -41,3 +41,10 @@ data/astraa_arka_bridge.jsonl
 local_backups/
 *.backup_before_*
 .env
+# local backups (never commit)
+*.before_*
+*.checkout_broken_backup_*
+*.hardcoded_backup_*
+*.crlf_backup_*
+.env.before_*
+.env.crlf_backup_*

@@ -1,22 +1,19 @@
 /**
- * Astraa Systems - Post-Payment Verification Hook
- * Extracts transaction ticket from url context and requests server validation
+ * Astraa Systems - Post-Payment Verification Hook (Production Core)
+ * Extracts transaction ticket and activates client SaaS access state
  */
 (function () {
     window.addEventListener("DOMContentLoaded", function() {
         console.log("[Astraa Verification] Initializing landing token audit...");
 
-        // 1. Grab the ticket parameter from the current browser URL bar
         const urlParams = new URLSearchParams(window.location.search);
         const ticketToken = urlParams.get('ticket');
 
         if (!ticketToken) {
             console.error("[Astraa Verification] Missing token parameter context.");
-            document.getElementById("statusText").textContent = "Error: No transaction identity token found.";
             return;
         }
 
-        // 2. Transmit token securely up to your new validation servlet handler
         fetch('/api/checkout/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -24,20 +21,23 @@
         })
         .then(function(response) { return response.json(); })
         .then(function(data) {
-            const statusDisplay = document.getElementById("statusText") || document.body;
-            
             if (data.success === "true") {
-                console.log("[Astraa Verification] Payment captured! Clearing session states.");
-                statusDisplay.textContent = "Payment Verified Successfully! Activating your subscription bundle...";
+                console.log("[Astraa Verification] Payment captured confirmed by Java Gateway.");
                 
-                // Clear out local session caches now that processing is final
+                // CRITICAL: Elevate the client session permission token to activate the 3+1 services matrix
+                sessionStorage.setItem("astraa_saas_active", "true");
+                
+                // Clean up transient transaction tracking records
                 sessionStorage.removeItem("astraa_moneris_ticket");
+                
+                // Automatically redirect to the dashboard center now that account status is verified
+                window.location.href = "../astraaspace/index.html";
             } else {
-                statusDisplay.textContent = "Payment Verification Warning: " + data.error;
+                console.error("[Astraa Verification] Security audit failed: " + data.error);
             }
         })
         .catch(function(err) {
-            console.error("[Astraa Verification] Security pipeline error:", err);
+            console.error("[Astraa Verification] Security pipeline breakdown error:", err);
         });
     });
 })();

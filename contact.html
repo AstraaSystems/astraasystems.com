@@ -102,5 +102,105 @@
       <a href="astraaspace/login.html" style="font-size: 14px; font-weight: 600; color: #475569; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#475569'">Astraa Space</a>
     </div>
   </footer>
+<section class="astraa-contact">
+  <div class="astraa-contact-inner">
+    <h2>Get in touch</h2>
+    <p class="astraa-contact-sub">
+      Reach the right team directly. We typically respond within one business day.
+    </p>
+
+    <div class="astraa-contact-grid">
+      <a class="astraa-contact-card" href="mailto:support@astraasystems.com">
+        <span class="astraa-contact-tag">Support</span>
+        <span class="astraa-contact-email">support@astraasystems.com</span>
+        <span class="astraa-contact-desc">Help with tools, accounts, and troubleshooting.</span>
+      </a>
+
+      <a class="astraa-contact-card" href="mailto:sales@astraasystems.com">
+        <span class="astraa-contact-tag">Sales</span>
+        <span class="astraa-contact-email">sales@astraasystems.com</span>
+        <span class="astraa-contact-desc">Plans, upgrades, and custom packages.</span>
+      </a>
+
+      <a class="astraa-contact-card" href="mailto:billing@astraasystems.com">
+        <span class="astraa-contact-tag">Billing</span>
+        <span class="astraa-contact-email">billing@astraasystems.com</span>
+        <span class="astraa-contact-desc">Invoices, receipts, and payment questions.</span>
+      </a>
+
+      <a class="astraa-contact-card" href="mailto:info@astraasystems.com">
+        <span class="astraa-contact-tag">General</span>
+        <span class="astraa-contact-email">info@astraasystems.com</span>
+        <span class="astraa-contact-desc">Everything else — we'll point you the right way.</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .astraa-contact {
+    background: #f8fafc;
+    padding: 64px 24px;
+  }
+  .astraa-contact-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .astraa-contact h2 {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: #03050a;
+    margin-bottom: 10px;
+  }
+  .astraa-contact-sub {
+    color: #475569;
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+  .astraa-contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    text-align: left;
+  }
+  .astraa-contact-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 24px;
+    text-decoration: none;
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+  }
+  .astraa-contact-card:hover {
+    border-color: #1d4ed8;
+    box-shadow: 0 12px 30px rgba(29,78,216,0.10);
+    transform: translateY(-2px);
+  }
+  .astraa-contact-tag {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #1d4ed8;
+  }
+  .astraa-contact-email {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+  }
+  .astraa-contact-desc {
+    font-size: 14px;
+    color: #64748b;
+  }
+  @media (max-width: 640px) {
+    .astraa-contact-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
 </body>
 </html>

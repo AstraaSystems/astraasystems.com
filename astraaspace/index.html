@@ -3,24 +3,39 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
     <title>Astraa OS</title>
     <style>
+      * { box-sizing:border-box; margin:0; padding:0; }
+      body {
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        background:#ffffff; color:#0f172a; min-height:100vh;
+      }
       #astraa-topbar {
         display:flex; align-items:center; justify-content:space-between;
-        padding:14px 24px; background:#0b1220; border-bottom:1px solid #1e293b;
+        padding:14px 24px; background:#ffffff; border-bottom:1px solid #e2e8f0;
         position:sticky; top:0; z-index:50;
       }
-      #astraa-topbar .brand { font-weight:900; font-size:1.1rem; color:#fff; letter-spacing:-0.02em; }
+      #astraa-topbar .brand { font-weight:900; font-size:1.15rem; color:#03050a; letter-spacing:-0.02em; }
       #astraa-topbar .right { display:flex; align-items:center; gap:14px; }
       #tool-select {
-        padding:10px 14px; border-radius:10px; border:1px solid #334155;
-        background:#0b1220; color:#fff; font-size:0.95rem; font-weight:600; min-width:240px;
+        padding:10px 14px; border-radius:10px; border:1px solid #e2e8f0;
+        background:#f8fafc; color:#0f172a; font-size:0.95rem; font-weight:600; min-width:240px; cursor:pointer;
       }
-      #logout-btn { background:transparent; border:none; color:#ef4444; cursor:pointer; font-size:0.8rem; font-weight:700; }
-      #astraa-workspace { padding:32px 24px; max-width:1100px; margin:0 auto; }
-      #welcome-title { font-size:clamp(1.6rem,3vw,2.4rem); font-weight:900; letter-spacing:-0.03em; }
-      #welcome-subtitle { color:#94a3b8; margin:6px 0 24px; font-size:0.9rem; }
+      #tool-select:focus { outline:none; border-color:#1d4ed8; box-shadow:0 0 0 3px rgba(29,78,216,0.12); }
+      #logout-btn { background:transparent; border:none; color:#dc2626; cursor:pointer; font-size:0.8rem; font-weight:700; }
+      #astraa-workspace { padding:40px 24px; max-width:1100px; margin:0 auto; }
+      #welcome-title { font-size:clamp(1.6rem,3vw,2.4rem); font-weight:900; letter-spacing:-0.03em; color:#03050a; }
+      #welcome-subtitle { color:#64748b; margin:6px 0 28px; font-size:0.9rem; font-weight:600; }
+      #content-area h3 { font-size:1.4rem; font-weight:800; color:#0f172a; margin-bottom:10px; }
+      #content-area p { color:#475569; }
+      #content-area label { display:block; font-weight:700; font-size:0.85rem; color:#0f172a; margin-bottom:4px; }
+      #content-area input, #content-area select {
+        width:100%; padding:11px 13px; border:1px solid #e2e8f0; border-radius:8px;
+        background:#f8fafc; color:#0f172a; font-size:0.95rem; font-family:inherit;
+      }
+      #content-area input:focus, #content-area select:focus { outline:none; border-color:#1d4ed8; box-shadow:0 0 0 3px rgba(29,78,216,0.12); }
+      #content-area button { background:#1d4ed8; }
+      #content-area a { color:#1d4ed8; font-weight:700; }
     </style>
 </head>
 <body>
@@ -31,20 +46,18 @@
             <button id="logout-btn" onclick="logoutAstraa()">LOGOUT</button>
         </div>
     </div>
-
     <div id="astraa-workspace">
         <h1 id="welcome-title"></h1>
         <p id="welcome-subtitle"></p>
         <div id="content-area"></div>
     </div>
-
     <script>window.ASTRAA_API_BASE = "https://family-speed-outcome.ngrok-free.dev";</script>
-    astraa_blueprint.js
-    <script srcverview.js
-    module_estimator.js
-    module_commerce.js
-    <script src="auth.js?v=1783789088"></script>
-    astraa_core.js
-    nexus_controller.js
+    <script src="astraa_blueprint.js?v=1783791320"></script>
+    <script src="dashboard_overview.js?v=1783791320"></script>
+    <script src="module_estimator.js?v=1783791320"></script>
+    <script src="module_commerce.js?v=1783791320"></script>
+    <script src="auth.js?v=1783791320"></script>
+    <script src="astraa_core.js?v=1783791320"></script>
+    <script src="nexus_controller.js?v=1783791320"></script>
 </body>
 </html>

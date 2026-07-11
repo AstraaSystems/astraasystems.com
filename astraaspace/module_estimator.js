@@ -1,7 +1,7 @@
 // Astraa Estimator — real portal module calling /api/estimate
 var EstimatorModule = {
   render: function () {
-    var f = "width:100%;padding:10px;border-radius:8px;border:1px solid #334155;background:#0b1220;color:#fff;";
+    var f = "";
     return ''
       + '<h3>Astraa Estimator</h3>'
       + '<p style="color:#94a3b8;margin-bottom:16px;">Enter project details to generate a calibrated estimate.</p>'

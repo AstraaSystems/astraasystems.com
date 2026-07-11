@@ -1,32 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Astraa OS</title>
+    <style>
+      #astraa-topbar {
+        display:flex; align-items:center; justify-content:space-between;
+        padding:14px 24px; background:#0b1220; border-bottom:1px solid #1e293b;
+        position:sticky; top:0; z-index:50;
+      }
+      #astraa-topbar .brand { font-weight:900; font-size:1.1rem; color:#fff; letter-spacing:-0.02em; }
+      #astraa-topbar .right { display:flex; align-items:center; gap:14px; }
+      #tool-select {
+        padding:10px 14px; border-radius:10px; border:1px solid #334155;
+        background:#0b1220; color:#fff; font-size:0.95rem; font-weight:600; min-width:240px;
+      }
+      #logout-btn { background:transparent; border:none; color:#ef4444; cursor:pointer; font-size:0.8rem; font-weight:700; }
+      #astraa-workspace { padding:32px 24px; max-width:1100px; margin:0 auto; }
+      #welcome-title { font-size:clamp(1.6rem,3vw,2.4rem); font-weight:900; letter-spacing:-0.03em; }
+      #welcome-subtitle { color:#94a3b8; margin:6px 0 24px; font-size:0.9rem; }
+    </style>
 </head>
 <body>
-    <div id="nexus-overlay" style="display:none; position:fixed; top:20%; left:25%; width:50%; background:rgba(15, 23, 42, 0.95); border:1px solid #3b82f6; padding:20px; border-radius:12px; z-index:1000;">
-        <input type="text" id="nexus-input" placeholder="Nexus Command..." style="width:100%; background:transparent; border:none; color:white; font-size:1.5em; outline:none;">
-    </div>
-    <div style="display:flex;">
-        <div id="sidebar">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h2 style="margin:0;">Astraa OS</h2>
-                <button onclick="logoutAstraa()" style="background:transparent; border:none; color:#ef4444; cursor:pointer; font-size:0.8rem;">LOGOUT</button>
-            </div>
-            <div id="nav-list"></div>
-        </div>
-        <div id="main">
-            <h1 id="welcome-title"></h1>
-            <p id="welcome-subtitle"></p>
-            <div id="content-area"></div>
+    <div id="astraa-topbar">
+        <div class="brand">Astraa OS</div>
+        <div class="right">
+            <select id="tool-select"><option value="">Select a tool…</option></select>
+            <button id="logout-btn" onclick="logoutAstraa()">LOGOUT</button>
         </div>
     </div>
-    <script src="astraa_blueprint.js?v=1783704093"></script>
-    <script src="dashboard_overview.js?v=1783704093"></script>
-    <script src="module_commerce.js?v=1783704093"></script>
-    <script src="auth.js?v=1783704093"></script>
-    <script src="astraa_core.js?v=1783704093"></script>
-    <script src="nexus_controller.js?v=1783704093"></script>
+
+    <div id="astraa-workspace">
+        <h1 id="welcome-title"></h1>
+        <p id="welcome-subtitle"></p>
+        <div id="content-area"></div>
+    </div>
+
+    <script>window.ASTRAA_API_BASE = "https://family-speed-outcome.ngrok-free.dev";</script>
+    astraa_blueprint.js
+    <script srcverview.js
+    module_estimator.js
+    module_commerce.js
+    <script src="auth.js?v=1783789088"></script>
+    astraa_core.js
+    nexus_controller.js
 </body>
 </html>

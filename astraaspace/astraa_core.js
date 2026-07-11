@@ -1,4 +1,4 @@
-// Astraa Space core — all 9 tools; 4 live, 5 coming soon
+// Astraa Space core — dropdown selector + full-page tool workspace
 var ASTRAA_LIVE_MODULES = ["estimator", "finance", "operations", "expense"];
 var ASTRAA_REQUEST_EMAIL = "sales@astraasystems.com";
 
@@ -17,6 +17,27 @@ function astraaIsLive(toolName) {
     return false;
 }
 
+function astraaRenderTool(key, tool) {
+    var area = document.getElementById('content-area');
+    var nameLower = (tool.name || "").toLowerCase();
+
+    if (astraaIsLive(tool.name)) {
+        if (nameLower.indexOf("estimator") !== -1 && typeof EstimatorModule !== "undefined") {
+            area.innerHTML = EstimatorModule.render();
+        } else if (key === 'comm' && typeof CommerceModule !== 'undefined') {
+            area.innerHTML = CommerceModule.render();
+        } else {
+            area.innerHTML = "<h3>" + tool.name + "</h3>" +
+                "<p style='color:#94a3b8;'>This tool is active on your account. Full module interface coming online.</p>";
+        }
+    } else {
+        var mail = "mailto:" + ASTRAA_REQUEST_EMAIL + "?subject=Request access to " + encodeURIComponent(tool.name);
+        area.innerHTML = "<h3>" + tool.name + " — Coming Soon</h3>" +
+            "<p style='color:#94a3b8;'>" + tool.name + " is in active development and not yet available.</p>" +
+            "<p>" + mail + "'>Email us to request early access</a></p>";
+    }
+}
+
 function initDashboard() {
     var activeUser = verifySession();
     if (!activeUser) return;
@@ -28,40 +49,31 @@ function initDashboard() {
     document.getElementById('welcome-subtitle').innerText =
         "OPERATIONAL HUB // " + ((activeUser.user || '').toUpperCase()) + " // ACTIVE";
 
-    document.getElementById('content-area').innerHTML = Dashboard.render();
+    var select = document.getElementById('tool-select');
+    var keys = Object.keys(data.tools);
 
-    var nav = document.getElementById('nav-list');
-    nav.innerHTML = '';
-
-    Object.keys(data.tools).forEach(function (key) {
+    keys.forEach(function (key) {
         var tool = data.tools[key];
         var live = astraaIsLive(tool.name);
-
-        var card = document.createElement('div');
-        card.className = 'tool-card';
-        card.innerHTML = live
-            ? "<div><strong>" + tool.name + "</strong></div>"
-            : "<div><strong>" + tool.name + "</strong> <span style='font-size:0.7rem;color:#f59e0b;font-weight:700;'>COMING SOON</span></div>";
-
-        card.onclick = function () {
-            var area = document.getElementById('content-area');
-            var nameLower = (tool.name || "").toLowerCase();
-
-            if (live) {
-                if (nameLower.indexOf("estimator") !== -1 && typeof EstimatorModule !== "undefined") {
-                    area.innerHTML = EstimatorModule.render();
-                } else {
-                    area.innerHTML = "<h3>" + tool.name + "</h3><p>Welcome to " + tool.name + ". This tool is active on your account.</p>";
-                }
-            } else {
-                var mail = "mailto:" + ASTRAA_REQUEST_EMAIL + "?subject=Request access to " + encodeURIComponent(tool.name);
-                area.innerHTML = "<h3>" + tool.name + " - Coming Soon</h3>" +
-                    "<p>" + tool.name + " is in active development and not yet available.</p>" +
-                    "<p>" + mail + "</p>";
-            }
-        };
-        nav.appendChild(card);
+        var opt = document.createElement('option');
+        opt.value = key;
+        opt.text = tool.name + (live ? "" : "  (Coming Soon)");
+        select.appendChild(opt);
     });
+
+    select.onchange = function () {
+        var key = select.value;
+        if (!key) {
+            document.getElementById('content-area').innerHTML =
+                "<p style='color:#94a3b8;'>Select a tool from the menu above to begin.</p>";
+            return;
+        }
+        astraaRenderTool(key, data.tools[key]);
+    };
+
+    // Landing content before a tool is chosen
+    document.getElementById('content-area').innerHTML =
+        "<p style='color:#94a3b8;'>Select a tool from the menu above to begin.</p>";
 }
 
 window.onload = initDashboard;

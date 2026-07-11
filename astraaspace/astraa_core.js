@@ -45,17 +45,19 @@ function initDashboard() {
 
         card.onclick = function () {
             var area = document.getElementById('content-area');
+            var nameLower = (tool.name || "").toLowerCase();
+
             if (live) {
-                if (key === 'comm' && typeof CommerceModule !== 'undefined') {
-                    area.innerHTML = CommerceModule.render();
+                if (nameLower.indexOf("estimator") !== -1 && typeof EstimatorModule !== "undefined") {
+                    area.innerHTML = EstimatorModule.render();
                 } else {
                     area.innerHTML = "<h3>" + tool.name + "</h3><p>Welcome to " + tool.name + ". This tool is active on your account.</p>";
                 }
             } else {
-                var link = "mailto:" + ASTRAA_REQUEST_EMAIL + "?subject=Request access to " + tool.name;
+                var mail = "mailto:" + ASTRAA_REQUEST_EMAIL + "?subject=Request access to " + encodeURIComponent(tool.name);
                 area.innerHTML = "<h3>" + tool.name + " - Coming Soon</h3>" +
                     "<p>" + tool.name + " is in active development and not yet available.</p>" +
-                    "<p>" + link + "Email us to request access</a></p>";
+                    "<p>" + mail + "</p>";
             }
         };
         nav.appendChild(card);

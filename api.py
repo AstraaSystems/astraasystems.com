@@ -6318,6 +6318,15 @@ def astraa_enterprise_estimate():
         "risk_factors": payload.get("risk_factors") or {}
     }
 
+    # Apply selected assembly factors (plain-language bundles)
+    _asm_key = payload.get("assembly")
+    if _asm_key and _asm_key in ASTRAA_ASSEMBLIES:
+        _a = ASTRAA_ASSEMBLIES[_asm_key]
+        d["material_cost_index"] = float(d["material_cost_index"]) * float(_a["material"])
+        d["labor_cost_index"] = float(d["labor_cost_index"]) * float(_a["labor"])
+        d["complexity"] = float(d["complexity"]) * float(_a["complexity"])
+        d["assembly_name"] = _a["name"]
+
     try:
         result = _astraa_get_elite().predict(d)
     except Exception as exc:
@@ -6349,3 +6358,85 @@ def astraa_enterprise_estimate():
         "usage": astraa_usage_summary(rec)
     })
 # END ASTRAA_ENTERPRISE_ESTIMATOR_V1
+
+
+# =====================================================================
+# ASTRAA_ASSEMBLIES_V1 — industry-standard construction assemblies
+# Plain-language names; each returns component factors that adjust
+# the estimate. Values are BC soft-launch planning defaults (editable).
+# =====================================================================
+ASTRAA_ASSEMBLIES = {
+    "foundation_slab": {
+        "name": "Concrete Foundation & Slab",
+        "description": "3000 PSI concrete, rebar, vapor barrier, formwork, finishing",
+        "components": ["Concrete (3000 PSI)", "Rebar", "Vapor barrier", "Formwork", "Finishing labor"],
+        "material": 2.2, "labor": 1.3, "complexity": 1.1
+    },
+    "wood_framing": {
+        "name": "Wood Framing (Walls)",
+        "description": "Studs, plates, sheathing, fasteners, framing labor",
+        "components": ["Studs", "Top/bottom plates", "Sheathing", "Fasteners", "Framing labor"],
+        "material": 1.8, "labor": 1.4, "complexity": 1.0
+    },
+    "roofing_asphalt": {
+        "name": "Roofing (Asphalt Shingle)",
+        "description": "Shingles, underlayment, flashing, ridge cap, labor",
+        "components": ["Shingles", "Underlayment", "Flashing", "Ridge cap", "Roofing labor"],
+        "material": 1.6, "labor": 1.3, "complexity": 1.1
+    },
+    "electrical_rough": {
+        "name": "Electrical Rough-In",
+        "description": "Wiring, boxes, breakers, conduit, electrician labor",
+        "components": ["Wiring", "Boxes", "Breakers", "Conduit", "Electrician labor"],
+        "material": 1.5, "labor": 1.6, "complexity": 1.2
+    },
+    "plumbing_rough": {
+        "name": "Plumbing Rough-In",
+        "description": "Supply/drain pipe, fittings, valves, plumber labor",
+        "components": ["Supply pipe", "Drain pipe", "Fittings", "Valves", "Plumber labor"],
+        "material": 1.6, "labor": 1.6, "complexity": 1.2
+    },
+    "drywall_finish": {
+        "name": "Drywall & Finishing",
+        "description": "Board, tape, mud, corner bead, labor",
+        "components": ["Drywall board", "Tape", "Mud", "Corner bead", "Finishing labor"],
+        "material": 1.3, "labor": 1.4, "complexity": 1.0
+    },
+    "insulation": {
+        "name": "Insulation",
+        "description": "Batt/blown insulation, vapor barrier, labor",
+        "components": ["Insulation", "Vapor barrier", "Labor"],
+        "material": 1.4, "labor": 1.1, "complexity": 1.0
+    },
+    "interior_paint": {
+        "name": "Interior Paint",
+        "description": "Primer, paint, supplies, labor",
+        "components": ["Primer", "Paint", "Supplies", "Painting labor"],
+        "material": 1.2, "labor": 1.2, "complexity": 1.0
+    },
+    "flooring": {
+        "name": "Flooring",
+        "description": "Material, underlayment, adhesive, labor",
+        "components": ["Flooring material", "Underlayment", "Adhesive", "Install labor"],
+        "material": 1.7, "labor": 1.3, "complexity": 1.0
+    },
+    "hvac_basic": {
+        "name": "HVAC (Basic)",
+        "description": "Furnace/AC, ducting, venting, labor",
+        "components": ["Furnace/AC unit", "Ducting", "Venting", "HVAC labor"],
+        "material": 2.0, "labor": 1.5, "complexity": 1.3
+    }
+}
+
+@app.route("/api/estimate/assemblies", methods=["GET"])
+def astraa_list_assemblies():
+    out = []
+    for key, a in ASTRAA_ASSEMBLIES.items():
+        out.append({
+            "key": key,
+            "name": a["name"],
+            "description": a["description"],
+            "components": a["components"]
+        })
+    return astraa_json_response({"success": True, "assemblies": out})
+# END ASTRAA_ASSEMBLIES_V1

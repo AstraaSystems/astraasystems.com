@@ -4,7 +4,7 @@ var EstimatorModule = {
     var f = "";
     return ''
       + '<h3>Astraa Estimator</h3>'
-      + '<p style="color:#94a3b8;margin-bottom:16px;">Enter project details to generate a calibrated estimate.</p>'
+      + '<p style="color:#94a3b8;margin-bottom:16px;">Enter project details to generate a calibrated estimate.</p>'+ '<label>Assembly (optional bundle)<select id="est_assembly"><option value="">— None —</option></select></label>'
       + '<div style="max-width:560px;display:flex;flex-direction:column;gap:12px;">'
       + '  <label>Square footage<input id="est_sqft" type="number" placeholder="1000" style="' + f + '"></label>'
       + '  <label>Project type'
@@ -24,7 +24,25 @@ var EstimatorModule = {
       + '<div id="est_result" style="margin-top:20px;"></div>';
   },
 
-  run: function () {
+
+  ,loadAssemblies: function () {
+    var base = (typeof ASTRAA_API_BASE !== 'undefined') ? ASTRAA_API_BASE : "https://family-speed-outcome.ngrok-free.dev";
+    fetch(base + "/api/estimate/assemblies", { headers: { "ngrok-skip-browser-warning": "true" } })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if (!data.success) return;
+        var sel = document.getElementById('est_assembly');
+        if (!sel) return;
+        data.assemblies.forEach(function(a){
+          var o = document.createElement('option');
+          o.value = a.key;
+          o.text = a.name;
+          o.title = a.description;
+          sel.appendChild(o);
+        });
+      }).catch(function(e){ console.log('assemblies load failed', e); });
+  }
+  ,run: function () {
     var session = {};
     try { session = JSON.parse(localStorage.getItem('astraa_session') || '{}'); } catch (e) {}
     var out = document.getElementById('est_result');
@@ -42,7 +60,8 @@ var EstimatorModule = {
       quality_level: val('est_quality') || "Standard",
       material: parseFloat(val('est_material')) || 1,
       labor: parseFloat(val('est_labor')) || 1,
-      complexity: parseFloat(val('est_complexity')) || 1
+      complexity: parseFloat(val('est_complexity')) || 1,
+      assembly: val('est_assembly')
     };
 
     var base = (typeof ASTRAA_API_BASE !== 'undefined') ? ASTRAA_API_BASE : "https://family-speed-outcome.ngrok-free.dev";

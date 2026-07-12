@@ -44,10 +44,10 @@ function initDashboard() {
 
     var data = window.AstraaBlueprint;
 
-    document.getElementById('welcome-title').innerText =
-        "WELCOME TO THE " + data.profile.company_name.toUpperCase() + " COMMAND CENTER";
-    document.getElementById('welcome-subtitle').innerText =
-        "OPERATIONAL HUB // " + ((activeUser.user || '').toUpperCase()) + " // ACTIVE";
+    var who = (activeUser.company || activeUser.user || "there");
+    who = who.charAt(0).toUpperCase() + who.slice(1);
+    document.getElementById('welcome-title').innerText = "Welcome " + who + " to Astraa Space";
+    document.getElementById('welcome-subtitle').innerText = "Your tools are ready. Select one from the menu above.";
 
     var select = document.getElementById('tool-select');
     var keys = Object.keys(data.tools);

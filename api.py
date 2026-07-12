@@ -2308,7 +2308,7 @@ def astraa_create_estimate():
     selected_price = payload.get("selected_price") or "$0 / 15 days"
     payment_status = payload.get("payment_status")
 
-    record = astraa_get_usage_record(email)
+    record = astraa_storage_load_usage_db().get(astraa_account_key(email))
 
     if not record:
         record, error = astraa_create_or_update_account_usage(
@@ -6266,3 +6266,86 @@ def astraa_login_check():
         "entitlements": astraa_entitlements_for(rec.get("selected_plan"), rec.get("selected_tool"))
     }), 200
 # END ASTRAA_LOGIN_CHECK_ENTITLEMENTS_V1
+
+
+# =====================================================================
+# ASTRAA_ENTERPRISE_ESTIMATOR_V1 — wires EliteEstimator into the API
+# Lazy import + try/except so a failure NEVER takes down the whole API.
+# =====================================================================
+_ASTRAA_ELITE = None
+def _astraa_get_elite():
+    global _ASTRAA_ELITE
+    if _ASTRAA_ELITE is None:
+        from elite_estimator_v2 import EliteEstimator
+        _ASTRAA_ELITE = EliteEstimator()
+    return _ASTRAA_ELITE
+
+@app.route("/api/estimate/enterprise", methods=["POST"])
+def astraa_enterprise_estimate():
+    payload = astraa_get_request_json()
+    email = astraa_normalize_email(payload.get("email"))
+    if not email:
+        return astraa_json_response({"success": False, "error": "Missing email."}, 400)
+
+    # Reuse the same account + usage-limit gating as the basic estimator
+    record = astraa_storage_load_usage_db().get(astraa_account_key(email))
+    if not record:
+        record, error = astraa_create_or_update_account_usage(
+            email=email,
+            selected_tool=payload.get("selected_tool") or "Astraa Estimator",
+            selected_plan=payload.get("selected_plan") or "Trial",
+            payment_status=payload.get("payment_status")
+        )
+        if error:
+            return astraa_json_response({"success": False, "error": error}, 400)
+
+    allowed, reason = astraa_enforce_estimate_limit(record)
+    if not allowed:
+        return astraa_json_response({"success": False, "error": reason,
+                                     "usage": astraa_usage_summary(record)}, 403)
+
+    # Build engine input from the form payload
+    d = {
+        "square_footage": float(payload.get("sqft") or payload.get("square_footage") or 0),
+        "material_cost_index": float(payload.get("material") or payload.get("material_cost_index") or 1),
+        "labor_cost_index": float(payload.get("labor") or payload.get("labor_cost_index") or 1),
+        "complexity": float(payload.get("complexity") or 1),
+        "project_type": payload.get("project_type") or "Commercial",
+        "environment": {
+            "weather_severity": float(payload.get("weather_severity") or 0.2),
+            "season": float(payload.get("season") or 0.5)
+        },
+        "risk_factors": payload.get("risk_factors") or {}
+    }
+
+    try:
+        result = _astraa_get_elite().predict(d)
+    except Exception as exc:
+        return astraa_json_response({
+            "success": False,
+            "error": "Enterprise estimator failed: " + str(exc),
+            "engine": "EliteEstimator"
+        }, 500)
+
+    # Count usage (same as basic route)
+    db = astraa_storage_load_usage_db()
+    key = astraa_account_key(email)
+    rec = db.get(key, record)
+    rec["estimate_used"] = int(rec.get("estimate_used", 0)) + 1
+    rec["last_estimate_date"] = astraa_today_key()
+    saved = rec.get("saved_estimates")
+    if not isinstance(saved, list):
+        saved = []
+    saved.append({"created_at": astraa_now_iso(), "estimate": result, "source": "enterprise_engine"})
+    rec["saved_estimates"] = saved
+    rec["updated_at"] = astraa_now_iso()
+    db[key] = rec
+    astraa_storage_save_usage_db(db)
+
+    return astraa_json_response({
+        "success": True,
+        "engine": "EliteEstimator",
+        "estimate": result,
+        "usage": astraa_usage_summary(rec)
+    })
+# END ASTRAA_ENTERPRISE_ESTIMATOR_V1

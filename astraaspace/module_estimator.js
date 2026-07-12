@@ -47,7 +47,7 @@ var EstimatorModule = {
 
     var base = (typeof ASTRAA_API_BASE !== 'undefined') ? ASTRAA_API_BASE : "https://family-speed-outcome.ngrok-free.dev";
 
-    fetch(base + "/api/estimate", {
+    fetch(base + "/api/estimate/enterprise", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,6 +59,23 @@ var EstimatorModule = {
     .then(function (r) { return r.json(); })
     .then(function (data) {
       if (data.success && data.estimate) {
+        var e = data.estimate;
+        var u = data.usage || {};
+        var bd = e.breakdown || {};
+        var rows = Object.keys(bd).map(function(k){
+          return "<tr><td style='padding:4px 10px;color:#475569;text-transform:capitalize;'>"+k+"</td><td style='padding:4px 10px;text-align:right;font-weight:700;'>$"+Math.round(bd[k]).toLocaleString()+"</td></tr>";
+        }).join("");
+        out.innerHTML =
+          "<div style='padding:20px;border:1px solid #1d4ed8;border-radius:14px;background:#f8fafc;'>"
+          + "<h4 style='margin:0 0 6px 0;color:#03050a;'>Base Estimate: $"+Math.round(e.base_estimate).toLocaleString()+"</h4>"
+          + "<p style='color:#475569;margin:2px 0;'>Range: $"+Math.round(e.range.low).toLocaleString()+" – $"+Math.round(e.range.high).toLocaleString()+"</p>"
+          + "<p style='color:#475569;margin:2px 0;'>Confidence: "+(e.confidence*100).toFixed(1)+"%  &middot;  Risk: "+(e.risk*100).toFixed(0)+"%  &middot;  Recommended: "+(e.recommended_plan||"")+"</p>"
+          + "<table style='margin-top:12px;border-collapse:collapse;width:100%;max-width:360px;'>"+rows+"</table>"
+          + "<p style='color:#94a3b8;font-size:12px;margin-top:12px;'>Estimates used: "+(u.estimate_used!=null?u.estimate_used:"?")+" / "+(u.estimate_limit!=null?u.estimate_limit:"?")+"</p>"
+          + "</div>";
+        return;
+      }
+      if (false) {
         var e = data.estimate;
         var u = data.usage || {};
         out.innerHTML =

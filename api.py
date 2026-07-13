@@ -7395,3 +7395,186 @@ def astraa_hr_delete():
     _astraa_save_hr(db)
     return astraa_json_response({"success": True})
 # END ASTRAA_HR_MVP_V1
+
+
+# =====================================================================
+# ASTRAA_FINANCE_MVP_V1 — standalone finance: invoices, income, expenses,
+# payroll template, P&L statement. Own data + optional pull from other tools.
+# =====================================================================
+ASTRAA_FIN_STORE = os.path.join("astraa_data", "astraa_finance.json")
+
+def _astraa_load_fin():
+    try:
+        with open(ASTRAA_FIN_STORE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def _astraa_save_fin(d):
+    os.makedirs("astraa_data", exist_ok=True)
+    tmp = ASTRAA_FIN_STORE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f)
+    os.replace(tmp, ASTRAA_FIN_STORE)
+
+def _astraa_fin_bucket(email):
+    db = _astraa_load_fin()
+    key = astraa_account_key(email)
+    if key not in db:
+        db[key] = {"invoices": [], "income": [], "expenses": [], "payroll": []}
+    return db, key
+
+@app.route("/api/finance/list", methods=["GET"])
+def astraa_fin_list():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    db, key = _astraa_fin_bucket(email)
+    b = db[key]
+
+    inv_income = sum(float(i.get("amount",0) or 0) for i in b["invoices"] if i.get("status")=="Paid")
+    inv_pending = sum(float(i.get("amount",0) or 0) for i in b["invoices"] if i.get("status") in ("Pending","Overdue"))
+    manual_income = sum(float(x.get("amount",0) or 0) for x in b["income"])
+    manual_expense = sum(float(x.get("amount",0) or 0) for x in b["expenses"])
+
+    # Optional pull from Expense tool (if the customer uses it)
+    ext_expense = 0.0
+    try:
+        exp_db = _astraa_load_expenses()
+        for x in exp_db.get(key, []):
+            ext_expense += float(x.get("amount",0) or 0)
+    except Exception:
+        ext_expense = 0.0
+
+    total_income = inv_income + manual_income
+    total_expense = manual_expense + ext_expense
+    net = total_income - total_expense
+
+    return astraa_json_response({
+        "success": True,
+        "invoices": sorted(b["invoices"], key=lambda x: x.get("created_at",""), reverse=True),
+        "income": sorted(b["income"], key=lambda x: x.get("date",""), reverse=True),
+        "expenses": sorted(b["expenses"], key=lambda x: x.get("date",""), reverse=True),
+        "payroll": b["payroll"],
+        "summary": {
+            "invoice_income": round(inv_income,2),
+            "invoice_pending": round(inv_pending,2),
+            "manual_income": round(manual_income,2),
+            "manual_expense": round(manual_expense,2),
+            "expense_tool_total": round(ext_expense,2),
+            "total_income": round(total_income,2),
+            "total_expense": round(total_expense,2),
+            "net_profit": round(net,2)
+        }
+    })
+
+@app.route("/api/finance/add-invoice", methods=["POST"])
+def astraa_fin_add_invoice():
+    identity = astraa_resolve_session_identity(request)
+    if not identity: return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); p = astraa_get_request_json() or {}
+    client = (p.get("client") or "").strip()
+    if not client: return astraa_json_response({"success": False, "error": "Client name required."}, 400)
+    try: amount=float(p.get("amount") or 0)
+    except Exception: amount=0
+    inv={"id":uuid.uuid4().hex[:12],"client":client,"description":(p.get("description") or "").strip(),
+         "amount":round(amount,2),"status":(p.get("status") or "Pending").strip(),
+         "comment":(p.get("comment") or "").strip(),"date":(p.get("date") or astraa_today_key()).strip(),
+         "created_at":astraa_now_iso()}
+    db,key=_astraa_fin_bucket(email); db[key]["invoices"].append(inv); _astraa_save_fin(db)
+    return astraa_json_response({"success": True, "invoice": inv})
+
+@app.route("/api/finance/update-invoice", methods=["POST"])
+def astraa_fin_update_invoice():
+    identity = astraa_resolve_session_identity(request)
+    if not identity: return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); p = astraa_get_request_json() or {}
+    db,key=_astraa_fin_bucket(email)
+    for i in db[key]["invoices"]:
+        if i.get("id")==p.get("id"):
+            if p.get("status"): i["status"]=p["status"]
+            if "comment" in p: i["comment"]=p["comment"]
+    _astraa_save_fin(db)
+    return astraa_json_response({"success": True})
+
+@app.route("/api/finance/delete-invoice", methods=["POST"])
+def astraa_fin_delete_invoice():
+    identity = astraa_resolve_session_identity(request)
+    if not identity: return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); p = astraa_get_request_json() or {}
+    db,key=_astraa_fin_bucket(email)
+    db[key]["invoices"]=[i for i in db[key]["invoices"] if i.get("id")!=p.get("id")]
+    _astraa_save_fin(db)
+    return astraa_json_response({"success": True})
+
+@app.route("/api/finance/add-entry", methods=["POST"])
+def astraa_fin_add_entry():
+    identity = astraa_resolve_session_identity(request)
+    if not identity: return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); p = astraa_get_request_json() or {}
+    kind = (p.get("kind") or "income").strip()  # income | expense
+    try: amount=float(p.get("amount") or 0)
+    except Exception: amount=0
+    if amount<=0: return astraa_json_response({"success": False, "error": "Enter a valid amount."}, 400)
+    entry={"id":uuid.uuid4().hex[:12],"date":(p.get("date") or astraa_today_key()).strip(),
+           "category":(p.get("category") or "General").strip(),"amount":round(amount,2),
+           "note":(p.get("note") or "").strip(),"created_at":astraa_now_iso()}
+    db,key=_astraa_fin_bucket(email)
+    db[key]["expenses" if kind=="expense" else "income"].append(entry)
+    _astraa_save_fin(db)
+    return astraa_json_response({"success": True, "entry": entry})
+
+@app.route("/api/finance/delete-entry", methods=["POST"])
+def astraa_fin_delete_entry():
+    identity = astraa_resolve_session_identity(request)
+    if not identity: return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); p = astraa_get_request_json() or {}
+    kind = (p.get("kind") or "income").strip()
+    db,key=_astraa_fin_bucket(email)
+    lst = "expenses" if kind=="expense" else "income"
+    db[key][lst]=[x for x in db[key][lst] if x.get("id")!=p.get("id")]
+    _astraa_save_fin(db)
+    return astraa_json_response({"success": True})
+
+@app.route("/api/finance/add-payroll", methods=["POST"])
+def astraa_fin_add_payroll():
+    identity = astraa_resolve_session_identity(request)
+    if not identity: return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); p = astraa_get_request_json() or {}
+    name=(p.get("employee") or "").strip()
+    if not name: return astraa_json_response({"success": False, "error": "Employee name required."}, 400)
+    def num(x):
+        try: return float(x or 0)
+        except Exception: return 0
+    hours=num(p.get("hours")); rate=num(p.get("rate"))
+    gross = round(hours*rate, 2) if (hours and rate) else num(p.get("gross"))
+    deductions=num(p.get("deductions"))
+    net=round(gross-deductions,2)
+    row={"id":uuid.uuid4().hex[:10],"employee":name,"hours":hours,"rate":rate,"gross":gross,
+         "deductions":deductions,"net":net,"status":(p.get("status") or "Pending").strip(),
+         "comment":(p.get("comment") or "").strip(),"created_at":astraa_now_iso()}
+    db,key=_astraa_fin_bucket(email); db[key]["payroll"].append(row); _astraa_save_fin(db)
+    return astraa_json_response({"success": True, "row": row})
+
+@app.route("/api/finance/update-payroll", methods=["POST"])
+def astraa_fin_update_payroll():
+    identity = astraa_resolve_session_identity(request)
+    if not identity: return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); p = astraa_get_request_json() or {}
+    db,key=_astraa_fin_bucket(email)
+    for r in db[key]["payroll"]:
+        if r.get("id")==p.get("id") and p.get("status"): r["status"]=p["status"]
+    _astraa_save_fin(db)
+    return astraa_json_response({"success": True})
+
+@app.route("/api/finance/delete-payroll", methods=["POST"])
+def astraa_fin_delete_payroll():
+    identity = astraa_resolve_session_identity(request)
+    if not identity: return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); p = astraa_get_request_json() or {}
+    db,key=_astraa_fin_bucket(email)
+    db[key]["payroll"]=[r for r in db[key]["payroll"] if r.get("id")!=p.get("id")]
+    _astraa_save_fin(db)
+    return astraa_json_response({"success": True})
+# END ASTRAA_FINANCE_MVP_V1

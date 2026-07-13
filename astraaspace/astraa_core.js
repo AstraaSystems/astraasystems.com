@@ -24,6 +24,8 @@ function astraaRenderTool(key, tool) {
     if (astraaIsLive(tool.name)) {
         if ((nameLower.indexOf("lead")!==-1||nameLower.indexOf("crm")!==-1) && typeof CRMModule !== "undefined") {
                     area.innerHTML = CRMModule.render(); if(CRMModule.load)CRMModule.load();
+                } else if (nameLower.indexOf("finance") !== -1 && typeof FinanceModule !== "undefined") {
+                    document.body.classList.add("astraa-workspace-active"); area.innerHTML = FinanceModule.render(); if(FinanceModule.load)FinanceModule.load();
                 } else if ((nameLower.indexOf("business")!==-1||nameLower.indexOf("operations")!==-1) && typeof BusinessModule !== "undefined") {
                     document.body.classList.add("astraa-workspace-active"); area.innerHTML = BusinessModule.render(); if(BusinessModule.load)BusinessModule.load();
                 } else if (nameLower.indexOf("expense") !== -1 && typeof ExpenseModule !== "undefined") {

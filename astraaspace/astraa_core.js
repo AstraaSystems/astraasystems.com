@@ -25,7 +25,7 @@ function astraaRenderTool(key, tool) {
         if ((nameLower.indexOf("lead")!==-1||nameLower.indexOf("crm")!==-1) && typeof CRMModule !== "undefined") {
                     area.innerHTML = CRMModule.render(); if(CRMModule.load)CRMModule.load();
                 } else if ((nameLower.indexOf("business")!==-1||nameLower.indexOf("operations")!==-1) && typeof BusinessModule !== "undefined") {
-                    area.innerHTML = BusinessModule.render(); if(BusinessModule.load)BusinessModule.load();
+                    document.body.classList.add("astraa-workspace-active"); area.innerHTML = BusinessModule.render(); if(BusinessModule.load)BusinessModule.load();
                 } else if (nameLower.indexOf("expense") !== -1 && typeof ExpenseModule !== "undefined") {
                     area.innerHTML = ExpenseModule.render(); if(ExpenseModule.load)ExpenseModule.load();
                 } else if (nameLower.indexOf("estimator") !== -1 && typeof EstimatorModule !== "undefined") {
@@ -68,7 +68,7 @@ function initDashboard() {
     });
 
     select.onchange = function () {
-        var key = select.value;
+        var key = select.value; document.body.classList.remove("astraa-workspace-active");
         if (!key) {
             document.getElementById('content-area').innerHTML =
                 "<p style='color:#94a3b8;'>Select a tool from the menu above to begin.</p>";

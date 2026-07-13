@@ -57,7 +57,7 @@ var ProjectDocModule = {
       + "<h4 style='margin:16px 0 6px;'>Scope &amp; Notes</h4>"
       + "<div contenteditable='true' style='font-size:13px;color:#475569;border:1px dashed #e2e8f0;border-radius:8px;padding:12px;min-height:60px;'>Add scope, inclusions, exclusions, assumptions, payment schedule, and timeline here (click to edit)…</div>"
       + "<div style='margin-top:16px;padding:12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;font-size:12px;color:#92400e;'>"
-      + "<strong>Disclaimer:</strong> This document is a cost estimate prepared for budgeting and planning purposes. It should be reviewed by a qualified professional and verified against current supplier and labour costs before being used for bidding or contracting. Actual project costs may vary."
+      + "<strong>Disclaimer:</strong> YOUR NEW DISCLAIMER TEXT HERE."
       + "</div>"
       + "<p style='margin-top:14px;font-size:13px;color:#475569;'>Authorized signature: <span style='border-bottom:1px solid #0f172a;padding:0 80px;'>&nbsp;</span></p>"
       + "</div>"

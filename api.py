@@ -6777,3 +6777,112 @@ def astraa_whole_project_calc(payload):
         "risk": 0.2
     }
 # END ASTRAA_WHOLE_PROJECT_RATES_V1
+
+
+# =====================================================================
+# ASTRAA_EXPENSE_MVP_V1 — per-account expense tracking
+# =====================================================================
+ASTRAA_EXPENSE_STORE = os.path.join("astraa_data", "astraa_expenses.json")
+
+def _astraa_load_expenses():
+    try:
+        with open(ASTRAA_EXPENSE_STORE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def _astraa_save_expenses(d):
+    os.makedirs("astraa_data", exist_ok=True)
+    tmp = ASTRAA_EXPENSE_STORE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f)
+    os.replace(tmp, ASTRAA_EXPENSE_STORE)
+
+ASTRAA_EXPENSE_CATEGORIES = [
+    "Materials", "Labour / Subcontractor", "Equipment / Tools", "Fuel / Vehicle",
+    "Permits / Fees", "Office / Admin", "Insurance", "Marketing", "Utilities", "Other"
+]
+
+@app.route("/api/expense/categories", methods=["GET"])
+def astraa_expense_categories():
+    return astraa_json_response({"success": True, "categories": ASTRAA_EXPENSE_CATEGORIES})
+
+@app.route("/api/expense/list", methods=["GET"])
+def astraa_expense_list():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    db = _astraa_load_expenses()
+    items = db.get(astraa_account_key(email), [])
+    # newest first
+    items_sorted = sorted(items, key=lambda x: x.get("date", ""), reverse=True)
+
+    total = sum(float(x.get("amount", 0)) for x in items)
+    from datetime import datetime as _dt
+    this_month = _dt.now().strftime("%Y-%m")
+    month_total = sum(float(x.get("amount", 0)) for x in items if str(x.get("date","")).startswith(this_month))
+    by_cat = {}
+    for x in items:
+        c = x.get("category", "Other")
+        by_cat[c] = by_cat.get(c, 0) + float(x.get("amount", 0))
+
+    return astraa_json_response({
+        "success": True,
+        "expenses": items_sorted,
+        "summary": {
+            "total": round(total, 2),
+            "month_total": round(month_total, 2),
+            "count": len(items),
+            "by_category": {k: round(v, 2) for k, v in by_cat.items()}
+        }
+    })
+
+@app.route("/api/expense/add", methods=["POST"])
+def astraa_expense_add():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+
+    try:
+        amount = float(p.get("amount") or 0)
+    except Exception:
+        amount = 0
+    if amount <= 0:
+        return astraa_json_response({"success": False, "error": "Enter a valid amount."}, 400)
+
+    from datetime import datetime as _dt
+    entry = {
+        "id": uuid.uuid4().hex[:12],
+        "date": (p.get("date") or _dt.now().strftime("%Y-%m-%d")).strip(),
+        "category": (p.get("category") or "Other").strip(),
+        "amount": round(amount, 2),
+        "vendor": (p.get("vendor") or "").strip(),
+        "project": (p.get("project") or "").strip(),
+        "notes": (p.get("notes") or "").strip(),
+        "created_at": astraa_now_iso()
+    }
+    db = _astraa_load_expenses()
+    key = astraa_account_key(email)
+    db.setdefault(key, []).append(entry)
+    _astraa_save_expenses(db)
+    return astraa_json_response({"success": True, "expense": entry})
+
+@app.route("/api/expense/delete", methods=["POST"])
+def astraa_expense_delete():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    eid = p.get("id")
+    db = _astraa_load_expenses()
+    key = astraa_account_key(email)
+    items = db.get(key, [])
+    new_items = [x for x in items if x.get("id") != eid]
+    db[key] = new_items
+    _astraa_save_expenses(db)
+    return astraa_json_response({"success": True, "removed": len(items) - len(new_items)})
+# END ASTRAA_EXPENSE_MVP_V1

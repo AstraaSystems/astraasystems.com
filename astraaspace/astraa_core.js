@@ -22,7 +22,9 @@ function astraaRenderTool(key, tool) {
     var nameLower = (tool.name || "").toLowerCase();
 
     if (astraaIsLive(tool.name)) {
-        if (nameLower.indexOf("estimator") !== -1 && typeof EstimatorModule !== "undefined") {
+        if (nameLower.indexOf("expense") !== -1 && typeof ExpenseModule !== "undefined") {
+                    area.innerHTML = ExpenseModule.render(); if(ExpenseModule.load)ExpenseModule.load();
+                } else if (nameLower.indexOf("estimator") !== -1 && typeof EstimatorModule !== "undefined") {
             area.innerHTML = EstimatorModule.render(); if (EstimatorModule.loadBaseline) EstimatorModule.loadBaseline();
         } else if (key === 'comm' && typeof CommerceModule !== 'undefined') {
             area.innerHTML = CommerceModule.render();

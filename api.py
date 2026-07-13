@@ -6886,3 +6886,159 @@ def astraa_expense_delete():
     _astraa_save_expenses(db)
     return astraa_json_response({"success": True, "removed": len(items) - len(new_items)})
 # END ASTRAA_EXPENSE_MVP_V1
+
+
+# =====================================================================
+# ASTRAA_BUSINESS_MVP_V1 — projects + tasks (Operations)
+# =====================================================================
+ASTRAA_BUSINESS_STORE = os.path.join("astraa_data", "astraa_business.json")
+
+def _astraa_load_business():
+    try:
+        with open(ASTRAA_BUSINESS_STORE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def _astraa_save_business(d):
+    os.makedirs("astraa_data", exist_ok=True)
+    tmp = ASTRAA_BUSINESS_STORE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f)
+    os.replace(tmp, ASTRAA_BUSINESS_STORE)
+
+@app.route("/api/business/list", methods=["GET"])
+def astraa_business_list():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    db = _astraa_load_business()
+    projects = db.get(astraa_account_key(email), [])
+
+    active = sum(1 for p in projects if p.get("status") == "Active")
+    total_value = sum(float(p.get("value", 0) or 0) for p in projects)
+    pending_tasks = sum(1 for p in projects for t in p.get("tasks", []) if t.get("status") != "Done")
+
+    return astraa_json_response({
+        "success": True,
+        "projects": projects,
+        "summary": {
+            "total_projects": len(projects),
+            "active": active,
+            "pending_tasks": pending_tasks,
+            "total_value": round(total_value, 2)
+        }
+    })
+
+@app.route("/api/business/add-project", methods=["POST"])
+def astraa_business_add_project():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    name = (p.get("name") or "").strip()
+    if not name:
+        return astraa_json_response({"success": False, "error": "Project name is required."}, 400)
+    try:
+        value = float(p.get("value") or 0)
+    except Exception:
+        value = 0
+    entry = {
+        "id": uuid.uuid4().hex[:12],
+        "name": name,
+        "client": (p.get("client") or "").strip(),
+        "status": (p.get("status") or "Active").strip(),
+        "start_date": (p.get("start_date") or "").strip(),
+        "due_date": (p.get("due_date") or "").strip(),
+        "value": round(value, 2),
+        "notes": (p.get("notes") or "").strip(),
+        "tasks": [],
+        "created_at": astraa_now_iso()
+    }
+    db = _astraa_load_business()
+    key = astraa_account_key(email)
+    db.setdefault(key, []).append(entry)
+    _astraa_save_business(db)
+    return astraa_json_response({"success": True, "project": entry})
+
+@app.route("/api/business/update-project", methods=["POST"])
+def astraa_business_update_project():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    pid = p.get("id")
+    db = _astraa_load_business()
+    key = astraa_account_key(email)
+    for proj in db.get(key, []):
+        if proj.get("id") == pid:
+            if "status" in p: proj["status"] = p["status"]
+            proj["updated_at"] = astraa_now_iso()
+            break
+    _astraa_save_business(db)
+    return astraa_json_response({"success": True})
+
+@app.route("/api/business/delete-project", methods=["POST"])
+def astraa_business_delete_project():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    pid = p.get("id")
+    db = _astraa_load_business()
+    key = astraa_account_key(email)
+    items = db.get(key, [])
+    db[key] = [x for x in items if x.get("id") != pid]
+    _astraa_save_business(db)
+    return astraa_json_response({"success": True})
+
+@app.route("/api/business/add-task", methods=["POST"])
+def astraa_business_add_task():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    pid = p.get("project_id")
+    title = (p.get("title") or "").strip()
+    if not title:
+        return astraa_json_response({"success": False, "error": "Task title required."}, 400)
+    task = {
+        "id": uuid.uuid4().hex[:8],
+        "title": title,
+        "assignee": (p.get("assignee") or "").strip(),
+        "due_date": (p.get("due_date") or "").strip(),
+        "status": "Open"
+    }
+    db = _astraa_load_business()
+    key = astraa_account_key(email)
+    for proj in db.get(key, []):
+        if proj.get("id") == pid:
+            proj.setdefault("tasks", []).append(task)
+            break
+    _astraa_save_business(db)
+    return astraa_json_response({"success": True, "task": task})
+
+@app.route("/api/business/toggle-task", methods=["POST"])
+def astraa_business_toggle_task():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    pid, tid = p.get("project_id"), p.get("task_id")
+    db = _astraa_load_business()
+    key = astraa_account_key(email)
+    for proj in db.get(key, []):
+        if proj.get("id") == pid:
+            for t in proj.get("tasks", []):
+                if t.get("id") == tid:
+                    t["status"] = "Done" if t.get("status") != "Done" else "Open"
+            break
+    _astraa_save_business(db)
+    return astraa_json_response({"success": True})
+# END ASTRAA_BUSINESS_MVP_V1

@@ -113,6 +113,7 @@ var EstimatorModule = {
         +"<div style='font-size:11px;font-weight:800;color:#16a34a;margin-bottom:6px;'>APPROVED — THIS ESTIMATE IS NOW YOURS</div>"
         +"<h4 style='margin:0 0 6px 0;color:#03050a;'>Total: $"+Math.round(total).toLocaleString()+"</h4>"+body
         +"<p style='color:#166534;font-size:12px;margin-top:12px;font-weight:700;'>Approved estimates: "+d.approved_used+" / "+d.limit+" · "+d.remaining+" remaining</p></div>";
+      if (e.mode === "single_work" && window.QuoteModule) { QuoteModule.offerQuote(e); }
     }).catch(function(e){out.innerHTML="<p style='color:#dc2626;'>Connection error: "+e.message+"</p>";});
   }
 };

@@ -6641,3 +6641,44 @@ def astraa_single_work_calc(payload):
         "total": round(materials + labour, 2)
     }
 # END ASTRAA_SINGLEWORK_V2
+
+
+# =====================================================================
+# ASTRAA_BUSINESS_PROFILE_V1 — per-account company info for quotes
+# =====================================================================
+@app.route("/api/account/business-profile", methods=["GET"])
+def astraa_get_business_profile():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    rec = astraa_storage_load_usage_db().get(astraa_account_key(email)) or {}
+    return astraa_json_response({"success": True, "profile": rec.get("business_profile") or {}})
+
+@app.route("/api/account/business-profile", methods=["POST"])
+def astraa_save_business_profile():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    payload = astraa_get_request_json() or {}
+    db = astraa_storage_load_usage_db()
+    key = astraa_account_key(email)
+    rec = db.get(key)
+    if not rec:
+        return astraa_json_response({"success": False, "error": "Account not found."}, 404)
+    rec["business_profile"] = {
+        "company_name": (payload.get("company_name") or "").strip(),
+        "logo_url": (payload.get("logo_url") or "").strip(),
+        "phone": (payload.get("phone") or "").strip(),
+        "email": (payload.get("email") or "").strip(),
+        "address": (payload.get("address") or "").strip(),
+        "license_no": (payload.get("license_no") or "").strip(),
+        "worksafe_no": (payload.get("worksafe_no") or "").strip(),
+        "gst_no": (payload.get("gst_no") or "").strip()
+    }
+    rec["updated_at"] = astraa_now_iso()
+    db[key] = rec
+    astraa_storage_save_usage_db(db)
+    return astraa_json_response({"success": True, "profile": rec["business_profile"]})
+# END ASTRAA_BUSINESS_PROFILE_V1

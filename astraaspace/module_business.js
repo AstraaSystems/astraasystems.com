@@ -1,130 +1,200 @@
-// Astraa Business — projects + tasks (industry-agnostic Operations) MVP
+// Astraa Business — full workspace: Dashboard, Projects, Leads/CRM, Marketing, HR
 var BusinessModule = {
+  _section:"dashboard",
+  crmStages:["New","Contacted","Qualified","Won","Lost"],
+  crmSources:["Website","Referral","Advertisement","Cold Outreach","Social Media","Other"],
+  _crmFilter:"",
   apiBase:function(){return (typeof ASTRAA_API_BASE!=='undefined')?ASTRAA_API_BASE:"https://family-speed-outcome.ngrok-free.dev";},
   session:function(){try{return JSON.parse(localStorage.getItem('astraa_session')||'{}');}catch(e){return {};}},
   hdr:function(){return {"Content-Type":"application/json","Authorization":"Bearer "+(this.session().token||""),"ngrok-skip-browser-warning":"true"};},
 
   render:function(){
-    var f="width:100%;padding:11px 13px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;color:#0f172a;font-size:0.95rem;";
     return this.styles()
-      + '<div class="bz-wrap">'
-      + '  <div class="bz-head"><h2 class="bz-title">Astraa Business</h2><p class="bz-sub">Manage projects, teams, and tasks — for any business.</p></div>'
-      + '  <div id="bz_summary" class="bz-stats"></div>'
-      + '  <div class="bz-grid">'
-      + '    <div class="bz-card">'
-      + '      <h3 class="bz-h3">New Project</h3>'
-      + '      <div class="bz-field"><label>Project name</label><input id="bz_name" style="'+f+'" placeholder="e.g. Q3 Client Onboarding"></div>'
-      + '      <div class="bz-field"><label>Client / Contact</label><input id="bz_client" style="'+f+'" placeholder="Client or account name"></div>'
-      + '      <div class="bz-field"><label>Status</label><select id="bz_status" style="'+f+'"><option>Active</option><option>On Hold</option><option>Complete</option></select></div>'
-      + '      <div class="bz-field"><label>Start date</label><input id="bz_start" type="date" style="'+f+'"></div>'
-      + '      <div class="bz-field"><label>Due date</label><input id="bz_due" type="date" style="'+f+'"></div>'
-      + '      <div class="bz-field"><label>Value ($) (optional)</label><input id="bz_value" type="number" step="0.01" style="'+f+'" placeholder="0.00"></div>'
-      + '      <button class="bz-add" onclick="BusinessModule.addProject()">Add Project</button>'
-      + '    </div>'
-      + '    <div class="bz-card"><h3 class="bz-h3">Projects</h3><div id="bz_list"></div></div>'
-      + '  </div>'
+      + '<div class="bw-shell">'
+      + '  <aside class="bw-menu">'
+      + '    <div class="bw-brand">Astraa Business</div>'
+      + '    <a class="bw-nav" data-s="dashboard" onclick="BusinessModule.go(\'dashboard\')">📊 Dashboard</a>'
+      + '    <a class="bw-nav" data-s="projects" onclick="BusinessModule.go(\'projects\')">📁 Projects</a>'
+      + '    <a class="bw-nav" data-s="crm" onclick="BusinessModule.go(\'crm\')">👥 Leads / CRM</a>'
+      + '    <a class="bw-nav" data-s="marketing" onclick="BusinessModule.go(\'marketing\')">📣 Marketing &amp; Sales</a>'
+      + '    <a class="bw-nav" data-s="hr" onclick="BusinessModule.go(\'hr\')">🧑‍💼 HR</a>'
+      + '  </aside>'
+      + '  <main class="bw-main"><div id="bw_body"></div></main>'
       + '</div>';
   },
 
-  load:function(){
-    var s=document.getElementById('bz_start'); if(s)s.value=new Date().toISOString().slice(0,10);
-    this.refresh();
+  load:function(){ this.go('dashboard'); },
+
+  go:function(section){
+    this._section=section;
+    var navs=document.querySelectorAll('.bw-nav');
+    for(var i=0;i<navs.length;i++){navs[i].className='bw-nav'+(navs[i].getAttribute('data-s')===section?' bw-nav-on':'');}
+    if(section==='dashboard')this.renderDashboard();
+    else if(section==='projects')this.renderProjects();
+    else if(section==='crm')this.renderCRM();
+    else if(section==='marketing')this.renderPlaceholder('Marketing & Sales','Campaigns, deal pipeline, and sales tracking.');
+    else if(section==='hr')this.renderPlaceholder('HR','Employees, roles, time-off, and team records.');
   },
 
-  refresh:function(){
-    var self=this;
-    fetch(this.apiBase()+"/api/business/list",{headers:this.hdr()})
-      .then(function(r){return r.json();}).then(function(d){
-        if(!d.success){document.getElementById('bz_list').innerHTML="<p style='color:#dc2626;'>"+(d.error||'Error')+"</p>";return;}
-        var s=d.summary||{};
-        var money=function(n){return "$"+Number(n||0).toLocaleString();};
-        document.getElementById('bz_summary').innerHTML=
-          "<div class='bz-stat'><span class='bz-stat-l'>Projects</span><span class='bz-stat-v'>"+(s.total_projects||0)+"</span></div>"
-          +"<div class='bz-stat'><span class='bz-stat-l'>Active</span><span class='bz-stat-v'>"+(s.active||0)+"</span></div>"
-          +"<div class='bz-stat'><span class='bz-stat-l'>Open tasks</span><span class='bz-stat-v'>"+(s.pending_tasks||0)+"</span></div>"
-          +"<div class='bz-stat'><span class='bz-stat-l'>Total value</span><span class='bz-stat-v'>"+money(s.total_value)+"</span></div>";
-        var projects=d.projects||[];
-        if(!projects.length){document.getElementById('bz_list').innerHTML="<p style='color:#94a3b8;'>No projects yet. Create one on the left.</p>";return;}
-        document.getElementById('bz_list').innerHTML=projects.map(function(p){
-          var badge={"Active":"#16a34a","On Hold":"#f59e0b","Complete":"#64748b"}[p.status]||"#64748b";
-          var tasks=(p.tasks||[]).map(function(t){
-            var done=t.status==="Done";
-            return "<div class='bz-task'><label style='display:flex;gap:8px;align-items:center;cursor:pointer;"+(done?"text-decoration:line-through;color:#94a3b8;":"")+"'>"
-              +"<input type='checkbox' "+(done?"checked":"")+" onchange=\"BusinessModule.toggleTask('"+p.id+"','"+t.id+"')\">"
-              +t.title+(t.assignee?" · "+t.assignee:"")+(t.due_date?" · due "+t.due_date:"")+"</label></div>";
-          }).join("");
-          return "<div class='bz-proj'>"
-            +"<div class='bz-proj-top'><div><span class='bz-proj-name'>"+p.name+"</span> <span class='bz-badge' style='background:"+badge+"'>"+p.status+"</span></div>"
-            +"<button class='bz-del' onclick=\"BusinessModule.delProject('"+p.id+"')\">✕</button></div>"
-            +"<div class='bz-proj-sub'>"+(p.client?p.client+" · ":"")+(p.value?money(p.value)+" · ":"")+(p.due_date?"due "+p.due_date:"")+"</div>"
-            +"<div class='bz-tasks'>"+tasks+"</div>"
-            +"<div class='bz-taskadd'><input id='task_"+p.id+"' placeholder='Add task…' class='bz-taskinput'>"
-            +"<input id='asg_"+p.id+"' placeholder='Assigned to' class='bz-taskinput' style='max-width:130px;'>"
-            +"<button class='bz-taskbtn' onclick=\"BusinessModule.addTask('"+p.id+"')\">+</button></div>"
-            +"</div>";
-        }).join("");
-      }).catch(function(){document.getElementById('bz_list').innerHTML="<p style='color:#dc2626;'>Connection error.</p>";});
+  // ---------- DASHBOARD ----------
+  renderDashboard:function(){
+    var self=this, body=document.getElementById('bw_body');
+    body.innerHTML='<h2 class="bw-h2">Dashboard</h2><p class="bw-muted">Loading overview…</p>';
+    Promise.all([
+      fetch(this.apiBase()+"/api/business/list",{headers:this.hdr()}).then(function(r){return r.json();}).catch(function(){return {};}),
+      fetch(this.apiBase()+"/api/crm/list",{headers:this.hdr()}).then(function(r){return r.json();}).catch(function(){return {};})
+    ]).then(function(res){
+      var b=(res[0]&&res[0].summary)||{}, c=(res[1]&&res[1].summary)||{};
+      var money=function(n){return "$"+Number(n||0).toLocaleString();};
+      body.innerHTML='<h2 class="bw-h2">Dashboard</h2>'
+        +'<div class="bw-stats">'
+        +stat("Active Projects",b.active||0)
+        +stat("Open Tasks",b.pending_tasks||0)
+        +stat("Total Leads",c.total||0)
+        +stat("Pipeline Value",money(c.pipeline_value))
+        +stat("Project Value",money(b.total_value))
+        +stat("Conversion",(c.conversion_rate||0)+"%")
+        +'</div>'
+        +'<div class="bw-quick"><button class="bw-qbtn" onclick="BusinessModule.go(\'projects\')">+ New Project</button>'
+        +'<button class="bw-qbtn" onclick="BusinessModule.go(\'crm\')">+ New Lead</button></div>';
+      function stat(l,v){return "<div class='bw-stat'><span class='bw-stat-l'>"+l+"</span><span class='bw-stat-v'>"+v+"</span></div>";}
+    });
   },
 
-  addProject:function(){
+  // ---------- PROJECTS ----------
+  renderProjects:function(){
+    var f="width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-size:0.9rem;";
+    document.getElementById('bw_body').innerHTML=
+      '<h2 class="bw-h2">Projects</h2>'
+      +'<div class="bw-two">'
+      +'<div class="bw-panel"><h3 class="bw-h3">New Project</h3>'
+      +'<div class="bw-f"><label>Project name</label><input id="bz_name" style="'+f+'" placeholder="e.g. Q3 Client Onboarding"></div>'
+      +'<div class="bw-f"><label>Client / Contact</label><input id="bz_client" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Status</label><select id="bz_status" style="'+f+'"><option>Active</option><option>On Hold</option><option>Complete</option></select></div>'
+      +'<div class="bw-f"><label>Due date</label><input id="bz_due" type="date" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Value ($) optional</label><input id="bz_value" type="number" step="0.01" style="'+f+'"></div>'
+      +'<button class="bw-add" onclick="BusinessModule.addProject()">Add Project</button></div>'
+      +'<div class="bw-panel"><h3 class="bw-h3">Active Projects</h3><div id="bz_list"></div></div>'
+      +'</div>';
+    this.refreshProjects();
+  },
+  refreshProjects:function(){
     var self=this;
-    function v(id){var e=document.getElementById(id);return e?e.value:"";}
+    fetch(this.apiBase()+"/api/business/list",{headers:this.hdr()}).then(function(r){return r.json();}).then(function(d){
+      if(!d.success){document.getElementById('bz_list').innerHTML="<p class='bw-muted'>Error loading.</p>";return;}
+      var money=function(n){return "$"+Number(n||0).toLocaleString();};
+      var ps=d.projects||[];
+      if(!ps.length){document.getElementById('bz_list').innerHTML="<p class='bw-muted'>No projects yet.</p>";return;}
+      var col={"Active":"#16a34a","On Hold":"#f59e0b","Complete":"#64748b"};
+      document.getElementById('bz_list').innerHTML=ps.map(function(p){
+        var tasks=(p.tasks||[]).map(function(t){var done=t.status==="Done";
+          return "<div class='bw-task'><label style='display:flex;gap:8px;align-items:center;cursor:pointer;"+(done?"text-decoration:line-through;color:#94a3b8;":"")+"'><input type='checkbox' "+(done?"checked":"")+" onchange=\"BusinessModule.toggleTask('"+p.id+"','"+t.id+"')\">"+t.title+(t.assignee?" · "+t.assignee:"")+"</label></div>";}).join("");
+        return "<div class='bw-proj'><div class='bw-proj-top'><div><b>"+p.name+"</b> <span class='bw-badge' style='background:"+(col[p.status]||'#64748b')+"'>"+p.status+"</span></div><button class='bw-del' onclick=\"BusinessModule.delProject('"+p.id+"')\">✕</button></div>"
+          +"<div class='bw-muted' style='font-size:12px;margin:4px 0;'>"+(p.client?p.client+" · ":"")+(p.value?money(p.value)+" · ":"")+(p.due_date?"due "+p.due_date:"")+"</div>"
+          +tasks
+          +"<div class='bw-taskadd'><input id='task_"+p.id+"' placeholder='Add task…' class='bw-ti'><input id='asg_"+p.id+"' placeholder='Assigned to' class='bw-ti' style='max-width:120px;'><button class='bw-tbtn' onclick=\"BusinessModule.addTask('"+p.id+"')\">+</button></div></div>";
+      }).join("");
+    });
+  },
+  addProject:function(){var self=this;function v(id){var e=document.getElementById(id);return e?e.value:"";}
     if(!v('bz_name')){alert("Enter a project name.");return;}
-    var body={name:v('bz_name'),client:v('bz_client'),status:v('bz_status'),start_date:v('bz_start'),due_date:v('bz_due'),value:parseFloat(v('bz_value'))||0};
-    fetch(this.apiBase()+"/api/business/add-project",{method:"POST",headers:this.hdr(),body:JSON.stringify(body)})
-      .then(function(r){return r.json();}).then(function(d){
-        if(!d.success){alert(d.error||"Failed.");return;}
-        document.getElementById('bz_name').value="";document.getElementById('bz_client').value="";document.getElementById('bz_value').value="";
-        self.refresh();
-      }).catch(function(){alert("Connection error.");});
-  },
+    fetch(this.apiBase()+"/api/business/add-project",{method:"POST",headers:this.hdr(),body:JSON.stringify({name:v('bz_name'),client:v('bz_client'),status:v('bz_status'),due_date:v('bz_due'),value:parseFloat(v('bz_value'))||0})})
+      .then(function(r){return r.json();}).then(function(){["bz_name","bz_client","bz_value"].forEach(function(i){var e=document.getElementById(i);if(e)e.value="";});self.refreshProjects();});},
+  delProject:function(id){var self=this;if(!confirm("Delete project?"))return;fetch(this.apiBase()+"/api/business/delete-project",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id})}).then(function(r){return r.json();}).then(function(){self.refreshProjects();});},
+  addTask:function(pid){var self=this;var t=(document.getElementById('task_'+pid)||{}).value||"";var a=(document.getElementById('asg_'+pid)||{}).value||"";if(!t)return;fetch(this.apiBase()+"/api/business/add-task",{method:"POST",headers:this.hdr(),body:JSON.stringify({project_id:pid,title:t,assignee:a})}).then(function(r){return r.json();}).then(function(){self.refreshProjects();});},
+  toggleTask:function(pid,tid){var self=this;fetch(this.apiBase()+"/api/business/toggle-task",{method:"POST",headers:this.hdr(),body:JSON.stringify({project_id:pid,task_id:tid})}).then(function(r){return r.json();}).then(function(){self.refreshProjects();});},
 
-  delProject:function(id){
-    var self=this; if(!confirm("Delete this project and its tasks?"))return;
-    fetch(this.apiBase()+"/api/business/delete-project",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id})})
-      .then(function(r){return r.json();}).then(function(){self.refresh();}).catch(function(){});
+  // ---------- LEADS / CRM ----------
+  renderCRM:function(){
+    var f="width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-size:0.9rem;";
+    var src=this.crmSources.map(function(s){return "<option>"+s+"</option>";}).join("");
+    var stg=this.crmStages.map(function(s){return "<option>"+s+"</option>";}).join("");
+    document.getElementById('bw_body').innerHTML=
+      '<h2 class="bw-h2">Leads / CRM</h2>'
+      +'<div class="bw-two">'
+      +'<div class="bw-panel"><h3 class="bw-h3">Add Lead</h3>'
+      +'<div class="bw-f"><label>Name</label><input id="cr_name" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Company</label><input id="cr_company" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Email</label><input id="cr_email" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Phone</label><input id="cr_phone" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Source</label><select id="cr_source" style="'+f+'">'+src+'</select></div>'
+      +'<div class="bw-f"><label>Est. value ($)</label><input id="cr_value" type="number" step="0.01" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Next action</label><input id="cr_action" style="'+f+'" placeholder="e.g. Send proposal"></div>'
+      +'<button class="bw-add" onclick="BusinessModule.addLead()">Add Lead</button></div>'
+      +'<div class="bw-panel"><div class="bw-listhead"><h3 class="bw-h3" style="margin:0;">Pipeline</h3><select id="cr_filter" class="bw-filter" onchange="BusinessModule.setCrmFilter(this.value)"><option value="">All stages</option>'+stg+'</select></div><div id="cr_list"></div></div>'
+      +'</div>';
+    this.refreshCRM();
   },
-
-  addTask:function(pid){
+  setCrmFilter:function(v){this._crmFilter=v;this.refreshCRM();},
+  refreshCRM:function(){
     var self=this;
-    var title=(document.getElementById('task_'+pid)||{}).value||"";
-    var asg=(document.getElementById('asg_'+pid)||{}).value||"";
-    if(!title){return;}
-    fetch(this.apiBase()+"/api/business/add-task",{method:"POST",headers:this.hdr(),body:JSON.stringify({project_id:pid,title:title,assignee:asg})})
-      .then(function(r){return r.json();}).then(function(){self.refresh();}).catch(function(){});
+    fetch(this.apiBase()+"/api/crm/list",{headers:this.hdr()}).then(function(r){return r.json();}).then(function(d){
+      if(!d.success){document.getElementById('cr_list').innerHTML="<p class='bw-muted'>Error.</p>";return;}
+      var money=function(n){return "$"+Number(n||0).toLocaleString();};
+      var leads=(d.leads||[]).filter(function(l){return !self._crmFilter||l.stage===self._crmFilter;});
+      if(!leads.length){document.getElementById('cr_list').innerHTML="<p class='bw-muted'>No leads yet.</p>";return;}
+      var col={"New":"#3b82f6","Contacted":"#f59e0b","Qualified":"#8b5cf6","Won":"#16a34a","Lost":"#94a3b8"};
+      document.getElementById('cr_list').innerHTML=leads.map(function(l){
+        var opts=self.crmStages.map(function(st){return "<option "+(st===l.stage?"selected":"")+">"+st+"</option>";}).join("");
+        return "<div class='bw-lead'><div class='bw-proj-top'><div><b>"+l.name+"</b>"+(l.company?" <span class='bw-muted'>· "+l.company+"</span>":"")+"</div><button class='bw-del' onclick=\"BusinessModule.delLead('"+l.id+"')\">✕</button></div>"
+          +"<div class='bw-muted' style='font-size:12px;'>"+(l.value?money(l.value)+" · ":"")+l.source+(l.email?" · "+l.email:"")+"</div>"
+          +(l.next_action?"<div style='color:#1d4ed8;font-size:12px;font-weight:700;margin-top:4px;'>▶ "+l.next_action+"</div>":"")
+          +"<div style='display:flex;align-items:center;gap:8px;margin-top:6px;'><span style='width:10px;height:10px;border-radius:50%;background:"+(col[l.stage]||'#94a3b8')+";'></span><select class='bw-stagesel' onchange=\"BusinessModule.setStage('"+l.id+"',this.value)\">"+opts+"</select></div></div>";
+      }).join("");
+    });
   },
+  addLead:function(){var self=this;function v(id){var e=document.getElementById(id);return e?e.value:"";}
+    if(!v('cr_name')){alert("Enter a lead name.");return;}
+    fetch(this.apiBase()+"/api/crm/add",{method:"POST",headers:this.hdr(),body:JSON.stringify({name:v('cr_name'),company:v('cr_company'),email:v('cr_email'),phone:v('cr_phone'),source:v('cr_source'),value:parseFloat(v('cr_value'))||0,next_action:v('cr_action'),stage:"New"})})
+      .then(function(r){return r.json();}).then(function(){["cr_name","cr_company","cr_email","cr_phone","cr_value","cr_action"].forEach(function(i){var e=document.getElementById(i);if(e)e.value="";});self.refreshCRM();});},
+  setStage:function(id,stage){var self=this;fetch(this.apiBase()+"/api/crm/update-stage",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id,stage:stage})}).then(function(r){return r.json();}).then(function(){self.refreshCRM();});},
+  delLead:function(id){var self=this;if(!confirm("Delete lead?"))return;fetch(this.apiBase()+"/api/crm/delete",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id})}).then(function(r){return r.json();}).then(function(){self.refreshCRM();});},
 
-  toggleTask:function(pid,tid){
-    var self=this;
-    fetch(this.apiBase()+"/api/business/toggle-task",{method:"POST",headers:this.hdr(),body:JSON.stringify({project_id:pid,task_id:tid})})
-      .then(function(r){return r.json();}).then(function(){self.refresh();}).catch(function(){});
+  // ---------- PLACEHOLDER (Marketing / HR) ----------
+  renderPlaceholder:function(title,desc){
+    document.getElementById('bw_body').innerHTML=
+      '<h2 class="bw-h2">'+title+'</h2>'
+      +'<div class="bw-soon"><div class="bw-soon-badge">COMING SOON</div>'
+      +'<p class="bw-muted">'+desc+'</p>'
+      +'<p class="bw-muted" style="font-size:13px;">This section is in active development and will be available soon.</p></div>';
   },
 
   styles:function(){
     return "<style>"
-    +".bz-wrap{max-width:1000px;}"
-    +".bz-head{margin-bottom:16px;}.bz-title{margin:0;font-size:1.6rem;font-weight:900;color:#090d16;}.bz-sub{margin:4px 0 0;color:#64748b;font-size:0.9rem;}"
-    +".bz-stats{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}"
-    +".bz-stat{flex:1;min-width:120px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px;text-align:center;box-shadow:0 6px 18px rgba(15,23,42,0.04);}"
-    +".bz-stat-l{display:block;font-size:11px;color:#64748b;font-weight:700;text-transform:uppercase;}"
-    +".bz-stat-v{display:block;font-size:1.3rem;font-weight:900;color:#090d16;margin-top:4px;}"
-    +".bz-grid{display:grid;grid-template-columns:0.9fr 1.3fr;gap:20px;align-items:start;}"
-    +".bz-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(15,23,42,0.05);}"
-    +".bz-h3{font-size:1.1rem;font-weight:800;color:#0f172a;margin:0 0 14px;}"
-    +".bz-field{margin-bottom:12px;}.bz-field label{display:block;font-size:0.78rem;font-weight:800;color:#0f172a;margin-bottom:5px;text-transform:uppercase;letter-spacing:.03em;}"
-    +".bz-add{width:100%;padding:12px;border:none;border-radius:10px;background:#1d4ed8;color:#fff;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(29,78,216,0.25);}"
-    +".bz-add:hover{background:#1e40af;}"
-    +".bz-proj{border:1px solid #e2e8f0;border-radius:12px;padding:14px;margin-bottom:12px;}"
-    +".bz-proj-top{display:flex;justify-content:space-between;align-items:center;}"
-    +".bz-proj-name{font-weight:800;color:#0f172a;}"
-    +".bz-badge{color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;margin-left:6px;}"
-    +".bz-proj-sub{color:#94a3b8;font-size:12px;margin:4px 0 8px;}"
-    +".bz-task{padding:3px 0;font-size:14px;color:#334155;}"
-    +".bz-taskadd{display:flex;gap:6px;margin-top:8px;}"
-    +".bz-taskinput{flex:1;padding:7px 10px;border:1px solid #e2e8f0;border-radius:7px;background:#f8fafc;font-size:13px;}"
-    +".bz-taskbtn{background:#1d4ed8 !important;color:#fff !important;border:none !important;border-radius:7px;width:34px;font-weight:900;cursor:pointer;}"
-    +".bz-del{background:#fff !important;border:1px solid #fecaca !important;color:#dc2626 !important;border-radius:6px !important;width:26px;height:26px;cursor:pointer;font-weight:700 !important;}"
-    +"@media(max-width:820px){.bz-grid{grid-template-columns:1fr;}}"
+    +".bw-shell{display:grid;grid-template-columns:210px 1fr;gap:0;min-height:520px;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(15,23,42,0.05);}"
+    +".bw-menu{background:#0b1220;padding:18px 12px;display:flex;flex-direction:column;gap:4px;}"
+    +".bw-brand{color:#fff;font-weight:900;font-size:1rem;padding:8px 12px 16px;letter-spacing:-0.02em;}"
+    +".bw-nav{display:block;padding:11px 14px;border-radius:9px;color:#cbd5e1;font-weight:700;font-size:0.9rem;cursor:pointer;transition:.15s;}"
+    +".bw-nav:hover{background:rgba(255,255,255,0.06);color:#fff;}"
+    +".bw-nav-on{background:#1d4ed8;color:#fff;}"
+    +".bw-main{background:#fff;padding:28px;}"
+    +".bw-h2{margin:0 0 18px;font-size:1.5rem;font-weight:900;color:#090d16;}"
+    +".bw-h3{font-size:1rem;font-weight:800;color:#0f172a;margin:0 0 12px;}"
+    +".bw-muted{color:#94a3b8;}"
+    +".bw-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}"
+    +".bw-stat{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:16px;text-align:center;}"
+    +".bw-stat-l{display:block;font-size:11px;color:#64748b;font-weight:700;text-transform:uppercase;}"
+    +".bw-stat-v{display:block;font-size:1.4rem;font-weight:900;color:#090d16;margin-top:4px;}"
+    +".bw-quick{display:flex;gap:10px;margin-top:18px;}"
+    +".bw-qbtn{padding:10px 16px;border:1px solid #1d4ed8;background:#fff;color:#1d4ed8;border-radius:9px;font-weight:700;cursor:pointer;}"
+    +".bw-two{display:grid;grid-template-columns:0.9fr 1.2fr;gap:18px;align-items:start;}"
+    +".bw-panel{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px;}"
+    +".bw-f{margin-bottom:10px;}.bw-f label{display:block;font-size:0.72rem;font-weight:800;color:#0f172a;margin-bottom:4px;text-transform:uppercase;}"
+    +".bw-add{width:100%;padding:11px;border:none;border-radius:9px;background:#1d4ed8;color:#fff;font-weight:800;cursor:pointer;}"
+    +".bw-proj,.bw-lead{border:1px solid #e2e8f0;border-radius:10px;padding:12px;margin-bottom:10px;}"
+    +".bw-proj-top{display:flex;justify-content:space-between;align-items:center;}"
+    +".bw-badge{color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px;margin-left:6px;}"
+    +".bw-task{padding:2px 0;font-size:13px;color:#334155;}"
+    +".bw-taskadd{display:flex;gap:6px;margin-top:8px;}"
+    +".bw-ti{flex:1;padding:6px 9px;border:1px solid #e2e8f0;border-radius:7px;background:#f8fafc;font-size:12px;}"
+    +".bw-tbtn{background:#1d4ed8 !important;color:#fff !important;border:none;border-radius:7px;width:32px;font-weight:900;cursor:pointer;}"
+    +".bw-del{background:#fff !important;border:1px solid #fecaca !important;color:#dc2626 !important;border-radius:6px;width:24px;height:24px;cursor:pointer;font-weight:700;}"
+    +".bw-listhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}"
+    +".bw-filter{padding:6px 9px;border:1px solid #e2e8f0;border-radius:7px;background:#f8fafc;font-size:12px;}"
+    +".bw-stagesel{padding:4px 7px;border:1px solid #e2e8f0;border-radius:6px;background:#f8fafc;font-size:12px;font-weight:700;}"
+    +".bw-soon{text-align:center;padding:50px 20px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:14px;}"
+    +".bw-soon-badge{display:inline-block;background:#fffbeb;color:#b45309;border:1px solid #fde68a;font-size:11px;font-weight:800;padding:5px 12px;border-radius:999px;margin-bottom:12px;}"
+    +"@media(max-width:820px){.bw-shell{grid-template-columns:1fr;}.bw-two{grid-template-columns:1fr;}.bw-stats{grid-template-columns:repeat(2,1fr);}}"
     +"</style>";
   }
 };

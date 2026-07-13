@@ -1,68 +1,85 @@
-// Astraa Estimator — Single Work / Whole Project modes
+// Astraa Estimator — premium, mode-aware (Single Work / Whole Project)
 var EstimatorModule = {
   _token:null, _mode:"single_work", _baseline:{},
+  tradeCats:["Interior Paint","Flooring","Drywall","Tile","Roofing","Framing","Concrete","Electrical","Plumbing","Insulation","HVAC","General / Other"],
+  projectCats:["New Home Build","Home Addition","Full Renovation","Commercial Build-Out","Multi-Unit / Townhouse","Custom Home","Industrial / Warehouse"],
   bcCities:["BC / Vancouver","BC / Burnaby","BC / Richmond","BC / Surrey","BC / Coquitlam","BC / Port Coquitlam","BC / Port Moody","BC / New Westminster","BC / North Vancouver","BC / West Vancouver","BC / Delta","BC / Langley","BC / Maple Ridge","BC / Pitt Meadows","BC / White Rock","BC / Abbotsford","BC / Chilliwack","BC / Mission","BC / Hope","BC / Victoria","BC / Saanich","BC / Langford","BC / Colwood","BC / Nanaimo","BC / Parksville","BC / Qualicum Beach","BC / Duncan","BC / Courtenay","BC / Comox","BC / Campbell River","BC / Port Alberni","BC / Tofino","BC / Ucluelet","BC / Powell River","BC / Squamish","BC / Whistler","BC / Pemberton","BC / Gibsons","BC / Sechelt","BC / Kelowna","BC / West Kelowna","BC / Vernon","BC / Penticton","BC / Kamloops","BC / Merritt","BC / Salmon Arm","BC / Revelstoke","BC / Cranbrook","BC / Kimberley","BC / Fernie","BC / Nelson","BC / Castlegar","BC / Trail","BC / Golden","BC / Prince George","BC / Quesnel","BC / Williams Lake","BC / Fort St. John","BC / Dawson Creek","BC / Terrace","BC / Prince Rupert","BC / Kitimat","BC / Smithers","BC / Fort Nelson","BC / Other City or Town"],
 
   apiBase:function(){return (typeof ASTRAA_API_BASE!=='undefined')?ASTRAA_API_BASE:"https://family-speed-outcome.ngrok-free.dev";},
   session:function(){try{return JSON.parse(localStorage.getItem('astraa_session')||'{}');}catch(e){return {};}},
 
   render:function(){
-    var f="width:100%;padding:11px 13px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;color:#0f172a;font-size:0.95rem;";
-    var defaults=["Interior Paint","Flooring","Drywall","Tile","Roofing","Framing","Concrete","Electrical","Plumbing","Insulation","HVAC","General / Other"];
-    var cats=Object.keys(this._baseline); if(!cats.length)cats=defaults;
-    var catOpts=cats.map(function(c){return "<option>"+c+"</option>";}).join("");
-    var cityOpts=this.bcCities.map(function(c){return "<option>"+c+"</option>";}).join("");
     return ''
-      +'<h3>Astraa Estimator</h3>'
-      +'<p style="color:#64748b;margin-bottom:14px;">Calculate free. You only use a credit when you <strong>approve</strong>.</p>'
-      +'<div style="display:flex;gap:24px;margin-bottom:16px;font-weight:700;">'
-      +'  <label style="cursor:pointer;"><input type="radio" name="est_mode" value="single_work" checked onchange="EstimatorModule.setMode(this.value)"> Single Work</label>'
-      +'  <label style="cursor:pointer;"><input type="radio" name="est_mode" value="whole_project" onchange="EstimatorModule.setMode(this.value)"> Whole Project</label>'
-      +'</div>'
-      +'<div style="max-width:560px;display:flex;flex-direction:column;gap:12px;">'
-      +'  <label>Category<select id="est_category" style="'+f+'" onchange="EstimatorModule.fillBaseline(true)">'+catOpts+'</select></label>'
-      +'  <label>Square footage<input id="est_sqft" type="number" placeholder="100" style="'+f+'"></label>'
-      +'  <label>Project type<select id="est_ptype" style="'+f+'"><option>Residential</option><option>Commercial</option><option>Industrial</option><option>Renovation</option><option>Service / Repair</option><option>Custom</option></select></label>'
-      +'  <label>Location / market<select id="est_loc" style="'+f+'">'+cityOpts+'</select></label>'
-      +'  <label>Quality level<select id="est_quality" style="'+f+'" onchange="EstimatorModule.fillBaseline(true)"><option>Standard</option><option>Premium</option><option>Economy</option></select></label>'
-      +'  <label>Cost of material ($/sqft)<input id="est_material" type="number" step="0.01" style="'+f+'"></label>'
-      +'  <label>Cost of labour ($/sqft)<input id="est_labour" type="number" step="0.01" style="'+f+'"></label>'
-      +'  <p style="color:#94a3b8;font-size:12px;margin:0;">Rates pre-filled from BC industry standard — edit to match your pricing.</p>'
-      +'  <button onclick="EstimatorModule.calculate()" style="padding:12px;border:none;border-radius:8px;background:#1d4ed8;color:#fff;font-weight:700;cursor:pointer;">Calculate (free)</button>'
-      +'</div>'
-      +'<div id="est_result" style="margin-top:20px;"></div>';
+      + this.styles()
+      + '<div class="ae-wrap">'
+      + '  <div class="ae-head">'
+      + '    <div><h2 class="ae-title">Astraa Estimator</h2><p class="ae-sub">Calculate free. You only use a credit when you approve.</p></div>'
+      + '    <div class="ae-modes">'
+      + '      <label class="ae-mode ae-mode-on" id="ae-m-single"><input type="radio" name="est_mode" value="single_work" checked onchange="EstimatorModule.setMode(\'single_work\')"> Single Work</label>'
+      + '      <label class="ae-mode" id="ae-m-whole"><input type="radio" name="est_mode" value="whole_project" onchange="EstimatorModule.setMode(\'whole_project\')"> Whole Project</label>'
+      + '    </div>'
+      + '  </div>'
+      + '  <div class="ae-grid">'
+      + '    <div class="ae-card ae-inputs">' + this.inputs() + '</div>'
+      + '    <div class="ae-card ae-output"><div id="est_result" class="ae-placeholder">Enter details and calculate to see your estimate.</div></div>'
+      + '  </div>'
+      + '</div>';
   },
 
-  setMode:function(m){this._mode=m;},
+  inputs:function(){
+    var cats = (this._mode==="whole_project"?this.projectCats:this.tradeCats).map(function(c){return "<option>"+c+"</option>";}).join("");
+    var cityOpts = this.bcCities.map(function(c){return "<option>"+c+"</option>";}).join("");
+    var rateFields = this._mode==="single_work" ? (
+        '<div class="ae-field"><label>Cost of material ($/sqft)</label><input id="est_material" type="number" step="0.01"><span id="mat_hint" class="ae-hint"></span></div>'
+      + '<div class="ae-field"><label>Cost of labour ($/sqft)</label><input id="est_labour" type="number" step="0.01"><span id="lab_hint" class="ae-hint"></span></div>'
+      + '<button type="button" class="ae-reset" onclick="EstimatorModule.resetRates()">Reset to BC standard</button>'
+    ) : '<p class="ae-note">Whole Project uses Astraa\'s BC building model — all trades, overhead, profit and contingency are calculated automatically.</p>';
+    return ''
+      + '<div class="ae-field"><label>'+(this._mode==="whole_project"?"Project type":"Category")+'</label><select id="est_category" onchange="EstimatorModule.fillBaseline(true)">'+cats+'</select></div>'
+      + '<div class="ae-field"><label>Square footage</label><input id="est_sqft" type="number" placeholder="1000"></div>'
+      + '<div class="ae-field"><label>Building / use type</label><select id="est_ptype"><option>Residential</option><option>Commercial</option><option>Industrial</option><option>Renovation</option><option>Service / Repair</option><option>Custom</option></select></div>'
+      + '<div class="ae-field"><label>Location / market</label><select id="est_loc">'+cityOpts+'</select></div>'
+      + '<div class="ae-field"><label>Quality level</label><select id="est_quality" onchange="EstimatorModule.fillBaseline(true)"><option>Standard</option><option>Premium</option><option>Economy</option></select></div>'
+      + rateFields
+      + '<button class="ae-calc" onclick="EstimatorModule.calculate()">Calculate (free)</button>';
+  },
+
+  setMode:function(m){
+    this._mode=m;
+    document.getElementById('ae-m-single').className = 'ae-mode' + (m==='single_work'?' ae-mode-on':'');
+    document.getElementById('ae-m-whole').className = 'ae-mode' + (m==='whole_project'?' ae-mode-on':'');
+    // rebuild inputs for the mode
+    var col = document.querySelector('.ae-inputs');
+    if(col){ col.innerHTML = this.inputs(); this.loadBaseline(); }
+    var out = document.getElementById('est_result');
+    if(out){ out.className='ae-placeholder'; out.innerHTML = 'Enter details and calculate to see your estimate.'; }
+  },
 
   loadBaseline:function(){
     var self=this;
     fetch(this.apiBase()+"/api/estimate/baseline",{headers:{"ngrok-skip-browser-warning":"true"}})
-      .then(function(r){return r.json();})
-      .then(function(d){if(d.success){self._baseline=d.rates;self.fillBaseline();}})
+      .then(function(r){return r.json();}).then(function(d){if(d.success){self._baseline=d.rates;self.fillBaseline(true);}})
       .catch(function(e){console.log('baseline load failed',e);});
   },
 
   fillBaseline:function(force){
+    if(this._mode!=="single_work")return;
     var cat=(document.getElementById('est_category')||{}).value;
     var q=((document.getElementById('est_quality')||{}).value||"Standard").toLowerCase();
     var qm=q==="premium"?1.15:(q==="economy"?0.9:1.0);
-    var b=this._baseline[cat];
-    if(!b)return;
+    var b=this._baseline[cat]; if(!b)return;
     var mi=document.getElementById('est_material'),li=document.getElementById('est_labour');
-    // Always pre-fill if empty, or when forced (reset / category change)
     if(mi&&(force||!mi.value))mi.value=(b.material*qm).toFixed(2);
     if(li&&(force||!li.value))li.value=(b.labour*qm).toFixed(2);
-    // Show BC typical range hints
     var mh=document.getElementById('mat_hint'),lh=document.getElementById('lab_hint');
-    if(mh&&b.mat_min!=null)mh.innerText=" BC typical: $"+(b.mat_min*qm).toFixed(2)+"–$"+(b.mat_max*qm).toFixed(2)+"/sqft";
-    if(lh&&b.lab_min!=null)lh.innerText=" BC typical: $"+(b.lab_min*qm).toFixed(2)+"–$"+(b.lab_max*qm).toFixed(2)+"/sqft";
+    if(mh&&b.mat_min!=null)mh.innerText="BC typical: $"+(b.mat_min*qm).toFixed(2)+"–$"+(b.mat_max*qm).toFixed(2)+"/sqft";
+    if(lh&&b.lab_min!=null)lh.innerText="BC typical: $"+(b.lab_min*qm).toFixed(2)+"–$"+(b.lab_max*qm).toFixed(2)+"/sqft";
   },
-  resetRates:function(){ this.fillBaseline(true); },
+  resetRates:function(){this.fillBaseline(true);},
 
   calculate:function(){
     var self=this,out=document.getElementById('est_result');
-    out.innerHTML='<p style="color:#1d4ed8;">Calculating...</p>';
+    out.className=''; out.innerHTML='<p style="color:#1d4ed8;">Calculating...</p>';
     function val(id){var el=document.getElementById(id);return el?el.value:"";}
     var s=this.session();
     var payload={email:s.email,mode:this._mode,category:val('est_category'),
@@ -76,14 +93,19 @@ var EstimatorModule = {
     .then(function(r){return r.json();}).then(function(d){
       if(!d.success){out.innerHTML="<p style='color:#dc2626;'>"+(d.error||'Failed')+"</p>";return;}
       self._token=d.preview_token;
-      var head;
-      if(d.mode==="single_work"){head="<h4 style='margin:0 0 6px 0;color:#03050a;'>"+d.category+" — Total: $"+Math.round(d.total).toLocaleString()+"</h4>";}
-      else{head="<h4 style='margin:0 0 6px 0;color:#03050a;'>Estimated Cost: $"+Math.round(d.base_estimate).toLocaleString()+"</h4><p style='color:#475569;margin:2px 0;'>Range: $"+Math.round(d.range.low).toLocaleString()+" – $"+Math.round(d.range.high).toLocaleString()+" · Confidence "+(d.confidence*100).toFixed(1)+"%</p>";}
-      out.innerHTML="<div style='padding:20px;border:1px dashed #94a3b8;border-radius:14px;background:#f8fafc;position:relative;'>"
-        +"<div style='position:absolute;top:8px;right:14px;font-size:11px;font-weight:800;color:#f59e0b;'>PREVIEW — NOT APPROVED</div>"
-        +head
-        +"<p style='color:#94a3b8;font-size:12px;margin-top:8px;'>Full breakdown unlocks on approval. Uses 1 credit.</p>"
-        +"<button onclick='EstimatorModule.approve()' style='margin-top:10px;padding:12px 18px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-weight:800;cursor:pointer;'>Approve — uses 1 credit</button></div>";
+      var total = d.mode==="single_work"?d.total:d.base_estimate;
+      var extra = d.mode==="single_work"
+        ? "<p class='ae-r-sub'>"+d.category+"</p>"
+        : "<p class='ae-r-sub'>Range: $"+Math.round(d.range.low).toLocaleString()+" – $"+Math.round(d.range.high).toLocaleString()+"</p>"
+          +"<div class='ae-badges'><span class='ae-badge ae-badge-green'>Confidence "+(d.confidence*100).toFixed(0)+"%</span><span class='ae-badge ae-badge-amber'>Risk "+(d.risk*100).toFixed(0)+"%</span></div>";
+      out.innerHTML =
+        "<div class='ae-preview'>"
+        +"<div class='ae-r-tag'>PREVIEW — NOT APPROVED</div>"
+        +"<div class='ae-r-total'>$"+Math.round(total).toLocaleString()+"</div>"
+        + extra
+        +"<p class='ae-r-note'>Full breakdown unlocks on approval. Uses 1 credit.</p>"
+        +"<button class='ae-approve' onclick='EstimatorModule.approve()'>Approve — uses 1 credit</button>"
+        +"</div>";
     }).catch(function(e){out.innerHTML="<p style='color:#dc2626;'>Connection error: "+e.message+"</p>";});
   },
 
@@ -95,26 +117,71 @@ var EstimatorModule = {
       headers:{"Content-Type":"application/json","Authorization":"Bearer "+(s.token||""),"ngrok-skip-browser-warning":"true"},
       body:JSON.stringify({email:s.email,preview_token:this._token})})
     .then(function(r){return r.json();}).then(function(d){
-      if(d.error==="limit_reached"){out.innerHTML="<div style='padding:18px;border:1px solid #f59e0b;border-radius:12px;background:#fffbeb;'><h4 style='margin:0 0 6px 0;color:#92400e;'>Limit reached</h4><p style='color:#92400e;'>"+d.message+"</p></div>";return;}
+      if(d.error==="limit_reached"){out.innerHTML="<div class='ae-limit'><h4>Approval limit reached</h4><p>"+d.message+"</p></div>";return;}
       if(!d.success){out.innerHTML="<p style='color:#dc2626;'>"+(d.error||'Failed')+"</p>";return;}
       self._token=null;var e=d.estimate,body="";
       if(e.mode==="single_work"){
-        body="<table style='margin-top:12px;border-collapse:collapse;width:100%;max-width:400px;'>"
-          +"<tr><td style='padding:6px 10px;color:#475569;'>Materials ($"+e.material_rate+"/sqft × "+e.sqft+")</td><td style='padding:6px 10px;text-align:right;font-weight:700;'>$"+Math.round(e.materials_cost).toLocaleString()+"</td></tr>"
-          +"<tr><td style='padding:6px 10px;color:#475569;'>Labour ($"+e.labour_rate+"/sqft × "+e.sqft+")</td><td style='padding:6px 10px;text-align:right;font-weight:700;'>$"+Math.round(e.labour_cost).toLocaleString()+"</td></tr>"
-          +"<tr style='border-top:2px solid #16a34a;'><td style='padding:8px 10px;font-weight:900;'>Total</td><td style='padding:8px 10px;text-align:right;font-weight:900;'>$"+Math.round(e.total).toLocaleString()+"</td></tr></table>"
-          +"<p style='color:#94a3b8;font-size:12px;margin-top:8px;'>"+e.category+" · "+(e.location_market||'')+" · "+(e.quality_level||'')+"</p>";
-      }else{
-        var bd=e.breakdown||{};var rows=Object.keys(bd).map(function(k){return "<tr><td style='padding:4px 10px;color:#475569;text-transform:capitalize;'>"+k+"</td><td style='padding:4px 10px;text-align:right;font-weight:700;'>$"+Math.round(bd[k]).toLocaleString()+"</td></tr>";}).join("");
-        body="<p style='color:#475569;'>Range: $"+Math.round(e.range.low).toLocaleString()+" – $"+Math.round(e.range.high).toLocaleString()+" · Confidence "+(e.confidence*100).toFixed(1)+"%</p><table style='margin-top:10px;border-collapse:collapse;width:100%;max-width:400px;'>"+rows+"</table>";
+        function bar(label,amt,tot){var pct=tot?Math.round(amt/tot*100):0;return "<div class='ae-bar-row'><span>"+label+"</span><span>$"+Math.round(amt).toLocaleString()+"</span></div><div class='ae-bar'><div class='ae-bar-fill' style='width:"+pct+"%'></div></div>";}
+        var tot=e.materials_cost+e.labour_cost;
+        body = bar("Materials ($"+e.material_rate+"/sqft × "+e.sqft+")",e.materials_cost,tot)
+             + bar("Labour ($"+e.labour_rate+"/sqft × "+e.sqft+")",e.labour_cost,tot)
+             + "<p class='ae-r-note'>"+e.category+" · "+(e.location_market||'')+" · "+(e.quality_level||'')+"</p>";
+      } else {
+        var bd=e.breakdown||{};var rows=Object.keys(bd).map(function(k){return "<div class='ae-bar-row'><span style='text-transform:capitalize;'>"+k+"</span><span>$"+Math.round(bd[k]).toLocaleString()+"</span></div>";}).join("");
+        body="<p class='ae-r-sub'>Range: $"+Math.round(e.range.low).toLocaleString()+" – $"+Math.round(e.range.high).toLocaleString()+" · Confidence "+(e.confidence*100).toFixed(0)+"%</p>"+rows;
       }
       var total=e.mode==="single_work"?e.total:e.base_estimate;
-      out.innerHTML="<div style='padding:20px;border:2px solid #16a34a;border-radius:14px;background:#f0fdf4;'>"
-        +"<div style='font-size:11px;font-weight:800;color:#16a34a;margin-bottom:6px;'>APPROVED — THIS ESTIMATE IS NOW YOURS</div>"
-        +"<h4 style='margin:0 0 6px 0;color:#03050a;'>Total: $"+Math.round(total).toLocaleString()+"</h4>"+body
-        +"<p style='color:#166534;font-size:12px;margin-top:12px;font-weight:700;'>Approved estimates: "+d.approved_used+" / "+d.limit+" · "+d.remaining+" remaining</p></div>";
-      if (e.mode === "single_work" && window.QuoteModule) { QuoteModule.offerQuote(e); }
+      out.innerHTML =
+        "<div class='ae-approved'>"
+        +"<div class='ae-r-tag ae-r-tag-green'>APPROVED — THIS ESTIMATE IS NOW YOURS</div>"
+        +"<div class='ae-r-total'>$"+Math.round(total).toLocaleString()+"</div>"
+        + body
+        +"<p class='ae-credits'>Approved estimates: "+d.approved_used+" / "+d.limit+" · "+d.remaining+" remaining</p>"
+        +"</div>";
+      if(e.mode==="single_work" && window.QuoteModule){ QuoteModule.offerQuote(e); }
     }).catch(function(e){out.innerHTML="<p style='color:#dc2626;'>Connection error: "+e.message+"</p>";});
+  },
+
+  styles:function(){
+    return "<style>"
+    +".ae-wrap{max-width:1000px;}"
+    +".ae-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:20px;}"
+    +".ae-title{margin:0;font-size:1.6rem;font-weight:900;color:#090d16;letter-spacing:-0.02em;}"
+    +".ae-sub{margin:4px 0 0;color:#64748b;font-size:0.9rem;}"
+    +".ae-modes{display:flex;gap:8px;background:#f1f5f9;border-radius:10px;padding:4px;}"
+    +".ae-mode{padding:8px 16px;border-radius:8px;font-weight:700;font-size:0.9rem;color:#475569;cursor:pointer;transition:.15s;}"
+    +".ae-mode input{display:none;}"
+    +".ae-mode-on{background:#1d4ed8;color:#fff;box-shadow:0 4px 10px rgba(29,78,216,0.25);}"
+    +".ae-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;}"
+    +".ae-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(15,23,42,0.05);}"
+    +".ae-field{margin-bottom:14px;}"
+    +".ae-field label{display:block;font-size:0.8rem;font-weight:800;color:#0f172a;margin-bottom:5px;text-transform:uppercase;letter-spacing:.03em;}"
+    +".ae-field input,.ae-field select{width:100%;padding:11px 13px;border:1px solid #e2e8f0;border-radius:9px;background:#f8fafc;color:#0f172a;font-size:0.95rem;font-family:inherit;}"
+    +".ae-field input:focus,.ae-field select:focus{outline:none;border-color:#1d4ed8;box-shadow:0 0 0 3px rgba(29,78,216,0.12);}"
+    +".ae-hint{display:block;font-size:11px;color:#94a3b8;margin-top:4px;}"
+    +".ae-note{color:#475569;font-size:0.85rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px;}"
+    +".ae-reset{background:#fff;border:1px solid #e2e8f0;color:#1d4ed8;font-size:12px;font-weight:700;padding:6px 12px;border-radius:7px;cursor:pointer;margin-bottom:8px;}"
+    +".ae-calc{width:100%;padding:13px;border:none;border-radius:10px;background:#1d4ed8;color:#fff;font-weight:800;font-size:1rem;cursor:pointer;margin-top:6px;box-shadow:0 8px 20px rgba(29,78,216,0.25);}"
+    +".ae-calc:hover{background:#1e40af;}"
+    +".ae-placeholder{color:#94a3b8;text-align:center;padding:40px 10px;font-size:0.9rem;}"
+    +".ae-r-tag{font-size:10px;font-weight:800;color:#f59e0b;letter-spacing:.05em;margin-bottom:8px;}"
+    +".ae-r-tag-green{color:#16a34a;}"
+    +".ae-r-total{font-size:2.4rem;font-weight:900;color:#090d16;letter-spacing:-0.03em;line-height:1;}"
+    +".ae-r-sub{color:#475569;margin:8px 0;font-size:0.9rem;}"
+    +".ae-r-note{color:#94a3b8;font-size:12px;margin-top:10px;}"
+    +".ae-badges{display:flex;gap:8px;margin:10px 0;}"
+    +".ae-badge{font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;}"
+    +".ae-badge-green{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;}"
+    +".ae-badge-amber{background:#fffbeb;color:#b45309;border:1px solid #fde68a;}"
+    +".ae-approve{width:100%;padding:13px;border:none;border-radius:10px;background:#16a34a;color:#fff;font-weight:800;cursor:pointer;margin-top:14px;box-shadow:0 8px 20px rgba(22,163,74,0.25);}"
+    +".ae-approve:hover{background:#15803d;}"
+    +".ae-bar-row{display:flex;justify-content:space-between;font-size:0.85rem;color:#334155;margin:10px 0 4px;font-weight:700;}"
+    +".ae-bar{height:8px;background:#f1f5f9;border-radius:6px;overflow:hidden;}"
+    +".ae-bar-fill{height:100%;background:linear-gradient(90deg,#1d4ed8,#06b6d4);}"
+    +".ae-credits{color:#166534;font-size:12px;margin-top:14px;font-weight:700;}"
+    +".ae-limit{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:16px;color:#92400e;}"
+    +"@media(max-width:820px){.ae-grid{grid-template-columns:1fr;}.ae-head{flex-direction:column;}}"
+    +"</style>";
   }
 };
 window.EstimatorModule = EstimatorModule;

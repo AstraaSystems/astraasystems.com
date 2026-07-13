@@ -7,7 +7,7 @@ window.AstraaBlueprint = {
     tools: {
         est:   { name: "Astraa Estimator" },
         fin:   { name: "Astraa Finance" },
-        ops:   { name: "Astraa Operations" },
+        ops:   { name: "Astraa Business" },
         exp:   { name: "Astraa Expense" },
         vault: { name: "Astraa Vault" },
         dist:  { name: "Astraa Distribution" },

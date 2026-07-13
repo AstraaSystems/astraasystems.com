@@ -68,7 +68,7 @@ function initDashboard() {
     });
 
     select.onchange = function () {
-        var key = select.value; document.body.classList.remove("astraa-workspace-active");
+        var key = select.value; document.body.classList.remove("astraa-workspace-active"); /* astraa-clear-styles */ var _ca=document.getElementById("content-area"); if(_ca){_ca.innerHTML="";}
         if (!key) {
             document.getElementById('content-area').innerHTML =
                 "<p style='color:#94a3b8;'>Select a tool from the menu above to begin.</p>";

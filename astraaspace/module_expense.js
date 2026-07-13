@@ -97,7 +97,7 @@ var ExpenseModule = {
   printReport:function(){
     var el=document.getElementById('ex_summary').parentNode;
     var w=window.open('','_blank');
-    w.document.write("<html><head><title>Astraa Expense Report</title></head><body style='font-family:Segoe UI,Arial,sans-serif;padding:24px;'><h1>Expense Report</h1><p>Generated "+new Date().toLocaleDateString()+"</p>"+el.innerHTML+"</body></html>");
+    w.document.write("<html><head><title>Astraa Expense Report</title><style>body{font-family:Segoe UI,Arial,sans-serif;padding:24px;}h1{margin:0 0 4px;}.ex-stats{display:flex;gap:16px;margin:16px 0;}.ex-stat{border:1px solid #e2e8f0;border-radius:10px;padding:12px 18px;text-align:center;}.ex-stat-l{display:block;font-size:11px;color:#64748b;text-transform:uppercase;}.ex-stat-v{display:block;font-size:1.2rem;font-weight:900;margin-top:4px;}.ex-catrow,.ex-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f5f9;}.ex-del,.ex-print{display:none !important;}.ex-item-sub{color:#64748b;font-size:12px;}</style></head><body><h1>Expense Report</h1><p>Generated "+new Date().toLocaleDateString()+"</p>"+el.innerHTML+"</body></html>");
     w.document.close();w.focus();w.print();
   },
 
@@ -111,7 +111,7 @@ var ExpenseModule = {
     +".ex-field{margin-bottom:12px;}.ex-field label{display:block;font-size:0.78rem;font-weight:800;color:#0f172a;margin-bottom:5px;text-transform:uppercase;letter-spacing:.03em;}"
     +".ex-add{width:100%;padding:12px;border:none;border-radius:10px;background:#1d4ed8;color:#fff;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(29,78,216,0.25);}"
     +".ex-add:hover{background:#1e40af;}"
-    +".ex-print{padding:7px 12px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;color:#1d4ed8;font-size:12px;font-weight:700;cursor:pointer;}"
+    +".ex-print{padding:7px 14px !important;border:1px solid #1d4ed8 !important;border-radius:8px !important;background:#fff !important;color:#1d4ed8 !important;font-size:12px !important;font-weight:700 !important;cursor:pointer !important;}"
     +".ex-stats{display:flex;gap:12px;margin-bottom:12px;}"
     +".ex-stat{flex:1;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;text-align:center;}"
     +".ex-stat-l{display:block;font-size:11px;color:#64748b;font-weight:700;text-transform:uppercase;}"
@@ -120,7 +120,7 @@ var ExpenseModule = {
     +".ex-catrow{display:flex;justify-content:space-between;font-size:13px;color:#475569;padding:3px 0;}"
     +".ex-item{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #f1f5f9;padding:10px 0;}"
     +".ex-item-top{font-weight:800;color:#0f172a;font-size:0.95rem;}.ex-item-sub{color:#94a3b8;font-size:12px;margin-top:2px;}"
-    +".ex-del{background:#fff;border:1px solid #fecaca;color:#dc2626;border-radius:6px;width:26px;height:26px;cursor:pointer;font-weight:700;}"
+    +".ex-del{background:#fff !important;border:1px solid #fecaca !important;color:#dc2626 !important;border-radius:6px !important;width:26px;height:26px;cursor:pointer;font-weight:700 !important;}"
     +"@media(max-width:820px){.ex-grid{grid-template-columns:1fr;}.ex-stats{flex-direction:column;}}"
     +"</style>";
   }

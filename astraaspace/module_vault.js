@@ -1,7 +1,7 @@
 // Astraa Vault — per-account file storage (upload/list/download/delete)
 var VaultModule = {
   cats:["Documents","Estimates & Quotes","Invoices","Receipts","Contracts","Images","Other"],
-  _filter:"",
+  _filter:"", _folder:"", _search:"", _sort:"date", _folders:[],
   apiBase:function(){return (typeof ASTRAA_API_BASE!=='undefined')?ASTRAA_API_BASE:"https://family-speed-outcome.ngrok-free.dev";},
   session:function(){try{return JSON.parse(localStorage.getItem('astraa_session')||'{}');}catch(e){return {};}},
   hdr:function(){return {"Content-Type":"application/json","Authorization":"Bearer "+(this.session().token||""),"ngrok-skip-browser-warning":"true"};},
@@ -18,22 +18,21 @@ var VaultModule = {
       + '  <div class="vt-grid">'
       + '    <div class="vt-card">'
       + '      <h3 class="vt-h3">Upload File</h3>'
-      + '      <div class="vt-f"><label>Category</label><select id="vt_cat" style="'+f+'">'+catOpts+'</select></div>'
+      + '      <div class="vt-f"><label>Category</label><select id="vt_cat" style="'+f+'">'+catOpts+'</select></div>'+ '      <div class="vt-f"><label>Folder</label><select id="vt_uploadfolder" style="'+f+'"><option value="">(No folder)</option></select></div>'
       + '      <div class="vt-f"><label>Note (optional)</label><input id="vt_note" style="'+f+'" placeholder="e.g. Smith project quote"></div>'
       + '      <div class="vt-f"><label>Choose file (max 10 MB)</label><input id="vt_file" type="file" style="'+f+'"></div>'
       + '      <button class="vt-add" onclick="VaultModule.upload()">Upload to Vault</button>'
       + '      <div id="vt_status" style="margin-top:10px;font-size:13px;"></div>'
       + '    </div>'
       + '    <div class="vt-card">'
-      + '      <div class="vt-listhead"><h3 class="vt-h3" style="margin:0;">Your Files</h3>'
-      + '        <select id="vt_filter" class="vt-filter" onchange="VaultModule.setFilter(this.value)"><option value="">All categories</option>'+filtOpts+'</select></div>'
+      + '      <div class="vt-listhead"><h3 class="vt-h3" style="margin:0;">Your Files</h3></div>'+ '      <div class="vt-toolbar">'+ '        <input id="vt_search" class="vt-search" placeholder="Search files…" oninput="VaultModule.setSearch(this.value)">'+ '        <select id="vt_folderfilter" class="vt-filter" onchange="VaultModule.setFolder(this.value)"><option value="">All folders</option></select>'+ '        <select class="vt-filter" onchange="VaultModule.setSort(this.value)"><option value="date">Newest</option><option value="name">Name</option><option value="size">Size</option></select>'+ '      </div>'+ '      <div class="vt-folderbar"><input id="vt_newfolder" class="vt-search" placeholder="New folder name" style="max-width:200px;"><button class="vt-dl" onclick="VaultModule.addFolder()">+ Folder</button></div>'
       + '      <div id="vt_list"></div>'
       + '    </div>'
       + '  </div>'
       + '</div>';
   },
 
-  load:function(){ this.refresh(); },
+  load:function(){ this.loadFolders(); this.refresh(); },
   setFilter:function(v){ this._filter=v; this.refresh(); },
 
   refresh:function(){
@@ -44,15 +43,8 @@ var VaultModule = {
       document.getElementById('vt_summary').innerHTML=
         "<div class='vt-stat'><span class='vt-stat-l'>Files</span><span class='vt-stat-v'>"+(s.count||0)+"</span></div>"
         +"<div class='vt-stat'><span class='vt-stat-l'>Storage Used</span><span class='vt-stat-v'>"+self.fmtSize(s.total_bytes)+"</span></div>";
-      var files=(d.files||[]).filter(function(f){return !self._filter||f.category===self._filter;});
-      if(!files.length){document.getElementById('vt_list').innerHTML="<p class='vt-muted'>No files yet. Upload one on the left.</p>";return;}
-      document.getElementById('vt_list').innerHTML=files.map(function(f){
-        return "<div class='vt-item'><div class='vt-item-main'>"
-          +"<div class='vt-fname'>📄 "+f.filename+"</div>"
-          +"<div class='vt-fmeta'>"+f.category+" · "+self.fmtSize(f.size)+(f.note?" · "+f.note:"")+"</div></div>"
-          +"<div class='vt-actions'><button class='vt-dl' onclick=\"VaultModule.download('"+f.id+"')\">Download</button>"
-          +"<button class='vt-del' onclick=\"VaultModule.del('"+f.id+"')\">✕</button></div></div>";
-      }).join("");
+      self._allFiles = d.files||[];
+      self.renderList();
     }).catch(function(){document.getElementById('vt_list').innerHTML="<p class='vt-muted'>Connection error.</p>";});
   },
 
@@ -68,7 +60,7 @@ var VaultModule = {
     reader.onload=function(e){
       var b64=e.target.result;
       fetch(self.apiBase()+"/api/vault/upload",{method:"POST",headers:self.hdr(),
-        body:JSON.stringify({filename:file.name,data:b64,category:(document.getElementById('vt_cat')||{}).value,note:(document.getElementById('vt_note')||{}).value})})
+        body:JSON.stringify({filename:file.name,data:b64,category:(document.getElementById('vt_cat')||{}).value,folder:(document.getElementById('vt_uploadfolder')||{}).value,note:(document.getElementById('vt_note')||{}).value})})
         .then(function(r){return r.json();}).then(function(d){
           if(!d.success){status.innerHTML="<span style='color:#dc2626;'>"+(d.error||'Upload failed')+"</span>";return;}
           status.innerHTML="<span style='color:#16a34a;'>Uploaded ✓</span>";
@@ -96,6 +88,52 @@ var VaultModule = {
       .then(function(r){return r.json();}).then(function(){self.refresh();}).catch(function(){});
   },
 
+  setSearch:function(v){this._search=(v||"").toLowerCase();this.renderList();},
+  setFolder:function(v){this._folder=v;this.renderList();},
+  setSort:function(v){this._sort=v;this.renderList();},
+  loadFolders:function(){
+    var self=this;
+    fetch(this.apiBase()+"/api/vault/folders",{headers:this.hdr()}).then(function(r){return r.json();}).then(function(d){
+      if(d.success){self._folders=d.folders||[];self.populateFolderSelects();}
+    }).catch(function(){});
+  },
+  populateFolderSelects:function(){
+    var self=this;
+    var up=document.getElementById('vt_uploadfolder'), ff=document.getElementById('vt_folderfilter');
+    var opts=this._folders.map(function(f){return "<option>"+f+"</option>";}).join("");
+    if(up)up.innerHTML='<option value="">(No folder)</option>'+opts;
+    if(ff)ff.innerHTML='<option value="">All folders</option>'+opts;
+  },
+  addFolder:function(){
+    var self=this;var n=(document.getElementById('vt_newfolder')||{}).value||"";
+    if(!n){return;}
+    fetch(this.apiBase()+"/api/vault/add-folder",{method:"POST",headers:this.hdr(),body:JSON.stringify({name:n})})
+      .then(function(r){return r.json();}).then(function(d){if(d.success){self._folders=d.folders;self.populateFolderSelects();var e=document.getElementById('vt_newfolder');if(e)e.value="";}});
+  },
+  _allFiles:[],
+  renderList:function(){
+    var self=this;
+    var files=(this._allFiles||[]).filter(function(f){
+      if(self._filter && f.category!==self._filter)return false;
+      if(self._folder && (f.folder||"")!==self._folder)return false;
+      if(self._search && (f.filename+" "+(f.note||"")).toLowerCase().indexOf(self._search)===-1)return false;
+      return true;
+    });
+    files.sort(function(a,b){
+      if(self._sort==="name")return (a.filename||"").localeCompare(b.filename||"");
+      if(self._sort==="size")return (b.size||0)-(a.size||0);
+      return (b.uploaded_at||"").localeCompare(a.uploaded_at||"");
+    });
+    var el=document.getElementById('vt_list');
+    if(!files.length){el.innerHTML="<p class='vt-muted'>No files match. Upload or adjust filters.</p>";return;}
+    el.innerHTML=files.map(function(f){
+      return "<div class='vt-item'><div class='vt-item-main'>"
+        +"<div class='vt-fname'>📄 "+f.filename+"</div>"
+        +"<div class='vt-fmeta'>"+(f.folder?"📁 "+f.folder+" · ":"")+f.category+" · "+self.fmtSize(f.size)+(f.note?" · "+f.note:"")+"</div></div>"
+        +"<div class='vt-actions'><button class='vt-dl' onclick=\"VaultModule.download('"+f.id+"')\">Download</button>"
+        +"<button class='vt-del' onclick=\"VaultModule.del('"+f.id+"')\">✕</button></div></div>";
+    }).join("");
+  },
   styles:function(){
     return "<style>"
     +".vt-wrap{max-width:1000px;}"
@@ -117,7 +155,7 @@ var VaultModule = {
     +".vt-actions{display:flex;gap:6px;}"
     +".vt-dl{padding:6px 12px;border:1px solid #1d4ed8 !important;background:#fff !important;color:#1d4ed8 !important;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;}"
     +".vt-del{background:#fff !important;border:1px solid #fecaca !important;color:#dc2626 !important;border-radius:6px;width:28px;cursor:pointer;font-weight:700;}"
-    +".vt-muted{color:#94a3b8;}"
+    +".vt-muted{color:#94a3b8;}"+".vt-toolbar{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}"+".vt-search{flex:1;padding:8px 11px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-size:13px;}"+".vt-folderbar{display:flex;gap:8px;margin-bottom:12px;}"
     +"@media(max-width:820px){.vt-grid{grid-template-columns:1fr;}}"
     +"</style>";
   }

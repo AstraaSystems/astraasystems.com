@@ -7660,7 +7660,7 @@ def astraa_vault_upload():
     with open(os.path.join(adir, stored), "wb") as f:
         f.write(raw)
 
-    rec = {"id": fid, "filename": filename, "stored": stored, "category": category,
+    rec = {"id": fid, "filename": filename, "stored": stored, "category": category, "folder": (p.get("folder") or "").strip(),
            "size": len(raw), "note": (p.get("note") or "").strip(), "uploaded_at": astraa_now_iso()}
     meta = _astraa_load_vault_meta()
     meta.setdefault(key, []).append(rec)
@@ -7712,3 +7712,52 @@ def astraa_vault_delete():
     _astraa_save_vault_meta(meta)
     return astraa_json_response({"success": True})
 # END ASTRAA_VAULT_MVP_V1
+
+
+# ASTRAA_VAULT_FOLDERS_V1 — folders for Vault
+@app.route("/api/vault/folders", methods=["GET"])
+def astraa_vault_folders():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); key = astraa_account_key(email)
+    meta = _astraa_load_vault_meta()
+    fdb = meta.get("__folders__", {})
+    return astraa_json_response({"success": True, "folders": fdb.get(key, [])})
+
+@app.route("/api/vault/add-folder", methods=["POST"])
+def astraa_vault_add_folder():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); key = astraa_account_key(email)
+    p = astraa_get_request_json() or {}
+    name = (p.get("name") or "").strip()
+    if not name:
+        return astraa_json_response({"success": False, "error": "Folder name required."}, 400)
+    meta = _astraa_load_vault_meta()
+    fdb = meta.setdefault("__folders__", {})
+    lst = fdb.setdefault(key, [])
+    if name not in lst:
+        lst.append(name)
+    _astraa_save_vault_meta(meta)
+    return astraa_json_response({"success": True, "folders": lst})
+
+@app.route("/api/vault/delete-folder", methods=["POST"])
+def astraa_vault_delete_folder():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); key = astraa_account_key(email)
+    p = astraa_get_request_json() or {}
+    name = (p.get("name") or "").strip()
+    meta = _astraa_load_vault_meta()
+    fdb = meta.setdefault("__folders__", {})
+    fdb[key] = [f for f in fdb.get(key, []) if f != name]
+    # move files out of deleted folder to root
+    for rec in meta.get(key, []):
+        if rec.get("folder") == name:
+            rec["folder"] = ""
+    _astraa_save_vault_meta(meta)
+    return astraa_json_response({"success": True, "folders": fdb[key]})
+# END ASTRAA_VAULT_FOLDERS_V1

@@ -1,4 +1,4 @@
-// Astraa Business — projects + tasks (Operations) MVP
+// Astraa Business — projects + tasks (industry-agnostic Operations) MVP
 var BusinessModule = {
   apiBase:function(){return (typeof ASTRAA_API_BASE!=='undefined')?ASTRAA_API_BASE:"https://family-speed-outcome.ngrok-free.dev";},
   session:function(){try{return JSON.parse(localStorage.getItem('astraa_session')||'{}');}catch(e){return {};}},
@@ -8,17 +8,17 @@ var BusinessModule = {
     var f="width:100%;padding:11px 13px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;color:#0f172a;font-size:0.95rem;";
     return this.styles()
       + '<div class="bz-wrap">'
-      + '  <div class="bz-head"><h2 class="bz-title">Astraa Business</h2><p class="bz-sub">Manage projects, crews, and tasks.</p></div>'
+      + '  <div class="bz-head"><h2 class="bz-title">Astraa Business</h2><p class="bz-sub">Manage projects, teams, and tasks — for any business.</p></div>'
       + '  <div id="bz_summary" class="bz-stats"></div>'
       + '  <div class="bz-grid">'
       + '    <div class="bz-card">'
       + '      <h3 class="bz-h3">New Project</h3>'
-      + '      <div class="bz-field"><label>Project name</label><input id="bz_name" style="'+f+'" placeholder="e.g. Smith Kitchen Reno"></div>'
-      + '      <div class="bz-field"><label>Client</label><input id="bz_client" style="'+f+'" placeholder="Client name"></div>'
+      + '      <div class="bz-field"><label>Project name</label><input id="bz_name" style="'+f+'" placeholder="e.g. Q3 Client Onboarding"></div>'
+      + '      <div class="bz-field"><label>Client / Contact</label><input id="bz_client" style="'+f+'" placeholder="Client or account name"></div>'
       + '      <div class="bz-field"><label>Status</label><select id="bz_status" style="'+f+'"><option>Active</option><option>On Hold</option><option>Complete</option></select></div>'
       + '      <div class="bz-field"><label>Start date</label><input id="bz_start" type="date" style="'+f+'"></div>'
       + '      <div class="bz-field"><label>Due date</label><input id="bz_due" type="date" style="'+f+'"></div>'
-      + '      <div class="bz-field"><label>Project value ($)</label><input id="bz_value" type="number" step="0.01" style="'+f+'" placeholder="0.00"></div>'
+      + '      <div class="bz-field"><label>Value ($) (optional)</label><input id="bz_value" type="number" step="0.01" style="'+f+'" placeholder="0.00"></div>'
       + '      <button class="bz-add" onclick="BusinessModule.addProject()">Add Project</button>'
       + '    </div>'
       + '    <div class="bz-card"><h3 class="bz-h3">Projects</h3><div id="bz_list"></div></div>'
@@ -41,7 +41,7 @@ var BusinessModule = {
         document.getElementById('bz_summary').innerHTML=
           "<div class='bz-stat'><span class='bz-stat-l'>Projects</span><span class='bz-stat-v'>"+(s.total_projects||0)+"</span></div>"
           +"<div class='bz-stat'><span class='bz-stat-l'>Active</span><span class='bz-stat-v'>"+(s.active||0)+"</span></div>"
-          +"<div class='bz-stat'><span class='bz-stat-l'>Pending tasks</span><span class='bz-stat-v'>"+(s.pending_tasks||0)+"</span></div>"
+          +"<div class='bz-stat'><span class='bz-stat-l'>Open tasks</span><span class='bz-stat-v'>"+(s.pending_tasks||0)+"</span></div>"
           +"<div class='bz-stat'><span class='bz-stat-l'>Total value</span><span class='bz-stat-v'>"+money(s.total_value)+"</span></div>";
         var projects=d.projects||[];
         if(!projects.length){document.getElementById('bz_list').innerHTML="<p style='color:#94a3b8;'>No projects yet. Create one on the left.</p>";return;}
@@ -59,7 +59,7 @@ var BusinessModule = {
             +"<div class='bz-proj-sub'>"+(p.client?p.client+" · ":"")+(p.value?money(p.value)+" · ":"")+(p.due_date?"due "+p.due_date:"")+"</div>"
             +"<div class='bz-tasks'>"+tasks+"</div>"
             +"<div class='bz-taskadd'><input id='task_"+p.id+"' placeholder='Add task…' class='bz-taskinput'>"
-            +"<input id='asg_"+p.id+"' placeholder='Crew/assignee' class='bz-taskinput' style='max-width:130px;'>"
+            +"<input id='asg_"+p.id+"' placeholder='Assigned to' class='bz-taskinput' style='max-width:130px;'>"
             +"<button class='bz-taskbtn' onclick=\"BusinessModule.addTask('"+p.id+"')\">+</button></div>"
             +"</div>";
         }).join("");

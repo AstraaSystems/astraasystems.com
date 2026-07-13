@@ -6600,18 +6600,18 @@ def astraa_estimate_approve():
 
 # ASTRAA_SINGLEWORK_V2
 ASTRAA_BASELINE_RATES = {
-    "Interior Paint": {"material": 1.50, "labour": 2.50},
-    "Flooring": {"material": 6.00, "labour": 4.00},
-    "Drywall": {"material": 1.50, "labour": 1.50},
-    "Tile": {"material": 6.00, "labour": 6.00},
-    "Roofing": {"material": 4.00, "labour": 3.00},
-    "Framing": {"material": 9.00, "labour": 9.00},
-    "Concrete": {"material": 5.00, "labour": 4.00},
-    "Electrical": {"material": 4.00, "labour": 5.00},
-    "Plumbing": {"material": 4.00, "labour": 5.00},
-    "Insulation": {"material": 1.50, "labour": 1.50},
-    "HVAC": {"material": 6.00, "labour": 4.00},
-    "General / Other": {"material": 3.00, "labour": 3.00},
+    "Interior Paint":  {"material": 1.50, "labour": 2.50, "mat_min": 1.00, "mat_max": 3.00, "lab_min": 2.00, "lab_max": 4.00},
+    "Flooring":        {"material": 6.00, "labour": 4.00, "mat_min": 3.00, "mat_max": 12.00, "lab_min": 3.00, "lab_max": 8.00},
+    "Drywall":         {"material": 1.50, "labour": 1.50, "mat_min": 1.00, "mat_max": 2.50, "lab_min": 1.00, "lab_max": 3.00},
+    "Tile":            {"material": 6.00, "labour": 6.00, "mat_min": 3.00, "mat_max": 12.00, "lab_min": 4.00, "lab_max": 10.00},
+    "Roofing":         {"material": 4.00, "labour": 3.00, "mat_min": 2.50, "mat_max": 7.00, "lab_min": 2.00, "lab_max": 5.00},
+    "Framing":         {"material": 9.00, "labour": 9.00, "mat_min": 5.00, "mat_max": 14.00, "lab_min": 6.00, "lab_max": 14.00},
+    "Concrete":        {"material": 5.00, "labour": 4.00, "mat_min": 3.00, "mat_max": 8.00, "lab_min": 3.00, "lab_max": 7.00},
+    "Electrical":      {"material": 4.00, "labour": 5.00, "mat_min": 2.00, "mat_max": 7.00, "lab_min": 3.00, "lab_max": 8.00},
+    "Plumbing":        {"material": 4.00, "labour": 5.00, "mat_min": 2.00, "mat_max": 7.00, "lab_min": 3.00, "lab_max": 8.00},
+    "Insulation":      {"material": 1.50, "labour": 1.50, "mat_min": 1.00, "mat_max": 3.00, "lab_min": 1.00, "lab_max": 3.00},
+    "HVAC":            {"material": 6.00, "labour": 4.00, "mat_min": 4.00, "mat_max": 10.00, "lab_min": 3.00, "lab_max": 7.00},
+    "General / Other": {"material": 3.00, "labour": 3.00, "mat_min": 2.00, "mat_max": 6.00, "lab_min": 2.00, "lab_max": 6.00},
 }
 
 @app.route("/api/estimate/baseline", methods=["GET"])

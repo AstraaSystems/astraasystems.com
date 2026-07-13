@@ -20,11 +20,11 @@ var EstimatorModule = {
       +'  <label style="cursor:pointer;"><input type="radio" name="est_mode" value="whole_project" onchange="EstimatorModule.setMode(this.value)"> Whole Project</label>'
       +'</div>'
       +'<div style="max-width:560px;display:flex;flex-direction:column;gap:12px;">'
-      +'  <label>Category<select id="est_category" style="'+f+'" onchange="EstimatorModule.fillBaseline()">'+catOpts+'</select></label>'
+      +'  <label>Category<select id="est_category" style="'+f+'" onchange="EstimatorModule.fillBaseline(true)">'+catOpts+'</select></label>'
       +'  <label>Square footage<input id="est_sqft" type="number" placeholder="100" style="'+f+'"></label>'
       +'  <label>Project type<select id="est_ptype" style="'+f+'"><option>Residential</option><option>Commercial</option><option>Industrial</option><option>Renovation</option><option>Service / Repair</option><option>Custom</option></select></label>'
       +'  <label>Location / market<select id="est_loc" style="'+f+'">'+cityOpts+'</select></label>'
-      +'  <label>Quality level<select id="est_quality" style="'+f+'" onchange="EstimatorModule.fillBaseline()"><option>Standard</option><option>Premium</option><option>Economy</option></select></label>'
+      +'  <label>Quality level<select id="est_quality" style="'+f+'" onchange="EstimatorModule.fillBaseline(true)"><option>Standard</option><option>Premium</option><option>Economy</option></select></label>'
       +'  <label>Cost of material ($/sqft)<input id="est_material" type="number" step="0.01" style="'+f+'"></label>'
       +'  <label>Cost of labour ($/sqft)<input id="est_labour" type="number" step="0.01" style="'+f+'"></label>'
       +'  <p style="color:#94a3b8;font-size:12px;margin:0;">Rates pre-filled from BC industry standard — edit to match your pricing.</p>'
@@ -43,17 +43,22 @@ var EstimatorModule = {
       .catch(function(e){console.log('baseline load failed',e);});
   },
 
-  fillBaseline:function(){
+  fillBaseline:function(force){
     var cat=(document.getElementById('est_category')||{}).value;
     var q=((document.getElementById('est_quality')||{}).value||"Standard").toLowerCase();
     var qm=q==="premium"?1.15:(q==="economy"?0.9:1.0);
     var b=this._baseline[cat];
-    if(b){
-      var mi=document.getElementById('est_material'),li=document.getElementById('est_labour');
-      if(mi)mi.value=(b.material*qm).toFixed(2);
-      if(li)li.value=(b.labour*qm).toFixed(2);
-    }
+    if(!b)return;
+    var mi=document.getElementById('est_material'),li=document.getElementById('est_labour');
+    // Always pre-fill if empty, or when forced (reset / category change)
+    if(mi&&(force||!mi.value))mi.value=(b.material*qm).toFixed(2);
+    if(li&&(force||!li.value))li.value=(b.labour*qm).toFixed(2);
+    // Show BC typical range hints
+    var mh=document.getElementById('mat_hint'),lh=document.getElementById('lab_hint');
+    if(mh&&b.mat_min!=null)mh.innerText=" BC typical: $"+(b.mat_min*qm).toFixed(2)+"–$"+(b.mat_max*qm).toFixed(2)+"/sqft";
+    if(lh&&b.lab_min!=null)lh.innerText=" BC typical: $"+(b.lab_min*qm).toFixed(2)+"–$"+(b.lab_max*qm).toFixed(2)+"/sqft";
   },
+  resetRates:function(){ this.fillBaseline(true); },
 
   calculate:function(){
     var self=this,out=document.getElementById('est_result');

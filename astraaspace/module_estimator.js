@@ -145,6 +145,7 @@ var EstimatorModule = {
         +"<p class='ae-credits'>Approved estimates: "+d.approved_used+" / "+d.limit+" · "+d.remaining+" remaining</p>"
         +"</div>";
       if(e.mode==="single_work" && window.QuoteModule){ QuoteModule.offerQuote(e); }
+      if(e.mode==="whole_project" && window.ProjectDocModule){ ProjectDocModule.offer(e); }
     }).catch(function(e){out.innerHTML="<p style='color:#dc2626;'>Connection error: "+e.message+"</p>";});
   },
 

@@ -6493,6 +6493,15 @@ def astraa_estimate_preview():
     email = astraa_normalize_email(payload.get("email"))
     if not email:
         return astraa_json_response({"success": False, "error": "Missing email."}, 400)
+    # WHOLEPROJECT_BRANCH
+    if (payload.get("mode") or "") == "whole_project":
+        if float(payload.get("sqft") or 0) < 100:
+            return astraa_json_response({"success": False, "error": "Please enter at least 100 sqft."}, 400)
+        _r = astraa_whole_project_calc(payload)
+        import uuid as _u
+        _tok = _u.uuid4().hex
+        _pv = _astraa_load_previews(); _pv[_tok] = {"email": email, "created_at": astraa_now_iso(), "result": _r, "mode": "whole_project"}; _astraa_save_previews(_pv)
+        return astraa_json_response({"success": True, "preview": True, "preview_token": _tok, "mode": "whole_project", "base_estimate": _r["grand_total"], "range": _r["range"], "confidence": _r["confidence"], "risk": _r["risk"], "project_type": _r["project_type"]})
     # SINGLEWORK_BRANCH
     if (payload.get("mode") or "") == "single_work":
         if float(payload.get("sqft") or 0) < 1:
@@ -6682,3 +6691,89 @@ def astraa_save_business_profile():
     astraa_storage_save_usage_db(db)
     return astraa_json_response({"success": True, "profile": rec["business_profile"]})
 # END ASTRAA_BUSINESS_PROFILE_V1
+
+
+# =====================================================================
+# ASTRAA_WHOLE_PROJECT_RATES_V1 — explicit, editable $/sqft by project type
+# Fixes the ML-engine's backwards/unpredictable whole-project output.
+# =====================================================================
+ASTRAA_PROJECT_RATES = {
+    "New Home Build":        250.0,
+    "Home Addition":         300.0,
+    "Full Renovation":       200.0,
+    "Commercial Build-Out":  350.0,
+    "Multi-Unit / Townhouse":270.0,
+    "Custom Home":           400.0,
+    "Industrial / Warehouse":225.0,
+}
+ASTRAA_QUALITY_MULT = {"economy": 0.85, "standard": 1.0, "premium": 1.25}
+
+# Bid nuances (editable) applied on top of hard costs
+ASTRAA_WP_OVERHEAD = 0.15
+ASTRAA_WP_PROFIT = 0.10
+ASTRAA_WP_CONTINGENCY = 0.10
+ASTRAA_WP_PERMITS = 0.08
+
+@app.route("/api/estimate/project-rates", methods=["GET"])
+def astraa_project_rates():
+    return astraa_json_response({"success": True, "rates": ASTRAA_PROJECT_RATES,
+                                 "quality": ASTRAA_QUALITY_MULT})
+
+def astraa_whole_project_calc(payload):
+    sqft = float(payload.get("sqft") or 0)
+    ptype = payload.get("category") or "New Home Build"
+    base_rate = float(ASTRAA_PROJECT_RATES.get(ptype, 250.0))
+    # allow custom override
+    if payload.get("base_rate") not in [None, ""]:
+        base_rate = float(payload.get("base_rate"))
+    q = (payload.get("quality_level") or "Standard").lower()
+    qm = ASTRAA_QUALITY_MULT.get(q, 1.0)
+    loc = astraa_bc_location_multiplier(payload.get("location_market") or "BC / Vancouver")
+
+    hard = sqft * base_rate * qm * loc
+
+    # Trade breakdown (industry-standard % of hard cost)
+    breakdown = {
+        "Site work & foundation": hard * 0.12,
+        "Framing": hard * 0.18,
+        "Roofing": hard * 0.07,
+        "Plumbing": hard * 0.09,
+        "Electrical": hard * 0.08,
+        "HVAC": hard * 0.08,
+        "Insulation & drywall": hard * 0.08,
+        "Finishes": hard * 0.22,
+        "Exterior & site": hard * 0.08,
+    }
+
+    overhead = hard * ASTRAA_WP_OVERHEAD
+    profit = hard * ASTRAA_WP_PROFIT
+    contingency = hard * ASTRAA_WP_CONTINGENCY
+    permits = hard * ASTRAA_WP_PERMITS
+    subtotal = hard + overhead + profit + contingency + permits
+    gst = subtotal * 0.05
+    pst = subtotal * 0.07
+    grand = subtotal + gst + pst
+
+    return {
+        "mode": "whole_project",
+        "project_type": ptype,
+        "sqft": sqft,
+        "base_rate": round(base_rate * qm * loc, 2),
+        "location_market": payload.get("location_market"),
+        "quality_level": payload.get("quality_level"),
+        "hard_cost": round(hard, 2),
+        "breakdown": {k: round(v, 2) for k, v in breakdown.items()},
+        "overhead": round(overhead, 2),
+        "profit": round(profit, 2),
+        "contingency": round(contingency, 2),
+        "permits": round(permits, 2),
+        "subtotal": round(subtotal, 2),
+        "gst": round(gst, 2),
+        "pst": round(pst, 2),
+        "grand_total": round(grand, 2),
+        "base_estimate": round(grand, 2),
+        "range": {"low": round(grand * 0.92, 2), "high": round(grand * 1.12, 2)},
+        "confidence": 0.9,
+        "risk": 0.2
+    }
+# END ASTRAA_WHOLE_PROJECT_RATES_V1

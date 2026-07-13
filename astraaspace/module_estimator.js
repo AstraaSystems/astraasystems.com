@@ -127,8 +127,14 @@ var EstimatorModule = {
              + bar("Labour ($"+e.labour_rate+"/sqft × "+e.sqft+")",e.labour_cost,tot)
              + "<p class='ae-r-note'>"+e.category+" · "+(e.location_market||'')+" · "+(e.quality_level||'')+"</p>";
       } else {
-        var bd=e.breakdown||{};var rows=Object.keys(bd).map(function(k){return "<div class='ae-bar-row'><span style='text-transform:capitalize;'>"+k+"</span><span>$"+Math.round(bd[k]).toLocaleString()+"</span></div>";}).join("");
-        body="<p class='ae-r-sub'>Range: $"+Math.round(e.range.low).toLocaleString()+" – $"+Math.round(e.range.high).toLocaleString()+" · Confidence "+(e.confidence*100).toFixed(0)+"%</p>"+rows;
+        var bd=e.breakdown||{};var rows=Object.keys(bd).map(function(k){return "<div class='ae-bar-row'><span>"+k+"</span><span>$"+Math.round(bd[k]).toLocaleString()+"</span></div>";}).join("");
+        function line(l,v){return "<div class='ae-bar-row'><span>"+l+"</span><span>$"+Math.round(v).toLocaleString()+"</span></div>";}
+        body="<p class='ae-r-sub'>Range: $"+Math.round(e.range.low).toLocaleString()+" – $"+Math.round(e.range.high).toLocaleString()+" · Confidence "+(e.confidence*100).toFixed(0)+"%</p>"
+          +"<div style='margin-top:8px;font-weight:800;color:#0f172a;'>Trade breakdown</div>"+rows
+          +"<div style='margin-top:8px;font-weight:800;color:#0f172a;'>Costs</div>"
+          +line("Hard cost",e.hard_cost)+line("Overhead (15%)",e.overhead)+line("Profit (10%)",e.profit)
+          +line("Contingency (10%)",e.contingency)+line("Permits/soft (8%)",e.permits)
+          +line("GST (5%)",e.gst)+line("PST (7%)",e.pst);
       }
       var total=e.mode==="single_work"?e.total:e.base_estimate;
       out.innerHTML =

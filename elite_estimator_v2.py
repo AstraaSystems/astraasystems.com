@@ -143,6 +143,11 @@ class EliteEstimator:
     # MAIN PREDICT (CRITICAL)
     # -------------------------
     def predict(self, d):
+        # ASTRAA_DETERMINISTIC_SEED — identical inputs must give identical output
+        _seed_src = (float(d.get('square_footage',0)), float(d.get('material_cost_index',1)),
+                     float(d.get('labor_cost_index',1)), float(d.get('complexity',1)),
+                     str(d.get('project_type','')))
+        np.random.seed(abs(hash(_seed_src)) % (2**32))
 
         t0 = time.time()
 

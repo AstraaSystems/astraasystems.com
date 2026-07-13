@@ -7172,3 +7172,226 @@ def astraa_crm_delete():
     _astraa_save_crm(db)
     return astraa_json_response({"success": True})
 # END ASTRAA_CRM_MVP_V1
+
+
+# =====================================================================
+# ASTRAA_MARKETING_MVP_V1 — deals + campaigns
+# =====================================================================
+ASTRAA_MKT_STORE = os.path.join("astraa_data", "astraa_marketing.json")
+ASTRAA_DEAL_STAGES = ["Lead", "Proposal", "Negotiation", "Won", "Lost"]
+ASTRAA_CAMPAIGN_CHANNELS = ["Email", "Social Media", "Paid Ads", "SEO", "Events", "Referral", "Other"]
+
+def _astraa_load_mkt():
+    try:
+        with open(ASTRAA_MKT_STORE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def _astraa_save_mkt(d):
+    os.makedirs("astraa_data", exist_ok=True)
+    tmp = ASTRAA_MKT_STORE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f)
+    os.replace(tmp, ASTRAA_MKT_STORE)
+
+def _astraa_mkt_bucket(email):
+    db = _astraa_load_mkt()
+    key = astraa_account_key(email)
+    if key not in db:
+        db[key] = {"deals": [], "campaigns": []}
+    return db, key
+
+@app.route("/api/marketing/config", methods=["GET"])
+def astraa_mkt_config():
+    return astraa_json_response({"success": True, "stages": ASTRAA_DEAL_STAGES, "channels": ASTRAA_CAMPAIGN_CHANNELS})
+
+@app.route("/api/marketing/list", methods=["GET"])
+def astraa_mkt_list():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    db, key = _astraa_mkt_bucket(email)
+    bucket = db[key]
+    deals = bucket.get("deals", [])
+    campaigns = bucket.get("campaigns", [])
+
+    open_value = sum(float(d.get("value", 0) or 0) for d in deals if d.get("stage") not in ("Won", "Lost"))
+    won_value = sum(float(d.get("value", 0) or 0) for d in deals if d.get("stage") == "Won")
+    active_campaigns = sum(1 for c in campaigns if c.get("status") == "Active")
+
+    return astraa_json_response({
+        "success": True,
+        "deals": sorted(deals, key=lambda x: x.get("created_at",""), reverse=True),
+        "campaigns": sorted(campaigns, key=lambda x: x.get("created_at",""), reverse=True),
+        "summary": {
+            "open_value": round(open_value, 2),
+            "won_value": round(won_value, 2),
+            "total_deals": len(deals),
+            "active_campaigns": active_campaigns
+        }
+    })
+
+@app.route("/api/marketing/add-deal", methods=["POST"])
+def astraa_mkt_add_deal():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    name = (p.get("name") or "").strip()
+    if not name:
+        return astraa_json_response({"success": False, "error": "Deal name required."}, 400)
+    try: value = float(p.get("value") or 0)
+    except Exception: value = 0
+    deal = {"id": uuid.uuid4().hex[:12], "name": name, "client": (p.get("client") or "").strip(),
+            "value": round(value,2), "stage": (p.get("stage") or "Lead").strip(),
+            "notes": (p.get("notes") or "").strip(), "created_at": astraa_now_iso()}
+    db, key = _astraa_mkt_bucket(email)
+    db[key]["deals"].append(deal)
+    _astraa_save_mkt(db)
+    return astraa_json_response({"success": True, "deal": deal})
+
+@app.route("/api/marketing/update-deal", methods=["POST"])
+def astraa_mkt_update_deal():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    db, key = _astraa_mkt_bucket(email)
+    for d in db[key]["deals"]:
+        if d.get("id") == p.get("id") and p.get("stage") in ASTRAA_DEAL_STAGES:
+            d["stage"] = p["stage"]
+    _astraa_save_mkt(db)
+    return astraa_json_response({"success": True})
+
+@app.route("/api/marketing/delete-deal", methods=["POST"])
+def astraa_mkt_delete_deal():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    db, key = _astraa_mkt_bucket(email)
+    db[key]["deals"] = [d for d in db[key]["deals"] if d.get("id") != p.get("id")]
+    _astraa_save_mkt(db)
+    return astraa_json_response({"success": True})
+
+@app.route("/api/marketing/add-campaign", methods=["POST"])
+def astraa_mkt_add_campaign():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    name = (p.get("name") or "").strip()
+    if not name:
+        return astraa_json_response({"success": False, "error": "Campaign name required."}, 400)
+    try: budget = float(p.get("budget") or 0)
+    except Exception: budget = 0
+    camp = {"id": uuid.uuid4().hex[:12], "name": name, "channel": (p.get("channel") or "Other").strip(),
+            "budget": round(budget,2), "status": (p.get("status") or "Active").strip(),
+            "results": (p.get("results") or "").strip(), "created_at": astraa_now_iso()}
+    db, key = _astraa_mkt_bucket(email)
+    db[key]["campaigns"].append(camp)
+    _astraa_save_mkt(db)
+    return astraa_json_response({"success": True, "campaign": camp})
+
+@app.route("/api/marketing/delete-campaign", methods=["POST"])
+def astraa_mkt_delete_campaign():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    db, key = _astraa_mkt_bucket(email)
+    db[key]["campaigns"] = [c for c in db[key]["campaigns"] if c.get("id") != p.get("id")]
+    _astraa_save_mkt(db)
+    return astraa_json_response({"success": True})
+
+
+# =====================================================================
+# ASTRAA_HR_MVP_V1 — employees + time-off
+# =====================================================================
+ASTRAA_HR_STORE = os.path.join("astraa_data", "astraa_hr.json")
+
+def _astraa_load_hr():
+    try:
+        with open(ASTRAA_HR_STORE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def _astraa_save_hr(d):
+    os.makedirs("astraa_data", exist_ok=True)
+    tmp = ASTRAA_HR_STORE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f)
+    os.replace(tmp, ASTRAA_HR_STORE)
+
+@app.route("/api/hr/list", methods=["GET"])
+def astraa_hr_list():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    db = _astraa_load_hr()
+    emps = db.get(astraa_account_key(email), [])
+    active = sum(1 for e in emps if e.get("status") == "Active")
+    on_leave = sum(1 for e in emps if e.get("status") == "On Leave")
+    return astraa_json_response({
+        "success": True,
+        "employees": sorted(emps, key=lambda x: x.get("name","")),
+        "summary": {"total": len(emps), "active": active, "on_leave": on_leave}
+    })
+
+@app.route("/api/hr/add", methods=["POST"])
+def astraa_hr_add():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    name = (p.get("name") or "").strip()
+    if not name:
+        return astraa_json_response({"success": False, "error": "Employee name required."}, 400)
+    emp = {"id": uuid.uuid4().hex[:12], "name": name, "role": (p.get("role") or "").strip(),
+           "email": (p.get("email") or "").strip(), "phone": (p.get("phone") or "").strip(),
+           "status": (p.get("status") or "Active").strip(), "start_date": (p.get("start_date") or "").strip(),
+           "notes": (p.get("notes") or "").strip(), "created_at": astraa_now_iso()}
+    db = _astraa_load_hr()
+    key = astraa_account_key(email)
+    db.setdefault(key, []).append(emp)
+    _astraa_save_hr(db)
+    return astraa_json_response({"success": True, "employee": emp})
+
+@app.route("/api/hr/update-status", methods=["POST"])
+def astraa_hr_update_status():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    db = _astraa_load_hr()
+    key = astraa_account_key(email)
+    for e in db.get(key, []):
+        if e.get("id") == p.get("id"):
+            e["status"] = p.get("status", e.get("status"))
+    _astraa_save_hr(db)
+    return astraa_json_response({"success": True})
+
+@app.route("/api/hr/delete", methods=["POST"])
+def astraa_hr_delete():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    db = _astraa_load_hr()
+    key = astraa_account_key(email)
+    db[key] = [e for e in db.get(key, []) if e.get("id") != p.get("id")]
+    _astraa_save_hr(db)
+    return astraa_json_response({"success": True})
+# END ASTRAA_HR_MVP_V1

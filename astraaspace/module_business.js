@@ -32,8 +32,8 @@ var BusinessModule = {
     if(section==='dashboard')this.renderDashboard();
     else if(section==='projects')this.renderProjects();
     else if(section==='crm')this.renderCRM();
-    else if(section==='marketing')this.renderPlaceholder('Marketing & Sales','Campaigns, deal pipeline, and sales tracking.');
-    else if(section==='hr')this.renderPlaceholder('HR','Employees, roles, time-off, and team records.');
+    else if(section==='marketing')this.renderMarketing();
+    else if(section==='hr')this.renderHR();
   },
 
   // ---------- DASHBOARD ----------
@@ -149,6 +149,109 @@ var BusinessModule = {
       .then(function(r){return r.json();}).then(function(){["cr_name","cr_company","cr_email","cr_phone","cr_value","cr_action"].forEach(function(i){var e=document.getElementById(i);if(e)e.value="";});self.refreshCRM();});},
   setStage:function(id,stage){var self=this;fetch(this.apiBase()+"/api/crm/update-stage",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id,stage:stage})}).then(function(r){return r.json();}).then(function(){self.refreshCRM();});},
   delLead:function(id){var self=this;if(!confirm("Delete lead?"))return;fetch(this.apiBase()+"/api/crm/delete",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id})}).then(function(r){return r.json();}).then(function(){self.refreshCRM();});},
+
+  // ---------- MARKETING & SALES ----------
+  dealStages:["Lead","Proposal","Negotiation","Won","Lost"],
+  channels:["Email","Social Media","Paid Ads","SEO","Events","Referral","Other"],
+  renderMarketing:function(){
+    var f="width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-size:0.9rem;";
+    var stg=this.dealStages.map(function(x){return "<option>"+x+"</option>";}).join("");
+    var ch=this.channels.map(function(x){return "<option>"+x+"</option>";}).join("");
+    document.getElementById('bw_body').innerHTML=
+      '<h2 class="bw-h2">Marketing & Sales</h2>'
+      +'<div id="mkt_summary" class="bw-stats" style="grid-template-columns:repeat(4,1fr);"></div>'
+      +'<div class="bw-two" style="margin-top:20px;">'
+      +'<div class="bw-panel"><h3 class="bw-h3">New Deal</h3>'
+      +'<div class="bw-f"><label>Deal name</label><input id="dl_name" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Client</label><input id="dl_client" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Value ($)</label><input id="dl_value" type="number" step="0.01" style="'+f+'"></div>'
+      +'<button class="bw-add" onclick="BusinessModule.addDeal()">Add Deal</button>'
+      +'<h3 class="bw-h3" style="margin-top:20px;">New Campaign</h3>'
+      +'<div class="bw-f"><label>Campaign name</label><input id="cp_name" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Channel</label><select id="cp_channel" style="'+f+'">'+ch+'</select></div>'
+      +'<div class="bw-f"><label>Budget ($)</label><input id="cp_budget" type="number" step="0.01" style="'+f+'"></div>'
+      +'<button class="bw-add" onclick="BusinessModule.addCampaign()">Add Campaign</button></div>'
+      +'<div class="bw-panel"><h3 class="bw-h3">Deal Pipeline</h3><div id="dl_list"></div>'
+      +'<h3 class="bw-h3" style="margin-top:20px;">Campaigns</h3><div id="cp_list"></div></div>'
+      +'</div>';
+    this.refreshMarketing();
+  },
+  refreshMarketing:function(){
+    var self=this;
+    fetch(this.apiBase()+"/api/marketing/list",{headers:this.hdr()}).then(function(r){return r.json();}).then(function(d){
+      if(!d.success)return;
+      var s=d.summary||{},money=function(n){return "$"+Number(n||0).toLocaleString();};
+      document.getElementById('mkt_summary').innerHTML=
+        "<div class='bw-stat'><span class='bw-stat-l'>Open Pipeline</span><span class='bw-stat-v'>"+money(s.open_value)+"</span></div>"
+        +"<div class='bw-stat'><span class='bw-stat-l'>Won Revenue</span><span class='bw-stat-v'>"+money(s.won_value)+"</span></div>"
+        +"<div class='bw-stat'><span class='bw-stat-l'>Total Deals</span><span class='bw-stat-v'>"+(s.total_deals||0)+"</span></div>"
+        +"<div class='bw-stat'><span class='bw-stat-l'>Active Campaigns</span><span class='bw-stat-v'>"+(s.active_campaigns||0)+"</span></div>";
+      var col={"Lead":"#3b82f6","Proposal":"#f59e0b","Negotiation":"#8b5cf6","Won":"#16a34a","Lost":"#94a3b8"};
+      var deals=d.deals||[];
+      document.getElementById('dl_list').innerHTML = deals.length? deals.map(function(x){
+        var opts=self.dealStages.map(function(st){return "<option "+(st===x.stage?"selected":"")+">"+st+"</option>";}).join("");
+        return "<div class='bw-lead'><div class='bw-proj-top'><div><b>"+x.name+"</b>"+(x.client?" <span class='bw-muted'>· "+x.client+"</span>":"")+"</div><button class='bw-del' onclick=\"BusinessModule.delDeal('"+x.id+"')\">✕</button></div>"
+          +"<div class='bw-muted' style='font-size:12px;'>"+money(x.value)+"</div>"
+          +"<div style='display:flex;align-items:center;gap:8px;margin-top:6px;'><span style='width:10px;height:10px;border-radius:50%;background:"+(col[x.stage]||'#94a3b8')+";'></span><select class='bw-stagesel' onchange=\"BusinessModule.setDealStage('"+x.id+"',this.value)\">"+opts+"</select></div></div>";
+      }).join("") : "<p class='bw-muted'>No deals yet.</p>";
+      var camps=d.campaigns||[];
+      document.getElementById('cp_list').innerHTML = camps.length? camps.map(function(c){
+        return "<div class='bw-lead'><div class='bw-proj-top'><div><b>"+c.name+"</b> <span class='bw-muted'>· "+c.channel+"</span></div><button class='bw-del' onclick=\"BusinessModule.delCampaign('"+c.id+"')\">✕</button></div><div class='bw-muted' style='font-size:12px;'>Budget "+money(c.budget)+" · "+c.status+"</div></div>";
+      }).join("") : "<p class='bw-muted'>No campaigns yet.</p>";
+    });
+  },
+  addDeal:function(){var self=this;function v(i){var e=document.getElementById(i);return e?e.value:"";}
+    if(!v('dl_name')){alert("Enter a deal name.");return;}
+    fetch(this.apiBase()+"/api/marketing/add-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({name:v('dl_name'),client:v('dl_client'),value:parseFloat(v('dl_value'))||0,stage:"Lead"})}).then(function(r){return r.json();}).then(function(){["dl_name","dl_client","dl_value"].forEach(function(i){var e=document.getElementById(i);if(e)e.value="";});self.refreshMarketing();});},
+  setDealStage:function(id,st){var self=this;fetch(this.apiBase()+"/api/marketing/update-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id,stage:st})}).then(function(r){return r.json();}).then(function(){self.refreshMarketing();});},
+  delDeal:function(id){var self=this;if(!confirm("Delete deal?"))return;fetch(this.apiBase()+"/api/marketing/delete-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id})}).then(function(r){return r.json();}).then(function(){self.refreshMarketing();});},
+  addCampaign:function(){var self=this;function v(i){var e=document.getElementById(i);return e?e.value:"";}
+    if(!v('cp_name')){alert("Enter a campaign name.");return;}
+    fetch(this.apiBase()+"/api/marketing/add-campaign",{method:"POST",headers:this.hdr(),body:JSON.stringify({name:v('cp_name'),channel:v('cp_channel'),budget:parseFloat(v('cp_budget'))||0,status:"Active"})}).then(function(r){return r.json();}).then(function(){["cp_name","cp_budget"].forEach(function(i){var e=document.getElementById(i);if(e)e.value="";});self.refreshMarketing();});},
+  delCampaign:function(id){var self=this;if(!confirm("Delete campaign?"))return;fetch(this.apiBase()+"/api/marketing/delete-campaign",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id})}).then(function(r){return r.json();}).then(function(){self.refreshMarketing();});},
+
+  // ---------- HR ----------
+  renderHR:function(){
+    var f="width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-size:0.9rem;";
+    document.getElementById('bw_body').innerHTML=
+      '<h2 class="bw-h2">HR</h2>'
+      +'<div id="hr_summary" class="bw-stats"></div>'
+      +'<div class="bw-two" style="margin-top:20px;">'
+      +'<div class="bw-panel"><h3 class="bw-h3">Add Team Member</h3>'
+      +'<div class="bw-f"><label>Name</label><input id="hr_name" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Role / Title</label><input id="hr_role" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Email</label><input id="hr_email" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Phone</label><input id="hr_phone" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Start date</label><input id="hr_start" type="date" style="'+f+'"></div>'
+      +'<button class="bw-add" onclick="BusinessModule.addEmployee()">Add Member</button></div>'
+      +'<div class="bw-panel"><h3 class="bw-h3">Team</h3><div id="hr_list"></div></div>'
+      +'</div>';
+    this.refreshHR();
+  },
+  refreshHR:function(){
+    var self=this;
+    fetch(this.apiBase()+"/api/hr/list",{headers:this.hdr()}).then(function(r){return r.json();}).then(function(d){
+      if(!d.success)return;
+      var s=d.summary||{};
+      document.getElementById('hr_summary').innerHTML=
+        "<div class='bw-stat'><span class='bw-stat-l'>Team Size</span><span class='bw-stat-v'>"+(s.total||0)+"</span></div>"
+        +"<div class='bw-stat'><span class='bw-stat-l'>Active</span><span class='bw-stat-v'>"+(s.active||0)+"</span></div>"
+        +"<div class='bw-stat'><span class='bw-stat-l'>On Leave</span><span class='bw-stat-v'>"+(s.on_leave||0)+"</span></div>";
+      var emps=d.employees||[];
+      var col={"Active":"#16a34a","On Leave":"#f59e0b","Inactive":"#94a3b8"};
+      document.getElementById('hr_list').innerHTML = emps.length? emps.map(function(e){
+        var opts=["Active","On Leave","Inactive"].map(function(st){return "<option "+(st===e.status?"selected":"")+">"+st+"</option>";}).join("");
+        return "<div class='bw-lead'><div class='bw-proj-top'><div><b>"+e.name+"</b>"+(e.role?" <span class='bw-muted'>· "+e.role+"</span>":"")+"</div><button class='bw-del' onclick=\"BusinessModule.delEmployee('"+e.id+"')\">✕</button></div>"
+          +"<div class='bw-muted' style='font-size:12px;'>"+(e.email||"")+(e.phone?" · "+e.phone:"")+(e.start_date?" · since "+e.start_date:"")+"</div>"
+          +"<div style='display:flex;align-items:center;gap:8px;margin-top:6px;'><span style='width:10px;height:10px;border-radius:50%;background:"+(col[e.status]||'#94a3b8')+";'></span><select class='bw-stagesel' onchange=\"BusinessModule.setEmpStatus('"+e.id+"',this.value)\">"+opts+"</select></div></div>";
+      }).join("") : "<p class='bw-muted'>No team members yet.</p>";
+    });
+  },
+  addEmployee:function(){var self=this;function v(i){var e=document.getElementById(i);return e?e.value:"";}
+    if(!v('hr_name')){alert("Enter a name.");return;}
+    fetch(this.apiBase()+"/api/hr/add",{method:"POST",headers:this.hdr(),body:JSON.stringify({name:v('hr_name'),role:v('hr_role'),email:v('hr_email'),phone:v('hr_phone'),start_date:v('hr_start'),status:"Active"})}).then(function(r){return r.json();}).then(function(){["hr_name","hr_role","hr_email","hr_phone"].forEach(function(i){var e=document.getElementById(i);if(e)e.value="";});self.refreshHR();});},
+  setEmpStatus:function(id,st){var self=this;fetch(this.apiBase()+"/api/hr/update-status",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id,status:st})}).then(function(r){return r.json();}).then(function(){self.refreshHR();});},
+  delEmployee:function(id){var self=this;if(!confirm("Remove team member?"))return;fetch(this.apiBase()+"/api/hr/delete",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id})}).then(function(r){return r.json();}).then(function(){self.refreshHR();});},
 
   // ---------- PLACEHOLDER (Marketing / HR) ----------
   renderPlaceholder:function(title,desc){

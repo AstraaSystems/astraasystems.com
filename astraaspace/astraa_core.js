@@ -23,7 +23,7 @@ function astraaRenderTool(key, tool) {
 
     if (astraaIsLive(tool.name)) {
         if (nameLower.indexOf("estimator") !== -1 && typeof EstimatorModule !== "undefined") {
-            area.innerHTML = EstimatorModule.render(); if (EstimatorModule.loadAssemblies) EstimatorModule.loadBaseline();
+            area.innerHTML = EstimatorModule.render(); if (EstimatorModule.loadBaseline) EstimatorModule.loadBaseline();
         } else if (key === 'comm' && typeof CommerceModule !== 'undefined') {
             area.innerHTML = CommerceModule.render();
         } else {

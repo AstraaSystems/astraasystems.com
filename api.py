@@ -7578,3 +7578,137 @@ def astraa_fin_delete_payroll():
     _astraa_save_fin(db)
     return astraa_json_response({"success": True})
 # END ASTRAA_FINANCE_MVP_V1
+
+
+# =====================================================================
+# ASTRAA_VAULT_MVP_V1 — per-account file storage (save/retrieve/delete)
+# Files on server disk under astraa_data/vault/<account>/ ; metadata in JSON.
+# =====================================================================
+import base64 as _astraa_b64
+ASTRAA_VAULT_META = os.path.join("astraa_data", "astraa_vault.json")
+ASTRAA_VAULT_DIR = os.path.join("astraa_data", "vault")
+ASTRAA_VAULT_MAX_BYTES = 10 * 1024 * 1024  # 10 MB per file
+ASTRAA_VAULT_CATEGORIES = ["Documents", "Estimates & Quotes", "Invoices", "Receipts", "Contracts", "Images", "Other"]
+
+def _astraa_load_vault_meta():
+    try:
+        with open(ASTRAA_VAULT_META, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def _astraa_save_vault_meta(d):
+    os.makedirs("astraa_data", exist_ok=True)
+    tmp = ASTRAA_VAULT_META + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f)
+    os.replace(tmp, ASTRAA_VAULT_META)
+
+def _astraa_vault_account_dir(key):
+    d = os.path.join(ASTRAA_VAULT_DIR, key.replace("@", "_at_").replace(".", "_"))
+    os.makedirs(d, exist_ok=True)
+    return d
+
+@app.route("/api/vault/config", methods=["GET"])
+def astraa_vault_config():
+    return astraa_json_response({"success": True, "categories": ASTRAA_VAULT_CATEGORIES, "max_mb": 10})
+
+@app.route("/api/vault/list", methods=["GET"])
+def astraa_vault_list():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    meta = _astraa_load_vault_meta()
+    files = meta.get(astraa_account_key(email), [])
+    total = sum(int(f.get("size", 0)) for f in files)
+    return astraa_json_response({
+        "success": True,
+        "files": sorted(files, key=lambda x: x.get("uploaded_at",""), reverse=True),
+        "summary": {"count": len(files), "total_bytes": total}
+    })
+
+@app.route("/api/vault/upload", methods=["POST"])
+def astraa_vault_upload():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    key = astraa_account_key(email)
+    p = astraa_get_request_json() or {}
+
+    filename = (p.get("filename") or "").strip()
+    data_b64 = p.get("data") or ""
+    category = (p.get("category") or "Other").strip()
+    if not filename or not data_b64:
+        return astraa_json_response({"success": False, "error": "Missing file."}, 400)
+
+    # data may be a data URL: strip prefix
+    if "," in data_b64 and data_b64[:5] == "data:":
+        data_b64 = data_b64.split(",", 1)[1]
+    try:
+        raw = _astraa_b64.b64decode(data_b64)
+    except Exception:
+        return astraa_json_response({"success": False, "error": "Invalid file data."}, 400)
+    if len(raw) > ASTRAA_VAULT_MAX_BYTES:
+        return astraa_json_response({"success": False, "error": "File exceeds 10 MB limit."}, 400)
+
+    fid = uuid.uuid4().hex[:16]
+    safe = "".join(c for c in filename if c.isalnum() or c in " ._-()").strip() or "file"
+    stored = fid + "__" + safe
+    adir = _astraa_vault_account_dir(key)
+    with open(os.path.join(adir, stored), "wb") as f:
+        f.write(raw)
+
+    rec = {"id": fid, "filename": filename, "stored": stored, "category": category,
+           "size": len(raw), "note": (p.get("note") or "").strip(), "uploaded_at": astraa_now_iso()}
+    meta = _astraa_load_vault_meta()
+    meta.setdefault(key, []).append(rec)
+    _astraa_save_vault_meta(meta)
+    return astraa_json_response({"success": True, "file": rec})
+
+@app.route("/api/vault/download", methods=["GET"])
+def astraa_vault_download():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    key = astraa_account_key(email)
+    fid = astraa_get_query_arg("id") if "astraa_get_query_arg" in globals() else request.args.get("id")
+    meta = _astraa_load_vault_meta()
+    for rec in meta.get(key, []):
+        if rec.get("id") == fid:
+            adir = _astraa_vault_account_dir(key)
+            path = os.path.join(adir, rec.get("stored"))
+            if os.path.exists(path):
+                with open(path, "rb") as f:
+                    data = f.read()
+                b64 = _astraa_b64.b64encode(data).decode("ascii")
+                return astraa_json_response({"success": True, "filename": rec["filename"], "data": b64})
+    return astraa_json_response({"success": False, "error": "File not found."}, 404)
+
+@app.route("/api/vault/delete", methods=["POST"])
+def astraa_vault_delete():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    key = astraa_account_key(email)
+    p = astraa_get_request_json() or {}
+    fid = p.get("id")
+    meta = _astraa_load_vault_meta()
+    files = meta.get(key, [])
+    keep = []
+    adir = _astraa_vault_account_dir(key)
+    for rec in files:
+        if rec.get("id") == fid:
+            try:
+                os.remove(os.path.join(adir, rec.get("stored")))
+            except Exception:
+                pass
+        else:
+            keep.append(rec)
+    meta[key] = keep
+    _astraa_save_vault_meta(meta)
+    return astraa_json_response({"success": True})
+# END ASTRAA_VAULT_MVP_V1

@@ -6440,3 +6440,148 @@ def astraa_list_assemblies():
         })
     return astraa_json_response({"success": True, "assemblies": out})
 # END ASTRAA_ASSEMBLIES_V1
+
+
+# =====================================================================
+# ASTRAA_APPROVAL_FLOW_V1
+# Calculate = FREE preview (total+confidence only, breakdown withheld).
+# Approve = spends 1 credit (30 Basic / 120 Pro + overage), releases full data.
+# Full breakdown never reaches the browser until approved = IP protection.
+# =====================================================================
+ASTRAA_PREVIEW_STORE = os.path.join("astraa_data", "astraa_estimate_previews.json")
+
+def _astraa_load_previews():
+    try:
+        with open(ASTRAA_PREVIEW_STORE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def _astraa_save_previews(d):
+    os.makedirs("astraa_data", exist_ok=True)
+    tmp = ASTRAA_PREVIEW_STORE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f)
+    os.replace(tmp, ASTRAA_PREVIEW_STORE)
+
+def _astraa_build_estimator_input(payload):
+    d = {
+        "square_footage": float(payload.get("sqft") or 0),
+        "material_cost_index": float(payload.get("material") or 1),
+        "labor_cost_index": float(payload.get("labor") or 1),
+        "complexity": float(payload.get("complexity") or 1),
+        "project_type": payload.get("project_type") or "Commercial",
+        "environment": {
+            "weather_severity": float(payload.get("weather_severity") or 0.2),
+            "season": float(payload.get("season") or 0.5)
+        },
+        "risk_factors": payload.get("risk_factors") or {}
+    }
+    ak = payload.get("assembly")
+    if ak and ak in ASTRAA_ASSEMBLIES:
+        a = ASTRAA_ASSEMBLIES[ak]
+        d["material_cost_index"] = float(d["material_cost_index"]) * float(a["material"])
+        d["labor_cost_index"] = float(d["labor_cost_index"]) * float(a["labor"])
+        d["complexity"] = float(d["complexity"]) * float(a["complexity"])
+        d["assembly_name"] = a["name"]
+    return d
+
+
+@app.route("/api/estimate/preview", methods=["POST"])
+def astraa_estimate_preview():
+    payload = astraa_get_request_json()
+    email = astraa_normalize_email(payload.get("email"))
+    if not email:
+        return astraa_json_response({"success": False, "error": "Missing email."}, 400)
+
+    d = _astraa_build_estimator_input(payload)
+    try:
+        result = _astraa_get_elite().predict(d)
+    except Exception as exc:
+        return astraa_json_response({"success": False, "error": "Estimator failed: " + str(exc)}, 500)
+
+    token = uuid.uuid4().hex
+    previews = _astraa_load_previews()
+    previews[token] = {
+        "email": email,
+        "created_at": astraa_now_iso(),
+        "result": result,
+        "assembly": payload.get("assembly") or ""
+    }
+    _astraa_save_previews(previews)
+
+    # PROTECTED PREVIEW: only total + confidence + range released. No breakdown.
+    return astraa_json_response({
+        "success": True,
+        "preview": True,
+        "preview_token": token,
+        "base_estimate": result.get("base_estimate"),
+        "range": result.get("range"),
+        "confidence": result.get("confidence"),
+        "risk": result.get("risk"),
+        "project_type": result.get("project_type")
+    })
+
+
+@app.route("/api/estimate/approve", methods=["POST"])
+def astraa_estimate_approve():
+    payload = astraa_get_request_json()
+    email = astraa_normalize_email(payload.get("email"))
+    token = payload.get("preview_token") or ""
+    if not email or not token:
+        return astraa_json_response({"success": False, "error": "Missing email or preview token."}, 400)
+
+    previews = _astraa_load_previews()
+    entry = previews.get(token)
+    if not entry or entry.get("email") != email:
+        return astraa_json_response({"success": False, "error": "Preview expired. Please recalculate."}, 404)
+
+    db = astraa_storage_load_usage_db()
+    key = astraa_account_key(email)
+    rec = db.get(key)
+    if not rec:
+        return astraa_json_response({"success": False, "error": "Account not found."}, 404)
+
+    limit = int(rec.get("estimate_limit") or 0)
+    extra = int(rec.get("extra_estimate_credits_total") or 0)
+    used = int(rec.get("estimate_used") or 0)
+    total_allowed = limit + extra
+
+    if used >= total_allowed:
+        return astraa_json_response({
+            "success": False,
+            "error": "limit_reached",
+            "message": "You've used all approved estimates. Buy 10 more for $10 to continue.",
+            "approved_used": used, "limit": limit, "extra_credits": extra
+        }, 403)
+
+    # Spend one credit + save the full estimate to their account
+    rec["estimate_used"] = used + 1
+    rec["last_estimate_date"] = astraa_today_key()
+    saved = rec.get("saved_estimates")
+    if not isinstance(saved, list):
+        saved = []
+    saved.append({
+        "created_at": astraa_now_iso(),
+        "estimate": entry["result"],
+        "assembly": entry.get("assembly"),
+        "source": "approved"
+    })
+    rec["saved_estimates"] = saved
+    rec["updated_at"] = astraa_now_iso()
+    db[key] = rec
+    astraa_storage_save_usage_db(db)
+
+    previews.pop(token, None)
+    _astraa_save_previews(previews)
+
+    return astraa_json_response({
+        "success": True,
+        "approved": True,
+        "estimate": entry["result"],          # full breakdown released now
+        "approved_used": rec["estimate_used"],
+        "limit": limit,
+        "extra_credits": extra,
+        "remaining": total_allowed - rec["estimate_used"]
+    })
+# END ASTRAA_APPROVAL_FLOW_V1

@@ -1,5 +1,5 @@
 // Astraa Space core — dropdown selector + full-page tool workspace
-var ASTRAA_LIVE_MODULES = ["estimator", "finance", "operations", "expense", "business"];
+var ASTRAA_LIVE_MODULES = ["estimator", "finance", "operations", "expense", "business", "lead gen", "crm"];
 var ASTRAA_REQUEST_EMAIL = "sales@astraasystems.com";
 
 function verifySession() {
@@ -22,7 +22,9 @@ function astraaRenderTool(key, tool) {
     var nameLower = (tool.name || "").toLowerCase();
 
     if (astraaIsLive(tool.name)) {
-        if ((nameLower.indexOf("business")!==-1||nameLower.indexOf("operations")!==-1) && typeof BusinessModule !== "undefined") {
+        if ((nameLower.indexOf("lead")!==-1||nameLower.indexOf("crm")!==-1) && typeof CRMModule !== "undefined") {
+                    area.innerHTML = CRMModule.render(); if(CRMModule.load)CRMModule.load();
+                } else if ((nameLower.indexOf("business")!==-1||nameLower.indexOf("operations")!==-1) && typeof BusinessModule !== "undefined") {
                     area.innerHTML = BusinessModule.render(); if(BusinessModule.load)BusinessModule.load();
                 } else if (nameLower.indexOf("expense") !== -1 && typeof ExpenseModule !== "undefined") {
                     area.innerHTML = ExpenseModule.render(); if(ExpenseModule.load)ExpenseModule.load();

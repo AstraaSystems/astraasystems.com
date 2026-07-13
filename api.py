@@ -7042,3 +7042,133 @@ def astraa_business_toggle_task():
     _astraa_save_business(db)
     return astraa_json_response({"success": True})
 # END ASTRAA_BUSINESS_MVP_V1
+
+
+# =====================================================================
+# ASTRAA_CRM_MVP_V1 — Lead Gen / CRM (per-account, industry-agnostic)
+# =====================================================================
+ASTRAA_CRM_STORE = os.path.join("astraa_data", "astraa_crm.json")
+ASTRAA_CRM_STAGES = ["New", "Contacted", "Qualified", "Won", "Lost"]
+ASTRAA_CRM_SOURCES = ["Website", "Referral", "Advertisement", "Cold Outreach", "Social Media", "Other"]
+
+def _astraa_load_crm():
+    try:
+        with open(ASTRAA_CRM_STORE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def _astraa_save_crm(d):
+    os.makedirs("astraa_data", exist_ok=True)
+    tmp = ASTRAA_CRM_STORE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(d, f)
+    os.replace(tmp, ASTRAA_CRM_STORE)
+
+@app.route("/api/crm/config", methods=["GET"])
+def astraa_crm_config():
+    return astraa_json_response({"success": True, "stages": ASTRAA_CRM_STAGES, "sources": ASTRAA_CRM_SOURCES})
+
+@app.route("/api/crm/list", methods=["GET"])
+def astraa_crm_list():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    db = _astraa_load_crm()
+    leads = db.get(astraa_account_key(email), [])
+    leads_sorted = sorted(leads, key=lambda x: x.get("created_at", ""), reverse=True)
+
+    by_stage = {s: 0 for s in ASTRAA_CRM_STAGES}
+    pipeline_value = 0.0
+    won = 0
+    for l in leads:
+        st = l.get("stage", "New")
+        by_stage[st] = by_stage.get(st, 0) + 1
+        if st not in ("Won", "Lost"):
+            pipeline_value += float(l.get("value", 0) or 0)
+        if st == "Won":
+            won += 1
+    closed = by_stage.get("Won", 0) + by_stage.get("Lost", 0)
+    conv = round((won / closed * 100), 1) if closed else 0.0
+
+    return astraa_json_response({
+        "success": True,
+        "leads": leads_sorted,
+        "summary": {
+            "total": len(leads),
+            "by_stage": by_stage,
+            "pipeline_value": round(pipeline_value, 2),
+            "conversion_rate": conv
+        }
+    })
+
+@app.route("/api/crm/add", methods=["POST"])
+def astraa_crm_add():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    name = (p.get("name") or "").strip()
+    if not name:
+        return astraa_json_response({"success": False, "error": "Lead name is required."}, 400)
+    try:
+        value = float(p.get("value") or 0)
+    except Exception:
+        value = 0
+    entry = {
+        "id": uuid.uuid4().hex[:12],
+        "name": name,
+        "company": (p.get("company") or "").strip(),
+        "email": (p.get("email") or "").strip(),
+        "phone": (p.get("phone") or "").strip(),
+        "source": (p.get("source") or "Other").strip(),
+        "stage": (p.get("stage") or "New").strip(),
+        "value": round(value, 2),
+        "next_action": (p.get("next_action") or "").strip(),
+        "next_action_date": (p.get("next_action_date") or "").strip(),
+        "notes": (p.get("notes") or "").strip(),
+        "created_at": astraa_now_iso()
+    }
+    db = _astraa_load_crm()
+    key = astraa_account_key(email)
+    db.setdefault(key, []).append(entry)
+    _astraa_save_crm(db)
+    return astraa_json_response({"success": True, "lead": entry})
+
+@app.route("/api/crm/update-stage", methods=["POST"])
+def astraa_crm_update_stage():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    lid, stage = p.get("id"), p.get("stage")
+    if stage not in ASTRAA_CRM_STAGES:
+        return astraa_json_response({"success": False, "error": "Invalid stage."}, 400)
+    db = _astraa_load_crm()
+    key = astraa_account_key(email)
+    for l in db.get(key, []):
+        if l.get("id") == lid:
+            l["stage"] = stage
+            l["updated_at"] = astraa_now_iso()
+            break
+    _astraa_save_crm(db)
+    return astraa_json_response({"success": True})
+
+@app.route("/api/crm/delete", methods=["POST"])
+def astraa_crm_delete():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    lid = p.get("id")
+    db = _astraa_load_crm()
+    key = astraa_account_key(email)
+    items = db.get(key, [])
+    db[key] = [x for x in items if x.get("id") != lid]
+    _astraa_save_crm(db)
+    return astraa_json_response({"success": True})
+# END ASTRAA_CRM_MVP_V1

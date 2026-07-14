@@ -206,7 +206,7 @@ var EstimatorModule = {
     +".ae-hint{display:block;font-size:11px;color:#94a3b8;margin-top:4px;}"
     +".ae-note{color:#475569;font-size:0.85rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px;}"
     +".ae-reset{background:#fff;border:1px solid #e2e8f0;color:#1d4ed8;font-size:12px;font-weight:700;padding:6px 12px;border-radius:7px;cursor:pointer;margin-bottom:8px;}"
-    +".ae-calc{width:100%;padding:13px;border:none;border-radius:10px;background:#1d4ed8;color:#fff;font-weight:800;font-size:1rem;cursor:pointer;margin-top:6px;box-shadow:0 8px 20px rgba(29,78,216,0.25);}"
+    +".ae-calc{width:100% !important;padding:13px !important;border:none !important;border-radius:10px !important;background:#1d4ed8 !important;color:#fff !important;font-weight:800 !important;font-size:1rem !important;cursor:pointer !important;margin-top:6px !important;}"
     +".ae-calc:hover{background:#1e40af;}"
     +".ae-placeholder{color:#94a3b8;text-align:center;padding:40px 10px;font-size:0.9rem;}"
     +".ae-r-tag{font-size:10px;font-weight:800;color:#f59e0b;letter-spacing:.05em;margin-bottom:8px;}"

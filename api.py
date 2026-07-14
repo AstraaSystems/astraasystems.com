@@ -7646,11 +7646,14 @@ def astraa_vault_upload():
     # data may be a data URL: strip prefix
     if data_b64.startswith("data:") and "," in data_b64:
         data_b64 = data_b64.split(",", 1)[1]
-    data_b64 = data_b64.strip()
+    data_b64 = data_b64.strip().replace(' ', '+')
     try:
+        _pad = len(data_b64) % 4
+        if _pad:
+            data_b64 = data_b64 + ("=" * (4 - _pad))
         raw = _astraa_b64.b64decode(data_b64)
-    except Exception:
-        return astraa_json_response({"success": False, "error": "Invalid file data."}, 400)
+    except Exception as _e:
+        return astraa_json_response({"success": False, "error": "Invalid file data: " + str(_e)}, 400)
     if len(raw) > ASTRAA_VAULT_MAX_BYTES:
         return astraa_json_response({"success": False, "error": "File exceeds 10 MB limit."}, 400)
     try:

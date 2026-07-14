@@ -94,7 +94,7 @@ var VaultModule = {
       return "<div class='vt-item'><div class='vt-item-main'>"
         +"<div class='vt-fname'>📄 "+f.filename+"</div>"
         +"<div class='vt-fmeta'>"+(f.folder?"📁 "+f.folder+" · ":"")+f.category+" · "+self.fmtSize(f.size)+(f.note?" · "+f.note:"")+"</div></div>"
-        +"<div class='vt-actions'><button class='vt-dl' onclick=\"VaultModule.download('"+f.id+"')\">Download</button>"
+        +"<div class='vt-actions'>"+((/\.(png|jpg|jpeg|gif|webp|bmp|svg|pdf)$/.test((f.filename||'').toLowerCase()))?"<button class='vt-pv' onclick=\"VaultModule.preview('"+f.id+"')\">Preview</button>":"")+"<button class='vt-dl' onclick=\"VaultModule.download('"+f.id+"')\">Download</button>"
         +"<button class='vt-del' onclick=\"VaultModule.del('"+f.id+"')\">✕</button></div></div>";
     }).join("");
   },
@@ -136,6 +136,33 @@ var VaultModule = {
       .then(function(r){return r.json();}).then(function(){self.refresh();}).catch(function(){});
   },
 
+  preview:function(id){
+    var self=this;
+    fetch(this.apiBase()+"/api/vault/download?id="+encodeURIComponent(id),{headers:this.hdr()})
+      .then(function(r){return r.json();}).then(function(d){
+        if(!d.success){alert(d.error||'Preview failed');return;}
+        var nm=(d.filename||'').toLowerCase();
+        var parts=nm.split("."); var e=parts.length>1?parts.pop():"";
+        var ov=document.getElementById('vt_modal');
+        if(!ov){ov=document.createElement('div');ov.id='vt_modal';ov.className='vt-modal';ov.onclick=function(ev){if(ev.target===ov)self.closePreview();};document.body.appendChild(ov);}
+        ov.innerHTML='';
+        var box=document.createElement('div');box.className='vt-modal-box';
+        var bar=document.createElement('div');bar.className='vt-modal-bar';
+        var title=document.createElement('span');title.innerText=d.filename;
+        var x=document.createElement('button');x.className='vt-modal-x';x.innerText='X';x.onclick=function(){self.closePreview();};
+        bar.appendChild(title);bar.appendChild(x);
+        var bd=document.createElement('div');bd.className='vt-modal-body';
+        if(e==='pdf'){
+          var fr=document.createElement('iframe');fr.className='vt-frame';fr.src='data:application/pdf;base64,'+d.data;bd.appendChild(fr);
+        } else {
+          var mime=(e==='svg')?'svg+xml':((e==='jpg')?'jpeg':e);
+          var img=document.createElement('img');img.className='vt-img';img.src='data:image/'+mime+';base64,'+d.data;bd.appendChild(img);
+        }
+        box.appendChild(bar);box.appendChild(bd);ov.appendChild(box);ov.style.display='flex';
+      }).catch(function(){alert('Connection error.');});
+  },
+  closePreview:function(){var o=document.getElementById('vt_modal');if(o)o.style.display='none';},
+
   styles:function(){
     return "<style>"
     +".vt-wrap{max-width:1000px;}"
@@ -159,7 +186,7 @@ var VaultModule = {
     +".vt-actions{display:flex;gap:6px;}"
     +".vt-dl{padding:6px 12px;border:1px solid #1d4ed8 !important;background:#fff !important;color:#1d4ed8 !important;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;}"
     +".vt-del{background:#fff !important;border:1px solid #fecaca !important;color:#dc2626 !important;border-radius:6px;width:28px;cursor:pointer;font-weight:700;}"
-    +".vt-muted{color:#94a3b8;}"
+    +".vt-muted{color:#94a3b8;}"+".vt-pv{padding:6px 12px;border:1px solid #16a34a !important;background:#fff !important;color:#16a34a !important;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;}"+".vt-modal{display:none;position:fixed;inset:0;background:rgba(9,13,22,0.75);z-index:99999;align-items:center;justify-content:center;padding:30px;}"+".vt-modal-box{background:#fff;border-radius:14px;width:min(900px,92vw);height:min(86vh,900px);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.4);}"+".vt-modal-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #e2e8f0;font-weight:800;color:#0f172a;}"+".vt-modal-x{background:#f1f5f9;border:none;width:30px;height:30px;border-radius:8px;cursor:pointer;font-weight:800;}"+".vt-modal-body{flex:1;overflow:auto;background:#f8fafc;display:flex;align-items:center;justify-content:center;}"+".vt-frame{width:100%;height:100%;border:none;}"+".vt-img{max-width:100%;max-height:100%;object-fit:contain;}"
     +"@media(max-width:820px){.vt-grid{grid-template-columns:1fr;}}"
     +"</style>";
   }

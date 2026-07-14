@@ -178,7 +178,7 @@ var EstimatorModule = {
       var bd=e.breakdown||{}; var rows=Object.keys(bd).map(function(k){return "<div style='display:flex;justify-content:space-between;'><span>"+k+"</span><span>$"+Math.round(bd[k]).toLocaleString()+"</span></div>";}).join('');
       body=rows+"<p style='font-weight:900;margin-top:8px;'>Grand Total: $"+Math.round(e.grand_total||e.base_estimate||0).toLocaleString()+"</p>";
     }
-    area.innerHTML="<div style='padding:20px;border:2px solid #16a34a;border-radius:14px;background:#f0fdf4;'><h3 style='margin:0 0 6px;'>"+q.title+"</h3><p style='color:#94a3b8;font-size:12px;'>"+(q.created_at||'').split('T')[0]+(q.location?' · '+q.location:'')+"</p>"+body+"<button onclick='EstimatorModule.printQuote()' style='margin-top:12px;padding:10px 18px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-weight:800;cursor:pointer;'>Print / Save PDF</button> <button onclick='EstimatorModule.showHistory()' style='margin-top:12px;padding:10px 18px;border:1px solid #e2e8f0;background:#fff;color:#475569;border-radius:8px;font-weight:700;cursor:pointer;'>Back to Quotes</button></div>";
+    area.innerHTML="<div style='padding:20px;border:2px solid #16a34a;border-radius:14px;background:#f0fdf4;'><h3 style='margin:0 0 6px;'>"+q.title+"</h3><p style='color:#94a3b8;font-size:12px;'>"+(q.created_at||'').split('T')[0]+(q.location?' · '+q.location:'')+"</p>"+body+"<button onclick='EstimatorModule.printQuote()' style='margin-top:12px;padding:10px 18px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-weight:800;cursor:pointer;'>Print / Save PDF</button> <button onclick='EstimatorModule.createInvoiceFromQuote()' style='margin-top:12px;padding:10px 18px;border:none;border-radius:8px;background:#1d4ed8;color:#fff;font-weight:800;cursor:pointer;'>Create Invoice (Finance)</button> <button onclick='EstimatorModule.showHistory()' style='margin-top:12px;padding:10px 18px;border:1px solid #e2e8f0;background:#fff;color:#475569;border-radius:8px;font-weight:700;cursor:pointer;'>Back to Quotes</button></div>";
     self._viewing=q;
   },
   printQuote:function(){
@@ -186,6 +186,19 @@ var EstimatorModule = {
     var w=window.open('','_blank');
     w.document.write("<html><head><title>Astraa Quote</title></head><body style='font-family:Segoe UI,Arial;padding:24px;'>"+el.innerHTML+"</body></html>");
     w.document.close();w.focus();w.print();
+  },
+  createInvoiceFromQuote:function(){
+    var self=this; var q=this._viewing;
+    if(!q){alert('Open a quote first.');return;}
+    var e=q.estimate||{};
+    var amount = (e.mode==='single_work') ? (e.total||0) : (e.grand_total||e.base_estimate||0);
+    var client = prompt('Client name for this invoice:', q.title||'Client');
+    if(client===null)return;
+    fetch(this.apiBase()+"/api/finance/invoice-from-quote",{method:'POST',headers:{"Content-Type":"application/json","Authorization":"Bearer "+(this.session().token||''),"ngrok-skip-browser-warning":"true"},body:JSON.stringify({client:client,description:q.title,amount:amount})})
+      .then(function(r){return r.json();}).then(function(d){
+        if(d.success){alert('Invoice created in Finance (Pending) for $'+Math.round(amount).toLocaleString()+'. Open Astraa Finance to view/send it.');}
+        else{alert(d.error||'Failed to create invoice.');}
+      }).catch(function(){alert('Connection error.');});
   },
   styles:function(){
     return "<style>"

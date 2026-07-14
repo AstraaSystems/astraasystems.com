@@ -7888,3 +7888,44 @@ def astraa_estimate_history():
     out.reverse()  # newest first
     return astraa_json_response({"success": True, "quotes": out, "count": len(out)})
 # END ASTRAA_MY_QUOTES_V1
+
+
+# ASTRAA_QUOTE_TO_FINANCE_V1 — create a Finance invoice from an approved quote
+@app.route("/api/finance/invoice-from-quote", methods=["POST"])
+def astraa_invoice_from_quote():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+
+    client = (p.get("client") or "").strip() or "Client"
+    description = (p.get("description") or "").strip()
+    try:
+        amount = float(p.get("amount") or 0)
+    except Exception:
+        amount = 0
+
+    inv = {
+        "id": uuid.uuid4().hex[:12],
+        "client": client,
+        "description": description or "From estimate",
+        "amount": round(amount, 2),
+        "status": "Pending",
+        "comment": "Created from Estimator quote",
+        "date": astraa_today_key(),
+        "created_at": astraa_now_iso()
+    }
+    db, key = _astraa_fin_bucket(email)
+    db[key]["invoices"].append(inv)
+    _astraa_save_fin(db)
+
+    # also auto-file to Vault (reuse Step 4 helper)
+    try:
+        _txt = "ASTRAA INVOICE" + chr(10) + "Client: " + client + chr(10) + "Description: " + inv["description"] + chr(10) + "Amount: $" + str(inv["amount"]) + chr(10) + "Status: Pending" + chr(10) + "Source: Estimator quote"
+        astraa_vault_save_record(email, "Invoice_" + client.replace(" ","_") + "_" + datetime.now().strftime("%Y%m%d_%H%M") + ".txt", _txt, category="Invoices", note="Created from quote")
+    except Exception:
+        pass
+
+    return astraa_json_response({"success": True, "invoice": inv})
+# END ASTRAA_QUOTE_TO_FINANCE_V1

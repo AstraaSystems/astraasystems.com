@@ -7487,6 +7487,17 @@ def astraa_fin_add_invoice():
          "comment":(p.get("comment") or "").strip(),"date":(p.get("date") or astraa_today_key()).strip(),
          "created_at":astraa_now_iso()}
     db,key=_astraa_fin_bucket(email); db[key]["invoices"].append(inv); _astraa_save_fin(db)
+    try:
+        _txt = ("ASTRAA INVOICE\n"
+                "Client: " + str(inv.get("client","")) + "\n"
+                "Description: " + str(inv.get("description","")) + "\n"
+                "Amount: $" + str(inv.get("amount","")) + "\n"
+                "Status: " + str(inv.get("status","")) + "\n"
+                "Date: " + str(inv.get("date","")))
+        _fn = "Invoice_" + str(inv.get("client","client")).replace(" ","_") + "_" + datetime.now().strftime("%Y%m%d_%H%M") + ".txt"
+        astraa_vault_save_record(email, _fn, _txt, category="Invoices", note="Auto-saved from Finance")
+    except Exception:
+        pass
     return astraa_json_response({"success": True, "invoice": inv})
 
 @app.route("/api/finance/update-invoice", methods=["POST"])
@@ -7812,3 +7823,34 @@ def astraa_vault_quota():
         "percent": round((used / quota * 100), 1) if quota else 0
     })
 # END ASTRAA_VAULT_QUOTA_V1
+
+
+# =====================================================================
+# ASTRAA_VAULT_AUTOSAVE_V1 — auto-file records from other tools into Vault
+# Saves a small text/JSON record as a real Vault file (retrievable + previewable).
+# =====================================================================
+def astraa_vault_save_record(email, filename, text_content, category="Documents", folder="", note=""):
+    """Save a text record as a file in the user's Vault. Best-effort (never raises)."""
+    try:
+        key = astraa_account_key(email)
+        if not key:
+            return False
+        raw = (text_content or "").encode("utf-8")
+        fid = uuid.uuid4().hex[:16]
+        safe = "".join(c for c in filename if c.isalnum() or c in " ._-()").strip() or "record.txt"
+        stored = fid + "__" + safe
+        adir = _astraa_vault_account_dir(key)
+        with open(os.path.join(adir, stored), "wb") as f:
+            f.write(raw)
+        rec = {
+            "id": fid, "filename": filename, "stored": stored,
+            "category": category, "folder": folder, "size": len(raw),
+            "note": note, "uploaded_at": astraa_now_iso(), "source": "auto"
+        }
+        meta = _astraa_load_vault_meta()
+        meta.setdefault(key, []).append(rec)
+        _astraa_save_vault_meta(meta)
+        return True
+    except Exception:
+        return False
+# END ASTRAA_VAULT_AUTOSAVE_V1

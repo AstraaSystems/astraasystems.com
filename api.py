@@ -7854,3 +7854,37 @@ def astraa_vault_save_record(email, filename, text_content, category="Documents"
     except Exception:
         return False
 # END ASTRAA_VAULT_AUTOSAVE_V1
+
+
+# ASTRAA_MY_QUOTES_V1 — list a customer's saved/approved estimates
+@app.route("/api/estimate/history", methods=["GET"])
+def astraa_estimate_history():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    rec = astraa_storage_load_usage_db().get(astraa_account_key(email)) or {}
+    saved = rec.get("saved_estimates") or []
+    out = []
+    for i, item in enumerate(saved):
+        e = item.get("estimate", {})
+        mode = e.get("mode", "whole_project")
+        if mode == "single_work":
+            title = e.get("category", "Estimate")
+            total = e.get("total", 0)
+        else:
+            title = e.get("project_type", "Project Estimate")
+            total = e.get("grand_total", e.get("base_estimate", 0))
+        out.append({
+            "index": i,
+            "created_at": item.get("created_at", ""),
+            "mode": mode,
+            "title": title,
+            "total": total,
+            "location": e.get("location_market", ""),
+            "sqft": e.get("sqft", ""),
+            "estimate": e
+        })
+    out.reverse()  # newest first
+    return astraa_json_response({"success": True, "quotes": out, "count": len(out)})
+# END ASTRAA_MY_QUOTES_V1

@@ -18,6 +18,7 @@ var EstimatorModule = {
       + '      <label class="ae-mode ae-mode-on" id="ae-m-single"><input type="radio" name="est_mode" value="single_work" checked onchange="EstimatorModule.setMode(\'single_work\')"> Single Work</label>'
       + '      <label class="ae-mode" id="ae-m-whole"><input type="radio" name="est_mode" value="whole_project" onchange="EstimatorModule.setMode(\'whole_project\')"> Whole Project</label>'
       + '    </div>'
+      + '  <div style="margin-top:10px;"><button onclick="EstimatorModule.showHistory()" style="padding:8px 14px;border:1px solid #1d4ed8;background:#fff;color:#1d4ed8;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px;">📋 My Quotes</button> <button onclick="EstimatorModule.go && EstimatorModule.go()||location.reload()" style="padding:8px 14px;border:1px solid #e2e8f0;background:#fff;color:#475569;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px;">+ New Estimate</button></div>'
       + '  </div>'
       + '  <div class="ae-grid">'
       + '    <div class="ae-card ae-inputs">' + this.inputs() + '</div>'
@@ -149,6 +150,43 @@ var EstimatorModule = {
     }).catch(function(e){out.innerHTML="<p style='color:#dc2626;'>Connection error: "+e.message+"</p>";});
   },
 
+  showHistory:function(){
+    var self=this;
+    var area=document.getElementById('est_result');
+    area.innerHTML='<p style="color:#1d4ed8;">Loading your quotes...</p>';
+    fetch(this.apiBase()+"/api/estimate/history",{headers:{"Authorization":"Bearer "+(this.session().token||''),"ngrok-skip-browser-warning":"true"}})
+      .then(function(r){return r.json();}).then(function(d){
+        if(!d.success){area.innerHTML='<p style="color:#dc2626;">'+(d.error||'Error')+'</p>';return;}
+        if(!d.quotes||!d.quotes.length){area.innerHTML='<p style="color:#94a3b8;">No saved quotes yet. Approve an estimate to see it here.</p>';return;}
+        var rows=d.quotes.map(function(q){
+          var dt=(q.created_at||'').split('T')[0];
+          return "<div style='display:flex;justify-content:space-between;align-items:center;border:1px solid #e2e8f0;border-radius:10px;padding:12px;margin-bottom:8px;'><div><b>"+q.title+"</b> <span style='color:#94a3b8;font-size:12px;'>· "+dt+(q.location?' · '+q.location:'')+"</span><br><span style='color:#475569;font-size:13px;'>$"+Math.round(q.total).toLocaleString()+(q.sqft?' · '+q.sqft+' sqft':'')+"</span></div><button onclick='EstimatorModule.viewQuote("+q.index+")' style='padding:6px 12px;border:1px solid #1d4ed8;background:#fff;color:#1d4ed8;border-radius:7px;font-weight:700;cursor:pointer;font-size:12px;'>View</button></div>";
+        }).join('');
+        area.innerHTML='<h3 style="margin:0 0 12px;">My Quotes ('+d.count+')</h3>'+rows;
+        self._history=d.quotes;
+      }).catch(function(){area.innerHTML='<p style="color:#dc2626;">Connection error.</p>';});
+  },
+  viewQuote:function(idx){
+    var self=this;
+    var q=(this._history||[]).filter(function(x){return x.index===idx;})[0];
+    if(!q){return;}
+    var e=q.estimate; var area=document.getElementById('est_result');
+    var body='';
+    if(e.mode==='single_work'){
+      body="<p>Materials: $"+Math.round(e.materials_cost||0).toLocaleString()+"</p><p>Labour: $"+Math.round(e.labour_cost||0).toLocaleString()+"</p><p style='font-weight:900;'>Total: $"+Math.round(e.total||0).toLocaleString()+"</p>";
+    } else {
+      var bd=e.breakdown||{}; var rows=Object.keys(bd).map(function(k){return "<div style='display:flex;justify-content:space-between;'><span>"+k+"</span><span>$"+Math.round(bd[k]).toLocaleString()+"</span></div>";}).join('');
+      body=rows+"<p style='font-weight:900;margin-top:8px;'>Grand Total: $"+Math.round(e.grand_total||e.base_estimate||0).toLocaleString()+"</p>";
+    }
+    area.innerHTML="<div style='padding:20px;border:2px solid #16a34a;border-radius:14px;background:#f0fdf4;'><h3 style='margin:0 0 6px;'>"+q.title+"</h3><p style='color:#94a3b8;font-size:12px;'>"+(q.created_at||'').split('T')[0]+(q.location?' · '+q.location:'')+"</p>"+body+"<button onclick='EstimatorModule.printQuote()' style='margin-top:12px;padding:10px 18px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-weight:800;cursor:pointer;'>Print / Save PDF</button> <button onclick='EstimatorModule.showHistory()' style='margin-top:12px;padding:10px 18px;border:1px solid #e2e8f0;background:#fff;color:#475569;border-radius:8px;font-weight:700;cursor:pointer;'>Back to Quotes</button></div>";
+    self._viewing=q;
+  },
+  printQuote:function(){
+    var el=document.getElementById('est_result');
+    var w=window.open('','_blank');
+    w.document.write("<html><head><title>Astraa Quote</title></head><body style='font-family:Segoe UI,Arial;padding:24px;'>"+el.innerHTML+"</body></html>");
+    w.document.close();w.focus();w.print();
+  },
   styles:function(){
     return "<style>"
     +".ae-wrap{max-width:1000px;}"

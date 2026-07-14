@@ -53,6 +53,7 @@ load_dotenv(override=True)
 
 from lead_capture import astraa_leads
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 app.register_blueprint(astraa_leads)
 
 
@@ -1143,6 +1144,9 @@ def astraa_request_guard():
         return None
 
     max_bytes = astraa_max_request_bytes()
+    # Vault uploads (images, blueprints, docs) need larger bodies
+    if request.path.startswith("/api/vault/upload"):
+        max_bytes = 50 * 1024 * 1024
     content_length = request.content_length
 
     if content_length is not None and content_length > max_bytes:

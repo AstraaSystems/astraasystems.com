@@ -20,7 +20,7 @@ var VaultModule = {
       + '      <div class="vt-f"><label>Category</label><select id="vt_cat" style="'+f+'">'+catOpts+'</select></div>'
       + '      <div class="vt-f"><label>Folder</label><select id="vt_uploadfolder" style="'+f+'"><option value="">(No folder)</option></select></div>'
       + '      <div class="vt-f"><label>Note (optional)</label><input id="vt_note" style="'+f+'" placeholder="e.g. Smith project quote"></div>'
-      + '      <div class="vt-f"><label>Choose file (max 10 MB)</label><input id="vt_file" type="file" style="'+f+'"></div>'
+      + '      <div class="vt-f"><label>Choose file (max 25 MB)</label><input id="vt_file" type="file" style="'+f+'"></div>'
       + '      <button class="vt-add" onclick="VaultModule.upload()">Upload to Vault</button>'
       + '      <div id="vt_status" style="margin-top:10px;font-size:13px;"></div>'
       + '      <div class="vt-folderbar" style="margin-top:16px;"><input id="vt_newfolder" class="vt-search" placeholder="New folder name"><button class="vt-dl" onclick="VaultModule.addFolder()">+ Folder</button></div>'
@@ -106,7 +106,7 @@ var VaultModule = {
     var status=document.getElementById('vt_status');
     if(!fileInput||!fileInput.files||!fileInput.files[0]){status.innerHTML="<span style='color:#dc2626;'>Choose a file first.</span>";return;}
     var file=fileInput.files[0];
-    if(file.size>10*1024*1024){status.innerHTML="<span style='color:#dc2626;'>File exceeds 10 MB.</span>";return;}
+    if(file.size>25*1024*1024){status.innerHTML="<span style='color:#dc2626;'>File exceeds 25 MB.</span>";return;}
     status.innerHTML="<span style='color:#1d4ed8;'>Uploading…</span>";
     var reader=new FileReader();
     reader.onload=function(e){

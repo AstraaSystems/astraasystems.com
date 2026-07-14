@@ -7644,14 +7644,18 @@ def astraa_vault_upload():
         return astraa_json_response({"success": False, "error": "Missing file."}, 400)
 
     # data may be a data URL: strip prefix
-    if "," in data_b64 and data_b64[:5] == "data:":
+    if data_b64.startswith("data:") and "," in data_b64:
         data_b64 = data_b64.split(",", 1)[1]
+    data_b64 = data_b64.strip()
     try:
         raw = _astraa_b64.b64decode(data_b64)
     except Exception:
         return astraa_json_response({"success": False, "error": "Invalid file data."}, 400)
     if len(raw) > ASTRAA_VAULT_MAX_BYTES:
         return astraa_json_response({"success": False, "error": "File exceeds 10 MB limit."}, 400)
+    _q, _plan = astraa_vault_quota_for(email)
+    if astraa_vault_used_bytes(email) + len(raw) > _q:
+        return astraa_json_response({"success": False, "error": "Storage quota exceeded for your plan. Upgrade for more space."}, 400)
 
     fid = uuid.uuid4().hex[:16]
     safe = "".join(c for c in filename if c.isalnum() or c in " ._-()").strip() or "file"
@@ -7761,3 +7765,40 @@ def astraa_vault_delete_folder():
     _astraa_save_vault_meta(meta)
     return astraa_json_response({"success": True, "folders": fdb[key]})
 # END ASTRAA_VAULT_FOLDERS_V1
+
+
+# ASTRAA_VAULT_QUOTA_V1 — storage quota by plan
+ASTRAA_VAULT_QUOTAS = {
+    "trial": 100 * 1024 * 1024,          # 100 MB
+    "basic": 1 * 1024 * 1024 * 1024,     # 1 GB
+    "professional": 10 * 1024 * 1024 * 1024,  # 10 GB
+    "custom": 50 * 1024 * 1024 * 1024,   # 50 GB
+}
+
+def astraa_vault_quota_for(email):
+    rec = astraa_storage_load_usage_db().get(astraa_account_key(email)) or {}
+    plan = (rec.get("selected_plan") or "trial").strip().lower()
+    return ASTRAA_VAULT_QUOTAS.get(plan, ASTRAA_VAULT_QUOTAS["trial"]), plan
+
+def astraa_vault_used_bytes(email):
+    meta = _astraa_load_vault_meta()
+    files = meta.get(astraa_account_key(email), [])
+    return sum(int(f.get("size", 0)) for f in files)
+
+@app.route("/api/vault/quota", methods=["GET"])
+def astraa_vault_quota():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    quota, plan = astraa_vault_quota_for(email)
+    used = astraa_vault_used_bytes(email)
+    return astraa_json_response({
+        "success": True,
+        "plan": plan,
+        "quota_bytes": quota,
+        "used_bytes": used,
+        "remaining_bytes": max(quota - used, 0),
+        "percent": round((used / quota * 100), 1) if quota else 0
+    })
+# END ASTRAA_VAULT_QUOTA_V1

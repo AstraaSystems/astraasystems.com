@@ -38,7 +38,7 @@ var VaultModule = {
       + '</div>';
   },
 
-  load:function(){ this.loadFolders(); this.refresh(); },
+  load:function(){ this.loadFolders(); this.loadQuota(); this.refresh(); },
   setSearch:function(v){this._search=(v||"").toLowerCase();this.renderList();},
   setFolder:function(v){this._folder=v;this.renderList();},
   setSort:function(v){this._sort=v;this.renderList();},
@@ -72,6 +72,7 @@ var VaultModule = {
         +"<div class='vt-stat'><span class='vt-stat-l'>Storage Used</span><span class='vt-stat-v'>"+self.fmtSize(s.total_bytes)+"</span></div>";
       self._allFiles=d.files||[];
       self.renderList();
+      self.loadQuota();
     }).catch(function(){document.getElementById('vt_list').innerHTML="<p class='vt-muted'>Connection error.</p>";});
   },
 
@@ -163,6 +164,18 @@ var VaultModule = {
   },
   closePreview:function(){var o=document.getElementById('vt_modal');if(o)o.style.display='none';},
 
+  loadQuota:function(){
+    var self=this;
+    fetch(this.apiBase()+"/api/vault/quota",{headers:this.hdr()}).then(function(r){return r.json();}).then(function(d){
+      if(!d.success)return;
+      var el=document.getElementById('vt_summary'); if(!el)return;
+      var usedTxt=self.fmtSize(d.used_bytes), quotaTxt=self.fmtSize(d.quota_bytes);
+      var pct=Math.min(d.percent||0,100);
+      var bar=document.getElementById('vt_quota');
+      if(!bar){bar=document.createElement('div');bar.id='vt_quota';bar.className='vt-quota';el.parentNode.insertBefore(bar,el.nextSibling);}
+      bar.innerHTML="<div class='vt-quota-top'><span>Storage: "+usedTxt+" of "+quotaTxt+" ("+d.plan+")</span><span>"+pct+"%</span></div><div class='vt-quota-track'><div class='vt-quota-fill' style='width:"+pct+"%;background:"+(pct>90?'#dc2626':(pct>70?'#f59e0b':'#1d4ed8'))+"'></div></div>";
+    }).catch(function(){});
+  },
   styles:function(){
     return "<style>"
     +".vt-wrap{max-width:1000px;}"
@@ -186,7 +199,7 @@ var VaultModule = {
     +".vt-actions{display:flex;gap:6px;}"
     +".vt-dl{padding:6px 12px;border:1px solid #1d4ed8 !important;background:#fff !important;color:#1d4ed8 !important;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;}"
     +".vt-del{background:#fff !important;border:1px solid #fecaca !important;color:#dc2626 !important;border-radius:6px;width:28px;cursor:pointer;font-weight:700;}"
-    +".vt-muted{color:#94a3b8;}"+".vt-pv{padding:6px 12px;border:1px solid #16a34a !important;background:#fff !important;color:#16a34a !important;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;}"+".vt-modal{display:none;position:fixed;inset:0;background:rgba(9,13,22,0.75);z-index:99999;align-items:center;justify-content:center;padding:30px;}"+".vt-modal-box{background:#fff;border-radius:14px;width:min(900px,92vw);height:min(86vh,900px);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.4);}"+".vt-modal-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #e2e8f0;font-weight:800;color:#0f172a;}"+".vt-modal-x{background:#f1f5f9;border:none;width:30px;height:30px;border-radius:8px;cursor:pointer;font-weight:800;}"+".vt-modal-body{flex:1;overflow:auto;background:#f8fafc;display:flex;align-items:center;justify-content:center;}"+".vt-frame{width:100%;height:100%;border:none;}"+".vt-img{max-width:100%;max-height:100%;object-fit:contain;}"
+    +".vt-muted{color:#94a3b8;}"+".vt-quota{margin-bottom:18px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;}"+".vt-quota-top{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:#475569;margin-bottom:8px;}"+".vt-quota-track{height:8px;background:#f1f5f9;border-radius:6px;overflow:hidden;}"+".vt-quota-fill{height:100%;border-radius:6px;transition:width .3s;}"+".vt-pv{padding:6px 12px;border:1px solid #16a34a !important;background:#fff !important;color:#16a34a !important;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;}"+".vt-modal{display:none;position:fixed;inset:0;background:rgba(9,13,22,0.75);z-index:99999;align-items:center;justify-content:center;padding:30px;}"+".vt-modal-box{background:#fff;border-radius:14px;width:min(900px,92vw);height:min(86vh,900px);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.4);}"+".vt-modal-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #e2e8f0;font-weight:800;color:#0f172a;}"+".vt-modal-x{background:#f1f5f9;border:none;width:30px;height:30px;border-radius:8px;cursor:pointer;font-weight:800;}"+".vt-modal-body{flex:1;overflow:auto;background:#f8fafc;display:flex;align-items:center;justify-content:center;}"+".vt-frame{width:100%;height:100%;border:none;}"+".vt-img{max-width:100%;max-height:100%;object-fit:contain;}"
     +"@media(max-width:820px){.vt-grid{grid-template-columns:1fr;}}"
     +"</style>";
   }

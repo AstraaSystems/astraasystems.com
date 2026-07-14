@@ -7653,9 +7653,12 @@ def astraa_vault_upload():
         return astraa_json_response({"success": False, "error": "Invalid file data."}, 400)
     if len(raw) > ASTRAA_VAULT_MAX_BYTES:
         return astraa_json_response({"success": False, "error": "File exceeds 10 MB limit."}, 400)
-    _q, _plan = astraa_vault_quota_for(email)
-    if astraa_vault_used_bytes(email) + len(raw) > _q:
-        return astraa_json_response({"success": False, "error": "Storage quota exceeded for your plan. Upgrade for more space."}, 400)
+    try:
+        _q, _plan = astraa_vault_quota_for(email)
+        if astraa_vault_used_bytes(email) + len(raw) > _q:
+            return astraa_json_response({"success": False, "error": "Storage quota exceeded for your plan. Upgrade for more space."}, 400)
+    except Exception:
+        pass  # fail-open: never block upload on a quota-check error
 
     fid = uuid.uuid4().hex[:16]
     safe = "".join(c for c in filename if c.isalnum() or c in " ._-()").strip() or "file"

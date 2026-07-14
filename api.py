@@ -6353,6 +6353,17 @@ def astraa_enterprise_estimate():
     rec["saved_estimates"] = saved
     rec["updated_at"] = astraa_now_iso()
     db[key] = rec
+    try:
+        _e = entry["result"]
+        if _e.get("mode") == "single_work":
+            _txt = "ASTRAA ESTIMATE" + chr(10) + "Category: " + str(_e.get("category","")) + chr(10) + "Area: " + str(_e.get("sqft","")) + " sqft" + chr(10) + "Location: " + str(_e.get("location_market","")) + chr(10) + "Materials: $" + str(_e.get("materials_cost","")) + chr(10) + "Labour: $" + str(_e.get("labour_cost","")) + chr(10) + "TOTAL: $" + str(_e.get("total","")) + chr(10) + "Date: " + astraa_now_iso()
+            _fn = "Estimate_" + str(_e.get("category","work")).replace(" ","_") + "_" + datetime.now().strftime("%Y%m%d_%H%M") + ".txt"
+        else:
+            _txt = "ASTRAA PROJECT ESTIMATE" + chr(10) + "Type: " + str(_e.get("project_type","")) + chr(10) + "Area: " + str(_e.get("sqft","")) + " sqft" + chr(10) + "Location: " + str(_e.get("location_market","")) + chr(10) + "Grand total: $" + str(_e.get("grand_total", _e.get("base_estimate",""))) + chr(10) + "Date: " + astraa_now_iso()
+            _fn = "ProjectEstimate_" + datetime.now().strftime("%Y%m%d_%H%M") + ".txt"
+        astraa_vault_save_record(email, _fn, _txt, category="Estimates & Quotes", note="Auto-saved from Estimator")
+    except Exception:
+        pass
     astraa_storage_save_usage_db(db)
 
     return astraa_json_response({
@@ -7488,12 +7499,7 @@ def astraa_fin_add_invoice():
          "created_at":astraa_now_iso()}
     db,key=_astraa_fin_bucket(email); db[key]["invoices"].append(inv); _astraa_save_fin(db)
     try:
-        _txt = ("ASTRAA INVOICE\n"
-                "Client: " + str(inv.get("client","")) + "\n"
-                "Description: " + str(inv.get("description","")) + "\n"
-                "Amount: $" + str(inv.get("amount","")) + "\n"
-                "Status: " + str(inv.get("status","")) + "\n"
-                "Date: " + str(inv.get("date","")))
+        _txt = "ASTRAA INVOICE" + chr(10) + "Client: " + str(inv.get("client","")) + chr(10) + "Description: " + str(inv.get("description","")) + chr(10) + "Amount: $" + str(inv.get("amount","")) + chr(10) + "Status: " + str(inv.get("status","")) + chr(10) + "Date: " + str(inv.get("date",""))
         _fn = "Invoice_" + str(inv.get("client","client")).replace(" ","_") + "_" + datetime.now().strftime("%Y%m%d_%H%M") + ".txt"
         astraa_vault_save_record(email, _fn, _txt, category="Invoices", note="Auto-saved from Finance")
     except Exception:
@@ -7825,12 +7831,8 @@ def astraa_vault_quota():
 # END ASTRAA_VAULT_QUOTA_V1
 
 
-# =====================================================================
-# ASTRAA_VAULT_AUTOSAVE_V1 — auto-file records from other tools into Vault
-# Saves a small text/JSON record as a real Vault file (retrievable + previewable).
-# =====================================================================
+# ASTRAA_VAULT_AUTOSAVE_V1
 def astraa_vault_save_record(email, filename, text_content, category="Documents", folder="", note=""):
-    """Save a text record as a file in the user's Vault. Best-effort (never raises)."""
     try:
         key = astraa_account_key(email)
         if not key:
@@ -7842,11 +7844,9 @@ def astraa_vault_save_record(email, filename, text_content, category="Documents"
         adir = _astraa_vault_account_dir(key)
         with open(os.path.join(adir, stored), "wb") as f:
             f.write(raw)
-        rec = {
-            "id": fid, "filename": filename, "stored": stored,
-            "category": category, "folder": folder, "size": len(raw),
-            "note": note, "uploaded_at": astraa_now_iso(), "source": "auto"
-        }
+        rec = {"id": fid, "filename": filename, "stored": stored, "category": category,
+               "folder": folder, "size": len(raw), "note": note,
+               "uploaded_at": astraa_now_iso(), "source": "auto"}
         meta = _astraa_load_vault_meta()
         meta.setdefault(key, []).append(rec)
         _astraa_save_vault_meta(meta)

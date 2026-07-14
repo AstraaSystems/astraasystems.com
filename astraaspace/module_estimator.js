@@ -42,7 +42,7 @@ var EstimatorModule = {
       + '<div class="ae-field"><label>Location / market</label><select id="est_loc">'+cityOpts+'</select></div>'
       + '<div class="ae-field"><label>Quality level</label><select id="est_quality" onchange="EstimatorModule.fillBaseline(true)"><option>Standard</option><option>Premium</option><option>Economy</option></select></div>'
       + rateFields
-      + '<button class="ae-calc" onclick="EstimatorModule.calculate()">Calculate (free)</button>';
+      + '<button class=\"ae-calc\" onclick=\"EstimatorModule.calculate()\" style=\"width:100%;padding:13px;border:none;border-radius:10px;background:#1d4ed8;color:#ffffff;font-weight:800;font-size:1rem;cursor:pointer;margin-top:6px;\">Calculate (free)</button>';
   },
 
   setMode:function(m){

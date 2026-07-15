@@ -1,0 +1,1262 @@
+{
+  "keshanthspillai@astraasystems.com": {
+    "account_id": "keshanthspillai@astraasystems.com",
+    "billing_period_end": "2026-07-31",
+    "billing_period_key": "2026-07",
+    "billing_period_start": "2026-07-01",
+    "business_name": "Astraa Systems",
+    "business_profile": {
+      "address": "0 street burnaby, BC, Canada",
+      "company_name": "test",
+      "email": "nomail@nomail.com",
+      "gst_no": "00000001111111111",
+      "license_no": "000000000",
+      "logo_url": "",
+      "phone": "6046006004",
+      "worksafe_no": "000000"
+    },
+    "created_at": "2026-07-10T03:40:22.509676Z",
+    "daily_limit": null,
+    "estimate_limit": 120,
+    "estimate_used": 34,
+    "industry": "",
+    "last_estimate_date": "2026-07-14",
+    "last_trial_estimate_date": null,
+    "passkey_created": "2026-07-15T05:53:30.234020+00:00",
+    "passkey_expires": "2027-01-31T05:53:30.234020+00:00",
+    "passkey_hash": "6bc4c4f7023eb32e5e9ee58995efb81e23660f9aef68b66d1770d247b602890d",
+    "passkey_salt": "650b0ce6423f8c2f6921e4b1829ec1a1",
+    "passkey_status": "active",
+    "payment_status": "active",
+    "period_label": "Monthly",
+    "period_type": "monthly",
+    "primary_email": "keshanthspillai@astraasystems.com",
+    "saved_estimates": [
+      {
+        "created_at": "2026-07-12T04:08:59.917242Z",
+        "estimate": {
+          "approved_calibration_applied": false,
+          "approved_calibration_id": null,
+          "base_rate": 294.0,
+          "bcpi_factor": 1.0,
+          "calibration_basis": "Stage 1 public-data calibrated baseline",
+          "complexity": 1.0,
+          "effective_location_multiplier": 0.98,
+          "estimate": 499800.0,
+          "labor": 1.0,
+          "location_market": "BC / Burnaby",
+          "material": 2.0,
+          "project_type": "Residential",
+          "quality_level": "Standard",
+          "sqft": 850.0
+        },
+        "source": "backend_api"
+      },
+      {
+        "created_at": "2026-07-12T04:14:16.680832Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 281382.88295052084,
+          "breakdown": {
+            "electrical": 33765.9459540625,
+            "finishes": 50648.91893109375,
+            "foundation": 42207.43244257812,
+            "framing": 56276.576590104174,
+            "mechanical": 28138.288295052087,
+            "overhead": 42207.43244257812,
+            "plumbing": 28138.288295052087
+          },
+          "confidence": 0.9491729726938589,
+          "health": {
+            "latency_ms": 56.8842887878418,
+            "volatility": 725.9027256107343
+          },
+          "project_type": "Residential",
+          "range": {
+            "high": 282471.73703893693,
+            "low": 280294.02886210475
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.29000000000000004,
+          "scenarios": [
+            {
+              "impact": 22510.630636041667,
+              "name": "material_spike"
+            },
+            {
+              "impact": 14069.144147526044,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 16882.97297703125,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -19696.80180653646,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "enterprise_engine"
+      },
+      {
+        "created_at": "2026-07-12T04:33:16.869941Z",
+        "estimate": {
+          "approved_calibration_applied": false,
+          "approved_calibration_id": null,
+          "base_rate": 375.0,
+          "bcpi_factor": 1.0,
+          "calibration_basis": "Stage 1 public-data calibrated baseline",
+          "complexity": 1.0,
+          "effective_location_multiplier": 1.0,
+          "estimate": 0.0,
+          "labor": 1.0,
+          "location_market": "BC / Vancouver",
+          "material": 1.0,
+          "project_type": "Commercial",
+          "quality_level": "Standard",
+          "sqft": 0.0
+        },
+        "source": "backend_api"
+      },
+      {
+        "created_at": "2026-07-12T18:33:52.015866Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 84142.63136829244,
+          "breakdown": {
+            "electrical": 10097.115764195092,
+            "finishes": 15145.673646292638,
+            "foundation": 12621.394705243865,
+            "framing": 16828.52627365849,
+            "mechanical": 8414.263136829244,
+            "overhead": 12621.394705243865,
+            "plumbing": 8414.263136829244
+          },
+          "confidence": 0.9554420028605917,
+          "health": {
+            "latency_ms": 64.43095207214355,
+            "volatility": 0.0
+          },
+          "project_type": "Commercial",
+          "range": {
+            "high": 84142.63136829244,
+            "low": 84142.63136829244
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 6731.410509463395,
+              "name": "material_spike"
+            },
+            {
+              "impact": 4207.131568414622,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 5048.557882097546,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -5889.984195780471,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "enterprise_engine"
+      },
+      {
+        "created_at": "2026-07-12T18:34:04.152499Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 64509.350715690874,
+          "breakdown": {
+            "electrical": 7741.122085882905,
+            "finishes": 11611.683128824357,
+            "foundation": 9676.402607353632,
+            "framing": 12901.870143138176,
+            "mechanical": 6450.935071569088,
+            "overhead": 9676.402607353632,
+            "plumbing": 6450.935071569088
+          },
+          "confidence": 0.962054246848669,
+          "health": {
+            "latency_ms": 44.59524154663086,
+            "volatility": 0.0
+          },
+          "project_type": "Residential",
+          "range": {
+            "high": 64509.350715690874,
+            "low": 64509.350715690874
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 5160.74805725527,
+              "name": "material_spike"
+            },
+            {
+              "impact": 3225.467535784544,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 3870.5610429414523,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -4515.654550098362,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "enterprise_engine"
+      },
+      {
+        "created_at": "2026-07-12T18:34:50.971553Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 181586.98800793462,
+          "breakdown": {
+            "electrical": 21790.438560952152,
+            "finishes": 32685.65784142823,
+            "foundation": 27238.04820119019,
+            "framing": 36317.39760158693,
+            "mechanical": 18158.698800793463,
+            "overhead": 27238.04820119019,
+            "plumbing": 18158.698800793463
+          },
+          "confidence": 0.9550340506892707,
+          "health": {
+            "latency_ms": 55.5722713470459,
+            "volatility": 261.34830234909236
+          },
+          "project_type": "Renovation",
+          "range": {
+            "high": 181979.01046145827,
+            "low": 181194.96555441097
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 14526.95904063477,
+              "name": "material_spike"
+            },
+            {
+              "impact": 9079.349400396732,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 10895.219280476076,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -12711.089160555424,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "enterprise_engine"
+      },
+      {
+        "created_at": "2026-07-12T18:35:03.635432Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 127973.7949249181,
+          "breakdown": {
+            "electrical": 15356.855390990171,
+            "finishes": 23035.283086485255,
+            "foundation": 19196.069238737713,
+            "framing": 25594.758984983622,
+            "mechanical": 12797.379492491811,
+            "overhead": 19196.069238737713,
+            "plumbing": 12797.379492491811
+          },
+          "confidence": 0.9678218595530355,
+          "health": {
+            "latency_ms": 36.90075874328613,
+            "volatility": 248.19021684746573
+          },
+          "project_type": "Service / Repair",
+          "range": {
+            "high": 128346.08025018929,
+            "low": 127601.5095996469
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 10237.903593993447,
+              "name": "material_spike"
+            },
+            {
+              "impact": 6398.689746245906,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 7678.427695495086,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -8958.165644744267,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "enterprise_engine"
+      },
+      {
+        "created_at": "2026-07-12T18:35:13.743685Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 132327.77122913505,
+          "breakdown": {
+            "electrical": 15879.332547496206,
+            "finishes": 23818.998821244306,
+            "foundation": 19849.165684370255,
+            "framing": 26465.55424582701,
+            "mechanical": 13232.777122913505,
+            "overhead": 19849.165684370255,
+            "plumbing": 13232.777122913505
+          },
+          "confidence": 0.973135216787696,
+          "health": {
+            "latency_ms": 36.27419471740723,
+            "volatility": 269.67028758741606
+          },
+          "project_type": "Residential",
+          "range": {
+            "high": 132732.27666051616,
+            "low": 131923.26579775393
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 10586.221698330804,
+              "name": "material_spike"
+            },
+            {
+              "impact": 6616.3885614567525,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 7939.666273748103,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -9262.943986039454,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "enterprise_engine"
+      },
+      {
+        "created_at": "2026-07-12T18:35:25.212311Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 135779.63946013214,
+          "breakdown": {
+            "electrical": 16293.556735215856,
+            "finishes": 24440.335102823785,
+            "foundation": 20366.94591901982,
+            "framing": 27155.92789202643,
+            "mechanical": 13577.963946013215,
+            "overhead": 20366.94591901982,
+            "plumbing": 13577.963946013215
+          },
+          "confidence": 0.9779340445040849,
+          "health": {
+            "latency_ms": 44.841766357421875,
+            "volatility": 174.93407131284872
+          },
+          "project_type": "Residential",
+          "range": {
+            "high": 136042.04056710142,
+            "low": 135517.23835316286
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 10862.371156810572,
+              "name": "material_spike"
+            },
+            {
+              "impact": 6788.981973006607,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 8146.778367607928,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -9504.574762209251,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "enterprise_engine"
+      },
+      {
+        "assembly": "",
+        "created_at": "2026-07-13T00:51:10.996452Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 295045.6719786284,
+          "breakdown": {
+            "electrical": 35405.4806374354,
+            "finishes": 53108.220956153105,
+            "foundation": 44256.85079679426,
+            "framing": 59009.134395725676,
+            "mechanical": 29504.567197862838,
+            "overhead": 44256.85079679426,
+            "plumbing": 29504.567197862838
+          },
+          "confidence": 0.955317108608446,
+          "health": {
+            "latency_ms": 76.94005966186523,
+            "volatility": 654.5777641401094
+          },
+          "project_type": "Residential",
+          "range": {
+            "high": 296027.5386248385,
+            "low": 294063.80533241824
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 23603.65375829027,
+              "name": "material_spike"
+            },
+            {
+              "impact": 14752.283598931419,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 17702.7403187177,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -20653.19703850399,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": "hvac_basic",
+        "created_at": "2026-07-13T00:57:23.887390Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 56447.5841257804,
+          "breakdown": {
+            "electrical": 6773.710095093647,
+            "finishes": 10160.565142640471,
+            "foundation": 8467.13761886706,
+            "framing": 11289.51682515608,
+            "mechanical": 5644.75841257804,
+            "overhead": 8467.13761886706,
+            "plumbing": 5644.75841257804
+          },
+          "confidence": 0.9554710412419645,
+          "health": {
+            "latency_ms": 55.310726165771484,
+            "volatility": 3.8018430542333506
+          },
+          "project_type": "Commercial",
+          "range": {
+            "high": 56453.28689036175,
+            "low": 56441.88136119905
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 4515.806730062432,
+              "name": "material_spike"
+            },
+            {
+              "impact": 2822.37920628902,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 3386.8550475468237,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -3951.330888804628,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": "interior_paint",
+        "created_at": "2026-07-13T01:17:49.973939Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 178957.89384408298,
+          "breakdown": {
+            "electrical": 21474.947261289955,
+            "finishes": 32212.420891934937,
+            "foundation": 26843.684076612448,
+            "framing": 35791.578768816595,
+            "mechanical": 17895.789384408297,
+            "overhead": 26843.684076612448,
+            "plumbing": 17895.789384408297
+          },
+          "confidence": 0.9679732697916875,
+          "health": {
+            "latency_ms": 48.14291000366211,
+            "volatility": 54.50176706101218
+          },
+          "project_type": "Residential",
+          "range": {
+            "high": 179039.6464946745,
+            "low": 178876.14119349146
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 14316.63150752664,
+              "name": "material_spike"
+            },
+            {
+              "impact": 8947.894692204149,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 10737.473630644978,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -12527.05256908581,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T02:25:26.451766Z",
+        "estimate": {
+          "category": "Interior Paint",
+          "labour_cost": 196.0,
+          "labour_rate": 0.98,
+          "location_market": "BC / Burnaby",
+          "material_rate": 0.98,
+          "materials_cost": 196.0,
+          "mode": "single_work",
+          "quality_level": "Standard",
+          "sqft": 200.0,
+          "total": 392.0
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": "",
+        "created_at": "2026-07-13T02:26:28.604875Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 439767.8334983417,
+          "breakdown": {
+            "electrical": 52772.140019801,
+            "finishes": 79158.2100297015,
+            "foundation": 65965.17502475125,
+            "framing": 87953.56669966834,
+            "mechanical": 43976.78334983417,
+            "overhead": 65965.17502475125,
+            "plumbing": 43976.78334983417
+          },
+          "confidence": 0.9552024276698927,
+          "health": {
+            "latency_ms": 65.52243232727051,
+            "volatility": 607.5206001054344
+          },
+          "project_type": "Commercial",
+          "range": {
+            "high": 440679.11439849983,
+            "low": 438856.5525981835
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 35181.426679867334,
+              "name": "material_spike"
+            },
+            {
+              "impact": 21988.391674917086,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 26386.0700099005,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -30783.74834488392,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T02:27:02.150417Z",
+        "estimate": {
+          "category": "Flooring",
+          "labour_cost": 3800.0,
+          "labour_rate": 1.9,
+          "location_market": "BC / Port Coquitlam",
+          "material_rate": 1.0,
+          "materials_cost": 1995.0,
+          "mode": "single_work",
+          "quality_level": "Standard",
+          "sqft": 2000.0,
+          "total": 5795.0
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T02:27:29.456051Z",
+        "estimate": {
+          "category": "Flooring",
+          "labour_cost": 1900.0,
+          "labour_rate": 0.95,
+          "location_market": "BC / Port Coquitlam",
+          "material_rate": 0.95,
+          "materials_cost": 1900.0,
+          "mode": "single_work",
+          "quality_level": "Standard",
+          "sqft": 2000.0,
+          "total": 3800.0
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T02:34:20.456517Z",
+        "estimate": {
+          "category": "Interior Paint",
+          "labour_cost": 4900.0,
+          "labour_rate": 2.45,
+          "location_market": "BC / Burnaby",
+          "material_rate": 1.92,
+          "materials_cost": 3841.6,
+          "mode": "single_work",
+          "quality_level": "Standard",
+          "sqft": 2000.0,
+          "total": 8741.6
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T05:11:48.186768Z",
+        "estimate": {
+          "category": "Interior Paint",
+          "labour_cost": 1960.0,
+          "labour_rate": 2.45,
+          "location_market": "BC / Burnaby",
+          "material_rate": 1.47,
+          "materials_cost": 1176.0,
+          "mode": "single_work",
+          "quality_level": "Standard",
+          "sqft": 800.0,
+          "total": 3136.0
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": "",
+        "created_at": "2026-07-13T05:13:50.696000Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 240085.25157156325,
+          "breakdown": {
+            "electrical": 28810.23018858759,
+            "finishes": 43215.34528288138,
+            "foundation": 36012.787735734484,
+            "framing": 48017.050314312655,
+            "mechanical": 24008.525157156328,
+            "overhead": 36012.787735734484,
+            "plumbing": 24008.525157156328
+          },
+          "confidence": 0.9553889572827912,
+          "health": {
+            "latency_ms": 56.79941177368164,
+            "volatility": 16.347486604875446
+          },
+          "project_type": "Renovation",
+          "range": {
+            "high": 240109.77280147056,
+            "low": 240060.73034165593
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 19206.82012572506,
+              "name": "material_spike"
+            },
+            {
+              "impact": 12004.262578578164,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 14405.115094293795,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -16805.96761000943,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": "",
+        "created_at": "2026-07-13T05:14:21.995639Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 238902.7172175911,
+          "breakdown": {
+            "electrical": 28668.32606611093,
+            "finishes": 43002.48909916639,
+            "foundation": 35835.40758263866,
+            "framing": 47780.543443518225,
+            "mechanical": 23890.271721759113,
+            "overhead": 35835.40758263866,
+            "plumbing": 23890.271721759113
+          },
+          "confidence": 0.9619936942009517,
+          "health": {
+            "latency_ms": 47.67155647277832,
+            "volatility": 42.203874371831205
+          },
+          "project_type": "Residential",
+          "range": {
+            "high": 238966.02302914884,
+            "low": 238839.41140603335
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 19112.217377407287,
+              "name": "material_spike"
+            },
+            {
+              "impact": 11945.135860879556,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 14334.163033055465,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -16723.190205231378,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": "",
+        "created_at": "2026-07-13T05:16:17.164421Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 245169.13286672748,
+          "breakdown": {
+            "electrical": 29420.295944007295,
+            "finishes": 44130.44391601095,
+            "foundation": 36775.36993000912,
+            "framing": 49033.8265733455,
+            "mechanical": 24516.91328667275,
+            "overhead": 36775.36993000912,
+            "plumbing": 24516.91328667275
+          },
+          "confidence": 0.968045439530675,
+          "health": {
+            "latency_ms": 47.06430435180664,
+            "volatility": 0.0387996812544035
+          },
+          "project_type": "Residential",
+          "range": {
+            "high": 245169.19106624936,
+            "low": 245169.0746672056
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 19613.5306293382,
+              "name": "material_spike"
+            },
+            {
+              "impact": 12258.456643336374,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 14710.147972003648,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -17161.839300670927,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T06:03:47.403515Z",
+        "estimate": {
+          "category": "Interior Paint",
+          "labour_cost": 1225.0,
+          "labour_rate": 2.45,
+          "location_market": "BC / Richmond",
+          "material_rate": 1.47,
+          "materials_cost": 735.0,
+          "mode": "single_work",
+          "quality_level": "Standard",
+          "sqft": 500.0,
+          "total": 1960.0
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": "",
+        "created_at": "2026-07-13T06:04:45.206410Z",
+        "estimate": {
+          "archetype": "L_H_N",
+          "base_estimate": 12499006.776642032,
+          "breakdown": {
+            "electrical": 1499880.8131970437,
+            "finishes": 2249821.2197955656,
+            "foundation": 1874851.0164963047,
+            "framing": 2499801.3553284067,
+            "mechanical": 1249900.6776642033,
+            "overhead": 1874851.0164963047,
+            "plumbing": 1249900.6776642033
+          },
+          "confidence": 0.9550909789454067,
+          "health": {
+            "latency_ms": 52.68740653991699,
+            "volatility": 1814.1573315313283
+          },
+          "project_type": "Residential",
+          "range": {
+            "high": 12501728.012639329,
+            "low": 12496285.540644735
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 999920.5421313626,
+              "name": "material_spike"
+            },
+            {
+              "impact": 624950.3388321017,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 749940.4065985219,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -874930.4743649423,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": "",
+        "created_at": "2026-07-13T06:37:13.463746Z",
+        "estimate": {
+          "archetype": "M_H_N",
+          "base_estimate": 9530324.857663866,
+          "breakdown": {
+            "electrical": 1143638.982919664,
+            "finishes": 1715458.474379496,
+            "foundation": 1429548.72864958,
+            "framing": 1906064.9715327732,
+            "mechanical": 953032.4857663866,
+            "overhead": 1429548.72864958,
+            "plumbing": 953032.4857663866
+          },
+          "confidence": 0.9620956332663141,
+          "health": {
+            "latency_ms": 46.53644561767578,
+            "volatility": 14.039614312335761
+          },
+          "project_type": "Commercial",
+          "range": {
+            "high": 9530345.917085335,
+            "low": 9530303.798242398
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 762425.9886131093,
+              "name": "material_spike"
+            },
+            {
+              "impact": 476516.2428831933,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 571819.491459832,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -667122.7400364707,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T07:03:55.921818Z",
+        "estimate": {
+          "category": "Interior Paint",
+          "labour_cost": 625.0,
+          "labour_rate": 2.5,
+          "location_market": "BC / Vancouver",
+          "material_rate": 1.5,
+          "materials_cost": 375.0,
+          "mode": "single_work",
+          "quality_level": "Standard",
+          "sqft": 250.0,
+          "total": 1000.0
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": "",
+        "created_at": "2026-07-13T07:43:17.021095Z",
+        "estimate": {
+          "archetype": "S_H_N",
+          "base_estimate": 915030.5499926036,
+          "breakdown": {
+            "electrical": 109803.66599911243,
+            "finishes": 164705.49899866866,
+            "foundation": 137254.58249889052,
+            "framing": 183006.10999852073,
+            "mechanical": 91503.05499926036,
+            "overhead": 137254.58249889052,
+            "plumbing": 91503.05499926036
+          },
+          "confidence": 0.9547899850781971,
+          "health": {
+            "latency_ms": 55.199384689331055,
+            "volatility": 3857.259993196336
+          },
+          "project_type": "Residential",
+          "range": {
+            "high": 920816.4399823981,
+            "low": 909244.6600028091
+          },
+          "recommended_plan": "optimized_plan",
+          "risk": 0.26,
+          "scenarios": [
+            {
+              "impact": 73202.4439994083,
+              "name": "material_spike"
+            },
+            {
+              "impact": 45751.52749963018,
+              "name": "labor_shortage"
+            },
+            {
+              "impact": 54901.832999556216,
+              "name": "delay_risk"
+            },
+            {
+              "impact": -64052.13849948226,
+              "name": "optimized_plan"
+            }
+          ]
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T16:35:06.065853Z",
+        "estimate": {
+          "category": "Interior Paint",
+          "labour_cost": 992.25,
+          "labour_rate": 1.98,
+          "location_market": "BC / Burnaby",
+          "material_rate": 1.19,
+          "materials_cost": 595.35,
+          "mode": "single_work",
+          "quality_level": "Economy",
+          "sqft": 500.0,
+          "total": 1587.6
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T16:36:00.883736Z",
+        "estimate": {
+          "base_estimate": 1279678.4,
+          "base_rate": 199.75,
+          "breakdown": {
+            "Electrical": 63920.0,
+            "Exterior & site": 63920.0,
+            "Finishes": 175780.0,
+            "Framing": 143820.0,
+            "HVAC": 63920.0,
+            "Insulation & drywall": 63920.0,
+            "Plumbing": 71910.0,
+            "Roofing": 55930.0,
+            "Site work & foundation": 95880.0
+          },
+          "confidence": 0.9,
+          "contingency": 79900.0,
+          "grand_total": 1279678.4,
+          "gst": 57128.5,
+          "hard_cost": 799000.0,
+          "location_market": "BC / Langley",
+          "mode": "whole_project",
+          "overhead": 119850.0,
+          "permits": 63920.0,
+          "profit": 79900.0,
+          "project_type": "New Home Build",
+          "pst": 79979.9,
+          "quality_level": "Economy",
+          "range": {
+            "high": 1433239.81,
+            "low": 1177304.13
+          },
+          "risk": 0.2,
+          "sqft": 4000.0,
+          "subtotal": 1142570.0
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T16:36:49.930794Z",
+        "estimate": {
+          "base_estimate": 791290.5,
+          "base_rate": 197.62,
+          "breakdown": {
+            "Electrical": 39525.0,
+            "Exterior & site": 39525.0,
+            "Finishes": 108693.75,
+            "Framing": 88931.25,
+            "HVAC": 39525.0,
+            "Insulation & drywall": 39525.0,
+            "Plumbing": 44465.62,
+            "Roofing": 34584.38,
+            "Site work & foundation": 59287.5
+          },
+          "confidence": 0.9,
+          "contingency": 49406.25,
+          "grand_total": 791290.5,
+          "gst": 35325.47,
+          "hard_cost": 494062.5,
+          "location_market": "BC / Langford",
+          "mode": "whole_project",
+          "overhead": 74109.38,
+          "permits": 39525.0,
+          "profit": 49406.25,
+          "project_type": "New Home Build",
+          "pst": 49455.66,
+          "quality_level": "Economy",
+          "range": {
+            "high": 886245.36,
+            "low": 727987.26
+          },
+          "risk": 0.2,
+          "sqft": 2500.0,
+          "subtotal": 706509.38
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T16:37:24.649923Z",
+        "estimate": {
+          "base_estimate": 213461.25,
+          "base_rate": 166.6,
+          "breakdown": {
+            "Electrical": 10662.4,
+            "Exterior & site": 10662.4,
+            "Finishes": 29321.6,
+            "Framing": 23990.4,
+            "HVAC": 10662.4,
+            "Insulation & drywall": 10662.4,
+            "Plumbing": 11995.2,
+            "Roofing": 9329.6,
+            "Site work & foundation": 15993.6
+          },
+          "confidence": 0.9,
+          "contingency": 13328.0,
+          "grand_total": 213461.25,
+          "gst": 9529.52,
+          "hard_cost": 133280.0,
+          "location_market": "BC / Burnaby",
+          "mode": "whole_project",
+          "overhead": 19992.0,
+          "permits": 10662.4,
+          "profit": 13328.0,
+          "project_type": "Full Renovation",
+          "pst": 13341.33,
+          "quality_level": "Economy",
+          "range": {
+            "high": 239076.6,
+            "low": 196384.35
+          },
+          "risk": 0.2,
+          "sqft": 800.0,
+          "subtotal": 190590.4
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T16:48:46.654551Z",
+        "estimate": {
+          "category": "Interior Paint",
+          "labour_cost": 1225.0,
+          "labour_rate": 2.45,
+          "location_market": "BC / Burnaby",
+          "material_rate": 1.47,
+          "materials_cost": 735.0,
+          "mode": "single_work",
+          "quality_level": "Standard",
+          "sqft": 500.0,
+          "total": 1960.0
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T16:51:18.773470Z",
+        "estimate": {
+          "base_estimate": 1201200.0,
+          "base_rate": 250.0,
+          "breakdown": {
+            "Electrical": 60000.0,
+            "Exterior & site": 60000.0,
+            "Finishes": 165000.0,
+            "Framing": 135000.0,
+            "HVAC": 60000.0,
+            "Insulation & drywall": 60000.0,
+            "Plumbing": 67500.0,
+            "Roofing": 52500.0,
+            "Site work & foundation": 90000.0
+          },
+          "confidence": 0.9,
+          "contingency": 75000.0,
+          "grand_total": 1201200.0,
+          "gst": 53625.0,
+          "hard_cost": 750000.0,
+          "location_market": "BC / Vancouver",
+          "mode": "whole_project",
+          "overhead": 112500.0,
+          "permits": 60000.0,
+          "profit": 75000.0,
+          "project_type": "New Home Build",
+          "pst": 75075.0,
+          "quality_level": "Standard",
+          "range": {
+            "high": 1345344.0,
+            "low": 1105104.0
+          },
+          "risk": 0.2,
+          "sqft": 3000.0,
+          "subtotal": 1072500.0
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-13T16:53:24.622462Z",
+        "estimate": {
+          "base_estimate": 867867.0,
+          "base_rate": 180.62,
+          "breakdown": {
+            "Electrical": 43350.0,
+            "Exterior & site": 43350.0,
+            "Finishes": 119212.5,
+            "Framing": 97537.5,
+            "HVAC": 43350.0,
+            "Insulation & drywall": 43350.0,
+            "Plumbing": 48768.75,
+            "Roofing": 37931.25,
+            "Site work & foundation": 65025.0
+          },
+          "confidence": 0.9,
+          "contingency": 54187.5,
+          "grand_total": 867867.0,
+          "gst": 38744.06,
+          "hard_cost": 541875.0,
+          "location_market": "BC / Prince George",
+          "mode": "whole_project",
+          "overhead": 81281.25,
+          "permits": 43350.0,
+          "profit": 54187.5,
+          "project_type": "New Home Build",
+          "pst": 54241.69,
+          "quality_level": "Economy",
+          "range": {
+            "high": 972011.04,
+            "low": 798437.64
+          },
+          "risk": 0.2,
+          "sqft": 3000.0,
+          "subtotal": 774881.25
+        },
+        "source": "approved"
+      },
+      {
+        "assembly": null,
+        "created_at": "2026-07-14T16:42:43.126145Z",
+        "estimate": {
+          "category": "Interior Paint",
+          "labour_cost": 1960.0,
+          "labour_rate": 2.45,
+          "location_market": "BC / Burnaby",
+          "material_rate": 1.47,
+          "materials_cost": 1176.0,
+          "mode": "single_work",
+          "quality_level": "Standard",
+          "sqft": 800.0,
+          "total": 3136.0
+        },
+        "source": "approved"
+      }
+    ],
+    "selected_plan": "Professional",
+    "selected_price": "$99.99 CAD/month",
+    "selected_tool": "Astraa Estimator",
+    "subscription_status": "active",
+    "trial_start_date": null,
+    "updated_at": "2026-07-15T05:53:30.234057Z"
+  }
+}

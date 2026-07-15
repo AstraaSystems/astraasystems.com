@@ -1,0 +1,6 @@
+ASTRAA INVOICE
+Client: Interior Paint
+Description: Interior Paint
+Amount: $3136.0
+Status: Pending
+Source: Estimator quote

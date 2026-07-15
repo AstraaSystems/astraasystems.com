@@ -37,18 +37,6 @@
       #content-area button { background:#1d4ed8; }
       #content-area a { color:#1d4ed8; font-weight:700; }
     </style>
-
-<style id="astraa-polish-v1">
-  body { background:#f1f5f9 !important; }
-  #astraa-topbar { box-shadow:0 1px 3px rgba(15,23,42,0.06); }
-  #astraa-workspace { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
-  /* When a full workspace tool (Business) is active, collapse the welcome heading */
-  body.astraa-workspace-active #welcome-title,
-  body.astraa-workspace-active #welcome-subtitle { display:none !important; }
-  body.astraa-workspace-active #astraa-workspace { max-width:100%; padding:0; }
-  /* Business workspace should fill nicely */
-  .bw-shell { min-height: calc(100vh - 62px) !important; border:none !important; border-radius:0 !important; box-shadow:none !important; }
-</style>
 </head>
 <body>
     <div id="astraa-topbar">
@@ -64,20 +52,18 @@
         <div id="content-area"></div>
     </div>
     <script>window.ASTRAA_API_BASE = "https://family-speed-outcome.ngrok-free.dev";</script>
-    <script src="astraa_blueprint.js?v=1784109957"></script>
-    <script src="dashboard_overview.js?v=1784109957"></script>
-    <script src="module_commerce.js?v=1784109957"></script>
-    <script src="auth.js?v=1784109957"></script>
+    <script src="astraa_blueprint.js?v=1783969261"></script>
+    <script src="dashboard_overview.js?v=1783969261"></script>
+    <script src="module_commerce.js?v=1783969261"></script>
+    <script src="auth.js?v=1783969261"></script>
 
-    <script src="module_estimator.js?v=1784109957"></script>
-    <script src="module_quote.js?v=1784109957"></script>
-    <script src="module_project_doc.js?v=1784109957"></script>
-    <script src="module_expense.js?v=1784109957"></script>
-    <script src="module_business.js?v=1784109957"></script>
-    <script src="module_crm.js?v=1784109957"></script>
-    <script src="module_finance.js?v=1784109957"></script>
-    <script src="module_vault.js?v=1784109957"></script>
-    <script src="astraa_core.js?v=1784109957"></script>
-    <script src="nexus_controller.js?v=1784109957"></script>
+    <script src="module_estimator.js?v=1783969261"></script>
+    <script src="module_quote.js?v=1783969261"></script>
+    <script src="module_project_doc.js?v=1783969261"></script>
+    <script src="module_expense.js?v=1783969261"></script>
+    <script src="module_business.js?v=1783969261"></script>
+    <script src="module_crm.js?v=1783969261"></script>
+    <script src="astraa_core.js?v=1783969261"></script>
+    <script src="nexus_controller.js?v=1783969261"></script>
 </body>
 </html>

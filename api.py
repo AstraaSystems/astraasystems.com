@@ -591,8 +591,14 @@ def astraa_allow_public_checkout_preload(req):
         ).strip().lower()
 
         allowed_tool = (
-            selected_tool in ["astraa estimator", "estimator", ""]
+            selected_tool in ["astraa estimator", "estimator", "astraa business", "business",
+                              "astraa finance", "finance", "astraa essentials", "essentials",
+                              "astraa professional suite", "professional_suite", ""]
             or "estimator" in selected_tool
+            or "business" in selected_tool
+            or "finance" in selected_tool
+            or "essentials" in selected_tool
+            or "suite" in selected_tool
         )
 
         allowed_plan = selected_plan in [
@@ -6101,16 +6107,24 @@ def astraa_passkey_days_for_plan(plan):
 # Expense bonus entitlement rule (configurable per client later)
 def astraa_entitlements_for(plan, main_tool):
     plan_l = (plan or "").strip().lower()
-    tools = [main_tool] if main_tool else []
-    if plan_l == "basic":
-        tools.append("Expense (limited)")
-    elif plan_l in ("professional", "pro"):
-        tools.append("Expense (full)")
-    elif plan_l == "custom":
-        tools.append("Expense (per-contract)")
-    else:
-        tools.append("Expense (limited)")
-    return tools
+    t = (main_tool or "").strip().lower()
+    exp = "Expense (full)" if plan_l in ("professional","pro","custom") else "Expense (limited)"
+
+    # Bundles unlock multiple tools
+    if "professional suite" in t or t == "professional_suite":
+        return ["Astraa Estimator", "Astraa Business", "Astraa Finance", exp]
+    if "essentials" in t or t == "essentials":
+        return ["Astraa Business", "Astraa Finance", exp]
+
+    # Single tools
+    if "business" in t:
+        return ["Astraa Business", exp]
+    if "finance" in t:
+        return ["Astraa Finance", exp]
+    if "estimator" in t or not t:
+        return ["Astraa Estimator", exp]
+
+    return [main_tool, exp] if main_tool else ["Astraa Estimator", exp]
 
 def _astraa_pk_now():
     return _astraa_dt.now(_astraa_tz.utc)

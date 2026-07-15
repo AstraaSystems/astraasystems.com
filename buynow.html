@@ -295,11 +295,13 @@
         <p>Deploy precision automation, analytics tools, and workspace management directly into your business operations.</p>
 
         <div class="feature-box">
-          <h4>Included with Deployment:</h4>
-          <ul class="feature-list">
-            <li>Production workspace environment access</li>
-            <li>Astraa Estimator toolkit integration</li>
-            <li>Secure payment activation and account setup</li>
+          <h4>Your Selection:</h4>
+          <div id="astraaProductBox" style="font-size:1.1rem;font-weight:800;color:#1d4ed8;margin:6px 0;">Loading…</div>
+          <div id="astraaProductPrice" style="font-size:1.4rem;font-weight:900;color:#03050a;"></div>
+          <ul class="feature-list" style="margin-top:12px;">
+            <li>Full workspace access to your purchased tools</li>
+            <li>Astraa Expense included free</li>
+            <li>Secure payment + instant account setup</li>
           </ul>
         </div>
       </section>
@@ -457,6 +459,20 @@
       event.preventDefault();
 
       const button = document.getElementById("checkoutButton");
+      // Product catalog (from pricing page ?product=)
+      var ASTRAA_PRODUCTS = {
+        "estimator_basic":     {label:"Astraa Estimator — Basic",        plan:"basic",        tool:"Astraa Estimator",  price:"$39.99 CAD/mo"},
+        "estimator_pro":       {label:"Astraa Estimator — Professional", plan:"professional", tool:"Astraa Estimator",  price:"$99.99 CAD/mo"},
+        "business_basic":      {label:"Astraa Business — Basic",         plan:"basic",        tool:"Astraa Business",   price:"$34.99 CAD/mo"},
+        "business_pro":        {label:"Astraa Business — Professional",  plan:"professional", tool:"Astraa Business",   price:"$79.99 CAD/mo"},
+        "finance_basic":       {label:"Astraa Finance — Basic",          plan:"basic",        tool:"Astraa Finance",    price:"$29.99 CAD/mo"},
+        "finance_pro":         {label:"Astraa Finance — Professional",   plan:"professional", tool:"Astraa Finance",    price:"$69.99 CAD/mo"},
+        "essentials":          {label:"Astraa Essentials (Business + Finance)",              plan:"professional", tool:"Astraa Essentials",          price:"$124.99 CAD/mo"},
+        "professional_suite":  {label:"Astraa Professional Suite (Estimator + Business + Finance)", plan:"professional", tool:"Astraa Professional Suite", price:"$199.99 CAD/mo"}
+      };
+      var _urlProduct = new URLSearchParams(window.location.search).get("product") || "professional_suite";
+      var _prod = ASTRAA_PRODUCTS[_urlProduct] || ASTRAA_PRODUCTS["professional_suite"];
+
       const name = document.getElementById("customerName").value.trim();
       const email = document.getElementById("customerEmail").value.trim();
       const plan = document.getElementById("selectedPlan").value.trim();
@@ -483,9 +499,10 @@
             name: name,
             email: email,
             checkout_email: email,
-            plan: plan,
-            selected_plan: plan,
-            selected_tool: "Astraa Estimator"
+            plan: _prod.plan,
+            selected_plan: _prod.plan,
+            selected_tool: _prod.tool,
+            selected_product: _urlProduct
           })
         });
 
@@ -531,5 +548,25 @@
 
     document.getElementById("astraaCheckoutForm").addEventListener("submit", startAstraaCheckout);
   </script>
+
+<script>
+  function _fillProductBox(){
+    var prods = {
+      "estimator_basic":{l:"Astraa Estimator — Basic",p:"$39.99 CAD/mo"},
+      "estimator_pro":{l:"Astraa Estimator — Professional",p:"$99.99 CAD/mo"},
+      "business_basic":{l:"Astraa Business — Basic",p:"$34.99 CAD/mo"},
+      "business_pro":{l:"Astraa Business — Professional",p:"$79.99 CAD/mo"},
+      "finance_basic":{l:"Astraa Finance — Basic",p:"$29.99 CAD/mo"},
+      "finance_pro":{l:"Astraa Finance — Professional",p:"$69.99 CAD/mo"},
+      "essentials":{l:"Astraa Essentials (Business + Finance)",p:"$124.99 CAD/mo"},
+      "professional_suite":{l:"Astraa Professional Suite",p:"$199.99 CAD/mo"}
+    };
+    var key=new URLSearchParams(location.search).get("product")||"professional_suite";
+    var pr=prods[key]||prods["professional_suite"];
+    var b=document.getElementById("astraaProductBox"); if(b)b.innerText=pr.l;
+    var pp=document.getElementById("astraaProductPrice"); if(pp)pp.innerText=pr.p;
+  }
+  document.addEventListener("DOMContentLoaded",_fillProductBox);
+</script>
 </body>
 </html>

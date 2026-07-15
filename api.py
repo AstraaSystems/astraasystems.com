@@ -6237,6 +6237,19 @@ def astraa_provision_passkey():
     if rec.get("payment_status") != "active":
         return jsonify({"status": "blocked", "reason": "Account not active. Payment must be verified first."}), 403
 
+    reset = str(payload.get("reset") or "").lower() in ("1", "true", "yes")
+
+    # Idempotent: if a valid passkey already exists and this isn't an explicit reset,
+    # do NOT regenerate (prevents locking the user out of their existing passkey).
+    if astraa_has_valid_passkey(email) and not reset:
+        return jsonify({
+            "status": "already_active",
+            "account_email": email,
+            "reason": "An active passkey already exists for this account. Use it to log in, or request a reset if forgotten.",
+            "selected_plan": rec.get("selected_plan"),
+            "login_url": "/astraaspace/login.html"
+        }), 200
+
     days = payload.get("passkey_days")
     passkey, err = astraa_set_account_passkey(email, days=days)
     if err:
@@ -6249,7 +6262,8 @@ def astraa_provision_passkey():
         "expires_days": int(days) if days else astraa_passkey_days_for_plan(rec.get("selected_plan")),
         "selected_plan": rec.get("selected_plan"),
         "entitlements": astraa_entitlements_for(rec.get("selected_plan"), rec.get("selected_tool")),
-        "login_url": "/astraaspace/login.html"
+        "login_url": "/astraaspace/login.html",
+        "was_reset": reset
     }), 200
 # END ASTRAA_PATH1_PASSKEY_AUTH_V1
 

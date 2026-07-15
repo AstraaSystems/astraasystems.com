@@ -1,6 +1,6 @@
 // Astraa Quote/Invoice generator — Single Work
 var QuoteModule = {
-  GST: 0.05, PST: 0.07,
+  GST: 0, PST: 0,  // default OFF — set via toggle
   apiBase: function(){ return (typeof ASTRAA_API_BASE!=='undefined')?ASTRAA_API_BASE:"https://family-speed-outcome.ngrok-free.dev"; },
   session: function(){ try{return JSON.parse(localStorage.getItem('astraa_session')||'{}');}catch(e){return {};} },
   _profile: null, _estimate: null,
@@ -85,16 +85,21 @@ var QuoteModule = {
       + "<tr><td style='padding:6px 0;color:#475569;'>Materials ($"+e.material_rate+"/sqft)</td><td style='text-align:right;font-weight:700;'>"+money(e.materials_cost)+"</td></tr>"
       + "<tr><td style='padding:6px 0;color:#475569;'>Labour ($"+e.labour_rate+"/sqft)</td><td style='text-align:right;font-weight:700;'>"+money(e.labour_cost)+"</td></tr>"
       + "<tr><td style='padding:6px 0;'>Subtotal</td><td style='text-align:right;font-weight:700;'>"+money(sub)+"</td></tr>"
-      + "<tr><td style='padding:6px 0;color:#475569;'>GST (5%)</td><td style='text-align:right;'>"+money(gst)+"</td></tr>"
-      + "<tr><td style='padding:6px 0;color:#475569;'>PST (7%)</td><td style='text-align:right;'>"+money(pst)+"</td></tr>"
+      + (gst>0 ? "<tr><td style='padding:6px 0;color:#475569;'>GST</td><td style='text-align:right;'>"+money(gst)+"</td></tr>" : "")
+      + (pst>0 ? "<tr><td style='padding:6px 0;color:#475569;'>PST</td><td style='text-align:right;'>"+money(pst)+"</td></tr>" : "")
       + "<tr style='border-top:2px solid #0f172a;'><td style='padding:8px 0;font-weight:900;'>TOTAL</td><td style='text-align:right;font-weight:900;font-size:18px;'>"+money(grand)+"</td></tr>"
       + "</table>"
       + "<p style='font-size:12px;color:#94a3b8;margin-top:16px;'>This quote is an estimate valid for 30 days. Final costs may vary with site conditions and supplier pricing.</p>"
       + "<div contenteditable='true' style='margin-top:10px;font-size:13px;color:#475569;border:1px dashed #e2e8f0;border-radius:8px;padding:10px;'>Notes / terms (click to edit)…</div>"
       + "</div>"
-      + "<button onclick='QuoteModule.print()' style='margin-top:14px;padding:12px 20px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-weight:800;cursor:pointer;'>Print / Save PDF</button>";
+      + "<div style='margin-top:14px;padding:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;'>"+ "<label style='cursor:pointer;'><input type='checkbox' "+(this.GST>0?'checked':'')+" onchange='QuoteModule.toggleTax(this.checked)'> Charge GST (5%) + PST (7%) — only if you are tax-registered</label></div>"+ "<button onclick='QuoteModule.print()' style='margin-top:14px;padding:12px 20px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-weight:800;cursor:pointer;'>Print / Save PDF</button>";
   },
 
+  toggleTax: function(on){
+    this.GST = on ? 0.05 : 0;
+    this.PST = on ? 0.07 : 0;
+    this.renderQuote();
+  },
   print: function(){
     var doc = document.getElementById('quote_doc').outerHTML;
     var w = window.open('', '_blank');

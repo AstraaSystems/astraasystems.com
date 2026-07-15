@@ -6125,6 +6125,24 @@ def astraa_generate_passkey():
 def astraa_hash_passkey(passkey, salt):
     return _astraa_hashlib.sha256((salt + ":" + passkey).encode("utf-8")).hexdigest()
 
+
+def astraa_has_valid_passkey(email):
+    """True if the account has an active, non-expired passkey."""
+    try:
+        rec = astraa_storage_load_usage_db().get(astraa_account_key(email)) or {}
+        if rec.get("passkey_status") != "active" or not rec.get("passkey_hash"):
+            return False
+        exp = rec.get("passkey_expires")
+        if exp:
+            e = _astraa_dt.fromisoformat(exp)
+            if e.tzinfo is None:
+                e = e.replace(tzinfo=_astraa_tz.utc)
+            if _astraa_pk_now() > e:
+                return False
+        return True
+    except Exception:
+        return False
+
 def astraa_set_account_passkey(email, days=None):
     """Generate a passkey for an account, store salted hash + expiry. Returns plaintext ONCE."""
     email = astraa_normalize_email(email)

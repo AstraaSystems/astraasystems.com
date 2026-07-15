@@ -62,12 +62,13 @@ var ExpenseModule = {
           +"</div>"
           +(catRows?"<div class='ex-catbox'>"+catRows+"</div>":"");
         var items=d.expenses||[];
+        self._items = items;
         if(!items.length){document.getElementById('ex_list').innerHTML="<p style='color:#94a3b8;'>No expenses yet. Add your first above.</p>";return;}
         document.getElementById('ex_list').innerHTML=items.map(function(x){
           return "<div class='ex-item'>"
             +"<div><div class='ex-item-top'>"+money(x.amount)+" · "+x.category+"</div>"
             +"<div class='ex-item-sub'>"+x.date+(x.vendor?" · "+x.vendor:"")+(x.project?" · "+x.project:"")+(x.notes?" · "+x.notes:"")+"</div></div>"
-            +"<button class='ex-del' onclick=\"ExpenseModule.del('"+x.id+"')\">✕</button></div>";
+            +"<button class='ex-fin' onclick=\"ExpenseModule.sendToFinance('"+x.id+"')\" style='padding:5px 10px;border:1px solid #1d4ed8;background:#fff;color:#1d4ed8;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;margin-right:6px;'>→ Finance</button>"+"<button class='ex-del' onclick=\"ExpenseModule.del('"+x.id+"')\">✕</button></div>";
         }).join("");
       }).catch(function(e){document.getElementById('ex_list').innerHTML="<p style='color:#dc2626;'>Connection error.</p>";});
   },
@@ -101,6 +102,17 @@ var ExpenseModule = {
     w.document.close();w.focus();w.print();
   },
 
+  sendToFinance:function(id){
+    var self=this;
+    var x=(this._items||[]).filter(function(e){return e.id===id;})[0];
+    if(!x){ /* fallback: refetch */ }
+    var base=this.apiBase();
+    fetch(base+"/api/finance/add-entry",{method:'POST',headers:this.hdr(),body:JSON.stringify({kind:'expense',date:(x&&x.date)||'',category:(x&&x.category)||'Expense',amount:(x&&x.amount)||0,note:'From Expense tool'+((x&&x.vendor)?' - '+x.vendor:'')})})
+      .then(function(r){return r.json();}).then(function(d){
+        if(d.success){alert('Sent to Finance as an expense entry. Open Astraa Finance to view.');}
+        else{alert(d.error||'Failed.');}
+      }).catch(function(){alert('Connection error.');});
+  },
   styles:function(){
     return "<style>"
     +".ex-wrap{max-width:1000px;}"

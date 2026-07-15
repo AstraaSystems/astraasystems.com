@@ -321,14 +321,6 @@
             <input type="email" id="customerEmail" name="email" placeholder="you@example.com" required>
           </div>
 
-          <div class="form-group">
-            <label>Plan</label>
-            <select id="selectedPlan" name="plan">
-              <option value="professional" selected>Professional</option>
-              <option value="basic">Basic</option>
-              <option value="trial">Trial</option>
-            </select>
-          </div>
 
           <button type="submit" class="submit-btn" id="checkoutButton">
             Continue to Secure Payment
@@ -476,7 +468,7 @@
 
       const name = document.getElementById("customerName").value.trim();
       const email = document.getElementById("customerEmail").value.trim();
-      const plan = document.getElementById("selectedPlan").value.trim();
+      const plan = (document.getElementById("selectedPlan") ? document.getElementById("selectedPlan").value.trim() : (_prod.plan || "professional"));
 
       if (!name || !email) {
         setCheckoutStatus("Please enter your name and email before continuing.", true);

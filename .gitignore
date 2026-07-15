@@ -48,3 +48,6 @@ local_backups/
 *.crlf_backup_*
 .env.before_*
 .env.crlf_backup_*
+astraa_data.backup_*/
+*.pre_*
+*.before_*

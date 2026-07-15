@@ -33,7 +33,7 @@ var EstimatorModule = {
     var rateFields = this._mode==="single_work" ? (
         '<div class="ae-field"><label>Cost of material ($/sqft)</label><input id="est_material" type="number" step="0.01"><span id="mat_hint" class="ae-hint"></span></div>'
       + '<div class="ae-field"><label>Cost of labour ($/sqft)</label><input id="est_labour" type="number" step="0.01"><span id="lab_hint" class="ae-hint"></span></div>'
-      + '<button type="button" class="ae-reset" onclick="EstimatorModule.resetRates()">Reset to BC standard</button>'
+      + '<button type="button" onclick="EstimatorModule.resetRates()" style="padding:6px 12px;border:1px solid #1d4ed8;background:#fff;color:#1d4ed8;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;margin-bottom:6px;">Reset to BC standard</button>'
     ) : '<p class="ae-note">Whole Project uses Astraa\'s BC building model — all trades, overhead, profit and contingency are calculated automatically.</p>';
     return ''
       + '<div class="ae-field"><label>'+(this._mode==="whole_project"?"Project type":"Category")+'</label><select id="est_category" onchange="EstimatorModule.fillBaseline(true)">'+cats+'</select></div>'

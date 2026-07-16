@@ -59,7 +59,7 @@
   .astraa-action-pack { display: none !important; }
   .astraa-site-nav, .nav-inner { justify-content: space-between !important; align-items: center !important; padding: 12px 16px !important; flex-wrap: nowrap !important; }
   /* dropdown panel */
-  .astraa-mobile-panel { display: none; position: fixed; top: 60px; left: 0; right: 0; background: #fff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 9998; padding: 12px 0; }
+  .astraa-mobile-panel { display: none; position: fixed; top: 58px; left: 0; right: 0; background: #fff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 99999; padding: 8px 0; max-height: calc(100vh - 58px); overflow-y: auto; }
   .astraa-mobile-panel.open { display: block !important; }
   .astraa-mobile-panel a { display: block; padding: 14px 24px; color: #0f172a; text-decoration: none; font-weight: 600; font-size: 16px; border-bottom: 1px solid #f1f5f9; }
   .astraa-mobile-panel a:hover { background: #f8fafc; color: #1d4ed8; }
@@ -78,13 +78,24 @@
 <script id="astraa-burger-js">
 document.addEventListener('DOMContentLoaded', function(){
   var nav = document.querySelector('.astraa-site-nav') || document.querySelector('.nav-inner');
-  if(nav && !document.querySelector('.astraa-burger')){
+  var panel = document.getElementById('astraaMobilePanel');
+  if(nav && panel && !document.querySelector('.astraa-burger')){
     var b = document.createElement('button');
     b.className = 'astraa-burger';
     b.innerHTML = '&#9776;';
     b.setAttribute('aria-label','Menu');
-    b.onclick = function(){ var p=document.getElementById('astraaMobilePanel'); if(p) p.classList.toggle('open'); };
+    b.onclick = function(e){ e.stopPropagation(); panel.classList.toggle('open'); };
     nav.appendChild(b);
+    // Close when a menu link is tapped
+    panel.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){ panel.classList.remove('open'); });
+    });
+    // Close when tapping outside the panel
+    document.addEventListener('click', function(ev){
+      if(panel.classList.contains('open') && !panel.contains(ev.target) && ev.target !== b){
+        panel.classList.remove('open');
+      }
+    });
   }
 });
 </script>

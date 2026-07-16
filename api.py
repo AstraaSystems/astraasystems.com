@@ -1221,8 +1221,12 @@ def astraa_validate_preload_payload(payload):
     selected_tool_l = selected_tool.lower()
 
     allowed_tools = {
-        "astraa estimator",
-        "estimator",
+        "astraa estimator", "estimator",
+        "astraa business", "business",
+        "astraa finance", "finance",
+        "astraa expense", "expense",
+        "astraa essentials", "essentials",
+        "astraa professional suite", "professional suite", "professional_suite",
         ""
     }
 

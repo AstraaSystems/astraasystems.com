@@ -527,6 +527,11 @@
         }
 
         sessionStorage.setItem("astraa_moneris_ticket", ticket);
+        sessionStorage.setItem("astraa_checkout_email", email);
+        sessionStorage.setItem("astraa_account_email", email);
+        sessionStorage.setItem("astraa_selected_tool", _prod.tool);
+        sessionStorage.setItem("astraa_selected_plan", _prod.plan);
+        sessionStorage.setItem("astraa_selected_product", _urlProduct);
 
         document.getElementById("monerisCheckoutShell").style.display = "block";
         setCheckoutStatus("Ticket received. Opening secure Moneris checkout...");

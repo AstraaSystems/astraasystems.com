@@ -5979,12 +5979,10 @@ def astraa_verify_moneris_receipt_route():
     purchase_type = payload.get("purchase_type") or ""
     ticket = payload.get("moneris_ticket") or payload.get("ticket") or ""
 
-    if selected_tool != "Astraa Estimator":
-        return jsonify({
-            "status": "rejected",
-            "gateway": "Astraa Gateway",
-            "errors": ["Only Astraa Estimator payment verification is supported in this route version."]
-        }), 400
+    _allowed_verify_tools = ["Astraa Estimator","Astraa Business","Astraa Finance","Astraa Expense",
+                             "Astraa Essentials","Astraa Professional Suite"]
+    if selected_tool not in _allowed_verify_tools:
+        selected_tool = "Astraa Estimator"  # safe default; don't block the payment
 
     account_email_normalized = str(account_email or "").strip().lower()
     idempotency_key = astraa_payment_idempotency_key(

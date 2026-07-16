@@ -7975,3 +7975,71 @@ def astraa_invoice_from_quote():
 
     return astraa_json_response({"success": True, "invoice": inv})
 # END ASTRAA_QUOTE_TO_FINANCE_V1
+
+
+# =====================================================================
+# ASTRAA_TRIAL_SIGNUP_V1 — creates a 15-day full-Professional trial account
+# =====================================================================
+@app.route("/api/trial/start", methods=["POST"])
+def astraa_trial_start():
+    payload = astraa_get_request_json() or {}
+    email = astraa_normalize_email(payload.get("email"))
+    if not email or "@" not in email:
+        return astraa_json_response({"success": False, "error": "Please enter a valid email."}, 400)
+
+    db = astraa_storage_load_usage_db()
+    key = astraa_account_key(email)
+    existing = db.get(key)
+
+    # If they already have an active PAID account, don't downgrade to trial
+    if existing and existing.get("payment_status") == "active":
+        return astraa_json_response({
+            "success": False,
+            "error": "This email already has an active account. Please log in at Astraa Space."
+        }, 400)
+
+    # If they already used a trial, block a second one
+    if existing and existing.get("trial_start_date"):
+        if astraa_trial_expired(existing):
+            return astraa_json_response({
+                "success": False,
+                "error": "Your 15-day trial has ended. Subscribe to keep using Astraa."
+            }, 403)
+        # trial still active — just re-issue their passkey
+        pk, err = astraa_set_account_passkey(email, days=15)
+        return astraa_json_response({
+            "success": True, "resumed": True, "passkey": pk,
+            "message": "Your trial is still active.", "login_url": "/astraaspace/login.html"
+        })
+
+    # Create a fresh trial account — FULL Professional package (all 3 tools)
+    rec = existing or {}
+    rec.update({
+        "account_email": email,
+        "payment_status": "trial",
+        "subscription_status": "trial",
+        "selected_plan": "Professional",
+        "selected_tool": "Astraa Professional Suite",
+        "trial_start_date": astraa_today_key(),
+        "estimate_limit": 120,           # Pro-level during trial
+        "created_at": (existing or {}).get("created_at") or astraa_now_iso(),
+        "updated_at": astraa_now_iso()
+    })
+    db[key] = rec
+    astraa_storage_save_usage_db(db)
+
+    # Issue a 15-day passkey
+    passkey, err = astraa_set_account_passkey(email, days=15)
+    if err:
+        return astraa_json_response({"success": False, "error": err}, 500)
+
+    return astraa_json_response({
+        "success": True,
+        "email": email,
+        "passkey": passkey,
+        "plan": "Professional (15-day trial)",
+        "entitlements": ["Astraa Estimator", "Astraa Business", "Astraa Finance", "Expense (full)"],
+        "trial_days": 15,
+        "login_url": "/astraaspace/login.html"
+    })
+# END ASTRAA_TRIAL_SIGNUP_V1

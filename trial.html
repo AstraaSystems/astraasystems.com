@@ -155,12 +155,63 @@
 
     <!-- Header -->
     <section class="trial-header">
-        <h1>Start Your 15‑Day Astraa Trial</h1>
-        <p>
-            Experience the full power of Astraa — all tools, all automation features, and full operational intelligence 
-            for 15 days. No credit card required.
-        </p>
-    </section>
+  <h1>Start Your 15-Day Free Trial</h1>
+  <p>Get the full Astraa Professional package free for 15 days — Estimator, Business, and Finance, plus Expense included. No credit card required.</p>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="text-center">What You Get</h2>
+    <div class="trial-benefits mt-40">
+      <div class="benefit-card"><h3>Astraa Estimator</h3><p>Create construction estimates, quotes, and project documents with editable BC rates.</p></div>
+      <div class="benefit-card"><h3>Astraa Business</h3><p>Manage projects, leads (CRM), marketing, and your team in one workspace.</p></div>
+      <div class="benefit-card"><h3>Astraa Finance</h3><p>Track invoices, income, expenses, and profit — with a payroll template and export.</p></div>
+      <div class="benefit-card"><h3>Expense Included</h3><p>Log and categorize expenses, and send them straight into Finance.</p></div>
+      <div class="benefit-card"><h3>Full 15 Days</h3><p>Everything unlocked at the Professional level for 15 days. No card required.</p></div>
+      <div class="benefit-card"><h3>Keep Your Data</h3><p>Subscribe anytime and your work carries over — no starting from scratch.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="trial-cta">
+      <h2>Start Your Free Trial</h2>
+      <p>Enter your email and we'll set up your 15-day Professional trial instantly.</p>
+      <div style="max-width:420px;margin:20px auto 0;">
+        <input type="email" id="trialEmail" placeholder="you@example.com" style="width:100%;padding:13px 15px;border:1px solid rgba(255,255,255,0.2);border-radius:10px;background:rgba(255,255,255,0.06);color:#fff;font-size:1rem;margin-bottom:12px;">
+        <button onclick="startTrial()" id="trialBtn" style="width:100%;padding:14px;border:none;border-radius:10px;background:#1d4ed8;color:#fff;font-weight:800;font-size:1rem;cursor:pointer;">Start 15-Day Trial</button>
+        <div id="trialResult" style="margin-top:16px;font-size:0.95rem;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+var ASTRAA_API = (typeof ASTRAA_API_BASE !== 'undefined') ? ASTRAA_API_BASE : "https://family-speed-outcome.ngrok-free.dev";
+function startTrial(){
+  var email = (document.getElementById('trialEmail').value || '').trim();
+  var out = document.getElementById('trialResult');
+  var btn = document.getElementById('trialBtn');
+  if(!email || email.indexOf('@') === -1){ out.innerHTML = "<span style='color:#fca5a5;'>Please enter a valid email.</span>"; return; }
+  btn.disabled = true; out.innerHTML = "<span style='color:#93c5fd;'>Setting up your trial...</span>";
+  fetch(ASTRAA_API + "/api/trial/start", {
+    method: "POST",
+    headers: {"Content-Type":"application/json","ngrok-skip-browser-warning":"true"},
+    body: JSON.stringify({email: email})
+  }).then(function(r){return r.json();}).then(function(d){
+    btn.disabled = false;
+    if(!d.success){ out.innerHTML = "<span style='color:#fca5a5;'>"+(d.error||'Something went wrong.')+"</span>"; return; }
+    out.innerHTML = "<div style='background:rgba(22,163,74,0.15);border:1px solid #16a34a;border-radius:10px;padding:16px;text-align:left;'>"
+      + "<div style='font-weight:800;color:#4ade80;margin-bottom:8px;'>Trial ready!</div>"
+      + "<div style='color:#e2e8f0;'>Your passkey (save it):</div>"
+      + "<div style='font-size:1.2rem;font-weight:900;color:#fff;margin:6px 0;letter-spacing:1px;'>"+d.passkey+"</div>"
+      + "<div style='color:#cbd5e1;font-size:0.9rem;'>15-day Professional trial: Estimator + Business + Finance + Expense.</div>"
+      + "<a href='astraaspace/login.html' style='display:inline-block;margin-top:12px;padding:10px 18px;background:#1d4ed8;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;'>Go to Astraa Space to log in</a>"
+      + "</div>";
+  }).catch(function(){ btn.disabled=false; out.innerHTML = "<span style='color:#fca5a5;'>Connection error. Please try again.</span>"; });
+}
+</script>
 
     <!-- Benefits -->
     <section class="section">

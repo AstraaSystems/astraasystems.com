@@ -149,19 +149,44 @@
     @media(max-width: 900px) { .astraa-site-links { display: none !important; } }
   </style>
 
-<style id="astraa-mobile-fix">
+
+<style id="astraa-hamburger">
+.astraa-burger { display: none; background: none; border: none; cursor: pointer; padding: 8px; font-size: 26px; line-height: 1; color: #03050a; }
 @media (max-width: 820px) {
-  .astraa-site-nav { flex-wrap: wrap !important; padding: 12px 16px !important; gap: 10px !important; }
-  .astraa-site-links { display: none !important; }
-  .astraa-action-pack { gap: 10px !important; }
-  .astraa-site-cta { padding: 8px 14px !important; font-size: 13px !important; }
-  .hdlinks { display: none !important; }
-  .hdnav { flex-wrap: wrap !important; padding: 12px 16px !important; }
-  .grid, .bundles { grid-template-columns: 1fr !important; }
-  .wrap, .support-container { padding-left: 16px !important; padding-right: 16px !important; }
-  body { overflow-x: hidden !important; }
+  .astraa-burger { display: block !important; }
+  .astraa-site-links, .nav-links { display: none !important; }
+  .astraa-action-pack { display: none !important; }
+  .astraa-site-nav, .nav-inner { justify-content: space-between !important; align-items: center !important; padding: 12px 16px !important; flex-wrap: nowrap !important; }
+  /* dropdown panel */
+  .astraa-mobile-panel { display: none; position: fixed; top: 60px; left: 0; right: 0; background: #fff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 9998; padding: 12px 0; }
+  .astraa-mobile-panel.open { display: block !important; }
+  .astraa-mobile-panel a { display: block; padding: 14px 24px; color: #0f172a; text-decoration: none; font-weight: 600; font-size: 16px; border-bottom: 1px solid #f1f5f9; }
+  .astraa-mobile-panel a:hover { background: #f8fafc; color: #1d4ed8; }
+  .astraa-mobile-panel a.cta { background: #1d4ed8; color: #fff; margin: 10px 24px 0; border-radius: 9px; text-align: center; border: none; }
 }
 </style>
+<div class="astraa-mobile-panel" id="astraaMobilePanel">
+  <a href="index.html">Home</a>
+  <a href="tools.html">Tools</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="faq.html">FAQ / Support</a>
+  <a href="contact.html">Custom Packages</a>
+  astraaspace/login.html
+  <a href="pricing.html" class="cta">Buy Now</a>
+</div>
+<script id="astraa-burger-js">
+document.addEventListener('DOMContentLoaded', function(){
+  var nav = document.querySelector('.astraa-site-nav') || document.querySelector('.nav-inner');
+  if(nav && !document.querySelector('.astraa-burger')){
+    var b = document.createElement('button');
+    b.className = 'astraa-burger';
+    b.innerHTML = '&#9776;';
+    b.setAttribute('aria-label','Menu');
+    b.onclick = function(){ var p=document.getElementById('astraaMobilePanel'); if(p) p.classList.toggle('open'); };
+    nav.appendChild(b);
+  }
+});
+</script>
 </head>
 <body>
 

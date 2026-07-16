@@ -171,8 +171,20 @@ RECEIPTS_FILE = "receipts.jsonl"
 # Plan pricing
 # -------------------------------------------------
 PLAN_PRICES = {
-    "basic": "39.00",
-    "professional": "99.00"
+    "basic": "39.99",
+    "professional": "99.99"
+}
+
+# Per-product pricing (CAD) — the real charge amounts by selected_product
+ASTRAA_PRODUCT_PRICES = {
+    "estimator_basic": "39.99",
+    "estimator_pro": "99.99",
+    "business_basic": "34.99",
+    "business_pro": "79.99",
+    "finance_basic": "29.99",
+    "finance_pro": "69.99",
+    "essentials": "124.99",
+    "professional_suite": "199.99",
 }
 
 PLAN_LABELS = {
@@ -1302,9 +1314,24 @@ def preload():
 
     email = (data.get("email") or "").strip()
     requested_plan = (data.get("plan") or "professional").strip().lower()
+    requested_product = (data.get("selected_product") or "").strip().lower()
 
-    plan, amount = get_plan_amount(requested_plan)
-    plan_label = get_plan_label(plan)
+    # Price by specific product if provided (correct per-product amount);
+    # otherwise fall back to plan-tier pricing.
+    if requested_product in ASTRAA_PRODUCT_PRICES:
+        amount = ASTRAA_PRODUCT_PRICES[requested_product]
+        plan = requested_plan if requested_plan in PLAN_PRICES else "professional"
+        _labels = {
+            "estimator_basic":"Astraa Estimator (Basic)","estimator_pro":"Astraa Estimator (Professional)",
+            "business_basic":"Astraa Business (Basic)","business_pro":"Astraa Business (Professional)",
+            "finance_basic":"Astraa Finance (Basic)","finance_pro":"Astraa Finance (Professional)",
+            "essentials":"Astraa Essentials (Business + Finance)",
+            "professional_suite":"Astraa Professional Suite (Estimator + Business + Finance)"
+        }
+        plan_label = _labels.get(requested_product, get_plan_label(plan))
+    else:
+        plan, amount = get_plan_amount(requested_plan)
+        plan_label = get_plan_label(plan)
 
     order_no = "ASTRAA-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S") + "-" + uuid.uuid4().hex[:6].upper()
 

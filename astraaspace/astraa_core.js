@@ -62,14 +62,48 @@ function initDashboard() {
     var select = document.getElementById('tool-select');
     var keys = Object.keys(data.tools);
 
-    keys.forEach(function (key) {
-        var tool = data.tools[key];
-        var live = astraaIsLive(tool.name);
-        var opt = document.createElement('option');
-        opt.value = key;
-        opt.text = tool.name + (live ? "" : "  (Coming Soon)");
-        select.appendChild(opt);
-    });
+    // Fetch the user's entitlements, then show ONLY the tools they purchased
+    var apiBase = (typeof ASTRAA_API_BASE !== 'undefined') ? ASTRAA_API_BASE : "https://family-speed-outcome.ngrok-free.dev";
+    var sess = {};
+    try { sess = JSON.parse(localStorage.getItem('astraa_session')||'{}'); } catch(e){}
+
+    function toolAllowed(toolName, ents){
+        if(!ents || !ents.length) return false;
+        var n = (toolName||'').toLowerCase();
+        for(var i=0;i<ents.length;i++){
+            var e = (ents[i]||'').toLowerCase();
+            // "Astraa Finance" matches entitlement "Astraa Finance"
+            if(e.indexOf(n.replace('astraa ','')) !== -1) return true;
+            if(n.indexOf('expense')!==-1 && e.indexOf('expense')!==-1) return true;
+            if(n.indexOf('estimator')!==-1 && e.indexOf('estimator')!==-1) return true;
+            if(n.indexOf('business')!==-1 && e.indexOf('business')!==-1) return true;
+            if(n.indexOf('finance')!==-1 && e.indexOf('finance')!==-1) return true;
+            if(n.indexOf('vault')!==-1 && e.indexOf('vault')!==-1) return true;
+        }
+        return false;
+    }
+
+    function buildDropdown(entitlements){
+        select.innerHTML = '<option value="">Select a tool...</option>';
+        keys.forEach(function (key) {
+            var tool = data.tools[key];
+            var live = astraaIsLive(tool.name);
+            if(!live) return;                          // skip coming-soon
+            if(!toolAllowed(tool.name, entitlements)) return;  // skip not-purchased
+            var opt = document.createElement('option');
+            opt.value = key;
+            opt.text = tool.name;
+            select.appendChild(opt);
+        });
+        if(select.options.length <= 1){
+            document.getElementById('welcome-subtitle').innerText = "No tools on your plan yet. Visit Pricing to add tools.";
+        }
+    }
+
+    fetch(apiBase + "/api/auth/login-check", {headers:{"Authorization":"Bearer "+(sess.token||""),"ngrok-skip-browser-warning":"true"}})
+      .then(function(r){return r.json();})
+      .then(function(d){ buildDropdown((d && d.entitlements) || []); })
+      .catch(function(){ buildDropdown([]); });
 
     select.onchange = function () {
         var key = select.value; document.body.classList.remove("astraa-workspace-active"); /* astraa-clear-styles */ var _ca=document.getElementById("content-area"); if(_ca){_ca.innerHTML="";}

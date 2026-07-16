@@ -5559,14 +5559,19 @@ def astraa_validate_payment_verification_payload(payload):
     selected_tool_l = selected_tool.lower()
 
     allowed_tools = {
-        "astraa estimator",
-        "estimator"
+        "astraa estimator", "estimator",
+        "astraa business", "business",
+        "astraa finance", "finance",
+        "astraa expense", "expense",
+        "astraa essentials", "essentials",
+        "astraa professional suite", "professional suite", "professional_suite",
+        ""
     }
 
     if selected_tool_l not in allowed_tools:
-        errors.append("selected_tool must be Astraa Estimator for this payment flow.")
+        errors.append("selected_tool is not a recognized Astraa product.")
 
-    clean["selected_tool"] = "Astraa Estimator"
+    clean["selected_tool"] = selected_tool if selected_tool else "Astraa Estimator"
 
     selected_plan = str(payload.get("selected_plan") or payload.get("plan") or "").strip()
     selected_plan_l = selected_plan.lower()

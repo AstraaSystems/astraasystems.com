@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Subscribe · Astraa Systems</title>
+<style>
+  :root{
+    --navy:#0b1f3a;
+    --royal:#1e50c8;
+    --royal-dark:#173f9e;
+    --ink:#0b1f3a;
+    --muted:#5b6b82;
+    --line:#e4e9f2;
+    --bg:#f5f7fb;
+    --white:#ffffff;
+    --ok:#128a5b;
+    --err:#c8324a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;
+  }
+  .astraa-wrap{max-width:520px;margin:0 auto;padding:32px 20px 64px;}
+  .astraa-brand{display:flex;align-items:center;gap:10px;margin-bottom:28px;}
+  .astraa-brand .dot{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--royal),var(--navy));}
+  .astraa-brand b{font-size:18px;letter-spacing:.2px;color:var(--navy);}
+  .card{
+    background:var(--white);border:1px solid var(--line);border-radius:16px;
+    box-shadow:0 8px 30px rgba(11,31,58,.06);padding:28px 26px;
+  }
+  h1{font-size:22px;margin:0 0 6px;color:var(--navy);}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 22px;}
+  .plan{
+    display:flex;justify-content:space-between;align-items:center;
+    background:#f7f9fe;border:1px solid var(--line);border-radius:12px;
+    padding:14px 16px;margin-bottom:22px;
+  }
+  .plan .name{font-weight:600;color:var(--navy);font-size:15px;}
+  .plan .price{font-weight:700;color:var(--royal);font-size:17px;}
+  .plan .cycle{color:var(--muted);font-weight:500;font-size:12px;}
+  label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin:0 0 6px;}
+  input[type=email]{
+    width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;
+    font-size:15px;color:var(--ink);margin-bottom:18px;outline:none;
+  }
+  input[type=email]:focus{border-color:var(--royal);box-shadow:0 0 0 3px rgba(30,80,200,.12);}
+  .frame-label{margin-bottom:8px;}
+  #monerisFrame{
+    width:100%;height:270px;border:1px solid var(--line);border-radius:12px;background:#fff;
+  }
+  .hint{font-size:12px;color:var(--muted);margin:10px 2px 0;}
+  button{
+    width:100%;margin-top:22px;padding:14px 18px;border:0;border-radius:12px;
+    background:linear-gradient(135deg,var(--royal),var(--royal-dark));
+    color:#fff;font-size:16px;font-weight:600;cursor:pointer;transition:transform .05s ease,opacity .2s;
+  }
+  button:hover{opacity:.95;}
+  button:active{transform:translateY(1px);}
+  button:disabled{opacity:.5;cursor:not-allowed;}
+  .msg{margin-top:18px;padding:12px 14px;border-radius:10px;font-size:14px;display:none;}
+  .msg.ok{display:block;background:#e7f6ee;color:var(--ok);border:1px solid #bfe6d1;}
+  .msg.err{display:block;background:#fdeaed;color:var(--err);border:1px solid #f4c2cc;}
+  .msg.info{display:block;background:#eef3fd;color:var(--royal-dark);border:1px solid #cfe0fb;}
+  .secure{display:flex;align-items:center;gap:6px;justify-content:center;margin-top:20px;color:var(--muted);font-size:12px;}
+  .spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.5);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:8px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+  <div class="astraa-wrap">
+    <div class="astraa-brand"><span class="dot"></span><b>Astraa Systems</b></div>
+
+    <div class="card">
+      <h1>Start your subscription</h1>
+      <p class="sub">Secure monthly billing. Cancel anytime.</p>
+
+      <div class="plan">
+        <div>
+          <div class="name" id="planName">Finance · Basic</div>
+          <div class="cycle">Billed monthly</div>
+        </div>
+        <div class="price" id="planPrice">$29.99<span class="cycle"> CAD/mo</span></div>
+      </div>
+
+      <label for="email">Email address</label>
+      <input type="email" id="email" placeholder="you@company.com" autocomplete="email" />
+
+      <div class="frame-label"><label>Card details</label></div>
+      <iframe id="monerisFrame" title="Secure card entry" frameborder="0"></iframe>
+      <div class="hint">🔒 Card details are entered directly with Moneris. Astraa never sees or stores your card number.</div>
+
+      <button id="subscribeBtn" disabled>Loading secure form…</button>
+
+      <div class="msg" id="msg"></div>
+
+      <div class="secure">🔒 Payments secured by Moneris · PCI-DSS compliant</div>
+    </div>
+  </div>
+
+<script>
+  // ========================================================
+  // SET THIS to your backend API's public URL (ngrok or live API).
+  // Leave "" only if the API is served from the SAME domain as this page.
+  // Example: window.ASTRAA_API_BASE = "https://abc123.ngrok-free.app";
+  window.ASTRAA_API_BASE = "";
+  // ========================================================
+</script>
+<script>
+(function(){
+  "use strict";
+
+  // ---- Configure product here (or via URL ?product=finance_basic) ----
+  var PRODUCTS = {
+    estimator_basic:   {name:"Estimator · Basic",       price:"$39.99"},
+    estimator_pro:     {name:"Estimator · Professional", price:"$99.99"},
+    business_basic:    {name:"Business · Basic",        price:"$34.99"},
+    business_pro:      {name:"Business · Professional", price:"$79.99"},
+    finance_basic:     {name:"Finance · Basic",         price:"$29.99"},
+    finance_pro:       {name:"Finance · Professional",  price:"$69.99"},
+    essentials:        {name:"Astraa Essentials",       price:"$124.99"},
+    professional_suite:{name:"Astraa Professional Suite",price:"$199.99"}
+  };
+
+  var params  = new URLSearchParams(location.search);
+  var product = params.get("product") || "finance_basic";
+  var info    = PRODUCTS[product] || PRODUCTS.finance_basic;
+
+  document.getElementById("planName").textContent  = info.name;
+  document.getElementById("planPrice").innerHTML    = info.price + '<span class="cycle"> CAD/mo</span>';
+
+  var btn   = document.getElementById("subscribeBtn");
+  var msgEl = document.getElementById("msg");
+  var frame = document.getElementById("monerisFrame");
+  var emailEl = document.getElementById("email");
+
+  var HT_ORIGIN = "https://www3.moneris.com"; // updated from config for QA if needed
+
+  // ---- API base: set this to your backend's public URL (ngrok/live API) ----
+  // If the API is served from the SAME domain as this page, leave as "".
+  // Otherwise set to e.g. "https://your-ngrok-id.ngrok-free.app"
+  var API_BASE = (window.ASTRAA_API_BASE || "").replace(/\/$/, "");
+  function api(path){ return API_BASE + path; }
+
+  function show(type, text){ msgEl.className = "msg " + type; msgEl.innerHTML = text; }
+
+  // ---- 1. Load HT profile config from backend, then the iframe ----
+  fetch(api("/api/moneris/ht-config"))
+    .then(function(r){ return r.json(); })
+    .then(function(cfg){
+      if(!cfg.ok || !cfg.profileId){ throw new Error("HT profile not configured"); }
+      HT_ORIGIN = cfg.env === "production"
+        ? "https://www3.moneris.com"
+        : "https://esqa.moneris.com";
+      // pmmsg=true enables postMessage responses from the HT iframe
+      frame.src = cfg.iframeBase + "?id=" + encodeURIComponent(cfg.profileId) + "&pmmsg=true";
+      frame.onload = function(){
+        btn.disabled = false;
+        btn.textContent = "Subscribe " + info.price + " CAD/mo";
+      };
+    })
+    .catch(function(err){
+      show("err", "Could not load secure payment form. " + (err.message || ""));
+    });
+
+  // ---- 2. Listen for the tokenization response from Moneris ----
+  var tempToken = null;
+  window.addEventListener("message", function(event){
+    if(event.origin !== HT_ORIGIN) return;
+    var data;
+    try { data = JSON.parse(event.data); } catch(e){ return; }
+
+    var code = (data.responseCode && data.responseCode[0]) || data.responseCode;
+    if(String(code) === "001" && data.dataKey){
+      tempToken = data.dataKey;
+      finalizeSubscription(tempToken);
+    } else {
+      resetBtn();
+      var em = data.errorMessage || "Please check your card details and try again.";
+      show("err", "❌ " + em);
+    }
+  }, false);
+
+  function resetBtn(){
+    btn.disabled = false;
+    btn.textContent = "Subscribe " + info.price + " CAD/mo";
+  }
+
+  // ---- 3. On click: validate email, then ask the iframe to tokenize ----
+  btn.addEventListener("click", function(){
+    var email = (emailEl.value || "").trim();
+    if(!email || email.indexOf("@") < 0){
+      show("err", "Please enter a valid email address.");
+      emailEl.focus();
+      return;
+    }
+    show("info", '<span class="spinner"></span>Securely processing your card…');
+    btn.disabled = true;
+    btn.textContent = "Processing…";
+    // Trigger Moneris HT to tokenize the entered card
+    frame.contentWindow.postMessage("", HT_ORIGIN);
+  });
+
+  // ---- 4. temp token -> permanent paymentMethodId -> subscription ----
+  function finalizeSubscription(token){
+    var email = (emailEl.value || "").trim();
+    show("info", '<span class="spinner"></span>Setting up your subscription…');
+
+    fetch(api("/api/moneris/create-payment-method"), {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ temp_token: token, email: email })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(pm){
+      if(!pm.ok || !pm.paymentMethodId){
+        throw new Error((pm.response && pm.response.title) || pm.error || "Could not save card.");
+      }
+      return fetch(api("/api/moneris/create-subscription"), {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          email: email,
+          product: product,
+          paymentMethodId: pm.paymentMethodId
+        })
+      });
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(sub){
+      if(sub.ok){
+        show("ok", "✅ You're subscribed to <b>" + info.name + "</b>! A confirmation is on its way to " + email + ".");
+        btn.textContent = "Subscribed ✓";
+        btn.disabled = true;
+      } else {
+        var detail = (sub.result && sub.result.response && sub.result.response.title) ||
+                     (sub.result && sub.result.error) || "Subscription could not be created.";
+        throw new Error(detail);
+      }
+    })
+    .catch(function(err){
+      resetBtn();
+      show("err", "❌ " + (err.message || "Something went wrong. Please try again."));
+    });
+  }
+})();
+</script>
+</body>
+</html>

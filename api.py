@@ -8336,3 +8336,15 @@ def astraa_moneris_ht_config():
         "env": env,
         "iframeBase": iframe_base,
     }), 200
+
+
+# ===== ASTRAA_CORS (allow astraasystems.com to call subscription API) =====
+try:
+    from flask_cors import CORS
+    CORS(app, resources={r"/api/moneris/*": {"origins": [
+        "https://www.astraasystems.com",
+        "https://astraasystems.com",
+    ]}}, methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type"])
+    print("ASTRAA CORS enabled for /api/moneris/* on astraasystems.com")
+except Exception as _cors_err:
+    print("ASTRAA CORS setup failed:", _cors_err)

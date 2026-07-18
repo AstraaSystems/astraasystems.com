@@ -146,7 +146,7 @@
   function show(type, text){ msgEl.className = "msg " + type; msgEl.innerHTML = text; }
 
   // ---- 1. Load HT profile config from backend, then the iframe ----
-  fetch(api("/api/moneris/ht-config"))
+  fetch(api("/api/moneris/ht-config"), {headers:{"ngrok-skip-browser-warning":"true"}})
     .then(function(r){ return r.json(); })
     .then(function(cfg){
       if(!cfg.ok || !cfg.profileId){ throw new Error("HT profile not configured"); }
@@ -209,7 +209,7 @@
 
     fetch(api("/api/moneris/create-payment-method"), {
       method:"POST",
-      headers:{"Content-Type":"application/json"},
+      headers:{"Content-Type":"application/json","ngrok-skip-browser-warning":"true"},
       body: JSON.stringify({ temp_token: token, email: email })
     })
     .then(function(r){ return r.json(); })
@@ -219,7 +219,7 @@
       }
       return fetch(api("/api/moneris/create-subscription"), {
         method:"POST",
-        headers:{"Content-Type":"application/json"},
+        headers:{"Content-Type":"application/json","ngrok-skip-browser-warning":"true"},
         body: JSON.stringify({
           email: email,
           product: product,

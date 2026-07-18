@@ -51,3 +51,4 @@ local_backups/
 astraa_data.backup_*/
 *.pre_*
 *.before_*
+.env*

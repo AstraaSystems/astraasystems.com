@@ -8077,3 +8077,262 @@ def astraa_trial_start():
         "login_url": "/astraaspace/login.html"
     })
 # END ASTRAA_TRIAL_SIGNUP_V1
+
+
+# ===== ASTRAA_PATHB_MONERIS_REST (sandbox/prod via .env) =====
+import time as _time
+
+MONERIS_REST_BASE = os.getenv("MONERIS_REST_BASE", "https://api.sb.moneris.io").rstrip("/")
+MONERIS_REST_API_VERSION = os.getenv("MONERIS_REST_API_VERSION", "2025-08-14")
+MONERIS_REST_MERCHANT_ID = os.getenv("MONERIS_REST_MERCHANT_ID", "")
+MONERIS_REST_CLIENT_ID = os.getenv("MONERIS_REST_CLIENT_ID", "")
+MONERIS_REST_CLIENT_SECRET = os.getenv("MONERIS_REST_CLIENT_SECRET", "")
+ASTRAA_PUBLIC_URL = os.getenv("ASTRAA_PUBLIC_URL", "").rstrip("/")
+
+ASTRAA_RECURRING_AMOUNTS = {
+    "estimator_basic": 3999, "estimator_pro": 9999,
+    "business_basic": 3499, "business_pro": 7999,
+    "finance_basic": 2999, "finance_pro": 6999,
+    "essentials": 12499, "professional_suite": 19999,
+}
+
+_MONERIS_TOKEN_CACHE = {"token": None, "exp": 0}
+
+
+def astraa_get_moneris_token():
+    import requests
+    now = _time.time()
+    if _MONERIS_TOKEN_CACHE["token"] and now < _MONERIS_TOKEN_CACHE["exp"] - 60:
+        return _MONERIS_TOKEN_CACHE["token"]
+    if not (MONERIS_REST_CLIENT_ID and MONERIS_REST_CLIENT_SECRET):
+        raise RuntimeError("Moneris REST client credentials not configured.")
+    r = requests.post(
+        MONERIS_REST_BASE + "/oauth2/token",
+        data={
+            "grant_type": "client_credentials",
+            "client_id": MONERIS_REST_CLIENT_ID,
+            "client_secret": MONERIS_REST_CLIENT_SECRET,
+            "scope": "payment.write payment.read",
+        },
+        headers={"Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json"},
+        timeout=20,
+    )
+    r.raise_for_status()
+    body = r.json()
+    tok = body.get("access_token")
+    exp = int(body.get("expires_in", 3600))
+    _MONERIS_TOKEN_CACHE["token"] = tok
+    _MONERIS_TOKEN_CACHE["exp"] = now + exp
+    return tok
+
+
+def astraa_create_moneris_subscription(email, product, payment_method_id, customer_id=None):
+    import requests, uuid
+    from datetime import datetime, timezone, timedelta
+    amount = ASTRAA_RECURRING_AMOUNTS.get(product)
+    if not amount:
+        return False, {"error": "UNKNOWN_RECURRING_PRODUCT", "message": product}
+    if not payment_method_id:
+        return False, {"error": "PAYMENT_METHOD_ID_MISSING"}
+    if not MONERIS_REST_MERCHANT_ID:
+        return False, {"error": "MERCHANT_ID_MISSING"}
+    try:
+        token = astraa_get_moneris_token()
+    except Exception as e:
+        return False, {"error": "OAUTH_FAILED", "message": str(e)}
+
+    start = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
+    order_id = "ASTRAA-SUB-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S") + "-" + uuid.uuid4().hex[:6].upper()
+
+    body = {
+        "idempotencyKey": uuid.uuid4().hex,
+        "orderId": order_id,
+        "invoiceNumber": order_id,
+        "subscriptionType": "RECURRING",
+        "billingDetails": {
+            "billingIntervalUnit": "MONTH",
+            "billingIntervalFrequency": 1,
+            "billingIntervalCount": 99,
+            "billingStartDate": start,
+            "billingAmount": {"amount": amount, "currency": "CAD"},
+        },
+        "paymentMethod": {
+            "paymentMethodSource": "PAYMENT_METHOD_ID",
+            "paymentMethodId": payment_method_id,
+            "credentialOnFileInformation": {
+                "paymentIndicator": "RECURRING",
+                "paymentInformation": "FIRST",
+            },
+        },
+        "customData": {"astraa_email": email, "astraa_product": product},
+        "dynamicDescriptor": "ASTRAA",
+    }
+    if ASTRAA_PUBLIC_URL:
+        from urllib.parse import quote
+        body["callbackUrl"] = quote(ASTRAA_PUBLIC_URL + "/api/moneris/subscription-callback", safe="")
+    if customer_id:
+        body["customerId"] = customer_id
+
+    try:
+        r = requests.post(
+            MONERIS_REST_BASE + "/subscriptions",
+            headers={
+                "Authorization": "Bearer " + token,
+                "Api-Version": MONERIS_REST_API_VERSION,
+                "X-Merchant-Id": MONERIS_REST_MERCHANT_ID,
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            json=body, timeout=30,
+        )
+        try:
+            data = r.json()
+        except Exception:
+            data = {"raw": r.text}
+        ok = r.status_code in (200, 201, 202)
+        return ok, {"http_status": r.status_code, "orderId": order_id, "response": data}
+    except Exception as e:
+        return False, {"error": "SUBSCRIPTION_EXCEPTION", "message": str(e), "orderId": order_id}
+
+
+# ===== ASTRAA_SUBSCRIPTION_CALLBACK (writes to real usage db) =====
+@app.route("/api/moneris/subscription-callback", methods=["POST"])
+def astraa_moneris_subscription_callback():
+    from datetime import datetime, timezone
+    try:
+        payload = request.get_json(silent=True) or {}
+        callback_id = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+        try:
+            os.makedirs("astraa_data", exist_ok=True)
+            log_path = os.path.join("astraa_data", "moneris_subscription_callbacks.json")
+            existing = []
+            if os.path.exists(log_path):
+                with open(log_path, "r", encoding="utf-8") as f:
+                    existing = json.load(f)
+            existing.append({"received_at": datetime.now(timezone.utc).isoformat(), "payload": payload})
+            with open(log_path, "w", encoding="utf-8") as f:
+                json.dump(existing, f, indent=2)
+        except Exception as log_error:
+            print("callback audit error:", log_error)
+        custom = payload.get("customData") or {}
+        email = custom.get("astraa_email") or custom.get("email")
+        product = custom.get("astraa_product")
+        payment_status = (payload.get("paymentStatus") or payload.get("subscriptionStatus") or payload.get("status") or "").upper()
+        td = payload.get("transactionDetails") or {}
+        transaction_id = td.get("transactionUniqueId") or payload.get("transactionUniqueId") or payload.get("subscriptionId") or payload.get("id") or callback_id
+        if not email:
+            return jsonify({"ok": True, "warning": "missing_email"}), 200
+        try:
+            key = astraa_account_key(email)
+        except Exception:
+            key = email.strip().lower()
+        db = astraa_load_usage_db()
+        record = db.get(key) or db.get(email) or db.get(email.strip().lower())
+        if not record:
+            return jsonify({"ok": True, "warning": "account_not_found"}), 200
+        processed = record.get("processed_subscription_transactions", [])
+        if transaction_id in processed:
+            return jsonify({"ok": True, "duplicate": True}), 200
+        now_iso = datetime.now(timezone.utc).isoformat()
+        if payment_status in {"SUCCEEDED", "APPROVED", "PAID", "SUCCESS", "ACTIVE"}:
+            record["payment_status"] = "active"
+            record["subscription_status"] = "active"
+            if product:
+                record["selected_tool"] = product
+            record["last_subscription_payment_at"] = now_iso
+            record["last_subscription_transaction_id"] = transaction_id
+        else:
+            record["payment_status"] = "past_due"
+            record["subscription_status"] = "past_due"
+            record["last_subscription_failure_at"] = now_iso
+        processed.append(transaction_id)
+        record["processed_subscription_transactions"] = processed[-100:]
+        record["updated_at"] = now_iso
+        write_key = key if key in db else (email if email in db else email.strip().lower())
+        db[write_key] = record
+        astraa_save_usage_db(db)
+        return jsonify({"ok": True}), 200
+    except Exception as e:
+        print("subscription callback error:", e)
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+# ===== ASTRAA_HT_SUBSCRIBE ROUTES (Path B) =====
+@app.route("/api/moneris/create-payment-method", methods=["POST"])
+def astraa_moneris_create_payment_method():
+    """Convert an HT temporary token into a permanent Moneris paymentMethodId."""
+    import requests, uuid
+    try:
+        data = request.get_json(silent=True) or {}
+        temp_token = data.get("temp_token") or data.get("dataKey") or data.get("token")
+        email = data.get("email") or ""
+        if not temp_token:
+            return jsonify({"ok": False, "error": "MISSING_TEMP_TOKEN"}), 400
+        try:
+            bearer = astraa_get_moneris_token()
+        except Exception as e:
+            return jsonify({"ok": False, "error": "OAUTH_FAILED", "message": str(e)}), 502
+
+        body = {
+            "idempotencyKey": uuid.uuid4().hex,
+            "paymentMethodSource": "TEMPORARY_TOKEN",
+            "temporaryToken": temp_token,
+            "storePaymentMethod": "MERCHANT_INITIATED",
+            "customData": {"astraa_email": email},
+        }
+        r = requests.post(
+            MONERIS_REST_BASE + "/payment-methods",
+            headers={
+                "Authorization": "Bearer " + bearer,
+                "Api-Version": MONERIS_REST_API_VERSION,
+                "X-Merchant-Id": MONERIS_REST_MERCHANT_ID,
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            json=body, timeout=30,
+        )
+        try:
+            resp = r.json()
+        except Exception:
+            resp = {"raw": r.text}
+        pmid = resp.get("paymentMethodId") or (resp.get("paymentMethod") or {}).get("paymentMethodId")
+        if r.status_code in (200, 201) and pmid:
+            return jsonify({"ok": True, "paymentMethodId": pmid}), 200
+        return jsonify({"ok": False, "http_status": r.status_code, "response": resp}), 400
+    except Exception as e:
+        print("create-payment-method error:", e)
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/moneris/create-subscription", methods=["POST"])
+def astraa_moneris_create_subscription_route():
+    """Create a subscription from a paymentMethodId (calls the tested helper)."""
+    try:
+        data = request.get_json(silent=True) or {}
+        email = data.get("email")
+        product = data.get("product")
+        pmid = data.get("paymentMethodId")
+        customer_id = data.get("customerId")
+        if not (email and product and pmid):
+            return jsonify({"ok": False, "error": "MISSING_FIELDS",
+                            "need": ["email", "product", "paymentMethodId"]}), 400
+        ok, result = astraa_create_moneris_subscription(email, product, pmid, customer_id)
+        return jsonify({"ok": ok, "result": result}), (200 if ok else 400)
+    except Exception as e:
+        print("create-subscription route error:", e)
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+# ===== ASTRAA_HT_CONFIG (frontend reads HT profile safely) =====
+@app.route("/api/moneris/ht-config", methods=["GET"])
+def astraa_moneris_ht_config():
+    env = (os.getenv("ASTRAA_HT_ENV", "production") or "production").lower()
+    iframe_base = ("https://www3.moneris.com/HPPtoken/index.php"
+                   if env == "production"
+                   else "https://esqa.moneris.com/HPPtoken/index.php")
+    return jsonify({
+        "ok": True,
+        "profileId": os.getenv("MONERIS_HT_PROFILE", ""),
+        "env": env,
+        "iframeBase": iframe_base,
+    }), 200

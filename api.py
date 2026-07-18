@@ -8344,7 +8344,7 @@ try:
     CORS(app, resources={r"/api/moneris/*": {"origins": [
         "https://www.astraasystems.com",
         "https://astraasystems.com",
-    ]}}, methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type"])
+    ]}}, methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type","ngrok-skip-browser-warning"])
     print("ASTRAA CORS enabled for /api/moneris/* on astraasystems.com")
 except Exception as _cors_err:
     print("ASTRAA CORS setup failed:", _cors_err)

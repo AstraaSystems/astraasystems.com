@@ -8085,6 +8085,7 @@ import time as _time
 MONERIS_REST_BASE = os.getenv("MONERIS_REST_BASE", "https://api.sb.moneris.io").rstrip("/")
 MONERIS_REST_API_VERSION = os.getenv("MONERIS_REST_API_VERSION", "2025-08-14")
 MONERIS_REST_MERCHANT_ID = os.getenv("MONERIS_REST_MERCHANT_ID", "")
+MONERIS_SUBSCRIPTION_API_KEY = os.getenv("MONERIS_SUBSCRIPTION_API_KEY", "")
 MONERIS_REST_CLIENT_ID = os.getenv("MONERIS_REST_CLIENT_ID", "")
 MONERIS_REST_CLIENT_SECRET = os.getenv("MONERIS_REST_CLIENT_SECRET", "")
 ASTRAA_PUBLIC_URL = os.getenv("ASTRAA_PUBLIC_URL", "").rstrip("/")
@@ -8147,7 +8148,7 @@ def astraa_create_moneris_subscription(email, product, payment_method_id, custom
     body = {
         "idempotencyKey": uuid.uuid4().hex,
         "orderId": order_id,
-        "invoiceNumber": order_id,
+        "invoiceNumber": ("AS" + datetime.now(timezone.utc).strftime("%y%m%d%H%M%S") + uuid.uuid4().hex[:1].upper())[:17],
         "subscriptionType": "RECURRING",
         "billingDetails": {
             "billingIntervalUnit": "MONTH",
@@ -8180,6 +8181,7 @@ def astraa_create_moneris_subscription(email, product, payment_method_id, custom
                 "Authorization": "Bearer " + token,
                 "Api-Version": MONERIS_REST_API_VERSION,
                 "X-Merchant-Id": MONERIS_REST_MERCHANT_ID,
+                "X-API-Key": os.getenv("MONERIS_SUBSCRIPTION_API_KEY", ""),
                 "Content-Type": "application/json",
                 "Accept": "application/json",
             },
@@ -8189,6 +8191,7 @@ def astraa_create_moneris_subscription(email, product, payment_method_id, custom
             data = r.json()
         except Exception:
             data = {"raw": r.text}
+        print("ASTRA_SUB_DEBUG status=", r.status_code, "resp=", data, "sent_body=", json.dumps(body), flush=True)
         ok = r.status_code in (200, 201, 202)
         return ok, {"http_status": r.status_code, "orderId": order_id, "response": data}
     except Exception as e:
@@ -8265,6 +8268,7 @@ def astraa_moneris_create_payment_method():
     try:
         data = request.get_json(silent=True) or {}
         temp_token = data.get("temp_token") or data.get("dataKey") or data.get("token")
+        print("ASTRA_PM_DEBUG temp_token len=", len(temp_token or ""), "value=", (temp_token or "")[:40], flush=True)
         email = data.get("email") or ""
         if not temp_token:
             return jsonify({"ok": False, "error": "MISSING_TEMP_TOKEN"}), 400
@@ -8298,6 +8302,7 @@ def astraa_moneris_create_payment_method():
         pmid = resp.get("paymentMethodId") or (resp.get("paymentMethod") or {}).get("paymentMethodId")
         if r.status_code in (200, 201) and pmid:
             return jsonify({"ok": True, "paymentMethodId": pmid}), 200
+        print("ASTRA_PM_RESP_DEBUG status=", r.status_code, "resp=", resp, flush=True)
         return jsonify({"ok": False, "http_status": r.status_code, "response": resp}), 400
     except Exception as e:
         print("create-payment-method error:", e)
@@ -8344,6 +8349,7 @@ try:
     CORS(app, resources={r"/api/moneris/*": {"origins": [
         "https://www.astraasystems.com",
         "https://astraasystems.com",
+        "http://astraasystems.com",
     ]}}, methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type","ngrok-skip-browser-warning"])
     print("ASTRAA CORS enabled for /api/moneris/* on astraasystems.com")
 except Exception as _cors_err:

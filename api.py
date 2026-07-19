@@ -8354,3 +8354,111 @@ try:
     print("ASTRAA CORS enabled for /api/moneris/* on astraasystems.com")
 except Exception as _cors_err:
     print("ASTRAA CORS setup failed:", _cors_err)
+
+
+# ===== ASTRAA_SUBSCRIPTION_FROM_TOKEN (temp token -> subscription, single call) =====
+def astraa_create_subscription_from_token(email, product, temp_token, customer_id=None):
+    import requests, uuid
+    from datetime import datetime, timezone, timedelta
+    amount = ASTRAA_RECURRING_AMOUNTS.get(product)
+    if not amount:
+        return False, {"error": "UNKNOWN_RECURRING_PRODUCT", "message": product}
+    if not temp_token:
+        return False, {"error": "TEMP_TOKEN_MISSING"}
+    if not MONERIS_REST_MERCHANT_ID:
+        return False, {"error": "MERCHANT_ID_MISSING"}
+    try:
+        token = astraa_get_moneris_token()
+    except Exception as e:
+        return False, {"error": "OAUTH_FAILED", "message": str(e)}
+
+    start = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
+    order_id = "ASTRAA-SUB-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S") + "-" + uuid.uuid4().hex[:6].upper()
+    invoice = ("AS" + datetime.now(timezone.utc).strftime("%y%m%d%H%M%S") + uuid.uuid4().hex[:1].upper())[:17]
+
+    body = {
+        "idempotencyKey": uuid.uuid4().hex,
+        "orderId": order_id,
+        "invoiceNumber": invoice,
+        "subscriptionType": "RECURRING",
+        "billingDetails": {
+            "billingIntervalUnit": "MONTH",
+            "billingIntervalFrequency": 1,
+            "billingIntervalCount": 99,
+            "billingStartDate": start,
+            "billingAmount": {"amount": amount, "currency": "CAD"},
+        },
+        "paymentMethod": {
+            "paymentMethodSource": "TEMPORARY_TOKEN",
+            "temporaryToken": temp_token,
+            "credentialOnFileInformation": {
+                "paymentIndicator": "RECURRING",
+                "paymentInformation": "FIRST",
+            },
+        },
+        "customData": {"astraa_email": email, "astraa_product": product},
+        "dynamicDescriptor": "ASTRAA",
+    }
+    if ASTRAA_PUBLIC_URL:
+        from urllib.parse import quote
+        body["callbackUrl"] = quote(ASTRAA_PUBLIC_URL + "/api/moneris/subscription-callback", safe="")
+    if customer_id:
+        body["customerId"] = customer_id
+
+    try:
+        r = requests.post(
+            MONERIS_REST_BASE + "/subscriptions",
+            headers={
+                "Authorization": "Bearer " + token,
+                "Api-Version": MONERIS_REST_API_VERSION,
+                "X-Merchant-Id": MONERIS_REST_MERCHANT_ID,
+                "X-API-Key": os.getenv("MONERIS_SUBSCRIPTION_API_KEY", ""),
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            json=body, timeout=30,
+        )
+        try:
+            data = r.json()
+        except Exception:
+            data = {"raw": r.text}
+        print("ASTRA_SUBTOK_DEBUG status=", r.status_code, "resp=", data, flush=True)
+        ok = r.status_code in (200, 201, 202)
+        return ok, {"http_status": r.status_code, "orderId": order_id, "response": data}
+    except Exception as e:
+        return False, {"error": "SUBSCRIPTION_EXCEPTION", "message": str(e), "orderId": order_id}
+
+
+@app.route("/api/moneris/subscribe-with-token", methods=["POST"])
+def astraa_moneris_subscribe_with_token():
+    try:
+        data = request.get_json(silent=True) or {}
+        email = data.get("email")
+        product = data.get("product")
+        temp_token = data.get("temp_token") or data.get("dataKey") or data.get("token")
+        if not (email and product and temp_token):
+            return jsonify({"ok": False, "error": "MISSING_FIELDS",
+                            "need": ["email", "product", "temp_token"]}), 400
+        ok, result = astraa_create_subscription_from_token(email, product, temp_token)
+        # If success, flip the account via the same logic as the callback
+        if ok:
+            try:
+                key = astraa_account_key(email)
+            except Exception:
+                key = email.strip().lower()
+            db = astraa_load_usage_db()
+            record = db.get(key) or db.get(email) or db.get(email.strip().lower())
+            if record:
+                from datetime import datetime, timezone
+                sub = (result.get("response") or {})
+                record["payment_status"] = "active"
+                record["subscription_status"] = "active"
+                record["selected_tool"] = product
+                record["moneris_subscription_id"] = sub.get("subscriptionId")
+                record["updated_at"] = datetime.now(timezone.utc).isoformat()
+                db[key if key in db else email] = record
+                astraa_save_usage_db(db)
+        return jsonify({"ok": ok, "result": result}), (200 if ok else 400)
+    except Exception as e:
+        print("subscribe-with-token error:", e, flush=True)
+        return jsonify({"ok": False, "error": str(e)}), 500

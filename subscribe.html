@@ -220,36 +220,19 @@
     var email = (emailEl.value || "").trim();
     show("info", '<span class="spinner"></span>Setting up your subscription…');
 
-    fetch(api("/api/moneris/create-payment-method"), {
+    fetch(api("/api/moneris/subscribe-with-token"), {
       method:"POST",
       headers:{"Content-Type":"application/json","ngrok-skip-browser-warning":"true"},
-      body: JSON.stringify({ temp_token: token, email: email })
-    })
-    .then(function(r){ return r.json(); })
-    .then(function(pm){
-      if(!pm.ok || !pm.paymentMethodId){
-        throw new Error((pm.response && pm.response.title) || pm.error || "Could not save card.");
-      }
-      return fetch(api("/api/moneris/create-subscription"), {
-        method:"POST",
-        headers:{"Content-Type":"application/json","ngrok-skip-browser-warning":"true"},
-        body: JSON.stringify({
-          email: email,
-          product: product,
-          paymentMethodId: pm.paymentMethodId
-        })
-      });
+      body: JSON.stringify({ email: email, product: product, temp_token: token })
     })
     .then(function(r){ return r.json(); })
     .then(function(sub){
       if(sub.ok){
-        show("ok", "✅ You're subscribed to <b>" + info.name + "</b>! A confirmation is on its way to " + email + ".");
-        btn.textContent = "Subscribed ✓";
-        btn.disabled = true;
+        show("ok", "✅ You're subscribed to " + info.name + "! A confirmation is on its way to " + email + ".");
+        btn.textContent = "Subscribed ✓"; btn.disabled = true;
       } else {
-        var detail = (sub.result && sub.result.response && sub.result.response.title) ||
-                     (sub.result && sub.result.error) || "Subscription could not be created.";
-        throw new Error(detail);
+        var d = (sub.result && sub.result.response && (sub.result.response.detail||sub.result.response.title)) || sub.error || "Subscription failed.";
+        throw new Error(d);
       }
     })
     .catch(function(err){

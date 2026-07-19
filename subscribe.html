@@ -154,7 +154,7 @@
         ? "https://www3.moneris.com"
         : "https://esqa.moneris.com";
       // pmmsg=true enables postMessage responses from the HT iframe
-      frame.src = cfg.iframeBase + "?id=" + encodeURIComponent(cfg.profileId) + "&pmmsg=true";
+      frame.src = cfg.iframeBase + "?id=" + encodeURIComponent(cfg.profileId) + "&pmmsg=true" + "&enable_exp=1&enable_cvd=1&display_labels=1&css_body=font-family:sans-serif;margin:8px;&css_textbox=border:1px solid %23ccc;border-radius:6px;padding:10px;font-size:15px;width:90%25;margin:6px 0;&css_textbox_pan=width:90%25;&css_input_label=display:block;font-size:12px;color:%230b1f3a;margin-top:8px;";
       frame.onload = function(){
         btn.disabled = false;
         btn.textContent = "Subscribe " + info.price + " CAD/mo";

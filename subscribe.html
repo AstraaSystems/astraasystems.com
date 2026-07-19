@@ -136,6 +136,7 @@
   var emailEl = document.getElementById("email");
 
   var HT_ORIGIN = "https://www3.moneris.com"; // updated from config for QA if needed
+  var HT_POST_TARGET = "https://www3.moneris.com/HPPtoken/index.php"; // full URL for postMessage
 
   // ---- API base: set this to your backend's public URL (ngrok/live API) ----
   // If the API is served from the SAME domain as this page, leave as "".
@@ -150,6 +151,7 @@
     .then(function(r){ return r.json(); })
     .then(function(cfg){
       if(!cfg.ok || !cfg.profileId){ throw new Error("HT profile not configured"); }
+      HT_POST_TARGET = cfg.iframeBase;
       HT_ORIGIN = cfg.env === "production"
         ? "https://www3.moneris.com"
         : "https://esqa.moneris.com";
@@ -210,7 +212,7 @@
     btn.disabled = true;
     btn.textContent = "Processing…";
     // Trigger Moneris HT to tokenize the entered card
-    frame.contentWindow.postMessage("tokenize", HT_ORIGIN);
+    frame.contentWindow.postMessage("tokenize", HT_POST_TARGET);
   });
 
   // ---- 4. temp token -> permanent paymentMethodId -> subscription ----

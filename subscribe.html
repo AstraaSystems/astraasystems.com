@@ -167,17 +167,28 @@
   // ---- 2. Listen for the tokenization response from Moneris ----
   var tempToken = null;
   window.addEventListener("message", function(event){
-    if(event.origin !== HT_ORIGIN) return;
+    // Accept only messages from a moneris.com origin
+    if(event.origin.indexOf("moneris.com") < 0) return;
     var data;
-    try { data = JSON.parse(event.data); } catch(e){ return; }
+    try {
+      data = (typeof event.data === "string") ? JSON.parse(event.data) : event.data;
+    } catch(e){
+      try { data = eval("(" + event.data + ")"); } catch(e2){ return; }
+    }
+    if(!data) return;
 
-    var code = (data.responseCode && data.responseCode[0]) || data.responseCode;
-    if(String(code) === "001" && data.dataKey){
+    // Moneris: responseCode "1"/1 = success; array or scalar; dataKey = temp token
+    var rc = data.responseCode;
+    if(Array.isArray(rc)) rc = rc[0];
+    rc = String(rc);
+    var ok = (rc === "1" || rc === "001") && data.dataKey;
+
+    if(ok){
       tempToken = data.dataKey;
       finalizeSubscription(tempToken);
     } else {
       resetBtn();
-      var em = data.errorMessage || "Please check your card details and try again.";
+      var em = data.errorMessage || ("Card error (code " + rc + "). Please check your card details.");
       show("err", "❌ " + em);
     }
   }, false);
@@ -199,7 +210,7 @@
     btn.disabled = true;
     btn.textContent = "Processing…";
     // Trigger Moneris HT to tokenize the entered card
-    frame.contentWindow.postMessage("", HT_ORIGIN);
+    frame.contentWindow.postMessage("tokenize", HT_ORIGIN);
   });
 
   // ---- 4. temp token -> permanent paymentMethodId -> subscription ----

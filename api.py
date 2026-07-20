@@ -8797,3 +8797,123 @@ def astraa_subscription_signup():
     except Exception as e:
         print("subscription signup error:", e, flush=True)
         return jsonify({"ok": False, "error": str(e)}), 500
+
+
+# =====================================================================
+# ASTRAA OWN SUBSCRIPTION ENGINE — BLOCK 3: customer portal
+# change-card, cancel, status  (self-service)
+# =====================================================================
+def _astraa_sub_lookup(email):
+    """Return (key, subs_db, record) for an email, or (key, db, None)."""
+    try:
+        key = astraa_account_key(email)
+    except Exception:
+        key = (email or "").strip().lower()
+    db = astraa_load_subs_db()
+    rec = db.get(key) or db.get(email) or db.get((email or "").strip().lower())
+    return key, db, rec
+
+
+@app.route("/api/subscription/status", methods=["POST"])
+def astraa_subscription_status():
+    """Return the customer's subscription details (safe fields only)."""
+    try:
+        data = request.get_json(silent=True) or {}
+        email = (data.get("email") or "").strip()
+        if not email:
+            return jsonify({"ok": False, "error": "EMAIL_REQUIRED"}), 400
+        key, db, rec = _astraa_sub_lookup(email)
+        if not rec:
+            return jsonify({"ok": True, "found": False, "message": "No subscription on file."}), 200
+        return jsonify({
+            "ok": True, "found": True,
+            "product": rec.get("product"),
+            "amount": round((rec.get("amount_cents") or 0) / 100.0, 2),
+            "currency": "CAD",
+            "status": rec.get("status"),
+            "next_bill_date": rec.get("next_bill_date"),
+            "card_last_four": rec.get("card_last_four"),
+            "charge_count": rec.get("charge_count", 0),
+            "last_charge_at": rec.get("last_charge_at"),
+        }), 200
+    except Exception as e:
+        print("subscription status error:", e, flush=True)
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/subscription/change-card", methods=["POST"])
+def astraa_subscription_change_card():
+    """Swap the stored card for a new one (from a fresh HT temp token)."""
+    from datetime import datetime, timezone
+    try:
+        data = request.get_json(silent=True) or {}
+        email = (data.get("email") or "").strip()
+        temp_token = data.get("temp_token") or data.get("dataKey") or data.get("token")
+        if not (email and temp_token):
+            return jsonify({"ok": False, "error": "MISSING_FIELDS",
+                            "need": ["email", "temp_token"]}), 400
+
+        key, db, rec = _astraa_sub_lookup(email)
+        if not rec:
+            return jsonify({"ok": False, "error": "NO_SUBSCRIPTION"}), 404
+        if rec.get("status") == "canceled":
+            return jsonify({"ok": False, "error": "SUBSCRIPTION_CANCELED"}), 400
+
+        # convert new temp token -> new permanent pmid
+        new_pmid, meta = astraa_pm_from_temp_token(temp_token, email)
+        if not new_pmid:
+            return jsonify({"ok": False, "step": "store_card", "error": meta}), 400
+
+        now_iso = datetime.now(timezone.utc).isoformat()
+        old_pmid = rec.get("payment_method_id")
+        rec["payment_method_id"] = new_pmid
+        rec["updated_at"] = now_iso
+        rec.setdefault("history", []).append({
+            "at": now_iso, "type": "card_changed",
+            "old_pmid": (old_pmid or "")[-6:], "new_pmid": new_pmid[-6:],
+        })
+        db[key if key in db else email] = rec
+        astraa_save_subs_db(db)
+        return jsonify({"ok": True, "message": "Payment method updated.",
+                        "next_bill_date": rec.get("next_bill_date")}), 200
+    except Exception as e:
+        print("subscription change-card error:", e, flush=True)
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/subscription/cancel", methods=["POST"])
+def astraa_subscription_cancel():
+    """Cancel a subscription: stop future billing. Access remains until next_bill_date."""
+    from datetime import datetime, timezone
+    try:
+        data = request.get_json(silent=True) or {}
+        email = (data.get("email") or "").strip()
+        reason = (data.get("reason") or "").strip()
+        if not email:
+            return jsonify({"ok": False, "error": "EMAIL_REQUIRED"}), 400
+
+        key, db, rec = _astraa_sub_lookup(email)
+        if not rec:
+            return jsonify({"ok": False, "error": "NO_SUBSCRIPTION"}), 404
+        if rec.get("status") == "canceled":
+            return jsonify({"ok": True, "message": "Already canceled.",
+                            "access_until": rec.get("next_bill_date")}), 200
+
+        now_iso = datetime.now(timezone.utc).isoformat()
+        rec["status"] = "canceled"
+        rec["canceled_at"] = now_iso
+        if reason:
+            rec["cancel_reason"] = reason
+        rec.setdefault("history", []).append({"at": now_iso, "type": "canceled", "reason": reason})
+        db[key if key in db else email] = rec
+        astraa_save_subs_db(db)
+
+        # access stays active until the paid-through date (next_bill_date), then scheduler won't renew
+        return jsonify({
+            "ok": True,
+            "message": "Your subscription is canceled. You'll keep access until your paid period ends.",
+            "access_until": rec.get("next_bill_date"),
+        }), 200
+    except Exception as e:
+        print("subscription cancel error:", e, flush=True)
+        return jsonify({"ok": False, "error": str(e)}), 500

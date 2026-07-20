@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Manage Subscription · Astraa Systems</title>
+<style>
+  :root{
+    --navy:#0b1f3a; --royal:#1e50c8; --royal-dark:#173f9e;
+    --ink:#0b1f3a; --muted:#5b6b82; --line:#e4e9f2; --bg:#f5f7fb; --white:#fff;
+    --ok:#128a5b; --err:#c8324a; --warn:#b7791f;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:560px;margin:0 auto;padding:32px 20px 64px;}
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:28px;}
+  .brand .dot{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--royal),var(--navy));}
+  .brand b{font-size:18px;color:var(--navy);}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:16px;
+    box-shadow:0 8px 30px rgba(11,31,58,.06);padding:26px;margin-bottom:18px;}
+  h1{font-size:22px;margin:0 0 6px;color:var(--navy);}
+  h2{font-size:16px;margin:0 0 14px;color:var(--navy);}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 22px;}
+  label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin:0 0 6px;}
+  input[type=email]{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;
+    font-size:15px;color:var(--ink);margin-bottom:14px;outline:none;}
+  input[type=email]:focus{border-color:var(--royal);box-shadow:0 0 0 3px rgba(30,80,200,.12);}
+  button{width:100%;padding:13px 18px;border:0;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;}
+  .btn-primary{background:linear-gradient(135deg,var(--royal),var(--royal-dark));color:#fff;}
+  .btn-secondary{background:#eef3fd;color:var(--royal-dark);border:1px solid #cfe0fb;}
+  .btn-danger{background:#fff;color:var(--err);border:1px solid #f4c2cc;}
+  button:hover{opacity:.92;} button:disabled{opacity:.5;cursor:not-allowed;}
+  .row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .row:last-child{border-bottom:0;}
+  .row .k{color:var(--muted);} .row .v{font-weight:600;color:var(--navy);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;}
+  .badge.active{background:#e7f6ee;color:var(--ok);}
+  .badge.canceled{background:#fdeaed;color:var(--err);}
+  .badge.past_due{background:#fdf3e3;color:var(--warn);}
+  .msg{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:14px;display:none;}
+  .msg.ok{display:block;background:#e7f6ee;color:var(--ok);border:1px solid #bfe6d1;}
+  .msg.err{display:block;background:#fdeaed;color:var(--err);border:1px solid #f4c2cc;}
+  .msg.info{display:block;background:#eef3fd;color:var(--royal-dark);border:1px solid #cfe0fb;}
+  .hidden{display:none;}
+  #monerisFrame{width:100%;height:300px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-top:8px;}
+  .hint{font-size:12px;color:var(--muted);margin:10px 2px 0;}
+  .stack{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(30,80,200,.3);border-top-color:var(--royal);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:8px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .link{background:none;border:0;color:var(--royal);font-size:13px;cursor:pointer;padding:0;width:auto;text-decoration:underline;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span><b>Astraa Systems</b></div>
+
+    <!-- LOGIN -->
+    <div class="card" id="loginCard">
+      <h1>Manage your subscription</h1>
+      <p class="sub">Enter your email to view and manage your plan.</p>
+      <label for="email">Email address</label>
+      <input type="email" id="email" placeholder="you@company.com" autocomplete="email" />
+      <button class="btn-primary" id="lookupBtn">View my subscription</button>
+      <div class="msg" id="loginMsg"></div>
+    </div>
+
+    <!-- SUBSCRIPTION DETAILS -->
+    <div class="card hidden" id="detailsCard">
+      <h1>Your subscription</h1>
+      <div id="detailRows"></div>
+      <div class="stack">
+        <button class="btn-secondary" id="showChangeCardBtn">Change payment method</button>
+        <button class="btn-danger" id="cancelBtn">Cancel subscription</button>
+      </div>
+      <div class="msg" id="detailsMsg"></div>
+      <div style="margin-top:14px;"><button class="link" id="logoutBtn">Use a different email</button></div>
+    </div>
+
+    <!-- CHANGE CARD (HT iframe) -->
+    <div class="card hidden" id="changeCardCard">
+      <h2>Update payment method</h2>
+      <p class="sub">Enter your new card. Astraa never sees or stores your card number.</p>
+      <iframe id="monerisFrame" title="Secure card entry" frameborder="0"></iframe>
+      <div class="hint">🔒 Card details are entered directly with Moneris.</div>
+      <div class="stack">
+        <button class="btn-primary" id="saveCardBtn" disabled>Loading secure form…</button>
+        <button class="link" id="cancelChangeBtn">Back</button>
+      </div>
+      <div class="msg" id="cardMsg"></div>
+    </div>
+  </div>
+
+<script>
+  // Set to your backend API base (ngrok / server). Leave "" if same origin.
+  window.ASTRAA_API_BASE = "https://family-speed-outcome.ngrok-free.dev";
+</script>
+<script>
+(function(){
+  "use strict";
+  var API_BASE=(window.ASTRAA_API_BASE||"").replace(/\/$/,"");
+  function api(p){return API_BASE+p;}
+  function H(){return {"Content-Type":"application/json","ngrok-skip-browser-warning":"true"};}
+  var $=function(id){return document.getElementById(id);};
+  function show(el,type,txt){el.className="msg "+type;el.innerHTML=txt;}
+  function hide(el){el.className="msg";el.style.display="none";}
+
+  var currentEmail="";
+  var HT_ORIGIN="https://www3.moneris.com", HT_POST_TARGET="https://www3.moneris.com/HPPtoken/index.php";
+
+  // ---- LOGIN / LOOKUP ----
+  $("lookupBtn").addEventListener("click", function(){
+    var email=($("email").value||"").trim();
+    if(!email||email.indexOf("@")<0){show($("loginMsg"),"err","Please enter a valid email.");return;}
+    show($("loginMsg"),"info",'<span class="spinner"></span>Looking up your subscription…');
+    fetch(api("/api/subscription/status"),{method:"POST",headers:H(),body:JSON.stringify({email:email})})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(d.ok && d.found){
+          currentEmail=email;
+          renderDetails(d);
+          $("loginCard").classList.add("hidden");
+          $("detailsCard").classList.remove("hidden");
+        } else if(d.ok && !d.found){
+          show($("loginMsg"),"err","No subscription found for that email.");
+        } else {
+          show($("loginMsg"),"err", d.error||"Lookup failed.");
+        }
+      })
+      .catch(function(e){show($("loginMsg"),"err","Could not connect. "+(e.message||""));});
+  });
+
+  function renderDetails(d){
+    var statusClass = d.status==="active"?"active":(d.status==="canceled"?"canceled":"past_due");
+    var rows =
+      row("Plan", prettyProduct(d.product)) +
+      row("Price", "$"+Number(d.amount).toFixed(2)+" "+(d.currency||"CAD")+"/mo") +
+      row("Status", '<span class="badge '+statusClass+'">'+d.status+'</span>') +
+      row("Next billing date", d.next_bill_date||"—") +
+      (d.card_last_four?row("Card", "•••• "+d.card_last_four):"") +
+      row("Payments made", d.charge_count||0);
+    $("detailRows").innerHTML=rows;
+    // hide action buttons if already canceled
+    if(d.status==="canceled"){
+      $("cancelBtn").classList.add("hidden");
+      $("showChangeCardBtn").classList.add("hidden");
+      show($("detailsMsg"),"info","Your subscription is canceled. Access continues until "+(d.next_bill_date||"period end")+".");
+    }
+  }
+  function row(k,v){return '<div class="row"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+  function prettyProduct(p){
+    var m={estimator_basic:"Estimator · Basic",estimator_pro:"Estimator · Professional",
+      business_basic:"Business · Basic",business_pro:"Business · Professional",
+      finance_basic:"Finance · Basic",finance_pro:"Finance · Professional",
+      essentials:"Astraa Essentials",professional_suite:"Astraa Professional Suite"};
+    return m[p]||p;
+  }
+
+  $("logoutBtn").addEventListener("click", function(){
+    currentEmail=""; $("email").value=""; hide($("loginMsg"));
+    $("detailsCard").classList.add("hidden"); $("changeCardCard").classList.add("hidden");
+    $("loginCard").classList.remove("hidden");
+  });
+
+  // ---- CANCEL ----
+  $("cancelBtn").addEventListener("click", function(){
+    if(!confirm("Cancel your subscription? You'll keep access until your paid period ends.")) return;
+    show($("detailsMsg"),"info",'<span class="spinner"></span>Canceling…');
+    fetch(api("/api/subscription/cancel"),{method:"POST",headers:H(),body:JSON.stringify({email:currentEmail})})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(d.ok){
+          show($("detailsMsg"),"ok","✅ "+(d.message||"Canceled.")+" Access until "+(d.access_until||"period end")+".");
+          $("cancelBtn").classList.add("hidden"); $("showChangeCardBtn").classList.add("hidden");
+        } else { show($("detailsMsg"),"err", d.error||"Cancel failed."); }
+      })
+      .catch(function(e){show($("detailsMsg"),"err","Error: "+(e.message||""));});
+  });
+
+  // ---- CHANGE CARD ----
+  $("showChangeCardBtn").addEventListener("click", function(){
+    $("detailsCard").classList.add("hidden");
+    $("changeCardCard").classList.remove("hidden");
+    loadHTFrame();
+  });
+  $("cancelChangeBtn").addEventListener("click", function(){
+    $("changeCardCard").classList.add("hidden");
+    $("detailsCard").classList.remove("hidden");
+  });
+
+  function loadHTFrame(){
+    fetch(api("/api/moneris/ht-config"),{headers:{"ngrok-skip-browser-warning":"true"}})
+      .then(function(r){return r.json();})
+      .then(function(cfg){
+        if(!cfg.ok||!cfg.profileId){throw new Error("HT profile not configured");}
+        HT_POST_TARGET=cfg.iframeBase;
+        HT_ORIGIN=cfg.env==="production"?"https://www3.moneris.com":"https://esqa.moneris.com";
+        $("monerisFrame").src=cfg.iframeBase+"?id="+encodeURIComponent(cfg.profileId)+"&pmmsg=true&enable_exp=1&enable_cvd=1&display_labels=1&css_body=font-family:sans-serif;margin:8px;&css_textbox=border:1px solid %23ccc;border-radius:6px;padding:10px;font-size:15px;width:90%25;margin:6px 0;&css_input_label=display:block;font-size:12px;color:%230b1f3a;margin-top:8px;";
+        $("monerisFrame").onload=function(){
+          $("saveCardBtn").disabled=false; $("saveCardBtn").textContent="Save new card";
+        };
+      })
+      .catch(function(e){show($("cardMsg"),"err","Could not load secure form. "+(e.message||""));});
+  }
+
+  window.addEventListener("message", function(event){
+    if(event.origin.indexOf("moneris.com")<0) return;
+    var data; try{data=(typeof event.data==="string")?JSON.parse(event.data):event.data;}catch(e){try{data=eval("("+event.data+")");}catch(e2){return;}}
+    if(!data) return;
+    var rc=data.responseCode; if(Array.isArray(rc)) rc=rc[0]; rc=String(rc);
+    if((rc==="1"||rc==="001")&&data.dataKey){
+      saveNewCard(data.dataKey);
+    } else {
+      $("saveCardBtn").disabled=false; $("saveCardBtn").textContent="Save new card";
+      show($("cardMsg"),"err","❌ "+(data.errorMessage||("Card error (code "+rc+"). Check details.")));
+    }
+  }, false);
+
+  $("saveCardBtn").addEventListener("click", function(){
+    show($("cardMsg"),"info",'<span class="spinner"></span>Securing your card…');
+    $("saveCardBtn").disabled=true; $("saveCardBtn").textContent="Processing…";
+    $("monerisFrame").contentWindow.postMessage("tokenize", HT_POST_TARGET);
+  });
+
+  function saveNewCard(token){
+    show($("cardMsg"),"info",'<span class="spinner"></span>Updating your payment method…');
+    fetch(api("/api/subscription/change-card"),{method:"POST",headers:H(),
+      body:JSON.stringify({email:currentEmail,temp_token:token})})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(d.ok){
+          show($("cardMsg"),"ok","✅ "+(d.message||"Payment method updated!"));
+          setTimeout(function(){
+            $("changeCardCard").classList.add("hidden");
+            $("detailsCard").classList.remove("hidden");
+          },1500);
+        } else {
+          $("saveCardBtn").disabled=false; $("saveCardBtn").textContent="Save new card";
+          show($("cardMsg"),"err","❌ "+(d.error&&d.error.error||d.error||"Update failed."));
+        }
+      })
+      .catch(function(e){
+        $("saveCardBtn").disabled=false; $("saveCardBtn").textContent="Save new card";
+        show($("cardMsg"),"err","Error: "+(e.message||""));
+      });
+  }
+})();
+</script>
+</body>
+</html>

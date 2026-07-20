@@ -8917,3 +8917,80 @@ def astraa_subscription_cancel():
     except Exception as e:
         print("subscription cancel error:", e, flush=True)
         return jsonify({"ok": False, "error": str(e)}), 500
+
+
+# ===== ASTRAA IN-APP BILLING SCHEDULER (no cron/sudo needed) =====
+# Runs a daily check inside the gunicorn process. Since the API is
+# already always-on, this fires the billing run once every 24h.
+import threading as _threading
+import time as _sched_time
+
+_ASTRAA_LAST_BILLING_DAY = {"day": None}
+
+def _astraa_run_billing_inline():
+    """Charge due subscriptions. Safe to call repeatedly; only charges when due."""
+    from datetime import datetime, timezone, timedelta
+    try:
+        subs = astraa_load_subs_db()
+        if not subs:
+            return
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        changed = False
+        for key, rec in list(subs.items()):
+            if rec.get("status") != "active":
+                continue
+            next_bill = rec.get("next_bill_date")
+            if not next_bill or next_bill > today:
+                continue
+            email = rec.get("email", key); product = rec.get("product", "")
+            amount = rec.get("amount_cents"); pmid = rec.get("payment_method_id")
+            guard = 0
+            while next_bill and next_bill <= today and guard < 24:
+                guard += 1
+                ok, result = astraa_charge_payment_method(pmid, amount, email, product, "SUBSEQUENT")
+                now_iso = datetime.now(timezone.utc).isoformat()
+                if ok:
+                    rec["last_charge_at"] = now_iso
+                    rec["last_charge_order"] = result.get("orderId")
+                    rec["charge_count"] = rec.get("charge_count", 0) + 1
+                    d = datetime.strptime(next_bill, "%Y-%m-%d")
+                    next_bill = (d + timedelta(days=30)).strftime("%Y-%m-%d")
+                    rec["next_bill_date"] = next_bill
+                    rec.setdefault("history", []).append({"at": now_iso, "type": "recurring_charge",
+                        "order": result.get("orderId"), "status": result.get("paymentStatus")})
+                    rec["status"] = "active"
+                    print("SCHED_CHARGE ok", email, result.get("orderId"), "next", next_bill, flush=True)
+                else:
+                    rec["status"] = "past_due"
+                    rec["last_failure_at"] = now_iso
+                    rec.setdefault("history", []).append({"at": now_iso, "type": "charge_failed", "error": result})
+                    print("SCHED_CHARGE FAILED", email, result, flush=True)
+                    break
+                changed = True
+            subs[key] = rec
+        if changed:
+            astraa_save_subs_db(subs)
+    except Exception as e:
+        print("SCHED error:", e, flush=True)
+
+def _astraa_scheduler_loop():
+    from datetime import datetime, timezone
+    while True:
+        try:
+            today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+            if _ASTRAA_LAST_BILLING_DAY["day"] != today:
+                _ASTRAA_LAST_BILLING_DAY["day"] = today
+                print("SCHED daily billing check for", today, flush=True)
+                _astraa_run_billing_inline()
+        except Exception as e:
+            print("SCHED loop error:", e, flush=True)
+        _sched_time.sleep(3600)  # check hourly; charges only when a new day + due
+
+# start the scheduler thread once, in the main worker
+try:
+    if os.getenv("ASTRAA_ENABLE_SCHEDULER", "true").lower() == "true":
+        _t = _threading.Thread(target=_astraa_scheduler_loop, daemon=True)
+        _t.start()
+        print("ASTRAA in-app billing scheduler started", flush=True)
+except Exception as _e:
+    print("Could not start scheduler:", _e, flush=True)

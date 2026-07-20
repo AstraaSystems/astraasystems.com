@@ -8773,23 +8773,37 @@ def astraa_subscription_signup():
         }
         astraa_save_subs_db(subs)
 
-        # 4. activate the account in usage db (reuse existing store)
+        # 4. create/activate the LOGIN account with correct tool+plan (works for NEW customers)
+        _PROD_MAP = {
+            "estimator_basic": ("Astraa Estimator", "Basic"),
+            "estimator_pro":   ("Astraa Estimator", "Professional"),
+            "business_basic":  ("Astraa Business", "Basic"),
+            "business_pro":    ("Astraa Business", "Professional"),
+            "finance_basic":   ("Astraa Finance", "Basic"),
+            "finance_pro":     ("Astraa Finance", "Professional"),
+            "essentials":         ("essentials", "Professional"),
+            "professional_suite": ("professional_suite", "Professional"),
+        }
+        sel_tool, sel_plan = _PROD_MAP.get(product, ("Astraa Estimator", "Basic"))
+        passkey = None
         try:
-            udb = astraa_load_usage_db()
-            rec = udb.get(key) or udb.get(email) or udb.get(email.strip().lower())
-            if rec:
-                rec["payment_status"] = "active"
-                rec["subscription_status"] = "active"
-                rec["selected_tool"] = product
-                rec["updated_at"] = now_iso
-                udb[key if key in udb else email] = rec
-                astraa_save_usage_db(udb)
+            astraa_create_or_update_account_usage(
+                email,
+                selected_tool=sel_tool,
+                selected_plan=sel_plan,
+                payment_status="active",
+            )
+            passkey, pk_err = astraa_set_account_passkey(email)
+            if pk_err:
+                print("signup: passkey error:", pk_err, flush=True)
         except Exception as ue:
-            print("signup: usage db update failed:", ue, flush=True)
+            print("signup: account/passkey creation failed:", ue, flush=True)
 
         return jsonify({
             "ok": True,
             "product": product,
+            "email": email,
+            "passkey": passkey,
             "next_bill_date": subs[key]["next_bill_date"],
             "order": charge.get("orderId"),
         }), 200

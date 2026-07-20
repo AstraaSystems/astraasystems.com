@@ -228,8 +228,19 @@
     .then(function(r){ return r.json(); })
     .then(function(sub){
       if(sub.ok){
-        show("ok", "✅ You're subscribed to " + info.name + "! A confirmation is on its way to " + email + ".");
-        btn.textContent = "Subscribed ✓"; btn.disabled = true;
+        var pk = (sub.result && sub.result.passkey) || sub.passkey || "";
+        var acctEmail = (sub.result && sub.result.email) || sub.email || email;
+        var loginMsg = "\u2705 You're subscribed to " + info.name + "!";
+        if(pk){
+          loginMsg += "<br><br><b>Log in at Astraa Space:</b>" +
+            "<br>Email: <b>" + acctEmail + "</b>" +
+            "<br>Access Key: <b style=\'font-size:16px;color:#1e50c8;\'>" + pk + "</b>" +
+            "<br><br>\u26A0\uFE0F <b>Save this access key now</b> \u2014 you need it to log in.";
+        } else {
+          loginMsg += " A confirmation is on its way to " + acctEmail + ".";
+        }
+        show("ok", loginMsg);
+        btn.textContent = "Subscribed \u2713"; btn.disabled = true;
       } else {
         var d = (sub.result && sub.result.response && (sub.result.response.detail||sub.result.response.title)) || sub.error || "Subscription failed.";
         throw new Error(d);

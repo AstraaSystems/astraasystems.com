@@ -8462,3 +8462,338 @@ def astraa_moneris_subscribe_with_token():
     except Exception as e:
         print("subscribe-with-token error:", e, flush=True)
         return jsonify({"ok": False, "error": str(e)}), 500
+
+
+# =====================================================================
+# ASTRAA OWN SUBSCRIPTION ENGINE — BLOCK 1: store + charge helper
+# Uses the working /payments endpoint (modern REST). No /subscriptions.
+# =====================================================================
+ASTRAA_SUBS_STORE = os.path.join("astraa_data", "astraa_subscriptions.json")
+
+
+def astraa_load_subs_db():
+    os.makedirs("astraa_data", exist_ok=True)
+    if not os.path.exists(ASTRAA_SUBS_STORE):
+        return {}
+    try:
+        with open(ASTRAA_SUBS_STORE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def astraa_save_subs_db(db):
+    os.makedirs("astraa_data", exist_ok=True)
+    tmp = ASTRAA_SUBS_STORE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(db, f, indent=2, sort_keys=True)
+    os.replace(tmp, ASTRAA_SUBS_STORE)
+
+
+def astraa_charge_payment_method(payment_method_id, amount_cents, email="", product="",
+                                 payment_information="SUBSEQUENT"):
+    """
+    Charge a stored Moneris payment method ONE time via /payments.
+    payment_information: 'FIRST' for the initial charge, 'SUBSEQUENT' for renewals.
+    Returns (ok, result_dict).
+    """
+    import requests, uuid
+    from datetime import datetime, timezone
+
+    if not payment_method_id:
+        return False, {"error": "PAYMENT_METHOD_ID_MISSING"}
+    if not amount_cents or int(amount_cents) <= 0:
+        return False, {"error": "INVALID_AMOUNT"}
+    if not MONERIS_REST_MERCHANT_ID:
+        return False, {"error": "MERCHANT_ID_MISSING"}
+    try:
+        token = astraa_get_moneris_token()
+    except Exception as e:
+        return False, {"error": "OAUTH_FAILED", "message": str(e)}
+
+    order_id = ("AST-PAY-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+                + "-" + uuid.uuid4().hex[:6].upper())
+
+    body = {
+        "idempotencyKey": uuid.uuid4().hex,
+        "orderId": order_id,
+        "amount": {"amount": int(amount_cents), "currency": "CAD"},
+        "paymentMethod": {
+            "paymentMethodSource": "PAYMENT_METHOD_ID",
+            "paymentMethodId": payment_method_id,
+            "credentialOnFileInformation": {
+                "paymentIndicator": "RECURRING",
+                "paymentInformation": payment_information,  # FIRST or SUBSEQUENT
+            },
+        },
+        "automaticCapture": True,
+        "customData": {"astraa_email": email, "astraa_product": product},
+        "dynamicDescriptor": "ASTRAA",
+    }
+
+    try:
+        r = requests.post(
+            MONERIS_REST_BASE + "/payments",
+            headers={
+                "Authorization": "Bearer " + token,
+                "Api-Version": MONERIS_REST_API_VERSION,
+                "X-Merchant-Id": MONERIS_REST_MERCHANT_ID,
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            json=body, timeout=30,
+        )
+        try:
+            data = r.json()
+        except Exception:
+            data = {"raw": r.text}
+        print("ASTRA_CHARGE_DEBUG status=", r.status_code, "resp=", data, flush=True)
+
+        status = (data.get("paymentStatus") or "").upper()
+        ok = r.status_code in (200, 201) and status in ("SUCCEEDED", "APPROVED", "")
+        # Treat explicit success statuses as ok; otherwise fail
+        if r.status_code in (200, 201) and status in ("SUCCEEDED", "APPROVED"):
+            ok = True
+        else:
+            ok = r.status_code in (200, 201) and status not in ("DECLINED", "DECLINED_RETRY", "CANCELED")
+        return ok, {
+            "http_status": r.status_code,
+            "orderId": order_id,
+            "paymentStatus": status,
+            "response": data,
+        }
+    except Exception as e:
+        return False, {"error": "CHARGE_EXCEPTION", "message": str(e), "orderId": order_id}
+
+
+# =====================================================================
+# ASTRAA OWN SUBSCRIPTION ENGINE — BLOCK 1: store + charge helper
+# Uses the working /payments endpoint (modern REST). No /subscriptions.
+# =====================================================================
+ASTRAA_SUBS_STORE = os.path.join("astraa_data", "astraa_subscriptions.json")
+
+
+def astraa_load_subs_db():
+    os.makedirs("astraa_data", exist_ok=True)
+    if not os.path.exists(ASTRAA_SUBS_STORE):
+        return {}
+    try:
+        with open(ASTRAA_SUBS_STORE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def astraa_save_subs_db(db):
+    os.makedirs("astraa_data", exist_ok=True)
+    tmp = ASTRAA_SUBS_STORE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(db, f, indent=2, sort_keys=True)
+    os.replace(tmp, ASTRAA_SUBS_STORE)
+
+
+def astraa_charge_payment_method(payment_method_id, amount_cents, email="", product="",
+                                 payment_information="SUBSEQUENT"):
+    """
+    Charge a stored Moneris payment method ONE time via /payments.
+    payment_information: 'FIRST' for the initial charge, 'SUBSEQUENT' for renewals.
+    Returns (ok, result_dict).
+    """
+    import requests, uuid
+    from datetime import datetime, timezone
+
+    if not payment_method_id:
+        return False, {"error": "PAYMENT_METHOD_ID_MISSING"}
+    if not amount_cents or int(amount_cents) <= 0:
+        return False, {"error": "INVALID_AMOUNT"}
+    if not MONERIS_REST_MERCHANT_ID:
+        return False, {"error": "MERCHANT_ID_MISSING"}
+    try:
+        token = astraa_get_moneris_token()
+    except Exception as e:
+        return False, {"error": "OAUTH_FAILED", "message": str(e)}
+
+    order_id = ("AST-PAY-" + datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+                + "-" + uuid.uuid4().hex[:6].upper())
+
+    body = {
+        "idempotencyKey": uuid.uuid4().hex,
+        "orderId": order_id,
+        "amount": {"amount": int(amount_cents), "currency": "CAD"},
+        "paymentMethod": {
+            "paymentMethodSource": "PAYMENT_METHOD_ID",
+            "paymentMethodId": payment_method_id,
+            "credentialOnFileInformation": {
+                "paymentIndicator": "RECURRING",
+                "paymentInformation": payment_information,
+            },
+        },
+        "automaticCapture": True,
+        "customData": {"astraa_email": email, "astraa_product": product},
+        "dynamicDescriptor": "ASTRAA",
+    }
+
+    try:
+        r = requests.post(
+            MONERIS_REST_BASE + "/payments",
+            headers={
+                "Authorization": "Bearer " + token,
+                "Api-Version": MONERIS_REST_API_VERSION,
+                "X-Merchant-Id": MONERIS_REST_MERCHANT_ID,
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            json=body, timeout=30,
+        )
+        try:
+            data = r.json()
+        except Exception:
+            data = {"raw": r.text}
+        print("ASTRA_CHARGE_DEBUG status=", r.status_code, "resp=", data, flush=True)
+
+        status = (data.get("paymentStatus") or "").upper()
+        if r.status_code in (200, 201) and status in ("SUCCEEDED", "APPROVED"):
+            ok = True
+        else:
+            ok = r.status_code in (200, 201) and status not in ("DECLINED", "DECLINED_RETRY", "CANCELED")
+        return ok, {
+            "http_status": r.status_code,
+            "orderId": order_id,
+            "paymentStatus": status,
+            "response": data,
+        }
+    except Exception as e:
+        return False, {"error": "CHARGE_EXCEPTION", "message": str(e), "orderId": order_id}
+
+
+# =====================================================================
+# ASTRAA OWN SUBSCRIPTION ENGINE — BLOCK 2: signup flow
+# temp token -> store card -> charge first month -> save subscription
+# =====================================================================
+def astraa_pm_from_temp_token(temp_token, email=""):
+    """Convert an HT temporary token into a permanent Moneris paymentMethodId."""
+    import requests, uuid
+    if not temp_token:
+        return None, {"error": "TEMP_TOKEN_MISSING"}
+    try:
+        bearer = astraa_get_moneris_token()
+    except Exception as e:
+        return None, {"error": "OAUTH_FAILED", "message": str(e)}
+    body = {
+        "idempotencyKey": uuid.uuid4().hex,
+        "paymentMethodSource": "TEMPORARY_TOKEN",
+        "temporaryToken": temp_token,
+        "storePaymentMethod": "MERCHANT_INITIATED",
+        "customData": {"astraa_email": email},
+    }
+    try:
+        r = requests.post(
+            MONERIS_REST_BASE + "/payment-methods",
+            headers={
+                "Authorization": "Bearer " + bearer,
+                "Api-Version": MONERIS_REST_API_VERSION,
+                "X-Merchant-Id": MONERIS_REST_MERCHANT_ID,
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            json=body, timeout=30,
+        )
+        try:
+            data = r.json()
+        except Exception:
+            data = {"raw": r.text}
+        pmid = data.get("paymentMethodId") or (data.get("paymentMethod") or {}).get("paymentMethodId")
+        if r.status_code in (200, 201) and pmid:
+            return pmid, {"http_status": r.status_code}
+        return None, {"http_status": r.status_code, "response": data}
+    except Exception as e:
+        return None, {"error": "PM_EXCEPTION", "message": str(e)}
+
+
+def astraa_next_month_iso(from_dt=None):
+    from datetime import datetime, timezone, timedelta
+    d = from_dt or datetime.now(timezone.utc)
+    # add ~1 month (30 days keeps it simple + predictable)
+    return (d + timedelta(days=30)).strftime("%Y-%m-%d")
+
+
+@app.route("/api/subscription/signup", methods=["POST"])
+def astraa_subscription_signup():
+    """
+    Full signup: temp_token -> pmid -> charge first month -> save subscription -> activate.
+    Body: { email, product, temp_token }
+    """
+    from datetime import datetime, timezone
+    try:
+        data = request.get_json(silent=True) or {}
+        email = (data.get("email") or "").strip()
+        product = (data.get("product") or "").strip()
+        temp_token = data.get("temp_token") or data.get("dataKey") or data.get("token")
+
+        if not (email and product and temp_token):
+            return jsonify({"ok": False, "error": "MISSING_FIELDS",
+                            "need": ["email", "product", "temp_token"]}), 400
+
+        amount = ASTRAA_RECURRING_AMOUNTS.get(product)
+        if not amount:
+            return jsonify({"ok": False, "error": "UNKNOWN_PRODUCT", "product": product}), 400
+
+        # 1. store card -> pmid
+        pmid, pm_meta = astraa_pm_from_temp_token(temp_token, email)
+        if not pmid:
+            return jsonify({"ok": False, "step": "store_card", "error": pm_meta}), 400
+
+        # 2. charge first month (FIRST)
+        ok, charge = astraa_charge_payment_method(pmid, amount, email, product, "FIRST")
+        if not ok:
+            return jsonify({"ok": False, "step": "first_charge", "error": charge}), 400
+
+        # 3. save subscription record
+        try:
+            key = astraa_account_key(email)
+        except Exception:
+            key = email.strip().lower()
+        now_iso = datetime.now(timezone.utc).isoformat()
+        subs = astraa_load_subs_db()
+        subs[key] = {
+            "email": email,
+            "product": product,
+            "amount_cents": int(amount),
+            "payment_method_id": pmid,
+            "status": "active",
+            "created_at": now_iso,
+            "last_charge_at": now_iso,
+            "last_charge_order": charge.get("orderId"),
+            "next_bill_date": astraa_next_month_iso(),
+            "charge_count": 1,
+            "history": [{"at": now_iso, "type": "first_charge",
+                         "order": charge.get("orderId"), "status": charge.get("paymentStatus")}],
+        }
+        astraa_save_subs_db(subs)
+
+        # 4. activate the account in usage db (reuse existing store)
+        try:
+            udb = astraa_load_usage_db()
+            rec = udb.get(key) or udb.get(email) or udb.get(email.strip().lower())
+            if rec:
+                rec["payment_status"] = "active"
+                rec["subscription_status"] = "active"
+                rec["selected_tool"] = product
+                rec["updated_at"] = now_iso
+                udb[key if key in udb else email] = rec
+                astraa_save_usage_db(udb)
+        except Exception as ue:
+            print("signup: usage db update failed:", ue, flush=True)
+
+        return jsonify({
+            "ok": True,
+            "product": product,
+            "next_bill_date": subs[key]["next_bill_date"],
+            "order": charge.get("orderId"),
+        }), 200
+
+    except Exception as e:
+        print("subscription signup error:", e, flush=True)
+        return jsonify({"ok": False, "error": str(e)}), 500

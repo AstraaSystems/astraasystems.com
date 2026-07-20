@@ -220,7 +220,7 @@
     var email = (emailEl.value || "").trim();
     show("info", '<span class="spinner"></span>Setting up your subscription…');
 
-    fetch(api("/api/moneris/subscribe-with-token"), {
+    fetch(api("/api/subscription/signup"), {
       method:"POST",
       headers:{"Content-Type":"application/json","ngrok-skip-browser-warning":"true"},
       body: JSON.stringify({ email: email, product: product, temp_token: token })

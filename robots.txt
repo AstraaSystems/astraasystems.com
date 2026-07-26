@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /workspace
+Disallow: /space
+Disallow: /login
+Disallow: /register
+Disallow: /api/
+Sitemap: https://astraasystems.com/sitemap.xml

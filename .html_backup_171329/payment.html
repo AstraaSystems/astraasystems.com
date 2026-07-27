@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astraa Systems - Secure Checkout</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #fafafa;
+            color: #1c1917;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .checkout-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+        }
+        h2 { margin-top: 0; font-size: 24px; font-weight: 600; }
+        .price { font-size: 32px; font-weight: 700; margin: 16px 0; color: #0f172a; }
+        .btn-pay {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: #0f172a;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-pay:hover { background: #1e293b; }
+        #astraaDebugBanner {
+            background: #f4f4f5;
+            border: 1px solid #e4e4e7;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="checkout-container">
+    <h2>Astraa Subscription</h2>
+    <p style="color: #64748b;">Review your plan details below to finalize activation.</p>
+    <div class="price">$29.00<span style="font-size: 14px; font-weight: 400; color: #64748b;"> / mo</span></div>
+    
+    <!-- SAFE CONTROL TRIGGER: Fixed type="button" preventing default form navigation actions -->
+    <button type="button" class="btn-pay" id="astraaPayButton" onclick="triggerPaymentPreload(event)">
+        Proceed to Secure Payment
+    </button>
+
+    <!-- Inline Iframe Injection Targets -->
+    <div id="astraaMonerisCheckoutShell" style="margin-top: 24px; display: none;">
+        <div id="monerisCheckout"></div>
+    </div>
+
+    <div id="astraaDebugBanner">
+        <strong>Status:</strong> <span id="paymentStatus" style="color: #64748b;">Ready.</span>
+    </div>
+</div>
+
+<script id="astraa-moneris-checkout-object-v1">
+(function () {
+    function astraaMonerisMode() {
+        const mode = sessionStorage.getItem("astraa_moneris_frontend_mode") || window.ASTRAA_MONERIS_FRONTEND_MODE || "prod";
+        return String(mode).toLowerCase() === "qa" ? "qa" : "prod";
+    }
+
+    function astraaMonerisScriptUrl() {
+        return astraaMonerisMode() === "qa"
+            ? "https://gatewayt.moneris.com/chkt/js/chkt_v1.00.js"
+            : "https://gateway.moneris.com/chkt/js/chkt_v1.00.js";
+    }
+
+    function astraaSetPaymentStatus(message, isError = false) {
+        const status = document.getElementById("paymentStatus");
+        if (status) {
+            status.textContent = message;
+            status.style.color = isError ? "#dc2626" : "#16a34a";
+        }
+        console.log("[Astraa Moneris]", message);
+    }
+
+    function astraaStoreMonerisCallback(name, response) {
+        try {
+            const parsed = typeof response === "object" ? response : JSON.parse(response || "{}");
+            sessionStorage.setItem("astraa_moneris_callback_" + name, JSON.stringify(parsed));
+            if (parsed.ticket) sessionStorage.setItem("astraa_moneris_ticket", parsed.ticket);
+        } catch (e) {
+            console.error("[Astraa Moneris] Callback parsing failure:", e);
+        }
+    }
+
+    function astraaInitializeMonerisCheckoutObject() {
+        if (window.astraaMonerisCheckoutReady && window.monerisCheckout && typeof window.monerisCheckout.startCheckout === "function") {
+            return window.monerisCheckout;
+        }
+
+        const checkout = new window.monerisCheckout();
+        const mode = astraaMonerisMode();
+
+        checkout.setMode(mode);
+        checkout.setCheckoutDiv("monerisCheckout");
+
+        checkout.setCallback("page_loaded", function (resp) { astraaStoreMonerisCallback("page_loaded", resp); });
+        checkout.setCallback("cancel_transaction", function (resp) { astraaStoreMonerisCallback("cancel_transaction", resp); });
+        checkout.setCallback("error_event", function (resp) { astraaStoreMonerisCallback("error_event", resp); });
+        checkout.setCallback("payment_receipt", function (resp) { astraaStoreMonerisCallback("payment_receipt", resp); });
+        checkout.setCallback("payment_complete", function (resp) {
+            astraaStoreMonerisCallback("payment_complete", resp);
+            const ticket = sessionStorage.getItem("astraa_moneris_ticket") || "";
+            window.location.href = "payment-success.html?ticket=" + encodeURIComponent(ticket) + "&v=moneris-complete";
+        });
+
+        window.monerisCheckout = checkout;
+        window.astraaMonerisCheckoutReady = true;
+        return checkout;
+    }
+
+    window.astraaLaunchCheckoutForm = function (ticketToken) {
+        if (!ticketToken || ticketToken.trim() === "" || ticketToken === "undefined") {
+            astraaSetPaymentStatus("Error: Dynamic ticket token was empty or malformed.", true);
+            return false;
+        }
+
+        if (!window.monerisCheckout || typeof window.monerisCheckout.startCheckout !== "function") {
+            astraaSetPaymentStatus("Error: Checkout components aren't ready yet.", true);
+            return false;
+        }
+
+        try {
+            document.getElementById("astraaPayButton").style.display = "none";
+            document.getElementById("astraaMonerisCheckoutShell").style.display = "block";
+            astraaSetPaymentStatus("Opening Moneris secure overlay...");
+            window.monerisCheckout.startCheckout(ticketToken);
+            return true;
+        } catch (err) {
+            astraaSetPaymentStatus("Execution error rendering secure canvas.", true);
+            return false;
+        }
+    };
+
+    window.astraaEnsureMonerisCheckoutReady = function () {
+        return new Promise(function (resolve, reject) {
+            if (window.astraaMonerisCheckoutReady && window.monerisCheckout) return resolve(window.monerisCheckout);
+            
+            const scriptSrc = astraaMonerisScriptUrl();
+            let script = document.getElementById("astraaMonerisCheckoutScript");
+            if (!script) {
+                script = document.createElement("script");
+                script.id = "astraaMonerisCheckoutScript";
+                script.src = scriptSrc;
+                script.async = true;
+                document.head.appendChild(script);
+            }
+
+            script.onload = function () { try { resolve(astraaInitializeMonerisCheckoutObject()); } catch (e) { reject(e); } };
+            script.onerror = function () { reject(new Error("Network asset block matching: " + scriptSrc)); };
+        });
+    };
+
+    document.addEventListener("DOMContentLoaded", function () {
+        window.astraaEnsureMonerisCheckoutReady()
+            .then(function() { console.log("[Astraa Moneris] Standalone engine initialized successfully."); })
+            .catch(function(e) { astraaSetPaymentStatus("Engine Load Failed", true); });
+    });
+})();
+
+// TRIGGER INTERCEPTOR HANDLER
+function triggerPaymentPreload(event) {
+    event.preventDefault(); // Extra layer preventing explicit button redirects
+    
+    document.getElementById("paymentStatus").textContent = "Requesting secure single-use ticket...";
+    
+    /* 
+       REPLACE THIS WITH YOUR ACTUAL ENDPOINT FETCH:
+       
+       fetch('/api/checkout/preload', { method: 'POST' })
+         .then(res => res.json())
+         .then(data => {
+             const ticket = data.ticket || (data.response && data.response.ticket);
+             window.astraaLaunchCheckoutForm(ticket);
+         })
+         .catch(err => document.getElementById("paymentStatus").textContent = "Backend fetch failed.");
+    */
+
+    // TEMPORARY PROTOTYPE TEST CASE MOCK:
+    // Replace this string with a real ticket to test execution flow directly.
+    const testTicket = "your_actual_moneris_ticket_token_here"; 
+    window.astraaLaunchCheckoutForm(testTicket);
+}
+</script>
+</body>
+</html>

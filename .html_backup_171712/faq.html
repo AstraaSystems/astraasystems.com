@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ / Support | Astraa Systems</title>
+  <style>
+    :root {
+      --black: #000000;
+      --navy: #090d16;
+      --royal: #1d4ed8;
+      --blue: #2563eb;
+      --white: #ffffff;
+      --off-white: #f8fafc;
+      --line-light: #e2e8f0;
+      --text-dark: #0f172a;
+      --muted-dark: #475569;
+      --gray: #64748b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ASTRAA_VISIBLE_PUBLIC_HEADER_V8 */
+    .astraa-site-header {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 9999 !important;
+      background: rgba(255, 255, 255, 0.85) !important;
+      backdrop-filter: blur(16px) !important;
+      border-bottom: 1px solid var(--line-light) !important;
+      width: 100%;
+    }
+
+    .astraa-site-nav {
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      padding: 14px 24px !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      gap: 20px !important;
+      width: 100%;
+    }
+
+    .astraa-site-brand {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      font-weight: 950 !important;
+      color: var(--black) !important;
+      white-space: nowrap !important;
+    }
+    .astraa-site-brand img { width: 34px !important; height: 34px !important; object-fit: contain !important; }
+    .astraa-site-brand span { display: block !important; font-size: 13px !important; color: var(--black) !important; font-weight: 800 !important; }
+
+    .astraa-site-links { display: flex !important; align-items: center !important; gap: 28px !important; color: var(--muted-dark) !important; font-size: 14px !important; font-weight: 600 !important; }
+    .astraa-site-links a { transition: color 0.2s; }
+    .astraa-site-links a:hover { color: var(--royal) !important; }
+
+    .astraa-action-pack { display: flex !important; align-items: center !important; gap: 20px !important; }
+    .astraa-space-btn { font-size: 14px; font-weight: 600; color: var(--muted-dark); text-decoration: none; transition: color 0.2s; }
+    .astraa-space-btn:hover { color: var(--royal); }
+
+    .astraa-site-cta {
+      display: inline-flex !important;
+      padding: 8px 16px !important;
+      border-radius: 999px !important;
+      background: var(--black) !important;
+      color: white !important;
+      font-weight: 700 !important;
+      font-size: 13px !important;
+      align-items: center;
+      transition: background 0.2s;
+    }
+    .astraa-site-cta:hover { background: var(--royal) !important; }
+
+    /* Core Clean Design Canvas System */
+    .support-container {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px 100px;
+    }
+
+    .support-hero {
+      margin-bottom: 56px;
+    }
+    .support-hero .section-badge {
+      font-size: 12px; font-weight: 700; color: var(--blue); text-transform: uppercase;
+      letter-spacing: 0.5px; margin-bottom: 12px; display: block;
+    }
+    .support-hero h1 { font-size: clamp(32px, 4.5vw, 44px); font-weight: 900; color: var(--black); margin-bottom: 18px; letter-spacing: -0.03em; line-height: 1.2; }
+    .support-hero p { color: var(--muted-dark); font-size: 17px; max-width: 850px; line-height: 1.6; }
+
+    .support-section-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--black);
+      margin-top: 48px;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+      border-bottom: 1px solid var(--line-light);
+      padding-bottom: 8px;
+    }
+
+    /* Standardized Modular Card Layout Grid Matrices */
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+    @media(max-width: 650px) {
+      .support-grid { grid-template-columns: 1fr; }
+    }
+
+    .support-card {
+      background: #ffffff;
+      border: 1px solid var(--line-light);
+      border-radius: 12px;
+      padding: 36px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .support-card:hover { border-color: var(--royal); box-shadow: 0 4px 20px rgba(0,0,0,0.01); }
+    
+    .card-title { font-size: 19px; font-weight: 800; color: var(--black); margin-bottom: 12px; letter-spacing: -0.01em; }
+    .card-label { font-size: 11px; font-weight: 700; color: var(--blue); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; display: block; }
+    .card-text { font-size: 15px; color: var(--muted-dark); line-height: 1.6; }
+
+    footer {
+      border-top: 1px solid var(--line-light);
+      padding: 32px 24px;
+      background: var(--white);
+      width: 100%;
+    }
+
+    @media(max-width: 900px) { .astraa-site-links { display: none !important; } }
+  </style>
+
+
+<style id="astraa-hamburger">
+.astraa-burger { display: none; background: none; border: none; cursor: pointer; padding: 8px; font-size: 26px; line-height: 1; color: #03050a; }
+@media (max-width: 820px) {
+  .astraa-burger { display: block !important; }
+  .astraa-site-links, .nav-links { display: none !important; }
+  .astraa-action-pack { display: none !important; }
+  .astraa-site-nav, .nav-inner { justify-content: space-between !important; align-items: center !important; padding: 12px 16px !important; flex-wrap: nowrap !important; }
+  /* dropdown panel */
+  .astraa-mobile-panel { display: none; position: fixed; top: 58px; left: 0; right: 0; background: #fff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 99999; padding: 8px 0; max-height: calc(100vh - 58px); overflow-y: auto; }
+  .astraa-mobile-panel.open { display: block !important; }
+  .astraa-mobile-panel a { display: block; padding: 14px 24px; color: #0f172a; text-decoration: none; font-weight: 600; font-size: 16px; border-bottom: 1px solid #f1f5f9; }
+  .astraa-mobile-panel a:hover { background: #f8fafc; color: #1d4ed8; }
+  .astraa-mobile-panel a.cta { background: #1d4ed8; color: #fff; margin: 10px 24px 0; border-radius: 9px; text-align: center; border: none; }
+}
+</style>
+<style>.astraa-mobile-panel{display:none;}</style>
+<div class="astraa-mobile-panel" id="astraaMobilePanel">
+  <a href="index.html">Home</a>
+  <a href="tools.html">Tools</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="faq.html">FAQ / Support</a>
+  <a href="contact.html">Custom Packages</a>
+  <a href="astraaspace/login.html">Astraa Space</a>
+  <a href="pricing.html" class="cta">Buy Now</a>
+</div>
+<script id="astraa-burger-js">
+document.addEventListener('DOMContentLoaded', function(){
+  var nav = document.querySelector('.astraa-site-nav') || document.querySelector('.nav-inner');
+  var panel = document.getElementById('astraaMobilePanel');
+  if(nav && panel && !document.querySelector('.astraa-burger')){
+    var b = document.createElement('button');
+    b.className = 'astraa-burger';
+    b.innerHTML = '&#9776;';
+    b.setAttribute('aria-label','Menu');
+    b.onclick = function(e){ e.stopPropagation(); panel.classList.toggle('open'); };
+    nav.appendChild(b);
+    // Close when a menu link is tapped
+    panel.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){ panel.classList.remove('open'); });
+    });
+    // Close when tapping outside the panel
+    document.addEventListener('click', function(ev){
+      if(panel.classList.contains('open') && !panel.contains(ev.target) && ev.target !== b){
+        panel.classList.remove('open');
+      }
+    });
+  }
+});
+</script>
+</head>
+<body>
+
+
+  <!-- Master Unified Header Layout -->
+  <header class="astraa-site-header">
+    <nav class="astraa-site-nav">
+      <a href="index.html" class="astraa-site-brand">
+        <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" onerror="this.style.display='none'"/>
+        <span>Astraa Systems</span>
+      </a>
+
+      <div class="astraa-site-links">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="support.html" style="color: var(--royal) !important; font-weight: 700;">FAQ / Support</a>
+        <a href="contact.html">Custom Packages</a>
+      </div>
+
+      <div class="astraa-action-pack">
+        <a href="astraaspace/login.html" class="astraa-space-btn">Astraa Space</a>
+        <a class="astraa-site-cta" href="subscribe.html">Buy Now</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Complete Functional Canvas -->
+  <main class="support-container"><section class="support-hero"><span class="section-badge">Astraa Help &amp; FAQ</span><h1>Frequently Asked Questions</h1><p>Everything you need to know about getting started, the tools, billing, and support. Still stuck? Email support@astraasystems.com.</p></section><h2 class="support-section-title">Getting Started</h2><div class="support-grid"><div class="support-card"><div class="card-title">How do I access my tools after I buy?</div><p class="card-text">After your payment is confirmed, you'll see your passkey on the confirmation screen. Save it somewhere safe &mdash; it's your login. Then go to Astraa Space in the top menu and sign in with your email and passkey.</p></div><div class="support-card"><div class="card-title">What's included in my plan?</div><p class="card-text">Each plan gives you full access to the tool(s) you purchased, plus Astraa Expense included free. Bundles unlock several tools together at a lower price. You'll see exactly what's included before you pay.</p></div><div class="support-card"><div class="card-title">Can I cancel anytime?</div><p class="card-text">Yes. All plans are month-to-month with no contracts. Cancel whenever you like &mdash; you keep access through the period you've paid for.</p></div></div><h2 class="support-section-title">The Tools</h2><div class="support-grid"><div class="support-card"><div class="card-title">Astraa Estimator</div><p class="card-text">Create clean, professional construction estimates and quotes in minutes, using BC-calibrated rates you can edit. Generate quote and project documents ready to hand to your client.</p></div><div class="support-card"><div class="card-title">Astraa Finance</div><p class="card-text">Track your income, expenses, and invoices in one place, see your profit at a glance, and export what you need. A simple payroll template is included too.</p></div><div class="support-card"><div class="card-title">Astraa Business</div><p class="card-text">Manage your projects, tasks, leads (CRM), marketing, and team &mdash; all from one clean workspace. Built to work for any business, not just construction.</p></div><div class="support-card"><div class="card-title">Astraa Expense (included free)</div><p class="card-text">Log and categorize your business expenses, see totals and monthly summaries, and send them straight into Finance. Included free with every plan.</p></div></div><h2 class="support-section-title">Billing &amp; Pricing</h2><div class="support-grid"><div class="support-card"><div class="card-title">What currency are prices in?</div><p class="card-text">Everything is in Canadian dollars (CAD). No U.S. pricing, no exchange-rate surprises &mdash; Astraa is built in BC and priced for Canadian businesses.</p></div><div class="support-card"><div class="card-title">Do you charge GST or PST?</div><p class="card-text">No. We don't add GST/PST to your subscription. On your own quotes and invoices, you can turn tax on and enter your numbers if you're registered &mdash; or leave it off if you're not.</p></div><div class="support-card"><div class="card-title">I forgot my passkey &mdash; what do I do?</div><p class="card-text">No problem. Email support@astraasystems.com from your account email and we'll reset it and send you a new one.</p></div></div><h2 class="support-section-title">Support</h2><div class="support-grid"><div class="support-card"><div class="card-title">How do I get help?</div><p class="card-text">Email support@astraasystems.com for anything &mdash; tools, accounts, or troubleshooting. We typically reply within one business day.</p></div><div class="support-card"><div class="card-title">Where do I log in?</div><p class="card-text">Click Astraa Space in the top menu, then sign in with your email and passkey. That's your home for all the tools on your account.</p></div><div class="support-card"><div class="card-title">Do you offer custom packages?</div><p class="card-text">Yes &mdash; for larger teams or specific needs, visit Custom Packages or email sales@astraasystems.com and we'll tailor a plan for you.</p></div></div></main>
+
+  <!-- Clean Corporate Footer Component -->
+  <footer>
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; gap: 16px;">
+      <p>&copy; 2026 Astraa Systems. All rights reserved.</p>
+      <a href="astraaspace/login.html" style="font-size: 14px; font-weight: 600; color: #475569; text-decoration: none; transition: color 0.2s;">Astraa Space</a>
+    </div>
+  </footer>
+
+
+<section style="max-width:1000px;margin:40px auto 60px;padding:0 24px;">
+  <h2 style="font-size:1.4rem;font-weight:900;margin:0 0 20px;color:#0f172a;text-align:center;">Plan Changes &amp; Cancellation</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+
+    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:22px;box-shadow:0 6px 18px rgba(15,23,42,0.04);">
+      <h3 style="font-size:1.05rem;font-weight:800;color:#03050a;margin:0 0 8px;">Upgrading is easy &amp; fair</h3>
+      <p style="color:#475569;font-size:0.92rem;line-height:1.6;margin:0;">Within 25 days of your purchase, moving to a higher plan or adding tools only costs the difference — you never pay twice for what you already have. All your work carries over automatically. Just email us.</p>
+    </div>
+
+    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:22px;box-shadow:0 6px 18px rgba(15,23,42,0.04);">
+      <h3 style="font-size:1.05rem;font-weight:800;color:#03050a;margin:0 0 8px;">Need to downgrade?</h3>
+      <p style="color:#475569;font-size:0.92rem;line-height:1.6;margin:0;">Within 15 days, if your needs change, email us and we'll work with you. We don't do cash refunds, but any difference becomes account credit toward your next payment or add-ons (like extra approvals — $10 for 10). We handle each request personally to keep it fair for your situation.</p>
+    </div>
+
+    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:22px;box-shadow:0 6px 18px rgba(15,23,42,0.04);">
+      <h3 style="font-size:1.05rem;font-weight:800;color:#03050a;margin:0 0 8px;">Leave anytime</h3>
+      <p style="color:#475569;font-size:0.92rem;line-height:1.6;margin:0;">You can cancel whenever you like — no questions, no hassle, we'll never hold you back. We'll simply ask for a little feedback on how we can improve, so we can earn your business again down the road.</p>
+    </div>
+
+  </div>
+  <p style="text-align:center;color:#94a3b8;font-size:0.85rem;margin-top:20px;">To change, upgrade, downgrade, or cancel your plan, just email <strong>support@astraasystems.com</strong> — we're happy to help.</p>
+</section>
+</body>
+</html>

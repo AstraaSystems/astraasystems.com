@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Astraa Payment V2</title>
+  <script src="https://gateway.moneris.com/chkt/js/chkt_v1.00.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: white;
+      text-align: center;
+    }
+    .container {
+      max-width: 720px;
+      margin: 80px auto;
+      padding: 40px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+    }
+    h1 {
+      margin-bottom: 8px;
+      font-size: 2rem;
+    }
+    p {
+      color: #cbd5e1;
+      margin-bottom: 24px;
+    }
+    input, button {
+      width: 100%;
+      max-width: 380px;
+      padding: 14px;
+      margin-top: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+    }
+    input {
+      background: white;
+      color: #111827;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    #status {
+      margin-top: 24px;
+      white-space: pre-wrap;
+      text-align: left;
+      background: rgba(255,255,255,0.04);
+      border-radius: 10px;
+      padding: 14px;
+      min-height: 80px;
+    }
+    #monerisCheckout {
+      margin-top: 28px;
+      min-height: 200px;
+    }
+    .version {
+      color: #22c55e;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+  </style>
+  <link rel="stylesheet" href="css/astraa-mobile-responsive-fix.css?v=20260621-mobile-nav-single-row">
+  <link rel="stylesheet" href="css/astraa-mobile-header-final.css?v=20260621-final-mobile-header">
+
+
+  <!-- Astraa site icons -->
+  <link rel="icon" type="image/png" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
+  <link rel="shortcut icon" type="image/png" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
+  <link rel="apple-touch-icon" href="assets/images/astraa_logo.png?v=20260621-astraa-logo-icon">
+  <link rel="manifest" href="site.webmanifest?v=20260621-astraa-logo-icon">
+
+<style id="astraa-alignment-matrix">
+        * { box-sizing: border-box !important; }
+        body { margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; overflow-x: hidden !important; }
+        body > div, main, .main-content, #root { width: 100% !important; max-width: 100% !important; margin: 0 auto !important; transform: none !important; }
+        .hero, section, main > div, .content-wrapper { max-width: 1200px !important; margin: 0 auto !important; width: 100% !important; }
+        header, nav, .navbar, .header { display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; max-width: 1200px !important; margin: 0 auto !important; padding: 20px !important; }
+        header a, nav a, .navbar a, .nav-links a { text-decoration: none !important; font-size: 14px !important; font-weight: 500 !important; margin: 0 14px !important; display: inline-block !important; white-space: nowrap !important; }
+        header > div:first-child, .brand-container { display: flex !important; flex-direction: column !important; align-items: flex-start !important; width: auto !important; }
+        header span, .brand-text { white-space: nowrap !important; }
+    </style>
+</head>
+<body>
+
+  <header class="astraa-site-header">
+    <nav class="astraa-site-nav">
+      <a href="index.html" class="astraa-site-brand">
+        <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" onerror="this.style.display='none'"/>
+        <span>Astraa Systems</span>
+      </a>
+      
+      <div class="astraa-site-links">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="faq.html">FAQ / Support</a>
+        <a href="contact.html">Custom Packages</a>
+      </div>
+
+      <div class="astraa-action-pack">
+        <a href="astraaspace/login.html" class="astraa-space-btn">Astraa Space</a>
+        <a class="astraa-site-cta" href="buynow.html">Buy Now</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="version">NEW BUILD ACTIVE ✅</div>
+    <h1>Astraa Secure Payment</h1>
+    <p>Clean Moneris Checkout integration. No token iframe flow. This page should either load checkout or show the exact backend response.</p>
+
+    <input id="email" placeholder="Enter your email" value="keshanth.sivayo@gmail.com">
+    <br>
+    <button onclick="startPayment()">Continue to Secure Payment</button>
+
+    <div id="status">Ready.</div>
+    <div id="monerisCheckout"></div>
+  </div>
+
+<script>
+let checkout;
+
+function setStatus(msg) {
+  document.getElementById("status").textContent = msg;
+}
+
+async function startPayment() {
+  setStatus("Preparing secure payment...");
+
+  checkout = new monerisCheckout();
+  checkout.setMode("prod");
+  checkout.setCheckoutDiv("monerisCheckout");
+
+  checkout.setCallback("page_loaded", function(res) {
+    console.log("page_loaded", res);
+    setStatus("Checkout loaded ✅");
+  });
+
+  checkout.setCallback("cancel_transaction", function(res) {
+    console.log("cancel_transaction", res);
+    setStatus("Payment cancelled.");
+  });
+
+  checkout.setCallback("error_event", function(res) {
+    console.log("error_event", res);
+    setStatus("Moneris error:\n" + JSON.stringify(res, null, 2));
+  });
+
+  checkout.setCallback("payment_receipt", function(res) {
+    console.log("payment_receipt", res);
+    setStatus("Receipt ready:\n" + JSON.stringify(res, null, 2));
+  });
+
+  checkout.setCallback("payment_complete", function(res) {
+    console.log("payment_complete", res);
+    setStatus("Payment complete:\n" + JSON.stringify(res, null, 2));
+  });
+
+  try {
+    const response = await fetch("https://family-speed-outcome.ngrok-free.dev/preload", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": "astraa_secure",
+        "ngrok-skip-browser-warning": "true"
+      },
+      body: JSON.stringify({
+        email: document.getElementById("email").value
+      })
+    });
+
+    const raw = await response.text();
+    console.log("RAW BACKEND RESPONSE:", raw);
+
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch (e) {
+      setStatus("Backend did not return JSON:\n" + raw);
+      return;
+    }
+
+    if (data.response && data.response.success === "true" && data.response.ticket) {
+      setStatus("Ticket received ✅ Launching checkout...");
+      checkout.startCheckout(data.response.ticket);
+      return;
+    }
+
+    setStatus("Preload failed:\n" + JSON.stringify(data, null, 2));
+
+  } catch (err) {
+    console.error("FETCH ERROR:", err);
+    setStatus("Payment setup error:\n" + String(err));
+  }
+}
+</script>
+
+<footer>
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; gap: 16px;">
+      <p>&copy; 2026 Astraa Systems. All rights reserved.</p>
+      <a href="astraaspace/login.html" style="font-size: 14px; font-weight: 600; color: #475569; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#475569'">Astraa Space</a>
+    </div>
+  </footer>
+</body>
+</html>

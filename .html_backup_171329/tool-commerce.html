@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Astraa Commerce | Astraa Systems</title>
+  <style>
+    :root {
+      --navy: #090d16;
+      --blue: #1e40af;
+      --cyan: #06b6d4;
+      --text-dark: #0f172a;
+      --text-muted-dark: #64748b;
+      --text-light: #f8fafc;
+      --text-muted-light: #94a3b8;
+      --border-alpha: rgba(255, 255, 255, 0.1);
+      --card-bg: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      background: #f8fafc;
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container { width: min(1200px, 92%); margin: 0 auto; }
+    header { background: #ffffff; padding: 16px 0; border-bottom: 1px solid #e2e8f0; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-dark); font-weight: 700; }
+    .brand img { width: 32px; height: 32px; object-fit: contain; }
+    .nav-links { display: flex; gap: 24px; list-style: none; align-items: center; }
+    .nav-links a { color: var(--text-muted-dark); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--text-dark); }
+    .tool-hero { background: var(--navy); color: var(--text-light); padding: 60px 0; position: relative; }
+    .badge-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .badge { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; padding: 4px 10px; border-radius: 4px; background: rgba(255, 255, 255, 0.1); }
+    .badge.active { background: rgba(234, 179, 8, 0.2); color: #eab308; }
+    .tool-hero h1 { font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; }
+    .tool-hero p { font-size: 1.05rem; color: var(--text-muted-light); max-width: 650px; line-height: 1.6; margin-bottom: 28px; }
+    .hero-actions { display: flex; gap: 12px; }
+    .btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; text-decoration: none; font-size: 0.9rem; transition: background 0.2s; }
+    .btn-blue { background: var(--blue); color: white; }
+    .btn-blue:hover { background: #1d4ed8; }
+    .btn-outline { border: 1px solid var(--border-alpha); color: var(--text-light); }
+    .btn-outline:hover { background: rgba(255, 255, 255, 0.05); }
+    .details-section { padding: 60px 0; }
+    .details-section h2 { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
+    .details-section .lead-p { color: var(--text-muted-dark); font-size: 1.05rem; max-width: 800px; line-height: 1.6; margin-bottom: 40px; }
+    .capabilities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .cap-card { background: var(--card-bg); border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+    .cap-card h3 { font-size: 1.15rem; margin-bottom: 14px; font-weight: 700; }
+    .cap-card ul { list-style-position: inside; color: var(--text-muted-dark); font-size: 0.95rem; }
+    .cap-card ul li { margin-bottom: 8px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <img src="assets/images/astraa_logo.png" alt="Astraa Systems" />
+        <span>Astraa Systems</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="tools.html">Tools</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="tool-hero">
+    <div class="container">
+      <div class="badge-row">
+        <span class="badge">Astraa Tool</span>
+        <span class="badge active">Coming Soon</span>
+      </div>
+      <h1>Astraa Commerce</h1>
+      <p>Commerce workflow support for quotes, packages, and transactions.</p>
+      <div class="hero-actions">
+        <a href="contact.html" class="btn btn-blue">Request Access</a>
+        <a href="tools.html" class="btn btn-outline">Back to Tools</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="container details-section">
+    <h2>What this tool does.</h2>
+    <p class="lead-p">Astraa Commerce is designed to support product, quote, transaction, and business-to-business workflow readiness for companies that need cleaner commerce operations.</p>
+    
+    <div class="capabilities-grid">
+      <div class="cap-card">
+        <h3>Best for</h3>
+        <ul>
+          <li>Businesses selling products or service packages</li>
+          <li>Quote-based sales workflows</li>
+          <li>Business-to-business pricing workflows</li>
+          <li>Teams preparing for structured transaction processes</li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <h3>Core capabilities</h3>
+        <ul>
+          <li>Catalog and package organization</li>
+          <li>Quote and transaction preparation</li>
+          <li>Regional pricing and currency workflow direction</li>
+          <li>Business pricing tier support</li>
+          <li>System-to-system workflow readiness</li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <h3>Trial and package path</h3>
+        <p style="color: var(--text-muted-dark); font-size: 0.95rem; line-height: 1.5;">Commerce is prepared as a future Workspace tool. Interested clients can request access or include it in a Custom package discussion.</p>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

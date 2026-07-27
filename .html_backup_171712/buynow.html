@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Astraa Systems — Secure Checkout</title>
+
+  <style>
+    :root {
+      --black: #03050a;
+      --white: #ffffff;
+      --off-white: #f8fafc;
+      --line-light: #e2e8f0;
+      --royal: #1d4ed8;
+      --blue: #2563eb;
+      --text-dark: #0f172a;
+      --muted-dark: #475569;
+      --success: #16a34a;
+      --danger: #dc2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.5;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    .astraa-site-header {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line-light);
+    }
+
+    .astraa-site-nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .astraa-site-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 950;
+      color: var(--black);
+    }
+
+    .astraa-site-brand img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+    }
+
+    .astraa-site-brand span {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .astraa-site-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: var(--muted-dark);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .astraa-site-links a:hover { color: var(--royal); }
+
+    .astraa-action-pack {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .astraa-space-btn {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted-dark);
+    }
+
+    .astraa-site-cta {
+      display: inline-flex;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: var(--black);
+      color: white;
+      font-weight: 700;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+    }
+
+    @media(max-width: 900px) {
+      .astraa-site-links { display: none; }
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 60px auto;
+      padding: 0 24px;
+    }
+
+    .layout-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--line-light);
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 18px 50px rgba(15,23,42,0.06);
+    }
+
+    .card h2 {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      color: var(--black);
+    }
+
+    .card h3 {
+      font-size: 20px;
+      font-weight: 850;
+      margin-bottom: 20px;
+      color: var(--black);
+      letter-spacing: -0.02em;
+    }
+
+    .card p {
+      color: var(--muted-dark);
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .feature-box {
+      background: var(--off-white);
+      border-radius: 8px;
+      padding: 20px;
+      border: 1px solid var(--line-light);
+    }
+
+    .feature-box h4 {
+      font-weight: 750;
+      margin-bottom: 12px;
+      color: var(--text-dark);
+      font-size: 14px;
+    }
+
+    .feature-list {
+      padding-left: 20px;
+      color: var(--muted-dark);
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      list-style-type: disc;
+    }
+
+    .registration-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 13px;
+      font-weight: 750;
+      color: var(--text-dark);
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 12px 14px;
+      border: 1px solid var(--line-light);
+      border-radius: 8px;
+      font-size: 14px;
+      background: var(--off-white);
+      width: 100%;
+      font-family: inherit;
+    }
+
+    .submit-btn {
+      background: var(--black);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 12px;
+      font-size: 15px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .submit-btn:hover { background: var(--blue); }
+
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    #checkoutStatus {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      background: var(--off-white);
+      border: 1px solid var(--line-light);
+      font-size: 13px;
+      color: var(--muted-dark);
+      white-space: pre-wrap;
+    }
+
+    #monerisCheckoutShell {
+      margin-top: 24px;
+      display: none;
+    }
+
+    #monerisCheckout {
+      min-height: 260px;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted-dark);
+      font-size: 14px;
+      padding: 32px 0;
+      border-top: 1px solid var(--line-light);
+      margin-top: 80px;
+    }
+
+    @media (max-width: 768px) {
+      .layout-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+  </style>
+  <script id="ASTRAA_MONERIS_STATIC_LIB" src="https://gateway.moneris.com/chkt/js/chkt_v1.00.js"></script>
+</head>
+
+<body>
+
+  <header class="astraa-site-header">
+    <nav class="astraa-site-nav">
+      <a href="index.html" class="astraa-site-brand">
+        <img src="assets/images/astraa_logo.png" alt="Astraa Systems logo" style="width:34px;height:34px;object-fit:contain" onerror="this.style.display=&#39;none&#39;">
+        <span>Astraa Systems</span>
+      </a>
+
+      <div class="astraa-site-links">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="faq.html">FAQ / Support</a>
+        <a href="contact.html">Custom Packages</a>
+      </div>
+
+      <div class="astraa-action-pack">
+        <a href="astraaspace/login.html">Astraa Space</a>
+        <a class="astraa-site-cta" href="subscribe.html">Buy Now</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="layout-grid">
+      <section class="card">
+        <h2>Complete your Astraa Setup</h2>
+        <p>Deploy precision automation, analytics tools, and workspace management directly into your business operations.</p>
+
+        <div class="feature-box">
+          <h4>Your Selection:</h4>
+          <div id="astraaProductBox" style="font-size:1.1rem;font-weight:800;color:#1d4ed8;margin:6px 0;">Loading…</div>
+          <div id="astraaProductPrice" style="font-size:1.4rem;font-weight:900;color:#03050a;"></div>
+          <ul class="feature-list" style="margin-top:12px;">
+            <li>Full workspace access to your purchased tools</li>
+            <li>Astraa Expense included free</li>
+            <li>Secure payment + instant account setup</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Secure Checkout</h3>
+
+        <form class="registration-form" id="astraaCheckoutForm">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="customerName" name="cust_id" placeholder="Your Name" required>
+          </div>
+
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="customerEmail" name="email" placeholder="you@example.com" required>
+          </div>
+
+
+          <button type="submit" class="submit-btn" id="checkoutButton">
+            Continue to Secure Payment
+          </button>
+        </form>
+
+        <div id="checkoutStatus">Ready.</div>
+
+        <div id="monerisCheckoutShell">
+          <div id="monerisCheckout"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div style="display:flex; justify-content:space-between; align-items:center; max-width:1100px; margin:0 auto; flex-wrap:wrap; gap:16px; padding:0 24px;">
+      <p>&copy; 2026 Astraa Systems. All rights reserved.</p>
+      <a href="astraaspace/login.html">Astraa Space</a>
+    </div>
+  </footer>
+
+  <script>window.ASTRAA_API_BASE = "https://family-speed-outcome.ngrok-free.dev";</script>
+  <script>
+    /*
+      Astraa checkout recovery notes:
+      - Do not post Store ID / API token / Checkout ID from frontend.
+      - Frontend asks Astraa backend /preload for one-time Moneris ticket.
+      - Backend sends secure credentials to Moneris.
+      - Frontend receives ticket and starts official Moneris Checkout overlay.
+    */
+
+    const ASTRAA_API_BASE = window.ASTRAA_API_BASE || "";
+    const MONERIS_FRONTEND_MODE =
+      (sessionStorage.getItem("astraa_moneris_frontend_mode") ||
+       window.ASTRAA_MONERIS_FRONTEND_MODE ||
+       "prod").toLowerCase() === "qa" ? "qa" : "prod";
+
+    const MONERIS_SCRIPT_URL = MONERIS_FRONTEND_MODE === "qa"
+      ? "https://gatewayt.moneris.com/chkt/js/chkt_v1.00.js"
+      : "https://gateway.moneris.com/chkt/js/chkt_v1.00.js";
+
+    let astraaCheckout = null;
+
+    function setCheckoutStatus(message, isError) {
+      const box = document.getElementById("checkoutStatus");
+      box.textContent = message;
+      box.style.color = isError ? "#dc2626" : "#475569";
+      box.style.borderColor = isError ? "#fecaca" : "#e2e8f0";
+      box.style.background = isError ? "#fff1f2" : "#f8fafc";
+      console.log("[Astraa Checkout]", message);
+    }
+
+    function loadMonerisScript() {
+      return new Promise(function(resolve, reject) {
+        if (window.monerisCheckout) {
+          resolve();
+          return;
+        }
+
+        let existing = document.getElementById("astraaMonerisCheckoutScript");
+        if (existing) {
+          existing.onload = resolve;
+          existing.onerror = reject;
+          return;
+        }
+
+        const script = document.createElement("script");
+        script.id = "astraaMonerisCheckoutScript";
+        script.src = MONERIS_SCRIPT_URL;
+        script.async = true;
+        script.onload = resolve;
+        script.onerror = function() {
+          reject(new Error("Unable to load Moneris Checkout script."));
+        };
+        document.head.appendChild(script);
+      });
+    }
+
+    function initMonerisCheckout() {
+      astraaCheckout = new window.monerisCheckout();
+      astraaCheckout.setMode(MONERIS_FRONTEND_MODE);
+      astraaCheckout.setCheckoutDiv("monerisCheckout");
+
+      astraaCheckout.setCallback("page_loaded", function(res) {
+        console.log("Moneris page_loaded", res);
+        setCheckoutStatus("Secure checkout loaded.", false);
+      });
+
+      astraaCheckout.setCallback("cancel_transaction", function(res) {
+        console.log("Moneris cancel_transaction", res);
+        setCheckoutStatus("Payment cancelled. You can try again when ready.", true);
+        document.getElementById("checkoutButton").disabled = false;
+      });
+
+      astraaCheckout.setCallback("error_event", function(res) {
+        console.error("Moneris error_event", res);
+        setCheckoutStatus("Moneris checkout error:\n" + JSON.stringify(res, null, 2), true);
+        document.getElementById("checkoutButton").disabled = false;
+      });
+
+      astraaCheckout.setCallback("payment_receipt", function(res) {
+        console.log("Moneris payment_receipt", res);
+        try {
+          sessionStorage.setItem("astraa_moneris_receipt", JSON.stringify(res));
+        } catch (e) {}
+      });
+
+      astraaCheckout.setCallback("payment_complete", function(res) {
+        console.log("Moneris payment_complete", res);
+        let ticket = "";
+
+        try {
+          const parsed = typeof res === "string" ? JSON.parse(res) : res;
+          ticket = parsed && parsed.ticket ? parsed.ticket : "";
+        } catch (e) {}
+
+        const storedTicket = sessionStorage.getItem("astraa_moneris_ticket") || "";
+        const finalTicket = ticket || storedTicket;
+
+        window.location.href =
+          "payment-success.html?ticket=" + encodeURIComponent(finalTicket) + "&v=moneris-complete";
+      });
+
+      return astraaCheckout;
+    }
+
+    async function startAstraaCheckout(event) {
+      event.preventDefault();
+
+      const button = document.getElementById("checkoutButton");
+      // Product catalog (from pricing page ?product=)
+      var ASTRAA_PRODUCTS = {
+        "estimator_basic":     {label:"Astraa Estimator — Basic",        plan:"basic",        tool:"Astraa Estimator",  price:"$39.99 CAD/mo"},
+        "estimator_pro":       {label:"Astraa Estimator — Professional", plan:"professional", tool:"Astraa Estimator",  price:"$99.99 CAD/mo"},
+        "business_basic":      {label:"Astraa Business — Basic",         plan:"basic",        tool:"Astraa Business",   price:"$34.99 CAD/mo"},
+        "business_pro":        {label:"Astraa Business — Professional",  plan:"professional", tool:"Astraa Business",   price:"$79.99 CAD/mo"},
+        "finance_basic":       {label:"Astraa Finance — Basic",          plan:"basic",        tool:"Astraa Finance",    price:"$29.99 CAD/mo"},
+        "finance_pro":         {label:"Astraa Finance — Professional",   plan:"professional", tool:"Astraa Finance",    price:"$69.99 CAD/mo"},
+        "essentials":          {label:"Astraa Essentials (Business + Finance)",              plan:"professional", tool:"Astraa Essentials",          price:"$124.99 CAD/mo"},
+        "professional_suite":  {label:"Astraa Professional Suite (Estimator + Business + Finance)", plan:"professional", tool:"Astraa Professional Suite", price:"$199.99 CAD/mo"}
+      };
+      var _urlProduct = new URLSearchParams(window.location.search).get("product") || "professional_suite";
+      var _prod = ASTRAA_PRODUCTS[_urlProduct] || ASTRAA_PRODUCTS["professional_suite"];
+
+      const name = document.getElementById("customerName").value.trim();
+      const email = document.getElementById("customerEmail").value.trim();
+      const plan = (document.getElementById("selectedPlan") ? document.getElementById("selectedPlan").value.trim() : (_prod.plan || "professional"));
+
+      if (!name || !email) {
+        setCheckoutStatus("Please enter your name and email before continuing.", true);
+        return;
+      }
+
+      button.disabled = true;
+      setCheckoutStatus("Preparing secure checkout ticket...");
+
+      try {
+        await loadMonerisScript();
+        const checkout = initMonerisCheckout();
+
+        const preloadResponse = await fetch(ASTRAA_API_BASE + "/preload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "true"
+          },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            checkout_email: email,
+            plan: _prod.plan,
+            selected_plan: _prod.plan,
+            selected_tool: _prod.tool,
+            selected_product: _urlProduct
+          })
+        });
+
+        const raw = await preloadResponse.text();
+        let data;
+
+        try {
+          data = JSON.parse(raw);
+        } catch (e) {
+          setCheckoutStatus("Backend returned non-JSON response:\n" + raw, true);
+          button.disabled = false;
+          return;
+        }
+
+        const ticket =
+          data.ticket ||
+          (data.response && data.response.ticket) ||
+          "";
+
+        const success =
+          data.success === true ||
+          data.status === "ok" ||
+          (data.response && String(data.response.success).toLowerCase() === "true");
+
+        if (!success || !ticket) {
+          setCheckoutStatus("Preload failed:\n" + JSON.stringify(data, null, 2), true);
+          button.disabled = false;
+          return;
+        }
+
+        sessionStorage.setItem("astraa_moneris_ticket", ticket);
+        sessionStorage.setItem("astraa_checkout_email", email);
+        sessionStorage.setItem("astraa_account_email", email);
+        sessionStorage.setItem("astraa_selected_tool", _prod.tool);
+        sessionStorage.setItem("astraa_selected_plan", _prod.plan);
+        sessionStorage.setItem("astraa_selected_product", _urlProduct);
+
+        document.getElementById("monerisCheckoutShell").style.display = "block";
+        setCheckoutStatus("Ticket received. Opening secure Moneris checkout...");
+        checkout.startCheckout(ticket);
+
+      } catch (err) {
+        console.error(err);
+        setCheckoutStatus("Checkout setup failed:\n" + String(err), true);
+        button.disabled = false;
+      }
+    }
+
+    document.getElementById("astraaCheckoutForm").addEventListener("submit", startAstraaCheckout);
+  </script>
+
+<script>
+  function _fillProductBox(){
+    var prods = {
+      "estimator_basic":{l:"Astraa Estimator — Basic",p:"$39.99 CAD/mo"},
+      "estimator_pro":{l:"Astraa Estimator — Professional",p:"$99.99 CAD/mo"},
+      "business_basic":{l:"Astraa Business — Basic",p:"$34.99 CAD/mo"},
+      "business_pro":{l:"Astraa Business — Professional",p:"$79.99 CAD/mo"},
+      "finance_basic":{l:"Astraa Finance — Basic",p:"$29.99 CAD/mo"},
+      "finance_pro":{l:"Astraa Finance — Professional",p:"$69.99 CAD/mo"},
+      "essentials":{l:"Astraa Essentials (Business + Finance)",p:"$124.99 CAD/mo"},
+      "professional_suite":{l:"Astraa Professional Suite",p:"$199.99 CAD/mo"}
+    };
+    var key=new URLSearchParams(location.search).get("product")||"professional_suite";
+    var pr=prods[key]||prods["professional_suite"];
+    var b=document.getElementById("astraaProductBox"); if(b)b.innerText=pr.l;
+    var pp=document.getElementById("astraaProductPrice"); if(pp)pp.innerText=pr.p;
+  }
+  document.addEventListener("DOMContentLoaded",_fillProductBox);
+</script>
+</body>
+</html>

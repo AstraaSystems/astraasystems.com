@@ -6146,9 +6146,9 @@ def astraa_entitlements_for(plan, main_tool):
 
     # Bundles unlock multiple tools
     if "professional suite" in t or t == "professional_suite":
-        return ["Astraa Estimator", "Astraa Business", "Astraa Finance", exp]
+        return ["Astraa Estimator", "Astraa Business", "Astraa Finance", "Astraa Reports", exp]
     if "essentials" in t or t == "essentials":
-        return ["Astraa Business", "Astraa Finance", exp]
+        return ["Astraa Business", "Astraa Finance", "Astraa Reports", exp]
 
     # Single tools
     if "business" in t:
@@ -7520,6 +7520,82 @@ def _astraa_fin_bucket(email):
     if key not in db:
         db[key] = {"invoices": [], "income": [], "expenses": [], "payroll": []}
     return db, key
+
+# ===== ASTRAA REPORTS (read-only analytics over Finance + Expense) =====
+@app.route("/api/reports/summary", methods=["GET"])
+def astraa_reports_summary():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); key = astraa_account_key(email)
+    fdb, fkey = _astraa_fin_bucket(email); b = fdb[fkey]
+    inv_income = sum(float(i.get("amount",0) or 0) for i in b["invoices"] if i.get("status")=="Paid")
+    inv_pending = sum(float(i.get("amount",0) or 0) for i in b["invoices"] if i.get("status") in ("Pending","Overdue"))
+    manual_income = sum(float(x.get("amount",0) or 0) for x in b["income"])
+    manual_expense = sum(float(x.get("amount",0) or 0) for x in b["expenses"])
+    ext_expense = 0.0
+    try:
+        edb = _astraa_load_expenses()
+        for x in edb.get(key, []): ext_expense += float(x.get("amount",0) or 0)
+    except Exception:
+        ext_expense = 0.0
+    total_income = inv_income + manual_income
+    total_expense = manual_expense + ext_expense
+    paid_count = sum(1 for i in b["invoices"] if i.get("status")=="Paid")
+    pending_count = sum(1 for i in b["invoices"] if i.get("status") in ("Pending","Overdue"))
+    return astraa_json_response({"success": True, "summary": {
+        "total_income": round(total_income,2), "total_expense": round(total_expense,2),
+        "net_profit": round(total_income-total_expense,2), "invoice_pending": round(inv_pending,2),
+        "paid_invoices": paid_count, "pending_invoices": pending_count}})
+
+@app.route("/api/reports/monthly", methods=["GET"])
+def astraa_reports_monthly():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); key = astraa_account_key(email)
+    months = {}
+    def bkt(m):
+        if m not in months: months[m] = {"income":0.0,"expense":0.0}
+        return months[m]
+    fdb, fkey = _astraa_fin_bucket(email); b = fdb[fkey]
+    for i in b["invoices"]:
+        if i.get("status")=="Paid":
+            m = str(i.get("date",""))[:7]
+            if len(m)==7: bkt(m)["income"] += float(i.get("amount",0) or 0)
+    for x in b["income"]:
+        m = str(x.get("date",""))[:7]
+        if len(m)==7: bkt(m)["income"] += float(x.get("amount",0) or 0)
+    for x in b["expenses"]:
+        m = str(x.get("date",""))[:7]
+        if len(m)==7: bkt(m)["expense"] += float(x.get("amount",0) or 0)
+    try:
+        edb = _astraa_load_expenses()
+        for x in edb.get(key, []):
+            m = str(x.get("date",""))[:7]
+            if len(m)==7: bkt(m)["expense"] += float(x.get("amount",0) or 0)
+    except Exception:
+        pass
+    ordered = sorted(months.keys())[-12:]
+    series = [{"month": m, "income": round(months[m]["income"],2),
+               "expense": round(months[m]["expense"],2),
+               "profit": round(months[m]["income"]-months[m]["expense"],2)} for m in ordered]
+    return astraa_json_response({"success": True, "months": series})
+
+@app.route("/api/reports/top-clients", methods=["GET"])
+def astraa_reports_top_clients():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    fdb, fkey = _astraa_fin_bucket(email); b = fdb[fkey]
+    totals = {}
+    for i in b["invoices"]:
+        name = (i.get("client") or "Unnamed").strip() or "Unnamed"
+        totals[name] = totals.get(name,0.0) + float(i.get("amount",0) or 0)
+    ranked = sorted(totals.items(), key=lambda kv: kv[1], reverse=True)[:8]
+    return astraa_json_response({"success": True, "top": [{"name":n,"amount":round(v,2)} for n,v in ranked]})
+# ===== END ASTRAA REPORTS =====
 
 @app.route("/api/finance/list", methods=["GET"])
 def astraa_fin_list():

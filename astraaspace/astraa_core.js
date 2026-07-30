@@ -1,5 +1,5 @@
 // Astraa Space core — dropdown selector + full-page tool workspace
-var ASTRAA_LIVE_MODULES = ["estimator", "finance", "operations", "expense", "business", "lead gen", "crm", "vault"];
+var ASTRAA_LIVE_MODULES = ["estimator", "finance", "operations", "expense", "business", "lead gen", "crm", "vault", "reports", "data"];
 var ASTRAA_REQUEST_EMAIL = "sales@astraasystems.com";
 
 function verifySession() {
@@ -34,6 +34,8 @@ function astraaRenderTool(key, tool) {
                     area.innerHTML = ExpenseModule.render(); if(ExpenseModule.load)ExpenseModule.load();
                 } else if (nameLower.indexOf("estimator") !== -1 && typeof EstimatorModule !== "undefined") {
             area.innerHTML = EstimatorModule.render(); if (EstimatorModule.loadBaseline) EstimatorModule.loadBaseline();
+        } else if ((nameLower.indexOf("report") !== -1 || nameLower.indexOf("data") !== -1) && typeof ReportsModule !== "undefined") {
+            document.body.classList.add("astraa-workspace-active"); area.innerHTML = ReportsModule.render(); if(ReportsModule.load)ReportsModule.load();
         } else if (key === 'comm' && typeof CommerceModule !== 'undefined') {
             area.innerHTML = CommerceModule.render();
         } else {
@@ -79,6 +81,7 @@ function initDashboard() {
             if(n.indexOf('business')!==-1 && e.indexOf('business')!==-1) return true;
             if(n.indexOf('finance')!==-1 && e.indexOf('finance')!==-1) return true;
             if(n.indexOf('vault')!==-1 && e.indexOf('vault')!==-1) return true;
+            if((n.indexOf('report')!==-1||n.indexOf('data')!==-1) && (e.indexOf('report')!==-1||e.indexOf('data')!==-1||e.indexOf('professional')!==-1||e.indexOf('suite')!==-1)) return true;
         }
         return false;
     }

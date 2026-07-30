@@ -12,7 +12,7 @@ window.AstraaBlueprint = {
         vault: { name: "Astraa Vault" },
         dist:  { name: "Astraa Distribution" },
         infer: { name: "Astraa Inference" },
-        data:  { name: "Astraa Data" },
+        data:  { name: "Astraa Reports" },
         comm:  { name: "Astraa Commerce" }
     }
 };

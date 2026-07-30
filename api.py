@@ -6228,7 +6228,9 @@ def astraa_verify_passkey(email, passkey):
     rec = astraa_storage_load_usage_db().get(astraa_account_key(email))
     if not rec:
         return False, "Account not found"
-    if rec.get("payment_status") != "active":
+    _status = rec.get("payment_status")
+    _valid_trial = (_status == "trial") and not astraa_trial_expired(rec)
+    if _status != "active" and not _valid_trial:
         return False, "Account is not active. Complete payment first."
     if rec.get("passkey_status") != "active":
         return False, "Passkey is not active. Request a new passkey."

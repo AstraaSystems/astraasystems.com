@@ -6146,9 +6146,9 @@ def astraa_entitlements_for(plan, main_tool):
 
     # Bundles unlock multiple tools
     if "professional suite" in t or t == "professional_suite":
-        return ["Astraa Estimator", "Astraa Business", "Astraa Finance", "Astraa Reports", exp]
+        return ["Astraa Estimator", "Astraa Business", "Astraa Finance", "Astraa Reports", "Astraa Research Analyst", exp]
     if "essentials" in t or t == "essentials":
-        return ["Astraa Business", "Astraa Finance", "Astraa Reports", exp]
+        return ["Astraa Business", "Astraa Finance", "Astraa Reports", "Astraa Research Analyst", exp]
 
     # Single tools
     if "business" in t:
@@ -7520,6 +7520,290 @@ def _astraa_fin_bucket(email):
     if key not in db:
         db[key] = {"invoices": [], "income": [], "expenses": [], "payroll": []}
     return db, key
+
+# ===== ASTRAA SMART SUGGESTIONS (read-only tips over Finance + Expense + Quotes) =====
+@app.route("/api/suggestions/list", methods=["GET"])
+def astraa_suggestions_list():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); key = astraa_account_key(email)
+
+    # --- gather data (read-only) ---
+    fdb, fkey = _astraa_fin_bucket(email); b = fdb[fkey]
+    invoices = b.get("invoices", [])
+    fin_income = b.get("income", [])
+    fin_expenses = b.get("expenses", [])
+
+    exp_entries = []
+    try:
+        edb = _astraa_load_expenses()
+        exp_entries = edb.get(key, []) or []
+    except Exception:
+        exp_entries = []
+
+    rec = astraa_storage_load_usage_db().get(key) or {}
+    quotes = rec.get("saved_estimates") or []
+
+    def month_key(dstr):
+        return str(dstr or "")[:7]
+
+    from datetime import datetime as _dt
+    this_m = _dt.now().strftime("%Y-%m")
+    ly, lm = _dt.now().year, _dt.now().month - 1
+    if lm == 0: lm = 12; ly -= 1
+    last_m = "%04d-%02d" % (ly, lm)
+
+    # totals
+    inv_income = sum(float(i.get("amount",0) or 0) for i in invoices if i.get("status")=="Paid")
+    manual_income = sum(float(x.get("amount",0) or 0) for x in fin_income)
+    total_income = inv_income + manual_income
+    manual_expense = sum(float(x.get("amount",0) or 0) for x in fin_expenses)
+    tool_expense = sum(float(x.get("amount",0) or 0) for x in exp_entries)
+    total_expense = manual_expense + tool_expense
+    net = total_income - total_expense
+
+    # overdue / pending
+    pending = [i for i in invoices if i.get("status") in ("Pending","Overdue")]
+    pending_total = sum(float(i.get("amount",0) or 0) for i in pending)
+
+    # monthly expense compare
+    def exp_for(m):
+        t = sum(float(x.get("amount",0) or 0) for x in fin_expenses if month_key(x.get("date"))==m)
+        t += sum(float(x.get("amount",0) or 0) for x in exp_entries if month_key(x.get("date"))==m)
+        return t
+    this_exp = exp_for(this_m); last_exp = exp_for(last_m)
+
+    # expense category concentration
+    by_cat = {}
+    for x in exp_entries:
+        c = (x.get("category") or "Other")
+        by_cat[c] = by_cat.get(c,0) + float(x.get("amount",0) or 0)
+    for x in fin_expenses:
+        c = (x.get("category") or "Other")
+        by_cat[c] = by_cat.get(c,0) + float(x.get("amount",0) or 0)
+
+    tips = []
+    def money(n): return "$" + format(round(float(n or 0),2), ",.2f")
+
+    # 1) overdue / unpaid invoices
+    if pending:
+        tips.append({"severity":"warning","icon":"\U0001F4B0",
+            "title":"Money waiting to be collected",
+            "detail":"You have " + money(pending_total) + " across " + str(len(pending)) + " unpaid invoice(s).",
+            "action":"Open Finance and send a friendly follow-up to these clients."})
+
+    # 2) spending spike
+    if last_exp > 0 and this_exp > last_exp * 1.2:
+        pct = round((this_exp/last_exp - 1) * 100)
+        tips.append({"severity":"warning","icon":"\U0001F4C8",
+            "title":"Expenses are up this month",
+            "detail":"This month's expenses (" + money(this_exp) + ") are about " + str(pct) + "% higher than last month (" + money(last_exp) + ").",
+            "action":"Review recent expenses to make sure nothing is off."})
+
+    # 3) unconverted quotes
+    n_unconv = max(0, len(quotes) - len(invoices))
+    if len(quotes) > 0 and n_unconv > 0:
+        tips.append({"severity":"info","icon":"\U0001F4CB",
+            "title":"Quotes ready to become invoices",
+            "detail":"You have " + str(n_unconv) + " saved quote(s) that may not be invoiced yet.",
+            "action":"In Estimator, turn accepted quotes into invoices so you get paid."})
+
+    # 4) thin margin
+    if total_income > 0:
+        margin = net / total_income * 100
+        if margin < 10:
+            tips.append({"severity":"warning","icon":"\u26A0\uFE0F",
+                "title":"Your profit margin is thin",
+                "detail":"Overall margin is about " + str(round(margin)) + "%. Income " + money(total_income) + ", expenses " + money(total_expense) + ".",
+                "action":"Consider reviewing pricing or trimming costs where you can."})
+
+    # 5) category concentration
+    if total_expense > 0 and by_cat:
+        top_cat = max(by_cat.items(), key=lambda kv: kv[1])
+        share = top_cat[1] / total_expense * 100
+        if share >= 40:
+            tips.append({"severity":"info","icon":"\U0001F5C2\uFE0F",
+                "title":"Most spending is in one area",
+                "detail":"\"" + str(top_cat[0]) + "\" is about " + str(round(share)) + "% of your expenses (" + money(top_cat[1]) + ").",
+                "action":"Worth checking if this category can be reduced or negotiated."})
+
+    # 6) healthy cash (positive note)
+    if total_income > 0 and net > 0 and not pending:
+        tips.append({"severity":"good","icon":"\u2705",
+            "title":"You're in good shape",
+            "detail":"You're cash-positive (" + money(net) + " profit) with no unpaid invoices. Nice work.",
+            "action":"Keep it up \u2014 maybe set aside some profit for taxes and slow months."})
+
+    # empty-state
+    if not tips:
+        tips.append({"severity":"info","icon":"\U0001F44B",
+            "title":"Nothing needs your attention yet",
+            "detail":"As you add invoices and expenses, helpful suggestions will show up here.",
+            "action":"Start by adding an invoice in Finance or an expense in Expense."})
+
+    order = {"warning":0,"info":1,"good":2}
+    tips.sort(key=lambda t: order.get(t.get("severity"),1))
+    return astraa_json_response({"success": True, "count": len(tips), "tips": tips})
+# ===== END ASTRAA SMART SUGGESTIONS =====
+
+# ===== ASTRAA RESEARCH ANALYST (read-only, cross-tool, what-if capable) =====
+@app.route("/api/analyst/report", methods=["GET","POST"])
+def astraa_analyst_report():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email"); key = astraa_account_key(email)
+    adj = {}
+    if request.method == "POST":
+        adj = astraa_get_request_json() or {}
+
+    rec = astraa_storage_load_usage_db().get(key) or {}
+    ents = astraa_entitlements_for(rec.get("selected_plan"), rec.get("selected_tool"))
+    ents_l = " ".join(ents).lower()
+    def has(name): return name in ents_l
+
+    fdb, fkey = _astraa_fin_bucket(email); fb = fdb[fkey]
+    invoices = fb.get("invoices", []); fin_income = fb.get("income", []); fin_expenses = fb.get("expenses", [])
+    mark_paid = set(adj.get("mark_paid_ids") or [])
+    def inv_is_paid(i): return i.get("status")=="Paid" or i.get("id") in mark_paid
+    inv_income = sum(float(i.get("amount",0) or 0) for i in invoices if inv_is_paid(i))
+    manual_income = sum(float(x.get("amount",0) or 0) for x in fin_income)
+    extra_income = float(adj.get("extra_income") or 0)
+
+    exp_entries = []
+    try:
+        edb = _astraa_load_expenses(); exp_entries = edb.get(key, []) or []
+    except Exception: exp_entries = []
+    manual_expense = sum(float(x.get("amount",0) or 0) for x in fin_expenses)
+    tool_expense = sum(float(x.get("amount",0) or 0) for x in exp_entries)
+    extra_expense = float(adj.get("extra_expense") or 0)
+
+    quotes = rec.get("saved_estimates") or []
+    def quote_value(q):
+        e = q.get("estimate") or q.get("result") or {}
+        for k in ("grand_total","total","base_estimate"):
+            if e.get(k):
+                try: return float(e.get(k))
+                except Exception: pass
+        return 0.0
+    quote_vals = [quote_value(q) for q in quotes]
+    avg_quote = round(sum(quote_vals)/len(quote_vals),2) if quote_vals else 0.0
+    idle_quotes = max(0, len(quotes) - len(invoices))
+    qc = max(0, min(int(adj.get("quotes_convert") or 0), idle_quotes))
+    quote_income = qc * avg_quote
+
+    total_income = inv_income + manual_income + extra_income + quote_income
+    total_expense = manual_expense + tool_expense + extra_expense
+    net = total_income - total_expense
+    margin = (net/total_income*100) if total_income>0 else 0.0
+    pending = [i for i in invoices if (i.get("status") in ("Pending","Overdue")) and (i.get("id") not in mark_paid)]
+    pending_total = sum(float(i.get("amount",0) or 0) for i in pending)
+
+    crm_summary=None
+    try:
+        cdb=_astraa_load_crm(); leads=cdb.get(key,[]) or []
+        if leads:
+            won=0; closed=0; pipe=0.0
+            for l in leads:
+                st=l.get("stage","New")
+                if st not in ("Won","Lost"): pipe+=float(l.get("value",0) or 0)
+                if st=="Won": won+=1
+                if st in ("Won","Lost"): closed+=1
+            crm_summary={"total":len(leads),"pipeline":round(pipe,2),"conversion":round(won/closed*100,1) if closed else 0.0}
+    except Exception: crm_summary=None
+
+    biz_summary=None
+    try:
+        bdb=_astraa_load_business(); projects=bdb.get(key,[]) or []
+        if projects:
+            active=sum(1 for pr in projects if pr.get("status")=="Active")
+            ptasks=sum(1 for pr in projects for t in pr.get("tasks",[]) if t.get("status")!="Done")
+            biz_summary={"total":len(projects),"active":active,"pending_tasks":ptasks}
+    except Exception: biz_summary=None
+
+    def money(n): return "$"+format(round(float(n or 0),2), ",.2f")
+    findings=[]; strategy=[]; road30=[]; road60=[]; road90=[]; locked=[]; focus=[]; score=70
+
+    if has("finance") or invoices or fin_income or fin_expenses:
+        findings.append({"area":"Cash Flow","state":"active","text":"Income "+money(total_income)+", expenses "+money(total_expense)+", net "+money(net)+" (margin "+str(round(margin))+"%)."})
+        if pending_total>0:
+            findings.append({"area":"Collections","state":"active","text":money(pending_total)+" across "+str(len(pending))+" unpaid invoice(s) is waiting to be collected."})
+            strategy.append("Collect "+money(pending_total)+" in outstanding invoices \u2014 it's already earned.")
+            road30.append("Send follow-ups on all unpaid invoices this week.")
+            score-=min(15,int(pending_total/max(total_income,1)*25)); focus.append("Collections")
+        if total_income>0 and margin<10:
+            strategy.append("Margin is thin at "+str(round(margin))+"%. Review pricing or trim recurring costs.")
+            road60.append("Rebuild pricing on 2-3 common jobs to target 15-20% margin.")
+            score-=10; focus.append("Pricing / Margin")
+        elif margin>=20: score+=8
+    else:
+        locked.append({"area":"Cash Flow","tool":"Astraa Finance","text":"Add Finance to see profit, margin, and which invoices are overdue \u2014 usually where the fastest money is."})
+
+    if has("expense") or exp_entries:
+        tm=datetime.now().strftime("%Y-%m"); ly=datetime.now().year; lm=datetime.now().month-1
+        if lm==0: lm=12; ly-=1
+        lastm="%04d-%02d"%(ly,lm)
+        def efor(m): return sum(float(x.get("amount",0) or 0) for x in exp_entries if str(x.get("date",""))[:7]==m)+sum(float(x.get("amount",0) or 0) for x in fin_expenses if str(x.get("date",""))[:7]==m)
+        te=efor(tm); le=efor(lastm)
+        if le>0 and te>le*1.2:
+            findings.append({"area":"Spending","state":"active","text":"This month's spend ("+money(te)+") is about "+str(round((te/le-1)*100))+"% higher than last month ("+money(le)+")."})
+            road30.append("Review this month's expenses for anything unusual."); focus.append("Spending")
+        bycat={}
+        for x in exp_entries+fin_expenses:
+            c=x.get("category") or "Other"; bycat[c]=bycat.get(c,0)+float(x.get("amount",0) or 0)
+        if total_expense>0 and bycat:
+            tc=max(bycat.items(),key=lambda kv:kv[1]); share=tc[1]/total_expense*100
+            if share>=40:
+                findings.append({"area":"Spending Mix","state":"active","text":str(tc[0])+" is about "+str(round(share))+"% of expenses ("+money(tc[1])+")."})
+                strategy.append("A large share of spend is in "+str(tc[0])+". See if it can be reduced or negotiated.")
+    else:
+        locked.append({"area":"Spending","tool":"Astraa Expense","text":"Add Expense to track where your money goes and catch spending spikes early."})
+
+    if has("estimator") or quotes:
+        if quotes:
+            findings.append({"area":"Quotes","state":"active","text":str(len(quotes))+" saved quote(s), average value "+money(avg_quote)+"."})
+            if idle_quotes>0:
+                findings.append({"area":"Quote Conversion","state":"active","text":str(idle_quotes)+" quote(s) may not be invoiced yet \u2014 potential "+money(idle_quotes*avg_quote)+" if they convert."})
+                strategy.append("Follow up on "+str(idle_quotes)+" open quote(s); even a few conversions add real income.")
+                road30.append("Contact clients on your "+str(idle_quotes)+" open quotes."); focus.append("Quote Conversion")
+    else:
+        locked.append({"area":"Quote Conversion","tool":"Astraa Estimator","text":"Add Estimator to see how many quotes turn into paid work \u2014 most contractors leave 10-20% on the table here."})
+
+    if crm_summary:
+        findings.append({"area":"Sales Pipeline","state":"active","text":str(crm_summary["total"])+" leads, "+money(crm_summary["pipeline"])+" open pipeline, "+str(crm_summary["conversion"])+"% win rate."})
+        if crm_summary["conversion"]<25 and crm_summary["total"]>=3:
+            strategy.append("Win rate is "+str(crm_summary["conversion"])+"%. Tighten follow-up on new leads.")
+            road60.append("Contact every new lead within 24 hours."); focus.append("Lead Follow-up")
+    else:
+        locked.append({"area":"Sales Pipeline","tool":"Astraa Business","text":"Add Business to track leads and see your win rate and pipeline value."})
+
+    if biz_summary and biz_summary["pending_tasks"]>10:
+        findings.append({"area":"Project Delivery","state":"active","text":str(biz_summary["active"])+" active project(s), "+str(biz_summary["pending_tasks"])+" open task(s)."})
+        road30.append("Clear the oldest overdue project tasks first."); focus.append("Project Backlog")
+
+    if total_income>0 and net>0 and pending_total==0:
+        score+=8; strategy.append("You're cash-positive with nothing overdue \u2014 set aside profit for taxes and slow months.")
+
+    if not road30: road30.append("Keep invoices and expenses up to date so this report stays accurate.")
+    if not road60: road60.append("Review pricing on your most common jobs.")
+    if not road90: road90.append("Set a monthly routine to check this report and track progress.")
+
+    score=max(1,min(100,int(round(score))))
+    if not focus: focus=["Keep records current"]
+
+    if net<0: summary="Your costs are currently higher than income. Priority: collect what you're owed and review pricing."
+    elif pending_total>0: summary="Solid footing, and there's "+money(pending_total)+" in unpaid invoices to collect \u2014 your fastest win."
+    elif total_income>0 and margin<10: summary="You're profitable but margins are thin. Small pricing and cost changes will make a real difference."
+    elif total_income>0: summary="You're in good shape. Focus on keeping the pipeline full and margins healthy."
+    else: summary="Add some invoices and expenses to unlock your first full analysis."
+
+    return astraa_json_response({"success":True,"generated_at":astraa_now_iso(),"adjusted":bool(adj),
+        "health_score":score,"focus_areas":focus[:5],"summary":summary,
+        "metrics":{"income":round(total_income,2),"expense":round(total_expense,2),"net":round(net,2),"margin":round(margin,1),"pending":round(pending_total,2),"idle_quotes":idle_quotes,"avg_quote":avg_quote},
+        "findings":findings,"strategy":strategy,"roadmap":{"d30":road30,"d60":road60,"d90":road90},
+        "locked":locked,"whatif":{"mark_paid_ids":list(mark_paid),"extra_income":extra_income,"extra_expense":extra_expense,"quotes_convert":qc}})
+# ===== END ASTRAA RESEARCH ANALYST =====
 
 # ===== ASTRAA REPORTS (read-only analytics over Finance + Expense) =====
 @app.route("/api/reports/summary", methods=["GET"])

@@ -1,56 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Astraa Space — Back Soon</title>
-<style>
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body {
-    font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
-    min-height:100vh; display:flex; align-items:center;
-    justify-content:center; text-align:center; padding:24px;
-    background:linear-gradient(135deg,#061a33 0%,#1d4ed8 100%);
-    color:#fff;
-  }
-  .box { max-width:520px; }
-  .logo {
-    width:64px; height:64px; object-fit:contain;
-    margin-bottom:22px; opacity:0.95;
-  }
-  h1 {
-    font-size:2rem; font-weight:900;
-    letter-spacing:-0.03em; margin-bottom:14px;
-  }
-  p {
-    color:#dbeafe; font-size:1.05rem;
-    line-height:1.65; margin-bottom:14px;
-  }
-  .pill {
-    display:inline-block; margin-top:10px;
-    background:rgba(255,255,255,0.12);
-    border:1px solid rgba(255,255,255,0.25);
-    padding:10px 18px; border-radius:999px;
-    font-weight:700; font-size:0.95rem;
-  }
-  .foot {
-    margin-top:26px; color:#9db8e8; font-size:0.85rem;
-  }
-</style>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="login.css">
+    <title>Astraa | Portal Authentication</title>
 </head>
 <body>
-  <div class="box">
-    assets/images/astraa_logo.png
-    <h1>We'll be right back</h1>
-    <p>
-      Astraa Space is briefly offline for scheduled maintenance.
-      Your data is safe and nothing is lost.
-    </p>
-    <p>
-      The rest of our website is still available while we finish up.
-    </p>
-    <div class="pill">Expected back in a few hours</div>
-    <div class="foot">Thanks for your patience — Astraa Systems</div>
-  </div>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>ASTRAA</h1>
+            <p>SOVEREIGN OPERATING SYSTEM // GATEWAY</p>
+        </div>
+        <form id="login-form">
+            <div class="input-group">
+                <label for="username">Operator ID / Email</label>
+                <input type="text" id="username" placeholder="keshanthspillai@astraasystems.com" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Passkey</label>
+                <input type="password" id="password" placeholder="••••••••••••" required>
+            </div>
+            <button type="submit" class="cta-button">Initialize Session</button>
+        </form>
+        <div id="auth-status"></div>
+    </div>
+    <script>window.ASTRAA_API_BASE = "https://family-speed-outcome.ngrok-free.dev";</script>
+    <script src="auth.js"></script>
 </body>
 </html>

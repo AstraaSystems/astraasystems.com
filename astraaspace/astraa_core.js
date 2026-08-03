@@ -95,6 +95,15 @@ function initDashboard() {
         select.innerHTML = '<option value="">Select a tool...</option>';
         keys.forEach(function (key) {
             var tool = data.tools[key];
+            // LOGISTICS TEST GATE: only the tester email sees it (hidden from all others)
+            var _ln = (tool.name||'').toLowerCase();
+            if(_ln.indexOf('logistics')!==-1 || _ln.indexOf('distribution')!==-1){
+                var _te=''; try{_te=(JSON.parse(localStorage.getItem('astraa_session')||'{}').email||'').toLowerCase();}catch(x){}
+                if(_te==='keshanth.sivayo@gmail.com'){
+                    var _o=document.createElement('option'); _o.value=key; _o.text='Astraa Logistics'; select.appendChild(_o);
+                }
+                return;
+            }
             var live = astraaIsLive(tool.name);
             if(!live) return;                          // skip coming-soon
             if(!toolAllowed(tool.name, entitlements)) return;  // skip not-purchased

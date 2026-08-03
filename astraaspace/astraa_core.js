@@ -20,6 +20,12 @@ function astraaIsLive(toolName) {
 function astraaRenderTool(key, tool) {
     var area = document.getElementById('content-area');
     var nameLower = (tool.name || "").toLowerCase();
+    // LOGISTICS TEST MOUNT: bypass live-list for tester
+    if((nameLower.indexOf('logistics')!==-1 || nameLower.indexOf('distribution')!==-1) && typeof LogisticsModule !== 'undefined'){
+        document.body.classList.add('astraa-workspace-active');
+        area.innerHTML = LogisticsModule.render(); if(LogisticsModule.load)LogisticsModule.load();
+        return;
+    }
 
     if (astraaIsLive(tool.name)) {
         if ((nameLower.indexOf("lead")!==-1||nameLower.indexOf("crm")!==-1) && typeof CRMModule !== "undefined") {

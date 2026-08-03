@@ -10,7 +10,7 @@ window.AstraaBlueprint = {
         ops:   { name: "Astraa Business" },
         exp:   { name: "Astraa Expense" },
         vault: { name: "Astraa Vault" },
-        dist:  { name: "Astraa Distribution" },
+        dist:  { name: "Astraa Logistics" },
         infer: { name: "Astraa Research Analyst" },
         data:  { name: "Astraa Reports" },
         comm:  { name: "Astraa Commerce" }

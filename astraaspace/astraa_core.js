@@ -38,6 +38,8 @@ function astraaRenderTool(key, tool) {
             document.body.classList.add("astraa-workspace-active"); area.innerHTML = ReportsModule.render(); if(ReportsModule.load)ReportsModule.load();
         } else if ((nameLower.indexOf("analyst") !== -1 || nameLower.indexOf("research") !== -1 || nameLower.indexOf("inference") !== -1) && typeof AnalystModule !== "undefined") {
             document.body.classList.add("astraa-workspace-active"); area.innerHTML = AnalystModule.render(); if(AnalystModule.load)AnalystModule.load();
+        } else if ((nameLower.indexOf("logistics") !== -1 || nameLower.indexOf("distribution") !== -1) && typeof LogisticsModule !== "undefined") {
+            document.body.classList.add("astraa-workspace-active"); area.innerHTML = LogisticsModule.render(); if(LogisticsModule.load)LogisticsModule.load();
         } else if (key === 'comm' && typeof CommerceModule !== 'undefined') {
             area.innerHTML = CommerceModule.render();
         } else {
@@ -93,6 +95,15 @@ function initDashboard() {
         select.innerHTML = '<option value="">Select a tool...</option>';
         keys.forEach(function (key) {
             var tool = data.tools[key];
+            // LOGISTICS TEST GATE: only the tester email sees it (hidden from all others)
+            var _ln = (tool.name||'').toLowerCase();
+            if(_ln.indexOf('logistics')!==-1 || _ln.indexOf('distribution')!==-1){
+                var _te=''; try{_te=(JSON.parse(localStorage.getItem('astraa_session')||'{}').email||'').toLowerCase();}catch(x){}
+                if(_te==='keshanth.sivayo@gmail.com'){
+                    var _o=document.createElement('option'); _o.value=key; _o.text='Astraa Logistics'; select.appendChild(_o);
+                }
+                return;
+            }
             var live = astraaIsLive(tool.name);
             if(!live) return;                          // skip coming-soon
             if(!toolAllowed(tool.name, entitlements)) return;  // skip not-purchased

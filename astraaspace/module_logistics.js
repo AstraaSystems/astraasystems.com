@@ -30,7 +30,7 @@ var LogisticsModule = {
     + '.lg-grid label,.lg-line label{display:block;font-weight:700;font-size:.8rem;color:#0f172a;margin-bottom:5px;}'
     + '.lg-grid input,.lg-line input,.lg-line select,.lg-card select{width:100%;padding:9px 11px;border:1px solid #cbd5e1;border-radius:9px;font-size:.92rem;box-sizing:border-box;}'
     + '.lg-btn{background:#1d4ed8;color:#fff;border:none;border-radius:10px;padding:11px 18px;font-weight:800;cursor:pointer;font-size:.9rem;}'
-    + '.lg-btn.ghost{background:#fff;color:#1d4ed8;border:1px solid #bfdbfe;}'
+    + '.lg-btn.ghost{background:#fff;color:#1d4ed8 !important;border:1px solid #1d4ed8;}'
     + '.lg-btn.sm{padding:6px 12px;font-size:.8rem;border-radius:7px;}'
     + '.lg-btn.danger{background:#fff;color:#dc2626;border:1px solid #fecaca;}'
     + '.lg-btn.ok{background:#16a34a;}'
@@ -44,7 +44,7 @@ var LogisticsModule = {
     + '.lg-badge.ordered{background:#fef3c7;color:#b45309;}'
     + '.lg-badge.received{background:#dcfce7;color:#15803d;}'
     + '.lg-qty{display:inline-flex;align-items:center;gap:8px;}'
-    + '.lg-qbtn{min-width:28px;height:28px;padding:0 8px;border:1px solid #cbd5e1;background:#eff6ff;border-radius:6px;cursor:pointer;font-weight:900;color:#1d4ed8;font-size:1rem;line-height:1;}'
+    + '.lg-qbtn{min-width:30px;height:30px;padding:0 10px;border:1px solid #1d4ed8;background:#fff;border-radius:6px;cursor:pointer;font-weight:900;color:#1d4ed8 !important;font-size:1.1rem;line-height:1;display:inline-flex;align-items:center;justify-content:center;}'
     + '.lg-line{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;align-items:end;margin-bottom:8px;}'
     + '.lg-muted{color:#94a3b8;font-size:.92rem;}'
     + '</style>';
@@ -123,7 +123,7 @@ var LogisticsModule = {
     var self=this; var h='<table class="lg-table"><thead><tr><th>Item</th><th>SKU</th><th>Category</th><th>Qty</th><th>Unit cost</th><th>Value</th><th>Location</th><th></th></tr></thead><tbody>';
     this._items.forEach(function(it){ var qty=Number(it.quantity||0),cost=Number(it.unit_cost||0),rp=Number(it.reorder_point||0); var low=(rp>0&&qty<=rp);
       h+='<tr class="'+(low?'low':'')+'"><td><b>'+(it.name||'')+'</b>'+(low?'<span class="lg-lowtag">LOW</span>':'')+'</td><td>'+(it.sku||'')+'</td><td>'+(it.category||'')+'</td>'
-        +'<td><span class="lg-qty"><button class="lg-qbtn" onclick="LogisticsModule.adjust(\''+it.id+'\',-1)">&minus;</button>'+qty+'<button class="lg-qbtn" onclick="LogisticsModule.adjust(\''+it.id+'\',1)">+</button></span></td>'
+        +'<td><span class="lg-qty"><button class="lg-qbtn" onclick="LogisticsModule.adjust(\''+it.id+'\',-1)">-</button>'+qty+'<button class="lg-qbtn" onclick="LogisticsModule.adjust(\''+it.id+'\',1)">+</button></span></td>'
         +'<td>'+self.money(cost)+'</td><td>'+self.money(qty*cost)+'</td><td>'+(it.location||'')+'</td>'
         +'<td><button class="lg-btn sm ghost" onclick="LogisticsModule.edit(\''+it.id+'\')">Edit</button> <button class="lg-btn sm danger" onclick="LogisticsModule.del(\''+it.id+'\')">Delete</button></td></tr>';
     }); h+='</tbody></table>'; document.getElementById('lg_table').innerHTML=h;

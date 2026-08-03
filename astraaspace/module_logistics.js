@@ -47,6 +47,11 @@ var LogisticsModule = {
     + '.lg-qbtn{min-width:30px;height:30px;padding:0 10px;border:1px solid #1d4ed8;background:#fff;border-radius:6px;cursor:pointer;font-weight:900;color:#1d4ed8 !important;font-size:1.1rem;line-height:1;display:inline-flex;align-items:center;justify-content:center;}'
     + '.lg-line{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;align-items:end;margin-bottom:8px;}'
     + '.lg-muted{color:#94a3b8;font-size:.92rem;}'
+    + '.lg-wrap .lg-qbtn{background:#ffffff !important;color:#1d4ed8 !important;border:1px solid #1d4ed8 !important;}'
+    + '.lg-wrap button.lg-btn{background:#1d4ed8 !important;color:#ffffff !important;}'
+    + '.lg-wrap button.lg-btn.ghost{background:#ffffff !important;color:#1d4ed8 !important;border:1px solid #1d4ed8 !important;}'
+    + '.lg-wrap button.lg-btn.danger{background:#ffffff !important;color:#dc2626 !important;border:1px solid #fecaca !important;}'
+    + '.lg-wrap button.lg-btn.ok{background:#16a34a !important;color:#ffffff !important;}'
     + '</style>';
   },
 

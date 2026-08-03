@@ -7975,7 +7975,30 @@ def astraa_log_po_receive():
     po["received_at"] = astraa_now_iso()
     po["updated_at"] = astraa_now_iso()
     _astraa_save_json_store(ASTRAA_LOG_PO_STORE, db)
-    return astraa_json_response({"success": True, "order": po, "received": received_summary})
+
+    # PHASE 4a: auto-log the PO cost as an Expense (non-fatal)
+    expense_logged = False
+    if p.get("log_expense", True):
+        try:
+            total = _astraa_po_total(po)
+            if total > 0:
+                from datetime import datetime as _dt
+                entry = {"id": uuid.uuid4().hex[:12],
+                         "date": _dt.now().strftime("%Y-%m-%d"),
+                         "category": "Materials",
+                         "amount": round(total, 2),
+                         "vendor": po.get("supplier_name", ""),
+                         "project": "",
+                         "notes": "Auto-logged from Logistics PO",
+                         "created_at": astraa_now_iso()}
+                edb = _astraa_load_expenses()
+                edb.setdefault(key, []).append(entry)
+                _astraa_save_expenses(edb)
+                expense_logged = True
+        except Exception:
+            expense_logged = False
+
+    return astraa_json_response({"success": True, "order": po, "received": received_summary, "expense_logged": expense_logged})
 
 @app.route("/api/logistics/po/delete", methods=["POST"])
 def astraa_log_po_delete():

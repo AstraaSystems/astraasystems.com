@@ -7689,6 +7689,7 @@ def _astraa_logistics_clean(p):
     return {
         "name": (p.get("name") or "").strip(),
         "sku": (p.get("sku") or "").strip(),
+        "specification": (p.get("specification") or "").strip(),
         "category": (p.get("category") or "General").strip(),
         "unit": (p.get("unit") or "each").strip(),
         "unit_cost": round(num(p.get("unit_cost")), 2),

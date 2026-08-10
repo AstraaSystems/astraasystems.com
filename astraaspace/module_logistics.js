@@ -109,7 +109,8 @@ var LogisticsModule = {
       +this.field('name','Item name',e.name)+this.field('sku','SKU',e.sku)
       +this.field('specification','Specification / Size',e.specification)
       +this.field('category','Category',e.category)+this.field('unit','Unit (each, box, sqft)',e.unit)
-      +this.field('unit_cost','Unit cost ($)',e.unit_cost,'number')+this.field('quantity','Quantity',e.quantity,'number')
+      +this.field('unit_cost','Unit cost ($)',e.unit_cost,'number')+this.field('sale_price','Sale price ($)',e.sale_price,'number')
+      +this.field('markup_percent','Markup %',e.markup_percent,'number')+this.field('quantity','Quantity',e.quantity,'number')
       +this.field('location','Location',e.location)+this.field('reorder_point','Reorder point',e.reorder_point,'number')
       +this.field('supplier','Supplier',e.supplier)+this.field('notes','Notes',e.notes)
       +'</div><div class="lg-bar"><button class="lg-btn" onclick="LogisticsModule.save()">'+(this._editId?'Update Item':'Add Item')+'</button>'
@@ -117,7 +118,8 @@ var LogisticsModule = {
     var ft=document.getElementById('lg_formtitle'); if(ft)ft.innerText=this._editId?'Edit Item':'Add Item';
   },
   gather:function(){ function v(id){var el=document.getElementById('lg_'+id);return el?el.value:'';}
-    return {name:v('name'),sku:v('sku'),specification:v('specification'),category:v('category'),unit:v('unit'),unit_cost:v('unit_cost'),quantity:v('quantity'),location:v('location'),reorder_point:v('reorder_point'),supplier:v('supplier'),notes:v('notes')}; },
+    return {name:v('name'),sku:v('sku'),specification:v('specification'),category:v('category'),unit:v('unit'),unit_cost:v('unit_cost'),sale_price:v('sale_price'),markup_percent:v('markup_percent'),quantity:v('quantity'),location:v('location'),reorder_point:v('reorder_point'),supplier:v('supplier'),notes:v('notes')}; },
+  applyMarkup:function(){var c=parseFloat(document.getElementById('lg_unit_cost').value)||0;var mk=parseFloat(document.getElementById('lg_markup_percent').value)||0;if(c>0&&mk>0){document.getElementById('lg_sale_price').value=(c*(1+mk/100)).toFixed(2);}},
   save:function(){ var body=this.gather(); if(!body.name.trim()){alert('Item name is required.');return;}
     var url=this._editId?"/api/logistics/update":"/api/logistics/add"; if(this._editId)body.id=this._editId; var self=this;
     fetch(this.apiBase()+url,{method:"POST",headers:this.hdr(),body:JSON.stringify(body)}).then(function(r){return r.json();})
@@ -129,11 +131,11 @@ var LogisticsModule = {
   del:function(id){ if(!confirm('Delete this item?'))return; var self=this; fetch(this.apiBase()+"/api/logistics/delete",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id})}).then(function(r){return r.json();}).then(function(d){if(d.success)self.fetchList();}).catch(function(){}); },
   renderTable:function(){
     if(!this._items.length){document.getElementById('lg_table').innerHTML='<p class="lg-muted">No items yet. Add your first inventory item above.</p>';return;}
-    var self=this; var h='<table class="lg-table"><thead><tr><th>Item</th><th>SKU</th><th>Spec</th><th>Category</th><th>Qty</th><th>Unit cost</th><th>Value</th><th>Location</th><th></th></tr></thead><tbody>';
-    this._items.forEach(function(it){ var qty=Number(it.quantity||0),cost=Number(it.unit_cost||0),rp=Number(it.reorder_point||0); var low=(rp>0&&qty<=rp);
+    var self=this; var h='<table class="lg-table"><thead><tr><th>Item</th><th>SKU</th><th>Spec</th><th>Category</th><th>Qty</th><th>Unit cost</th><th>Sale</th><th>Margin</th><th>Value</th><th>Location</th><th></th></tr></thead><tbody>';
+    this._items.forEach(function(it){ var qty=Number(it.quantity||0),cost=Number(it.unit_cost||0),sale=Number(it.sale_price||0),rp=Number(it.reorder_point||0); var marginPct=(sale>0?((sale-cost)/sale*100):0); var marginTxt=(sale>0?marginPct.toFixed(0)+'%':'-'); var marginColor=(sale<=0?'#94a3b8':(marginPct>=30?'#16a34a':(marginPct>=10?'#eab308':'#dc2626'))); var low=(rp>0&&qty<=rp);
       h+='<tr class="'+(low?'low':'')+'"><td><b>'+(it.name||'')+'</b>'+(low?'<span class="lg-lowtag">LOW</span>':'')+'</td><td>'+(it.sku||'')+'</td><td>'+(it.specification||'')+'</td><td>'+(it.category||'')+'</td>'
         +'<td><span class="lg-qty"><button class="lg-qbtn" onclick="LogisticsModule.adjust(\''+it.id+'\',-1)">-</button>'+qty+'<button class="lg-qbtn" onclick="LogisticsModule.adjust(\''+it.id+'\',1)">+</button></span></td>'
-        +'<td>'+self.money(cost)+'</td><td>'+self.money(qty*cost)+'</td><td>'+(it.location||'')+'</td>'
+        +'<td>'+self.money(cost)+'</td>'+'<td>'+self.money(sale)+'</td>'+'<td style="color:'+marginColor+';font-weight:600">'+marginTxt+'</td>'+'<td>'+self.money(qty*cost)+'</td><td>'+(it.location||'')+'</td>'
         +'<td><button class="lg-btn sm ghost" onclick="LogisticsModule.edit(\''+it.id+'\')">Edit</button> <button class="lg-btn sm danger" onclick="LogisticsModule.del(\''+it.id+'\')">Delete</button></td></tr>';
     }); h+='</tbody></table>'; document.getElementById('lg_table').innerHTML=h;
   },

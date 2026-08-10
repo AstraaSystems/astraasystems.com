@@ -7693,6 +7693,8 @@ def _astraa_logistics_clean(p):
         "category": (p.get("category") or "General").strip(),
         "unit": (p.get("unit") or "each").strip(),
         "unit_cost": round(num(p.get("unit_cost")), 2),
+        "sale_price": round(num(p.get("sale_price")), 2),
+        "markup_percent": round(num(p.get("markup_percent")), 2),
         "quantity": round(num(p.get("quantity")), 2),
         "location": (p.get("location") or "").strip(),
         "reorder_point": round(num(p.get("reorder_point")), 2),

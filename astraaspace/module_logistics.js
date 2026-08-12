@@ -1,6 +1,6 @@
 // Astraa Logistics - Phase 1+2: Inventory, Suppliers, Purchase Orders
 var LogisticsModule = {
-  _tab:"inventory", _items:[], _summary:{}, _editId:null, _editItem:null,
+  _tab:"inventory", _items:[], _summary:{}, _editId:null, _editItem:null, _scan:[],
   _suppliers:[], _pos:[], _poSummary:{}, _poLines:[],
   apiBase:function(){
     if(typeof ASTRAA_API_BASE!=='undefined' && ASTRAA_API_BASE) return ASTRAA_API_BASE;
@@ -65,11 +65,76 @@ var LogisticsModule = {
     + '<div class="lg-tab" data-t="suppliers" onclick="LogisticsModule.go(\'suppliers\')">Suppliers</div>'
     + '<div class="lg-tab" data-t="po" onclick="LogisticsModule.go(\'po\')">Purchase Orders</div>'
     + '<div class="lg-tab" data-t="delivery" onclick="LogisticsModule.go(\'delivery\')">Deliveries</div>'
+    + '<div class="lg-tab" data-t="scan" onclick="LogisticsModule.go(\'scan\')">Scan Intake</div>'
     + '</div><div id="lg_body"></div></div>';
   },
 
   load:function(){ this.go('inventory'); },
 
+  loadScan:function(){
+    var self=this;
+    document.getElementById('lg_body').innerHTML=
+      '<div class="lg-card"><h3>Scan Intake</h3>'
+      +'<p class="lg-muted">Set the shared details once, then scan SKUs. Each new SKU adds a row. Scanning the same SKU again is ignored — edit its quantity on the row. Nothing touches inventory until you press Commit.</p>'
+      +'<div class="lg-grid">'
+      +this.field('scan_name','Product name','','text')
+      +this.field('scan_category','Category','General','text')
+      +this.field('scan_spec','Spec / Size','','text')
+      +this.field('scan_unit','Unit','each','text')
+      +this.field('scan_location','Location','','text')
+      +this.field('scan_supplier','Supplier','','text')
+      +this.field('scan_unit_cost','Unit cost ($)','','number')
+      +this.field('scan_sale_price','Sale price ($)','','number')
+      +'</div>'
+      +'<div style="margin:14px 0;"><label style="font-weight:800;display:block;margin-bottom:6px;">Scan box</label>'
+      +'<input id="lg_scanbox" type="text" placeholder="Click here, then scan a barcode..." autocomplete="off" style="width:100%;padding:12px;font-size:1.1rem;border:2px solid #1d4ed8;border-radius:8px;"></div>'
+      +'<div id="scan_toast" style="min-height:22px;font-weight:700;margin-bottom:8px;"></div>'
+      +'<div id="scan_table"></div>'
+      +'<div style="margin-top:16px;display:flex;gap:12px;align-items:center;">'
+      +'<button class="lg-btn" onclick="LogisticsModule.commitScan()">Commit to Inventory</button>'
+      +'<button class="lg-btn ghost" onclick="LogisticsModule.clearScan()">Clear sheet</button>'
+      +'</div></div>';
+    this.renderScan();
+    var box=document.getElementById('lg_scanbox');
+    box.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();self.onScan(box.value);box.value='';box.focus();} });
+    box.focus();
+  },
+  onScan:function(code){
+    code=(code||'').trim(); if(!code)return;
+    for(var i=0;i<this._scan.length;i++){ if((this._scan[i].sku||'').toLowerCase()===code.toLowerCase()){ this.scanToast('Duplicate scan ignored: "'+code+'" is already on the sheet — edit its qty.','#dc2626'); return; } }
+    var g=function(id){var el=document.getElementById('lg_'+id);return el?el.value:'';};
+    this._scan.push({sku:code,name:g('scan_name'),specification:g('scan_spec'),category:g('scan_category'),unit:g('scan_unit'),location:g('scan_location'),supplier:g('scan_supplier'),unit_cost:g('scan_unit_cost'),sale_price:g('scan_sale_price'),quantity:1});
+    this.scanToast('Added "'+code+'"','#16a34a');
+    this.renderScan();
+  },
+  renderScan:function(){
+    var el=document.getElementById('scan_table'); if(!el)return;
+    if(!this._scan.length){el.innerHTML='<p class="lg-muted">No rows yet. Click the scan box and scan a SKU to begin.</p>';return;}
+    var h='<table class="lg-table"><thead><tr><th>SKU</th><th>Name</th><th>Spec</th><th>Qty</th><th></th></tr></thead><tbody>';
+    for(var i=0;i<this._scan.length;i++){ var r=this._scan[i];
+      h+='<tr><td><b>'+this.esc(r.sku)+'</b></td><td>'+this.esc(r.name)+'</td><td>'+this.esc(r.specification)+'</td>'
+        +'<td><input type="number" value="'+r.quantity+'" style="width:72px;" onchange="LogisticsModule.scanQty('+i+',this.value)"></td>'
+        +'<td><button class="lg-btn sm danger" onclick="LogisticsModule.scanRemove('+i+')">Remove</button></td></tr>';
+    }
+    h+='</tbody></table><p class="lg-muted" style="margin-top:8px;">'+this._scan.length+' row(s) staged.</p>'; el.innerHTML=h;
+  },
+  scanQty:function(i,val){ if(this._scan[i]){ this._scan[i].quantity=Number(val)||0; } },
+  scanRemove:function(i){ this._scan.splice(i,1); this.renderScan(); },
+  clearScan:function(){ if(!this._scan.length)return; if(!confirm('Clear all scanned rows?'))return; this._scan=[]; this.renderScan(); this.scanToast('Sheet cleared.','#334155'); },
+  scanToast:function(msg,color){ var t=document.getElementById('scan_toast'); if(t){ t.style.color=color||'#334155'; t.textContent=msg; } },
+  commitScan:function(){
+    if(!this._scan.length){ this.scanToast('Nothing to commit.','#dc2626'); return; }
+    if(!confirm('Commit '+this._scan.length+' item(s) to inventory?'))return;
+    var self=this; var rows=this._scan.slice(); var done=0, fail=0;
+    var post=function(idx){
+      if(idx>=rows.length){ self.scanToast('Committed '+done+' item(s)'+(fail?', '+fail+' failed':'')+'.', fail?'#dc2626':'#16a34a'); self._scan=[]; self.renderScan(); return; }
+      var r=rows[idx];
+      fetch(self.apiBase()+"/api/logistics/add",{method:"POST",headers:self.hdr(),body:JSON.stringify(r)})
+        .then(function(x){return x.json();}).then(function(d){ if(d&&d.success)done++; else fail++; post(idx+1); })
+        .catch(function(){ fail++; post(idx+1); });
+    };
+    post(0);
+  },
   go:function(tab){
     this._tab=tab;
     var tabs=document.querySelectorAll('.lg-tab');
@@ -78,6 +143,7 @@ var LogisticsModule = {
     else if(tab==='suppliers') this.loadSuppliers();
     else if(tab==='po') this.loadPO();
     else if(tab==='delivery') this.loadDelivery();
+    else if(tab==='scan') this.loadScan();
   },
 
   // ---------- INVENTORY ----------
@@ -131,11 +197,12 @@ var LogisticsModule = {
   del:function(id){ if(!confirm('Delete this item?'))return; var self=this; fetch(this.apiBase()+"/api/logistics/delete",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id})}).then(function(r){return r.json();}).then(function(d){if(d.success)self.fetchList();}).catch(function(){}); },
   renderTable:function(){
     if(!this._items.length){document.getElementById('lg_table').innerHTML='<p class="lg-muted">No items yet. Add your first inventory item above.</p>';return;}
-    var self=this; var h='<table class="lg-table"><thead><tr><th>Item</th><th>SKU</th><th>Spec</th><th>Category</th><th>Qty</th><th>Reserved</th><th>Available</th><th>Unit cost</th><th>Sale</th><th>Margin</th><th>Value</th><th>Location</th><th></th></tr></thead><tbody>';
-    this._items.forEach(function(it){ var qty=Number(it.quantity||0),cost=Number(it.unit_cost||0),sale=Number(it.sale_price||0),rp=Number(it.reorder_point||0),reserved=Number(it.reserved||0),available=(qty-reserved); var marginPct=(sale>0?((sale-cost)/sale*100):0); var marginTxt=(sale>0?marginPct.toFixed(0)+'%':'-'); var marginColor=(sale<=0?'#94a3b8':(marginPct>=30?'#16a34a':(marginPct>=10?'#eab308':'#dc2626'))); var availColor=(available<=0?'#dc2626':(rp>0&&available<=rp?'#eab308':'#16a34a'));var low=(rp>0&&available<=rp);
+    var self=this; var h='<table class="lg-table"><thead><tr><th>Item</th><th>SKU</th><th>Spec</th><th>Category</th><th>Qty</th><th>Reserved</th><th>Available</th><th>On-Order</th><th>ETA</th><th>Unit cost</th><th>Sale</th><th>Margin</th><th>Value</th><th>Location</th><th></th></tr></thead><tbody>';
+    this._items.forEach(function(it){ var qty=Number(it.quantity||0),cost=Number(it.unit_cost||0),sale=Number(it.sale_price||0),rp=Number(it.reorder_point||0),reserved=Number(it.reserved||0),available=(qty-reserved); var marginPct=(sale>0?((sale-cost)/sale*100):0); var marginTxt=(sale>0?marginPct.toFixed(0)+'%':'-'); var marginColor=(sale<=0?'#94a3b8':(marginPct>=30?'#16a34a':(marginPct>=10?'#eab308':'#dc2626'))); var availColor=(available<=0?'#dc2626':(rp>0&&available<=rp?'#eab308':'#16a34a'));var low=(rp>0&&available<=rp);var onOrder=Number(it.on_order||0);var eta=(it.on_order_eta||'');var onOrderTxt=(onOrder>0?'+'+onOrder:'—');var onOrderColor=(onOrder>0?'#2563eb':'#94a3b8');var etaTxt=(eta?eta:'—');var etaOverdue=false;if(eta){var _t=new Date(eta+'T00:00:00');var _n=new Date();_n.setHours(0,0,0,0);etaOverdue=(_t<_n);}var etaColor=(etaOverdue?'#dc2626':'#334155');
       h+='<tr class="'+(low?'low':'')+'"><td><b>'+(it.name||'')+'</b>'+(low?'<span class="lg-lowtag">LOW</span>':'')+'</td><td>'+(it.sku||'')+'</td><td>'+(it.specification||'')+'</td><td>'+(it.category||'')+'</td>'
         +'<td><span class="lg-qty"><button class="lg-qbtn" onclick="LogisticsModule.adjust(\''+it.id+'\',-1)">-</button>'+qty+'<button class="lg-qbtn" onclick="LogisticsModule.adjust(\''+it.id+'\',1)">+</button></span></td>'
         +'<td>'+reserved+'</td>'+'<td style="color:'+availColor+';font-weight:600">'+available+'</td>'
+        +'<td style="color:'+onOrderColor+';font-weight:600">'+onOrderTxt+'</td>'+'<td style="color:'+etaColor+'">'+etaTxt+'</td>'
         +'<td>'+self.money(cost)+'</td>'+'<td>'+self.money(sale)+'</td>'+'<td style="color:'+marginColor+';font-weight:600">'+marginTxt+'</td>'+'<td>'+self.money(qty*cost)+'</td><td>'+(it.location||'')+'</td>'
         +'<td><button class="lg-btn sm ghost" onclick="LogisticsModule.edit(\''+it.id+'\')">Edit</button> <button class="lg-btn sm danger" onclick="LogisticsModule.del(\''+it.id+'\')">Delete</button></td></tr>';
     }); h+='</tbody></table>'; document.getElementById('lg_table').innerHTML=h;

@@ -7703,6 +7703,42 @@ def _astraa_logistics_clean(p):
         "notes": (p.get("notes") or "").strip()
     }
 
+def _astraa_logistics_on_order(items, pos):
+    """Annotate each item with on_order (sum of open-PO line qty) and on_order_eta (earliest expected_date)."""
+    incoming = {}
+    eta = {}
+    def line_keys(ln):
+        ks = []
+        iid = (ln.get("item_id") or "").strip()
+        if iid: ks.append(("id", iid))
+        nm = (ln.get("name") or "").strip().lower()
+        sp = (ln.get("specification") or "").strip().lower()
+        if nm: ks.append(("ns", nm, sp))
+        return ks
+    for po in pos:
+        if po.get("status") == "Received":
+            continue
+        exp = (po.get("expected_date") or "").strip()
+        for ln in po.get("lines", []):
+            try: q = float(ln.get("quantity", 0) or 0)
+            except Exception: q = 0.0
+            if q <= 0: continue
+            for k in line_keys(ln):
+                incoming[k] = incoming.get(k, 0.0) + q
+                if exp:
+                    cur = eta.get(k)
+                    if (cur is None) or (exp < cur): eta[k] = exp
+    for it in items:
+        idk = ("id", (it.get("id") or "").strip())
+        nsk = ("ns", (it.get("name") or "").strip().lower(), (it.get("specification") or "").strip().lower())
+        if idk in incoming:
+            it["on_order"] = round(incoming[idk], 2); it["on_order_eta"] = eta.get(idk, "")
+        elif nsk in incoming:
+            it["on_order"] = round(incoming[nsk], 2); it["on_order_eta"] = eta.get(nsk, "")
+        else:
+            it["on_order"] = 0.0; it["on_order_eta"] = ""
+    return items
+
 @app.route("/api/logistics/list", methods=["GET"])
 def astraa_logistics_list():
     identity = astraa_resolve_session_identity(request)
@@ -7712,6 +7748,11 @@ def astraa_logistics_list():
     db = _astraa_load_logistics()
     items = db.get(key, [])
     items_sorted = sorted(items, key=lambda x: x.get("name", "").lower())
+    try:
+        _po_db = _astraa_load_json_store(ASTRAA_LOG_PO_STORE)
+        items_sorted = _astraa_logistics_on_order(items_sorted, _po_db.get(key, []))
+    except Exception:
+        pass
     return astraa_json_response({"success": True, "items": items_sorted,
                                  "summary": _astraa_logistics_summary(items)})
 

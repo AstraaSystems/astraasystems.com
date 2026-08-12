@@ -7696,6 +7696,7 @@ def _astraa_logistics_clean(p):
         "sale_price": round(num(p.get("sale_price")), 2),
         "markup_percent": round(num(p.get("markup_percent")), 2),
         "quantity": round(num(p.get("quantity")), 2),
+        "reserved": round(num(p.get("reserved")), 2),
         "location": (p.get("location") or "").strip(),
         "reorder_point": round(num(p.get("reorder_point")), 2),
         "supplier": (p.get("supplier") or "").strip(),

@@ -7844,6 +7844,331 @@ def astraa_logistics_delete():
 # ===== ASTRAA LOGISTICS - PHASE 2: SUPPLIERS & PURCHASE ORDERS (hidden) =====
 ASTRAA_LOG_SUPPLIERS_STORE = os.path.join("astraa_data", "astraa_logistics_suppliers.json")
 ASTRAA_LOG_PO_STORE = os.path.join("astraa_data", "astraa_logistics_po.json")
+ASTRAA_LOG_ORDERS_STORE = os.path.join("astraa_data", "astraa_logistics_orders.json")
+
+def _astraa_order_total(order):
+    t = 0.0
+    for ln in order.get("lines", []):
+        try:
+            t += float(ln.get("quantity",0) or 0) * float(ln.get("sale_price",0) or 0)
+        except Exception:
+            pass
+    return round(t, 2)
+
+def _astraa_order_clean_lines(raw):
+    lines = []
+    for ln in (raw or []):
+        nm = (ln.get("name") or "").strip()
+        if not nm: continue
+        try: q = float(ln.get("quantity") or 0)
+        except Exception: q = 0.0
+        try: sp = float(ln.get("sale_price") or 0)
+        except Exception: sp = 0.0
+        lines.append({"item_id": (ln.get("item_id") or "").strip(),
+                      "name": nm,
+                      "specification": (ln.get("specification") or "").strip(),
+                      "quantity": round(q,2),
+                      "sale_price": round(sp,2)})
+    return lines
+
+def _astraa_order_match_item(ln, items, by_id=None, by_ns=None):
+    """Resolve an order line to an inventory item: prefer item_id, then name+spec (variant-accurate)."""
+    if by_id is None:
+        by_id = {}
+        for it in items:
+            iid = (it.get("id") or "").strip()
+            if iid: by_id[iid] = it
+    if by_ns is None:
+        by_ns = {}
+        for it in items:
+            by_ns.setdefault(((it.get("name") or "").lower(), (it.get("specification") or "").lower()), it)
+    iid = (ln.get("item_id") or "").strip()
+    if iid and iid in by_id:
+        return by_id[iid]
+    return by_ns.get(((ln.get("name") or "").lower(), (ln.get("specification") or "").lower()))
+
+def _astraa_order_annotate(order, items):
+    """Attach matched item id, on-hand, reserved and available to each order line (read-only view)."""
+    by_id = {}
+    for it in items:
+        iid = (it.get("id") or "").strip()
+        if iid: by_id[iid] = it
+    by_ns = {}
+    for it in items:
+        by_ns.setdefault(((it.get("name") or "").lower(), (it.get("specification") or "").lower()), it)
+    for ln in order.get("lines", []):
+        it = _astraa_order_match_item(ln, items, by_id, by_ns)
+        if it:
+            qty = float(it.get("quantity",0) or 0)
+            res = float(it.get("reserved",0) or 0)
+            ln["matched"] = True
+            ln["matched_item_id"] = it.get("id","")
+            ln["on_hand"] = round(qty,2)
+            ln["item_reserved"] = round(res,2)
+            ln["available"] = round(qty - res,2)
+            try: want = float(ln.get("quantity",0) or 0)
+            except Exception: want = 0.0
+            ln["shortfall"] = round(max(0.0, want - (qty - res)),2)
+        else:
+            ln["matched"] = False
+            ln["matched_item_id"] = ""
+            ln["on_hand"] = 0.0
+            ln["item_reserved"] = 0.0
+            ln["available"] = 0.0
+            ln["shortfall"] = round(float(ln.get("quantity",0) or 0),2)
+    return order
+
+@app.route("/api/logistics/orders/list", methods=["GET"])
+def astraa_log_orders_list():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    key = astraa_account_key(identity.get("account_email"))
+    db = _astraa_load_json_store(ASTRAA_LOG_ORDERS_STORE)
+    orders = sorted(db.get(key, []), key=lambda x: x.get("created_at",""), reverse=True)
+    _inv_db = _astraa_load_logistics()
+    _inv_items = _inv_db.get(key, [])
+    for o in orders:
+        o["total"] = _astraa_order_total(o)
+        _astraa_order_annotate(o, _inv_items)
+    pending_value = sum(_astraa_order_total(o) for o in orders if o.get("status") == "Pending")
+    return astraa_json_response({"success": True, "orders": orders,
+        "summary": {"draft": sum(1 for o in orders if o.get("status")=="Draft"),
+                    "pending": sum(1 for o in orders if o.get("status")=="Pending"),
+                    "fulfilled": sum(1 for o in orders if o.get("status")=="Fulfilled"),
+                    "pending_value": round(pending_value,2),
+                    "total_orders": len(orders)}})
+
+@app.route("/api/logistics/orders/add", methods=["POST"])
+def astraa_log_orders_add():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    key = astraa_account_key(identity.get("account_email"))
+    p = astraa_get_request_json() or {}
+    order = {
+        "id": uuid.uuid4().hex[:12],
+        "customer": (p.get("customer") or "").strip(),
+        "status": "Draft",
+        "notes": (p.get("notes") or "").strip(),
+        "lines": _astraa_order_clean_lines(p.get("lines")),
+        "created_at": astraa_now_iso(),
+        "updated_at": astraa_now_iso()
+    }
+    db = _astraa_load_json_store(ASTRAA_LOG_ORDERS_STORE)
+    db.setdefault(key, []).append(order)
+    _astraa_save_json_store(ASTRAA_LOG_ORDERS_STORE, db)
+    return astraa_json_response({"success": True, "order": order})
+
+def _astraa_order_apply_reservation(order, inv_items, direction):
+    """direction=+1 reserves, -1 releases. Records per-order reservation deltas for exact reversal."""
+    by_id = {}
+    for it in inv_items:
+        iid = (it.get("id") or "").strip()
+        if iid: by_id[iid] = it
+    by_ns = {}
+    for it in inv_items:
+        by_ns.setdefault(((it.get("name") or "").lower(), (it.get("specification") or "").lower()), it)
+    applied = {}
+    for ln in order.get("lines", []):
+        it = _astraa_order_match_item(ln, inv_items, by_id, by_ns)
+        if not it: continue
+        try: q = float(ln.get("quantity",0) or 0)
+        except Exception: q = 0.0
+        if q <= 0: continue
+        cur = float(it.get("reserved",0) or 0)
+        newres = cur + (direction * q)
+        if newres < 0: newres = 0.0
+        it["reserved"] = round(newres,2)
+        it["updated_at"] = astraa_now_iso()
+        iid = it.get("id","")
+        applied[iid] = round(applied.get(iid,0.0) + q,2)
+    return applied
+
+@app.route("/api/logistics/orders/confirm", methods=["POST"])
+def astraa_log_orders_confirm():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    key = astraa_account_key(identity.get("account_email"))
+    p = astraa_get_request_json() or {}
+    oid = p.get("id")
+    db = _astraa_load_json_store(ASTRAA_LOG_ORDERS_STORE)
+    orders = db.get(key, [])
+    order = next((o for o in orders if o.get("id")==oid), None)
+    if not order:
+        return astraa_json_response({"success": False, "error": "Order not found."}, 404)
+    if order.get("status") != "Draft":
+        return astraa_json_response({"success": False, "error": "Only draft orders can be confirmed."}, 400)
+    inv = _astraa_load_logistics()
+    inv_items = inv.get(key, [])
+    applied = _astraa_order_apply_reservation(order, inv_items, +1)
+    inv[key] = inv_items
+    _astraa_save_logistics(inv)
+    order["status"] = "Pending"
+    order["reservations"] = applied
+    order["confirmed_at"] = astraa_now_iso()
+    order["updated_at"] = astraa_now_iso()
+    _astraa_save_json_store(ASTRAA_LOG_ORDERS_STORE, db)
+    return astraa_json_response({"success": True, "order": order, "reserved": applied})
+
+@app.route("/api/logistics/orders/fulfill", methods=["POST"])
+def astraa_log_orders_fulfill():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    key = astraa_account_key(identity.get("account_email"))
+    p = astraa_get_request_json() or {}
+    oid = p.get("id")
+    db = _astraa_load_json_store(ASTRAA_LOG_ORDERS_STORE)
+    orders = db.get(key, [])
+    order = next((o for o in orders if o.get("id")==oid), None)
+    if not order:
+        return astraa_json_response({"success": False, "error": "Order not found."}, 404)
+    if order.get("status") not in ("Draft", "Pending"):
+        return astraa_json_response({"success": False, "error": "Only draft or pending orders can be fulfilled."}, 400)
+
+    inv = _astraa_load_logistics()
+    inv_items = inv.get(key, [])
+    by_id = {}
+    for it in inv_items:
+        iid = (it.get("id") or "").strip()
+        if iid: by_id[iid] = it
+    by_ns = {}
+    for it in inv_items:
+        by_ns.setdefault(((it.get("name") or "").lower(), (it.get("specification") or "").lower()), it)
+
+    reservations = order.get("reservations") or {}
+    fulfilled_summary = []
+    shortfalls = []
+    for ln in order.get("lines", []):
+        it = _astraa_order_match_item(ln, inv_items, by_id, by_ns)
+        try: want = float(ln.get("quantity",0) or 0)
+        except Exception: want = 0.0
+        if want <= 0: continue
+        if not it:
+            shortfalls.append({"name": ln.get("name",""), "specification": ln.get("specification",""), "requested": want, "shipped": 0, "short": want})
+            continue
+        iid = it.get("id","")
+        # release any reservation this order held for the item
+        held = float(reservations.get(iid, 0) or 0)
+        if held > 0:
+            cur_res = float(it.get("reserved",0) or 0)
+            nr = cur_res - held
+            it["reserved"] = round(nr if nr>0 else 0.0, 2)
+        # reduce on-hand; allow going negative-in-effect via recorded shortfall (no hard block)
+        on_hand = float(it.get("quantity",0) or 0)
+        shipped = want if want <= on_hand else on_hand
+        short = round(want - shipped, 2)
+        it["quantity"] = round(on_hand - shipped, 2)
+        it["updated_at"] = astraa_now_iso()
+        fulfilled_summary.append({"name": it.get("name"), "specification": it.get("specification",""), "shipped": round(shipped,2)})
+        if short > 0:
+            shortfalls.append({"name": it.get("name"), "specification": it.get("specification",""), "requested": want, "shipped": round(shipped,2), "short": short})
+
+    inv[key] = inv_items
+    _astraa_save_logistics(inv)
+
+    order["status"] = "Fulfilled"
+    order["reservations"] = {}
+    order["shortfalls"] = shortfalls
+    order["fulfilled_at"] = astraa_now_iso()
+    order["updated_at"] = astraa_now_iso()
+    # PHASE 6e: auto-log a spec-aware sales invoice into Finance (non-fatal)
+    invoice_logged = False
+    if p.get("log_income", True):
+        try:
+            _amt = _astraa_order_total(order)
+            if _amt > 0:
+                _parts = []
+                for _ln in order.get("lines", []):
+                    _nm = (_ln.get("name") or "").strip()
+                    if not _nm: continue
+                    _sp = (_ln.get("specification") or "").strip()
+                    _label = _nm + ((" (" + _sp + ")") if _sp else "")
+                    try: _q = float(_ln.get("quantity",0) or 0)
+                    except Exception: _q = 0.0
+                    try: _pr = float(_ln.get("sale_price",0) or 0)
+                    except Exception: _pr = 0.0
+                    _parts.append(_label + " x" + str(int(_q) if _q==int(_q) else _q) + " @ $" + format(_pr, ".2f"))
+                _email = identity.get("account_email")
+                _client = order.get("customer","").strip() or "Walk-in Customer"
+                _inv = {"id": uuid.uuid4().hex[:12],
+                        "client": _client,
+                        "description": "Sales Order #" + str(order.get("id","")) + " - " + "; ".join(_parts),
+                        "amount": round(_amt, 2),
+                        "status": "Pending",
+                        "comment": "Auto-logged from Sales Order",
+                        "date": datetime.now().strftime("%Y-%m-%d"),
+                        "created_at": astraa_now_iso()}
+                _fdb, _fkey = _astraa_fin_bucket(_email)
+                _fdb[_fkey]["invoices"].append(_inv)
+                _astraa_save_fin(_fdb)
+                order["invoice_id"] = _inv["id"]
+                invoice_logged = True
+        except Exception:
+            invoice_logged = False
+
+    _astraa_save_json_store(ASTRAA_LOG_ORDERS_STORE, db)
+    return astraa_json_response({"success": True, "order": order,
+                                 "fulfilled": fulfilled_summary, "shortfalls": shortfalls,
+                                 "invoice_logged": invoice_logged})
+
+@app.route("/api/logistics/orders/cancel", methods=["POST"])
+def astraa_log_orders_cancel():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    key = astraa_account_key(identity.get("account_email"))
+    p = astraa_get_request_json() or {}
+    oid = p.get("id")
+    db = _astraa_load_json_store(ASTRAA_LOG_ORDERS_STORE)
+    orders = db.get(key, [])
+    order = next((o for o in orders if o.get("id")==oid), None)
+    if not order:
+        return astraa_json_response({"success": False, "error": "Order not found."}, 404)
+    if order.get("status") == "Fulfilled":
+        return astraa_json_response({"success": False, "error": "Fulfilled orders cannot be cancelled."}, 400)
+    if order.get("status") == "Pending":
+        inv = _astraa_load_logistics()
+        inv_items = inv.get(key, [])
+        by_id = {}
+        for it in inv_items:
+            iid = (it.get("id") or "").strip()
+            if iid: by_id[iid] = it
+        for iid, qty in (order.get("reservations") or {}).items():
+            it = by_id.get(iid)
+            if it:
+                cur = float(it.get("reserved",0) or 0)
+                nr = cur - float(qty or 0)
+                it["reserved"] = round(nr if nr>0 else 0.0,2)
+                it["updated_at"] = astraa_now_iso()
+        inv[key] = inv_items
+        _astraa_save_logistics(inv)
+    order["status"] = "Cancelled"
+    order["reservations"] = {}
+    order["cancelled_at"] = astraa_now_iso()
+    order["updated_at"] = astraa_now_iso()
+    _astraa_save_json_store(ASTRAA_LOG_ORDERS_STORE, db)
+    return astraa_json_response({"success": True, "order": order})
+
+@app.route("/api/logistics/orders/delete", methods=["POST"])
+def astraa_log_orders_delete():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    key = astraa_account_key(identity.get("account_email"))
+    p = astraa_get_request_json() or {}
+    oid = p.get("id")
+    db = _astraa_load_json_store(ASTRAA_LOG_ORDERS_STORE)
+    items = db.get(key, [])
+    newitems = [x for x in items if x.get("id") != oid]
+    if len(newitems) == len(items):
+        return astraa_json_response({"success": False, "error": "Order not found."}, 404)
+    db[key] = newitems
+    _astraa_save_json_store(ASTRAA_LOG_ORDERS_STORE, db)
+    return astraa_json_response({"success": True})
+
 
 def _astraa_load_json_store(path):
     try:

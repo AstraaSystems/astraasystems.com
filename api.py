@@ -7329,9 +7329,20 @@ def astraa_mkt_list():
             "open_value": round(open_value, 2),
             "won_value": round(won_value, 2),
             "total_deals": len(deals),
+            "weighted_pipeline": round(sum(float(d.get("value",0) or 0)*float(d.get("probability", _astraa_deal_prob(d.get("stage","Lead"), None)))/100.0 for d in deals if d.get("stage") not in ("Won","Lost")), 2),
             "active_campaigns": active_campaigns
         }
     })
+
+ASTRAA_STAGE_PROB = {"Lead":10,"Qualified":30,"Proposal":50,"Negotiation":75,"Won":100,"Lost":0}
+def _astraa_deal_prob(stage, override):
+    try:
+        if override is not None and str(override).strip() != "":
+            v = float(override)
+            return max(0.0, min(100.0, v))
+    except Exception:
+        pass
+    return float(ASTRAA_STAGE_PROB.get(stage, 10))
 
 @app.route("/api/marketing/add-deal", methods=["POST"])
 def astraa_mkt_add_deal():
@@ -7346,6 +7357,9 @@ def astraa_mkt_add_deal():
     try: value = float(p.get("value") or 0)
     except Exception: value = 0
     deal = {"id": uuid.uuid4().hex[:12], "name": name, "client": (p.get("client") or "").strip(),
+            "probability": _astraa_deal_prob(p.get("stage") or "Lead", p.get("probability")),
+            "expected_close": (p.get("expected_close") or "").strip(),
+            "owner": (p.get("owner") or "").strip(),
             "value": round(value,2), "stage": (p.get("stage") or "Lead").strip(),
             "notes": (p.get("notes") or "").strip(), "created_at": astraa_now_iso()}
     db, key = _astraa_mkt_bucket(email)
@@ -7362,6 +7376,10 @@ def astraa_mkt_update_deal():
     p = astraa_get_request_json() or {}
     db, key = _astraa_mkt_bucket(email)
     for d in db[key]["deals"]:
+        if d.get("id")==p.get("id"):
+            if p.get("stage"): d["probability"]=_astraa_deal_prob(p["stage"], p.get("probability"))
+            if "expected_close" in p: d["expected_close"]=(p.get("expected_close") or "").strip()
+            if "owner" in p: d["owner"]=(p.get("owner") or "").strip()
         if d.get("id") == p.get("id") and p.get("stage") in ASTRAA_DEAL_STAGES:
             d["stage"] = p["stage"]
     _astraa_save_mkt(db)

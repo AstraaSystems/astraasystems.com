@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     statusEl.innerText = "AUTHENTICATING OPERATOR...";
 
     try {
-      const res = await fetch(ASTRAA_API_BASE + "/api/auth/login", {
+      const res = await fetch(ASTRAA_API_BASE + "/api/auth/dev-login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -185,6 +185,7 @@ ASTRAA_PRODUCT_PRICES = {
     "finance_pro": "69.99",
     "reports": "24.99",
     "research_analyst": "49.99",
+    "logistics": "99.00",
     "essentials": "124.99",
     "professional_suite": "199.99",
 }
@@ -1330,7 +1331,7 @@ def preload():
         _labels = {
             "estimator_basic":"Astraa Estimator (Basic)","estimator_pro":"Astraa Estimator (Professional)",
             "business_basic":"Astraa Business (Basic)","business_pro":"Astraa Business (Professional)",
-            "finance_basic":"Astraa Finance (Basic)","finance_pro":"Astraa Finance (Professional)","reports":"Astraa Reports","research_analyst":"Astraa Research Analyst",
+            "finance_basic":"Astraa Finance (Basic)","finance_pro":"Astraa Finance (Professional)","reports":"Astraa Reports","research_analyst":"Astraa Research Analyst","logistics":"Astraa Logistics",
             "essentials":"Astraa Essentials (Business + Finance)",
             "professional_suite":"Astraa Professional Suite (Estimator + Business + Finance)"
         }

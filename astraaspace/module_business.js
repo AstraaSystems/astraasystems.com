@@ -16,7 +16,7 @@ var BusinessModule = {
       + '    <a class="bw-nav" data-s="dashboard" onclick="BusinessModule.go(\'dashboard\')">📊 Dashboard</a>'
       + '    <a class="bw-nav" data-s="projects" onclick="BusinessModule.go(\'projects\')">📁 Projects</a>'
       + '    <a class="bw-nav" data-s="crm" onclick="BusinessModule.go(\'crm\')">👥 Leads / CRM</a>'
-      + '    <a class="bw-nav" data-s="marketing" onclick="BusinessModule.go(\'marketing\')">📣 Marketing &amp; Sales</a>'
+      + '    <a class="bw-nav" data-s="marketing" onclick="BusinessModule.go(\'marketing\')">📣 Marketing</a>'
       + '    <a class="bw-nav" data-s="sales" onclick="BusinessModule.go(\'sales\')">🧾 Sales</a>'
       + '    <a class="bw-nav" data-s="hr" onclick="BusinessModule.go(\'hr\')">🧑‍💼 HR</a>'
       + '  </aside>'
@@ -170,6 +170,9 @@ var BusinessModule = {
       +'<div class="bw-f"><label>Probability % (optional)</label><input id="sd_prob" type="number" min="0" max="100" placeholder="auto from stage" style="'+f+'"></div>'
       +'<div class="bw-f"><label>Expected close</label><input id="sd_close" type="date" style="'+f+'"></div>'
       +'<div class="bw-f"><label>Owner</label><input id="sd_owner" style="'+f+'"></div>'
+      +'<details style="margin:6px 0 10px;"><summary style="cursor:pointer;color:#1d4ed8;font-size:.85rem;">Adding an older deal? Set original dates</summary>'
+      +'<div class="bw-f" style="margin-top:8px;"><label>Deal started</label><input id="sd_created" type="date" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Entered current stage</label><input id="sd_stagedate" type="date" style="'+f+'"></div></details>'
       +'<button class="bw-add" onclick="BusinessModule.addSalesDeal()">Add Deal</button></div>'
       +'<div class="bw-panel"><h3 class="bw-h3">Pipeline</h3><div id="sd_list"></div></div>'
       +'</div>';
@@ -194,6 +197,8 @@ var BusinessModule = {
         var meta=[];
         if(x.owner)meta.push("\ud83d\udc64 "+x.owner);
         if(x.expected_close)meta.push("\ud83d\udcc5 "+x.expected_close);
+        var _sc=x.stage_changed_at||x.created_at||"";
+        if(_sc){var _d=Math.floor((Date.now()-new Date(_sc).getTime())/86400000);if(!isNaN(_d)&&_d>=0){var _c=(_d>30?"#dc2626":(_d>14?"#eab308":"#64748b"));meta.push("<span style=\"color:"+_c+";\">\u23f1 "+_d+"d in "+x.stage+"</span>");}}
         return "<div class='bw-lead'><div class='bw-proj-top'><div><b>"+x.name+"</b>"+(x.client?" <span class='bw-muted'>\u00b7 "+x.client+"</span>":"")+"</div><button class='bw-del' onclick=\"BusinessModule.delSalesDeal('"+x.id+"')\">\u2715</button></div>"
           +"<div class='bw-muted' style='font-size:12px;'>"+money(x.value)+" \u00d7 "+prob+"% = <b style='color:#1d4ed8;'>"+money(weighted)+"</b>"+(meta.length?(" \u00b7 "+meta.join(" \u00b7 ")):"")+"</div>"
           +"<div style='display:flex;align-items:center;gap:8px;margin-top:6px;'><span style='width:10px;height:10px;border-radius:50%;background:"+(col[x.stage]||'#94a3b8')+";'></span><select class='bw-stagesel' onchange=\"BusinessModule.setSalesStage('"+x.id+"',this.value)\">"+opts+"</select></div></div>";
@@ -202,7 +207,7 @@ var BusinessModule = {
   },
   addSalesDeal:function(){var self=this;function v(i){var e=document.getElementById(i);return e?e.value:"";}
     if(!v('sd_name')){alert("Enter a deal name.");return;}
-    fetch(this.apiBase()+"/api/marketing/add-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({name:v('sd_name'),client:v('sd_client'),value:parseFloat(v('sd_value'))||0,stage:v('sd_stage')||"Lead",probability:v('sd_prob'),expected_close:v('sd_close'),owner:v('sd_owner')})}).then(function(r){return r.json();}).then(function(){["sd_name","sd_client","sd_value","sd_prob","sd_close","sd_owner"].forEach(function(i){var e=document.getElementById(i);if(e)e.value="";});self.refreshSales();});},
+    fetch(this.apiBase()+"/api/marketing/add-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({name:v('sd_name'),client:v('sd_client'),value:parseFloat(v('sd_value'))||0,stage:v('sd_stage')||"Lead",probability:v('sd_prob'),expected_close:v('sd_close'),owner:v('sd_owner'),created_override:v('sd_created'),stage_changed_override:v('sd_stagedate')})}).then(function(r){return r.json();}).then(function(){["sd_name","sd_client","sd_value","sd_prob","sd_close","sd_owner","sd_created","sd_stagedate"].forEach(function(i){var e=document.getElementById(i);if(e)e.value="";});self.refreshSales();});},
   setSalesStage:function(id,st){var self=this;fetch(this.apiBase()+"/api/marketing/update-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id,stage:st})}).then(function(r){return r.json();}).then(function(){self.refreshSales();});},
   delSalesDeal:function(id){var self=this;if(!confirm("Delete deal?"))return;fetch(this.apiBase()+"/api/marketing/delete-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id})}).then(function(r){return r.json();}).then(function(){self.refreshSales();});},
   renderMarketing:function(){
@@ -210,21 +215,15 @@ var BusinessModule = {
     var stg=this.dealStages.map(function(x){return "<option>"+x+"</option>";}).join("");
     var ch=this.channels.map(function(x){return "<option>"+x+"</option>";}).join("");
     document.getElementById('bw_body').innerHTML=
-      '<h2 class="bw-h2">Marketing & Sales</h2>'
+      '<h2 class="bw-h2">Marketing</h2>'
       +'<div id="mkt_summary" class="bw-stats" style="grid-template-columns:repeat(4,1fr);"></div>'
       +'<div class="bw-two" style="margin-top:20px;">'
-      +'<div class="bw-panel"><h3 class="bw-h3">New Deal</h3>'
-      +'<div class="bw-f"><label>Deal name</label><input id="dl_name" style="'+f+'"></div>'
-      +'<div class="bw-f"><label>Client</label><input id="dl_client" style="'+f+'"></div>'
-      +'<div class="bw-f"><label>Value ($)</label><input id="dl_value" type="number" step="0.01" style="'+f+'"></div>'
-      +'<button class="bw-add" onclick="BusinessModule.addDeal()">Add Deal</button>'
-      +'<h3 class="bw-h3" style="margin-top:20px;">New Campaign</h3>'
+      +'<div class="bw-panel"><h3 class="bw-h3">New Campaign</h3>'
       +'<div class="bw-f"><label>Campaign name</label><input id="cp_name" style="'+f+'"></div>'
       +'<div class="bw-f"><label>Channel</label><select id="cp_channel" style="'+f+'">'+ch+'</select></div>'
       +'<div class="bw-f"><label>Budget ($)</label><input id="cp_budget" type="number" step="0.01" style="'+f+'"></div>'
       +'<button class="bw-add" onclick="BusinessModule.addCampaign()">Add Campaign</button></div>'
-      +'<div class="bw-panel"><h3 class="bw-h3">Deal Pipeline</h3><div id="dl_list"></div>'
-      +'<h3 class="bw-h3" style="margin-top:20px;">Campaigns</h3><div id="cp_list"></div></div>'
+      +'<div class="bw-panel"><h3 class="bw-h3">Campaigns</h3><div id="cp_list"></div></div>'
       +'</div>';
     this.refreshMarketing();
   },

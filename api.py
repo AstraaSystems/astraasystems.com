@@ -7361,7 +7361,9 @@ def astraa_mkt_add_deal():
             "expected_close": (p.get("expected_close") or "").strip(),
             "owner": (p.get("owner") or "").strip(),
             "value": round(value,2), "stage": (p.get("stage") or "Lead").strip(),
-            "notes": (p.get("notes") or "").strip(), "created_at": astraa_now_iso()}
+            "notes": (p.get("notes") or "").strip(),
+            "created_at": ((p.get("created_override") or "").strip() or astraa_now_iso()),
+            "stage_changed_at": ((p.get("stage_changed_override") or "").strip() or (p.get("created_override") or "").strip() or astraa_now_iso())}
     db, key = _astraa_mkt_bucket(email)
     db[key]["deals"].append(deal)
     _astraa_save_mkt(db)
@@ -7381,6 +7383,8 @@ def astraa_mkt_update_deal():
             if "expected_close" in p: d["expected_close"]=(p.get("expected_close") or "").strip()
             if "owner" in p: d["owner"]=(p.get("owner") or "").strip()
         if d.get("id") == p.get("id") and p.get("stage") in ASTRAA_DEAL_STAGES:
+            if d.get("stage") != p["stage"]:
+                d["stage_changed_at"] = astraa_now_iso()
             d["stage"] = p["stage"]
     _astraa_save_mkt(db)
     return astraa_json_response({"success": True})

@@ -7369,7 +7369,11 @@ def astraa_mkt_add_deal():
             "value": round(value,2), "stage": (p.get("stage") or "Lead").strip(),
             "notes": (p.get("notes") or "").strip(),
             "created_at": ((p.get("created_override") or "").strip() or astraa_now_iso()),
-            "stage_changed_at": ((p.get("stage_changed_override") or "").strip() or (p.get("created_override") or "").strip() or astraa_now_iso())}
+            "stage_changed_at": ((p.get("stage_changed_override") or "").strip() or (p.get("created_override") or "").strip() or astraa_now_iso()),
+            "activities": [],
+            "next_action": (p.get("next_action") or "").strip(),
+            "next_action_date": (p.get("next_action_date") or "").strip(),
+            "last_activity_at": ""}
     db, key = _astraa_mkt_bucket(email)
     db[key]["deals"].append(deal)
     _astraa_save_mkt(db)
@@ -7394,6 +7398,38 @@ def astraa_mkt_update_deal():
             d["stage"] = p["stage"]
     _astraa_save_mkt(db)
     return astraa_json_response({"success": True})
+
+@app.route("/api/marketing/deal-activity", methods=["POST"])
+def astraa_mkt_deal_activity():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    did = p.get("id")
+    db, key = _astraa_mkt_bucket(email)
+    deal = next((d for d in db[key]["deals"] if d.get("id") == did), None)
+    if not deal:
+        return astraa_json_response({"success": False, "error": "Deal not found."}, 404)
+    # log an activity entry (if provided)
+    atype = (p.get("activity_type") or "").strip()
+    anote = (p.get("activity_note") or "").strip()
+    if atype or anote:
+        deal.setdefault("activities", [])
+        entry = {"id": uuid.uuid4().hex[:8],
+                 "type": (atype or "Note"),
+                 "note": anote,
+                 "at": astraa_now_iso()}
+        deal["activities"].append(entry)
+        deal["last_activity_at"] = entry["at"]
+    # set / update next action (if provided)
+    if "next_action" in p:
+        deal["next_action"] = (p.get("next_action") or "").strip()
+    if "next_action_date" in p:
+        deal["next_action_date"] = (p.get("next_action_date") or "").strip()
+    deal["updated_at"] = astraa_now_iso()
+    _astraa_save_mkt(db)
+    return astraa_json_response({"success": True, "deal": deal})
 
 @app.route("/api/marketing/delete-deal", methods=["POST"])
 def astraa_mkt_delete_deal():

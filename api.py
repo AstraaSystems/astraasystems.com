@@ -6147,6 +6147,12 @@ def astraa_entitlements_for(plan, main_tool):
     t = (main_tool or "").strip().lower()
     exp = "Expense (full)" if plan_l in ("professional","pro","custom") else "Expense (limited)"
 
+    # TRIAL: full ecosystem preview — all tools unlocked (Estimator usage capped separately at 30 approvals)
+    if plan_l == "trial" or "professional suite" in t or t == "professional_suite" or "all" in t or "eco" in t:
+        if plan_l == "trial" or "all" in t or "eco" in t or "professional suite" in t or t == "professional_suite":
+            return ["Astraa Estimator", "Astraa Business", "Astraa Finance", "Astraa Expense (full)",
+                    "Astraa Vault", "Astraa Logistics", "Astraa Reports", "Astraa Research Analyst", exp]
+
     # Bundles unlock multiple tools
     if "professional suite" in t or t == "professional_suite":
         return ["Astraa Estimator", "Astraa Business", "Astraa Finance", "Astraa Reports", "Astraa Research Analyst", exp]

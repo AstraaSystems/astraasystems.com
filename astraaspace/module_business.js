@@ -166,6 +166,7 @@ var BusinessModule = {
       +'<div class="bw-f"><label>Deal name</label><input id="sd_name" style="'+f+'"></div>'
       +'<div class="bw-f"><label>Client</label><input id="sd_client" style="'+f+'"></div>'
       +'<div class="bw-f"><label>Value ($)</label><input id="sd_value" type="number" step="0.01" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>\ud83d\udcce Link Estimator quote (optional)</label><select id="sd_quote" style="'+f+'" onchange="BusinessModule.applyQuoteToDeal()"><option value="">— none —</option></select></div>'
       +'<div class="bw-f"><label>Stage</label><select id="sd_stage" style="'+f+'">'+stg+'</select></div>'
       +'<div class="bw-f"><label>Probability % (optional)</label><input id="sd_prob" type="number" min="0" max="100" placeholder="auto from stage" style="'+f+'"></div>'
       +'<div class="bw-f"><label>Expected close</label><input id="sd_close" type="date" style="'+f+'"></div>'
@@ -177,6 +178,7 @@ var BusinessModule = {
       +'<div class="bw-panel"><h3 class="bw-h3">Pipeline</h3><div id="sd_list"></div></div>'
       +'</div>';
     this.refreshSales();
+    this.loadDealQuotes();
   },
   refreshSales:function(){
     var self=this;
@@ -207,6 +209,7 @@ var BusinessModule = {
   },
   salesActivityBlock:function(x){
     var out="";
+    if(x.quote_title){ out+="<div style='margin-top:6px;font-size:11px;color:#1d4ed8;'>\ud83d\udcce From quote: "+x.quote_title+"</div>"; }
     // next-action / overdue flag
     var na=(x.next_action||""), nad=(x.next_action_date||"");
     if(na){
@@ -250,9 +253,31 @@ var BusinessModule = {
     var d=(document.getElementById('na_date_'+id)||{}).value||"";
     fetch(this.apiBase()+"/api/marketing/deal-activity",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id,next_action:t,next_action_date:d})}).then(function(r){return r.json();}).then(function(){self.refreshSales();});
   },
+  _dealQuotes:[],
+  loadDealQuotes:function(){
+    var self=this;
+    fetch(this.apiBase()+"/api/estimate/history",{headers:this.hdr()}).then(function(r){return r.json();}).then(function(d){
+      self._dealQuotes=(d&&d.quotes)?d.quotes:[];
+      var sel=document.getElementById('sd_quote'); if(!sel)return;
+      var opts='<option value="">\u2014 none \u2014</option>';
+      self._dealQuotes.forEach(function(q){
+        var lbl=q.title+" \u00b7 $"+Math.round(q.total||0).toLocaleString()+((q.created_at||'').split('T')[0]?(" \u00b7 "+(q.created_at||'').split('T')[0]):"");
+        opts+='<option value="'+q.index+'">'+lbl+'</option>';
+      });
+      sel.innerHTML=opts;
+    }).catch(function(){});
+  },
+  applyQuoteToDeal:function(){
+    var sel=document.getElementById('sd_quote'); if(!sel)return;
+    var idx=sel.value; if(idx==='')return;
+    var q=(this._dealQuotes||[]).filter(function(x){return String(x.index)===String(idx);})[0];
+    if(!q)return;
+    var nm=document.getElementById('sd_name'); if(nm && !nm.value){ nm.value=q.title||''; }
+    var val=document.getElementById('sd_value'); if(val){ val.value=Math.round(q.total||0); }
+  },
   addSalesDeal:function(){var self=this;function v(i){var e=document.getElementById(i);return e?e.value:"";}
     if(!v('sd_name')){alert("Enter a deal name.");return;}
-    fetch(this.apiBase()+"/api/marketing/add-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({name:v('sd_name'),client:v('sd_client'),value:parseFloat(v('sd_value'))||0,stage:v('sd_stage')||"Lead",probability:v('sd_prob'),expected_close:v('sd_close'),owner:v('sd_owner'),created_override:v('sd_created'),stage_changed_override:v('sd_stagedate')})}).then(function(r){return r.json();}).then(function(){["sd_name","sd_client","sd_value","sd_prob","sd_close","sd_owner","sd_created","sd_stagedate"].forEach(function(i){var e=document.getElementById(i);if(e)e.value="";});self.refreshSales();});},
+    fetch(this.apiBase()+"/api/marketing/add-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({name:v('sd_name'),client:v('sd_client'),value:parseFloat(v('sd_value'))||0,stage:v('sd_stage')||"Lead",probability:v('sd_prob'),expected_close:v('sd_close'),owner:v('sd_owner'),created_override:v('sd_created'),stage_changed_override:v('sd_stagedate'),quote_index:v('sd_quote'),quote_title:(function(){var s=document.getElementById('sd_quote');return (s&&s.selectedIndex>0)?s.options[s.selectedIndex].text:'';})()})}).then(function(r){return r.json();}).then(function(){["sd_name","sd_client","sd_value","sd_prob","sd_close","sd_owner","sd_created","sd_stagedate"].forEach(function(i){var e=document.getElementById(i);if(e)e.value="";});self.refreshSales();});},
   setSalesStage:function(id,st){var self=this;fetch(this.apiBase()+"/api/marketing/update-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id,stage:st})}).then(function(r){return r.json();}).then(function(){self.refreshSales();});},
   delSalesDeal:function(id){var self=this;if(!confirm("Delete deal?"))return;fetch(this.apiBase()+"/api/marketing/delete-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id})}).then(function(r){return r.json();}).then(function(){self.refreshSales();});},
   renderMarketing:function(){

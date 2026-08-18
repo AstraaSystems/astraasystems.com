@@ -7373,7 +7373,9 @@ def astraa_mkt_add_deal():
             "activities": [],
             "next_action": (p.get("next_action") or "").strip(),
             "next_action_date": (p.get("next_action_date") or "").strip(),
-            "last_activity_at": ""}
+            "last_activity_at": "",
+            "quote_index": (str(p.get("quote_index")).strip() if p.get("quote_index") not in (None,"") else ""),
+            "quote_title": (p.get("quote_title") or "").strip()}
     db, key = _astraa_mkt_bucket(email)
     db[key]["deals"].append(deal)
     _astraa_save_mkt(db)

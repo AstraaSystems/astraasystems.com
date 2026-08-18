@@ -1,5 +1,5 @@
 // Astraa Space core — dropdown selector + full-page tool workspace
-var ASTRAA_LIVE_MODULES = ["estimator", "finance", "operations", "expense", "business", "lead gen", "crm", "vault", "reports", "data", "research analyst", "analyst", "research", "inference"];
+var ASTRAA_LIVE_MODULES = ["estimator", "finance", "operations", "expense", "business", "lead gen", "crm", "vault", "reports", "data", "research analyst", "analyst", "research", "inference", "logistics", "distribution", "dist"];
 var ASTRAA_REQUEST_EMAIL = "sales@astraasystems.com";
 
 function verifySession() {

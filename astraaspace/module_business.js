@@ -292,6 +292,10 @@ var BusinessModule = {
       +'<div class="bw-f"><label>Campaign name</label><input id="cp_name" style="'+f+'"></div>'
       +'<div class="bw-f"><label>Channel</label><select id="cp_channel" style="'+f+'">'+ch+'</select></div>'
       +'<div class="bw-f"><label>Budget ($)</label><input id="cp_budget" type="number" step="0.01" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Spend so far ($)</label><input id="cp_spend" type="number" step="0.01" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Leads generated</label><input id="cp_leads" type="number" step="1" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>Start date</label><input id="cp_start" type="date" style="'+f+'"></div>'
+      +'<div class="bw-f"><label>End date</label><input id="cp_end" type="date" style="'+f+'"></div>'
       +'<button class="bw-add" onclick="BusinessModule.addCampaign()">Add Campaign</button></div>'
       +'<div class="bw-panel"><h3 class="bw-h3">Campaigns</h3><div id="cp_list"></div></div>'
       +'</div>';
@@ -303,10 +307,10 @@ var BusinessModule = {
       if(!d.success)return;
       var s=d.summary||{},money=function(n){return "$"+Number(n||0).toLocaleString();};
       document.getElementById('mkt_summary').innerHTML=
-        "<div class='bw-stat'><span class='bw-stat-l'>Open Pipeline</span><span class='bw-stat-v'>"+money(s.open_value)+"</span></div>"
-        +"<div class='bw-stat'><span class='bw-stat-l'>Won Revenue</span><span class='bw-stat-v'>"+money(s.won_value)+"</span></div>"
-        +"<div class='bw-stat'><span class='bw-stat-l'>Total Deals</span><span class='bw-stat-v'>"+(s.total_deals||0)+"</span></div>"
-        +"<div class='bw-stat'><span class='bw-stat-l'>Active Campaigns</span><span class='bw-stat-v'>"+(s.active_campaigns||0)+"</span></div>";
+        "<div class='bw-stat'><span class='bw-stat-l'>Total Budget</span><span class='bw-stat-v'>"+money(s.total_budget)+"</span></div>"
+        +"<div class='bw-stat'><span class='bw-stat-l'>Total Spend</span><span class='bw-stat-v' style='color:#dc2626;'>"+money(s.total_spend)+"</span></div>"
+        +"<div class='bw-stat'><span class='bw-stat-l'>Leads</span><span class='bw-stat-v'>"+(s.total_leads||0)+"</span></div>"
+        +"<div class='bw-stat'><span class='bw-stat-l'>Cost / Lead</span><span class='bw-stat-v' style='color:#1d4ed8;'>"+money(s.cost_per_lead)+"</span></div>";
       var col={"Lead":"#3b82f6","Proposal":"#f59e0b","Negotiation":"#8b5cf6","Won":"#16a34a","Lost":"#94a3b8"};
       var deals=d.deals||[];
       document.getElementById('dl_list').innerHTML = deals.length? deals.map(function(x){
@@ -317,7 +321,7 @@ var BusinessModule = {
       }).join("") : "<p class='bw-muted'>No deals yet.</p>";
       var camps=d.campaigns||[];
       document.getElementById('cp_list').innerHTML = camps.length? camps.map(function(c){
-        return "<div class='bw-lead'><div class='bw-proj-top'><div><b>"+c.name+"</b> <span class='bw-muted'>· "+c.channel+"</span></div><button class='bw-del' onclick=\"BusinessModule.delCampaign('"+c.id+"')\">✕</button></div><div class='bw-muted' style='font-size:12px;'>Budget "+money(c.budget)+" · "+c.status+"</div></div>";
+        return "<div class='bw-lead'><div class='bw-proj-top'><div><b>"+c.name+"</b> <span class='bw-muted'>· "+c.channel+"</span></div><button class='bw-del' onclick=\"BusinessModule.delCampaign('"+c.id+"')\">✕</button></div><div class='bw-muted' style='font-size:12px;margin:2px 0;'>Spent "+money(c.spent||0)+" / "+money(c.budget||0)+" · "+(+c.leads||0)+" leads · CPL "+money((+c.leads>0)?((+(c.spent||0))/(+c.leads)):0)+" · "+c.status+"</div><div style='background:#e5e7eb;border-radius:6px;height:8px;overflow:hidden;margin:2px 0;'><div style='height:8px;width:"+((+c.budget>0)?Math.min(100,Math.round((+(c.spent||0))/(+c.budget)*100)):0)+"%;background:"+(((+(c.spent||0))>(+c.budget)&&(+c.budget>0))?'#dc2626':'#1d4ed8')+";'></div></div><div style='display:flex;gap:6px;margin-top:6px;'><input id='cs_amt_"+c.id+"' type='number' step='0.01' placeholder='Add spend' style='flex:1;padding:4px;font-size:12px;'><button class='bw-del' style='background:#1d4ed8;color:#fff;' onclick=\"BusinessModule.addCampaignSpend('"+c.id+"')\">Log</button></div></div>";
       }).join("") : "<p class='bw-muted'>No campaigns yet.</p>";
     });
   },
@@ -326,9 +330,16 @@ var BusinessModule = {
     fetch(this.apiBase()+"/api/marketing/add-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({name:v('dl_name'),client:v('dl_client'),value:parseFloat(v('dl_value'))||0,stage:"Lead"})}).then(function(r){return r.json();}).then(function(){["dl_name","dl_client","dl_value"].forEach(function(i){var e=document.getElementById(i);if(e)e.value="";});self.refreshMarketing();});},
   setDealStage:function(id,st){var self=this;fetch(this.apiBase()+"/api/marketing/update-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id,stage:st})}).then(function(r){return r.json();}).then(function(){self.refreshMarketing();});},
   delDeal:function(id){var self=this;if(!confirm("Delete deal?"))return;fetch(this.apiBase()+"/api/marketing/delete-deal",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id})}).then(function(r){return r.json();}).then(function(){self.refreshMarketing();});},
+  updateCampaign:function(id){var self=this;
+    var amt=(document.getElementById('cs_amt_'+id)||{}).value||"";
+    var lds=(document.getElementById('cl_amt_'+id)||{}).value||"";
+    var body={id:id};
+    if(amt!=="")body.add_spend=parseFloat(amt)||0;
+    if(lds!=="")body.leads=parseInt(lds)||0;
+    fetch(this.apiBase()+"/api/marketing/campaign-update",{method:"POST",headers:this.hdr(),body:JSON.stringify(body)}).then(function(r){return r.json();}).then(function(){self.refreshMarketing();});},
   addCampaign:function(){var self=this;function v(i){var e=document.getElementById(i);return e?e.value:"";}
     if(!v('cp_name')){alert("Enter a campaign name.");return;}
-    fetch(this.apiBase()+"/api/marketing/add-campaign",{method:"POST",headers:this.hdr(),body:JSON.stringify({name:v('cp_name'),channel:v('cp_channel'),budget:parseFloat(v('cp_budget'))||0,status:"Active"})}).then(function(r){return r.json();}).then(function(){["cp_name","cp_budget"].forEach(function(i){var e=document.getElementById(i);if(e)e.value="";});self.refreshMarketing();});},
+    fetch(this.apiBase()+"/api/marketing/add-campaign",{method:"POST",headers:this.hdr(),body:JSON.stringify({name:v('cp_name'),channel:v('cp_channel'),budget:parseFloat(v('cp_budget'))||0,spend:parseFloat(v('cp_spend'))||0,leads:parseInt(v('cp_leads'))||0,start_date:v('cp_start'),end_date:v('cp_end'),status:"Active"})}).then(function(r){return r.json();}).then(function(){["cp_name","cp_budget","cp_spend","cp_leads","cp_start","cp_end"].forEach(function(i){var e=document.getElementById(i);if(e)e.value="";});self.refreshMarketing();});},
   delCampaign:function(id){var self=this;if(!confirm("Delete campaign?"))return;fetch(this.apiBase()+"/api/marketing/delete-campaign",{method:"POST",headers:this.hdr(),body:JSON.stringify({id:id})}).then(function(r){return r.json();}).then(function(){self.refreshMarketing();});},
 
   // ---------- HR ----------

@@ -119,13 +119,28 @@
     business_pro:      {name:"Business · Professional", price:"$79.99"},
     finance_basic:     {name:"Finance · Basic",         price:"$29.99"},
     finance_pro:       {name:"Finance · Professional",  price:"$69.99"},
+    reports:           {name:"Astraa Reports",           price:"$24.99"},
+    research_analyst:  {name:"Astraa Research Analyst",  price:"$49.99"},
+    logistics:         {name:"Astraa Logistics",         price:"$99.00"},
     essentials:        {name:"Astraa Essentials",       price:"$124.99"},
     professional_suite:{name:"Astraa Professional Suite",price:"$199.99"}
   };
 
   var params  = new URLSearchParams(location.search);
-  var product = params.get("product") || "finance_basic";
-  var info    = PRODUCTS[product] || PRODUCTS.finance_basic;
+  var product = (params.get("product") || "").trim().toLowerCase();
+  var info = PRODUCTS[product];
+
+  if(!info){
+    document.getElementById("planName").textContent = "Product unavailable";
+    document.getElementById("planPrice").innerHTML =
+      'Please return to the pricing page and select a valid Astraa product.';
+    var invalidBtn = document.getElementById("subscribeBtn");
+    if(invalidBtn){
+      invalidBtn.disabled = true;
+      invalidBtn.textContent = "Select a valid product";
+    }
+    return;
+  }
 
   document.getElementById("planName").textContent  = info.name;
   document.getElementById("planPrice").innerHTML    = info.price + '<span class="cycle"> CAD/mo</span>';

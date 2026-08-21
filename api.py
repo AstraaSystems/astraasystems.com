@@ -7336,7 +7336,12 @@ def astraa_mkt_list():
             "won_value": round(won_value, 2),
             "total_deals": len(deals),
             "weighted_pipeline": round(sum(float(d.get("value",0) or 0)*float(d.get("probability", _astraa_deal_prob(d.get("stage","Lead"), None)))/100.0 for d in deals if d.get("stage") not in ("Won","Lost")), 2),
-            "active_campaigns": active_campaigns
+            "active_campaigns": active_campaigns,
+            "total_budget": round(sum(float(c.get("budget",0) or 0) for c in campaigns), 2),
+            "total_spend": round(sum(float(c.get("spend",0) or 0) for c in campaigns), 2),
+            "budget_remaining": round(sum(float(c.get("budget",0) or 0) for c in campaigns) - sum(float(c.get("spend",0) or 0) for c in campaigns), 2),
+            "total_leads": int(sum(int(c.get("leads",0) or 0) for c in campaigns)),
+            "cost_per_lead": (round(sum(float(c.get("spend",0) or 0) for c in campaigns) / sum(int(c.get("leads",0) or 0) for c in campaigns), 2) if sum(int(c.get("leads",0) or 0) for c in campaigns) > 0 else 0)
         }
     })
 
@@ -7457,11 +7462,50 @@ def astraa_mkt_add_campaign():
         return astraa_json_response({"success": False, "error": "Campaign name required."}, 400)
     try: budget = float(p.get("budget") or 0)
     except Exception: budget = 0
+    try: spend = float(p.get("spend") or 0)
+    except Exception: spend = 0
+    try: leads = int(float(p.get("leads") or 0))
+    except Exception: leads = 0
     camp = {"id": uuid.uuid4().hex[:12], "name": name, "channel": (p.get("channel") or "Other").strip(),
-            "budget": round(budget,2), "status": (p.get("status") or "Active").strip(),
+            "budget": round(budget,2), "spend": round(spend,2), "leads": leads,
+            "start_date": (p.get("start_date") or "").strip(), "end_date": (p.get("end_date") or "").strip(),
+            "status": (p.get("status") or "Active").strip(),
             "results": (p.get("results") or "").strip(), "created_at": astraa_now_iso()}
     db, key = _astraa_mkt_bucket(email)
     db[key]["campaigns"].append(camp)
+    _astraa_save_mkt(db)
+    return astraa_json_response({"success": True, "campaign": camp})
+
+@app.route("/api/marketing/campaign-update", methods=["POST"])
+def astraa_mkt_campaign_update():
+    identity = astraa_resolve_session_identity(request)
+    if not identity:
+        return astraa_json_response({"success": False, "error": "Not authenticated."}, 401)
+    email = identity.get("account_email")
+    p = astraa_get_request_json() or {}
+    cid = p.get("id")
+    db, key = _astraa_mkt_bucket(email)
+    camp = next((c for c in db[key]["campaigns"] if c.get("id") == cid), None)
+    if not camp:
+        return astraa_json_response({"success": False, "error": "Campaign not found."}, 404)
+    # add spend (incremental) if provided
+    if p.get("add_spend") not in (None, ""):
+        try:
+            camp["spend"] = round(float(camp.get("spend", 0) or 0) + float(p.get("add_spend")), 2)
+        except Exception:
+            pass
+    # set absolute fields if provided
+    for fld in ("budget", "spend"):
+        if p.get(fld) not in (None, ""):
+            try: camp[fld] = round(float(p.get(fld)), 2)
+            except Exception: pass
+    if p.get("leads") not in (None, ""):
+        try: camp["leads"] = int(float(p.get("leads")))
+        except Exception: pass
+    for fld in ("status", "start_date", "end_date"):
+        if fld in p:
+            camp[fld] = (p.get(fld) or "").strip()
+    camp["updated_at"] = astraa_now_iso()
     _astraa_save_mkt(db)
     return astraa_json_response({"success": True, "campaign": camp})
 
@@ -9425,6 +9469,9 @@ ASTRAA_RECURRING_AMOUNTS = {
     "estimator_basic": 3999, "estimator_pro": 9999,
     "business_basic": 3499, "business_pro": 7999,
     "finance_basic": 2999, "finance_pro": 6999,
+    "reports": 2499,
+    "research_analyst": 4999,
+    "logistics": 9900,
     "essentials": 12499, "professional_suite": 19999,
 }
 

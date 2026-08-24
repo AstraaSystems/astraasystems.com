@@ -46,8 +46,6 @@ function astraaRenderTool(key, tool) {
             document.body.classList.add("astraa-workspace-active"); area.innerHTML = AnalystModule.render(); if(AnalystModule.load)AnalystModule.load();
         } else if ((nameLower.indexOf("logistics") !== -1 || nameLower.indexOf("distribution") !== -1) && typeof LogisticsModule !== "undefined") {
             document.body.classList.add("astraa-workspace-active"); area.innerHTML = LogisticsModule.render(); if(LogisticsModule.load)LogisticsModule.load();
-        } else if (key === 'comm' && typeof CommerceModule !== 'undefined') {
-            area.innerHTML = CommerceModule.render();
         } else {
             area.innerHTML = "<h3>" + tool.name + "</h3>" +
                 "<p style='color:#94a3b8;'>This tool is active on your account. Full module interface coming online.</p>";

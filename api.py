@@ -185,9 +185,10 @@ ASTRAA_PRODUCT_PRICES = {
     "finance_pro": "69.99",
     "reports": "24.99",
     "research_analyst": "49.99",
-    "logistics": "99.00",
-    "essentials": "124.99",
-    "professional_suite": "199.99",
+    "logistics": "99.99",
+    "astraa_the_one": "344.99",
+    "astraa_business_elite": "272.99",
+    "astraa_core": "199.99",
 }
 
 PLAN_LABELS = {
@@ -9471,8 +9472,10 @@ ASTRAA_RECURRING_AMOUNTS = {
     "finance_basic": 2999, "finance_pro": 6999,
     "reports": 2499,
     "research_analyst": 4999,
-    "logistics": 9900,
-    "essentials": 12499, "professional_suite": 19999,
+    "logistics": 9999,
+    "astraa_the_one": 34499,
+    "astraa_business_elite": 27299,
+    "astraa_core": 19999,
 }
 
 _MONERIS_TOKEN_CACHE = {"token": None, "exp": 0}

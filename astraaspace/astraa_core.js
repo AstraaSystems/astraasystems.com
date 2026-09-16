@@ -1,5 +1,5 @@
 // Astraa Space core — dropdown selector + full-page tool workspace
-var ASTRAA_LIVE_MODULES = ["estimator", "finance", "operations", "expense", "business", "lead gen", "crm", "vault", "reports", "data", "research analyst", "analyst", "research", "inference", "logistics", "distribution", "dist"];
+var ASTRAA_LIVE_MODULES = ["estimator", "finance", "operations", "expense", "business", "lead gen", "crm", "vault", "reports", "data", "research analyst", "analyst", "research", "inference", "logistics", "distribution", "dist", "user", "users", "access"];
 var ASTRAA_REQUEST_EMAIL = "sales@astraasystems.com";
 
 function verifySession() {
@@ -18,6 +18,12 @@ function astraaIsLive(toolName) {
 }
 
 function astraaRenderTool(key, tool) {
+    var _nl=(tool.name||'').toLowerCase();
+    if((_nl.indexOf('user')!==-1||_nl.indexOf('access')!==-1)&&typeof UsersModule!=='undefined'){
+        document.body.classList.add('astraa-workspace-active');
+        document.getElementById('content-area').innerHTML=UsersModule.render();
+        if(UsersModule.load)UsersModule.load(); return;
+    }
     var area = document.getElementById('content-area');
     var nameLower = (tool.name || "").toLowerCase();
     // LOGISTICS TEST MOUNT: bypass live-list for tester

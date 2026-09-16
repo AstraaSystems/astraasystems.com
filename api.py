@@ -776,6 +776,101 @@ def astraa_user_can_access(identity, tool):
         return True
 
 
+
+
+# ===== RBAC Phase 4a: admin management routes =====
+def astraa_rbac_guard(req, need_admin=True):
+    """Resolve identity; require owner/admin for management actions."""
+    ident = astraa_resolve_session_identity(req)
+    if not ident:
+        return None, (jsonify({"ok": False, "error": "NOT_AUTHENTICATED"}), 401)
+    if need_admin and ident.get("rbac_role") not in ("owner", "admin"):
+        # legacy accounts with no rbac record: treat the account_email as owner
+        acct = astraa_rbac.get_account(ident.get("account_email"))
+        if acct is not None:
+            return None, (jsonify({"ok": False, "error": "ADMIN_ONLY"}), 403)
+    return ident, None
+
+
+@app.route("/api/rbac/users", methods=["GET"])
+def astraa_rbac_list_users():
+    ident, err = astraa_rbac_guard(request, need_admin=True)
+    if err: return err
+    key = ident.get("account_email")
+    acct = astraa_rbac.get_account(key)
+    if not acct:
+        return jsonify({"ok": True, "users": [], "departments": astraa_rbac.DEFAULT_DEPARTMENTS,
+                        "seats_total": 0, "seats_used": 0, "max_admins": 0, "note": "no_rbac_record"})
+    return jsonify({"ok": True,
+        "users": acct.get("users", []),
+        "departments": acct.get("departments", astraa_rbac.DEFAULT_DEPARTMENTS),
+        "seats_total": acct.get("seats_total", 0),
+        "seats_used": astraa_rbac.seats_used(acct),
+        "admins_used": astraa_rbac.count_admins(acct),
+        "max_admins": acct.get("max_admins", 0)})
+
+
+@app.route("/api/rbac/users/add", methods=["POST"])
+def astraa_rbac_add_user():
+    ident, err = astraa_rbac_guard(request, need_admin=True)
+    if err: return err
+    d = request.get_json(silent=True) or {}
+    ok, msg = astraa_rbac.add_user(ident.get("account_email"),
+        d.get("email"), d.get("name"), d.get("role","basic"),
+        d.get("tools"), added_by=ident.get("account_email"))
+    if ok and d.get("departments") is not None:
+        astraa_rbac.set_user_departments(ident.get("account_email"), d.get("email"), d.get("departments"))
+    return jsonify({"ok": ok, "result": msg}), (200 if ok else 400)
+
+
+@app.route("/api/rbac/users/remove", methods=["POST"])
+def astraa_rbac_remove_user():
+    ident, err = astraa_rbac_guard(request, need_admin=True)
+    if err: return err
+    d = request.get_json(silent=True) or {}
+    ok, msg = astraa_rbac.remove_user(ident.get("account_email"), d.get("email"))
+    return jsonify({"ok": ok, "result": msg}), (200 if ok else 400)
+
+
+@app.route("/api/rbac/users/role", methods=["POST"])
+def astraa_rbac_set_role():
+    ident, err = astraa_rbac_guard(request, need_admin=True)
+    if err: return err
+    d = request.get_json(silent=True) or {}
+    ok, msg = astraa_rbac.set_role(ident.get("account_email"), d.get("email"), d.get("role"))
+    return jsonify({"ok": ok, "result": msg}), (200 if ok else 400)
+
+
+@app.route("/api/rbac/users/tools", methods=["POST"])
+def astraa_rbac_set_tools():
+    ident, err = astraa_rbac_guard(request, need_admin=True)
+    if err: return err
+    d = request.get_json(silent=True) or {}
+    ok, msg = astraa_rbac.set_tools(ident.get("account_email"), d.get("email"), d.get("tools"))
+    return jsonify({"ok": ok, "result": msg}), (200 if ok else 400)
+
+
+@app.route("/api/rbac/users/departments", methods=["POST"])
+def astraa_rbac_set_user_depts():
+    ident, err = astraa_rbac_guard(request, need_admin=True)
+    if err: return err
+    d = request.get_json(silent=True) or {}
+    ok, msg = astraa_rbac.set_user_departments(ident.get("account_email"), d.get("email"), d.get("departments"))
+    return jsonify({"ok": ok, "result": msg}), (200 if ok else 400)
+
+
+@app.route("/api/rbac/departments", methods=["GET", "POST"])
+def astraa_rbac_departments():
+    ident, err = astraa_rbac_guard(request, need_admin=True)
+    if err: return err
+    key = ident.get("account_email")
+    if request.method == "GET":
+        return jsonify({"ok": True, "departments": astraa_rbac.get_departments(key)})
+    d = request.get_json(silent=True) or {}
+    ok, res = astraa_rbac.set_departments(key, d.get("departments"))
+    return jsonify({"ok": ok, "result": res}), (200 if ok else 400)
+# ===== end RBAC Phase 4a =====
+
 # ASTRAA_PRODUCTION_IDENTITY_RESOLVER_STUB_V1_START
 def astraa_auth_mode():
     """

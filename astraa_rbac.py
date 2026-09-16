@@ -187,3 +187,137 @@ def user_can_access(account_key, email, tool):
     if "*" in u.get("tools", []):
         return True
     return tool in u.get("tools", [])
+
+
+# ============================================================
+# Phase 3: Departments + record visibility (hybrid A+B model)
+# ============================================================
+
+DEFAULT_DEPARTMENTS = [
+    "Logistics", "Finance", "Sales", "Operations", "HR", "General"
+]
+
+# visibility levels for a record:
+#   "private"    -> only owner_email
+#   "department" -> everyone in the record's department (DEFAULT)
+#   "shared"     -> department + record["shared_departments"] list
+#   "company"    -> everyone in the account
+VALID_VISIBILITY = ("private", "department", "shared", "company")
+
+
+def get_departments(account_key):
+    acct = get_account(account_key)
+    if not acct:
+        return list(DEFAULT_DEPARTMENTS)
+    return acct.get("departments", list(DEFAULT_DEPARTMENTS))
+
+
+def ensure_departments(account_key):
+    """Seed default departments onto an account if missing."""
+    db = _load()
+    acct = db.get(_key(account_key))
+    if not acct:
+        return False, "ACCOUNT_NOT_FOUND"
+    if "departments" not in acct:
+        acct["departments"] = list(DEFAULT_DEPARTMENTS)
+        db[_key(account_key)] = acct
+        _save(db)
+    return True, acct["departments"]
+
+
+def set_departments(account_key, departments):
+    """Replace the account's department list (company-customizable)."""
+    db = _load()
+    acct = db.get(_key(account_key))
+    if not acct:
+        return False, "ACCOUNT_NOT_FOUND"
+    clean = [str(d).strip() for d in (departments or []) if str(d).strip()]
+    if not clean:
+        return False, "NEED_AT_LEAST_ONE_DEPARTMENT"
+    acct["departments"] = clean
+    db[_key(account_key)] = acct
+    _save(db)
+    return True, clean
+
+
+def set_user_departments(account_key, email, departments):
+    """Assign a user to one or more departments."""
+    db = _load()
+    acct = db.get(_key(account_key))
+    if not acct:
+        return False, "ACCOUNT_NOT_FOUND"
+    u = _find_user(acct, email)
+    if not u:
+        return False, "USER_NOT_FOUND"
+    valid = acct.get("departments", list(DEFAULT_DEPARTMENTS))
+    clean = [d for d in (departments or []) if d in valid]
+    u["departments"] = clean
+    db[_key(account_key)] = acct
+    _save(db)
+    return True, clean
+
+
+def user_departments(account_key, email):
+    acct = get_account(account_key)
+    if not acct:
+        return []
+    u = _find_user(acct, email)
+    return u.get("departments", []) if u else []
+
+
+def make_record(department, owner_email, visibility="department",
+                shared_departments=None):
+    """Helper to stamp visibility metadata onto any tool record."""
+    if visibility not in VALID_VISIBILITY:
+        visibility = "department"
+    return {
+        "_dept": department,
+        "_owner": _key(owner_email),
+        "_vis": visibility,
+        "_shared": shared_departments or [],
+    }
+
+
+def share_record_to(record, department):
+    """Cross-department bridge: share a record with another department."""
+    record["_vis"] = "shared"
+    lst = record.get("_shared", [])
+    if department not in lst:
+        lst.append(department)
+    record["_shared"] = lst
+    return record
+
+
+def can_user_see_record(account_key, email, record):
+    """
+    The heart of the hybrid model. Returns True if this user may see
+    this record, based on department + visibility + role overlay.
+    """
+    acct = get_account(account_key)
+    if not acct:
+        return True  # legacy/no-RBAC = allow (preserves old behavior)
+    u = _find_user(acct, email)
+    if not u or u.get("status") != "active":
+        return False
+
+    # Role overlay: owner/admin see everything (management view)
+    if u.get("role") in ("owner", "admin"):
+        return True
+
+    vis = record.get("_vis", "department")
+    rec_dept = record.get("_dept")
+    rec_owner = record.get("_owner")
+    my_depts = u.get("departments", [])
+
+    if vis == "company":
+        return True
+    if vis == "private":
+        return rec_owner == u.get("email")
+    if vis == "department":
+        return rec_dept in my_depts
+    if vis == "shared":
+        if rec_dept in my_depts:
+            return True
+        shared = record.get("_shared", [])
+        return any(d in my_depts for d in shared)
+    return False

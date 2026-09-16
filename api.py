@@ -815,9 +815,11 @@ def astraa_rbac_add_user():
     ident, err = astraa_rbac_guard(request, need_admin=True)
     if err: return err
     d = request.get_json(silent=True) or {}
+    _tools, _rej = astraa_rbac.filter_tools_to_entitlement(
+        ident.get("account_email"), d.get("tools"))
     ok, msg = astraa_rbac.add_user(ident.get("account_email"),
         d.get("email"), d.get("name"), d.get("role","basic"),
-        d.get("tools"), added_by=ident.get("account_email"))
+        _tools, added_by=ident.get("account_email"))
     if ok and d.get("departments") is not None:
         astraa_rbac.set_user_departments(ident.get("account_email"), d.get("email"), d.get("departments"))
     return jsonify({"ok": ok, "result": msg}), (200 if ok else 400)
@@ -846,7 +848,9 @@ def astraa_rbac_set_tools():
     ident, err = astraa_rbac_guard(request, need_admin=True)
     if err: return err
     d = request.get_json(silent=True) or {}
-    ok, msg = astraa_rbac.set_tools(ident.get("account_email"), d.get("email"), d.get("tools"))
+    _tools, _rej = astraa_rbac.filter_tools_to_entitlement(
+        ident.get("account_email"), d.get("tools"))
+    ok, msg = astraa_rbac.set_tools(ident.get("account_email"), d.get("email"), _tools)
     return jsonify({"ok": ok, "result": msg}), (200 if ok else 400)
 
 

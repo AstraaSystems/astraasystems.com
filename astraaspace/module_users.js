@@ -1,6 +1,7 @@
 // Astraa Users & Access — RBAC admin (Phase 4)
 var UsersModule = {
   _data:null,
+  esc:function(x){return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');},
   apiBase:function(){
     if(typeof ASTRAA_API_BASE!=='undefined' && ASTRAA_API_BASE) return ASTRAA_API_BASE;
     return "http"+"s://"+"family-speed-outcome"+".ngrok-free"+".dev";
@@ -53,7 +54,7 @@ var UsersModule = {
   },
 
   paint:function(){
-    var d=this._data||{}; var b=document.getElementById('um_body');
+    var self=this; var d=this._data||{}; var b=document.getElementById('um_body');
     if(!d.ok){ b.innerHTML='<p class="um-err um-msg">'+(d.error||'Error')+'</p>'; return; }
     var depts=d.departments||[];
     var h='';
@@ -63,12 +64,12 @@ var UsersModule = {
     h+='<div class="um-card"><table class="um-tbl"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Departments</th><th>Tools</th><th></th></tr></thead><tbody>';
     (d.users||[]).forEach(function(u){
       var rc=u.role==='owner'?'um-owner':(u.role==='admin'?'um-admin':'um-basic');
-      var tools=(u.tools||[]).map(function(t){return '<span class="um-tool">'+t+'</span>';}).join(' ')||'<span class="um-tool">none</span>';
-      var deps=(u.departments||[]).join(', ')||'\u2014';
-      h+='<tr><td><b>'+(u.name||'')+'</b></td><td>'+u.email+'</td>'
+      var tools=(u.tools||[]).map(function(t){return '<span class="um-tool">'+self.esc(t)+'</span>';}).join(' ')||'<span class="um-tool">none</span>';
+      var deps=self.esc((u.departments||[]).join(', '))||'\u2014';
+      h+='<tr><td><b>'+self.esc(u.name)+'</b></td><td>'+self.esc(u.email)+'</td>'
         +'<td><span class="um-pill '+rc+'">'+u.role+'</span></td>'
         +'<td>'+deps+'</td><td><div class="um-tools">'+tools+'</div></td>'
-        +'<td>'+(u.role==='owner'?'':'<button class="um-btn ghost" onclick="UsersModule.remove(\''+u.email+'\')">Remove</button>')+'</td></tr>';
+        +'<td>'+(u.role==='owner'?'':'<button class="um-btn ghost" onclick="UsersModule.remove(\''+self.esc(u.email)+'\')">Remove</button>')+'</td></tr>';
     });
     h+='</tbody></table></div>';
     // add-user form

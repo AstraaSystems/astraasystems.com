@@ -321,3 +321,34 @@ def can_user_see_record(account_key, email, record):
         shared = record.get("_shared", [])
         return any(d in my_depts for d in shared)
     return False
+
+
+# ============================================================
+# Security: tools a bundle actually entitles (entitlement check)
+# ============================================================
+BUNDLE_TOOLS = {
+    "astraa_the_one": ["estimator","logistics","business","finance",
+                       "research_analyst","reports","vault","expense"],
+    "astraa_business_elite": ["logistics","business","finance",
+                              "research_analyst","reports","vault","expense"],
+    "astraa_core": ["business","finance","research_analyst",
+                    "reports","vault","expense"],
+}
+
+def account_allowed_tools(account_key):
+    acct = get_account(account_key)
+    if not acct:
+        return None  # no record = don't restrict (legacy)
+    return BUNDLE_TOOLS.get(acct.get("bundle"), None)
+
+def filter_tools_to_entitlement(account_key, tools):
+    """Return (clean_tools, rejected) limited to what the bundle allows.
+    '*' is only allowed if the account has a known bundle (owner/admin full)."""
+    allowed = account_allowed_tools(account_key)
+    if allowed is None:
+        return tools, []  # legacy/unknown = pass through
+    if tools and "*" in tools:
+        return ["*"], []
+    clean = [t for t in (tools or []) if t in allowed]
+    rejected = [t for t in (tools or []) if t not in allowed and t != "*"]
+    return clean, rejected

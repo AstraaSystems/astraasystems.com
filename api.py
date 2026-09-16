@@ -52,6 +52,7 @@ import hashlib
 load_dotenv(override=True)
 
 from lead_capture import astraa_leads
+import astraa_rbac
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 app.register_blueprint(astraa_leads)
@@ -735,15 +736,44 @@ def astraa_resolve_session_identity(req):
     if not account_email:
         return None
 
+    rbac_role, rbac_tools = None, None
+    try:
+        _acct = astraa_rbac.get_account(account_email)
+        if _acct:
+            for _u in _acct.get("users", []):
+                if _u.get("email") == account_email:
+                    rbac_role = _u.get("role")
+                    rbac_tools = _u.get("tools")
+                    break
+    except Exception:
+        pass
+
     return {
         "allowed": True,
         "account_email": account_email,
         "account_id": session.get("account_id") or account_email,
         "tenant_id": session.get("tenant_id"),
         "selected_plan": session.get("selected_plan"),
+        "rbac_role": rbac_role,
+        "rbac_tools": rbac_tools,
         "identity_source": "dev_session_bearer_token",
         "reason": "Backend session token resolved account identity."
     }
+
+
+def astraa_user_can_access(identity, tool):
+    """RBAC Phase 2 per-user tool gate. Allows by default when the account
+    has no RBAC record yet (preserves existing single-user behavior)."""
+    if not identity:
+        return False
+    email = identity.get("account_email")
+    try:
+        acct = astraa_rbac.get_account(email)
+        if not acct:
+            return True
+        return astraa_rbac.user_can_access(email, email, tool)
+    except Exception:
+        return True
 
 
 # ASTRAA_PRODUCTION_IDENTITY_RESOLVER_STUB_V1_START
@@ -10153,6 +10183,11 @@ def astraa_subscription_signup():
                          "order": charge.get("orderId"), "status": charge.get("paymentStatus")}],
         }
         astraa_save_subs_db(subs)
+        # RBAC Phase 2: seed subscriber as account owner (non-fatal)
+        try:
+            astraa_rbac.ensure_account(key, email, product)
+        except Exception as _rbac_err:
+            print('RBAC seed non-fatal:', _rbac_err)
 
         # 4. create/activate the LOGIN account with correct tool+plan (works for NEW customers)
         _PROD_MAP = {

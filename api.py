@@ -736,14 +736,18 @@ def astraa_resolve_session_identity(req):
     if not account_email:
         return None
 
-    rbac_role, rbac_tools = None, None
+    # Phase 5c: if this is a USER session, resolve that user's role/tools.
+    session_user = astraa_clean_email(session.get("user_email")) or account_email
+
+    rbac_role, rbac_tools, rbac_depts = None, None, None
     try:
         _acct = astraa_rbac.get_account(account_email)
         if _acct:
             for _u in _acct.get("users", []):
-                if _u.get("email") == account_email:
+                if _u.get("email") == session_user:
                     rbac_role = _u.get("role")
                     rbac_tools = _u.get("tools")
+                    rbac_depts = _u.get("departments", [])
                     break
     except Exception:
         pass
@@ -754,8 +758,10 @@ def astraa_resolve_session_identity(req):
         "account_id": session.get("account_id") or account_email,
         "tenant_id": session.get("tenant_id"),
         "selected_plan": session.get("selected_plan"),
+        "user_email": session_user,
         "rbac_role": rbac_role,
         "rbac_tools": rbac_tools,
+        "rbac_departments": rbac_depts,
         "identity_source": "dev_session_bearer_token",
         "reason": "Backend session token resolved account identity."
     }
@@ -776,6 +782,72 @@ def astraa_user_can_access(identity, tool):
         return True
 
 
+
+
+# ===== RBAC Phase 5b: parallel per-user login (additive) =====
+def astraa_create_user_session(account_email, user_email, selected_plan="Professional"):
+    """Session bound to a specific USER within an account. Additive: does not
+    touch astraa_create_dev_session. Adds user_email so identity resolves to
+    the user's RBAC role/tools/departments (Phase 5c)."""
+    account_email = astraa_clean_email(account_email)
+    user_email = astraa_clean_email(user_email)
+    if not account_email or not user_email:
+        return None
+    token = "astraa_usr_" + uuid.uuid4().hex + uuid.uuid4().hex
+    db = astraa_storage_load_sessions_db()
+    db[token] = {
+        "account_email": account_email,
+        "account_id": account_email,
+        "user_email": user_email,
+        "tenant_id": "tenant_" + account_email.replace("@", "_").replace(".", "_"),
+        "selected_plan": selected_plan or "Professional",
+        "identity_source": "user_session",
+        "created_at": astraa_session_now(),
+        "updated_at": astraa_session_now()
+    }
+    astraa_storage_save_sessions_db(db)
+    return token
+
+
+@app.route("/api/auth/user-login", methods=["POST"])
+def astraa_user_login():
+    """Parallel per-user login. Verifies the USER'S own passkey (separate from
+    the account passkey). Never touches /api/auth/login."""
+    payload = request.get_json(silent=True) or {}
+    email = astraa_clean_email(payload.get("email") or payload.get("username"))
+    passkey = (payload.get("passkey") or payload.get("password") or "").strip()
+
+    if not email or "@" not in email:
+        return jsonify({"status": "blocked", "reason": "Valid email is required."}), 400
+    if not passkey:
+        return jsonify({"status": "blocked", "reason": "Passkey is required."}), 400
+
+    # find which account this user belongs to
+    account_key, user = astraa_rbac.find_user_by_email_global(email)
+    if not account_key or not user:
+        return jsonify({"status": "blocked", "reason": "No such user."}), 401
+
+    ok, res = astraa_rbac.verify_user_passkey(account_key, email, passkey)
+    if not ok:
+        return jsonify({"status": "blocked", "reason": res}), 401
+
+    # plan from the account's usage record (for entitlement display)
+    rec = astraa_storage_load_usage_db().get(astraa_account_key(account_key)) or {}
+    token = astraa_create_user_session(account_key, email,
+                                       rec.get("selected_plan") or "Professional")
+
+    return jsonify({
+        "status": "ok",
+        "gateway": "Astraa Gateway",
+        "token": token,
+        "account_email": account_key,
+        "user_email": email,
+        "role": user.get("role"),
+        "departments": user.get("departments", []),
+        "tools": user.get("tools", []),
+        "selected_plan": rec.get("selected_plan")
+    })
+# ===== end RBAC Phase 5b =====
 
 
 # ===== RBAC Phase 4a: admin management routes =====

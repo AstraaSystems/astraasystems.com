@@ -11,7 +11,7 @@
             <h1>ASTRAA</h1>
             <p>SOVEREIGN OPERATING SYSTEM // GATEWAY</p>
         </div>
-        <form id="login-form">
+        <div id="login-toggle" style="display:flex;gap:8px;margin-bottom:16px;"><button type="button" id="tab-account" onclick="astraaSetLoginMode('account')" style="flex:1;padding:9px;border-radius:8px;border:1px solid #1d4ed8;background:#1d4ed8;color:#fff;font-weight:700;cursor:pointer;font-size:.82rem;">Account</button><button type="button" id="tab-user" onclick="astraaSetLoginMode('user')" style="flex:1;padding:9px;border-radius:8px;border:1px solid #334155;background:transparent;color:#94a3b8;font-weight:700;cursor:pointer;font-size:.82rem;">Team Member</button></div><form id="login-form">
             <div class="input-group">
                 <label for="username">Operator ID / Email</label>
                 <input type="text" id="username" placeholder="you@company.com" required>

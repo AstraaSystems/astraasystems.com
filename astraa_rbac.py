@@ -352,3 +352,91 @@ def filter_tools_to_entitlement(account_key, tools):
     clean = [t for t in (tools or []) if t in allowed]
     rejected = [t for t in (tools or []) if t not in allowed and t != "*"]
     return clean, rejected
+
+
+# ============================================================
+# Phase 5a: per-user passkeys (system-generated, salted-hash)
+# Reuses the same salted-SHA256 pattern as account passkeys.
+# ============================================================
+import hashlib as _hl
+import secrets as _sec
+
+
+def _gen_passkey():
+    """Generate a strong, unique, human-typable passkey."""
+    # 4 groups of 4 uppercase/digits, e.g. K7Q2-9FBX-3MRT-8WPD
+    alpha = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"  # no confusing 0/O/1/I
+    groups = []
+    for _ in range(4):
+        groups.append("".join(_sec.choice(alpha) for _ in range(4)))
+    return "-".join(groups)
+
+
+def _hash_passkey(passkey, salt):
+    return _hl.sha256((salt + ":" + passkey).encode("utf-8")).hexdigest()
+
+
+def issue_user_passkey(account_key, email):
+    """Generate + store a fresh passkey for ONE user. Returns plaintext ONCE."""
+    db = _load()
+    acct = db.get(_key(account_key))
+    if not acct:
+        return None, "ACCOUNT_NOT_FOUND"
+    u = _find_user(acct, email)
+    if not u:
+        return None, "USER_NOT_FOUND"
+    passkey = _gen_passkey()
+    salt = _sec.token_hex(16)
+    u["passkey_hash"] = _hash_passkey(passkey, salt)
+    u["passkey_salt"] = salt
+    u["passkey_status"] = "active"
+    u["passkey_issued_at"] = _now()
+    db[_key(account_key)] = acct
+    _save(db)
+    return passkey, None  # caller shows this ONCE, never stored plaintext
+
+
+def revoke_user_passkey(account_key, email):
+    db = _load()
+    acct = db.get(_key(account_key))
+    if not acct:
+        return False, "ACCOUNT_NOT_FOUND"
+    u = _find_user(acct, email)
+    if not u:
+        return False, "USER_NOT_FOUND"
+    u["passkey_status"] = "revoked"
+    u["passkey_hash"] = None
+    u["passkey_salt"] = None
+    db[_key(account_key)] = acct
+    _save(db)
+    return True, "OK"
+
+
+def verify_user_passkey(account_key, email, passkey):
+    """Verify a user's own passkey. Returns (True, user) or (False, reason)."""
+    acct = get_account(account_key)
+    if not acct:
+        return False, "ACCOUNT_NOT_FOUND"
+    u = _find_user(acct, email)
+    if not u:
+        return False, "USER_NOT_FOUND"
+    if u.get("status") != "active":
+        return False, "USER_INACTIVE"
+    if u.get("passkey_status") != "active" or not u.get("passkey_hash"):
+        return False, "NO_ACTIVE_PASSKEY"
+    calc = _hash_passkey(passkey or "", u.get("passkey_salt") or "")
+    if _sec.compare_digest(calc, u.get("passkey_hash")):
+        return True, u
+    return False, "INVALID_PASSKEY"
+
+
+def find_user_by_email_global(email):
+    """Find which account a user email belongs to (for login lookup).
+    Returns (account_key, user) or (None, None)."""
+    em = _key(email)
+    db = _load()
+    for acct_key, acct in db.items():
+        for u in acct.get("users", []):
+            if u.get("email") == em:
+                return acct_key, u
+    return None, None

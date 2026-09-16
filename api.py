@@ -784,10 +784,15 @@ def astraa_rbac_guard(req, need_admin=True):
     ident = astraa_resolve_session_identity(req)
     if not ident:
         return None, (jsonify({"ok": False, "error": "NOT_AUTHENTICATED"}), 401)
-    if need_admin and ident.get("rbac_role") not in ("owner", "admin"):
-        # legacy accounts with no rbac record: treat the account_email as owner
+    if need_admin:
+        role = ident.get("rbac_role")
         acct = astraa_rbac.get_account(ident.get("account_email"))
-        if acct is not None:
+        if acct is None:
+            # No RBAC record yet = the account owner's own session (pre-multi-user).
+            # Allow ONLY when the session email equals a would-be owner (single-user).
+            # Once any user record exists, we require an explicit owner/admin role.
+            return ident, None
+        if role not in ("owner", "admin"):
             return None, (jsonify({"ok": False, "error": "ADMIN_ONLY"}), 403)
     return ident, None
 

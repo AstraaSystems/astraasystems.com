@@ -52,3 +52,5 @@ astraa_data.backup_*/
 *.pre_*
 *.before_*
 .env*
+astraa_data/astraa_account_users.json.lock
+astraa_data/astraa_account_users.json.tmp

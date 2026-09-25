@@ -32,9 +32,34 @@ def _load():
 
 
 def _save(db):
+    """Atomic, lock-protected write.
+    - flock serializes concurrent writers
+    - tmp file + os.replace = never a half-written store
+    """
     os.makedirs(os.path.dirname(RBAC_STORE), exist_ok=True)
-    with open(RBAC_STORE, "w", encoding="utf-8") as f:
-        json.dump(db, f, indent=2)
+    lock_path = RBAC_STORE + ".lock"
+    tmp_path = RBAC_STORE + ".tmp"
+    lf = None
+    try:
+        lf = open(lock_path, "a+")
+        try:
+            import fcntl
+            fcntl.flock(lf.fileno(), fcntl.LOCK_EX)
+        except Exception:
+            pass  # no fcntl: still get the atomic replace
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            json.dump(db, f, indent=2)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp_path, RBAC_STORE)
+    finally:
+        if lf:
+            try:
+                import fcntl
+                fcntl.flock(lf.fileno(), fcntl.LOCK_UN)
+            except Exception:
+                pass
+            lf.close()
 
 
 def _key(email):

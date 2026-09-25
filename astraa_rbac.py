@@ -444,13 +444,18 @@ def _hash_passkey(passkey, salt):
 
 def issue_user_passkey(account_key, email):
     """Generate + store a fresh passkey for ONE user. Returns plaintext ONCE."""
-    db = _load()
+    def _op(db):
+        return _issue_passkey_locked(db, account_key, email)
+    return _locked_update(_op)
+
+
+def _issue_passkey_locked(db, account_key, email):
     acct = db.get(_key(account_key))
     if not acct:
-        return None, "ACCOUNT_NOT_FOUND"
+        return (None, "ACCOUNT_NOT_FOUND"), False
     u = _find_user(acct, email)
     if not u:
-        return None, "USER_NOT_FOUND"
+        return (None, "USER_NOT_FOUND"), False
     passkey = _gen_passkey()
     salt = _sec.token_hex(16)
     u["passkey_hash"] = _hash_passkey(passkey, salt)
@@ -458,24 +463,27 @@ def issue_user_passkey(account_key, email):
     u["passkey_status"] = "active"
     u["passkey_issued_at"] = _now()
     db[_key(account_key)] = acct
-    _save(db)
-    return passkey, None  # caller shows this ONCE, never stored plaintext
+    return (passkey, None), True  # caller shows this ONCE, never stored plaintext
 
 
 def revoke_user_passkey(account_key, email):
-    db = _load()
+    def _op(db):
+        return _revoke_passkey_locked(db, account_key, email)
+    return _locked_update(_op)
+
+
+def _revoke_passkey_locked(db, account_key, email):
     acct = db.get(_key(account_key))
     if not acct:
-        return False, "ACCOUNT_NOT_FOUND"
+        return (False, "ACCOUNT_NOT_FOUND"), False
     u = _find_user(acct, email)
     if not u:
-        return False, "USER_NOT_FOUND"
+        return (False, "USER_NOT_FOUND"), False
     u["passkey_status"] = "revoked"
     u["passkey_hash"] = None
     u["passkey_salt"] = None
     db[_key(account_key)] = acct
-    _save(db)
-    return True, "OK"
+    return (True, "OK"), True
 
 
 def verify_user_passkey(account_key, email, passkey):

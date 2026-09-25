@@ -62,6 +62,42 @@ def _save(db):
             lf.close()
 
 
+def _locked_update(fn):
+    """Run fn(db) with an exclusive lock held across load AND save.
+    fn mutates db and returns whatever the caller should return."""
+    os.makedirs(os.path.dirname(RBAC_STORE), exist_ok=True)
+    lock_path = RBAC_STORE + ".lock"
+    lf = open(lock_path, "a+")
+    try:
+        try:
+            import fcntl
+            fcntl.flock(lf.fileno(), fcntl.LOCK_EX)
+        except Exception:
+            pass
+        db = _load()
+        result, changed = fn(db)
+        if changed:
+            _write_unlocked(db)
+        return result
+    finally:
+        try:
+            import fcntl
+            fcntl.flock(lf.fileno(), fcntl.LOCK_UN)
+        except Exception:
+            pass
+        lf.close()
+
+
+def _write_unlocked(db):
+    """Atomic write WITHOUT taking the lock (caller already holds it)."""
+    tmp_path = RBAC_STORE + ".tmp"
+    with open(tmp_path, "w", encoding="utf-8") as f:
+        json.dump(db, f, indent=2)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp_path, RBAC_STORE)
+
+
 def _key(email):
     return str(email or "").strip().lower()
 
@@ -119,16 +155,22 @@ def seats_used(acct):
 
 def add_user(account_key, email, name, role="basic", tools=None,
              added_by="admin"):
-    db = _load()
+    def _op(db):
+        return _add_user_locked(db, account_key, email, name, role,
+                                tools, added_by)
+    return _locked_update(_op)
+
+
+def _add_user_locked(db, account_key, email, name, role, tools, added_by):
     acct = db.get(_key(account_key))
     if not acct:
-        return False, "ACCOUNT_NOT_FOUND"
+        return (False, "ACCOUNT_NOT_FOUND"), False
     if role not in VALID_ROLES or role == "owner":
-        return False, "INVALID_ROLE"
+        return (False, "INVALID_ROLE"), False
     if _find_user(acct, email):
-        return False, "USER_EXISTS"
+        return (False, "USER_EXISTS"), False
     if seats_used(acct) >= acct["seats_total"]:
-        return False, "NO_SEATS_LEFT"
+        return (False, "NO_SEATS_LEFT"), False
     if role == "admin" and count_admins(acct) >= acct["max_admins"]:
         return False, "MAX_ADMINS_REACHED"
     acct["users"].append({
@@ -142,8 +184,7 @@ def add_user(account_key, email, name, role="basic", tools=None,
         "added_at": _now(),
     })
     db[_key(account_key)] = acct
-    _save(db)
-    return True, "OK"
+    return (True, "OK"), True
 
 
 def remove_user(account_key, email):

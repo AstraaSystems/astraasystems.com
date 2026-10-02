@@ -32,11 +32,15 @@ def _load():
 
 
 def _save(db):
-    """Atomic, lock-protected write.
+    """Atomic, lock-protected write. If the caller already holds the
+    lock (inside _locked_update), write directly to avoid deadlock.
     - flock serializes concurrent writers
     - tmp file + os.replace = never a half-written store
     """
     os.makedirs(os.path.dirname(RBAC_STORE), exist_ok=True)
+    if _lock_held():
+        _write_unlocked(db)
+        return
     lock_path = RBAC_STORE + ".lock"
     tmp_path = RBAC_STORE + ".tmp"
     lf = None
@@ -62,6 +66,14 @@ def _save(db):
             lf.close()
 
 
+import threading as _thr
+_LOCK_STATE = _thr.local()
+
+
+def _lock_held():
+    return getattr(_LOCK_STATE, "depth", 0) > 0
+
+
 def _locked_update(fn):
     """Run fn(db) with an exclusive lock held across load AND save.
     fn mutates db and returns whatever the caller should return."""
@@ -74,12 +86,14 @@ def _locked_update(fn):
             fcntl.flock(lf.fileno(), fcntl.LOCK_EX)
         except Exception:
             pass
+        _LOCK_STATE.depth = getattr(_LOCK_STATE, "depth", 0) + 1
         db = _load()
         result, changed = fn(db)
         if changed:
             _write_unlocked(db)
         return result
     finally:
+        _LOCK_STATE.depth = max(0, getattr(_LOCK_STATE, "depth", 1) - 1)
         try:
             import fcntl
             fcntl.flock(lf.fileno(), fcntl.LOCK_UN)
@@ -188,59 +202,71 @@ def _add_user_locked(db, account_key, email, name, role, tools, added_by):
 
 
 def remove_user(account_key, email):
-    db = _load()
+    def _op(db):
+        return _remove_user_locked(db, account_key, email)
+    return _locked_update(_op)
+
+
+def _remove_user_locked(db, account_key, email):
     acct = db.get(_key(account_key))
     if not acct:
-        return False, "ACCOUNT_NOT_FOUND"
+        return (False, "ACCOUNT_NOT_FOUND"), False
     u = _find_user(acct, email)
     if not u:
-        return False, "USER_NOT_FOUND"
+        return (False, "USER_NOT_FOUND"), False
     if u["role"] == "owner":
-        return False, "CANNOT_REMOVE_OWNER"
+        return (False, "CANNOT_REMOVE_OWNER"), False
     acct["users"] = [x for x in acct["users"] if x["email"] != _key(email)]
     db[_key(account_key)] = acct
-    _save(db)
-    return True, "OK"
+    return (True, "OK"), True
 
 
 def set_role(account_key, email, new_role):
-    db = _load()
+    def _op(db):
+        return _set_role_locked(db, account_key, email, new_role)
+    return _locked_update(_op)
+
+
+def _set_role_locked(db, account_key, email, new_role):
     acct = db.get(_key(account_key))
     if not acct:
-        return False, "ACCOUNT_NOT_FOUND"
+        return (False, "ACCOUNT_NOT_FOUND"), False
     if new_role not in VALID_ROLES or new_role == "owner":
-        return False, "INVALID_ROLE"
+        return (False, "INVALID_ROLE"), False
     u = _find_user(acct, email)
     if not u:
-        return False, "USER_NOT_FOUND"
+        return (False, "USER_NOT_FOUND"), False
     if u["role"] == "owner":
-        return False, "CANNOT_CHANGE_OWNER"
+        return (False, "CANNOT_CHANGE_OWNER"), False
     # promoting to admin -> check cap
     if new_role == "admin" and u["role"] != "admin":
         if count_admins(acct) >= acct["max_admins"]:
-            return False, "MAX_ADMINS_REACHED"
+            return (False, "MAX_ADMINS_REACHED"), False
     # demoting an admin -> ensure >=1 admin remains
     if u["role"] in ("admin", "owner") and new_role == "basic":
         if count_admins(acct) <= 1:
-            return False, "NEED_AT_LEAST_ONE_ADMIN"
+            return (False, "NEED_AT_LEAST_ONE_ADMIN"), False
     u["role"] = new_role
     db[_key(account_key)] = acct
-    _save(db)
-    return True, "OK"
+    return (True, "OK"), True
 
 
 def set_tools(account_key, email, tools):
-    db = _load()
+    def _op(db):
+        return _set_tools_locked(db, account_key, email, tools)
+    return _locked_update(_op)
+
+
+def _set_tools_locked(db, account_key, email, tools):
     acct = db.get(_key(account_key))
     if not acct:
-        return False, "ACCOUNT_NOT_FOUND"
+        return (False, "ACCOUNT_NOT_FOUND"), False
     u = _find_user(acct, email)
     if not u:
-        return False, "USER_NOT_FOUND"
+        return (False, "USER_NOT_FOUND"), False
     u["tools"] = tools or []
     db[_key(account_key)] = acct
-    _save(db)
-    return True, "OK"
+    return (True, "OK"), True
 
 
 def user_can_access(account_key, email, tool):
@@ -302,25 +328,28 @@ def set_departments(account_key, departments):
         return False, "NEED_AT_LEAST_ONE_DEPARTMENT"
     acct["departments"] = clean
     db[_key(account_key)] = acct
-    _save(db)
-    return True, clean
+    return (True, clean), True
 
 
 def set_user_departments(account_key, email, departments):
     """Assign a user to one or more departments."""
-    db = _load()
+    def _op(db):
+        return _set_depts_locked(db, account_key, email, departments)
+    return _locked_update(_op)
+
+
+def _set_depts_locked(db, account_key, email, departments):
     acct = db.get(_key(account_key))
     if not acct:
-        return False, "ACCOUNT_NOT_FOUND"
+        return (False, "ACCOUNT_NOT_FOUND"), False
     u = _find_user(acct, email)
     if not u:
-        return False, "USER_NOT_FOUND"
+        return (False, "USER_NOT_FOUND"), False
     valid = acct.get("departments", list(DEFAULT_DEPARTMENTS))
     clean = [d for d in (departments or []) if d in valid]
     u["departments"] = clean
     db[_key(account_key)] = acct
-    _save(db)
-    return True, clean
+    return (True, clean), True
 
 
 def user_departments(account_key, email):

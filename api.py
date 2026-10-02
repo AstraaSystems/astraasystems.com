@@ -869,6 +869,25 @@ def astraa_rbac_guard(req, need_admin=True):
     return ident, None
 
 
+def astraa_rbac_owner_policy(ident, action):
+    """Phase 7 (B): structural actions are owner-only."""
+    role = ident.get("rbac_role")
+    acct = astraa_rbac.get_account(ident.get("account_email"))
+    if acct is None or role == "owner":
+        return None
+    d = request.get_json(silent=True) or {}
+    target = astraa_rbac._find_user(acct, d.get("email") or "") if d.get("email") else None
+    t_role = target.get("role") if target else None
+    deny = (
+        action in ("set_role", "dept_list") or
+        (action == "add" and d.get("role") == "admin") or
+        (action in ("remove", "tools", "user_depts") and t_role in ("admin", "owner"))
+    )
+    if deny:
+        return (jsonify({"ok": False, "error": "OWNER_ONLY"}), 403)
+    return None
+
+
 @app.route("/api/rbac/users", methods=["GET"])
 def astraa_rbac_list_users():
     ident, err = astraa_rbac_guard(request, need_admin=True)
@@ -891,6 +910,8 @@ def astraa_rbac_list_users():
 def astraa_rbac_add_user():
     ident, err = astraa_rbac_guard(request, need_admin=True)
     if err: return err
+    _pol = astraa_rbac_owner_policy(ident, "add")
+    if _pol: return _pol
     d = request.get_json(silent=True) or {}
     _tools, _rej = astraa_rbac.filter_tools_to_entitlement(
         ident.get("account_email"), d.get("tools"))
@@ -906,6 +927,8 @@ def astraa_rbac_add_user():
 def astraa_rbac_remove_user():
     ident, err = astraa_rbac_guard(request, need_admin=True)
     if err: return err
+    _pol = astraa_rbac_owner_policy(ident, "remove")
+    if _pol: return _pol
     d = request.get_json(silent=True) or {}
     ok, msg = astraa_rbac.remove_user(ident.get("account_email"), d.get("email"))
     return jsonify({"ok": ok, "result": msg}), (200 if ok else 400)
@@ -915,6 +938,8 @@ def astraa_rbac_remove_user():
 def astraa_rbac_set_role():
     ident, err = astraa_rbac_guard(request, need_admin=True)
     if err: return err
+    _pol = astraa_rbac_owner_policy(ident, "set_role")
+    if _pol: return _pol
     d = request.get_json(silent=True) or {}
     ok, msg = astraa_rbac.set_role(ident.get("account_email"), d.get("email"), d.get("role"))
     return jsonify({"ok": ok, "result": msg}), (200 if ok else 400)
@@ -924,6 +949,8 @@ def astraa_rbac_set_role():
 def astraa_rbac_set_tools():
     ident, err = astraa_rbac_guard(request, need_admin=True)
     if err: return err
+    _pol = astraa_rbac_owner_policy(ident, "tools")
+    if _pol: return _pol
     d = request.get_json(silent=True) or {}
     _tools, _rej = astraa_rbac.filter_tools_to_entitlement(
         ident.get("account_email"), d.get("tools"))
@@ -935,6 +962,8 @@ def astraa_rbac_set_tools():
 def astraa_rbac_set_user_depts():
     ident, err = astraa_rbac_guard(request, need_admin=True)
     if err: return err
+    _pol = astraa_rbac_owner_policy(ident, "user_depts")
+    if _pol: return _pol
     d = request.get_json(silent=True) or {}
     ok, msg = astraa_rbac.set_user_departments(ident.get("account_email"), d.get("email"), d.get("departments"))
     return jsonify({"ok": ok, "result": msg}), (200 if ok else 400)
@@ -944,6 +973,9 @@ def astraa_rbac_set_user_depts():
 def astraa_rbac_departments():
     ident, err = astraa_rbac_guard(request, need_admin=True)
     if err: return err
+    if request.method == "POST":
+        _pol = astraa_rbac_owner_policy(ident, "dept_list")
+        if _pol: return _pol
     key = ident.get("account_email")
     if request.method == "GET":
         return jsonify({"ok": True, "departments": astraa_rbac.get_departments(key)})

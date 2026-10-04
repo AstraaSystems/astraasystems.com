@@ -54,3 +54,4 @@ astraa_data.backup_*/
 .env*
 astraa_data/astraa_account_users.json.lock
 astraa_data/astraa_account_users.json.tmp
+astraa_data/astraa_rbac_audit.jsonl

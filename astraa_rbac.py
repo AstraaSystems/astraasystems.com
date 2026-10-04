@@ -181,6 +181,8 @@ def _add_user_locked(db, account_key, email, name, role, tools, added_by):
         return (False, "ACCOUNT_NOT_FOUND"), False
     if role not in VALID_ROLES or role == "owner":
         return (False, "INVALID_ROLE"), False
+    if not valid_email(email):
+        return (False, "INVALID_EMAIL"), False
     if _find_user(acct, email):
         return (False, "USER_EXISTS"), False
     if seats_used(acct) >= acct["seats_total"]:
@@ -543,3 +545,49 @@ def find_user_by_email_global(email):
             if u.get("email") == em:
                 return acct_key, u
     return None, None
+
+
+
+# ============================================================
+# Phase 7 (D): email validation + append-only audit log
+# ============================================================
+import re as _re
+_EMAIL_RE = _re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]{2,}$")
+AUDIT_LOG = os.path.join("astraa_data", "astraa_rbac_audit.jsonl")
+
+
+def valid_email(email):
+    e = str(email or "").strip()
+    return bool(e) and len(e) <= 254 and bool(_EMAIL_RE.match(e))
+
+
+def audit(account, actor, action, target="", ok=True, detail=""):
+    """Append one record. Never raises (logging must not break requests)."""
+    try:
+        os.makedirs(os.path.dirname(AUDIT_LOG), exist_ok=True)
+        rec = {"at": _now(), "account": _key(account), "actor": _key(actor),
+               "action": action, "target": _key(target), "ok": bool(ok),
+               "detail": str(detail)[:200]}
+        with open(AUDIT_LOG, "a", encoding="utf-8") as f:
+            f.write(json.dumps(rec) + "\n")
+    except Exception:
+        pass
+
+
+def read_audit(account, limit=100):
+    if not os.path.exists(AUDIT_LOG):
+        return []
+    out = []
+    k = _key(account)
+    try:
+        with open(AUDIT_LOG, "r", encoding="utf-8") as f:
+            for line in f:
+                try:
+                    r = json.loads(line)
+                    if r.get("account") == k:
+                        out.append(r)
+                except Exception:
+                    continue
+    except Exception:
+        return []
+    return out[-limit:][::-1]

@@ -997,6 +997,43 @@ def astraa_rbac_issue_passkey():
     resp = jsonify({"ok": True, "passkey": pk})
     resp.headers["Cache-Control"] = "no-store"
     return resp
+_RBAC_AUDIT_ACTIONS = {
+    "/api/rbac/users/add": "user_add",
+    "/api/rbac/users/remove": "user_remove",
+    "/api/rbac/users/role": "role_change",
+    "/api/rbac/users/tools": "tools_change",
+    "/api/rbac/users/departments": "departments_change",
+    "/api/rbac/users/passkey": "passkey_issued",
+    "/api/rbac/departments": "department_list_change",
+}
+
+
+@app.after_request
+def astraa_rbac_audit_hook(resp):
+    """Phase 7 (D): log every RBAC change. Never logs passkeys or bodies."""
+    try:
+        action = _RBAC_AUDIT_ACTIONS.get(request.path)
+        if action and request.method == "POST":
+            ident = astraa_resolve_session_identity(request) or {}
+            d = request.get_json(silent=True) or {}
+            astraa_rbac.audit(
+                ident.get("account_email") or "unknown",
+                ident.get("user_email") or ident.get("account_email") or "anonymous",
+                action, d.get("email") or "",
+                ok=(resp.status_code < 400),
+                detail="role=" + str(d.get("role") or "") if action in ("user_add", "role_change") else "")
+    except Exception:
+        pass
+    return resp
+
+
+@app.route("/api/rbac/audit", methods=["GET"])
+def astraa_rbac_audit_view():
+    ident, err = astraa_rbac_guard(request, need_admin=True)
+    if err: return err
+    return jsonify({"ok": True, "events": astraa_rbac.read_audit(ident.get("account_email"))})
+
+
 # ===== end RBAC Phase 4a =====
 
 # ASTRAA_PRODUCTION_IDENTITY_RESOLVER_STUB_V1_START

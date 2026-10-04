@@ -187,6 +187,8 @@ ASTRAA_PRODUCT_PRICES = {
     "reports": "24.99",
     "research_analyst": "49.99",
     "logistics": "99.99",
+    "vault": "19.99",
+    "expense": "14.99",
     "astraa_the_one": "344.99",
     "astraa_business_elite": "272.99",
     "astraa_core": "199.99",
@@ -6405,6 +6407,29 @@ def astraa_entitlements_for(plan, main_tool):
             return ["Astraa Estimator", "Astraa Business", "Astraa Finance", "Astraa Expense (full)",
                     "Astraa Vault", "Astraa Logistics", "Astraa Reports", "Astraa Research Analyst", exp]
 
+    # New bundles (25/24/23 ladder)
+    if t == "astraa_the_one":
+        return ["Astraa Estimator", "Astraa Logistics", "Astraa Business", "Astraa Finance",
+                "Astraa Research Analyst", "Astraa Reports", "Astraa Vault", "Astraa Expense (full)"]
+    if t == "astraa_business_elite":
+        return ["Astraa Logistics", "Astraa Business", "Astraa Finance",
+                "Astraa Research Analyst", "Astraa Reports", "Astraa Vault", "Astraa Expense (full)"]
+    if t == "astraa_core":
+        return ["Astraa Business", "Astraa Finance", "Astraa Research Analyst",
+                "Astraa Reports", "Astraa Vault", "Astraa Expense (full)"]
+
+    # Standalone tools
+    if "research analyst" in t:
+        return ["Astraa Research Analyst", exp]
+    if "reports" in t:
+        return ["Astraa Reports", exp]
+    if "logistics" in t:
+        return ["Astraa Logistics", exp]
+    if "vault" in t:
+        return ["Astraa Vault", exp]
+    if "expense" in t:
+        return ["Astraa Expense (full)"]
+
     # Bundles unlock multiple tools
     if "professional suite" in t or t == "professional_suite":
         return ["Astraa Estimator", "Astraa Business", "Astraa Finance", "Astraa Reports", "Astraa Research Analyst", exp]
@@ -9724,6 +9749,8 @@ ASTRAA_RECURRING_AMOUNTS = {
     "reports": 2499,
     "research_analyst": 4999,
     "logistics": 9999,
+    "vault": 1999,
+    "expense": 1499,
     "astraa_the_one": 34499,
     "astraa_business_elite": 27299,
     "astraa_core": 19999,
@@ -10420,6 +10447,14 @@ def astraa_subscription_signup():
             "finance_pro":     ("Astraa Finance", "Professional"),
             "essentials":         ("essentials", "Professional"),
             "professional_suite": ("professional_suite", "Professional"),
+            "reports":            ("Astraa Reports", "Professional"),
+            "research_analyst":   ("Astraa Research Analyst", "Professional"),
+            "logistics":          ("Astraa Logistics", "Professional"),
+            "vault":              ("Astraa Vault", "Professional"),
+            "expense":            ("Astraa Expense", "Professional"),
+            "astraa_the_one":        ("astraa_the_one", "Professional"),
+            "astraa_business_elite": ("astraa_business_elite", "Professional"),
+            "astraa_core":           ("astraa_core", "Professional"),
         }
         sel_tool, sel_plan = _PROD_MAP.get(product, ("Astraa Estimator", "Basic"))
         passkey = None

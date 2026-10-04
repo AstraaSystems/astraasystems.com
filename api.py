@@ -881,7 +881,7 @@ def astraa_rbac_owner_policy(ident, action):
     deny = (
         action in ("set_role", "dept_list") or
         (action == "add" and d.get("role") == "admin") or
-        (action in ("remove", "tools", "user_depts") and t_role in ("admin", "owner"))
+        (action in ("remove", "tools", "user_depts", "passkey") and t_role in ("admin", "owner"))
     )
     if deny:
         return (jsonify({"ok": False, "error": "OWNER_ONLY"}), 403)
@@ -982,6 +982,19 @@ def astraa_rbac_departments():
     d = request.get_json(silent=True) or {}
     ok, res = astraa_rbac.set_departments(key, d.get("departments"))
     return jsonify({"ok": ok, "result": res}), (200 if ok else 400)
+@app.route("/api/rbac/users/passkey", methods=["POST"])
+def astraa_rbac_issue_passkey():
+    ident, err = astraa_rbac_guard(request, need_admin=True)
+    if err: return err
+    _pol = astraa_rbac_owner_policy(ident, "passkey")
+    if _pol: return _pol
+    d = request.get_json(silent=True) or {}
+    pk, e = astraa_rbac.issue_user_passkey(ident.get("account_email"), d.get("email"))
+    if not pk:
+        return jsonify({"ok": False, "result": e}), 400
+    resp = jsonify({"ok": True, "passkey": pk})
+    resp.headers["Cache-Control"] = "no-store"
+    return resp
 # ===== end RBAC Phase 4a =====
 
 # ASTRAA_PRODUCTION_IDENTITY_RESOLVER_STUB_V1_START

@@ -69,7 +69,7 @@ var UsersModule = {
       h+='<tr><td><b>'+self.esc(u.name)+'</b></td><td>'+self.esc(u.email)+'</td>'
         +'<td><span class="um-pill '+rc+'">'+u.role+'</span></td>'
         +'<td>'+deps+'</td><td><div class="um-tools">'+tools+'</div></td>'
-        +'<td>'+(u.role==='owner'?'':'<button class="um-btn ghost" onclick="UsersModule.remove(\''+self.esc(u.email)+'\')">Remove</button>')+'</td></tr>';
+        +'<td>'+(u.role==='owner'?'':'<button class="um-btn ghost" onclick="UsersModule.remove(\''+self.esc(u.email)+'\')">Remove</button>')+' <button class="um-btn" onclick="UsersModule.passkey(\''+self.esc(u.email)+'\')">Passkey</button></td></tr>';
     });
     h+='</tbody></table></div>';
     // add-user form
@@ -108,6 +108,16 @@ var UsersModule = {
       .then(function(r){return r.json();}).then(function(d){
         if(d.ok){ self.flash('um-ok','User added.'); self.refresh(); }
         else self.flash('um-err','Could not add: '+(d.result||d.error));
+      });
+  },
+
+  passkey:function(email){
+    if(!confirm('Generate a new passkey for '+email+'? Any existing passkey stops working.')) return;
+    var self=this;
+    fetch(this.apiBase()+"/api/rbac/users/passkey",{method:"POST",headers:this.hdr(),body:JSON.stringify({email:email})})
+      .then(function(r){return r.json();}).then(function(d){
+        if(d.ok) self.flash('um-ok','Passkey for '+self.esc(email)+': <b style="font-family:monospace;font-size:1.05rem;">'+self.esc(d.passkey)+'</b> \u2014 copy it now, it will not be shown again.');
+        else self.flash('um-err','Could not issue passkey: '+self.esc(d.result||d.error));
       });
   },
 
